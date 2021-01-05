@@ -1,124 +1,134 @@
 /*	NAME:
-		NVariant.h
+		NAny.h
 
 	DESCRIPTION:
-		Variant data type.
-	
+		std::any object.
+
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NVARIANT_HDR
-#define NVARIANT_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include <typeinfo>
+#ifndef NANY_H
+#define NANY_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+// Nano
+#include "NMixinComparable.h"
 
-#include "NComparable.h"
-
-
-
-
-
-//============================================================================
-//		Types
-//----------------------------------------------------------------------------
-class NVariant;
-class NVariantData;
-
-typedef std::vector<NVariant>										NVariantList;
-typedef NVariantList::iterator										NVariantListIterator;
-typedef NVariantList::const_iterator								NVariantListConstIterator;
+// System
+#include <any>
 
 
 
 
 
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NVariant : public NComparable<NVariant> {
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NAny final
+	: public std::any
+	, public NMixinComparable<NAny>
+{
 public:
-	template <class T>					NVariant(const T &theValue);
-	inline								NVariant(const NVariant &theValue);
+										NAny() = default;
 
-	inline								NVariant(void);
-	inline virtual					   ~NVariant(void);
-
-
-	// Is the value valid?
-	inline bool							IsValid(void) const;
+	template<typename T>
+										NAny(T&& theValue);
 
 
-	// Is the value numeric?
-	inline bool							IsNumeric(void) const;
+	// Is there a value?
+	bool                                IsEmpty() const;
 
 
-	// Is the value of a type?
-	//
-	//		NVariant	theValue;
-	//		int32_t		theInt;
-	//
-	//		if (theValue.IsType(typeid(float)))
-	//			foo();
-	//
-	//		if (theValue.IsType(theInt))
-	//			bar();
-	//
-	// The type can be explicit, or obtained implicitly from a value.
-	inline bool							IsType(const std::type_info &theType)  const;
-	template <class T> bool				IsType(const T              &theValue) const;
-
-
-	// Compare the value
-	//
-	// Only values of the same type, or numeric values, can be compared.
-	inline NComparison					Compare(const NVariant &theValue) const;
+	// Clear the value
+	void                                Clear();
 
 
 	// Get the type
-	inline const std::type_info			&GetType(void) const;	
+	const std::type_info&               GetType() const;
+
+
+	// Test the type
+	//
+	// Returns false if the value is not of the specified type,
+	// or there is no value.
+	template<typename T>
+	bool                                Has() const;
+
+	bool                                HasUInt8()   const;
+	bool                                HasUInt16()  const;
+	bool                                HasUInt32()  const;
+	bool                                HasUInt64()  const;
+	bool                                HasInt8()    const;
+	bool                                HasInt16()   const;
+	bool                                HasInt32()   const;
+	bool                                HasInt64()   const;
+	bool                                HasFloat32() const;
+	bool                                HasFloat64() const;
 
 
 	// Get the value
-	template <class T> const T			*GetValue(void)        const;
-	template <class T> bool				 GetValue(T &theValue) const;
+	//
+	// The value must be known to be of the specified type.
+	template<typename T>
+	T                                   Get() const;
+
+	uint8_t                             GetUInt8()   const;
+	uint16_t                            GetUInt16()  const;
+	uint32_t                            GetUInt32()  const;
+	uint64_t                            GetUInt64()  const;
+	int8_t                              GetInt8()    const;
+	int16_t                             GetInt16()   const;
+	int32_t                             GetInt32()   const;
+	int64_t                             GetInt64()   const;
+	float32_t                           GetFloat32() const;
+	float64_t                           GetFloat64() const;
 
 
-	// Operators
-	inline NVariant&					operator = (const NVariant &theValue);
-
-
-	// Compare values
-	static NComparison					CompareValues(const NVariant &value1, const NVariant &value2);
-
-
-private:
-	template <class T> static NComparison	CompareValuesT(const NVariant &value1, const NVariant &value2);
-
-
-private:
-	NVariantData						*mData;
+public:
+	// NMixinComparable
+	bool                                CompareEqual(const NAny& theValue) const;
+	NComparison                         CompareOrder(const NAny& theValue) const;
 };
 
 
 
 
 
-//============================================================================
-//		Class definition
-//----------------------------------------------------------------------------
-#define   NVARIANT_CPP
-#include "NVariant.cpp"
-#undef    NVARIANT_CPP
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NAny.inl"
 
 
 
-
-#endif // NVARIANT_HDR
-
-
+#endif // NANY_H
