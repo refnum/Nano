@@ -196,6 +196,8 @@ public:
 
 
 private:
+	void                                Clear();
+
 	template<typename Function, typename... Args>
 	void                                CreateThread(const NString& theName,
 													 size_t         stackSize,

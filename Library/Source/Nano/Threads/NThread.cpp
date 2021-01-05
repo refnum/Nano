@@ -103,16 +103,14 @@ NThread::NThread(NThread&& otherThread)
 	: mLock()
 	, mID(otherThread.mID)
 	, mThread(otherThread.mThread)
+	, mRunLoop(otherThread.mRunLoop)
 	, mIsComplete(otherThread.mIsComplete.load())
 	, mShouldStop(otherThread.mShouldStop.load())
 {
 
 
 	// Reset the other thread
-	otherThread.mID.Clear();
-	otherThread.mThread     = kNThreadNone;
-	otherThread.mIsComplete = true;
-	otherThread.mShouldStop = false;
+	otherThread.Clear();
 }
 
 
@@ -138,15 +136,13 @@ NThread& NThread::operator=(NThread&& otherThread)
 		// Move the thread
 		mID         = otherThread.mID;
 		mThread     = otherThread.mThread;
+		mRunLoop    = otherThread.mRunLoop;
 		mIsComplete = otherThread.mIsComplete.load();
 		mShouldStop = otherThread.mShouldStop.load();
 
 
 		// Reset the other thread
-		otherThread.mID.Clear();
-		otherThread.mThread     = kNThreadNone;
-		otherThread.mIsComplete = true;
-		otherThread.mShouldStop = false;
+		otherThread.Clear();
 	}
 
 	return *this;
@@ -310,4 +306,25 @@ void NThread::Sleep(NInterval sleepFor)
 	// Sleep the thread
 	int64_t timeNS = int64_t(sleepFor / kNTimeNanosecond);
 	std::this_thread::sleep_for(std::chrono::nanoseconds(timeNS));
+}
+
+
+
+
+
+#pragma mark private
+//=============================================================================
+//		NThread::Clear : Reset our state.
+//-----------------------------------------------------------------------------
+void NThread::Clear()
+{
+
+
+	// Reset our state
+	mID.Clear();
+	mRunLoop.reset();
+
+	mThread     = kNThreadNone;
+	mIsComplete = true;
+	mShouldStop = false;
 }
