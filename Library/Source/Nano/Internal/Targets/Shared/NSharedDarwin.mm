@@ -820,8 +820,6 @@ void NSharedDarwin::RunLoopDestroy(NRunLoopHandle runLoop)
 	// Get the state we need
 	NDarwinRunLoop* darwinRunLoop = reinterpret_cast<NDarwinRunLoop*>(runLoop);
 
-	NN_REQUIRE(darwinRunLoop->cfRunLoop == CFRunLoopGetCurrent());
-
 
 
 	// Destroy the runloop
