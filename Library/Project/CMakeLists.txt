@@ -219,6 +219,8 @@ target_sources("${PROJECT_NAME}"
 		"${TARGET_SOURCE_DIR}/Types/NNumber.h"
 		"${TARGET_SOURCE_DIR}/Types/NRange.h"
 		"${TARGET_SOURCE_DIR}/Types/NRange.inl"
+		"${TARGET_SOURCE_DIR}/Types/NVariant.h"
+		"${TARGET_SOURCE_DIR}/Types/NVariant.inl"
 )
 
 target_include_directories("${PROJECT_NAME}"

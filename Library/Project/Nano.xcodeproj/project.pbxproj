@@ -777,6 +777,8 @@
 		ABCC4A9F25A4D55000394AFE /* NAny.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAny.h; sourceTree = "<group>"; };
 		ABCC4AA725A4D58F00394AFE /* NAny.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NAny.inl; sourceTree = "<group>"; };
 		ABCC4AB225A4D7CA00394AFE /* NAny.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NAny.cpp; sourceTree = "<group>"; };
+		ABCC4ABC25A4F4C100394AFE /* NVariant.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NVariant.inl; sourceTree = "<group>"; };
+		ABCC4ABD25A4F4C100394AFE /* NVariant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NVariant.h; sourceTree = "<group>"; };
 		ABCFE38F1773A0100054EEA3 /* NCGShading.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCGShading.cpp; sourceTree = "<group>"; };
 		ABCFE3901773A0100054EEA3 /* NCGShading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCGShading.h; sourceTree = "<group>"; };
 		ABD681641679DEC400CB2E04 /* NMessageClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMessageClient.cpp; sourceTree = "<group>"; };
@@ -1550,6 +1552,8 @@
 				AB481C4112A5327B0052C55F /* NURL.h */,
 				AB2AAC621035B621007BC4E6 /* NUTI.cpp */,
 				AB2AAC631035B621007BC4E6 /* NUTI.h */,
+				ABCC4ABD25A4F4C100394AFE /* NVariant.h */,
+				ABCC4ABC25A4F4C100394AFE /* NVariant.inl */,
 			);
 			path = Types;
 			sourceTree = "<group>";

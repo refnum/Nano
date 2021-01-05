@@ -109,6 +109,9 @@
 		ABCC4AA925A4D5A600394AFE /* TAny.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCC4AA825A4D5A600394AFE /* TAny.cpp */; };
 		ABCC4AAA25A4D5A600394AFE /* TAny.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCC4AA825A4D5A600394AFE /* TAny.cpp */; };
 		ABCC4AAB25A4D5A600394AFE /* TAny.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCC4AA825A4D5A600394AFE /* TAny.cpp */; };
+		ABCC4ABF25A4F4E600394AFE /* TVariant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCC4ABE25A4F4E600394AFE /* TVariant.cpp */; };
+		ABCC4AC025A4F4E600394AFE /* TVariant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCC4ABE25A4F4E600394AFE /* TVariant.cpp */; };
+		ABCC4AC125A4F4E600394AFE /* TVariant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCC4ABE25A4F4E600394AFE /* TVariant.cpp */; };
 		ABDCE89C241BDAD50054A16E /* TTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE89B241BDAD50054A16E /* TTime.cpp */; };
 		ABDCE89D241BDAD50054A16E /* TTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE89B241BDAD50054A16E /* TTime.cpp */; };
 		ABDCE89E241BDAD50054A16E /* TTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE89B241BDAD50054A16E /* TTime.cpp */; };
@@ -300,6 +303,7 @@
 		ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TReadWriteLock.cpp; sourceTree = "<group>"; };
 		ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSpinLock.cpp; sourceTree = "<group>"; };
 		ABCC4AA825A4D5A600394AFE /* TAny.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TAny.cpp; sourceTree = "<group>"; };
+		ABCC4ABE25A4F4E600394AFE /* TVariant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TVariant.cpp; sourceTree = "<group>"; };
 		ABCFE3951773A09C0054EEA3 /* TCGColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCGColor.cpp; sourceTree = "<group>"; };
 		ABCFE3961773A09C0054EEA3 /* TCGContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCGContext.cpp; sourceTree = "<group>"; };
 		ABCFE3971773A09C0054EEA3 /* TCGImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCGImage.cpp; sourceTree = "<group>"; };
@@ -619,6 +623,7 @@
 				ABB57D14112ADC21003D714C /* TSingleton.cpp */,
 				AB481C7B12A539830052C55F /* TURL.cpp */,
 				AB2AAC761035B65D007BC4E6 /* TUTI.cpp */,
+				ABCC4ABE25A4F4E600394AFE /* TVariant.cpp */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -876,6 +881,7 @@
 				ABF513142397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				ABCC4AAA25A4D5A600394AFE /* TAny.cpp in Sources */,
 				AB56392A23C69CF800675F68 /* TByteSwap.cpp in Sources */,
+				ABCC4AC025A4F4E600394AFE /* TVariant.cpp in Sources */,
 				AB19811E259953C8002C5591 /* TRunLoop.cpp in Sources */,
 				AB4EB4C52430F34E00D36016 /* TFormat.cpp in Sources */,
 				AB1B4DAB23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
@@ -927,6 +933,7 @@
 				ABF513132397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				ABCC4AA925A4D5A600394AFE /* TAny.cpp in Sources */,
 				AB56392B23C69CF800675F68 /* TByteSwap.cpp in Sources */,
+				ABCC4ABF25A4F4E600394AFE /* TVariant.cpp in Sources */,
 				AB19811D259953C8002C5591 /* TRunLoop.cpp in Sources */,
 				AB4EB4C42430F34E00D36016 /* TFormat.cpp in Sources */,
 				AB1B4DAA23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
@@ -978,6 +985,7 @@
 				ABF513152397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				ABCC4AAB25A4D5A600394AFE /* TAny.cpp in Sources */,
 				AB56392923C69CF800675F68 /* TByteSwap.cpp in Sources */,
+				ABCC4AC125A4F4E600394AFE /* TVariant.cpp in Sources */,
 				AB19811F259953C8002C5591 /* TRunLoop.cpp in Sources */,
 				AB4EB4C62430F34E00D36016 /* TFormat.cpp in Sources */,
 				AB1B4DAC23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
