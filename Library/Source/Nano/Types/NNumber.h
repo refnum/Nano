@@ -43,10 +43,8 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NMixinComparable.h"
+#include "NVariant.h"
 #include "NanoMacros.h"
-
-// System
-#include <variant>
 
 
 
@@ -56,7 +54,7 @@
 //		Types
 //-----------------------------------------------------------------------------
 // Value
-using NNumberValue                                          = std::variant<uint64_t, int64_t, float64_t>;
+using NNumberValue                                          = NVariant<uint64_t, int64_t, float64_t>;
 
 
 

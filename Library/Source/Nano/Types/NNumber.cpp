@@ -202,7 +202,7 @@ bool NNumber::IsInteger() const
 	// Check the value
 	bool isInteger = true;
 
-	if (std::holds_alternative<float64_t>(mValue))
+	if (mValue.IsFloat64())
 	{
 		float64_t theValue = GetFloat64();
 		isInteger          = (fmod(theValue, 1.0) == 0.0);
@@ -223,7 +223,7 @@ bool NNumber::IsReal() const
 
 
 	// Check the value
-	return std::holds_alternative<float64_t>(mValue);
+	return mValue.IsFloat64();
 }
 
 
@@ -238,7 +238,7 @@ bool NNumber::IsSigned() const
 
 
 	// Check the value
-	return std::holds_alternative<int64_t>(mValue) || std::holds_alternative<float64_t>(mValue);
+	return mValue.IsInt64() || mValue.IsFloat64();
 }
 
 
@@ -270,13 +270,13 @@ bool NNumber::IsNegative() const
 	// Check the value
 	bool isNegative = false;
 
-	if (std::holds_alternative<int64_t>(mValue))
+	if (mValue.IsInt64())
 	{
-		isNegative = (std::get<int64_t>(mValue) < 0);
+		isNegative = (mValue.GetInt64() < 0);
 	}
-	else if (std::holds_alternative<float64_t>(mValue))
+	else if (mValue.IsFloat64())
 	{
-		isNegative = (std::get<float64_t>(mValue) < 0);
+		isNegative = (mValue.GetFloat64() < 0);
 	}
 
 	return isNegative;
@@ -354,17 +354,17 @@ uint64_t NNumber::GetUInt64() const
 	// Get the value
 	uint64_t theValue = 0;
 
-	if (std::holds_alternative<uint64_t>(mValue))
+	if (mValue.IsUInt64())
 	{
-		theValue = std::get<uint64_t>(mValue);
+		theValue = mValue.GetUInt64();
 	}
-	else if (std::holds_alternative<int64_t>(mValue))
+	else if (mValue.IsInt64())
 	{
-		theValue = uint64_t(std::get<int64_t>(mValue));
+		theValue = uint64_t(mValue.GetInt64());
 	}
-	else if (std::holds_alternative<float64_t>(mValue))
+	else if (mValue.IsFloat64())
 	{
-		theValue = uint64_t(std::get<float64_t>(mValue));
+		theValue = uint64_t(mValue.GetFloat64());
 	}
 	else
 	{
@@ -442,17 +442,17 @@ int64_t NNumber::GetInt64() const
 	// Get the value
 	int64_t theValue = 0;
 
-	if (std::holds_alternative<uint64_t>(mValue))
+	if (mValue.IsUInt64())
 	{
-		theValue = int64_t(std::get<uint64_t>(mValue));
+		theValue = int64_t(mValue.GetUInt64());
 	}
-	else if (std::holds_alternative<int64_t>(mValue))
+	else if (mValue.IsInt64())
 	{
-		theValue = std::get<int64_t>(mValue);
+		theValue = mValue.GetInt64();
 	}
-	else if (std::holds_alternative<float64_t>(mValue))
+	else if (mValue.IsFloat64())
 	{
-		theValue = int64_t(std::get<float64_t>(mValue));
+		theValue = int64_t(mValue.GetFloat64());
 	}
 	else
 	{
@@ -494,17 +494,17 @@ float64_t NNumber::GetFloat64() const
 	// Get the value
 	float64_t theValue = 0.0;
 
-	if (std::holds_alternative<uint64_t>(mValue))
+	if (mValue.IsUInt64())
 	{
-		theValue = float64_t(std::get<uint64_t>(mValue));
+		theValue = float64_t(mValue.GetUInt64());
 	}
-	else if (std::holds_alternative<int64_t>(mValue))
+	else if (mValue.IsInt64())
 	{
-		theValue = float64_t(std::get<int64_t>(mValue));
+		theValue = float64_t(mValue.GetInt64());
 	}
-	else if (std::holds_alternative<float64_t>(mValue))
+	else if (mValue.IsFloat64())
 	{
-		theValue = std::get<float64_t>(mValue);
+		theValue = mValue.GetFloat64();
 	}
 	else
 	{
