@@ -57,7 +57,7 @@
 //
 // Simple fixed-size data digest.
 template<size_t N>
-class NDigestX : public NMixinComparable<NDigestX<N>>
+class NN_EMPTY_BASE NDigestX final : public NMixinComparable<NDigestX<N>>
 {
 public:
 										NDigestX(size_t theSize, const uint8_t* thePtr);
