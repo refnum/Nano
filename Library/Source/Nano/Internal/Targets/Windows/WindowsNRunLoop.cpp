@@ -42,6 +42,7 @@
 #include "NRunLoop.h"
 
 // Nano
+#include "NClock.h"
 #include "NSemaphore.h"
 
 
