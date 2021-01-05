@@ -43,6 +43,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NMixinComparable.h"
+#include "NanoMacros.h"
 
 // System
 #include <variant>
@@ -64,7 +65,7 @@ using NNumberValue                                          = std::variant<uint6
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NNumber : public NMixinComparable<NNumber>
+class NN_EMPTY_BASE NNumber final : public NMixinComparable<NNumber>
 {
 public:
 	explicit                            NNumber(uint8_t  theValue);

@@ -693,7 +693,7 @@ NComparison NNumber::CompareOrder(const NNumber& theNumber) const
 
 	// Compare by sign
 	//
-	// Negative numbers are ordered before positive numbers
+	// Negative numbers are ordered before positive numbers.
 	NComparison theResult = NComparison::EqualTo;
 
 	if (IsNegative() && !theNumber.IsNegative())
