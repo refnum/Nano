@@ -167,9 +167,10 @@ void NThread::CreateThread(const NString& theName,
 
 	// Create the context
 	NThreadContext* theContext = new NThreadContext{};
+	NSemaphore      isRunning;
 
 	theContext->stackSize   = stackSize;
-	theContext->threadEntry = [=]() {
+	theContext->threadEntry = [=, &isRunning]() {
 		// Prepare the thread
 		mCurrentThread = this;
 
@@ -183,7 +184,8 @@ void NThread::CreateThread(const NString& theName,
 
 
 
-		// Invoke the function
+		// Execute the thread
+		isRunning.Signal();
 		theFunction(theArgs...);
 
 		mIsComplete = true;
@@ -194,4 +196,6 @@ void NThread::CreateThread(const NString& theName,
 	// Create the thread
 	mThread = ThreadCreate(theContext);
 	NN_REQUIRE(mThread != kNThreadNone);
+
+	isRunning.Wait();
 }
