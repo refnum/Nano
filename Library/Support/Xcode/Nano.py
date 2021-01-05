@@ -504,6 +504,19 @@ def NTime_Show(theTime, theInfo):
 
 
 #==============================================================================
+#		NThreadID_Show : Show an NThreadID.
+#------------------------------------------------------------------------------
+def NThreadID_Show(theTime, theInfo):
+
+	theID = getMemberUInt(theTime, "mValue")
+	
+	return hex(theID)
+
+
+
+
+
+#==============================================================================
 #		loadNano : Load the Nano summarisers.
 #------------------------------------------------------------------------------
 def loadNano(theDebugger):
@@ -516,6 +529,7 @@ def loadNano(theDebugger):
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NRange_Show         NRange')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NString_Show        NString')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NTime_Show          NTime')
+	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NThreadID_Show      NThreadID')
 	theDebugger.HandleCommand('type category enable Nano')
 
 
