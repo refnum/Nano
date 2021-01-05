@@ -767,25 +767,31 @@ NRunLoopHandle NSharedDarwin::RunLoopCreate(bool isMain)
 
 
 	// Create the runloop
+	NDarwinRunLoop* darwinRunLoop = new NDarwinRunLoop{};
+
+	darwinRunLoop->cfRunLoop = isMain ? CFRunLoopGetMain() : CFRunLoopGetCurrent();
+	CFRetain(darwinRunLoop->cfRunLoop);
+
+
+
+	// Create the stop timer
 	//
 	// CFRunLoop does not track stop requests across threads so a call to
 	// CFRunLoopStop on one thread may be lost if it occurs just before a
 	// CFRunLoopRunInMode on another thread.
 	//
-	// To avoid this we always stop runloops by using a timer that performs
-	// the stop on the runloop's own thread.
+	// To avoid this we stop runloops by using a timer that performs the
+	// stop on the runloop's own thread.
 	//
-	// This timer is initialised to repeat in the far future and is rescheduled
-	// whenever we want to stop the runloop.
+	// This timer is initialised to repeat in the far future and is reset
+	// to fire whenever we want to stop the runloop.
 	//
 	//
-	// This timer also ensure that CFRunLoopRunInMode honours its timeout parameter.
+	// In addition CFRunLoopRunInMode returns kCFRunLoopRunFinished immediately
+	// if called on an empty runloop, regardless of the timeout parameter.
 	//
-	// CFRunLoopRunInMode will immediately return with kCFRunLoopRunFinished if
-	// called on an empty runloop, regardless of the timeout parameter.
-	NDarwinRunLoop* darwinRunLoop = new NDarwinRunLoop{};
-
-	darwinRunLoop->cfRunLoop = isMain ? CFRunLoopGetMain() : CFRunLoopGetCurrent();
+	// The presence of our stop timer ensures CFRunLoopRunInMode honours its
+	// timeout parameter.
 	darwinRunLoop->cfStopTimer =
 		CFRunLoopTimerCreate(kCFAllocatorDefault,
 							 CFAbsoluteTimeGetCurrent() + kNTimeDistantFuture,
