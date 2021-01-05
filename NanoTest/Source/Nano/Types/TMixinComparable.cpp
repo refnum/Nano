@@ -90,10 +90,7 @@ static const TestComparable kTestObjectPlusOne(1);
 //=============================================================================
 //		Test fixture
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(TMixinComparable)
-{
-	TestComparable                      theObject;
-};
+NANO_FIXTURE(TMixinComparable){};
 
 
 
@@ -102,9 +99,11 @@ NANO_FIXTURE(TMixinComparable)
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TMixinComparable, "Default")
+NANO_TEST(TMixinComparable, "NMixinComparable")
 {
 	// Perform the test
+	TestComparable                      theObject;
+
 										REQUIRE(theObject == kTestObjectZero);
 										REQUIRE(theObject != kTestObjectMinusOne);
 										REQUIRE(theObject != kTestObjectPlusOne);
@@ -114,4 +113,69 @@ NANO_TEST(TMixinComparable, "Default")
 
 										REQUIRE(theObject >= kTestObjectZero);
 										REQUIRE(theObject > kTestObjectMinusOne);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TMixinComparable, "NCompare/Value")
+{
+
+
+	// Perform the test
+	REQUIRE(NCompare(-1, 0) == NComparison::LessThan);
+	REQUIRE(NCompare(0, 0) == NComparison::EqualTo);
+	REQUIRE(NCompare(1, 0) == NComparison::GreaterThan);
+
+	REQUIRE(NCompare(0, -1) == NComparison::GreaterThan);
+	REQUIRE(NCompare(0, 0) == NComparison::EqualTo);
+	REQUIRE(NCompare(0, 1) == NComparison::LessThan);
+
+	REQUIRE(NCompare(-1) == NComparison::LessThan);
+	REQUIRE(NCompare(0) == NComparison::EqualTo);
+	REQUIRE(NCompare(1) == NComparison::GreaterThan);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TMixinComparable, "NCompare/memcmp")
+{
+
+
+	// Perform the test
+	REQUIRE(NCompare(-1) == NComparison::LessThan);
+	REQUIRE(NCompare(0) == NComparison::EqualTo);
+	REQUIRE(NCompare(1) == NComparison::GreaterThan);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TMixinComparable, "NCompare/Data")
+{
+
+
+	// Perform the test
+	uint8_t valueA[5]{0, 1, 2, 3, 4};
+	uint8_t valueB[5]{0, 1, 2, 3, 4};
+	uint8_t valueC[6]{0, 1, 2, 3, 4, 5};
+
+	REQUIRE(NCompare(sizeof(valueA), valueA, sizeof(valueB), valueB) == NComparison::EqualTo);
+	REQUIRE(NCompare(sizeof(valueA), valueA, sizeof(valueC), valueC) == NComparison::LessThan);
+
+	REQUIRE(NCompare(sizeof(valueB), valueB, sizeof(valueA), valueA) == NComparison::EqualTo);
+	REQUIRE(NCompare(sizeof(valueC), valueC, sizeof(valueA), valueA) == NComparison::GreaterThan);
 }
