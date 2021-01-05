@@ -209,6 +209,9 @@ NANO_TEST(TThread, "Name")
 {
 
 
+	// dair, temporary Linux VM logging
+	NN_LOG_INFO("TThread_Name = [%s]", NThread::GetName().GetUTF8());
+
 	// Perform the test
 	REQUIRE(NThread::GetName().IsEmpty());
 

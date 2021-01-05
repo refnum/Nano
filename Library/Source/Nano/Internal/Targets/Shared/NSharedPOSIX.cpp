@@ -1474,6 +1474,9 @@ float NSharedPOSIX::ThreadGetPriority()
 		int valueMin = sched_get_priority_min(SCHED_RR);
 		int valueMax = sched_get_priority_max(SCHED_RR);
 
+		// dair, temporary Linux VM logging
+		NN_LOG_INFO("ThreadGetPriority: min=%d, max=%d, current=%d", valueMin, valueMax, schedParams.sched_priority);
+
 		NN_REQUIRE(schedParams.sched_priority >= valueMin);
 		NN_REQUIRE(schedParams.sched_priority <= valueMax);
 		NN_REQUIRE(valueMax >= valueMin);
