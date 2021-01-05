@@ -474,7 +474,7 @@ float32_t NNumber::GetFloat32() const
 
 
 	// Get the value
-	float64_t theValue = GetInt64();
+	float64_t theValue = GetFloat64();
 	NN_REQUIRE(theValue >= float64_t(kNFloat32Min) && theValue <= float64_t(kNFloat32Max));
 
 	return float32_t(theValue);
