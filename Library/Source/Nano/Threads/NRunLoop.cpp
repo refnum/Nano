@@ -93,7 +93,7 @@ void NRunLoop::Run(NInterval runFor)
 
 	// Validate our parameters and state
 	NN_REQUIRE(runFor == kNTimeForever || runFor >= 0.0);
-	NN_REQUIRE(mOwnerID == NThreadID::Get());
+	NN_REQUIRE(mOwnerID == NThreadID::Get(), "A runloop can only be run by its thread!");
 
 
 
