@@ -77,7 +77,7 @@ void NRunLoop::RunLoopDestroy(NRunLoopHandle runLoop)
 
 
 	// Get the state we need
-	NSemaphore* linuxRunLoop = reinterpret_cast<NSemaphore*>(linuxRunLoop);
+	NSemaphore* linuxRunLoop = reinterpret_cast<NSemaphore*>(runLoop);
 
 
 
@@ -97,7 +97,7 @@ void NRunLoop::RunLoopSleep(NRunLoopHandle runLoop, NInterval sleepFor)
 
 
 	// Get the state we need
-	NSemaphore* linuxRunLoop = reinterpret_cast<NSemaphore*>(linuxRunLoop);
+	NSemaphore* linuxRunLoop = reinterpret_cast<NSemaphore*>(runLoop);
 
 
 	// Sleep the runloop
@@ -116,7 +116,7 @@ void NRunLoop::RunLoopWake(NRunLoopHandle runLoop)
 
 
 	// Get the state we need
-	NSemaphore* linuxRunLoop = reinterpret_cast<NSemaphore*>(linuxRunLoop);
+	NSemaphore* linuxRunLoop = reinterpret_cast<NSemaphore*>(runLoop);
 
 
 	// Wake the runloop
