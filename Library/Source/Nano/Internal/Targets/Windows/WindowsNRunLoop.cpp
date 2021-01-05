@@ -51,12 +51,13 @@
 //=============================================================================
 //		NRunLoop::RunLoopCreate : Create a runloop.
 //-----------------------------------------------------------------------------
-NRunLoopHandle NRunLoop::RunLoopCreate(bool isMain)
+NRunLoopHandle NRunLoop::RunLoopCreate(bool /*isMain*/)
 {
 
 
 	// Validate our state
 	static_assert(sizeof(NRunLoopHandle) >= sizeof(NSemaphore*));
+
 
 
 	// Create the runloop

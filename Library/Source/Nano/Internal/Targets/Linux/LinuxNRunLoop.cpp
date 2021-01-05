@@ -51,7 +51,7 @@
 //=============================================================================
 //		NRunLoop::RunLoopCreate : Create a runloop.
 //-----------------------------------------------------------------------------
-NRunLoopHandle NRunLoop::RunLoopCreate(bool isMain)
+NRunLoopHandle NRunLoop::RunLoopCreate(bool /*isMain*/)
 {
 
 
