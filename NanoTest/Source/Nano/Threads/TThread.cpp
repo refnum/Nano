@@ -210,7 +210,7 @@ NANO_TEST(TThread, "Name")
 
 
 	// Perform the test
-	REQUIRE(NThread::GetName().IsEmpty() || NN_TARGET_LINUX);
+	REQUIRE((NThread::GetName().IsEmpty() || NN_TARGET_LINUX));
 
 	NThread::SetName("Test");
 	REQUIRE(NThread::GetName() == "Test");
