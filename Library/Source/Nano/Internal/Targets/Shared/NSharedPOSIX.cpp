@@ -1471,11 +1471,11 @@ float NSharedPOSIX::ThreadGetPriority()
 	// Get the priority
 	if (sysErr == 0)
 	{
-		int valueMin = sched_get_priority_min(SCHED_RR);
-		int valueMax = sched_get_priority_max(SCHED_RR);
+		int valueMin = sched_get_priority_min(schedPolicy);
+		int valueMax = sched_get_priority_max(schedPolicy);
 
 		// dair, temporary Linux VM logging
-		NN_LOG_INFO("ThreadGetPriority: min=%d, max=%d, current=%d", valueMin, valueMax, schedParams.sched_priority);
+		NN_LOG_INFO("ThreadGetPriority: policy=%d, min=%d, max=%d, current=%d", schedPolicy, valueMin, valueMax, schedParams.sched_priority);
 
 		NN_REQUIRE(schedParams.sched_priority >= valueMin);
 		NN_REQUIRE(schedParams.sched_priority <= valueMax);
