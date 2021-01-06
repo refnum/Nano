@@ -91,26 +91,3 @@ NANO_TEST(TStdContainer, "nstd:vector/Pointer")
 	auto theResult = nstd::vector(std::size(kTestArray), &kTestArray[0]);
 	REQUIRE(theResult.size() == std::size(kTestArray));
 }
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TStdContainer, "nstd:vector/List")
-{
-
-
-	// Perform the test
-	uint32_t a = 1;
-	uint32_t b = 1;
-	uint32_t c = 1;
-
-	auto theResult = nstd::vector<uint32_t>(a, b, c);
-	REQUIRE(theResult.size() == 3);
-
-	theResult = nstd::vector<uint32_t>(1, 2, 3, 4);
-	REQUIRE(theResult.size() == 4);
-}

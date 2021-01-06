@@ -74,43 +74,6 @@ std::vector<T> vector(size_t numValues, const T* theValues)
 
 
 
-
-
-//=============================================================================
-//		nstd::vector : Create a vector from a list of values.
-//-----------------------------------------------------------------------------
-template<typename T>
-void _make_vector(std::vector<T>&)
-{
-}
-
-template<typename T, typename P>
-void _make_vector(std::vector<T>& theVector, P&& theParam)
-{
-	static_assert(std::is_convertible<P, T>::value, "Param type cannot be stored in vector");
-
-	theVector.push_back(static_cast<T>(std::forward<P>(theParam)));
-}
-
-template<typename T, typename P, typename... Args>
-void _make_vector(std::vector<T>& theVector, P&& theParam, Args&&... theArgs)
-{
-	nstd::_make_vector(theVector, std::forward<P>(theParam));
-	nstd::_make_vector(theVector, std::forward<Args>(theArgs)...);
-}
-
-template<typename T, typename... Args>
-std::vector<T> vector(Args&&... theArgs)
-{
-	std::vector<T> theVector;
-	theVector.reserve(sizeof...(theArgs));
-
-	nstd::_make_vector(theVector, std::forward<Args>(theArgs)...);
-	return theVector;
-}
-
-
-
 }    // namespace nstd
 
 
