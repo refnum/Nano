@@ -158,6 +158,7 @@ NANO_TEST(TAny, "Has")
 
 	// Perform the test
 	theValue = kTestUInt32;
+	REQUIRE(!theValue.HasBool());
 	REQUIRE(!theValue.HasUInt8());
 	REQUIRE(!theValue.HasUInt16());
 	REQUIRE(theValue.HasUInt32());
@@ -170,6 +171,7 @@ NANO_TEST(TAny, "Has")
 	REQUIRE(!theValue.HasFloat64());
 
 	theValue = kTestInt64;
+	REQUIRE(!theValue.HasBool());
 	REQUIRE(!theValue.HasUInt8());
 	REQUIRE(!theValue.HasUInt16());
 	REQUIRE(!theValue.HasUInt32());
@@ -182,6 +184,7 @@ NANO_TEST(TAny, "Has")
 	REQUIRE(!theValue.HasFloat64());
 
 	theValue = kTestFloat32;
+	REQUIRE(!theValue.HasBool());
 	REQUIRE(!theValue.HasUInt8());
 	REQUIRE(!theValue.HasUInt16());
 	REQUIRE(!theValue.HasUInt32());

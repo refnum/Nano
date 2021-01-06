@@ -84,6 +84,7 @@ public:
 	template<typename T>
 	bool                                Has() const;
 
+	bool                                HasBool()    const;
 	bool                                HasUInt8()   const;
 	bool                                HasUInt16()  const;
 	bool                                HasUInt32()  const;
@@ -102,6 +103,7 @@ public:
 	template<typename T>
 	T                                   Get() const;
 
+	bool                                GetBool()    const;
 	uint8_t                             GetUInt8()   const;
 	uint16_t                            GetUInt16()  const;
 	uint32_t                            GetUInt32()  const;
