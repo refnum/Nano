@@ -42,6 +42,7 @@
 #include "NNumber.h"
 
 // Nano
+#include "NAny.h"
 #include "NDebug.h"
 #include "NanoConstants.h"
 
@@ -183,6 +184,23 @@ NNumber::NNumber(float64_t theValue)
 //=============================================================================
 //		NNumber::NNumber : Constructor.
 //-----------------------------------------------------------------------------
+NNumber::NNumber(const NAny& theValue)
+	: mValue()
+{
+
+
+	// Set the value
+	bool wasOK = SetValue(theValue);
+	NN_EXPECT(wasOK);
+}
+
+
+
+
+
+//=============================================================================
+//		NNumber::NNumber : Constructor.
+//-----------------------------------------------------------------------------
 NNumber::NNumber()
 	: mValue()
 {
@@ -280,6 +298,24 @@ bool NNumber::IsNegative() const
 	}
 
 	return isNegative;
+}
+
+
+
+
+
+//=============================================================================
+//		NNumber::GetBool : Get a bool value.
+//-----------------------------------------------------------------------------
+bool NNumber::GetBool() const
+{
+
+
+	// Get the value
+	uint64_t theValue = GetUInt64();
+	NN_REQUIRE(theValue <= 1);
+
+	return theValue != 0;
 }
 
 
@@ -527,6 +563,21 @@ float64_t NNumber::GetFloat64() const
 
 
 //=============================================================================
+//		NNumber::SetBool : Set a bool value.
+//-----------------------------------------------------------------------------
+void NNumber::SetBool(bool theValue)
+{
+
+
+	// Set the value
+	mValue = uint64_t(theValue ? 1 : 0);
+}
+
+
+
+
+
+//=============================================================================
 //		NNumber::SetUInt8 : Set a uint8_t value.
 //-----------------------------------------------------------------------------
 void NNumber::SetUInt8(uint8_t theValue)
@@ -670,6 +721,88 @@ void NNumber::SetFloat64(float64_t theValue)
 
 	// Set the value
 	mValue = theValue;
+}
+
+
+
+
+
+//=============================================================================
+//		NNumber::SetValue : Set a value.
+//-----------------------------------------------------------------------------
+bool NNumber::SetValue(const NAny& theValue)
+{
+
+
+	// Set the value
+	bool didSet = true;
+
+	if (theValue.HasBool())
+	{
+		SetUInt8(theValue.GetBool() ? 1 : 0);
+	}
+	else if (theValue.HasUInt8())
+	{
+		SetUInt8(theValue.GetUInt8());
+	}
+	else if (theValue.HasUInt16())
+	{
+		SetUInt16(theValue.GetUInt16());
+	}
+	else if (theValue.HasUInt32())
+	{
+		SetUInt32(theValue.GetUInt32());
+	}
+	else if (theValue.HasUInt64())
+	{
+		SetUInt64(theValue.GetUInt64());
+	}
+
+	else if (theValue.HasInt8())
+	{
+		SetInt8(theValue.GetInt8());
+	}
+	else if (theValue.HasInt16())
+	{
+		SetInt16(theValue.GetInt16());
+	}
+	else if (theValue.HasInt32())
+	{
+		SetInt32(theValue.GetInt32());
+	}
+	else if (theValue.HasInt64())
+	{
+		SetInt64(theValue.GetInt64());
+	}
+
+	else if (theValue.HasFloat32())
+	{
+		SetFloat32(theValue.GetFloat32());
+	}
+	else if (theValue.HasFloat64())
+	{
+		SetFloat64(theValue.GetFloat64());
+	}
+
+	else if (theValue.Has<int>())
+	{
+		SetInt64(theValue.Get<int>());
+	}
+	else if (theValue.Has<size_t>())
+	{
+		SetUInt64(theValue.Get<size_t>());
+	}
+	else if (theValue.Has<uintptr_t>())
+	{
+		SetUInt64(theValue.Get<uintptr_t>());
+	}
+
+	else
+	{
+		didSet = false;
+	}
+
+	return didSet;
 }
 
 

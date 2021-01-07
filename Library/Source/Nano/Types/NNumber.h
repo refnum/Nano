@@ -53,8 +53,8 @@
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
-// Value
-using NNumberValue                                          = NVariant<uint64_t, int64_t, float64_t>;
+// Forward declaration
+class NAny;
 
 
 
@@ -79,6 +79,7 @@ public:
 	explicit                            NNumber(float32_t theValue);
 	explicit                            NNumber(float64_t theValue);
 
+										NNumber(const NAny& theValue);
 										NNumber();
 
 
@@ -115,6 +116,7 @@ public:
 	float32_t                           GetFloat32() const;
 	float64_t                           GetFloat64() const;
 
+	void                                SetBool(bool         theValue);
 	void                                SetUInt8(uint8_t     theValue);
 	void                                SetUInt16(uint16_t   theValue);
 	void                                SetUInt32(uint32_t   theValue);
@@ -126,6 +128,11 @@ public:
 	void                                SetFloat32(float32_t theValue);
 	void                                SetFloat64(float64_t theValue);
 
+
+	// Set a value
+	//
+	// Returns true if the value was a recognised numeric type.
+	bool                                SetValue(const NAny& theValue);
 
 
 public:
@@ -139,7 +146,7 @@ private:
 
 
 private:
-	NNumberValue                        mValue;
+	NVariant<uint64_t, int64_t, float64_t> mValue;
 };
 
 

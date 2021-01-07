@@ -39,6 +39,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NAny.h"
 #include "NNumber.h"
 #include "NTestFixture.h"
 
@@ -96,6 +97,7 @@ NANO_TEST(TNumber, "uint64_t")
 	REQUIRE(theNumber.IsPositive());
 	REQUIRE(!theNumber.IsNegative());
 
+	REQUIRE(theNumber.GetBool() == bool(theValue));
 	REQUIRE(theNumber.GetUInt8() == uint8_t(theValue));
 	REQUIRE(theNumber.GetUInt16() == uint16_t(theValue));
 	REQUIRE(theNumber.GetUInt32() == uint32_t(theValue));
@@ -131,6 +133,7 @@ NANO_TEST(TNumber, "int64_t")
 	REQUIRE(theNumber.IsPositive());
 	REQUIRE(!theNumber.IsNegative());
 
+	REQUIRE(theNumber.GetBool() == bool(theValue));
 	REQUIRE(theNumber.GetUInt8() == uint8_t(theValue));
 	REQUIRE(theNumber.GetUInt16() == uint16_t(theValue));
 	REQUIRE(theNumber.GetUInt32() == uint32_t(theValue));
@@ -199,4 +202,65 @@ NANO_TEST(TNumber, "float64_t")
 
 	REQUIRE(theNumber.GetFloat32() == float32_t(theValue));
 	REQUIRE(theNumber.GetFloat64() == float64_t(theValue));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TNumber, "NAny")
+{
+
+
+	// Perform the test
+	bool      valueBool    = true;
+	uint8_t   valueUInt8   = 123;
+	uint16_t  valueUInt16  = 123;
+	uint32_t  valueUInt32  = 123;
+	uint64_t  valueUInt64  = 123;
+	int8_t    valueInt8    = -123;
+	int16_t   valueInt16   = -123;
+	int32_t   valueInt32   = -123;
+	int64_t   valueInt64   = -123;
+	float32_t valueFloat32 = 3.1415f;
+	float64_t valueFloat64 = 3.1415;
+
+	REQUIRE(theNumber.SetValue(NAny(valueBool)));
+	REQUIRE(theNumber.GetUInt8() == valueBool);
+
+	REQUIRE(theNumber.SetValue(NAny(valueUInt8)));
+	REQUIRE(theNumber.GetUInt8() == valueUInt8);
+
+	REQUIRE(theNumber.SetValue(NAny(valueUInt16)));
+	REQUIRE(theNumber.GetUInt16() == valueUInt16);
+
+	REQUIRE(theNumber.SetValue(NAny(valueUInt32)));
+	REQUIRE(theNumber.GetUInt32() == valueUInt32);
+
+	REQUIRE(theNumber.SetValue(NAny(valueUInt64)));
+	REQUIRE(theNumber.GetUInt64() == valueUInt64);
+
+	REQUIRE(theNumber.SetValue(NAny(valueInt8)));
+	REQUIRE(theNumber.GetInt8() == valueInt8);
+
+	REQUIRE(theNumber.SetValue(NAny(valueInt16)));
+	REQUIRE(theNumber.GetInt16() == valueInt16);
+
+	REQUIRE(theNumber.SetValue(NAny(valueInt32)));
+	REQUIRE(theNumber.GetInt32() == valueInt32);
+
+	REQUIRE(theNumber.SetValue(NAny(valueInt64)));
+	REQUIRE(theNumber.GetInt64() == valueInt64);
+
+	REQUIRE(theNumber.SetValue(NAny(valueFloat32)));
+	REQUIRE(theNumber.GetFloat32() == valueFloat32);
+
+	REQUIRE(theNumber.SetValue(NAny(valueFloat64)));
+	REQUIRE(theNumber.GetFloat64() == valueFloat64);
+
+	REQUIRE(theNumber.SetValue(NAny(123)));
+	REQUIRE(theNumber.GetUInt32() == 123);
 }
