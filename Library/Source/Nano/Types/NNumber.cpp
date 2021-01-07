@@ -360,10 +360,12 @@ uint64_t NNumber::GetUInt64() const
 	}
 	else if (mValue.IsInt64())
 	{
+		NN_REQUIRE(IsPositive());
 		theValue = uint64_t(mValue.GetInt64());
 	}
 	else if (mValue.IsFloat64())
 	{
+		NN_REQUIRE(IsPositive() && IsInteger());
 		theValue = uint64_t(mValue.GetFloat64());
 	}
 	else
@@ -444,6 +446,7 @@ int64_t NNumber::GetInt64() const
 
 	if (mValue.IsUInt64())
 	{
+		NN_REQUIRE(mValue.GetUInt64() <= uint64_t(kNInt64Max));
 		theValue = int64_t(mValue.GetUInt64());
 	}
 	else if (mValue.IsInt64())
@@ -452,6 +455,9 @@ int64_t NNumber::GetInt64() const
 	}
 	else if (mValue.IsFloat64())
 	{
+		NN_REQUIRE(IsInteger());
+		NN_REQUIRE(int64_t(mValue.GetFloat64()) >= kNInt64Min);
+		NN_REQUIRE(int64_t(mValue.GetFloat64()) <= kNInt64Max);
 		theValue = int64_t(mValue.GetFloat64());
 	}
 	else
@@ -497,10 +503,12 @@ float64_t NNumber::GetFloat64() const
 	if (mValue.IsUInt64())
 	{
 		theValue = float64_t(mValue.GetUInt64());
+		NN_REQUIRE(uint64_t(theValue) == mValue.GetUInt64());
 	}
 	else if (mValue.IsInt64())
 	{
 		theValue = float64_t(mValue.GetInt64());
+		NN_REQUIRE(int64_t(theValue) == mValue.GetInt64());
 	}
 	else if (mValue.IsFloat64())
 	{

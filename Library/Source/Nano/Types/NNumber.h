@@ -101,8 +101,9 @@ public:
 
 	// Get / set the value
 	//
-	// A number may only be obtained as a specific type if it can be
-	// converted to that type without loss of information.
+	// A number can only be fetched as a particular type if the
+	// value can be cast to that type without loss of information.
+	bool                                GetBool()    const;
 	uint8_t                             GetUInt8()   const;
 	uint16_t                            GetUInt16()  const;
 	uint32_t                            GetUInt32()  const;
