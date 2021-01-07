@@ -511,13 +511,18 @@ NVectorUInt8 NSharedLinux::ThreadGetCores()
 
 
 	// Convert to cores
+	//
+	// An empty list indicates no affinity, i.e. every core.
 	NVectorUInt8 theCores;
 
-	for (uint8_t n = 0; n < kNUInt8Max; n++)
+	if (size_t(CPU_COUNT(&affinityMask)) != std::thread::hardware_concurrency())
 	{
-		if (CPU_ISSET(n, &affinityMask))
+		for (uint8_t n = 0; n < kNUInt8Max; n++)
 		{
-			theCores.push_back(n);
+			if (CPU_ISSET(n, &affinityMask))
+			{
+				theCores.push_back(n);
+			}
 		}
 	}
 
@@ -535,13 +540,25 @@ void NSharedLinux::ThreadSetCores(const NVectorUInt8& theCores)
 {
 
 
-	// Get the state we need
+	// Build the thread affinity
+	//
+	// An empty list indicates no affinity, i.e. every core.
 	cpu_set_t affinityMask;
 	CPU_ZERO(&affinityMask);
 
-	for (auto n : theCores)
+	if (theCores.empty())
 	{
-		CPU_SET(n, &affinityMask);
+		for (size_t n = 0; n < std::thread::hardware_concurrency(); n++)
+		{
+			CPU_SET(n, &affinityMask);
+		}
+	}
+	else
+	{
+		for (auto n : theCores)
+		{
+			CPU_SET(n, &affinityMask);
+		}
 	}
 
 
