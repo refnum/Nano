@@ -1520,15 +1520,29 @@ void NSharedPOSIX::ThreadSetPriority(float thePriority)
 	// Set the priority
 	if (sysErr == 0)
 	{
-		int valueMin = sched_get_priority_min(SCHED_RR);
-		int valueMax = sched_get_priority_max(SCHED_RR);
+		// Adjust the policy
+		//
+		// On Darwin we can switch to SCHED_RR without additional privileges.
+		if (NN_PLATFORM_DARWIN)
+		{
+			schedPolicy = SCHED_RR;
+		}
+
+
+
+		// Calculate the priority
+		int valueMin = sched_get_priority_min(schedPolicy);
+		int valueMax = sched_get_priority_max(schedPolicy);
 		NN_REQUIRE(valueMax >= valueMin);
 
 		schedParams.sched_priority = valueMin + int(thePriority * (valueMax - valueMin));
 		NN_REQUIRE(schedParams.sched_priority >= valueMin);
 		NN_REQUIRE(schedParams.sched_priority <= valueMax);
 
-		sysErr = pthread_setschedparam(pthread_self(), SCHED_RR, &schedParams);
+
+
+		// Set the priority
+		sysErr = pthread_setschedparam(pthread_self(), schedPolicy, &schedParams);
 		NN_EXPECT_NOT_ERR(sysErr);
 	}
 }

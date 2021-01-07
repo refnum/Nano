@@ -235,20 +235,25 @@ NANO_TEST(TThread, "Priority")
 
 
 	// Perform the test
+	//
+	// Linux requires additional privileges to change thread priority.
 	float thePriority = NThread::GetPriority();
 	REQUIRE(thePriority == 0.5f);
 
-	NThread::SetPriority(0.0f);
-	thePriority = NThread::GetPriority();
-	REQUIRE(thePriority == 0.0f);
+	if (!NN_TARGET_LINUX)
+	{
+		NThread::SetPriority(0.0f);
+		thePriority = NThread::GetPriority();
+		REQUIRE(thePriority == 0.0f);
 
-	NThread::SetPriority(1.0f);
-	thePriority = NThread::GetPriority();
-	REQUIRE(thePriority == 1.0f);
+		NThread::SetPriority(1.0f);
+		thePriority = NThread::GetPriority();
+		REQUIRE(thePriority == 1.0f);
 
-	NThread::SetPriority(0.5f);
-	thePriority = NThread::GetPriority();
-	REQUIRE(thePriority == 0.5f);
+		NThread::SetPriority(0.5f);
+		thePriority = NThread::GetPriority();
+		REQUIRE(thePriority == 0.5f);
+	}
 }
 
 
