@@ -273,6 +273,9 @@
 		ABCC4AB325A4D7CA00394AFE /* NAny.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCC4AB225A4D7CA00394AFE /* NAny.cpp */; };
 		ABCC4AB425A4D7CA00394AFE /* NAny.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCC4AB225A4D7CA00394AFE /* NAny.cpp */; };
 		ABCC4AB525A4D7CA00394AFE /* NAny.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCC4AB225A4D7CA00394AFE /* NAny.cpp */; };
+		ABCC4AD125A5360500394AFE /* NArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91553E0F9B4DD6009FFEAF /* NArray.cpp */; };
+		ABCC4AD525A5360500394AFE /* NArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91553E0F9B4DD6009FFEAF /* NArray.cpp */; };
+		ABCC4AD925A5360600394AFE /* NArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91553E0F9B4DD6009FFEAF /* NArray.cpp */; };
 		ABDCE8A1241C22AD0054A16E /* NClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A0241C22AD0054A16E /* NClock.cpp */; };
 		ABDCE8A2241C22AD0054A16E /* NClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A0241C22AD0054A16E /* NClock.cpp */; };
 		ABDCE8A3241C22AD0054A16E /* NClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A0241C22AD0054A16E /* NClock.cpp */; };
@@ -668,6 +671,7 @@
 		ABB146560FF37325006F178C /* NMacPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacPreferences.cpp; sourceTree = "<group>"; };
 		ABB146580FF3732E006F178C /* NIOSPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSPreferences.cpp; sourceTree = "<group>"; };
 		ABB3379923A03F54000B81B0 /* NMutex.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NMutex.inl; sourceTree = "<group>"; };
+		ABB38C6925A686B10050D506 /* NArray.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NArray.inl; sourceTree = "<group>"; };
 		ABB57CFD112ADBFA003D714C /* NSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSingleton.cpp; sourceTree = "<group>"; };
 		ABB57CFE112ADBFA003D714C /* NSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSingleton.h; sourceTree = "<group>"; };
 		ABB6781712AE55AA0077D64E /* NCFURL.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCFURL.cpp; sourceTree = "<group>"; };
@@ -1507,6 +1511,7 @@
 				ABCC4AA725A4D58F00394AFE /* NAny.inl */,
 				AB91553E0F9B4DD6009FFEAF /* NArray.cpp */,
 				AB91553F0F9B4DD6009FFEAF /* NArray.h */,
+				ABB38C6925A686B10050D506 /* NArray.inl */,
 				AB9155400F9B4DD6009FFEAF /* NBitVector.cpp */,
 				AB9155410F9B4DD6009FFEAF /* NBitVector.h */,
 				AB9155480F9B4DD6009FFEAF /* NData.cpp */,
@@ -1918,6 +1923,7 @@
 				AB4EB4C22430EE0F00D36016 /* NFilePath.cpp in Sources */,
 				ABC646882581666F009B82AD /* xmlparse.c in Sources */,
 				AB0DBE7123999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
+				ABCC4AD125A5360500394AFE /* NArray.cpp in Sources */,
 				AB84536A2581A09D00B78BF7 /* WjCryptLib_Sha1.c in Sources */,
 				ABDCE8AC241C2A550054A16E /* NPOSIX.cpp in Sources */,
 				AB62326D242AF51300651349 /* NLogOutput.cpp in Sources */,
@@ -2022,6 +2028,7 @@
 				ABC646862581666F009B82AD /* xmlparse.c in Sources */,
 				AB07EA3E239A522E00E0AC49 /* iOSNSemaphore.cpp in Sources */,
 				ABDCE8AA241C2A550054A16E /* NPOSIX.cpp in Sources */,
+				ABCC4AD925A5360600394AFE /* NArray.cpp in Sources */,
 				AB8453682581A09D00B78BF7 /* WjCryptLib_Sha1.c in Sources */,
 				ABDCE8A1241C22AD0054A16E /* NClock.cpp in Sources */,
 				AB62326B242AF51300651349 /* NLogOutput.cpp in Sources */,
@@ -2126,6 +2133,7 @@
 				ABAFD6FA24092DB900CAE9ED /* NTextUtils.cpp in Sources */,
 				AB4EB4C12430EE0F00D36016 /* NFilePath.cpp in Sources */,
 				AB2A304624524C9100F21BF6 /* NDebugger.cpp in Sources */,
+				ABCC4AD525A5360500394AFE /* NArray.cpp in Sources */,
 				AB8453692581A09D00B78BF7 /* WjCryptLib_Sha1.c in Sources */,
 				ABDCE8E1241C61960054A16E /* macOSNSemaphore.cpp in Sources */,
 				ABDCE8B9241C59570054A16E /* NFileInfo.cpp in Sources */,

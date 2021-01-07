@@ -1,5 +1,5 @@
 /*	NAME:
-		NArray.h
+		NArray.inl
 
 	DESCRIPTION:
 		Array object.
@@ -36,101 +36,99 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NARRAY_H
-#define NARRAY_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
-#include "NAny.h"
-#include "NMixinComparable.h"
-#include "NMixinContainer.h"
-
-
-// System
-#include <vector>
+#include "NDebug.h"
 
 
 
 
 
 //=============================================================================
-//		Types
+//		NArray::NArray : Constructor.
 //-----------------------------------------------------------------------------
-// Forward declaration
-class NData;
-class NString;
-class NTime;
-
-
-
-
-
-//=============================================================================
-//		Class Declaration
-//-----------------------------------------------------------------------------
-class NN_EMPTY_BASE NArray final
-	: public std::vector<NAny>
-	, public NMixinComparable<NArray>
-	, public NMixinContainer<NArray>
+template<typename T>
+NArray::NArray(const std::vector<T>& theValues)
 {
-public:
-	template<typename T>
-										NArray(const std::vector<T>& theValues);
 
-										NArray() = default;
+
+	// Initialise ourselves
+	SetVector(theValues);
+}
+
+
+
+
+
+//=============================================================================
+//		NArray::Clear : Clear the array.
+//-----------------------------------------------------------------------------
+inline void NArray::Clear()
+{
 
 
 	// Clear the array
-	void                                Clear();
-
-
-	// Get the size
-	size_t                              GetSize() const;
-
-
-	// Is a value present?
-	bool                                HasValue(const NAny& theValue) const;
-
-
-	// Get a value
-	//
-	// Returns 0/empty if the value can not be returned as the specified type.
-	bool                                GetBool(   size_t theIndex) const;
-	int32_t                             GetInt32(  size_t theIndex) const;
-	int64_t                             GetInt64(  size_t theIndex) const;
-	float32_t                           GetFloat32(size_t theIndex) const;
-	float64_t                           GetFloat64(size_t theIndex) const;
-
-	NArray                              GetArray( size_t theIndex) const;
-	NData                               GetData(  size_t theIndex) const;
-	NString                             GetString(size_t theIndex) const;
-	NTime                               GetTime(  size_t theIndex) const;
-
-
-	// Get / set a vector
-	//
-	template<typename T>
-	std::vector<T>                      GetVector() const;
-
-	template<typename T>
-	void                                SetVector(const std::vector<T>& theValues);
-
-
-public:
-	// NMixinComparable
-	bool                                CompareEqual(const NArray& theArray) const;
-	NComparison                         CompareOrder(const NArray& theArray) const;
-};
+	clear();
+}
 
 
 
 
 
 //=============================================================================
-//		Includes
+//		NArray::GetSize : Get the size.
 //-----------------------------------------------------------------------------
-#include "NArray.inl"
+inline size_t NArray::GetSize() const
+{
 
 
-#endif // NARRAY_H
+	// Get the size
+	return size();
+}
+
+
+
+
+
+//=============================================================================
+//		NArray::GetVector : Get a std::vector.
+//-----------------------------------------------------------------------------
+template<typename T>
+std::vector<T> NArray::GetVector() const
+{
+
+
+	// Get the values
+	std::vector<T> theResult(size());
+
+	for (size_t n = 0; n < size(); n++)
+	{
+		const auto& theValue = at(n);
+		theResult[n]         = theValue.Get<T>();
+	}
+
+	return theResult;
+}
+
+
+
+
+
+//=============================================================================
+//		NArray::SetVector : Set a std::vector.
+//-----------------------------------------------------------------------------
+template<typename T>
+void NArray::SetVector(const std::vector<T>& theValues)
+{
+
+
+	// Set the values
+	resize(theValues.size());
+
+	for (size_t n = 0; n < theValues.size(); n++)
+	{
+		at(n) = theValues[n];
+	}
+}

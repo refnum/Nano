@@ -112,6 +112,9 @@
 		ABCC4ABF25A4F4E600394AFE /* TVariant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCC4ABE25A4F4E600394AFE /* TVariant.cpp */; };
 		ABCC4AC025A4F4E600394AFE /* TVariant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCC4ABE25A4F4E600394AFE /* TVariant.cpp */; };
 		ABCC4AC125A4F4E600394AFE /* TVariant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCC4ABE25A4F4E600394AFE /* TVariant.cpp */; };
+		ABCC4AC825A535F500394AFE /* TArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D9F1034184B00E5A6AD /* TArray.cpp */; };
+		ABCC4ACC25A535F500394AFE /* TArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D9F1034184B00E5A6AD /* TArray.cpp */; };
+		ABCC4ACD25A535F500394AFE /* TArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D9F1034184B00E5A6AD /* TArray.cpp */; };
 		ABDCE89C241BDAD50054A16E /* TTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE89B241BDAD50054A16E /* TTime.cpp */; };
 		ABDCE89D241BDAD50054A16E /* TTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE89B241BDAD50054A16E /* TTime.cpp */; };
 		ABDCE89E241BDAD50054A16E /* TTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE89B241BDAD50054A16E /* TTime.cpp */; };
@@ -874,6 +877,7 @@
 				AB56391923C2A3F600675F68 /* TString.cpp in Sources */,
 				ABB3379A23A04E09000B81B0 /* TMutex.cpp in Sources */,
 				ABBB2B6523801DBB00EB2840 /* TDebug.cpp in Sources */,
+				ABCC4ACC25A535F500394AFE /* TArray.cpp in Sources */,
 				ABDCE8C1241C59680054A16E /* TFileHandle.cpp in Sources */,
 				ABF5130E2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABA7247423F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */,
@@ -926,6 +930,7 @@
 				AB56391823C2A3F600675F68 /* TString.cpp in Sources */,
 				ABB3379B23A04E0A000B81B0 /* TMutex.cpp in Sources */,
 				ABBB2B6123801DBB00EB2840 /* TLogOutput.cpp in Sources */,
+				ABCC4ACD25A535F500394AFE /* TArray.cpp in Sources */,
 				ABDCE8C0241C59680054A16E /* TFileHandle.cpp in Sources */,
 				ABF5130D2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABA7247323F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */,
@@ -978,6 +983,7 @@
 				AB56391A23C2A3F600675F68 /* TString.cpp in Sources */,
 				ABB3379C23A04E0A000B81B0 /* TMutex.cpp in Sources */,
 				ABBB2B6323801DBB00EB2840 /* TLogOutput.cpp in Sources */,
+				ABCC4AC825A535F500394AFE /* TArray.cpp in Sources */,
 				ABDCE8C2241C59680054A16E /* TFileHandle.cpp in Sources */,
 				ABF5130F2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABA7247523F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */,
