@@ -41,6 +41,13 @@
 //-----------------------------------------------------------------------------
 #include "NAny.h"
 
+// Nano
+#include "NArray.h"
+#include "NData.h"
+#include "NNumber.h"
+#include "NString.h"
+#include "NTime.h"
+
 
 
 
@@ -84,68 +91,57 @@ NComparison NAny::CompareOrder(const NAny& theValue) const
 
 
 
-	// Compare by type
-	//
-	// Unequal types have no real ordering, but we can give them a
-	// consistent order based on their type hash.
-	else if (type().hash_code() != theValue.type().hash_code())
-	{
-		theResult = NCompare(type().hash_code(), theValue.type().hash_code());
-	}
-
-
-
-	// Compare known types
-	//
-	// Only known types can be compared.
+	// Compare by value
 	else
 	{
-		if (HasUInt8())
+		// Compare by number
+		//
+		// An NNumber can accept multiple numeric types so allows
+		// us to compare values even across differing types.
+		NNumber numberA, numberB;
+
+		if (numberA.SetValue(*this) && numberB.SetValue(theValue))
 		{
-			theResult = NCompare(GetUInt8(), theValue.GetUInt8());
-		}
-		else if (HasUInt16())
-		{
-			theResult = NCompare(GetUInt16(), theValue.GetUInt16());
-		}
-		else if (HasUInt32())
-		{
-			theResult = NCompare(GetUInt32(), theValue.GetUInt32());
-		}
-		else if (HasUInt64())
-		{
-			theResult = NCompare(GetUInt64(), theValue.GetUInt64());
+			theResult = NCompare(numberA, numberB);
 		}
 
-		else if (HasInt8())
+
+		// Compare by type
+		//
+		// Unequal types have no real ordering, but we can give them
+		// a consistent order based on their type hash.
+		else if (type().hash_code() != theValue.type().hash_code())
 		{
-			theResult = NCompare(GetInt8(), theValue.GetInt8());
-		}
-		else if (HasInt16())
-		{
-			theResult = NCompare(GetInt16(), theValue.GetInt16());
-		}
-		else if (HasInt32())
-		{
-			theResult = NCompare(GetInt32(), theValue.GetInt32());
-		}
-		else if (HasInt64())
-		{
-			theResult = NCompare(GetInt64(), theValue.GetInt64());
+			theResult = NCompare(type().hash_code(), theValue.type().hash_code());
 		}
 
-		else if (HasFloat32())
-		{
-			theResult = NCompare(GetFloat32(), theValue.GetFloat32());
-		}
-		else if (HasFloat64())
-		{
-			theResult = NCompare(GetFloat64(), theValue.GetFloat64());
-		}
 
+
+		// Compare by value
+		//
+		// Only known value types can be compared.
 		else
 		{
-			NN_LOG_ERROR("Unable to compare unknown NAny type!");
+			if (Has<NArray>())
+			{
+				theResult = NCompare(Get<NArray>(), theValue.Get<NArray>());
+			}
+			else if (Has<NData>())
+			{
+				theResult = NCompare(Get<NData>(), theValue.Get<NData>());
+			}
+			else if (Has<NString>())
+			{
+				theResult = NCompare(Get<NString>(), theValue.Get<NString>());
+			}
+			else if (Has<NTime>())
+			{
+				theResult = NCompare(Get<NTime>(), theValue.Get<NTime>());
+			}
+			else
+			{
+				NN_LOG_ERROR("Unable to compare unknown NAny type '{}'", type().name());
+			}
 		}
 	}
 
