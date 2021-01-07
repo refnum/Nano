@@ -59,10 +59,21 @@ class NAny final
 	, public NMixinComparable<NAny>
 {
 public:
-										NAny() = default;
+										NAny(const NAny& theValue);
 
-	template<typename T>
+										NAny(NAny&& theValue);
+
+	template<typename T, typename = std::enable_if_t<!std::is_same_v<std::decay_t<T>, NAny>>>
 										NAny(T&& theValue);
+
+	NAny&                               operator=(const NAny&  theValue);
+	NAny&                               operator=(      NAny&& theValue);
+
+	template<typename T, typename = std::enable_if_t<!std::is_same_v<std::decay_t<T>, NAny>>>
+	NAny&                               operator=(T&& theValue);
+
+										NAny()  = default;
+									   ~NAny()  = default;
 
 
 	// Is there a value?

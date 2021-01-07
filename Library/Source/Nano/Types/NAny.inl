@@ -49,10 +49,69 @@
 //=============================================================================
 //		NAny::NAny : Constructor.
 //-----------------------------------------------------------------------------
-template<typename T>
+inline NAny::NAny(const NAny& theValue)
+	: any(*(reinterpret_cast<const std::any*>(&theValue)))
+{
+}
+//=============================================================================
+//		NAny::NAny : Constructor.
+//-----------------------------------------------------------------------------
+inline NAny::NAny(NAny&& theValue)
+	: any(*(reinterpret_cast<const std::any*>(&theValue)))
+{
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::NAny : Constructor.
+//-----------------------------------------------------------------------------
+template<typename T, typename Enabled>
 NAny::NAny(T&& theValue)
 	: any(theValue)
 {
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::operator= : Assignment operator.
+//-----------------------------------------------------------------------------
+inline NAny& NAny::operator=(const NAny& theValue)
+{
+	any::operator=(*(reinterpret_cast<const std::any*>(&theValue)));
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::operator= : Assignment operator.
+//-----------------------------------------------------------------------------
+inline NAny& NAny::operator=(NAny&& theValue)
+{
+	any::operator=(*(reinterpret_cast<const std::any*>(&theValue)));
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::operator= : Assignment operator.
+//-----------------------------------------------------------------------------
+template<typename T, typename Enabled>
+NAny& NAny::operator=(T&& theValue)
+{
+	any::operator=(theValue);
+	return *this;
 }
 
 
@@ -457,7 +516,7 @@ inline float32_t NAny::GetFloat32() const
 
 
 //=============================================================================
-//		NAny::GetFlota64 : Get a float64_t.
+//		NAny::GetFloat : Get a float64_t.
 //-----------------------------------------------------------------------------
 inline float64_t NAny::GetFloat64() const
 {
