@@ -159,6 +159,9 @@
 		ABB3379D23A04E8E000B81B0 /* NMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5D1753910100BB5983 /* NMutex.cpp */; };
 		ABB3379E23A04E8E000B81B0 /* NMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5D1753910100BB5983 /* NMutex.cpp */; };
 		ABB3379F23A04E8F000B81B0 /* NMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5D1753910100BB5983 /* NMutex.cpp */; };
+		ABB38CBD25A7F1700050D506 /* NDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */; };
+		ABB38CC125A7F1700050D506 /* NDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */; };
+		ABB38CC525A7F1700050D506 /* NDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */; };
 		ABBB2B6823806E6100EB2840 /* NTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB328C8B17612D8400782F40 /* NTestFixture.cpp */; };
 		ABBB2B6923806E6200EB2840 /* NTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB328C8B17612D8400782F40 /* NTestFixture.cpp */; };
 		ABBB2B6A23806E6200EB2840 /* NTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB328C8B17612D8400782F40 /* NTestFixture.cpp */; };
@@ -672,6 +675,7 @@
 		ABB146580FF3732E006F178C /* NIOSPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSPreferences.cpp; sourceTree = "<group>"; };
 		ABB3379923A03F54000B81B0 /* NMutex.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NMutex.inl; sourceTree = "<group>"; };
 		ABB38C6925A686B10050D506 /* NArray.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NArray.inl; sourceTree = "<group>"; };
+		ABB38CB025A7CC830050D506 /* NDictionary.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NDictionary.inl; sourceTree = "<group>"; };
 		ABB57CFD112ADBFA003D714C /* NSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSingleton.cpp; sourceTree = "<group>"; };
 		ABB57CFE112ADBFA003D714C /* NSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSingleton.h; sourceTree = "<group>"; };
 		ABB6781712AE55AA0077D64E /* NCFURL.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCFURL.cpp; sourceTree = "<group>"; };
@@ -1523,6 +1527,7 @@
 				AB669B5010035285006CB82F /* NDateFormatter.h */,
 				AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */,
 				AB91554D0F9B4DD6009FFEAF /* NDictionary.h */,
+				ABB38CB025A7CC830050D506 /* NDictionary.inl */,
 				ABFAA555101871460060ED12 /* NEncodable.cpp */,
 				ABFAA553101871460060ED12 /* NEncodable.h */,
 				ABFAA554101871460060ED12 /* NEncoder.cpp */,
@@ -1874,6 +1879,7 @@
 				AB230A162581AB8600919EBD /* crc32.c in Sources */,
 				AB62327424301A4000651349 /* NSharedDarwin.mm in Sources */,
 				ABDCE8E7241F8ACD0054A16E /* NFile.cpp in Sources */,
+				ABB38CBD25A7F1700050D506 /* NDictionary.cpp in Sources */,
 				AB84536D2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */,
 				ABC6473A25818466009B82AD /* pcre2_study.c in Sources */,
 				AB56393D23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
@@ -1979,6 +1985,7 @@
 				AB07EA46239A567500E0AC49 /* NSemaphore.cpp in Sources */,
 				AB62327224301A4000651349 /* NSharedDarwin.mm in Sources */,
 				AB84536B2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */,
+				ABB38CC525A7F1700050D506 /* NDictionary.cpp in Sources */,
 				ABC6473825818466009B82AD /* pcre2_study.c in Sources */,
 				ABDCE8E5241F8ACD0054A16E /* NFile.cpp in Sources */,
 				AB56393B23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
@@ -2084,6 +2091,7 @@
 				ABA8EBE12385DE7500D1F979 /* NDataDigest.cpp in Sources */,
 				AB62327324301A4000651349 /* NSharedDarwin.mm in Sources */,
 				AB84536C2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */,
+				ABB38CC125A7F1700050D506 /* NDictionary.cpp in Sources */,
 				ABC6473925818466009B82AD /* pcre2_study.c in Sources */,
 				ABDCE8E6241F8ACD0054A16E /* NFile.cpp in Sources */,
 				ABC6471E25818466009B82AD /* pcre2_substring.c in Sources */,

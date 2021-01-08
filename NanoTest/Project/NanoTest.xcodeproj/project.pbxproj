@@ -88,6 +88,9 @@
 		ABB3379A23A04E09000B81B0 /* TMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */; };
 		ABB3379B23A04E0A000B81B0 /* TMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */; };
 		ABB3379C23A04E0A000B81B0 /* TMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */; };
+		ABB38CB125A7CCC80050D506 /* TDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DAB1034184B00E5A6AD /* TDictionary.cpp */; };
+		ABB38CB825A7CCC80050D506 /* TDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DAB1034184B00E5A6AD /* TDictionary.cpp */; };
+		ABB38CB925A7CCC80050D506 /* TDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DAB1034184B00E5A6AD /* TDictionary.cpp */; };
 		ABBB2B5E23801DBB00EB2840 /* TLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5B23801DBB00EB2840 /* TLog.cpp */; };
 		ABBB2B5F23801DBB00EB2840 /* TLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5B23801DBB00EB2840 /* TLog.cpp */; };
 		ABBB2B6023801DBB00EB2840 /* TLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5B23801DBB00EB2840 /* TLog.cpp */; };
@@ -891,6 +894,7 @@
 				AB1B4DAB23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9A923EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB1980F725975D17002C5591 /* TThreadID.cpp in Sources */,
+				ABB38CB825A7CCC80050D506 /* TDictionary.cpp in Sources */,
 				AB4EB4BC2430EDBB00D36016 /* TFilePath.cpp in Sources */,
 				AB07EA42239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7D2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
@@ -944,6 +948,7 @@
 				AB1B4DAA23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9A823EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB1980F625975D17002C5591 /* TThreadID.cpp in Sources */,
+				ABB38CB925A7CCC80050D506 /* TDictionary.cpp in Sources */,
 				AB4EB4BB2430EDBB00D36016 /* TFilePath.cpp in Sources */,
 				AB07EA43239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7E2399A15000F6AD43 /* TSpinLock.cpp in Sources */,
@@ -997,6 +1002,7 @@
 				AB1B4DAC23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9AA23EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB1980F825975D17002C5591 /* TThreadID.cpp in Sources */,
+				ABB38CB125A7CCC80050D506 /* TDictionary.cpp in Sources */,
 				AB4EB4BD2430EDBB00D36016 /* TFilePath.cpp in Sources */,
 				AB07EA41239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7C2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,

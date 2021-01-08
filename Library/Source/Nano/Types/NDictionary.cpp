@@ -3,760 +3,540 @@
 
 	DESCRIPTION:
 		Dictionary object.
-	
-	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+	COPYRIGHT:
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
+
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NSystemUtilities.h"
-#include "NSTLUtilities.h"
-#include "NNumber.h"
-#include "NEncoder.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NDictionary.h"
 
+// Nano
+#include "NData.h"
+#include "NFormat.h"
+#include "NNumber.h"
+#include "NRange.h"
+#include "NStdAlgorithm.h"
+#include "NTime.h"
 
 
 
 
-//============================================================================
-//		Implementation
-//----------------------------------------------------------------------------
-NENCODABLE_DEFINE(NDictionary);
 
-
-
-
-
-//============================================================================
-//		NDictionary::NDictionary : Constructor.
-//----------------------------------------------------------------------------
-NDictionary::NDictionary(void)
+//=============================================================================
+//		NDictionary::HasKey : Is a key present?
+//-----------------------------------------------------------------------------
+bool NDictionary::HasKey(const NString& theKey) const
 {
-
-
-	// Initialise ourselves
-	ValueChanged(NULL);
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::~NDictionary : Destructor.
-//----------------------------------------------------------------------------
-NDictionary::~NDictionary(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetSize : Get the size.
-//----------------------------------------------------------------------------
-NIndex NDictionary::GetSize(void) const
-{
-
-
-	// Get the size
-	return((NIndex) GetImmutable()->size());
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::Compare : Compare the value.
-//----------------------------------------------------------------------------
-NComparison NDictionary::Compare(const NDictionary &theValue) const
-{	const NDictionaryValue		*ourValue, *otherValue;
-	NIndex						ourSize, otherSize;
-	NComparison					theResult;
-
-
-
-	// Get the state we need
-	ourValue   =          GetImmutable();
-	otherValue = theValue.GetImmutable();
-
-	ourSize   = (NIndex) ourValue->size();
-	otherSize = (NIndex) otherValue->size();
-
-
-
-	// Compare the value
-	//
-	// We have no natural order, so the only real comparison is equality.
-	theResult = GetComparison(ourSize, otherSize);
-
-	if (theResult == kNCompareEqualTo)
-		theResult = GetComparison(ourValue, otherValue);
-
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::Join : Join two dictionaries.
-//----------------------------------------------------------------------------
-void NDictionary::Join(const NDictionary &theValue)
-{	const NDictionaryValue				*theDict;
-	NDictionaryValueConstIterator		theIter;
-
-
-
-	// Get the state we need
-	theDict = theValue.GetImmutable();
-
-
-
-	// Join the dictionaries
-	for (theIter = theDict->begin(); theIter != theDict->end(); theIter++)
-		SetValue(theIter->first, theIter->second);
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::Invert : Invert the dictinary.
-//----------------------------------------------------------------------------
-bool NDictionary::Invert(void)
-{	NString							theKey, theValue;
-	NDictionary						theResult;
-	bool							canInvert;
-	NStringList						theKeys;
-	NStringListConstIterator		theIter;
-
-
-
-	// Get the state we need
-	theKeys   = GetKeys();
-	canInvert = true;
-
-
-
-	// Create the inverted dictionary
-	for (theIter = theKeys.begin(); theIter != theKeys.end() && canInvert; theIter++)
-		{
-		theKey   = *theIter;
-		theValue = GetValueString(theKey);
-
-		canInvert = !theValue.IsEmpty() && !theResult.HasKey(theValue);
-		if (canInvert)
-			theResult.SetValue(theValue, theKey);
-		}
-	
-	
-	
-	// Update our state
-	if (canInvert)
-		*this = theResult;
-	
-	return(canInvert);
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::ForEach : Process each item.
-//----------------------------------------------------------------------------
-void NDictionary::ForEach(const NDictionaryForEachFunctor &theFunctor) const
-{	const	NDictionaryValue			*theDict;
-	NDictionaryValueConstIterator		theIter;
-
-
-
-	// Get the state we need
-	theDict = GetImmutable();
-
-
-
-	// Process the array
-	for (theIter = theDict->begin(); theIter != theDict->end(); theIter++)
-		theFunctor(theIter->first, theIter->second);
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::HasKey : Does a key exist?
-//----------------------------------------------------------------------------
-bool NDictionary::HasKey(const NString &theKey) const
-{	bool								hasValue;
-	const NDictionaryValue				*theDict;
-	NDictionaryValueConstIterator		theIter;
-
 
 
 	// Validate our parameters
-	NN_ASSERT(!theKey.IsEmpty());
+	NN_REQUIRE(!theKey.IsEmpty());
 
 
-
-	// Find the value
-	theDict  = GetImmutable();
-	theIter  = theDict->find(theKey);
-	hasValue = (theIter != theDict->end());
-
-	return(hasValue);
+	// Check the key
+	return nstd::contains(*this, theKey);
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NDictionary::RemoveKey : Remove a key.
-//----------------------------------------------------------------------------
-void NDictionary::RemoveKey(const NString &theKey)
-{	NDictionaryValue	*theDict;
-
+//-----------------------------------------------------------------------------
+void NDictionary::RemoveKey(const NString& theKey)
+{
 
 
 	// Validate our parameters
-	NN_ASSERT(!theKey.IsEmpty());
-
-
-
-	// Get the state we need
-	theDict = GetMutable();
+	NN_REQUIRE(!theKey.IsEmpty());
 
 
 
 	// Remove the key
-	theDict->erase(theKey);
-	
-	ValueChanged(theDict);
+	erase(theKey);
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
+//		NDictionary::RemoveKeys : Remove keys.
+//-----------------------------------------------------------------------------
+void NDictionary::RemoveKeys(const NVectorString& theKeys)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theKeys.empty());
+
+
+
+	// Remove the keys
+	for (const auto& theKey : theKeys)
+	{
+		NN_REQUIRE(!theKey.IsEmpty());
+		erase(theKey);
+	}
+}
+
+
+
+
+
+//=============================================================================
 //		NDictionary::GetKeys : Get the keys.
-//----------------------------------------------------------------------------
-NStringList NDictionary::GetKeys(bool sortKeys) const
-{	const NDictionaryValue				*theDict;
-	NDictionaryValueConstIterator		theIter;
-	NStringList							theKeys;
-
-
-
-	// Get the state we need
-	theDict = GetImmutable();
-
+//-----------------------------------------------------------------------------
+NVectorString NDictionary::GetKeys() const
+{
 
 
 	// Get the keys
-	for (theIter = theDict->begin(); theIter != theDict->end(); theIter++)
-		theKeys.push_back(theIter->first);
+	NVectorString theKeys;
 
-	if (sortKeys)
-		sort(theKeys);
+	for (const auto& [theKey, theValue] : *this)
+	{
+		theKeys.emplace_back(theKey);
+	}
 
-	return(theKeys);
+	return theKeys;
 }
 
 
 
 
 
-//============================================================================
-//		NDictionary::GetValue : Get a value.
-//----------------------------------------------------------------------------
-NVariant NDictionary::GetValue(const NString &theKey) const
-{	const NDictionaryValue				*theDict;
-	NVariant							theValue;
-	NDictionaryValueConstIterator		theIter;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(!theKey.IsEmpty());
-
-
-
-	// Get the value
-	theDict = GetImmutable();
-	theIter = theDict->find(theKey);
-
-	if (theIter != theDict->end())
-		{
-		theValue = theIter->second;
-		NN_ASSERT(theValue.IsValid());
-		}
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::SetValue : Set a value.
-//----------------------------------------------------------------------------
-void NDictionary::SetValue(const NString &theKey, const NVariant &theValue)
-{	NDictionaryValue		*theDict;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(!theKey.IsEmpty());
-	NN_ASSERT(theValue.IsValid());
-
-
-
-	// Set the value
-	theDict            = GetMutable();
-	(*theDict)[theKey] = theValue;
-
-	ValueChanged(theDict);
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueBoolean : Get a boolean value.
-//----------------------------------------------------------------------------
-bool NDictionary::GetValueBoolean(const NString &theKey) const
+//=============================================================================
+//		NDictionary::Invert : Invert the dictinary.
+//-----------------------------------------------------------------------------
+bool NDictionary::Invert()
 {
-
-
-	// Get the value
-	return(NSystemUtilities::GetBoolean(GetValue(theKey), GetDebugID(theKey)));
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueInt32 : Get an int32_t value.
-//----------------------------------------------------------------------------
-int32_t NDictionary::GetValueInt32(const NString &theKey) const
-{
-
-
-	// Get the value
-	return(NSystemUtilities::GetInt32(GetValue(theKey), GetDebugID(theKey)));
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueInt64 : Get an int64_t value.
-//----------------------------------------------------------------------------
-int64_t NDictionary::GetValueInt64(const NString &theKey) const
-{
-
-
-	// Get the value
-	return(NSystemUtilities::GetInt64(GetValue(theKey), GetDebugID(theKey)));
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueFloat32 : Get a float32_t value.
-//----------------------------------------------------------------------------
-float32_t NDictionary::GetValueFloat32(const NString &theKey) const
-{
-
-
-	// Get the value
-	return(NSystemUtilities::GetFloat32(GetValue(theKey), GetDebugID(theKey)));
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueFloat64 : Get a float64_t value.
-//----------------------------------------------------------------------------
-float64_t NDictionary::GetValueFloat64(const NString &theKey) const
-{
-
-
-	// Get the value
-	return(NSystemUtilities::GetFloat64(GetValue(theKey), GetDebugID(theKey)));
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueString : Get a string value.
-//----------------------------------------------------------------------------
-NString NDictionary::GetValueString(const NString &theKey) const
-{
-
-
-	// Get the value
-	return(NSystemUtilities::GetString(GetValue(theKey), GetDebugID(theKey)));
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueData : Get a data value.
-//----------------------------------------------------------------------------
-NData NDictionary::GetValueData(const NString &theKey) const
-{
-
-
-	// Get the value
-	return(NSystemUtilities::GetData(GetValue(theKey), GetDebugID(theKey)));
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueDate : Get a date value.
-//----------------------------------------------------------------------------
-NDate NDictionary::GetValueDate(const NString &theKey) const
-{
-
-
-	// Get the value
-	return(NSystemUtilities::GetDate(GetValue(theKey), GetDebugID(theKey)));
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueColor : Get a color value.
-//----------------------------------------------------------------------------
-NColor NDictionary::GetValueColor(const NString &theKey) const
-{
-
-
-	// Get the value
-	return(NSystemUtilities::GetColor(GetValue(theKey), GetDebugID(theKey)));
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValuePoint : Get a point value.
-//----------------------------------------------------------------------------
-NPoint NDictionary::GetValuePoint(const NString &theKey) const
-{
-
-
-	// Get the value
-	return(NSystemUtilities::GetPoint(GetValue(theKey), GetDebugID(theKey)));
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueSize : Get a size value.
-//----------------------------------------------------------------------------
-NSize NDictionary::GetValueSize(const NString &theKey) const
-{
-
-
-	// Get the value
-	return(NSystemUtilities::GetSize(GetValue(theKey), GetDebugID(theKey)));
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueRectangle : Get a rectangle value.
-//----------------------------------------------------------------------------
-NRectangle NDictionary::GetValueRectangle(const NString &theKey) const
-{
-
-
-	// Get the value
-	return(NSystemUtilities::GetRectangle(GetValue(theKey), GetDebugID(theKey)));
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueVector : Get a vector value.
-//----------------------------------------------------------------------------
-NVector NDictionary::GetValueVector(const NString &theKey) const
-{
-
-
-	// Get the value
-	return(NSystemUtilities::GetVector(GetValue(theKey), GetDebugID(theKey)));
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueArray : Get an array value.
-//----------------------------------------------------------------------------
-NArray NDictionary::GetValueArray(const NString &theKey) const
-{
-
-
-	// Get the value
-	return(NSystemUtilities::GetArray(GetValue(theKey), GetDebugID(theKey)));
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetValueDictionary : Get a dictionary value.
-//----------------------------------------------------------------------------
-NDictionary NDictionary::GetValueDictionary(const NString &theKey) const
-{
-
-
-	// Get the value
-	return(NSystemUtilities::GetDictionary(GetValue(theKey), GetDebugID(theKey)));
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::NFormatArgument : NFormatArgument operator.
-//----------------------------------------------------------------------------
-NDictionary::operator NFormatArgument(void) const
-{	NString		theResult;
-
-
-
-	// Get the value
-	theResult.Format("{size=%ld}", GetSize());
-
-	return(theResult);
-}
-
-
-
-
-
-#pragma mark protected
-//============================================================================
-//		NDictionary::GetNullValue : Get the null value.
-//----------------------------------------------------------------------------
-const NDictionaryValue *NDictionary::GetNullValue(void) const
-{	static NDictionaryValue		sNullValue;
-
-
-
-	// Get the value
-	return(&sNullValue);
-}
-
-
-
-
-
-//============================================================================
-//      NDictionary::EncodeSelf : Encode the object.
-//----------------------------------------------------------------------------
-void NDictionary::EncodeSelf(NEncoder &theEncoder) const
-{	bool								valueBoolean;
-	NString								valueString;
-	NData								valueData;
-	const NDictionaryValue				*theDict;
-	NVariant							theValue;
-	NDictionaryValueConstIterator		theIter;
-	NString								theKey;
-
 
 
 	// Get the state we need
-	theDict = GetImmutable();
+	NDictionary theResult;
+	bool        canInvert = true;
 
 
 
-	// Encode the object
-	for (theIter = theDict->begin(); theIter != theDict->end(); theIter++)
+	// Invert the keys / values
+	for (const auto& [theKey, theValue] : *this)
+	{
+		canInvert = theValue.Has<NString>();
+		if (canInvert)
 		{
-		theKey   = theIter->first;
-		theValue = theIter->second;
-		
-		if (theValue.GetValue(valueBoolean))
-			theEncoder.EncodeBoolean(theKey, valueBoolean);
+			NString newKey = theValue.Get<NString>();
+			canInvert      = !newKey.IsEmpty() && !theResult.HasKey(newKey);
 
-		else if (theValue.IsNumeric())
-			theEncoder.EncodeNumber(theKey, NNumber(theValue));
-
-		else if (theValue.GetValue(valueString))
-			theEncoder.EncodeString(theKey, valueString);
-
-		else if (theValue.GetValue(valueData))
-			theEncoder.EncodeData(theKey, valueData);
-
-		else
+			if (canInvert)
 			{
-			if (NEncoder::CanEncode(theValue))
-				theEncoder.EncodeObject(theKey, theValue);
-			else
- 				NN_LOG("Unable to encode object '%@' (%s)", theKey, theValue.GetType().name());
+				theResult[newKey] = theKey;
 			}
 		}
-}
 
-
-
-
-
-//============================================================================
-//      NDictionary::DecodeSelf : Decode the object.
-//----------------------------------------------------------------------------
-void NDictionary::DecodeSelf(const NEncoder &theEncoder)
-{	NNumber							theNumber;
-	NStringList						theKeys;
-	NEncodedType					theType;
-	NStringListConstIterator		theIter;
-	NString							theKey;
-
-
-
-	// Get the state we need
-	theKeys = theEncoder.GetKeys();
-
-
-
-	// Decode the object
-	for (theIter = theKeys.begin(); theIter != theKeys.end(); theIter++)
+		if (!canInvert)
 		{
-		// Get the state we need
-		theKey  = *theIter;
-		theType = theEncoder.GetValueType(theKey);
-
-
-
-		// Decode the value
-		switch (theType) {
-			case kNEncodedBoolean:
-				SetValue(theKey, theEncoder.DecodeBoolean(theKey));
-				break;
-
-			case kNEncodedNumber:
-				SetValue(theKey, theEncoder.DecodeNumber(theKey));
-				break;
-
-			case kNEncodedString:
-				SetValue(theKey, theEncoder.DecodeString(theKey));
-				break;
-
-			case kNEncodedData:
-				SetValue(theKey, theEncoder.DecodeData(theKey));
-				break;
-
-			case kNEncodedObject:
-				SetValue(theKey, theEncoder.DecodeObject(theKey));
-				break;
-			
-			case kNEncodedUnknown:
-			default:
-				NN_LOG("Unknown encoder type %d (%@) - skipping", theType, theKey);
-				break;
-			}
+			break;
 		}
+	}
+
+
+
+	// Replace our content
+	if (canInvert)
+	{
+		*this = theResult;
+	}
+
+	return canInvert;
 }
 
 
 
 
 
-#pragma mark private
-//============================================================================
-//      NDictionary::ValueChanged : Our value has been changed.
-//----------------------------------------------------------------------------
-void NDictionary::ValueChanged(NDictionaryValue *theValue)
-{	NIndex		theSize;
-
-
-
-	// Compiler warnings
-	NN_UNUSED(theSize);
-	NN_UNUSED(theValue);
-
-
-
-	// Update the debug summary
-#if NN_DEBUG
-	theSize = (theValue == NULL) ? 0 : (theValue->size());
-
-	UpdateSummary("%ld %s", theSize, theSize == 1 ? "value" : "values");
-#endif
-}
-
-
-
-
-
-//============================================================================
-//		NDictionary::GetDebugID : Get the debug ID for a value.
-//----------------------------------------------------------------------------
-NString NDictionary::GetDebugID(const NString &theKey) const
-{	NString		theID;
-
+//=============================================================================
+//		NDictionary::GetBool : Get a bool value.
+//-----------------------------------------------------------------------------
+bool NDictionary::GetBool(const NString& theKey) const
+{
 
 
 	// Validate our parameters
-	NN_ASSERT(!theKey.IsEmpty());
-
-	NN_UNUSED(theKey);
+	NN_REQUIRE(!theKey.IsEmpty());
 
 
 
-	// Get the ID
-#if NN_DEBUG
-	if (HasKey(theKey))
-		theID = theKey;
-#endif
+	// Get the value
+	NNumber theResult;
 
-	return(theID);
+	auto theIter = find(theKey);
+	if (theIter != end())
+	{
+		if (!theResult.SetValue(theIter->second))
+		{
+			NN_LOG_WARNING("Unable to convert [{}] to bool", theKey);
+		}
+	}
+
+	return theResult.GetBool();
 }
 
 
+
+
+
+//=============================================================================
+//		NDictionary::GetInt32 : Get an int32_t value.
+//-----------------------------------------------------------------------------
+int32_t NDictionary::GetInt32(const NString& theKey) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theKey.IsEmpty());
+
+
+
+	// Get the value
+	NNumber theResult;
+
+	auto theIter = find(theKey);
+	if (theIter != end())
+	{
+		if (!theResult.SetValue(theIter->second))
+		{
+			NN_LOG_WARNING("Unable to convert [{}] to int32_t", theKey);
+		}
+	}
+
+	return theResult.GetInt32();
+}
+
+
+
+
+
+//=============================================================================
+//		NDictionary::GetInt64 : Get an int64_t value.
+//-----------------------------------------------------------------------------
+int64_t NDictionary::GetInt64(const NString& theKey) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theKey.IsEmpty());
+
+
+
+	// Get the value
+	NNumber theResult;
+
+	auto theIter = find(theKey);
+	if (theIter != end())
+	{
+		if (!theResult.SetValue(theIter->second))
+		{
+			NN_LOG_WARNING("Unable to convert [{}] to int64_t", theKey);
+		}
+	}
+
+	return theResult.GetInt64();
+}
+
+
+
+
+
+//=============================================================================
+//		NDictionary::GetFloat32 : Get a float32_t value.
+//-----------------------------------------------------------------------------
+float32_t NDictionary::GetFloat32(const NString& theKey) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theKey.IsEmpty());
+
+
+
+	// Get the value
+	NNumber theResult;
+
+	auto theIter = find(theKey);
+	if (theIter != end())
+	{
+		if (!theResult.SetValue(theIter->second))
+		{
+			NN_LOG_WARNING("Unable to convert [{}] to float32_t", theKey);
+		}
+	}
+
+	return theResult.GetFloat32();
+}
+
+
+
+
+
+//=============================================================================
+//		NDictionary::GetFloat64 : Get a float64_t value.
+//-----------------------------------------------------------------------------
+float64_t NDictionary::GetFloat64(const NString& theKey) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theKey.IsEmpty());
+
+
+
+	// Get the value
+	NNumber theResult;
+
+	auto theIter = find(theKey);
+	if (theIter != end())
+	{
+		if (!theResult.SetValue(theIter->second))
+		{
+			NN_LOG_WARNING("Unable to convert [{}] to float64_t", theKey);
+		}
+	}
+
+	return theResult.GetFloat64();
+}
+
+
+
+
+
+//=============================================================================
+//		NDictionary::GetData : Get an NData value.
+//-----------------------------------------------------------------------------
+NData NDictionary::GetData(const NString& theKey) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theKey.IsEmpty());
+
+
+
+	// Get the value
+	auto theIter = find(theKey);
+	if (theIter != end())
+	{
+		const auto& theValue = theIter->second;
+
+		if (theValue.Has<NData>())
+		{
+			return theValue.Get<NData>();
+		}
+	}
+
+	NN_LOG_WARNING("Unable to convert [{}] to NData", theKey);
+	return {};
+}
+
+
+
+
+
+//=============================================================================
+//		NDictionary::GetDictionary : Get an NDictionary value.
+//-----------------------------------------------------------------------------
+NDictionary NDictionary::GetDictionary(const NString& theKey) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theKey.IsEmpty());
+
+
+
+	// Get the value
+	auto theIter = find(theKey);
+	if (theIter != end())
+	{
+		const auto& theValue = theIter->second;
+
+		if (theValue.Has<NDictionary>())
+		{
+			return theValue.Get<NDictionary>();
+		}
+	}
+
+	NN_LOG_WARNING("Unable to convert [{}] to NDictionary", theKey);
+	return {};
+}
+
+
+
+
+
+//=============================================================================
+//		NDictionary::GetString : Get an NString value.
+//-----------------------------------------------------------------------------
+NString NDictionary::GetString(const NString& theKey) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theKey.IsEmpty());
+
+
+
+	// Get the value
+	auto theIter = find(theKey);
+	if (theIter != end())
+	{
+		const auto& theValue = theIter->second;
+
+		if (theValue.Has<NString>())
+		{
+			return theValue.Get<NString>();
+		}
+	}
+
+	NN_LOG_WARNING("Unable to convert [{}] to NString", theKey);
+	return {};
+}
+
+
+
+
+
+//=============================================================================
+//		NDictionary::GetTime : Get an NTime value.
+//-----------------------------------------------------------------------------
+NTime NDictionary::GetTime(const NString& theKey) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theKey.IsEmpty());
+
+
+
+	// Get the value
+	auto theIter = find(theKey);
+	if (theIter != end())
+	{
+		const auto& theValue = theIter->second;
+
+		if (theValue.Has<NTime>())
+		{
+			return theValue.Get<NTime>();
+		}
+	}
+
+	NN_LOG_WARNING("Unable to convert [{}] to NTime", theKey);
+	return {};
+}
+
+
+
+
+
+#pragma mark NMixinComparable
+//=============================================================================
+//		NDictionary::CompareEqual : Perform an equality comparison.
+//-----------------------------------------------------------------------------
+bool NDictionary::CompareEqual(const NDictionary& theDictionary) const
+{
+
+
+	// Compare the size
+	//
+	// A different size means no equality.
+	if (GetSize() != theDictionary.GetSize())
+	{
+		return false;
+	}
+
+
+
+	// Compare the values
+	return CompareOrder(theDictionary) == NComparison::EqualTo;
+}
+
+
+
+
+
+//=============================================================================
+//		NDictionary::CompareOrder : Perform a three-way comparison.
+//-----------------------------------------------------------------------------
+NComparison NDictionary::CompareOrder(const NDictionary& theDictionary) const
+{
+
+
+	// Compare by size
+	NVectorString keysA = GetKeys();
+	NVectorString keysB = theDictionary.GetKeys();
+
+	NComparison theResult = NCompare(keysA.size(), keysB.size());
+
+
+
+	// Compare by keys
+	if (theResult == NComparison::EqualTo)
+	{
+		nstd::sort(keysA);
+		nstd::sort(keysB);
+
+		theResult = NCompare(keysA, keysB);
+	}
+
+
+
+	// Compare by values
+	if (theResult == NComparison::EqualTo)
+	{
+		for (const auto& theKey : keysA)
+		{
+			const auto& valueA = at(theKey);
+			const auto& valueB = theDictionary.at(theKey);
+
+			theResult = NCompare(valueA, valueB);
+			if (theResult != NComparison::EqualTo)
+			{
+				break;
+			}
+		}
+	}
+
+	return theResult;
+}

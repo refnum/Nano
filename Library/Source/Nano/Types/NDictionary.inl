@@ -1,8 +1,8 @@
 /*	NAME:
-		NAny.cpp
+		NDictionary.inl
 
 	DESCRIPTION:
-		std::any object.
+		Dictionary object.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -39,30 +39,20 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NAny.h"
-
-// Nano
-#include "NArray.h"
-#include "NData.h"
-#include "NDictionary.h"
-#include "NNumber.h"
-#include "NString.h"
-#include "NTime.h"
 
 
 
 
 
-#pragma mark NMixinComparable
 //=============================================================================
-//		NAny::CompareEqual : Perform an equality comparison.
+//		NDictionary::Clear : Clear the dictionary.
 //-----------------------------------------------------------------------------
-bool NAny::CompareEqual(const NAny& theValue) const
+inline void NDictionary::Clear()
 {
 
 
-	// Compare the value
-	return CompareOrder(theValue) == NComparison::EqualTo;
+	// Clear the dictionary
+	clear();
 }
 
 
@@ -70,85 +60,12 @@ bool NAny::CompareEqual(const NAny& theValue) const
 
 
 //=============================================================================
-//		NAny::CompareOrder : Perform a three-way comparison.
+//		NDictionary::GetSize : Get the size.
 //-----------------------------------------------------------------------------
-NComparison NAny::CompareOrder(const NAny& theValue) const
+inline size_t NDictionary::GetSize() const
 {
 
 
-	// Compare by contents
-	//
-	// Empty values are sorted before actual values.
-	NComparison theResult = NComparison::EqualTo;
-
-	if (IsEmpty() && !theValue.IsEmpty())
-	{
-		theResult = NComparison::LessThan;
-	}
-	else if (!IsEmpty() && theValue.IsEmpty())
-	{
-		theResult = NComparison::GreaterThan;
-	}
-
-
-
-	// Compare by value
-	else
-	{
-		// Compare by number
-		//
-		// An NNumber can accept multiple numeric types so allows
-		// us to compare values even across differing types.
-		NNumber numberA, numberB;
-
-		if (numberA.SetValue(*this) && numberB.SetValue(theValue))
-		{
-			theResult = NCompare(numberA, numberB);
-		}
-
-
-		// Compare by type
-		//
-		// Unequal types have no real ordering, but we can give them
-		// a consistent order based on their type hash.
-		else if (type().hash_code() != theValue.type().hash_code())
-		{
-			theResult = NCompare(type().hash_code(), theValue.type().hash_code());
-		}
-
-
-
-		// Compare by value
-		//
-		// Only known value types can be compared.
-		else
-		{
-			if (Has<NArray>())
-			{
-				theResult = NCompare(Get<NArray>(), theValue.Get<NArray>());
-			}
-			else if (Has<NData>())
-			{
-				theResult = NCompare(Get<NData>(), theValue.Get<NData>());
-			}
-			else if (Has<NDictionary>())
-			{
-				theResult = NCompare(Get<NDictionary>(), theValue.Get<NDictionary>());
-			}
-			else if (Has<NString>())
-			{
-				theResult = NCompare(Get<NString>(), theValue.Get<NString>());
-			}
-			else if (Has<NTime>())
-			{
-				theResult = NCompare(Get<NTime>(), theValue.Get<NTime>());
-			}
-			else
-			{
-				NN_LOG_ERROR("Unable to compare unknown NAny type '{}'", type().name());
-			}
-		}
-	}
-
-	return theResult;
+	// Get the size
+	return size();
 }
