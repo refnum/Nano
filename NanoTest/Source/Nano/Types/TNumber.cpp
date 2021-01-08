@@ -229,7 +229,7 @@ NANO_TEST(TNumber, "NAny")
 	float64_t valueFloat64 = 3.1415;
 
 	REQUIRE(theNumber.SetValue(NAny(valueBool)));
-	REQUIRE(theNumber.GetUInt8() == valueBool);
+	REQUIRE(theNumber.GetBool() == valueBool);
 
 	REQUIRE(theNumber.SetValue(NAny(valueUInt8)));
 	REQUIRE(theNumber.GetUInt8() == valueUInt8);
