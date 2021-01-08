@@ -223,6 +223,29 @@ bool erase_if(T& container, const P& predicate)
 
 
 //=============================================================================
+//		nstd::erase : Erase values from a vector by position.
+//-----------------------------------------------------------------------------
+template<typename T>
+void erase(std::vector<T>& container, size_t theLocation, size_t theSize)
+{
+	NN_REQUIRE((theLocation + 0) < container.size());
+
+	if (theSize != 0)
+	{
+		NN_REQUIRE((theLocation + theSize - 1) < container.size());
+
+		auto iterFirst = std::begin(container) + std::ptrdiff_t(theLocation);
+		auto iterLast  = std::begin(container) + std::ptrdiff_t(theLocation + theSize);
+
+		container.erase(iterFirst, iterLast);
+	}
+}
+
+
+
+
+
+//=============================================================================
 //		nstd::extract_back : Extract the last element from a container.
 //-----------------------------------------------------------------------------
 template<class T>
