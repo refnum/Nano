@@ -128,6 +128,7 @@ NVectorString NDictionary::GetKeys() const
 
 	for (const auto& [theKey, theValue] : *this)
 	{
+		NN_UNUSED(theValue);
 		theKeys.emplace_back(theKey);
 	}
 
