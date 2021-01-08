@@ -43,6 +43,10 @@
 #include "NDataDigest.h"
 #include "NTestFixture.h"
 
+// System
+#include <map>
+#include <unordered_map>
+
 
 
 
@@ -62,6 +66,23 @@ static const NData kData3;
 
 
 //=============================================================================
+//		Structures
+//-----------------------------------------------------------------------------
+struct TestStructure
+{
+	uint64_t valueA;
+	uint64_t valueB;
+};
+
+NBYTES_STD_EQUAL_TO(TestStructure);
+NBYTES_STD_HASH(TestStructure);
+NBYTES_STD_LESS(TestStructure);
+
+
+
+
+
+//=============================================================================
 //		Test fixture
 //-----------------------------------------------------------------------------
 NANO_FIXTURE(TDataDigest){};
@@ -75,8 +96,6 @@ NANO_FIXTURE(TDataDigest){};
 //-----------------------------------------------------------------------------
 NANO_TEST(TDataDigest, "Internet")
 {
-
-
 	// Perform the test
 	REQUIRE(NDataDigest::GetInternet(kData1) == 0x8866);
 	REQUIRE(NDataDigest::GetInternet(kData2) == 0xf9f6);
@@ -257,4 +276,25 @@ NANO_TEST(TDataDigest, "NDigestX")
 	REQUIRE(theDigest > otherDigest);
 	REQUIRE(theDigest == theDigest);
 	REQUIRE(theDigest != otherDigest);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TDataDigest, "NBYTES_STD")
+{
+
+
+	// Perform the test
+	TestStructure theValue{};
+
+	std::unordered_map<TestStructure, bool> testA;
+	std::map<TestStructure, bool>           testB;
+
+	testA[theValue] = true;
+	testB[theValue] = true;
 }

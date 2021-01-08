@@ -61,6 +61,84 @@ static constexpr size_t kNHashNone                          = 0;
 
 
 //=============================================================================
+//		Macros
+//-----------------------------------------------------------------------------
+// STL specialisations
+//
+// Specialisations of std::equal_to, std::hash, and std::less to allow
+// NMixinHashable to be used as keys in STL associative containers.
+#define NHASHABLE_STD_EQUAL_TO(T)                                   \
+	namespace std                                                   \
+	{                                                               \
+	template<>                                                      \
+	struct equal_to<T>                                              \
+	{                                                               \
+		size_t operator()(const T& objectA, const T& objectB) const \
+		{                                                           \
+			size_t hashA = objectA.GetHash();                       \
+			size_t hashB = objectB.GetHash();                       \
+																	\
+			/* Compare the hashes */                                \
+			if (hashA != hashB)                                     \
+			{                                                       \
+				return false;                                       \
+			}                                                       \
+																	\
+			/* Compare the objects */                               \
+			return objectA == objectB;                              \
+		}                                                           \
+	};                                                              \
+	}                                                               \
+																	\
+	static_assert(true)
+
+
+#define NHASHABLE_STD_HASH(T)                               \
+	namespace std                                           \
+	{                                                       \
+	template<>                                              \
+	struct hash<T>                                          \
+	{                                                       \
+		size_t operator()(const T& theObject) const         \
+		{                                                   \
+			return theObject.GetHash();                     \
+		}                                                   \
+	};                                                      \
+	}                                                       \
+															\
+	static_assert(true)
+
+
+#define NHASHABLE_STD_LESS(T)                                       \
+	namespace std                                                   \
+	{                                                               \
+	template<>                                                      \
+	struct less<T>                                                  \
+	{                                                               \
+		size_t operator()(const T& objectA, const T& objectB) const \
+		{                                                           \
+			size_t hashA = objectA.GetHash();                       \
+			size_t hashB = objectB.GetHash();                       \
+																	\
+			/* Compare the hashes */                                \
+			if (hashA != hashB)                                     \
+			{                                                       \
+				return hashA < hashB;                               \
+			}                                                       \
+																	\
+			/* Compare the objects */                               \
+			return objectA < objectB;                               \
+		}                                                           \
+	};                                                              \
+	}                                                               \
+																	\
+	static_assert(true)
+
+
+
+
+
+//=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
 template<class T>

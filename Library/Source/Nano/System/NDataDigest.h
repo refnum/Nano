@@ -55,7 +55,7 @@
 //-----------------------------------------------------------------------------
 // Data digest
 //
-// Simple fixed-size data digest.
+// Fixed-size data digest.
 template<size_t N>
 class NN_EMPTY_BASE NDigestX final : public NMixinComparable<NDigestX<N>>
 {
@@ -111,9 +111,10 @@ private:
 //
 // Defines an 'NDigestX' for a specific size of X.
 //
-// Also provides a std::hash specialization for each NDigestX to allow the
-// digest to be used as a key for std::unordered_map. We assume the hash
-// is uniformly distributed so we can just take a size_t-sized chunk.
+// Also provides a std::hash specialisastion allowing an NDigestX to be used
+// as a key for std::unordered_map.
+//
+// We assume hashes are uniformly distributed so use the first size_t bytes.
 #define NDIGEST(_size)                                                  \
 																		\
 	using NDigest##_size = NDigestX<_size>;                             \
@@ -125,7 +126,6 @@ private:
 	{                                                                   \
 		size_t operator()(const NDigest##_size& theDigest) const        \
 		{                                                               \
-			/* For std::unordered_map */                                \
 			static_assert(sizeof(size_t) < (_size / 8),                 \
 						  "NDigest" #_size " didn't fill std::hash");   \
 																		\
@@ -136,6 +136,63 @@ private:
 		}                                                               \
 	};                                                                  \
 	}
+
+
+// STL specialisations
+//
+// Specialisations of std::equal_to, std::hash, and std::less to allow
+// arbitrary structs to be used as keys in STL associative containers.
+//
+// As byte-based comparisons are only valid in the absence of padding
+// bytes we assert that these are entirely absent.
+#define NBYTES_STD_EQUAL_TO(T)                                      \
+	namespace std                                                   \
+	{                                                               \
+	template<>                                                      \
+	struct equal_to<T>                                              \
+	{                                                               \
+		size_t operator()(const T& valueA, const T& valueB) const   \
+		{                                                           \
+			return memcmp(&valueA, &valueB, sizeof(T)) == 0;        \
+		}                                                           \
+	};                                                              \
+	}                                                               \
+																	\
+										static_assert(std::has_unique_object_representations_v<T>,      \
+				  #T " cannot be compared as raw bytes")
+
+#define NBYTES_STD_HASH(T)                                                  \
+	namespace std                                                           \
+	{                                                                       \
+	template<>                                                              \
+	struct hash<T>                                                          \
+	{                                                                       \
+		size_t operator()(const T& theValue) const                          \
+		{                                                                   \
+			return NDataDigest::GetRuntime(sizeof(theValue), &theValue);    \
+		}                                                                   \
+	};                                                                      \
+	}                                                                       \
+																			\
+										static_assert(std::has_unique_object_representations_v<T>,              \
+				  #T " cannot be compared as raw bytes")
+
+
+#define NBYTES_STD_LESS(T)                                          \
+	namespace std                                                   \
+	{                                                               \
+	template<>                                                      \
+	struct less<T>                                                  \
+	{                                                               \
+		size_t operator()(const T& valueA, const T& valueB) const   \
+		{                                                           \
+			return memcmp(&valueA, &valueB, sizeof(T)) < 0;         \
+		}                                                           \
+	};                                                              \
+	}                                                               \
+																	\
+										static_assert(std::has_unique_object_representations_v<T>,      \
+				  #T " cannot be compared as raw bytes")
 
 
 
