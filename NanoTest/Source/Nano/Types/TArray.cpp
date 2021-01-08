@@ -193,6 +193,63 @@ NANO_TEST(TArray, "HasValue")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TArray, "RemoveValue")
+{
+
+
+	// Perform the test
+	theArray = std::vector{1, 2, 3, 4, 5};
+
+	theArray.RemoveValue(1);
+	REQUIRE(theArray == NArray(std::vector{1, 3, 4, 5}));
+
+	theArray.RemoveValue(3);
+	REQUIRE(theArray == NArray(std::vector{1, 3, 4}));
+
+	theArray.RemoveValue(0);
+	REQUIRE(theArray == NArray(std::vector{3, 4}));
+
+	theArray.RemoveValue(1);
+	REQUIRE(theArray == NArray(std::vector{3}));
+
+	theArray.RemoveValue(0);
+	REQUIRE(theArray.IsEmpty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TArray, "RemoveValues")
+{
+
+
+	// Perform the test
+	theArray = std::vector{1, 2, 3, 4, 5};
+
+	theArray.RemoveValues(NRange(1, 2));
+	REQUIRE(theArray == NArray(std::vector{1, 4, 5}));
+
+	theArray.RemoveValues(NRange(0, 0));
+	REQUIRE(theArray == NArray(std::vector{1, 4, 5}));
+
+	theArray.RemoveValues(NRange(0, 1));
+	REQUIRE(theArray == NArray(std::vector{4, 5}));
+
+	theArray.RemoveValues(NRange(0, 2));
+	REQUIRE(theArray.IsEmpty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TArray, "Get")
 {
 

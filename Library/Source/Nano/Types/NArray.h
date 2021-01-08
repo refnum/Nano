@@ -59,6 +59,7 @@
 //-----------------------------------------------------------------------------
 // Forward declaration
 class NData;
+class NRange;
 class NString;
 class NTime;
 
@@ -91,6 +92,11 @@ public:
 
 	// Is a value present?
 	bool                                HasValue(const NAny& theValue) const;
+
+
+	// Remove a value
+	void                                RemoveValue(size_t theIndex);
+	void                                RemoveValues(const NRange& theRange);
 
 
 	// Get a value

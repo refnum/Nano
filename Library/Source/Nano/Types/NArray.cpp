@@ -44,6 +44,7 @@
 // Nano
 #include "NData.h"
 #include "NNumber.h"
+#include "NRange.h"
 #include "NStdAlgorithm.h"
 #include "NString.h"
 #include "NTime.h"
@@ -53,7 +54,7 @@
 
 
 //=============================================================================
-//		NArray::HasValue : Does a value exist?
+//		NArray::HasValue : Is a value present?
 //-----------------------------------------------------------------------------
 bool NArray::HasValue(const NAny& theValue) const
 {
@@ -61,6 +62,45 @@ bool NArray::HasValue(const NAny& theValue) const
 
 	// Check the value
 	return nstd::contains(*this, theValue);
+}
+
+
+
+
+
+//=============================================================================
+//		NArray::RemoveValue : Remove a value.
+//-----------------------------------------------------------------------------
+void NArray::RemoveValue(size_t theIndex)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theIndex < GetSize());
+
+
+
+	// Remove the value
+	nstd::erase(*this, theIndex, 1);
+}
+
+
+
+
+
+//=============================================================================
+//		NArray::RemoveValues : Remove values.
+//-----------------------------------------------------------------------------
+void NArray::RemoveValues(const NRange& theRange)
+{
+
+
+	// Remove the values
+	NRange finalRange = theRange.GetNormalized(GetSize());
+	NN_REQUIRE(finalRange.GetFirst() < GetSize());
+	NN_REQUIRE(finalRange.GetLast() < GetSize());
+
+	nstd::erase(*this, finalRange.GetFirst(), finalRange.GetSize());
 }
 
 
