@@ -570,7 +570,7 @@ void NNumber::SetBool(bool theValue)
 
 
 	// Set the value
-	mValue = uint64_t(theValue ? 1 : 0);
+	mValue = uint64_t(theValue);
 }
 
 
@@ -739,7 +739,7 @@ bool NNumber::SetValue(const NAny& theValue)
 
 	if (theValue.HasBool())
 	{
-		SetUInt8(theValue.GetBool() ? 1 : 0);
+		SetUInt8(uint8_t(theValue.GetBool()));
 	}
 	else if (theValue.HasUInt8())
 	{
