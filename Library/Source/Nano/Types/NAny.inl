@@ -50,14 +50,14 @@
 //		NAny::NAny : Constructor.
 //-----------------------------------------------------------------------------
 inline NAny::NAny(const NAny& theValue)
-	: any(*(reinterpret_cast<const std::any*>(&theValue)))
+	: any(*(static_cast<const std::any*>(&theValue)))
 {
 }
 //=============================================================================
 //		NAny::NAny : Constructor.
 //-----------------------------------------------------------------------------
 inline NAny::NAny(NAny&& theValue)
-	: any(*(reinterpret_cast<const std::any*>(&theValue)))
+	: any(*(static_cast<const std::any*>(&theValue)))
 {
 }
 
@@ -83,7 +83,7 @@ NAny::NAny(T&& theValue)
 //-----------------------------------------------------------------------------
 inline NAny& NAny::operator=(const NAny& theValue)
 {
-	any::operator=(*(reinterpret_cast<const std::any*>(&theValue)));
+	any::operator=(*(static_cast<const std::any*>(&theValue)));
 	return *this;
 }
 
@@ -96,7 +96,7 @@ inline NAny& NAny::operator=(const NAny& theValue)
 //-----------------------------------------------------------------------------
 inline NAny& NAny::operator=(NAny&& theValue)
 {
-	any::operator=(*(reinterpret_cast<const std::any*>(&theValue)));
+	any::operator=(*(static_cast<const std::any*>(&theValue)));
 	return *this;
 }
 
