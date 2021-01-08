@@ -85,6 +85,11 @@ static constexpr uint8_t kNStringSmallSizeMaxUTF16          = 12;
 #endif
 
 
+// STL specialisations
+NHASHABLE_STD_EQUAL_TO(NString);
+NHASHABLE_STD_HASH(NString);
+
+
 
 
 
