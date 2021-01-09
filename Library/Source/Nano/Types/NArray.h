@@ -79,6 +79,9 @@ public:
 	template<typename T>
 										NArray(const std::vector<T>& theValues);
 
+	template<typename T>
+										NArray(std::initializer_list<T> theValues);
+
 										NArray() = default;
 
 

@@ -63,6 +63,27 @@ NArray::NArray(const std::vector<T>& theValues)
 
 
 //=============================================================================
+//		NArray::NArray : Constructor.
+//-----------------------------------------------------------------------------
+template<typename T>
+NArray::NArray(std::initializer_list<T> theValues)
+{
+
+
+	// Initialise ourselves
+	reserve(theValues.size());
+
+	for (const auto& theValue : theValues)
+	{
+		emplace_back(theValue);
+	}
+}
+
+
+
+
+
+//=============================================================================
 //		NArray::Clear : Clear the array.
 //-----------------------------------------------------------------------------
 inline void NArray::Clear()
