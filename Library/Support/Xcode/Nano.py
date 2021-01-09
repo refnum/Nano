@@ -48,6 +48,7 @@ import datetime
 import lldb
 import math
 import os
+import re
 import struct
 import sys
 
@@ -140,6 +141,14 @@ NAnyTypes = {
 	"6NArray"			: "*((NArray		*) &this->__s.__buf)",
 	"7NNumber"			: "*((NNumber		*) &this->__s.__buf)"
 }
+
+
+NNumberTypes = {
+	"unsigned long long"	: "uint64_t",
+	"long long"				: "int64_t",
+	"double"				: "float64_t"
+}
+
 
 
 # Inscrutable objects
@@ -486,6 +495,33 @@ def NRange_Show(theRange, theInfo):
 
 
 #==============================================================================
+#		NNumber_Show : Show an NNumber.
+#------------------------------------------------------------------------------
+def NNumber_Show(theNumber, theInfo):
+
+	try:
+		theInfo  = str(theNumber.GetValueForExpressionPath("->mValue"));
+		theMatch = re.search("Active Type = (.*?)\s+{.*__value = (.*?)\)", theInfo, re.DOTALL)
+
+		theType  = theMatch.group(1);
+		theValue = theMatch.group(2);
+
+
+		theType = NNumberTypes.get(theType);
+		
+		if (theType == "float64_t"):
+			theValue = str(struct.unpack("d", struct.pack("Q", int(theValue)))[0]);
+
+		return theValue + " (" + theType + ")";
+
+	except:
+		return kInscrutable
+
+
+
+
+
+#==============================================================================
 #		NString_Show : Show an NString.
 #------------------------------------------------------------------------------
 def NString_Show(theString, theInfo):
@@ -600,6 +636,7 @@ def loadNano(theDebugger):
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NFileHandle_Show    NFileHandle')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NFileInfo_Show      NFileInfo')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NFilePath_Show      NFilePath')
+	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NNumber_Show        NNumber')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NRange_Show         NRange')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NString_Show        NString')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NThreadID_Show      NThreadID')
