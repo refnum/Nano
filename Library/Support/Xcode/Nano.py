@@ -270,8 +270,8 @@ def getText(theBytes, theEncoding):
 #------------------------------------------------------------------------------
 def SBData_GetBytes(sbData, theOffset, theSize):
 
-	sbErr    = lldb.SBError()
-	theBytes = sbData.ReadRawData(sbErr, theOffset, theSize)
+	theErr   = lldb.SBError()
+	theBytes = sbData.ReadRawData(theErr, theOffset, theSize)
 
 	return theBytes
 
@@ -484,6 +484,19 @@ def NString_Show(theString, theInfo):
 
 
 #==============================================================================
+#		NThreadID_Show : Show an NThreadID.
+#------------------------------------------------------------------------------
+def NThreadID_Show(threadID, theInfo):
+
+	theID = getMemberUInt(threadID, "mValue")
+	
+	return hex(theID)
+
+
+
+
+
+#==============================================================================
 #		NTime_Show : Show an NTime.
 #------------------------------------------------------------------------------
 def NTime_Show(theTime, theInfo):
@@ -504,19 +517,6 @@ def NTime_Show(theTime, theInfo):
 
 
 #==============================================================================
-#		NThreadID_Show : Show an NThreadID.
-#------------------------------------------------------------------------------
-def NThreadID_Show(theTime, theInfo):
-
-	theID = getMemberUInt(theTime, "mValue")
-	
-	return hex(theID)
-
-
-
-
-
-#==============================================================================
 #		loadNano : Load the Nano summarisers.
 #------------------------------------------------------------------------------
 def loadNano(theDebugger):
@@ -528,8 +528,8 @@ def loadNano(theDebugger):
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NFilePath_Show      NFilePath')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NRange_Show         NRange')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NString_Show        NString')
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NTime_Show          NTime')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NThreadID_Show      NThreadID')
+	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NTime_Show          NTime')
 	theDebugger.HandleCommand('type category enable Nano')
 
 
