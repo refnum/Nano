@@ -114,6 +114,34 @@ NStringEncodings = {
 }
 
 
+NAnyTypes = {
+	# Stored at 8-byte __ptr field
+	"5NData"			: "*((NData			*) this->__s.__ptr)",
+	"7NString"			: "*((NString		*) this->__s.__ptr)",
+	"11NDictionary"		: "*((NDictionary	*) this->__s.__ptr)",
+
+
+	# Stored in 8-byte __ptr field
+	"b"					: "*((bool			*) &this->__s.__ptr)",
+	"h"					: "*((uint8_t		*) &this->__s.__ptr)",
+	"t"					: "*((uint16_t		*) &this->__s.__ptr)",
+	"j"					: "*((uint32_t		*) &this->__s.__ptr)",
+	"y"					: "*((uint64_t		*) &this->__s.__ptr)",
+	"a"					: "*((int8_t		*) &this->__s.__ptr)",
+	"s"					: "*((int16_t		*) &this->__s.__ptr)",
+	"i"					: "*((int32_t		*) &this->__s.__ptr)",
+	"x"					: "*((int64_t		*) &this->__s.__ptr)",
+	"f"					: "*((float32_t		*) &this->__s.__ptr)",
+	"d"					: "*((float64_t		*) &this->__s.__ptr)",
+
+
+	# Stored in 24-byte __buf field
+	"5NTime"			: "*((NTime			*) &this->__s.__buf)",
+	"6NArray"			: "*((NArray		*) &this->__s.__buf)",
+	"7NNumber"			: "*((NNumber		*) &this->__s.__buf)"
+}
+
+
 # Inscrutable objects
 #
 # lldb will invoke summariser views on objects that are in scope but are
@@ -219,6 +247,23 @@ def getMemory(thePtr, theOffset, theSize):
 
 
 #==============================================================================
+#		getCString : Get a C string from an address.
+#------------------------------------------------------------------------------
+def getCString(thePtr, maxSize=128):
+
+	theErr     = lldb.SBError()
+	theProcess = thePtr.GetProcess()
+
+	theAddresss = thePtr.GetValueAsUnsigned()
+	theString   = theProcess.ReadCStringFromMemory(theAddresss, maxSize, theErr)
+	
+	return theString
+
+
+
+
+
+#==============================================================================
 #		getFileAccessName : Get the name of a file access mode.
 #------------------------------------------------------------------------------
 def getFileAccessName(theAccess):
@@ -298,6 +343,34 @@ def NData_GetBytes(theData):
 		theBytes = bytes(getPathData(theData, "->mData.Small.theData").uint8s[0:theSize])
 
 	return theBytes
+
+
+
+
+
+#==============================================================================
+#		NAny_Show : Show an NAny.
+#------------------------------------------------------------------------------
+def NAny_Show(theObject, theInfo):
+
+	try:
+		valueTypeID     = getCString(theObject.EvaluateExpression("this->type().name()"))
+		valueExpression = NAnyTypes.get(valueTypeID)
+
+		if (valueTypeID == 'v'):
+			theValue = "none";
+
+		elif (valueExpression == None):
+			theValue = "<unknown type '" + valueTypeID + "'>"
+
+		else:
+			theValue = theObject.EvaluateExpression(valueExpression)
+
+		return theValue
+
+
+	except:
+		return kInscrutable
 
 
 
@@ -521,6 +594,7 @@ def NTime_Show(theTime, theInfo):
 #------------------------------------------------------------------------------
 def loadNano(theDebugger):
 
+	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NAny_Show           NAny')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NData_Show          NData')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NFile_Show          NFile')
 	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NFileHandle_Show    NFileHandle')
