@@ -285,9 +285,9 @@ NData NArray::GetData(size_t theIndex) const
 	// Get the value
 	const auto& theValue = at(theIndex);
 
-	if (theValue.Has<NData>())
+	if (theValue.HasData())
 	{
-		return theValue.Get<NData>();
+		return theValue.GetData();
 	}
 
 	NN_LOG_WARNING("Unable to convert [{}] to NData", theIndex);
@@ -313,9 +313,9 @@ NString NArray::GetString(size_t theIndex) const
 	// Get the value
 	const auto& theValue = at(theIndex);
 
-	if (theValue.Has<NString>())
+	if (theValue.HasString())
 	{
-		return theValue.Get<NString>();
+		return theValue.GetString();
 	}
 
 	NN_LOG_WARNING("Unable to convert [{}] to NString", theIndex);
@@ -341,9 +341,9 @@ NTime NArray::GetTime(size_t theIndex) const
 	// Get the value
 	const auto& theValue = at(theIndex);
 
-	if (theValue.Has<NTime>())
+	if (theValue.HasTime())
 	{
-		return theValue.Get<NTime>();
+		return theValue.GetTime();
 	}
 
 	NN_LOG_WARNING("Unable to convert [{}] to NTime", theIndex);

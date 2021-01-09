@@ -345,6 +345,51 @@ inline bool NAny::HasFloat64() const
 
 
 //=============================================================================
+//		NAny::HasData : Do we have an NData?
+//-----------------------------------------------------------------------------
+inline bool NAny::HasData() const
+{
+
+
+	// Check the type
+	return Has<NData>();
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::HasString : Do we have an NString?
+//-----------------------------------------------------------------------------
+inline bool NAny::HasString() const
+{
+
+
+	// Check the type
+	return Has<NString>();
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::HasTime : Do we have an NTime?
+//-----------------------------------------------------------------------------
+inline bool NAny::HasTime() const
+{
+
+
+	// Check the type
+	return Has<NTime>();
+}
+
+
+
+
+
+//=============================================================================
 //		NAny::Get : Get the specified type.
 //-----------------------------------------------------------------------------
 template<typename T>
@@ -516,7 +561,7 @@ inline float32_t NAny::GetFloat32() const
 
 
 //=============================================================================
-//		NAny::GetFloat : Get a float64_t.
+//		NAny::GetFloat64 : Get a float64_t.
 //-----------------------------------------------------------------------------
 inline float64_t NAny::GetFloat64() const
 {
@@ -524,4 +569,49 @@ inline float64_t NAny::GetFloat64() const
 
 	// Get the value
 	return Get<float64_t>();
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::GetData : Get an NData.
+//-----------------------------------------------------------------------------
+inline NData NAny::GetData() const
+{
+
+
+	// Get the value
+	return Get<NData>();
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::GetString : Get an NString.
+//-----------------------------------------------------------------------------
+inline NString NAny::GetString() const
+{
+
+
+	// Get the value
+	return Get<NString>();
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::GetTime : Get an NTime.
+//-----------------------------------------------------------------------------
+inline NTime NAny::GetTime() const
+{
+
+
+	// Get the value
+	return Get<NTime>();
 }

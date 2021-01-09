@@ -361,9 +361,9 @@ NData NDictionary::GetData(const NString& theKey) const
 	{
 		const auto& theValue = theIter->second;
 
-		if (theValue.Has<NData>())
+		if (theValue.HasData())
 		{
-			return theValue.Get<NData>();
+			return theValue.GetData();
 		}
 	}
 
@@ -425,9 +425,9 @@ NString NDictionary::GetString(const NString& theKey) const
 	{
 		const auto& theValue = theIter->second;
 
-		if (theValue.Has<NString>())
+		if (theValue.HasString())
 		{
-			return theValue.Get<NString>();
+			return theValue.GetString();
 		}
 	}
 
@@ -457,9 +457,9 @@ NTime NDictionary::GetTime(const NString& theKey) const
 	{
 		const auto& theValue = theIter->second;
 
-		if (theValue.Has<NTime>())
+		if (theValue.HasTime())
 		{
-			return theValue.Get<NTime>();
+			return theValue.GetTime();
 		}
 	}
 

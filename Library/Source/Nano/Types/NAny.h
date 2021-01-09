@@ -42,7 +42,10 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NData.h"
 #include "NMixinComparable.h"
+#include "NString.h"
+#include "NTime.h"
 
 // System
 #include <any>
@@ -107,6 +110,10 @@ public:
 	bool                                HasFloat32() const;
 	bool                                HasFloat64() const;
 
+	bool                                HasData()   const;
+	bool                                HasString() const;
+	bool                                HasTime()   const;
+
 
 	// Get the value
 	//
@@ -125,6 +132,10 @@ public:
 	int64_t                             GetInt64()   const;
 	float32_t                           GetFloat32() const;
 	float64_t                           GetFloat64() const;
+
+	NData                               GetData()   const;
+	NString                             GetString() const;
+	NTime                               GetTime()   const;
 
 
 public:

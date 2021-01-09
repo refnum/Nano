@@ -49,9 +49,14 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
+static const uint8_t kTestBytes[]{0xA1, 0xB1, 0xC1, 0xD1, 0xA2, 0xB2, 0xC2, 0xD2};
+
 static constexpr uint32_t  kTestUInt32                      = 123;
 static constexpr int64_t   kTestInt64                       = -123;
 static constexpr float32_t kTestFloat32                     = 123.5;
+static const NData         kTestData(sizeof(kTestBytes), kTestBytes);
+static const NString       kTestString("Testing");
+static constexpr NTime     kTestTime(100);
 
 
 
@@ -235,6 +240,21 @@ NANO_TEST(TAny, "Has")
 	REQUIRE(!theValue.HasInt64());
 	REQUIRE(theValue.HasFloat32());
 	REQUIRE(!theValue.HasFloat64());
+
+	theValue = kTestData;
+	REQUIRE(theValue.HasData());
+	REQUIRE(!theValue.HasString());
+	REQUIRE(!theValue.HasTime());
+
+	theValue = kTestString;
+	REQUIRE(!theValue.HasData());
+	REQUIRE(theValue.HasString());
+	REQUIRE(!theValue.HasTime());
+
+	theValue = kTestTime;
+	REQUIRE(!theValue.HasData());
+	REQUIRE(!theValue.HasString());
+	REQUIRE(theValue.HasTime());
 }
 
 
@@ -257,6 +277,15 @@ NANO_TEST(TAny, "Get")
 
 	theValue = kTestFloat32;
 	REQUIRE(theValue.GetFloat32() == kTestFloat32);
+
+	theValue = kTestData;
+	REQUIRE(theValue.GetData() == kTestData);
+
+	theValue = kTestString;
+	REQUIRE(theValue.GetString() == kTestString);
+
+	theValue = kTestTime;
+	REQUIRE(theValue.GetTime() == kTestTime);
 }
 
 
