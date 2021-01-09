@@ -42,6 +42,7 @@
 #include "NDictionary.h"
 
 // Nano
+#include "NArray.h"
 #include "NData.h"
 #include "NFormat.h"
 #include "NNumber.h"
@@ -337,6 +338,38 @@ float64_t NDictionary::GetFloat64(const NString& theKey) const
 	}
 
 	return theResult.GetFloat64();
+}
+
+
+
+
+
+//=============================================================================
+//		NDictionary::GetArray : Get an NArray value.
+//-----------------------------------------------------------------------------
+NArray NDictionary::GetArray(const NString& theKey) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theKey.IsEmpty());
+
+
+
+	// Get the value
+	auto theIter = find(theKey);
+	if (theIter != end())
+	{
+		const auto& theValue = theIter->second;
+
+		if (theValue.Has<NArray>())
+		{
+			return theValue.Get<NArray>();
+		}
+	}
+
+	NN_LOG_WARNING("Unable to convert [{}] to NArray", theKey);
+	return {};
 }
 
 

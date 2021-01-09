@@ -59,6 +59,7 @@
 //-----------------------------------------------------------------------------
 // Forward declaration
 class NData;
+class NDictionary;
 class NRange;
 class NString;
 class NTime;
@@ -111,14 +112,16 @@ public:
 	float32_t                           GetFloat32(size_t theIndex) const;
 	float64_t                           GetFloat64(size_t theIndex) const;
 
-	NArray                              GetArray( size_t theIndex) const;
-	NData                               GetData(  size_t theIndex) const;
-	NString                             GetString(size_t theIndex) const;
-	NTime                               GetTime(  size_t theIndex) const;
+	NArray                              GetArray(     size_t theIndex) const;
+	NData                               GetData(      size_t theIndex) const;
+	NDictionary                         GetDictionary(size_t theIndex) const;
+	NString                             GetString(    size_t theIndex) const;
+	NTime                               GetTime(      size_t theIndex) const;
 
 
 	// Get / set a vector
 	//
+	// The array must only contain values of the specified type.
 	template<typename T>
 	std::vector<T>                      GetVector() const;
 

@@ -39,6 +39,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NArray.h"
 #include "NData.h"
 #include "NDictionary.h"
 #include "NStdAlgorithm.h"
@@ -66,6 +67,7 @@ static constexpr int32_t   kTestInt32                       = 32;
 static constexpr int64_t   kTestInt64                       = 65;
 static constexpr float32_t kTestFloat32                     = 32.5f;
 static constexpr float64_t kTestFloat64                     = 64.5;
+static const NArray        kTestArray({1, 2, 3});
 static const NData         kTestData(sizeof(kTestBytes), kTestBytes);
 static const NString       kTestString("Testing");
 static constexpr NTime     kTestTime(100);
@@ -277,17 +279,19 @@ NANO_TEST(TDictionary, "Get")
 	theDictionary["Int64"]   = kTestInt64;
 	theDictionary["Float32"] = kTestFloat32;
 	theDictionary["Float64"] = kTestFloat64;
+	theDictionary["Array"]   = kTestArray;
 	theDictionary["Data"]    = kTestData;
 	theDictionary["String"]  = kTestString;
 	theDictionary["Time"]    = kTestTime;
 
 
-	REQUIRE(theDictionary.GetSize() == 8);
+	REQUIRE(theDictionary.GetSize() == 9);
 	REQUIRE(theDictionary["Bool"] == kTestBool);
 	REQUIRE(theDictionary["Int32"] == kTestInt32);
 	REQUIRE(theDictionary["Int64"] == kTestInt64);
 	REQUIRE(theDictionary["Float32"] == kTestFloat32);
 	REQUIRE(theDictionary["Float64"] == kTestFloat64);
+	REQUIRE(theDictionary["Array"] == kTestArray);
 	REQUIRE(theDictionary["Data"] == kTestData);
 	REQUIRE(theDictionary["String"] == kTestString);
 	REQUIRE(theDictionary["Time"] == kTestTime);
@@ -299,7 +303,7 @@ NANO_TEST(TDictionary, "Get")
 	theDictionary["DictionaryA"] = dictionaryA;
 	theDictionary["DictionaryB"] = dictionaryB;
 
-	REQUIRE(theDictionary.GetSize() == 10);
+	REQUIRE(theDictionary.GetSize() == 11);
 	REQUIRE(theDictionary["DictionaryA"] == dictionaryA);
 	REQUIRE(theDictionary["DictionaryB"] == dictionaryB);
 }

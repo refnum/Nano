@@ -41,6 +41,7 @@
 //-----------------------------------------------------------------------------
 #include "NArray.h"
 #include "NData.h"
+#include "NDictionary.h"
 #include "NStdAlgorithm.h"
 #include "NString.h"
 #include "NTestFixture.h"
@@ -231,13 +232,13 @@ NANO_TEST(TArray, "RemoveValues")
 	theArray = std::vector{1, 2, 3, 4, 5};
 
 	theArray.RemoveValues(NRange(1, 2));
-	REQUIRE(theArray == NArray(std::vector{1, 4, 5}));
+	REQUIRE(theArray == NArray({1, 4, 5}));
 
 	theArray.RemoveValues(NRange(0, 0));
-	REQUIRE(theArray == NArray(std::vector{1, 4, 5}));
+	REQUIRE(theArray == NArray({1, 4, 5}));
 
 	theArray.RemoveValues(NRange(0, 1));
-	REQUIRE(theArray == NArray(std::vector{4, 5}));
+	REQUIRE(theArray == NArray({4, 5}));
 
 	theArray.RemoveValues(NRange(0, 2));
 	REQUIRE(theArray.IsEmpty());
@@ -255,24 +256,32 @@ NANO_TEST(TArray, "Get")
 
 
 	// Perform the test
+	NDictionary theDictionary;
+
+	theDictionary["Bool"]  = kTestBool;
+	theDictionary["Int32"] = kTestInt32;
+	theDictionary["Int64"] = kTestInt64;
+
 	theArray.push_back(kTestBool);
 	theArray.push_back(kTestInt32);
 	theArray.push_back(kTestInt64);
 	theArray.push_back(kTestFloat32);
 	theArray.push_back(kTestFloat64);
 	theArray.push_back(kTestData);
+	theArray.push_back(theDictionary);
 	theArray.push_back(kTestString);
 	theArray.push_back(kTestTime);
 
-	REQUIRE(theArray.GetSize() == 8);
+	REQUIRE(theArray.GetSize() == 9);
 	REQUIRE(theArray.GetBool(0) == kTestBool);
 	REQUIRE(theArray.GetInt32(1) == kTestInt32);
 	REQUIRE(theArray.GetInt64(2) == kTestInt64);
 	REQUIRE(theArray.GetFloat32(3) == kTestFloat32);
 	REQUIRE(theArray.GetFloat64(4) == kTestFloat64);
 	REQUIRE(theArray.GetData(5) == kTestData);
-	REQUIRE(theArray.GetString(6) == kTestString);
-	REQUIRE(theArray.GetTime(7) == kTestTime);
+	REQUIRE(theArray.GetDictionary(6) == theDictionary);
+	REQUIRE(theArray.GetString(7) == kTestString);
+	REQUIRE(theArray.GetTime(8) == kTestTime);
 
 
 	NArray arrayA(theArray);
@@ -281,7 +290,7 @@ NANO_TEST(TArray, "Get")
 	theArray.push_back(arrayA);
 	theArray.push_back(arrayB);
 
-	REQUIRE(theArray.GetSize() == 10);
-	REQUIRE(theArray.GetArray(8) == arrayA);
-	REQUIRE(theArray.GetArray(9) == arrayB);
+	REQUIRE(theArray.GetSize() == 11);
+	REQUIRE(theArray.GetArray(9) == arrayA);
+	REQUIRE(theArray.GetArray(10) == arrayB);
 }

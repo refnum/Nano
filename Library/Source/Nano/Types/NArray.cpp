@@ -43,6 +43,7 @@
 
 // Nano
 #include "NData.h"
+#include "NDictionary.h"
 #include "NNumber.h"
 #include "NRange.h"
 #include "NStdAlgorithm.h"
@@ -291,6 +292,34 @@ NData NArray::GetData(size_t theIndex) const
 	}
 
 	NN_LOG_WARNING("Unable to convert [{}] to NData", theIndex);
+	return {};
+}
+
+
+
+
+
+//=============================================================================
+//		NArray::GetDictionary : Get an NDictionary value.
+//-----------------------------------------------------------------------------
+NDictionary NArray::GetDictionary(size_t theIndex) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theIndex < GetSize());
+
+
+
+	// Get the value
+	const auto& theValue = at(theIndex);
+
+	if (theValue.Has<NDictionary>())
+	{
+		return theValue.Get<NDictionary>();
+	}
+
+	NN_LOG_WARNING("Unable to convert [{}] to NDictionary", theIndex);
 	return {};
 }
 

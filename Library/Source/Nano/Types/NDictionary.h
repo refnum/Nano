@@ -58,6 +58,7 @@
 //		Types
 //-----------------------------------------------------------------------------
 // Forward declaration
+class NArray;
 class NData;
 class NTime;
 
@@ -110,6 +111,7 @@ public:
 	float32_t                           GetFloat32(const NString& theKey) const;
 	float64_t                           GetFloat64(const NString& theKey) const;
 
+	NArray                              GetArray(     const NString& theKey) const;
 	NData                               GetData(      const NString& theKey) const;
 	NDictionary                         GetDictionary(const NString& theKey) const;
 	NString                             GetString(    const NString& theKey) const;
