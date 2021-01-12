@@ -241,6 +241,30 @@ NANO_TEST(TDictionary, "GetKeys")
 }
 
 
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TDictionary, "GetValues")
+{
+
+
+	// Perform the test
+	NVectorAny theValues = theDictionary.GetValues();
+	REQUIRE(theValues.size() == theDictionary.GetSize());
+
+	nstd::sort(theValues);
+	REQUIRE(theValues[0] == kTestData);
+	REQUIRE(theValues[1] == kTestString);
+	REQUIRE(theValues[2] == kTestArray);
+	REQUIRE(theValues[3] == kTestTime);
+	REQUIRE(theValues[4] == kTestBool);
+	REQUIRE(theValues[5] == kTestInt32);
+	REQUIRE(theValues[6] == kTestFloat32);
+	REQUIRE(theValues[7] == kTestFloat64);
+	REQUIRE(theValues[8] == kTestInt64);
+}
+
+
 
 
 

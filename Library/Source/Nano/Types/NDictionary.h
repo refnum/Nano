@@ -92,8 +92,11 @@ public:
 	void                                RemoveKeys(const NVectorString& theKeys);
 
 
-	// Get the keys
+	// Get the keys / values
+	//
+	// Ordering is undefined, and may change on any mutation.
 	NVectorString                       GetKeys() const;
+	NVectorAny                       GetValues() const;
 
 
 	// Invert the dictionary

@@ -138,6 +138,25 @@ NVectorString NDictionary::GetKeys() const
 
 
 
+//=============================================================================
+//		NDictionary::GetValues : Get the values.
+//-----------------------------------------------------------------------------
+NVectorAny NDictionary::GetValues() const
+{
+
+
+	// Get the keys
+	NVectorAny theValues;
+
+	for (const auto& [theKey, theValue] : *this)
+	{
+		NN_UNUSED(theKey);
+		theValues.emplace_back(theValue);
+	}
+
+	return theValues;
+}
+
 
 
 //=============================================================================
