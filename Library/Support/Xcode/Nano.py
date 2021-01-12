@@ -422,6 +422,81 @@ def NData_Show(theData, theInfo):
 
 
 #==============================================================================
+#		NDictionary_Show : Show an NDictionary.
+#------------------------------------------------------------------------------
+class NDictionary_Show:
+	def __init__(self, theDictionary, theInfo):
+		self.theDictionary = theDictionary
+		self.keyValues     = None
+
+
+	def num_children(self):
+		self.UpdateKeyValues()
+
+		if (self.keyValues != None):
+			return len(self.keyValues)
+
+		return 0
+
+
+	def has_children(self):
+		return True
+
+
+	def get_child_index(self, theName):
+		for n in range(len(self.keyValues)):
+			childKey = self.keyValues[n]["key"]
+			if (childKey.GetSummary() == theName):
+				return n
+		
+		return None
+
+
+	def get_child_at_index(self, theIndex):
+		theInfo    = self.keyValues[theIndex]
+		childKey   = theInfo["key"]
+		childValue = theInfo["value"]
+
+		valueTypeID     = getCString(childValue.EvaluateExpression("this->type().name()"))
+		valueExpression = NAnyTypes.get(valueTypeID)
+
+		if (valueExpression == None):
+			return childValue
+
+		return childValue.EvaluateExpression(valueExpression, lldb.SBExpressionOptions(), str(childKey.GetSummary()))
+
+
+	def update(self):
+		self.UpdateKeyValues()
+		pass
+
+
+	def UpdateKeyValues(self):
+		if self.keyValues == None:
+
+			mapBuckets = self.theDictionary.GetValueForExpressionPath("->__table_.__bucket_list_.__ptr_")
+			thePointer = struct.unpack("Q", getMemory(mapBuckets.AddressOf(), 0, 8))[0]
+			isValid    = (thePointer != 0)
+
+			if (not isValid):
+				return
+
+			try:
+				self.keyValues = []
+				theKeys        = self.theDictionary.EvaluateExpression("this->GetKeys()")
+				theValues      = self.theDictionary.EvaluateExpression("this->GetValues()")
+
+				for n in range(theKeys.GetNumChildren()):
+					self.keyValues.append({ "key" : theKeys.GetChildAtIndex(n), "value" : theValues.GetChildAtIndex(n) })
+
+			except:
+				self.keyValues = None
+
+
+
+
+
+#==============================================================================
 #		NFile_Show : Show an NFile.
 #------------------------------------------------------------------------------
 def NFile_Show(theFile, theInfo):
@@ -630,17 +705,18 @@ def NTime_Show(theTime, theInfo):
 #------------------------------------------------------------------------------
 def loadNano(theDebugger):
 
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NAny_Show           NAny')
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NData_Show          NData')
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NFile_Show          NFile')
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NFileHandle_Show    NFileHandle')
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NFileInfo_Show      NFileInfo')
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NFilePath_Show      NFilePath')
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NNumber_Show        NNumber')
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NRange_Show         NRange')
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NString_Show        NString')
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NThreadID_Show      NThreadID')
-	theDebugger.HandleCommand('type summary add -w Nano -F Nano.NTime_Show          NTime')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NAny_Show           NAny')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NData_Show          NData')
+	theDebugger.HandleCommand('type synthetic add -w Nano -l Nano.NDictionary_Show    NDictionary')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NFile_Show          NFile')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NFileHandle_Show    NFileHandle')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NFileInfo_Show      NFileInfo')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NFilePath_Show      NFilePath')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NNumber_Show        NNumber')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NRange_Show         NRange')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NString_Show        NString')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NThreadID_Show      NThreadID')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NTime_Show          NTime')
 	theDebugger.HandleCommand('type category enable Nano')
 
 
