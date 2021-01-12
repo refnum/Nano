@@ -90,6 +90,7 @@ NANO_FIXTURE(TDictionary)
 		theDictionary["Int64"]   = kTestInt64;
 		theDictionary["Float32"] = kTestFloat32;
 		theDictionary["Float64"] = kTestFloat64;
+		theDictionary["Array"]    = kTestArray;
 		theDictionary["Data"]    = kTestData;
 		theDictionary["String"]  = kTestString;
 		theDictionary["Time"]    = kTestTime;
@@ -143,7 +144,7 @@ NANO_TEST(TDictionary, "GetSize")
 
 
 	// Perform the test
-	REQUIRE(theDictionary.GetSize() == 8);
+	REQUIRE(theDictionary.GetSize() == 9);
 }
 
 
@@ -179,14 +180,14 @@ NANO_TEST(TDictionary, "RemoveKey")
 	// Perform the test
 	REQUIRE(theDictionary.HasKey("Int32"));
 	REQUIRE(theDictionary.HasKey("Int64"));
-	REQUIRE(theDictionary.GetSize() == 8);
+	REQUIRE(theDictionary.GetSize() == 9);
 
 	theDictionary.RemoveKey("Int32");
 	theDictionary.RemoveKey("Int64");
 
 	REQUIRE(!theDictionary.HasKey("Int32"));
 	REQUIRE(!theDictionary.HasKey("Int64"));
-	REQUIRE(theDictionary.GetSize() == 6);
+	REQUIRE(theDictionary.GetSize() == 7);
 }
 
 
@@ -203,13 +204,13 @@ NANO_TEST(TDictionary, "RemoveKeys")
 	// Perform the test
 	REQUIRE(theDictionary.HasKey("Int32"));
 	REQUIRE(theDictionary.HasKey("Int64"));
-	REQUIRE(theDictionary.GetSize() == 8);
+	REQUIRE(theDictionary.GetSize() == 9);
 
 	theDictionary.RemoveKeys({"Int32", "Int64"});
 
 	REQUIRE(!theDictionary.HasKey("Int32"));
 	REQUIRE(!theDictionary.HasKey("Int64"));
-	REQUIRE(theDictionary.GetSize() == 6);
+	REQUIRE(theDictionary.GetSize() == 7);
 }
 
 
@@ -228,14 +229,15 @@ NANO_TEST(TDictionary, "GetKeys")
 	REQUIRE(theKeys.size() == theDictionary.GetSize());
 
 	nstd::sort(theKeys);
-	REQUIRE(theKeys[0] == "Bool");
-	REQUIRE(theKeys[1] == "Data");
-	REQUIRE(theKeys[2] == "Float32");
-	REQUIRE(theKeys[3] == "Float64");
-	REQUIRE(theKeys[4] == "Int32");
-	REQUIRE(theKeys[5] == "Int64");
-	REQUIRE(theKeys[6] == "String");
-	REQUIRE(theKeys[7] == "Time");
+	REQUIRE(theKeys[0] == "Array");
+	REQUIRE(theKeys[1] == "Bool");
+	REQUIRE(theKeys[2] == "Data");
+	REQUIRE(theKeys[3] == "Float32");
+	REQUIRE(theKeys[4] == "Float64");
+	REQUIRE(theKeys[5] == "Int32");
+	REQUIRE(theKeys[6] == "Int64");
+	REQUIRE(theKeys[7] == "String");
+	REQUIRE(theKeys[8] == "Time");
 }
 
 
