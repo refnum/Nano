@@ -878,6 +878,14 @@ NComparison NNumber::CompareOrder(const NNumber& theNumber) const
 		else
 		{
 			theResult = theNumber.CompareIntReal(*this);
+			if (theResult == NComparison::LessThan)
+			{
+				theResult = NComparison::GreaterThan;
+			}
+			else if (theResult == NComparison::GreaterThan)
+			{
+				theResult = NComparison::LessThan;
+			}
 		}
 	}
 

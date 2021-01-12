@@ -302,6 +302,8 @@ NANO_TEST(TAny, "Compare")
 	// Perform the test
 	NAny valueA = kTestUInt32;
 	NAny valueB = kTestFloat32;
+	REQUIRE(valueA < valueB);
+	REQUIRE(valueB > valueA);
 
 	theValue = valueA;
 	REQUIRE(theValue == valueA);
