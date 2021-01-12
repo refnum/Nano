@@ -274,17 +274,6 @@ NANO_TEST(TDictionary, "Get")
 
 
 	// Perform the test
-	theDictionary["Bool"]    = kTestBool;
-	theDictionary["Int32"]   = kTestInt32;
-	theDictionary["Int64"]   = kTestInt64;
-	theDictionary["Float32"] = kTestFloat32;
-	theDictionary["Float64"] = kTestFloat64;
-	theDictionary["Array"]   = kTestArray;
-	theDictionary["Data"]    = kTestData;
-	theDictionary["String"]  = kTestString;
-	theDictionary["Time"]    = kTestTime;
-
-
 	REQUIRE(theDictionary.GetSize() == 9);
 	REQUIRE(theDictionary["Bool"] == kTestBool);
 	REQUIRE(theDictionary["Int32"] == kTestInt32);
