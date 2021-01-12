@@ -175,7 +175,7 @@ kInscrutable												= u"\u2754"
 #------------------------------------------------------------------------------
 def getMemberUInt(theValue, theName):
 
-	return theValue.GetChildMemberWithName(theName).GetValueAsUnsigned(0)
+	return theValue.GetChildMemberWithName(theName).GetValueAsUnsigned()
 
 
 
@@ -208,7 +208,7 @@ def getPathValue(theValue, thePath):
 #------------------------------------------------------------------------------
 def getPathUInt(theValue, thePath):
 
-	return theValue.GetValueForExpressionPath(thePath).GetValueAsUnsigned(0)
+	return theValue.GetValueForExpressionPath(thePath).GetValueAsUnsigned()
 
 
 
@@ -367,7 +367,7 @@ def NAny_Show(theObject, theInfo):
 		valueExpression = NAnyTypes.get(valueTypeID)
 
 		if (valueTypeID == 'v'):
-			theValue = "none";
+			theValue = "none"
 
 		elif (valueExpression == None):
 			theValue = "<unknown type '" + valueTypeID + "'>"
@@ -500,19 +500,19 @@ def NRange_Show(theRange, theInfo):
 def NNumber_Show(theNumber, theInfo):
 
 	try:
-		theInfo  = str(theNumber.GetValueForExpressionPath("->mValue"));
+		theInfo  = str(theNumber.GetValueForExpressionPath("->mValue"))
 		theMatch = re.search("Active Type = (.*?)\s+{.*__value = (.*?)\)", theInfo, re.DOTALL)
 
-		theType  = theMatch.group(1);
-		theValue = theMatch.group(2);
+		theType  = theMatch.group(1)
+		theValue = theMatch.group(2)
 
 
-		theType = NNumberTypes.get(theType);
+		theType = NNumberTypes.get(theType)
 		
 		if (theType == "float64_t"):
-			theValue = str(struct.unpack("d", struct.pack("Q", int(theValue)))[0]);
+			theValue = str(struct.unpack("d", struct.pack("Q", int(theValue)))[0])
 
-		return theValue + " (" + theType + ")";
+		return theValue + " (" + theType + ")"
 
 	except:
 		return kInscrutable
