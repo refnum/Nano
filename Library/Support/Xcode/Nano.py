@@ -386,6 +386,86 @@ def NAny_Summary(theObject, theInfo):
 
 
 #==============================================================================
+#		NArray_Summary : NArray summary.
+#------------------------------------------------------------------------------
+def NArray_Summary(theObject, theInfo):
+
+	try:
+		return "size=" + str(theObject.GetNumChildren())
+
+	except:
+		return kInscrutable
+
+
+
+
+
+#==============================================================================
+#		NArray_Contents : NArray contents.
+#------------------------------------------------------------------------------
+class NArray_Contents:
+
+	def __init__(self, theArray, theInfo):
+		self.theArray = theArray
+
+
+	def num_children(self):
+		return self.numChildren
+
+
+	def has_children(self):
+		return True
+
+
+	def get_child_index(self, theName):
+		try:
+			return int(theName.lstrip('[').rstrip(']'))
+
+		except:
+			return -1
+
+
+	def get_child_at_index(self, theIndex):
+		if (theIndex < 0 or theIndex >= self.numChildren):
+			return None
+
+		try:
+			theOffset = theIndex * self.dataSize
+			return self.dataStart.CreateChildAtOffset('[' + str(theIndex) + ']', theOffset, self.dataType)
+
+		except:
+			return None
+
+
+	def update(self):
+		try:
+			theTarget = lldb.debugger.GetSelectedTarget()
+
+			self.numChildren = 0
+			self.dataType    = theTarget.FindTypes('NAny').GetTypeAtIndex(0);
+			self.dataSize    = self.dataType.GetByteSize()
+			self.dataStart   = self.theArray.GetChildMemberWithName('__begin_')
+			self.dataEnd     = self.theArray.GetChildMemberWithName('__end_')
+
+
+			ptrStart = self.dataStart.GetValueAsUnsigned()
+			ptrEnd   = self.dataEnd.GetValueAsUnsigned()
+
+			if ptrStart != 0 and ptrEnd != 0 and ptrStart < ptrEnd:
+				numBytes = ptrEnd - ptrStart
+
+				if ((numBytes % self.dataSize) == 0):
+					self.numChildren = int(numBytes / self.dataSize)
+
+		except:
+			self.dataType = None
+			pass
+
+
+
+
+
+#==============================================================================
 #		NData_Summary : NData summary.
 #------------------------------------------------------------------------------
 def NData_Summary(theData, theInfo):
@@ -715,6 +795,8 @@ def NTime_Summary(theTime, theInfo):
 def loadNano(theDebugger):
 
 	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NAny_Summary           NAny')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NArray_Summary         NArray')
+	theDebugger.HandleCommand('type synthetic add -w Nano -l Nano.NArray_Contents        NArray')
 	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NData_Summary          NData')
 	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NDictionary_Summary    NDictionary')
 	theDebugger.HandleCommand('type synthetic add -w Nano -l Nano.NDictionary_Contents   NDictionary')
