@@ -373,7 +373,8 @@ def NAny_Summary(theObject, theInfo):
 			theValue = "<unknown type '" + valueTypeID + "'>"
 
 		else:
-			theValue = theObject.EvaluateExpression(valueExpression)
+			theValue = str(theObject.EvaluateExpression(valueExpression))
+			theValue = re.sub(r"\) \$\d+ = ", ") ", theValue);
 
 		return theValue
 
