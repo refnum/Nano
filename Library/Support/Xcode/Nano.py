@@ -432,8 +432,6 @@ class NDictionary_Contents:
 
 
 	def num_children(self):
-		self.UpdateKeyValues()
-
 		if (self.keyValues != None):
 			return len(self.keyValues)
 
@@ -464,15 +462,10 @@ class NDictionary_Contents:
 		if (valueExpression == None):
 			return childValue
 
-		return childValue.EvaluateExpression(valueExpression, lldb.SBExpressionOptions(), str(childKey.GetSummary()))
+		return childValue.EvaluateExpression(valueExpression, lldb.SBExpressionOptions(), "[" + str(childKey.GetSummary() + "]"))
 
 
 	def update(self):
-		self.UpdateKeyValues()
-		pass
-
-
-	def UpdateKeyValues(self):
 		if self.keyValues == None:
 
 			mapBuckets = self.theDictionary.GetValueForExpressionPath("->__table_.__bucket_list_.__ptr_")
