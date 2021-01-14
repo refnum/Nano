@@ -156,7 +156,7 @@ NNumberTypes = {
 # lldb will invoke summariser views on objects that are in scope but are
 # yet to be initialised.
 #
-# Parsing these will typically produce an exception so our _Show methods
+# Parsing these will typically produce an exception so our summary methods
 # assume any exceptions are an attempt to display an inscrutable object.
 #
 #
@@ -232,7 +232,7 @@ def getPathNString(theValue, thePath):
 
 	theString = getPathValue(theValue, thePath)
 
-	return NString_Show(theString, None)
+	return NString_Summary(theString, None)
 
 
 
@@ -358,9 +358,9 @@ def NData_GetBytes(theData):
 
 
 #==============================================================================
-#		NAny_Show : Show an NAny.
+#		NAny_Summary : NAny summary.
 #------------------------------------------------------------------------------
-def NAny_Show(theObject, theInfo):
+def NAny_Summary(theObject, theInfo):
 
 	try:
 		valueTypeID     = getCString(theObject.EvaluateExpression("this->type().name()"))
@@ -377,7 +377,6 @@ def NAny_Show(theObject, theInfo):
 
 		return theValue
 
-
 	except:
 		return kInscrutable
 
@@ -386,9 +385,9 @@ def NAny_Show(theObject, theInfo):
 
 
 #==============================================================================
-#		NData_Show : Show an NData.
+#		NData_Summary : NData summary.
 #------------------------------------------------------------------------------
-def NData_Show(theData, theInfo):
+def NData_Summary(theData, theInfo):
 
 	try:
 		theFlags = getPathUInt(theData, "->mData.theFlags")
@@ -422,9 +421,10 @@ def NData_Show(theData, theInfo):
 
 
 #==============================================================================
-#		NDictionary_Show : Show an NDictionary.
+#		NDictionary_Contents : NDictionary content.
 #------------------------------------------------------------------------------
-class NDictionary_Show:
+class NDictionary_Contents:
+
 	def __init__(self, theDictionary, theInfo):
 		self.theDictionary = theDictionary
 		self.keyValues     = None
@@ -497,9 +497,9 @@ class NDictionary_Show:
 
 
 #==============================================================================
-#		NFile_Show : Show an NFile.
+#		NFile_Summary : NFile summary.
 #------------------------------------------------------------------------------
-def NFile_Show(theFile, theInfo):
+def NFile_Summary(theFile, theInfo):
 
 	thePath = getPathNString(theFile, "->mInfo.mPath.mPath")
 
@@ -510,9 +510,9 @@ def NFile_Show(theFile, theInfo):
 
 
 #==============================================================================
-#		NFileHandle_Show : Show an NFileHandle.
+#		NFileHandle_Summary : NFileHandle summary.
 #------------------------------------------------------------------------------
-def NFileHandle_Show(fileHnd, theInfo):
+def NFileHandle_Summary(fileHnd, theInfo):
 
 	thePath    = getPathNString(fileHnd, "->mPath.mPath")
 	accessName = ""
@@ -528,9 +528,9 @@ def NFileHandle_Show(fileHnd, theInfo):
 
 
 #==============================================================================
-#		NFileInfo_Show : Show an NFileInfo.
+#		NFileInfo_Summary : NFileInfo summary.
 #------------------------------------------------------------------------------
-def NFileInfo_Show(fileInfo, theInfo):
+def NFileInfo_Summary(fileInfo, theInfo):
 
 	return getPathNString(fileInfo, "->mPath.mPath")
 
@@ -539,9 +539,9 @@ def NFileInfo_Show(fileInfo, theInfo):
 
 
 #==============================================================================
-#		NFilePath_Show : Show an NFilePath.
+#		NFilePath_Summary : NFilePath summary.
 #------------------------------------------------------------------------------
-def NFilePath_Show(filePath, theInfo):
+def NFilePath_Summary(filePath, theInfo):
 
 	return getPathNString(filePath, "->mPath")
 
@@ -549,9 +549,9 @@ def NFilePath_Show(filePath, theInfo):
 
 
 #==============================================================================
-#		NRange_Show : Show an NRange.
+#		NRange_Summary : NRange summary.
 #------------------------------------------------------------------------------
-def NRange_Show(theRange, theInfo):
+def NRange_Summary(theRange, theInfo):
 
 	try:
 		theLocation = getMemberUInt(theRange, "mLocation")
@@ -570,9 +570,9 @@ def NRange_Show(theRange, theInfo):
 
 
 #==============================================================================
-#		NNumber_Show : Show an NNumber.
+#		NNumber_Summary : NNumber summary.
 #------------------------------------------------------------------------------
-def NNumber_Show(theNumber, theInfo):
+def NNumber_Summary(theNumber, theInfo):
 
 	try:
 		theInfo  = str(theNumber.GetValueForExpressionPath("->mValue"))
@@ -597,9 +597,9 @@ def NNumber_Show(theNumber, theInfo):
 
 
 #==============================================================================
-#		NString_Show : Show an NString.
+#		NString_Summary : NString summary.
 #------------------------------------------------------------------------------
-def NString_Show(theString, theInfo):
+def NString_Summary(theString, theInfo):
 
 	try:
 		theFlags = getPathUInt(theString, "->mString.theFlags")
@@ -668,9 +668,9 @@ def NString_Show(theString, theInfo):
 
 
 #==============================================================================
-#		NThreadID_Show : Show an NThreadID.
+#		NThreadID_Summary : NThreadID summary.
 #------------------------------------------------------------------------------
-def NThreadID_Show(threadID, theInfo):
+def NThreadID_Summary(threadID, theInfo):
 
 	theID = getMemberUInt(threadID, "mValue")
 	
@@ -681,9 +681,9 @@ def NThreadID_Show(threadID, theInfo):
 
 
 #==============================================================================
-#		NTime_Show : Show an NTime.
+#		NTime_Summary : NTime summary.
 #------------------------------------------------------------------------------
-def NTime_Show(theTime, theInfo):
+def NTime_Summary(theTime, theInfo):
 
 	unixSecs = getMemberFloat(theTime, "mValue") + kNanoEpochTo1970
 	unixFrac = unixSecs - math.floor(unixSecs)
@@ -705,18 +705,18 @@ def NTime_Show(theTime, theInfo):
 #------------------------------------------------------------------------------
 def loadNano(theDebugger):
 
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NAny_Show           NAny')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NData_Show          NData')
-	theDebugger.HandleCommand('type synthetic add -w Nano -l Nano.NDictionary_Show    NDictionary')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NFile_Show          NFile')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NFileHandle_Show    NFileHandle')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NFileInfo_Show      NFileInfo')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NFilePath_Show      NFilePath')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NNumber_Show        NNumber')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NRange_Show         NRange')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NString_Show        NString')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NThreadID_Show      NThreadID')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NTime_Show          NTime')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NAny_Summary           NAny')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NData_Summary          NData')
+	theDebugger.HandleCommand('type synthetic add -w Nano -l Nano.NDictionary_Contents   NDictionary')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NFile_Summary          NFile')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NFileHandle_Summary    NFileHandle')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NFileInfo_Summary      NFileInfo')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NFilePath_Summary      NFilePath')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NNumber_Summary        NNumber')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NRange_Summary         NRange')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NString_Summary        NString')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NThreadID_Summary      NThreadID')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NTime_Summary          NTime')
 	theDebugger.HandleCommand('type category enable Nano')
 
 
