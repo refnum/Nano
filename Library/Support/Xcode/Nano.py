@@ -422,6 +422,21 @@ def NData_Summary(theData, theInfo):
 
 
 #==============================================================================
+#		NDictionary_Summary : NDictionary summary.
+#------------------------------------------------------------------------------
+def NDictionary_Summary(theObject, theInfo):
+
+	try:
+		return "size=" + str(theObject.GetNumChildren())
+
+	except:
+		return kInscrutable
+
+
+
+
+
+#==============================================================================
 #		NDictionary_Contents : NDictionary content.
 #------------------------------------------------------------------------------
 class NDictionary_Contents:
@@ -701,6 +716,7 @@ def loadNano(theDebugger):
 
 	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NAny_Summary           NAny')
 	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NData_Summary          NData')
+	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NDictionary_Summary    NDictionary')
 	theDebugger.HandleCommand('type synthetic add -w Nano -l Nano.NDictionary_Contents   NDictionary')
 	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NFile_Summary          NFile')
 	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NFileHandle_Summary    NFileHandle')
