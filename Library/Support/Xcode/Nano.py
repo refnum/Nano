@@ -398,7 +398,10 @@ def NArray_Summary(theObject, theInfo):
 class NArray_Contents:
 
 	def __init__(self, theArray, theInfo):
+		theTarget = lldb.debugger.GetSelectedTarget()
+
 		self.theArray = theArray
+		self.dataType = theTarget.FindTypes('NAny').GetTypeAtIndex(0);
 
 
 	def num_children(self):
@@ -406,7 +409,7 @@ class NArray_Contents:
 
 
 	def has_children(self):
-		return True
+		return (self.numChildren != 0)
 
 
 	def get_child_index(self, theName):
@@ -431,10 +434,7 @@ class NArray_Contents:
 
 	def update(self):
 		try:
-			theTarget = lldb.debugger.GetSelectedTarget()
-
 			self.numChildren = 0
-			self.dataType    = theTarget.FindTypes('NAny').GetTypeAtIndex(0);
 			self.dataSize    = self.dataType.GetByteSize()
 			self.dataStart   = self.theArray.GetChildMemberWithName('__begin_')
 			self.dataEnd     = self.theArray.GetChildMemberWithName('__end_')
@@ -450,7 +450,6 @@ class NArray_Contents:
 					self.numChildren = int(numBytes / self.dataSize)
 
 		except:
-			self.dataType = None
 			pass
 
 
