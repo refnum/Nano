@@ -650,23 +650,10 @@ def NRange_Summary(theRange, theInfo):
 #------------------------------------------------------------------------------
 def NNumber_Summary(theNumber, theInfo):
 
-	try:
-		theInfo  = str(theNumber.GetValueForExpressionPath("->mValue"))
-		theMatch = re.search("Active Type = (.*?)\s+{.*?__value = (.*?)\)", theInfo, re.DOTALL)
-
-		theType  = theMatch.group(1)
-		theValue = theMatch.group(2)
-
-
-		theType = NNumberTypes.get(theType)
-		
-		if (theType == "float64_t"):
-			theValue = str(struct.unpack("d", struct.pack("Q", int(theValue)))[0])
-
-		return "(" + theType + ") " + theValue
-
-	except:
-		return kInscrutable
+	theInfo = str(theNumber.GetChildMemberWithName("mValue"))
+	theInfo = re.sub(r".*mValue = ", "", theInfo)
+	
+	return theInfo
 
 
 
@@ -779,6 +766,25 @@ def NTime_Summary(theTime, theInfo):
 
 
 #==============================================================================
+#		NVariant_Summary : NVariant summary.
+#------------------------------------------------------------------------------
+def NVariant_Summary(theVariant, theInfo):
+
+	theType = theVariant.GetType().GetDirectBaseClassAtIndex(0).GetType()
+	theInfo = str(theVariant.CreateChildAtOffset("value", 0, theType))
+
+	theMatch = re.search("Active Type = (.*?)\s+{\n  Value = (.*?)\n", theInfo, re.DOTALL)
+	theType  = theMatch.group(1)
+	theValue = theMatch.group(2)
+
+	theType = NNumberTypes.get(theType, theType)
+	return "(" + theType + ") " + theValue
+
+
+
+
+
+#==============================================================================
 #		loadNano : Load the Nano summarisers.
 #------------------------------------------------------------------------------
 def loadNano(theDebugger):
@@ -799,6 +805,7 @@ def loadNano(theDebugger):
 	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NThreadID_Summary      NThreadID')
 	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NTime_Summary          NTime')
 	theDebugger.HandleCommand('type category enable Nano')
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NVariant_Summary   -x 'NVariant<.*>'")
 
 
 
