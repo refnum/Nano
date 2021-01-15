@@ -171,112 +171,6 @@ kInscrutable												= u"\u2754"
 
 
 #==============================================================================
-#		getMemberUInt : Get member as an unsigned integer.
-#------------------------------------------------------------------------------
-def getMemberUInt(theValue, theName):
-
-	return theValue.GetChildMemberWithName(theName).GetValueAsUnsigned()
-
-
-
-
-
-#==============================================================================
-#		getMemberFloat : Get member as a float.
-#------------------------------------------------------------------------------
-def getMemberFloat(theValue, theName):
-
-	return float(theValue.GetChildMemberWithName(theName).GetValue())
-
-
-
-
-
-#==============================================================================
-#		getPathValue : Get a path as an SBValue.
-#------------------------------------------------------------------------------
-def getPathValue(theValue, thePath):
-
-	return theValue.GetValueForExpressionPath(thePath)
-
-
-
-
-
-#==============================================================================
-#		getPathUInt : Get a path as an unsigned integer.
-#------------------------------------------------------------------------------
-def getPathUInt(theValue, thePath):
-
-	return theValue.GetValueForExpressionPath(thePath).GetValueAsUnsigned()
-
-
-
-
-
-#==============================================================================
-#		getPathData : Get a path as an SBData.
-#------------------------------------------------------------------------------
-def getPathData(theValue, thePath):
-
-	return theValue.GetValueForExpressionPath(thePath).GetData()
-
-
-
-
-
-#==============================================================================
-#		getMemory : Get bytes from an address.
-#------------------------------------------------------------------------------
-def getMemory(thePtr, theOffset, theSize):
-
-	theErr     = lldb.SBError()
-	theProcess = thePtr.GetProcess()
-
-	theAddresss = thePtr.GetValueAsUnsigned() + theOffset
-	theBytes    = theProcess.ReadMemory(theAddresss, theSize, theErr)
-
-	return theBytes
-
-
-
-
-
-#==============================================================================
-#		getCString : Get a C string from an address.
-#------------------------------------------------------------------------------
-def getCString(thePtr, maxSize=128):
-
-	theErr     = lldb.SBError()
-	theProcess = thePtr.GetProcess()
-
-	theAddresss = thePtr.GetValueAsUnsigned()
-	theString   = theProcess.ReadCStringFromMemory(theAddresss, maxSize, theErr)
-	
-	return theString
-
-
-
-
-
-#==============================================================================
-#		getFilePath : Get a file path.
-#------------------------------------------------------------------------------
-def getFilePath(theValue, thePath):
-
-	theString = getPathValue(theValue, thePath)
-	thePath   = NString_Summary(theString, None).strip('"')
-
-	if (not thePath):
-		thePath = "none"
-
-	return thePath
-
-
-
-
-
-#==============================================================================
 #		getEncodingSize : Get the code unit size of an encoding.
 #------------------------------------------------------------------------------
 def getEncodingSize(theEncoding):
@@ -299,9 +193,94 @@ def getEncodingName(theEncoding):
 
 
 #==============================================================================
-#		getText : Convert bytes to text.
+#		getMemberUInt : Get a member as an unsigned integer.
 #------------------------------------------------------------------------------
-def getText(theBytes, theEncoding):
+def getMemberUInt(sbValue, theName):
+
+	return sbValue.GetChildMemberWithName(theName).GetValueAsUnsigned()
+
+
+
+
+
+#==============================================================================
+#		getMemberFloat : Get a member as a float.
+#------------------------------------------------------------------------------
+def getMemberFloat(sbValue, theName):
+
+	return float(sbValue.GetChildMemberWithName(theName).GetValue())
+
+
+
+
+
+#==============================================================================
+#		getExpressionPathSBValue : Get an expression path as an SBValue.
+#------------------------------------------------------------------------------
+def getExpressionPathSBValue(sbValue, thePath):
+
+	return sbValue.GetValueForExpressionPath(thePath)
+
+
+
+
+
+#==============================================================================
+#		getExpressionPathSBData : Get an expression path as an SBData.
+#------------------------------------------------------------------------------
+def getExpressionPathSBData(sbValue, thePath):
+
+	return sbValue.GetValueForExpressionPath(thePath).GetData()
+
+
+
+
+
+#==============================================================================
+#		getExpressionPathUInt : Get an expression path as an unsigned integer.
+#------------------------------------------------------------------------------
+def getExpressionPathUInt(sbValue, thePath):
+
+	return sbValue.GetValueForExpressionPath(thePath).GetValueAsUnsigned()
+
+
+
+
+
+#==============================================================================
+#		getMemoryBytes : Get bytes from an address.
+#------------------------------------------------------------------------------
+def getMemoryBytes(sbValue, theOffset, theSize):
+
+	theProcess  = sbValue.GetProcess()
+	theAddresss = sbValue.GetValueAsUnsigned() + theOffset
+	theBytes    = theProcess.ReadMemory(theAddresss, theSize, lldb.SBError())
+
+	return theBytes
+
+
+
+
+
+#==============================================================================
+#		getMemoryString : Get a C string from an address.
+#------------------------------------------------------------------------------
+def getMemoryString(sbValue, maxSize=128):
+
+	theProcess  = sbValue.GetProcess()
+	theAddresss = sbValue.GetValueAsUnsigned()
+	theString   = theProcess.ReadCStringFromMemory(theAddresss, maxSize, lldb.SBError())
+	
+	return theString
+
+
+
+
+
+#==============================================================================
+#		getBytesString : Get a string from encoded bytes.
+#------------------------------------------------------------------------------
+def getBytesString(theBytes, theEncoding):
 
 	pyEncoding = getEncodingName(theEncoding)
 	theText    = theBytes.decode(pyEncoding)
@@ -313,12 +292,11 @@ def getText(theBytes, theEncoding):
 
 
 #==============================================================================
-#		SBData_GetBytes : Get bytes from an SBData.
+#		getSBDataBytes : Get bytes from an SBData.
 #------------------------------------------------------------------------------
-def SBData_GetBytes(sbData, theOffset, theSize):
+def getSBDataBytes(sbData, theOffset, theSize):
 
-	theErr   = lldb.SBError()
-	theBytes = sbData.ReadRawData(theErr, theOffset, theSize)
+	theBytes = sbData.ReadRawData(lldb.SBError(), theOffset, theSize)
 
 	return theBytes
 
@@ -327,24 +305,41 @@ def SBData_GetBytes(sbData, theOffset, theSize):
 
 
 #==============================================================================
-#		NData_GetBytes : Get the bytes from an NData.
+#		getNDataBytes : Get the bytes from an NData.
 #------------------------------------------------------------------------------
-def NData_GetBytes(theData):
+def getNDataBytes(theData):
 
-	theFlags = getPathUInt(theData, "->mData.theFlags")
+	theFlags = getExpressionPathUInt(theData, "->mData.theFlags")
 	isLarge  = (theFlags & kNDataFlagIsLarge)
 
 	if (isLarge):
-		theOffset = getPathUInt(theData, "->mData.Large.theSlice.mLocation")
-		theSize   = getPathUInt(theData, "->mData.Large.theSlice.mSize")
-		dataPtr   = getPathValue(theData, "->mData.Large.theState->theData")
-		theBytes  = getMemory(dataPtr, theOffset, theSize)
+		theOffset = getExpressionPathUInt(   theData, "->mData.Large.theSlice.mLocation")
+		theSize   = getExpressionPathUInt(   theData, "->mData.Large.theSlice.mSize")
+		dataPtr   = getExpressionPathSBValue(theData, "->mData.Large.theState->theData")
+		theBytes  = getMemoryBytes(dataPtr, theOffset, theSize)
 
 	else:
 		theSize  = (theFlags & kNDataFlagSmallSizeMask)
-		theBytes = bytes(getPathData(theData, "->mData.Small.theData").uint8s[0:theSize])
+		theBytes = bytes(getExpressionPathSBData(theData, "->mData.Small.theData").uint8s[0:theSize])
 
 	return theBytes
+
+
+
+
+
+#==============================================================================
+#		getFilePath : Get a file path.
+#------------------------------------------------------------------------------
+def getFilePath(theValue, thePath):
+
+	theString = getExpressionPathSBValue(theValue, thePath)
+	thePath   = NString_Summary(theString, None).strip('"')
+
+	if (not thePath):
+		thePath = "none"
+
+	return thePath
 
 
 
@@ -363,7 +358,7 @@ def NAny_Summary(theObject, theInfo):
 
 
 		# Extract the type
-		valueTypeID     = getCString(theObject.EvaluateExpression("this->type().name()"))
+		valueTypeID     = getMemoryString(theObject.EvaluateExpression("this->type().name()"))
 		valueExpression = NAnyTypes.get(valueTypeID)
 
 		if (valueExpression == None):
@@ -468,22 +463,22 @@ class NArray_Contents:
 def NData_Summary(theData, theInfo):
 
 	try:
-		theFlags = getPathUInt(theData, "->mData.theFlags")
+		theFlags = getExpressionPathUInt(theData, "->mData.theFlags")
 		isLarge  = (theFlags & kNDataFlagIsLarge)
 
 		if (isLarge):
-			theSize = getPathUInt(theData, "->mData.Large.theSlice.mSize")
+			theSize = getExpressionPathUInt(theData, "->mData.Large.theSlice.mSize")
 		
 			if (theSize != 0):
-				theOffset = getPathUInt( theData, "->mData.Large.theSlice.mLocation")
-				thePtr    = getPathValue(theData, "->mData.Large.theState->theData")
+				theOffset = getExpressionPathUInt(   theData, "->mData.Large.theSlice.mLocation")
+				thePtr    = getExpressionPathSBValue(theData, "->mData.Large.theState->theData")
 				theInfo   = ", data=" + hex(thePtr.GetValueAsUnsigned() + theOffset)
 
 		else:
 			theSize = (theFlags & kNDataFlagSmallSizeMask)
 		
 			if (theSize != 0):
-				sbData  = getPathData(theData, "->mData.Small.theData")
+				sbData  = getExpressionPathSBData(theData, "->mData.Small.theData")
 				theInfo = ", data={0x" + ', 0x'.join(format(x, '02X') for x in sbData.uint8s[0:theSize]) + "}"
 
 
@@ -550,7 +545,7 @@ class NDictionary_Contents:
 		childKey   = theInfo["key"]
 		childValue = theInfo["value"]
 
-		valueTypeID     = getCString(childValue.EvaluateExpression("this->type().name()"))
+		valueTypeID     = getMemoryString(childValue.EvaluateExpression("this->type().name()"))
 		valueExpression = NAnyTypes.get(valueTypeID)
 
 		if (valueExpression == None):
@@ -563,7 +558,7 @@ class NDictionary_Contents:
 		if self.keyValues == None:
 
 			mapBuckets = self.theDictionary.GetValueForExpressionPath("->__table_.__bucket_list_.__ptr_")
-			thePointer = struct.unpack("Q", getMemory(mapBuckets.AddressOf(), 0, 8))[0]
+			thePointer = struct.unpack("Q", getMemoryBytes(mapBuckets.AddressOf(), 0, 8))[0]
 			isValid    = (thePointer != 0)
 
 			if (not isValid):
@@ -603,7 +598,7 @@ def NFileHandle_Summary(fileHnd, theInfo):
 	thePath = getFilePath(fileHnd, "->mPath.mPath")
 
 	if (thePath != "none"):
-		fileAccess = getPathUInt(fileHnd, "->mAccess")
+		fileAccess = getExpressionPathUInt(fileHnd, "->mAccess")
 		thePath    = thePath + " (" + NFileAccessNames.get(fileAccess) + ")"
 
 	return thePath
@@ -688,7 +683,7 @@ def NNumber_Summary(theNumber, theInfo):
 def NString_Summary(theString, theInfo):
 
 	try:
-		theFlags = getPathUInt(theString, "->mString.theFlags")
+		theFlags = getExpressionPathUInt(theString, "->mString.theFlags")
 		isLarge  = (theFlags & kNStringFlagIsLarge)
 		theInfo  = ""
 
@@ -696,25 +691,25 @@ def NString_Summary(theString, theInfo):
 			# Decode the string
 			#
 			# Large strings are stored as a null-terminated buffer.
-			theEncoding = getPathUInt(theString, "->mString.Large.theState->stringData.theEncoding")
-			theData     = getPathValue(theString, "->mString.Large.theState->stringData.theData")
+			theEncoding = getExpressionPathUInt(   theString, "->mString.Large.theState->stringData.theEncoding")
+			theData     = getExpressionPathSBValue(theString, "->mString.Large.theState->stringData.theData")
 
 			nullSize = getEncodingSize(theEncoding)
-			theBytes = NData_GetBytes(theData)
+			theBytes = getNDataBytes(theData)
 
 			theBytes = theBytes[:-nullSize]
-			theInfo  = getText(theBytes, theEncoding)
+			theInfo  = getBytesString(theBytes, theEncoding)
 
 
 
 			# Extract sub-strings
 			#
 			# A sub-string must be converted to UTF32, sliced by code points, then re-decoded.
-			stringSize = getPathUInt(theString, "->mString.Large.theState->theSize")
-			sliceSize  = getPathUInt(theString, "->mString.Large.theSlice.mSize")
+			stringSize = getExpressionPathUInt(theString, "->mString.Large.theState->theSize")
+			sliceSize  = getExpressionPathUInt(theString, "->mString.Large.theSlice.mSize")
 
 			if (sliceSize != stringSize):
-				sliceOffset = getPathUInt(theString, "->mString.Large.theSlice.mLocation")
+				sliceOffset = getExpressionPathUInt(theString, "->mString.Large.theSlice.mLocation")
 
 				bytesUTF32 = theInfo.encode("utf-32")	
 				theFormat  = "=" + "I" * int(len(bytesUTF32) / 4)
@@ -726,13 +721,13 @@ def NString_Summary(theString, theInfo):
 
 				theFormat  = "=" + "I" * len(codePoints)
 				bytesUTF32 = struct.pack(theFormat, *codePoints)
-				theInfo    = getText(bytesUTF32, NStringEncoding_UTF32)
+				theInfo    = getBytesString(bytesUTF32, NStringEncoding_UTF32)
 
 		else:
 			theSize = (theFlags & kNStringFlagSmallSizeMask)
 
 			if (theSize != 0):
-				sbData  = getPathData(theString, "->mString.Small.theData")
+				sbData  = getExpressionPathSBData(theString, "->mString.Small.theData")
 				isUTF16 = (theFlags & kNStringFlagIsSmallUTF16)
 
 				if (isUTF16):
@@ -741,8 +736,8 @@ def NString_Summary(theString, theInfo):
 					theEncoding = NStringEncoding_UTF8
 
 				byteSize = theSize * getEncodingSize(theEncoding)
-				theBytes = SBData_GetBytes(sbData, 0, byteSize)
-				theInfo  = getText(theBytes, theEncoding)
+				theBytes = getSBDataBytes(sbData, 0, byteSize)
+				theInfo  = getBytesString(theBytes, theEncoding)
 
 		return '"' + theInfo + '"'
 
