@@ -143,9 +143,18 @@ NAnyTypes = {
 }
 
 
-NNumberTypes = {
+NVariantTypes = {
+	"char"					: "uint8_t",
+	"unsigned short"		: "uint16_t",
+	"unsigned int"			: "uint32_t",
+	"unsigned long"			: "uint32_t",
 	"unsigned long long"	: "uint64_t",
+	"signed"				: "int8_t",
+	"short"					: "int16_t",
+	"int"					: "int32_t",
+	"long"					: "int32_t",
 	"long long"				: "int64_t",
+	"float"					: "float32_t",
 	"double"				: "float64_t"
 }
 
@@ -156,14 +165,8 @@ NNumberTypes = {
 # lldb will invoke summariser views on objects that are in scope but are
 # yet to be initialised.
 #
-# Parsing these will typically produce an exception so our summary methods
-# assume any exceptions are an attempt to display an inscrutable object.
-#
-#
-# If this value is ever shown for an object that has been initialised then
-# this typically indicates an error in the summariser.
-#
-# Remove the exception handling and debug the summariser to find the cause.
+# Parsing these may produce an exception so we trap these exceptions and
+# report them as inscrutable.
 kInscrutable												= u"\u2754"
 
 
@@ -777,7 +780,7 @@ def NVariant_Summary(theVariant, theInfo):
 	theType  = theMatch.group(1)
 	theValue = theMatch.group(2)
 
-	theType = NNumberTypes.get(theType, theType)
+	theType = NVariantTypes.get(theType, theType)
 	return "(" + theType + ") " + theValue
 
 
