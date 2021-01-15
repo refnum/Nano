@@ -515,64 +515,60 @@ def NDictionary_Summary(theObject, theInfo):
 class NDictionary_Contents:
 
 	def __init__(self, theDictionary, theInfo):
+		theTarget = lldb.debugger.GetSelectedTarget()
+
 		self.theDictionary = theDictionary
-		self.keyValues     = None
+		self.dataType      = theTarget.FindTypes('NAny').GetTypeAtIndex(0);
 
 
 	def num_children(self):
-		if (self.keyValues != None):
-			return len(self.keyValues)
-
-		return 0
+		return self.numChildren
 
 
 	def has_children(self):
-		return True
+		return (self.numChildren != 0)
 
 
 	def get_child_index(self, theName):
-		for n in range(len(self.keyValues)):
-			childKey = self.keyValues[n]["key"]
-			if (childKey.GetSummary() == theName):
+		for n in range(self.numChildren):
+			theKey = self.keyValues[n]["key"]
+			if (theKey == theName):
 				return n
 		
 		return None
 
 
 	def get_child_at_index(self, theIndex):
-		theInfo    = self.keyValues[theIndex]
-		childKey   = theInfo["key"]
-		childValue = theInfo["value"]
+		theInfo  = self.keyValues[theIndex]
+		theKey   = theInfo["key"]
+		theValue = theInfo["value"]
 
-		valueTypeID     = getMemoryString(childValue.EvaluateExpression("this->type().name()"))
-		valueExpression = NAnyTypes.get(valueTypeID)
-
-		if (valueExpression == None):
-			return childValue
-
-		return childValue.EvaluateExpression(valueExpression, lldb.SBExpressionOptions(), "[" + str(childKey.GetSummary() + "]"))
+		return theValue.CreateChildAtOffset('[' + theKey + ']', 0, self.dataType)
 
 
 	def update(self):
-		if self.keyValues == None:
+		try:
+			self.numChildren = 0
 
 			mapBuckets = self.theDictionary.GetValueForExpressionPath("->__table_.__bucket_list_.__ptr_")
 			thePointer = struct.unpack("Q", getMemoryBytes(mapBuckets.AddressOf(), 0, 8))[0]
 			isValid    = (thePointer != 0)
 
-			if (not isValid):
-				return
-
-			try:
+			if (isValid):
 				self.keyValues = []
 				theKeys        = self.theDictionary.EvaluateExpression("this->GetKeys()")
 				theValues      = self.theDictionary.EvaluateExpression("this->GetValues()")
 
 				for n in range(theKeys.GetNumChildren()):
-					self.keyValues.append({ "key" : theKeys.GetChildAtIndex(n), "value" : theValues.GetChildAtIndex(n) })
+					theKey   = theKeys.GetChildAtIndex(n).GetSummary()
+					theValue = theValues.GetChildAtIndex(n)
 
-			except:
-				self.keyValues = None
+					self.keyValues.append({ "key" : theKey, "value" : theValue })
+
+			self.numChildren = len(self.keyValues)
+
+		except:
+			pass
 
 
 
