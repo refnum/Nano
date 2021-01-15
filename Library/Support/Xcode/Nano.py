@@ -354,7 +354,7 @@ def NAny_Summary(theObject, theInfo):
 		# Check for validity
 		theHandler = getMemberUInt(theObject, "__h")
 		if (theHandler == 0):
-			return "none";
+			return "none"
 
 
 		# Extract the type
@@ -366,7 +366,7 @@ def NAny_Summary(theObject, theInfo):
 
 		else:
 			theValue = str(theObject.EvaluateExpression(valueExpression))
-			theValue = re.sub(r"\) \$\d+ = ", ") ", theValue);
+			theValue = re.sub(r"\) \$\d+ = ", ") ", theValue)
 
 		return theValue
 
@@ -401,7 +401,7 @@ class NArray_Contents:
 		theTarget = lldb.debugger.GetSelectedTarget()
 
 		self.theArray = theArray
-		self.dataType = theTarget.FindTypes('NAny').GetTypeAtIndex(0);
+		self.dataType = theTarget.FindTypes("NAny").GetTypeAtIndex(0)
 
 
 	def num_children(self):
@@ -414,7 +414,7 @@ class NArray_Contents:
 
 	def get_child_index(self, theName):
 		try:
-			return int(theName.lstrip('[').rstrip(']'))
+			return int(theName.lstrip("[").rstrip("]"))
 
 		except:
 			return -1
@@ -426,7 +426,7 @@ class NArray_Contents:
 
 		try:
 			theOffset = theIndex * self.dataSize
-			return self.dataStart.CreateChildAtOffset('[' + str(theIndex) + ']', theOffset, self.dataType)
+			return self.dataStart.CreateChildAtOffset("[" + str(theIndex) + "]", theOffset, self.dataType)
 
 		except:
 			return None
@@ -436,8 +436,8 @@ class NArray_Contents:
 		try:
 			self.numChildren = 0
 			self.dataSize    = self.dataType.GetByteSize()
-			self.dataStart   = self.theArray.GetChildMemberWithName('__begin_')
-			self.dataEnd     = self.theArray.GetChildMemberWithName('__end_')
+			self.dataStart   = self.theArray.GetChildMemberWithName("__begin_")
+			self.dataEnd     = self.theArray.GetChildMemberWithName("__end_")
 
 
 			ptrStart = self.dataStart.GetValueAsUnsigned()
@@ -478,7 +478,7 @@ def NData_Summary(theData, theInfo):
 		
 			if (theSize != 0):
 				sbData  = getExpressionPathSBData(theData, "->mData.Small.theData")
-				theInfo = ", data={0x" + ', 0x'.join(format(x, '02X') for x in sbData.uint8s[0:theSize]) + "}"
+				theInfo = ", data={0x" + ", 0x".join(format(x, "02X") for x in sbData.uint8s[0:theSize]) + "}"
 
 
 		if (theSize == 0):
@@ -518,7 +518,7 @@ class NDictionary_Contents:
 		theTarget = lldb.debugger.GetSelectedTarget()
 
 		self.theDictionary = theDictionary
-		self.dataType      = theTarget.FindTypes('NAny').GetTypeAtIndex(0);
+		self.dataType      = theTarget.FindTypes("NAny").GetTypeAtIndex(0)
 
 
 	def num_children(self):
@@ -543,7 +543,7 @@ class NDictionary_Contents:
 		theKey   = theInfo["key"]
 		theValue = theInfo["value"]
 
-		return theValue.CreateChildAtOffset('[' + theKey + ']', 0, self.dataType)
+		return theValue.CreateChildAtOffset("[" + theKey + "]", 0, self.dataType)
 
 
 	def update(self):
@@ -737,7 +737,7 @@ def NThreadID_Summary(threadID, theInfo):
 
 	theID = getMemberUInt(threadID, "mValue")
 	if (theID == 0):
-		return "none";
+		return "none"
 
 	return hex(theID)
 
@@ -789,23 +789,23 @@ def NVariant_Summary(theVariant, theInfo):
 #------------------------------------------------------------------------------
 def loadNano(theDebugger):
 
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NAny_Summary           NAny')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NArray_Summary         NArray')
-	theDebugger.HandleCommand('type synthetic add -w Nano -l Nano.NArray_Contents        NArray')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NData_Summary          NData')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NDictionary_Summary    NDictionary')
-	theDebugger.HandleCommand('type synthetic add -w Nano -l Nano.NDictionary_Contents   NDictionary')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NFile_Summary          NFile')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NFileHandle_Summary    NFileHandle')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NFileInfo_Summary      NFileInfo')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NFilePath_Summary      NFilePath')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NNumber_Summary        NNumber')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NRange_Summary         NRange')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NString_Summary        NString')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NThreadID_Summary      NThreadID')
-	theDebugger.HandleCommand('type summary   add -w Nano -F Nano.NTime_Summary          NTime')
-	theDebugger.HandleCommand('type category enable Nano')
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NAny_Summary           NAny")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NArray_Summary         NArray")
+	theDebugger.HandleCommand("type synthetic add -w Nano -l Nano.NArray_Contents        NArray")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NData_Summary          NData")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NDictionary_Summary    NDictionary")
+	theDebugger.HandleCommand("type synthetic add -w Nano -l Nano.NDictionary_Contents   NDictionary")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NFile_Summary          NFile")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NFileHandle_Summary    NFileHandle")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NFileInfo_Summary      NFileInfo")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NFilePath_Summary      NFilePath")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NNumber_Summary        NNumber")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NRange_Summary         NRange")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NString_Summary        NString")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NThreadID_Summary      NThreadID")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NTime_Summary          NTime")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NVariant_Summary   -x 'NVariant<.*>'")
+	theDebugger.HandleCommand("type category enable Nano")
 
 
 
