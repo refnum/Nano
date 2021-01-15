@@ -226,19 +226,6 @@ def getPathData(theValue, thePath):
 
 
 #==============================================================================
-#		getPathNString : Get a path as an NString.
-#------------------------------------------------------------------------------
-def getPathNString(theValue, thePath):
-
-	theString = getPathValue(theValue, thePath)
-
-	return NString_Summary(theString, None)
-
-
-
-
-
-#==============================================================================
 #		getMemory : Get bytes from an address.
 #------------------------------------------------------------------------------
 def getMemory(thePtr, theOffset, theSize):
@@ -273,11 +260,17 @@ def getCString(thePtr, maxSize=128):
 
 
 #==============================================================================
-#		getFileAccessName : Get the name of a file access mode.
+#		getFilePath : Get a file path.
 #------------------------------------------------------------------------------
-def getFileAccessName(theAccess):
+def getFilePath(theValue, thePath):
 
-	return NFileAccessNames.get(theAccess)
+	theString = getPathValue(theValue, thePath)
+	thePath   = NString_Summary(theString, None).strip('"')
+
+	if (not thePath):
+		thePath = "none"
+
+	return thePath
 
 
 
@@ -363,13 +356,17 @@ def NData_GetBytes(theData):
 def NAny_Summary(theObject, theInfo):
 
 	try:
+		# Check for validity
+		theHandler = getMemberUInt(theObject, "__h")
+		if (theHandler == 0):
+			return "none";
+
+
+		# Extract the type
 		valueTypeID     = getCString(theObject.EvaluateExpression("this->type().name()"))
 		valueExpression = NAnyTypes.get(valueTypeID)
 
-		if (valueTypeID == 'v'):
-			theValue = "none"
-
-		elif (valueExpression == None):
+		if (valueExpression == None):
 			theValue = "<unknown type '" + valueTypeID + "'>"
 
 		else:
@@ -489,8 +486,10 @@ def NData_Summary(theData, theInfo):
 				sbData  = getPathData(theData, "->mData.Small.theData")
 				theInfo = ", data={0x" + ', 0x'.join(format(x, '02X') for x in sbData.uint8s[0:theSize]) + "}"
 
+
 		if (theSize == 0):
 			return "size=0"
+
 		else:
 			return "size=" + str(theSize) + theInfo
 
@@ -590,9 +589,7 @@ class NDictionary_Contents:
 #------------------------------------------------------------------------------
 def NFile_Summary(theFile, theInfo):
 
-	thePath = getPathNString(theFile, "->mInfo.mPath.mPath")
-
-	return thePath
+	return getFilePath(theFile, "->mInfo.mPath.mPath")
 
 
 
@@ -603,14 +600,13 @@ def NFile_Summary(theFile, theInfo):
 #------------------------------------------------------------------------------
 def NFileHandle_Summary(fileHnd, theInfo):
 
-	thePath    = getPathNString(fileHnd, "->mPath.mPath")
-	accessName = ""
+	thePath = getFilePath(fileHnd, "->mPath.mPath")
 
-	if (thePath):
+	if (thePath != "none"):
 		fileAccess = getPathUInt(fileHnd, "->mAccess")
-		accessName = " (" + getFileAccessName(fileAccess) + ")"
+		thePath    = thePath + " (" + NFileAccessNames.get(fileAccess) + ")"
 
-	return thePath + accessName
+	return thePath
 
 
 
@@ -621,7 +617,7 @@ def NFileHandle_Summary(fileHnd, theInfo):
 #------------------------------------------------------------------------------
 def NFileInfo_Summary(fileInfo, theInfo):
 
-	return getPathNString(fileInfo, "->mPath.mPath")
+	return getFilePath(fileInfo, "->mPath.mPath")
 
 
 
@@ -632,7 +628,8 @@ def NFileInfo_Summary(fileInfo, theInfo):
 #------------------------------------------------------------------------------
 def NFilePath_Summary(filePath, theInfo):
 
-	return getPathNString(filePath, "->mPath")
+	return getFilePath(filePath, "->mPath")
+
 
 
 
@@ -665,7 +662,7 @@ def NNumber_Summary(theNumber, theInfo):
 
 	try:
 		theInfo  = str(theNumber.GetValueForExpressionPath("->mValue"))
-		theMatch = re.search("Active Type = (.*?)\s+{.*__value = (.*?)\)", theInfo, re.DOTALL)
+		theMatch = re.search("Active Type = (.*?)\s+{.*?__value = (.*?)\)", theInfo, re.DOTALL)
 
 		theType  = theMatch.group(1)
 		theValue = theMatch.group(2)
@@ -676,7 +673,7 @@ def NNumber_Summary(theNumber, theInfo):
 		if (theType == "float64_t"):
 			theValue = str(struct.unpack("d", struct.pack("Q", int(theValue)))[0])
 
-		return theValue + " (" + theType + ")"
+		return "(" + theType + ") " + theValue
 
 	except:
 		return kInscrutable
@@ -762,7 +759,9 @@ def NString_Summary(theString, theInfo):
 def NThreadID_Summary(threadID, theInfo):
 
 	theID = getMemberUInt(threadID, "mValue")
-	
+	if (theID == 0):
+		return "none";
+
 	return hex(theID)
 
 
