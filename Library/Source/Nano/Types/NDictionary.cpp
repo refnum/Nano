@@ -138,6 +138,8 @@ NVectorString NDictionary::GetKeys() const
 
 
 
+
+
 //=============================================================================
 //		NDictionary::GetValues : Get the values.
 //-----------------------------------------------------------------------------
@@ -156,6 +158,8 @@ NVectorAny NDictionary::GetValues() const
 
 	return theValues;
 }
+
+
 
 
 

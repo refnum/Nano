@@ -95,8 +95,8 @@ public:
 	// Get the keys / values
 	//
 	// Ordering is undefined, and may change on any mutation.
-	NVectorString                       GetKeys() const;
-	NVectorAny                       GetValues() const;
+	NVectorString                       GetKeys()   const;
+	NVectorAny                          GetValues() const;
 
 
 	// Invert the dictionary

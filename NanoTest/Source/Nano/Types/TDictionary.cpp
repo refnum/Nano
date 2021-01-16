@@ -90,7 +90,7 @@ NANO_FIXTURE(TDictionary)
 		theDictionary["Int64"]   = kTestInt64;
 		theDictionary["Float32"] = kTestFloat32;
 		theDictionary["Float64"] = kTestFloat64;
-		theDictionary["Array"]    = kTestArray;
+		theDictionary["Array"]   = kTestArray;
 		theDictionary["Data"]    = kTestData;
 		theDictionary["String"]  = kTestString;
 		theDictionary["Time"]    = kTestTime;
@@ -239,6 +239,9 @@ NANO_TEST(TDictionary, "GetKeys")
 	REQUIRE(theKeys[7] == "String");
 	REQUIRE(theKeys[8] == "Time");
 }
+
+
+
 
 
 //=============================================================================
