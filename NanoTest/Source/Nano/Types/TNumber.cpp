@@ -83,13 +83,44 @@ NANO_TEST(TNumber, "Default")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TNumber, "Assignment")
+{
+
+
+	// Perform the test
+	theNumber = true;
+	theNumber = uint8_t(1);
+	theNumber = uint16_t(1);
+	theNumber = uint32_t(1);
+	theNumber = uint64_t(1);
+	theNumber = int8_t(-1);
+	theNumber = int16_t(-1);
+	theNumber = int32_t(-1);
+	theNumber = int64_t(-1);
+	theNumber = float32_t(1.0f);
+	theNumber = float64_t(1.0);
+
+	theNumber = 123;
+	theNumber = 123L;
+	theNumber = 123LL;
+	theNumber = 123UL;
+	theNumber = 123ULL;
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TNumber, "uint64_t")
 {
 
 
 	// Perform the test
 	uint64_t theValue = 1;
-	theNumber.SetUInt64(theValue);
+	theNumber         = theValue;
 
 	REQUIRE(theNumber.IsInteger());
 	REQUIRE(!theNumber.IsReal());
@@ -125,7 +156,7 @@ NANO_TEST(TNumber, "int64_t")
 
 	// Perform the test
 	int64_t theValue = 1;
-	theNumber.SetInt64(theValue);
+	theNumber        = theValue;
 
 	REQUIRE(theNumber.IsInteger());
 	REQUIRE(!theNumber.IsReal());
@@ -148,8 +179,8 @@ NANO_TEST(TNumber, "int64_t")
 	REQUIRE(theNumber.GetFloat64() == float64_t(theValue));
 
 
-	theValue = -theValue;
-	theNumber.SetInt64(theValue);
+	theValue  = -theValue;
+	theNumber = theValue;
 
 	REQUIRE(theNumber.IsInteger());
 	REQUIRE(!theNumber.IsReal());
@@ -179,7 +210,7 @@ NANO_TEST(TNumber, "float64_t")
 
 	// Perform the test
 	float64_t theValue = 1.5;
-	theNumber.SetFloat64(theValue);
+	theNumber          = theValue;
 
 	REQUIRE(!theNumber.IsInteger());
 	REQUIRE(theNumber.IsReal());
@@ -191,8 +222,8 @@ NANO_TEST(TNumber, "float64_t")
 	REQUIRE(theNumber.GetFloat64() == float64_t(theValue));
 
 
-	theValue = -theValue;
-	theNumber.SetFloat64(theValue);
+	theValue  = -theValue;
+	theNumber = theValue;
 
 	REQUIRE(!theNumber.IsInteger());
 	REQUIRE(theNumber.IsReal());

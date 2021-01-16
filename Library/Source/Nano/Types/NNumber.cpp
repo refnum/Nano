@@ -62,155 +62,6 @@ static constexpr float64_t kNSafeIntegerMax                 = 9007199254740991.0
 
 
 //=============================================================================
-//		NNumber::NNumber : Constructor.
-//-----------------------------------------------------------------------------
-NNumber::NNumber(uint8_t theValue)
-	: mValue(uint64_t(theValue))
-{
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::NNumber : Constructor.
-//-----------------------------------------------------------------------------
-NNumber::NNumber(uint16_t theValue)
-	: mValue(uint64_t(theValue))
-{
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::NNumber : Constructor.
-//-----------------------------------------------------------------------------
-NNumber::NNumber(uint32_t theValue)
-	: mValue(uint64_t(theValue))
-{
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::NNumber : Constructor.
-//-----------------------------------------------------------------------------
-NNumber::NNumber(uint64_t theValue)
-	: mValue(theValue)
-{
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::NNumber : Constructor.
-//-----------------------------------------------------------------------------
-NNumber::NNumber(int8_t theValue)
-	: mValue(int64_t(theValue))
-{
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::NNumber : Constructor.
-//-----------------------------------------------------------------------------
-NNumber::NNumber(int16_t theValue)
-	: mValue(int64_t(theValue))
-{
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::NNumber : Constructor.
-//-----------------------------------------------------------------------------
-NNumber::NNumber(int32_t theValue)
-	: mValue(int64_t(theValue))
-{
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::NNumber : Constructor.
-//-----------------------------------------------------------------------------
-NNumber::NNumber(int64_t theValue)
-	: mValue(theValue)
-{
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::NNumber : Constructor.
-//-----------------------------------------------------------------------------
-NNumber::NNumber(float32_t theValue)
-	: mValue(float64_t(theValue))
-{
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::NNumber : Constructor.
-//-----------------------------------------------------------------------------
-NNumber::NNumber(float64_t theValue)
-	: mValue(theValue)
-{
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::NNumber : Constructor.
-//-----------------------------------------------------------------------------
-NNumber::NNumber(const NAny& theValue)
-	: mValue()
-{
-
-
-	// Set the value
-	bool wasOK = SetValue(theValue);
-	NN_EXPECT(wasOK);
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::NNumber : Constructor.
-//-----------------------------------------------------------------------------
-NNumber::NNumber()
-	: mValue()
-{
-}
-
-
-
-
-
-//=============================================================================
 //		NNumber::IsInteger : Is the number an integer?
 //-----------------------------------------------------------------------------
 bool NNumber::IsInteger() const
@@ -563,171 +414,6 @@ float64_t NNumber::GetFloat64() const
 
 
 //=============================================================================
-//		NNumber::SetBool : Set a bool value.
-//-----------------------------------------------------------------------------
-void NNumber::SetBool(bool theValue)
-{
-
-
-	// Set the value
-	mValue = uint64_t(theValue);
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::SetUInt8 : Set a uint8_t value.
-//-----------------------------------------------------------------------------
-void NNumber::SetUInt8(uint8_t theValue)
-{
-
-
-	// Set the value
-	mValue = uint64_t(theValue);
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::SetUInt16 : Set a uint16_t value.
-//-----------------------------------------------------------------------------
-void NNumber::SetUInt16(uint16_t theValue)
-{
-
-
-	// Set the value
-	mValue = uint64_t(theValue);
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::SetUInt32 : Set a uint32_t value.
-//-----------------------------------------------------------------------------
-void NNumber::SetUInt32(uint32_t theValue)
-{
-
-
-	// Set the value
-	mValue = uint64_t(theValue);
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::SetUInt64 : Set a uint64_t value.
-//-----------------------------------------------------------------------------
-void NNumber::SetUInt64(uint64_t theValue)
-{
-
-
-	// Set the value
-	mValue = theValue;
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::SetInt8 : Set a int8_t value.
-//-----------------------------------------------------------------------------
-void NNumber::SetInt8(int8_t theValue)
-{
-
-
-	// Set the value
-	mValue = int64_t(theValue);
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::SetInt16 : Set a int16_t value.
-//-----------------------------------------------------------------------------
-void NNumber::SetInt16(int16_t theValue)
-{
-
-
-	// Set the value
-	mValue = int64_t(theValue);
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::SetInt32 : Set a int32_t value.
-//-----------------------------------------------------------------------------
-void NNumber::SetInt32(int32_t theValue)
-{
-
-
-	// Set the value
-	mValue = int64_t(theValue);
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::SetInt64 : Set a int64_t value.
-//-----------------------------------------------------------------------------
-void NNumber::SetInt64(int64_t theValue)
-{
-
-
-	// Set the value
-	mValue = theValue;
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::SetFloat32 : Set a float32_t value.
-//-----------------------------------------------------------------------------
-void NNumber::SetFloat32(float32_t theValue)
-{
-
-
-	// Set the value
-	mValue = float64_t(theValue);
-}
-
-
-
-
-
-//=============================================================================
-//		NNumber::SetFloat64 : Set a float64_t value.
-//-----------------------------------------------------------------------------
-void NNumber::SetFloat64(float64_t theValue)
-{
-
-
-	// Set the value
-	mValue = theValue;
-}
-
-
-
-
-
-//=============================================================================
 //		NNumber::SetValue : Set a value.
 //-----------------------------------------------------------------------------
 bool NNumber::SetValue(const NAny& theValue)
@@ -739,62 +425,92 @@ bool NNumber::SetValue(const NAny& theValue)
 
 	if (theValue.HasBool())
 	{
-		SetUInt8(uint8_t(theValue.GetBool()));
+		mValue = uint64_t(theValue.GetBool());
 	}
 	else if (theValue.HasUInt8())
 	{
-		SetUInt8(theValue.GetUInt8());
+		mValue = uint64_t(theValue.GetUInt8());
 	}
 	else if (theValue.HasUInt16())
 	{
-		SetUInt16(theValue.GetUInt16());
+		mValue = uint64_t(theValue.GetUInt16());
 	}
 	else if (theValue.HasUInt32())
 	{
-		SetUInt32(theValue.GetUInt32());
+		mValue = uint64_t(theValue.GetUInt32());
 	}
 	else if (theValue.HasUInt64())
 	{
-		SetUInt64(theValue.GetUInt64());
+		mValue = uint64_t(theValue.GetUInt64());
 	}
 
 	else if (theValue.HasInt8())
 	{
-		SetInt8(theValue.GetInt8());
+		mValue = int64_t(theValue.GetInt8());
 	}
 	else if (theValue.HasInt16())
 	{
-		SetInt16(theValue.GetInt16());
+		mValue = int64_t(theValue.GetInt16());
 	}
 	else if (theValue.HasInt32())
 	{
-		SetInt32(theValue.GetInt32());
+		mValue = int64_t(theValue.GetInt32());
 	}
 	else if (theValue.HasInt64())
 	{
-		SetInt64(theValue.GetInt64());
+		mValue = int64_t(theValue.GetInt64());
 	}
 
 	else if (theValue.HasFloat32())
 	{
-		SetFloat32(theValue.GetFloat32());
+		mValue = float64_t(theValue.GetFloat32());
 	}
 	else if (theValue.HasFloat64())
 	{
-		SetFloat64(theValue.GetFloat64());
+		mValue = float64_t(theValue.GetFloat64());
 	}
 
+	else if (theValue.Has<unsigned short>())
+	{
+		mValue = uint64_t(theValue.Get<unsigned short>());
+	}
+	else if (theValue.Has<unsigned int>())
+	{
+		mValue = uint64_t(theValue.Get<unsigned int>());
+	}
+	else if (theValue.Has<unsigned long>())
+	{
+		mValue = uint64_t(theValue.Get<unsigned long>());
+	}
+	else if (theValue.Has<unsigned long long>())
+	{
+		mValue = uint64_t(theValue.Get<unsigned long long>());
+	}
+
+	else if (theValue.Has<short>())
+	{
+		mValue = int64_t(theValue.Get<short>());
+	}
 	else if (theValue.Has<int>())
 	{
-		SetInt64(theValue.Get<int>());
+		mValue = int64_t(theValue.Get<int>());
 	}
+	else if (theValue.Has<long>())
+	{
+		mValue = int64_t(theValue.Get<long>());
+	}
+	else if (theValue.Has<long long>())
+	{
+		mValue = int64_t(theValue.Get<long long>());
+	}
+
 	else if (theValue.Has<size_t>())
 	{
-		SetUInt64(theValue.Get<size_t>());
+		mValue = uint64_t(theValue.Get<size_t>());
 	}
 	else if (theValue.Has<uintptr_t>())
 	{
-		SetUInt64(theValue.Get<uintptr_t>());
+		mValue = uint64_t(theValue.Get<uintptr_t>());
 	}
 
 	else

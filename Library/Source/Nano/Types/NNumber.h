@@ -46,6 +46,9 @@
 #include "NVariant.h"
 #include "NanoMacros.h"
 
+// System
+#include <type_traits>
+
 
 
 
@@ -66,21 +69,13 @@ class NAny;
 class NN_EMPTY_BASE NNumber final : public NMixinComparable<NNumber>
 {
 public:
-	explicit                            NNumber(uint8_t  theValue);
-	explicit                            NNumber(uint16_t theValue);
-	explicit                            NNumber(uint32_t theValue);
-	explicit                            NNumber(uint64_t theValue);
+										NNumber() = default;
 
-	explicit                            NNumber(int8_t  theValue);
-	explicit                            NNumber(int16_t theValue);
-	explicit                            NNumber(int32_t theValue);
-	explicit                            NNumber(int64_t theValue);
+	template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+										NNumber(T theValue);
 
-	explicit                            NNumber(float32_t theValue);
-	explicit                            NNumber(float64_t theValue);
-
-										NNumber(const NAny& theValue);
-										NNumber();
+	template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+	NNumber&                            operator=(T theValue);
 
 
 	// Is this an integer number?
@@ -100,7 +95,7 @@ public:
 	bool                                IsNegative() const;
 
 
-	// Get / set the value
+	// Get the value
 	//
 	// A number can only be fetched as a particular type if the
 	// value can be cast to that type without loss of information.
@@ -115,18 +110,6 @@ public:
 	int64_t                             GetInt64()   const;
 	float32_t                           GetFloat32() const;
 	float64_t                           GetFloat64() const;
-
-	void                                SetBool(bool         theValue);
-	void                                SetUInt8(uint8_t     theValue);
-	void                                SetUInt16(uint16_t   theValue);
-	void                                SetUInt32(uint32_t   theValue);
-	void                                SetUInt64(uint64_t   theValue);
-	void                                SetInt8(int8_t       theValue);
-	void                                SetInt16(int16_t     theValue);
-	void                                SetInt32(int32_t     theValue);
-	void                                SetInt64(int64_t     theValue);
-	void                                SetFloat32(float32_t theValue);
-	void                                SetFloat64(float64_t theValue);
 
 
 	// Set a value
@@ -148,6 +131,15 @@ private:
 private:
 	NVariant<uint64_t, int64_t, float64_t> mValue;
 };
+
+
+
+
+
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NNumber.inl"
 
 
 

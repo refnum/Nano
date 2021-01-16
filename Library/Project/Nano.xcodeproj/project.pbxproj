@@ -551,6 +551,7 @@
 		AB62327124301A4000651349 /* NSharedDarwin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NSharedDarwin.mm; sourceTree = "<group>"; };
 		AB669B4F10035285006CB82F /* NDateFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDateFormatter.cpp; sourceTree = "<group>"; };
 		AB669B5010035285006CB82F /* NDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDateFormatter.h; sourceTree = "<group>"; };
+		AB68DB8A25B25E4F009C406D /* NNumber.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NNumber.inl; sourceTree = "<group>"; };
 		AB76913D10FCEA6200AD6A3F /* NUncopyable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUncopyable.cpp; sourceTree = "<group>"; };
 		AB76913E10FCEA6200AD6A3F /* NUncopyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUncopyable.h; sourceTree = "<group>"; };
 		AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDataCipher.cpp; sourceTree = "<group>"; };
@@ -1544,6 +1545,7 @@
 				ABBB2B862380CA3600EB2840 /* NMixinHashable.inl */,
 				AB9155540F9B4DD6009FFEAF /* NNumber.cpp */,
 				AB9155550F9B4DD6009FFEAF /* NNumber.h */,
+				AB68DB8A25B25E4F009C406D /* NNumber.inl */,
 				AB3B53A6143DCD9400EC0F55 /* NProgressable.cpp */,
 				AB3B53A7143DCD9400EC0F55 /* NProgressable.h */,
 				AB514F641035784000E5A6AD /* NPropertyStore.cpp */,
