@@ -777,6 +777,9 @@ def NVariant_Summary(theVariant, theInfo):
 	theInfo = str(theVariant.CreateChildAtOffset("value", 0, theType))
 
 	theMatch = re.search("Active Type = (.*?)\s+{\n  Value = (.*?)\n", theInfo, re.DOTALL)
+	if (theMatch == None):
+		return "none"
+
 	theType  = theMatch.group(1)
 	theValue = theMatch.group(2)
 
