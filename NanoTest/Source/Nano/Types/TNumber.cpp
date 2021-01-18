@@ -295,3 +295,72 @@ NANO_TEST(TNumber, "NAny")
 	REQUIRE(theNumber.SetValue(NAny(123)));
 	REQUIRE(theNumber.GetUInt32() == 123);
 }
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TNumber, "Comparison")
+{
+
+
+	// Perform the test
+	//
+	// Integer limits are offset by a significant amount to account
+	// for real numbers being non-consecutive at that magnitude.
+	NNumber numberA;
+	NNumber numberB;
+
+
+	numberA = float64_t(kNInt64Min) - 5000.0;
+	numberB = kNInt64Min;
+	REQUIRE(numberA < numberB);
+
+	numberA = float64_t(kNInt64Min);
+	numberB = kNInt64Min;
+	REQUIRE(numberA == numberB);
+
+	numberA = float64_t(kNInt64Min) + 5000.0;
+	numberB = kNInt64Min;
+	REQUIRE(numberA > numberB);
+
+	numberA = kNIntegerSafeMin - 1.0;
+	numberB = int64_t(kNIntegerSafeMin);
+	REQUIRE(numberA < numberB);
+
+	numberA = kNIntegerSafeMin;
+	numberB = int64_t(kNIntegerSafeMin);
+	REQUIRE(numberA == numberB);
+
+	numberA = kNIntegerSafeMin + 1.0;
+	numberB = int64_t(kNIntegerSafeMin);
+	REQUIRE(numberA > numberB);
+
+
+	numberA = float64_t(kNUInt64Max) - 5000.0;
+	numberB = kNUInt64Max;
+	REQUIRE(numberA < numberB);
+
+	numberA = float64_t(kNUInt64Max);
+	numberB = kNUInt64Max;
+	REQUIRE(numberA == numberB);
+
+	numberA = float64_t(kNUInt64Max) + 5000.0;
+	numberB = kNUInt64Max;
+	REQUIRE(numberA > numberB);
+
+	numberA = kNIntegerSafeMax - 1.0;
+	numberB = uint64_t(kNIntegerSafeMax);
+	REQUIRE(numberA < numberB);
+
+	numberA = kNIntegerSafeMax;
+	numberB = uint64_t(kNIntegerSafeMax);
+	REQUIRE(numberA == numberB);
+
+	numberA = kNIntegerSafeMax + 1.0;
+	numberB = uint64_t(kNIntegerSafeMax);
+	REQUIRE(numberA > numberB);
+}

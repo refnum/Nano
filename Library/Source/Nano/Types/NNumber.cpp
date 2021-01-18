@@ -51,11 +51,9 @@
 
 
 //=============================================================================
-//		Internal Constants
+//		Internal Macros
 //-----------------------------------------------------------------------------
-// Limits
-static constexpr float64_t kNSafeIntegerMin                 = -9007199254740991.0;
-static constexpr float64_t kNSafeIntegerMax                 = 9007199254740991.0;
+#define NN_LOG_INEXACT_COMPARISON                           0
 
 
 
@@ -69,15 +67,7 @@ bool NNumber::IsInteger() const
 
 
 	// Check the value
-	bool isInteger = true;
-
-	if (mValue.IsFloat64())
-	{
-		float64_t theValue = GetFloat64();
-		isInteger          = (fmod(theValue, 1.0) == 0.0);
-	}
-
-	return isInteger;
+	return mValue.IsUInt64() || mValue.IsInt64();
 }
 
 
@@ -253,6 +243,7 @@ uint64_t NNumber::GetUInt64() const
 	else if (mValue.IsFloat64())
 	{
 		NN_REQUIRE(IsPositive() && IsInteger());
+		NN_REQUIRE(mValue.GetFloat64() < float64_t(kNUInt64Max));
 		theValue = uint64_t(mValue.GetFloat64());
 	}
 	else
@@ -343,8 +334,8 @@ int64_t NNumber::GetInt64() const
 	else if (mValue.IsFloat64())
 	{
 		NN_REQUIRE(IsInteger());
-		NN_REQUIRE(int64_t(mValue.GetFloat64()) >= kNInt64Min);
-		NN_REQUIRE(int64_t(mValue.GetFloat64()) <= kNInt64Max);
+		NN_REQUIRE(int64_t(mValue.GetFloat64()) >= float64_t(kNInt64Min));
+		NN_REQUIRE(int64_t(mValue.GetFloat64()) <= float64_t(kNInt64Max));
 		theValue = int64_t(mValue.GetFloat64());
 	}
 	else
@@ -587,22 +578,7 @@ NComparison NNumber::CompareOrder(const NNumber& theNumber) const
 	// Compare integer / real
 	else
 	{
-		if (IsInteger())
-		{
-			theResult = CompareIntReal(theNumber);
-		}
-		else
-		{
-			theResult = theNumber.CompareIntReal(*this);
-			if (theResult == NComparison::LessThan)
-			{
-				theResult = NComparison::GreaterThan;
-			}
-			else if (theResult == NComparison::GreaterThan)
-			{
-				theResult = NComparison::LessThan;
-			}
-		}
+		theResult = CompareIntReal(theNumber);
 	}
 
 	return theResult;
@@ -622,73 +598,154 @@ NComparison NNumber::CompareIntReal(const NNumber& theNumber) const
 
 	// Validate our parameters and state
 	NN_REQUIRE(IsNegative() == theNumber.IsNegative());
-	NN_REQUIRE(IsInteger() && theNumber.IsReal());
+	NN_REQUIRE(IsInteger() != theNumber.IsInteger());
+
+
+
+	// Get the state we need
+	NNumber numberA = *this;
+	NNumber numberB = theNumber;
+
+	NComparison theResult = NComparison::EqualTo;
+	bool        didSwap   = !numberA.IsInteger();
+
+	if (didSwap)
+	{
+		std::swap(numberA, numberB);
+	}
 
 
 
 	// Compare integer / real
 	//
-	// A float64_t can only represent 53-bit integers exactly, which range from:
+	// A float64_t can represent a 53-bit range of consecutive integers:
 	//
-	//		kNSafeIntegerMin			-9007199254740991
-	//		kNSafeIntegerMax			 9007199254740991
+	//		kNIntegerSafeMin			-9007199254740991
+	//		kNIntegerSafeMax			 9007199254740991
 	//
-	// As a float64_t can hold values outside that range this gives us two
-	// cases where always-correct comparisons can be made:
+	// As a float64_t can also hold values outside that range this gives
+	// two cases where we can make always-correct comparisons:
 	//
-	//	o A real outside the maximum integer range can be ordered correctly
-	//	regardless of its value.
+	//	o	A real outside the maximum integer range can be ordered
+	//		correctly regardless of its real value.
 	//
-	//	o A real within the safe integer range can be ordered correctly
-	//	based on its value.
+	//	o	A real within the safe integer range can be ordered
+	//		correctly against integers by casting it to an integer.
 	//
-	// Comparing integers to reals between the safe integer range (2^53) and
-	// the maximum integer range (2^64) may give inconsistent results vs
-	// comparisons between two numbers of the same type.
+	// Reals between the safe integer range (2^53 - 1) and the maximum integer
+	// range (2^64 - 1) can not represent consecutive integers.
 	//
-	// We log a warning for this case as the caller may need to normalise
-	// types before attempting a comparison.
-	NComparison theResult = NComparison::EqualTo;
+	// Casting integers in that range to reals will map multiple integers to
+	// the same real:
+	//
+	//                  uint64_t               float64_t
+	//                  --------               ---------
+	//      18446744073709551615    18446744073709552000    <-- kNUInt64Max
+	//      18446744073709551614    18446744073709552000
+	//      18446744073709551613    18446744073709552000
+	//      1844674407370955....    18446744073709552000
+	//      18446744073709550592    18446744073709552000
+	//      18446744073709550591    18446744073709550000
+	//      18446744073709550590    18446744073709550000
+	//      18446744073709550...    18446744073709550...
+	//                    ......                  ......
+	//          9007199254740991        9007199254740991    <-- kNIntegerSafeMax
+	//          9007199254740990        9007199254740990
+	//          9007199254740989        9007199254740989
+	//          9007199254740988        9007199254740988
+	//          9007199254740987        9007199254740987
+	//
+	// Casting reals in this range to integers will map each distinct real
+	// value to a distinct integer value.
+	//
+	// As such these comparisons are performed as integers, giving us the
+	// 'best' result in the sense of the the least information loss.
+	//
+	//
+	// The outer edges of the maximum integer range (kNInt64Min / kNUInt64Max)
+	// are rounded when cast to a float.
+	//
+	// We special case these edge values, rather than casting a real to an
+	// integer, as the rounded value will exceed the maximum integer value
+	// which is UB.
+	float64_t realB = numberB.GetFloat64();
 
 	if (IsNegative())
 	{
-		// Real is outside integer range
-		if (theNumber.GetFloat64() < float64_t(kNInt64Min))
+		// Real outside integer range
+		if (realB < float64_t(kNInt64Min))
 		{
 			theResult = NComparison::GreaterThan;
 		}
 
-		// Real is within integer range
+		// Real within safe integer range
+		else if (realB >= kNIntegerSafeMin)
+		{
+			int64_t intA = numberA.GetInt64();
+			NN_REQUIRE(int64_t(float64_t(intA)) == intA);
+
+			theResult = NCompare(float64_t(intA), realB);
+		}
+
+		// Real outwith safe integer range
 		else
 		{
-			// Real is outside safe range
-			if (theNumber.GetFloat64() < kNSafeIntegerMin)
-			{
-				NN_LOG_WARNING("Integer/real comparison outside safe integer range");
-			}
+			int64_t intA = numberA.GetInt64();
+			int64_t intB = (realB == float64_t(kNInt64Min) ? kNInt64Min : int64_t(realB));
 
-			theResult = NCompare(GetFloat64(), theNumber.GetFloat64());
+			theResult = NCompare(intA, intB);
+			if (NN_LOG_INEXACT_COMPARISON)
+			{
+				NN_LOG_INFO("Int / real comparison outside safe zone, results may be misleading");
+			}
 		}
 	}
 
 	else
 	{
-		// Real is outside integer range
-		if (theNumber.GetFloat64() > float64_t(kNUInt64Max))
+		// Real outside integer range
+		if (realB > float64_t(kNUInt64Max))
 		{
 			theResult = NComparison::LessThan;
 		}
 
-		// Real is within integer range
+		// Real within safe integer range
+		else if (realB <= kNIntegerSafeMax)
+		{
+			uint64_t uintA = numberA.GetUInt64();
+			NN_REQUIRE(uint64_t(float64_t(uintA)) == uintA);
+
+			theResult = NCompare(float64_t(uintA), realB);
+		}
+
+		// Real outwith safe integer zone
 		else
 		{
-			// Real is outside safe range
-			if (theNumber.GetFloat64() > kNSafeIntegerMax)
-			{
-				NN_LOG_WARNING("Integer/real comparison outside safe integer range");
-			}
+			uint64_t uintA = numberA.GetUInt64();
+			uint64_t uintB = (realB == float64_t(kNUInt64Max) ? kNUInt64Max : uint64_t(realB));
 
-			theResult = NCompare(GetFloat64(), theNumber.GetFloat64());
+			theResult = NCompare(uintA, uintB);
+			if (NN_LOG_INEXACT_COMPARISON)
+			{
+				NN_LOG_INFO("Int / real comparison outside safe zone, results may be misleading");
+			}
+		}
+	}
+
+
+
+	// Swap the result
+	//
+	// If numberA wasn't the integer then the result is reversed.
+	if (didSwap && theResult != NComparison::EqualTo)
+	{
+		if (theResult == NComparison::LessThan)
+		{
+			theResult = NComparison::GreaterThan;
+		}
+		else
+		{
+			theResult = NComparison::LessThan;
 		}
 	}
 
