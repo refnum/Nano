@@ -414,7 +414,12 @@ bool NNumber::SetValue(const NAny& theValue)
 	// Set the value
 	bool didSet = true;
 
-	if (theValue.HasBool())
+	if (theValue.IsEmpty())
+	{
+		didSet = false;
+	}
+
+	else if (theValue.HasBool())
 	{
 		mValue = uint64_t(theValue.GetBool());
 	}
