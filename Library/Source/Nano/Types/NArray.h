@@ -60,6 +60,7 @@
 // Forward declaration
 class NData;
 class NDictionary;
+class NNumber;
 class NRange;
 class NString;
 class NTime;
@@ -135,6 +136,13 @@ public:
 	// NMixinComparable
 	bool                                CompareEqual(const NArray& theArray) const;
 	NComparison                         CompareOrder(const NArray& theArray) const;
+
+
+private:
+	NNumber                             GetNumber(size_t theIndex, const NString& theType) const;
+
+	template<typename T>
+	T                                   GetValue(size_t theIndex, const NString& theType) const;
 };
 
 

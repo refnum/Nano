@@ -219,24 +219,8 @@ bool NDictionary::GetBool(const NString& theKey) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(!theKey.IsEmpty());
-
-
-
 	// Get the value
-	NNumber theResult;
-
-	auto theIter = find(theKey);
-	if (theIter != end())
-	{
-		if (!theResult.SetValue(theIter->second))
-		{
-			NN_LOG_WARNING("Unable to convert [{}] to bool", theKey);
-		}
-	}
-
-	return theResult.GetBool();
+	return GetNumber(theKey, "bool").GetBool();
 }
 
 
@@ -250,24 +234,8 @@ uint32_t NDictionary::GetUInt32(const NString& theKey) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(!theKey.IsEmpty());
-
-
-
 	// Get the value
-	NNumber theResult;
-
-	auto theIter = find(theKey);
-	if (theIter != end())
-	{
-		if (!theResult.SetValue(theIter->second))
-		{
-			NN_LOG_WARNING("Unable to convert [{}] to uint32_t", theKey);
-		}
-	}
-
-	return theResult.GetUInt32();
+	return GetNumber(theKey, "uint32_t").GetUInt32();
 }
 
 
@@ -281,24 +249,8 @@ uint64_t NDictionary::GetUInt64(const NString& theKey) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(!theKey.IsEmpty());
-
-
-
 	// Get the value
-	NNumber theResult;
-
-	auto theIter = find(theKey);
-	if (theIter != end())
-	{
-		if (!theResult.SetValue(theIter->second))
-		{
-			NN_LOG_WARNING("Unable to convert [{}] to uint64_t", theKey);
-		}
-	}
-
-	return theResult.GetUInt64();
+	return GetNumber(theKey, "uint64_t").GetUInt64();
 }
 
 
@@ -312,24 +264,8 @@ int32_t NDictionary::GetInt32(const NString& theKey) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(!theKey.IsEmpty());
-
-
-
 	// Get the value
-	NNumber theResult;
-
-	auto theIter = find(theKey);
-	if (theIter != end())
-	{
-		if (!theResult.SetValue(theIter->second))
-		{
-			NN_LOG_WARNING("Unable to convert [{}] to int32_t", theKey);
-		}
-	}
-
-	return theResult.GetInt32();
+	return GetNumber(theKey, "int32_t").GetInt32();
 }
 
 
@@ -343,24 +279,8 @@ int64_t NDictionary::GetInt64(const NString& theKey) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(!theKey.IsEmpty());
-
-
-
 	// Get the value
-	NNumber theResult;
-
-	auto theIter = find(theKey);
-	if (theIter != end())
-	{
-		if (!theResult.SetValue(theIter->second))
-		{
-			NN_LOG_WARNING("Unable to convert [{}] to int64_t", theKey);
-		}
-	}
-
-	return theResult.GetInt64();
+	return GetNumber(theKey, "int64_t").GetInt64();
 }
 
 
@@ -374,24 +294,8 @@ float32_t NDictionary::GetFloat32(const NString& theKey) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(!theKey.IsEmpty());
-
-
-
 	// Get the value
-	NNumber theResult;
-
-	auto theIter = find(theKey);
-	if (theIter != end())
-	{
-		if (!theResult.SetValue(theIter->second))
-		{
-			NN_LOG_WARNING("Unable to convert [{}] to float32_t", theKey);
-		}
-	}
-
-	return theResult.GetFloat32();
+	return GetNumber(theKey, "float32_t").GetFloat32();
 }
 
 
@@ -405,24 +309,8 @@ float64_t NDictionary::GetFloat64(const NString& theKey) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(!theKey.IsEmpty());
-
-
-
 	// Get the value
-	NNumber theResult;
-
-	auto theIter = find(theKey);
-	if (theIter != end())
-	{
-		if (!theResult.SetValue(theIter->second))
-		{
-			NN_LOG_WARNING("Unable to convert [{}] to float64_t", theKey);
-		}
-	}
-
-	return theResult.GetFloat64();
+	return GetNumber(theKey, "float64_t").GetFloat64();
 }
 
 
@@ -436,25 +324,8 @@ NArray NDictionary::GetArray(const NString& theKey) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(!theKey.IsEmpty());
-
-
-
 	// Get the value
-	auto theIter = find(theKey);
-	if (theIter != end())
-	{
-		const auto& theValue = theIter->second;
-
-		if (theValue.Has<NArray>())
-		{
-			return theValue.Get<NArray>();
-		}
-	}
-
-	NN_LOG_WARNING("Unable to convert [{}] to NArray", theKey);
-	return {};
+	return GetValue<NArray>(theKey, "NArray");
 }
 
 
@@ -468,25 +339,8 @@ NData NDictionary::GetData(const NString& theKey) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(!theKey.IsEmpty());
-
-
-
 	// Get the value
-	auto theIter = find(theKey);
-	if (theIter != end())
-	{
-		const auto& theValue = theIter->second;
-
-		if (theValue.HasData())
-		{
-			return theValue.GetData();
-		}
-	}
-
-	NN_LOG_WARNING("Unable to convert [{}] to NData", theKey);
-	return {};
+	return GetValue<NData>(theKey, "NData");
 }
 
 
@@ -500,25 +354,8 @@ NDictionary NDictionary::GetDictionary(const NString& theKey) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(!theKey.IsEmpty());
-
-
-
 	// Get the value
-	auto theIter = find(theKey);
-	if (theIter != end())
-	{
-		const auto& theValue = theIter->second;
-
-		if (theValue.Has<NDictionary>())
-		{
-			return theValue.Get<NDictionary>();
-		}
-	}
-
-	NN_LOG_WARNING("Unable to convert [{}] to NDictionary", theKey);
-	return {};
+	return GetValue<NDictionary>(theKey, "NDictionary");
 }
 
 
@@ -532,25 +369,8 @@ NString NDictionary::GetString(const NString& theKey) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(!theKey.IsEmpty());
-
-
-
 	// Get the value
-	auto theIter = find(theKey);
-	if (theIter != end())
-	{
-		const auto& theValue = theIter->second;
-
-		if (theValue.HasString())
-		{
-			return theValue.GetString();
-		}
-	}
-
-	NN_LOG_WARNING("Unable to convert [{}] to NString", theKey);
-	return {};
+	return GetValue<NString>(theKey, "NString");
 }
 
 
@@ -564,25 +384,8 @@ NTime NDictionary::GetTime(const NString& theKey) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(!theKey.IsEmpty());
-
-
-
 	// Get the value
-	auto theIter = find(theKey);
-	if (theIter != end())
-	{
-		const auto& theValue = theIter->second;
-
-		if (theValue.HasTime())
-		{
-			return theValue.GetTime();
-		}
-	}
-
-	NN_LOG_WARNING("Unable to convert [{}] to NTime", theKey);
-	return {};
+	return GetValue<NTime>(theKey, "NTime");
 }
 
 
@@ -654,6 +457,38 @@ NComparison NDictionary::CompareOrder(const NDictionary& theDictionary) const
 			{
 				break;
 			}
+		}
+	}
+
+	return theResult;
+}
+
+
+
+
+
+#pragma mark private
+//=============================================================================
+//		NDictionary::GetNumber : Get a number value.
+//-----------------------------------------------------------------------------
+NNumber NDictionary::GetNumber(const NString& theKey, const NString& theType) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theKey.IsEmpty());
+
+
+
+	// Get the number
+	NNumber theResult;
+
+	auto theIter = find(theKey);
+	if (theIter != end())
+	{
+		if (!theResult.SetValue(theIter->second))
+		{
+			NN_LOG_WARNING("Unable to convert [{}] to {}", theKey, theType);
 		}
 	}
 

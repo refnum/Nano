@@ -153,3 +153,33 @@ void NArray::SetVector(const std::vector<T>& theValues)
 		at(n) = theValues[n];
 	}
 }
+
+
+
+
+
+#pragma mark private
+//=============================================================================
+//		NArray::GetValue : Get a typed value.
+//-----------------------------------------------------------------------------
+template<typename T>
+T NArray::GetValue(size_t theIndex, const NString& theType) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theIndex < GetSize());
+
+
+
+	// Get the value
+	const auto& theValue = at(theIndex);
+
+	if (theValue.Has<T>())
+	{
+		return theValue.Get<T>();
+	}
+
+	NN_LOG_WARNING("Unable to convert [{}] to {}", theIndex, theType);
+	return {};
+}

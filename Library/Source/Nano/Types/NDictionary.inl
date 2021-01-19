@@ -69,3 +69,37 @@ inline size_t NDictionary::GetSize() const
 	// Get the size
 	return size();
 }
+
+
+
+
+
+#pragma mark private
+//=============================================================================
+//		NDictionary::GetValue : Get a typed value.
+//-----------------------------------------------------------------------------
+template<typename T>
+T NDictionary::GetValue(const NString& theKey, const NString& theType) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theKey.IsEmpty());
+
+
+
+	// Get the value
+	auto theIter = find(theKey);
+	if (theIter != end())
+	{
+		const auto& theValue = theIter->second;
+
+		if (theValue.Has<T>())
+		{
+			return theValue.Get<T>();
+		}
+	}
+
+	NN_LOG_WARNING("Unable to convert [{}] to {}", theKey, theType);
+	return {};
+}

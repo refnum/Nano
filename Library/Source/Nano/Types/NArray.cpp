@@ -44,6 +44,7 @@
 // Nano
 #include "NData.h"
 #include "NDictionary.h"
+#include "NFormat.h"
 #include "NNumber.h"
 #include "NRange.h"
 #include "NStdAlgorithm.h"
@@ -115,20 +116,8 @@ bool NArray::GetBool(size_t theIndex) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(theIndex < GetSize());
-
-
-
 	// Get the value
-	NNumber theResult;
-
-	if (!theResult.SetValue(at(theIndex)))
-	{
-		NN_LOG_WARNING("Unable to convert [{}] to bool", theIndex);
-	}
-
-	return theResult.GetBool();
+	return GetNumber(theIndex, "bool").GetBool();
 }
 
 
@@ -142,20 +131,8 @@ uint32_t NArray::GetUInt32(size_t theIndex) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(theIndex < GetSize());
-
-
-
 	// Get the value
-	NNumber theResult;
-
-	if (!theResult.SetValue(at(theIndex)))
-	{
-		NN_LOG_WARNING("Unable to convert [{}] to uint32_t", theIndex);
-	}
-
-	return theResult.GetUInt32();
+	return GetNumber(theIndex, "uint32_t").GetUInt32();
 }
 
 
@@ -169,20 +146,8 @@ uint64_t NArray::GetUInt64(size_t theIndex) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(theIndex < GetSize());
-
-
-
 	// Get the value
-	NNumber theResult;
-
-	if (!theResult.SetValue(at(theIndex)))
-	{
-		NN_LOG_WARNING("Unable to convert [{}] to uint64_t", theIndex);
-	}
-
-	return theResult.GetUInt64();
+	return GetNumber(theIndex, "uint64_t").GetUInt64();
 }
 
 
@@ -196,20 +161,8 @@ int32_t NArray::GetInt32(size_t theIndex) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(theIndex < GetSize());
-
-
-
 	// Get the value
-	NNumber theResult;
-
-	if (!theResult.SetValue(at(theIndex)))
-	{
-		NN_LOG_WARNING("Unable to convert [{}] to int32_t", theIndex);
-	}
-
-	return theResult.GetInt32();
+	return GetNumber(theIndex, "int32_t").GetInt32();
 }
 
 
@@ -223,20 +176,8 @@ int64_t NArray::GetInt64(size_t theIndex) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(theIndex < GetSize());
-
-
-
 	// Get the value
-	NNumber theResult;
-
-	if (!theResult.SetValue(at(theIndex)))
-	{
-		NN_LOG_WARNING("Unable to convert [{}] to int64_t", theIndex);
-	}
-
-	return theResult.GetInt64();
+	return GetNumber(theIndex, "int64_t").GetInt64();
 }
 
 
@@ -250,20 +191,8 @@ float32_t NArray::GetFloat32(size_t theIndex) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(theIndex < GetSize());
-
-
-
 	// Get the value
-	NNumber theResult;
-
-	if (!theResult.SetValue(at(theIndex)))
-	{
-		NN_LOG_WARNING("Unable to convert [{}] to float32_t", theIndex);
-	}
-
-	return theResult.GetFloat32();
+	return GetNumber(theIndex, "float32_t").GetFloat32();
 }
 
 
@@ -277,20 +206,8 @@ float64_t NArray::GetFloat64(size_t theIndex) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(theIndex < GetSize());
-
-
-
 	// Get the value
-	NNumber theResult;
-
-	if (!theResult.SetValue(at(theIndex)))
-	{
-		NN_LOG_WARNING("Unable to convert [{}] to float64_t", theIndex);
-	}
-
-	return theResult.GetFloat64();
+	return GetNumber(theIndex, "float64_t").GetFloat64();
 }
 
 
@@ -304,21 +221,8 @@ NArray NArray::GetArray(size_t theIndex) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(theIndex < GetSize());
-
-
-
 	// Get the value
-	const auto& theValue = at(theIndex);
-
-	if (theValue.Has<NArray>())
-	{
-		return theValue.Get<NArray>();
-	}
-
-	NN_LOG_WARNING("Unable to convert [{}] to NArray", theIndex);
-	return {};
+	return GetValue<NArray>(theIndex, "NArray");
 }
 
 
@@ -332,21 +236,8 @@ NData NArray::GetData(size_t theIndex) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(theIndex < GetSize());
-
-
-
 	// Get the value
-	const auto& theValue = at(theIndex);
-
-	if (theValue.HasData())
-	{
-		return theValue.GetData();
-	}
-
-	NN_LOG_WARNING("Unable to convert [{}] to NData", theIndex);
-	return {};
+	return GetValue<NData>(theIndex, "NData");
 }
 
 
@@ -360,21 +251,8 @@ NDictionary NArray::GetDictionary(size_t theIndex) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(theIndex < GetSize());
-
-
-
 	// Get the value
-	const auto& theValue = at(theIndex);
-
-	if (theValue.Has<NDictionary>())
-	{
-		return theValue.Get<NDictionary>();
-	}
-
-	NN_LOG_WARNING("Unable to convert [{}] to NDictionary", theIndex);
-	return {};
+	return GetValue<NDictionary>(theIndex, "NDictionary");
 }
 
 
@@ -388,21 +266,8 @@ NString NArray::GetString(size_t theIndex) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(theIndex < GetSize());
-
-
-
 	// Get the value
-	const auto& theValue = at(theIndex);
-
-	if (theValue.HasString())
-	{
-		return theValue.GetString();
-	}
-
-	NN_LOG_WARNING("Unable to convert [{}] to NString", theIndex);
-	return {};
+	return GetValue<NString>(theIndex, "NString");
 }
 
 
@@ -416,21 +281,8 @@ NTime NArray::GetTime(size_t theIndex) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(theIndex < GetSize());
-
-
-
 	// Get the value
-	const auto& theValue = at(theIndex);
-
-	if (theValue.HasTime())
-	{
-		return theValue.GetTime();
-	}
-
-	NN_LOG_WARNING("Unable to convert [{}] to NTime", theIndex);
-	return {};
+	return GetValue<NTime>(theIndex, "NTime");
 }
 
 
@@ -499,6 +351,34 @@ NComparison NArray::CompareOrder(const NArray& theArray) const
 	if (theResult == NComparison::EqualTo)
 	{
 		theResult = NCompare(sizeA, sizeB);
+	}
+
+	return theResult;
+}
+
+
+
+
+
+#pragma mark private
+//=============================================================================
+//		NArray::GetNumber : Get a number value.
+//-----------------------------------------------------------------------------
+NNumber NArray::GetNumber(size_t theIndex, const NString& theType) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theIndex < GetSize());
+
+
+
+	// Get the number
+	NNumber theResult;
+
+	if (!theResult.SetValue(at(theIndex)))
+	{
+		NN_LOG_WARNING("Unable to convert [{}] to {}", theIndex, theType);
 	}
 
 	return theResult;
