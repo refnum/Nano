@@ -262,10 +262,10 @@ NANO_TEST(TDictionary, "GetValues")
 	REQUIRE(theValues.size() == theDictionary.GetSize());
 
 	nstd::sort(theValues);
-	REQUIRE(theValues[0] == kTestData);
-	REQUIRE(theValues[1] == kTestString);
-	REQUIRE(theValues[2] == kTestArray);
-	REQUIRE(theValues[3] == kTestTime);
+	REQUIRE(theValues[0] == kTestString);
+	REQUIRE(theValues[1] == kTestTime);
+	REQUIRE(theValues[2] == kTestData);
+	REQUIRE(theValues[3] == kTestArray);
 	REQUIRE(theValues[4] == kTestInt64);
 	REQUIRE(theValues[5] == kTestInt32);
 	REQUIRE(theValues[6] == kTestBool);
