@@ -136,6 +136,60 @@ bool NArray::GetBool(size_t theIndex) const
 
 
 //=============================================================================
+//		NArray::GetUInt32 : Get a uint32_t value.
+//-----------------------------------------------------------------------------
+uint32_t NArray::GetUInt32(size_t theIndex) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theIndex < GetSize());
+
+
+
+	// Get the value
+	NNumber theResult;
+
+	if (!theResult.SetValue(at(theIndex)))
+	{
+		NN_LOG_WARNING("Unable to convert [{}] to uint32_t", theIndex);
+	}
+
+	return theResult.GetUInt32();
+}
+
+
+
+
+
+//=============================================================================
+//		NArray::GetUInt64 : Get a uint64_t value.
+//-----------------------------------------------------------------------------
+uint64_t NArray::GetUInt64(size_t theIndex) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theIndex < GetSize());
+
+
+
+	// Get the value
+	NNumber theResult;
+
+	if (!theResult.SetValue(at(theIndex)))
+	{
+		NN_LOG_WARNING("Unable to convert [{}] to uint64_t", theIndex);
+	}
+
+	return theResult.GetUInt64();
+}
+
+
+
+
+
+//=============================================================================
 //		NArray::GetInt32 : Get an int32_t value.
 //-----------------------------------------------------------------------------
 int32_t NArray::GetInt32(size_t theIndex) const

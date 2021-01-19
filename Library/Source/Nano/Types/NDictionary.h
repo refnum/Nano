@@ -109,6 +109,8 @@ public:
 	//
 	// Returns 0/empty if the value can not be returned as the specified type.
 	bool                                GetBool(   const NString& theKey) const;
+	uint32_t                            GetUInt32( const NString& theKey) const;
+	uint64_t                            GetUInt64( const NString& theKey) const;
 	int32_t                             GetInt32(  const NString& theKey) const;
 	int64_t                             GetInt64(  const NString& theKey) const;
 	float32_t                           GetFloat32(const NString& theKey) const;

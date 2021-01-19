@@ -63,8 +63,10 @@ static const NVectorFloat64 kTestVectorFloat64{1.0, 2.0, 3.0, 4.0, 5.0};
 
 
 static constexpr bool      kTestBool                        = true;
-static constexpr int32_t   kTestInt32                       = 32;
-static constexpr int64_t   kTestInt64                       = 65;
+static constexpr uint32_t  kTestUInt32                      = 32;
+static constexpr uint64_t  kTestUInt64                      = 65;
+static constexpr int32_t   kTestInt32                       = -32;
+static constexpr int64_t   kTestInt64                       = -65;
 static constexpr float32_t kTestFloat32                     = 32.5f;
 static constexpr float64_t kTestFloat64                     = 64.5;
 static const NData         kTestData(sizeof(kTestBytes), kTestBytes);
@@ -263,6 +265,8 @@ NANO_TEST(TArray, "Get")
 	theDictionary["Int64"] = kTestInt64;
 
 	theArray.push_back(kTestBool);
+	theArray.push_back(kTestUInt32);
+	theArray.push_back(kTestUInt64);
 	theArray.push_back(kTestInt32);
 	theArray.push_back(kTestInt64);
 	theArray.push_back(kTestFloat32);
@@ -272,16 +276,18 @@ NANO_TEST(TArray, "Get")
 	theArray.push_back(kTestString);
 	theArray.push_back(kTestTime);
 
-	REQUIRE(theArray.GetSize() == 9);
+	REQUIRE(theArray.GetSize() == 11);
 	REQUIRE(theArray.GetBool(0) == kTestBool);
-	REQUIRE(theArray.GetInt32(1) == kTestInt32);
-	REQUIRE(theArray.GetInt64(2) == kTestInt64);
-	REQUIRE(theArray.GetFloat32(3) == kTestFloat32);
-	REQUIRE(theArray.GetFloat64(4) == kTestFloat64);
-	REQUIRE(theArray.GetData(5) == kTestData);
-	REQUIRE(theArray.GetDictionary(6) == theDictionary);
-	REQUIRE(theArray.GetString(7) == kTestString);
-	REQUIRE(theArray.GetTime(8) == kTestTime);
+	REQUIRE(theArray.GetUInt32(1) == kTestUInt32);
+	REQUIRE(theArray.GetUInt64(2) == kTestUInt64);
+	REQUIRE(theArray.GetInt32(3) == kTestInt32);
+	REQUIRE(theArray.GetInt64(4) == kTestInt64);
+	REQUIRE(theArray.GetFloat32(5) == kTestFloat32);
+	REQUIRE(theArray.GetFloat64(6) == kTestFloat64);
+	REQUIRE(theArray.GetData(7) == kTestData);
+	REQUIRE(theArray.GetDictionary(8) == theDictionary);
+	REQUIRE(theArray.GetString(9) == kTestString);
+	REQUIRE(theArray.GetTime(10) == kTestTime);
 
 
 	NArray arrayA(theArray);
@@ -290,7 +296,7 @@ NANO_TEST(TArray, "Get")
 	theArray.push_back(arrayA);
 	theArray.push_back(arrayB);
 
-	REQUIRE(theArray.GetSize() == 11);
-	REQUIRE(theArray.GetArray(9) == arrayA);
-	REQUIRE(theArray.GetArray(10) == arrayB);
+	REQUIRE(theArray.GetSize() == 13);
+	REQUIRE(theArray.GetArray(11) == arrayA);
+	REQUIRE(theArray.GetArray(12) == arrayB);
 }

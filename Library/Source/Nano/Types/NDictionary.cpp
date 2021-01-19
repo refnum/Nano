@@ -244,6 +244,68 @@ bool NDictionary::GetBool(const NString& theKey) const
 
 
 //=============================================================================
+//		NDictionary::GetUInt32 : Get a uint32_t value.
+//-----------------------------------------------------------------------------
+uint32_t NDictionary::GetUInt32(const NString& theKey) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theKey.IsEmpty());
+
+
+
+	// Get the value
+	NNumber theResult;
+
+	auto theIter = find(theKey);
+	if (theIter != end())
+	{
+		if (!theResult.SetValue(theIter->second))
+		{
+			NN_LOG_WARNING("Unable to convert [{}] to uint32_t", theKey);
+		}
+	}
+
+	return theResult.GetUInt32();
+}
+
+
+
+
+
+//=============================================================================
+//		NDictionary::GetUInt64 : Get a uint64_t value.
+//-----------------------------------------------------------------------------
+uint64_t NDictionary::GetUInt64(const NString& theKey) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theKey.IsEmpty());
+
+
+
+	// Get the value
+	NNumber theResult;
+
+	auto theIter = find(theKey);
+	if (theIter != end())
+	{
+		if (!theResult.SetValue(theIter->second))
+		{
+			NN_LOG_WARNING("Unable to convert [{}] to uint64_t", theKey);
+		}
+	}
+
+	return theResult.GetUInt64();
+}
+
+
+
+
+
+//=============================================================================
 //		NDictionary::GetInt32 : Get an int32_t value.
 //-----------------------------------------------------------------------------
 int32_t NDictionary::GetInt32(const NString& theKey) const

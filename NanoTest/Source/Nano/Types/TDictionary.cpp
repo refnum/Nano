@@ -63,8 +63,10 @@ static const NString kTest2                                 = "2";
 static const NString kTest3                                 = "3";
 
 static constexpr bool      kTestBool                        = true;
-static constexpr int32_t   kTestInt32                       = 32;
-static constexpr int64_t   kTestInt64                       = 65;
+static constexpr uint32_t  kTestUInt32                      = 32;
+static constexpr uint64_t  kTestUInt64                      = 65;
+static constexpr int32_t   kTestInt32                       = -32;
+static constexpr int64_t   kTestInt64                       = -65;
 static constexpr float32_t kTestFloat32                     = 32.5f;
 static constexpr float64_t kTestFloat64                     = 64.5;
 static const NArray        kTestArray({1, 2, 3});
@@ -86,6 +88,8 @@ NANO_FIXTURE(TDictionary)
 	SETUP
 	{
 		theDictionary["Bool"]    = kTestBool;
+		theDictionary["UInt32"]  = kTestUInt32;
+		theDictionary["UInt64"]  = kTestUInt64;
 		theDictionary["Int32"]   = kTestInt32;
 		theDictionary["Int64"]   = kTestInt64;
 		theDictionary["Float32"] = kTestFloat32;
@@ -144,7 +148,7 @@ NANO_TEST(TDictionary, "GetSize")
 
 
 	// Perform the test
-	REQUIRE(theDictionary.GetSize() == 9);
+	REQUIRE(theDictionary.GetSize() == 11);
 }
 
 
@@ -180,14 +184,14 @@ NANO_TEST(TDictionary, "RemoveKey")
 	// Perform the test
 	REQUIRE(theDictionary.HasKey("Int32"));
 	REQUIRE(theDictionary.HasKey("Int64"));
-	REQUIRE(theDictionary.GetSize() == 9);
+	REQUIRE(theDictionary.GetSize() == 11);
 
 	theDictionary.RemoveKey("Int32");
 	theDictionary.RemoveKey("Int64");
 
 	REQUIRE(!theDictionary.HasKey("Int32"));
 	REQUIRE(!theDictionary.HasKey("Int64"));
-	REQUIRE(theDictionary.GetSize() == 7);
+	REQUIRE(theDictionary.GetSize() == 9);
 }
 
 
@@ -204,13 +208,13 @@ NANO_TEST(TDictionary, "RemoveKeys")
 	// Perform the test
 	REQUIRE(theDictionary.HasKey("Int32"));
 	REQUIRE(theDictionary.HasKey("Int64"));
-	REQUIRE(theDictionary.GetSize() == 9);
+	REQUIRE(theDictionary.GetSize() == 11);
 
 	theDictionary.RemoveKeys({"Int32", "Int64"});
 
 	REQUIRE(!theDictionary.HasKey("Int32"));
 	REQUIRE(!theDictionary.HasKey("Int64"));
-	REQUIRE(theDictionary.GetSize() == 7);
+	REQUIRE(theDictionary.GetSize() == 9);
 }
 
 
@@ -238,6 +242,8 @@ NANO_TEST(TDictionary, "GetKeys")
 	REQUIRE(theKeys[6] == "Int64");
 	REQUIRE(theKeys[7] == "String");
 	REQUIRE(theKeys[8] == "Time");
+	REQUIRE(theKeys[9] == "UInt32");
+	REQUIRE(theKeys[10] == "UInt64");
 }
 
 
@@ -260,11 +266,13 @@ NANO_TEST(TDictionary, "GetValues")
 	REQUIRE(theValues[1] == kTestString);
 	REQUIRE(theValues[2] == kTestArray);
 	REQUIRE(theValues[3] == kTestTime);
-	REQUIRE(theValues[4] == kTestBool);
+	REQUIRE(theValues[4] == kTestInt64);
 	REQUIRE(theValues[5] == kTestInt32);
-	REQUIRE(theValues[6] == kTestFloat32);
-	REQUIRE(theValues[7] == kTestFloat64);
-	REQUIRE(theValues[8] == kTestInt64);
+	REQUIRE(theValues[6] == kTestBool);
+	REQUIRE(theValues[7] == kTestUInt32);
+	REQUIRE(theValues[8] == kTestFloat32);
+	REQUIRE(theValues[9] == kTestFloat64);
+	REQUIRE(theValues[10] == kTestUInt64);
 }
 
 
@@ -303,8 +311,10 @@ NANO_TEST(TDictionary, "Get")
 
 
 	// Perform the test
-	REQUIRE(theDictionary.GetSize() == 9);
+	REQUIRE(theDictionary.GetSize() == 11);
 	REQUIRE(theDictionary["Bool"] == kTestBool);
+	REQUIRE(theDictionary["UInt32"] == kTestUInt32);
+	REQUIRE(theDictionary["UInt64"] == kTestUInt64);
 	REQUIRE(theDictionary["Int32"] == kTestInt32);
 	REQUIRE(theDictionary["Int64"] == kTestInt64);
 	REQUIRE(theDictionary["Float32"] == kTestFloat32);
@@ -321,7 +331,7 @@ NANO_TEST(TDictionary, "Get")
 	theDictionary["DictionaryA"] = dictionaryA;
 	theDictionary["DictionaryB"] = dictionaryB;
 
-	REQUIRE(theDictionary.GetSize() == 11);
+	REQUIRE(theDictionary.GetSize() == 13);
 	REQUIRE(theDictionary["DictionaryA"] == dictionaryA);
 	REQUIRE(theDictionary["DictionaryB"] == dictionaryB);
 }

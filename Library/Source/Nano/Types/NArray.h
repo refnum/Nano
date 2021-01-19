@@ -107,6 +107,8 @@ public:
 	//
 	// Returns 0/empty if the value can not be returned as the specified type.
 	bool                                GetBool(   size_t theIndex) const;
+	uint32_t                            GetUInt32( size_t theIndex) const;
+	uint64_t                            GetUInt64( size_t theIndex) const;
 	int32_t                             GetInt32(  size_t theIndex) const;
 	int64_t                             GetInt64(  size_t theIndex) const;
 	float32_t                           GetFloat32(size_t theIndex) const;
