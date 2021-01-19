@@ -651,6 +651,7 @@
 		AB9DA5E1102AF78F0062E311 /* NCFDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFDate.h; sourceTree = "<group>"; };
 		ABA2978F1767219500D938E5 /* NImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NImage.cpp; sourceTree = "<group>"; };
 		ABA297901767219500D938E5 /* NImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NImage.h; sourceTree = "<group>"; };
+		ABA478A925B6585900F3C3C9 /* NScopedLock.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NScopedLock.inl; sourceTree = "<group>"; };
 		ABA529D316626C4E000C695B /* NNetworkBrowser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNetworkBrowser.cpp; sourceTree = "<group>"; };
 		ABA529D416626C4E000C695B /* NNetworkBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNetworkBrowser.h; sourceTree = "<group>"; };
 		ABA529D516626C4E000C695B /* NNetworkService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNetworkService.cpp; sourceTree = "<group>"; };
@@ -1491,6 +1492,7 @@
 				AB198115259953A9002C5591 /* NRunLoop.cpp */,
 				AB198114259953A9002C5591 /* NRunLoop.h */,
 				AB2E01C7239878AF00224E11 /* NScopedLock.h */,
+				ABA478A925B6585900F3C3C9 /* NScopedLock.inl */,
 				AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */,
 				AB23BB5D102B67DB009CA347 /* NSemaphore.h */,
 				ABC75E621753910100BB5983 /* NSpinLock.h */,

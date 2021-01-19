@@ -1,5 +1,5 @@
 /*	NAME:
-		NScopedLock.h
+		NScopedLock.inl
 
 	DESCRIPTION:
 		Scoped lock.
@@ -36,46 +36,61 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NSCOPED_LOCK_H
-#define NSCOPED_LOCK_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nanp
+#include "NanoMacros.h"
+
+// System
+#include <utility>
 
 
 
 
 
 //=============================================================================
-//		Class Declaration
+//		Internal Types
+//-----------------------------------------------------------------------------
+NN_SUPPORTS_CTAD(NScopedLock);
+
+
+
+
+
+//=============================================================================
+//		NScopedLock::NScopedLock : Constructor.
 //-----------------------------------------------------------------------------
 template<typename T>
-class NScopedLock
+NScopedLock<T>::NScopedLock(T& theLock)
+	: mLock(theLock)
 {
-public:
-										NScopedLock(T& theLock);
-									   ~NScopedLock();
-
-										NScopedLock(const T& otherLock) = delete;
-	T&                                  operator=(  const T& otherLock) = delete;
-
-										NScopedLock(T&& otherLock);
-	T&                                  operator=(  T&& otherLock) = delete;
-
-
-private:
-	T&                                  mLock;
-};
+	mLock.Lock();
+}
 
 
 
 
 
 //=============================================================================
-//		Includes
+//		NScopedLock::NScopedLock : Constructor.
 //-----------------------------------------------------------------------------
-#include "NScopedLock.inl"
+template<typename T>
+NScopedLock<T>::NScopedLock(T&& theLock)
+	: mLock(std::move(theLock))
+{
+	mLock.Lock();
+}
 
 
 
-#endif // NSCOPED_LOCK_H
+
+
+//=============================================================================
+//		NScopedLock::~NScopedLock : Destructor.
+//-----------------------------------------------------------------------------
+template<typename T>
+NScopedLock<T>::~NScopedLock()
+{
+	mLock.Unlock();
+}
