@@ -370,6 +370,9 @@ NNumber NArray::GetNumber(size_t theIndex, const NString& theType) const
 
 	// Validate our parameters
 	NN_REQUIRE(theIndex < GetSize());
+	NN_REQUIRE(!theType.IsEmpty());
+
+	NN_UNUSED(theType);
 
 
 

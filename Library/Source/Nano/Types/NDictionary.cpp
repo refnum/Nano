@@ -477,6 +477,9 @@ NNumber NDictionary::GetNumber(const NString& theKey, const NString& theType) co
 
 	// Validate our parameters
 	NN_REQUIRE(!theKey.IsEmpty());
+	NN_REQUIRE(!theType.IsEmpty());
+
+	NN_UNUSED(theType);
 
 
 
