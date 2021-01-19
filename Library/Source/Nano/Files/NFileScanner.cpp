@@ -200,26 +200,6 @@ bool NFileScannerIterator::operator!=(const NFileScannerIterator& otherIter) con
 //=============================================================================
 //		NFileScanner::NFileScanner : Constructor.
 //-----------------------------------------------------------------------------
-NFileScanner::NFileScanner()
-	: mRecurseDepth(kNSizeMax)
-	, mFilterPath()
-	, mFilterName()
-	, mFilterItem(nullptr)
-	, mScanRoot{}
-	, mScanRoots{}
-	, mScanStop(false)
-	, mScanDepth(0)
-	, mScanResults{}
-{
-}
-
-
-
-
-
-//=============================================================================
-//		NFileScanner::NFileScanner : Constructor.
-//-----------------------------------------------------------------------------
 NFileScanner::NFileScanner(const NFile& theFile)
 	: mRecurseDepth(kNSizeMax)
 	, mFilterPath()
@@ -236,6 +216,26 @@ NFileScanner::NFileScanner(const NFile& theFile)
 
 	// Initialise ourselves
 	Scan(theFile);
+}
+
+
+
+
+
+//=============================================================================
+//		NFileScanner::NFileScanner : Constructor.
+//-----------------------------------------------------------------------------
+NFileScanner::NFileScanner()
+	: mRecurseDepth(kNSizeMax)
+	, mFilterPath()
+	, mFilterName()
+	, mFilterItem(nullptr)
+	, mScanRoot{}
+	, mScanRoots{}
+	, mScanStop(false)
+	, mScanDepth(0)
+	, mScanResults{}
+{
 }
 
 

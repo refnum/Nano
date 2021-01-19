@@ -94,14 +94,10 @@ public:
 	// A thread created without an invocable will enter its runloop.
 	//
 	// Every thread, even one created with an invocable, has its own runloop.
-										NThread(const NString& theName, size_t stackSize = 0);
-
-
 	template<typename Function,
 			 typename... Args,
 			 typename = std::enable_if_t<std::is_invocable_v<Function&, Args...>>>
 	explicit                            NThread(const NString& theName, Function&& theFunction, Args&&... theArgs);
-
 
 	template<typename Function,
 			 typename... Args,
@@ -111,6 +107,7 @@ public:
 												Function&&     theFunction,
 												Args&&... theArgs);
 
+										NThread(const NString& theName, size_t stackSize = 0);
 									   ~NThread();
 
 										NThread(  const NThread& otherThread) = delete;

@@ -52,9 +52,13 @@
 //=============================================================================
 //		NFile::NFile : Constructor.
 //-----------------------------------------------------------------------------
-NFile::NFile()
-	: mInfo()
+NFile::NFile(const NFilePath& thePath)
+	: mInfo(thePath)
 {
+
+
+	// Validate our parameters
+	NN_REQUIRE(thePath.IsValid());
 }
 
 
@@ -64,13 +68,9 @@ NFile::NFile()
 //=============================================================================
 //		NFile::NFile : Constructor.
 //-----------------------------------------------------------------------------
-NFile::NFile(const NFilePath& thePath)
-	: mInfo(thePath)
+NFile::NFile()
+	: mInfo()
 {
-
-
-	// Validate our parameters
-	NN_REQUIRE(thePath.IsValid());
 }
 
 

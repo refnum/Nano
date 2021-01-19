@@ -59,20 +59,6 @@ static constexpr NFileInfoFlags kNFileInfoMaskError         = kNFileInfoExists |
 //=============================================================================
 //		NFileInfo::NFileInfo : Constructor.
 //-----------------------------------------------------------------------------
-NFileInfo::NFileInfo()
-	: mPath{}
-	, mValid(kNFileInfoNone)
-	, mState{}
-{
-}
-
-
-
-
-
-//=============================================================================
-//		NFileInfo::NFileInfo : Constructor.
-//-----------------------------------------------------------------------------
 NFileInfo::NFileInfo(const NFilePath& thePath)
 	: mPath(thePath)
 	, mValid(kNFileInfoNone)
@@ -82,6 +68,20 @@ NFileInfo::NFileInfo(const NFilePath& thePath)
 
 	// Validate our parameters
 	NN_REQUIRE(thePath.IsValid());
+}
+
+
+
+
+
+//=============================================================================
+//		NFileInfo::NFileInfo : Constructor.
+//-----------------------------------------------------------------------------
+NFileInfo::NFileInfo()
+	: mPath{}
+	, mValid(kNFileInfoNone)
+	, mState{}
+{
 }
 
 

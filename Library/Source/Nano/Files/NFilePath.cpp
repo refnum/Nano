@@ -84,7 +84,6 @@ static constexpr const char* kNPartExtension                = "\\.(.*?)$";
 
 
 
-#pragma mark NFilePath
 //=============================================================================
 //		NFilePath::NFilePath : Constructor.
 //-----------------------------------------------------------------------------

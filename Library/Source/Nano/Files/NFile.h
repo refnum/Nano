@@ -74,8 +74,8 @@ using NVectorFile = std::vector<NFile>;
 class NN_EMPTY_BASE NFile final : public NMixinComparable<NFile>
 {
 public:
-										NFile();
 										NFile(const NFilePath& thePath);
+										NFile();
 
 
 	// Is the file valid?

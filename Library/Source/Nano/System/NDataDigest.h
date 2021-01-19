@@ -63,9 +63,13 @@ public:
 										NDigestX(size_t theSize, const uint8_t* thePtr);
 
 										NDigestX();
+									   ~NDigestX() = default;
 
 										NDigestX( const NDigestX&    otherDigest);
 	NDigestX<N>&                        operator=(const NDigestX<N>& otherDigest);
+
+	NDigestX<N>(NDigestX<N>&& otherDigest) = default;
+	NDigestX<N>&                        operator=(NDigestX<N>&& otherDigest) = default;
 
 
 	// Is the digest valid?

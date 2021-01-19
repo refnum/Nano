@@ -120,8 +120,8 @@ private:
 class NFileScanner final
 {
 public:
-										NFileScanner();
 										NFileScanner(const NFile& theFile);
+										NFileScanner();
 
 
 	// Get/set the recursion depth

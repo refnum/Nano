@@ -78,8 +78,8 @@ class NN_EMPTY_BASE NFilePath final
 	, public NMixinHashable<NFilePath>
 {
 public:
-										NFilePath() = default;
 										NFilePath(const NString& thePath);
+										NFilePath() = default;
 
 
 	// Is the path valid?

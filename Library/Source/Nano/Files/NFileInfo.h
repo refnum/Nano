@@ -89,8 +89,8 @@ struct NFileInfoState
 class NFileInfo final
 {
 public:
-										NFileInfo();
 										NFileInfo(const NFilePath& thePath);
+										NFileInfo();
 
 
 	// Is the object valid?
