@@ -49,6 +49,9 @@
 #include "NString.h"
 #include "NTime.h"
 
+// System
+#include <typeindex>
+
 
 
 
@@ -109,13 +112,15 @@ NComparison NAny::CompareOrder(const NAny& theValue) const
 
 		// Compare by type
 		//
-		// Unequal types have no real ordering, but we can give them
-		// a consistent order based on their type hash.
-		else if (type().hash_code() != theValue.type().hash_code())
+		// Unequal types have no real ordering, so the best we can do is an
+		// implementation-defined ordering based on their type.
+		//
+		// This ordering is stable within a single process but may change
+		// between invocations of the same program.
+		else if (std::type_index(type()) != std::type_index(theValue.type()))
 		{
-			theResult = NCompare(type().hash_code(), theValue.type().hash_code());
+			theResult = NCompare(std::type_index(type()), std::type_index(theValue.type()));
 		}
-
 
 
 		// Compare by value
