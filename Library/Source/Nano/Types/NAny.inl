@@ -398,7 +398,7 @@ inline bool NAny::HasTime() const
 //		NAny::Get : Get the specified type.
 //-----------------------------------------------------------------------------
 template<typename T>
-T NAny::Get() const
+const T& NAny::Get() const
 {
 
 
@@ -408,7 +408,7 @@ T NAny::Get() const
 
 
 	// Get the value
-	return std::any_cast<T>(*this);
+	return *(std::any_cast<T>(this));
 }
 
 

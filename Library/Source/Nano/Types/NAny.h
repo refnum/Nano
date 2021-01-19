@@ -132,7 +132,7 @@ public:
 	//
 	// The value must be known to be of the specified type.
 	template<typename T>
-	T                                   Get() const;
+	const T&                            Get() const;
 
 	bool                                GetBool()    const;
 	uint8_t                             GetUInt8()   const;
