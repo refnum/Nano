@@ -40,6 +40,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NAny.h"
+#include "NFormat.h"
 #include "NNumber.h"
 #include "NTestFixture.h"
 
@@ -363,4 +364,26 @@ NANO_TEST(TNumber, "Comparison")
 	numberA = kNIntegerSafeMax + 1.0;
 	numberB = uint64_t(kNIntegerSafeMax);
 	REQUIRE(numberA > numberB);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TNumber, "Format")
+{
+
+
+	// Perform the test
+	theNumber = uint64_t(12345);
+	REQUIRE(NFormat("{}", theNumber) == "12345");
+
+	theNumber = int64_t(-12345);
+	REQUIRE(NFormat("{}", theNumber) == "-12345");
+
+	theNumber = float64_t(12345.678);
+	REQUIRE(NFormat("{}", theNumber) == "12345.678");
 }

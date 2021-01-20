@@ -52,6 +52,7 @@
 #include "NFile.h"
 #include "NFileInfo.h"
 #include "NFilePath.h"
+#include "NNumber.h"
 #include "NTimeUtils.h"
 #include "NanoMacros.h"
 
@@ -287,5 +288,35 @@ public:
 						 timeLocal.tm_hour,
 						 timeLocal.tm_min,
 						 timeLocal.tm_sec);
+	}
+};
+
+
+
+
+
+#pragma mark NNumber
+//=============================================================================
+//		NNumber formatter
+//-----------------------------------------------------------------------------
+template<>
+class fmt::formatter<NNumber> : public NSimpleFormatter
+{
+public:
+	template<typename FormatContext>
+	auto format(const NNumber& theParam, FormatContext& theContext)
+	{
+		if (theParam.IsReal())
+		{
+			return format_to(theContext.out(), "{}", theParam.GetFloat64());
+		}
+		else if (theParam.IsSigned())
+		{
+			return format_to(theContext.out(), "{}", theParam.GetInt64());
+		}
+		else
+		{
+			return format_to(theContext.out(), "{}", theParam.GetUInt64());
+		}
 	}
 };
