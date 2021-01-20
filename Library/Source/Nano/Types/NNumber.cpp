@@ -334,8 +334,8 @@ int64_t NNumber::GetInt64() const
 	else if (mValue.IsFloat64())
 	{
 		NN_REQUIRE(IsInteger());
-		NN_REQUIRE(int64_t(mValue.GetFloat64()) >= float64_t(kNInt64Min));
-		NN_REQUIRE(int64_t(mValue.GetFloat64()) <= float64_t(kNInt64Max));
+		NN_REQUIRE(mValue.GetFloat64() >= float64_t(kNInt64Min));
+		NN_REQUIRE(mValue.GetFloat64() <= float64_t(kNInt64Max));
 		theValue = int64_t(mValue.GetFloat64());
 	}
 	else
