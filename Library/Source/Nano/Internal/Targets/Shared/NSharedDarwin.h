@@ -45,6 +45,7 @@
 #include "NFileInfo.h"
 #include "NFilePath.h"
 #include "NFileUtils.h"
+#include "NMachine.h"
 #include "NRunLoop.h"
 #include "NSemaphore.h"
 #include "NString.h"
@@ -104,6 +105,14 @@ public:
 	static void                         SemaphoreDestroy(NSemaphoreRef theSemaphore);
 	static bool                         SemaphoreWait(   NSemaphoreRef theSemaphore, NInterval waitFor);
 	static void                         SemaphoreSignal( NSemaphoreRef theSemaphore);
+
+
+	// Process
+	static NString                      ProcessName();
+
+
+	// Machine
+	static size_t                       MachineCores(NCoreType theType);
 };
 
 

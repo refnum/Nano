@@ -52,7 +52,21 @@ NString NProcess::GetName()
 {
 
 
-	// To do
-	NN_LOG_UNIMPLEMENTED();
-	return "UKNOWN";
-}
+	// Get the name
+	TCHAR   theBuffer[MAX_PATH]{};
+	NString theName = "UNKNOWN";
+
+
+
+	// Get the name
+	if (GetModuleFileName(NULL, theBuffer, MAX_PATH))
+	{
+		NFilePath thePath(theBuffer);
+
+		if (thePath.IsValid())
+		{
+			theName = thePath.GetStem();
+		}
+
+		return theName;
+	}

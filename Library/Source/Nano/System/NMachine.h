@@ -48,15 +48,27 @@
 
 
 //=============================================================================
+//		Constants
+//-----------------------------------------------------------------------------
+// CPU core type
+enum NCoreType
+{
+	Logical,
+	Physical
+};
+
+
+
+
+
+//=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
 class NMachine
 {
 public:
 	// Get the number of cores
-	//
-	// Returns the number of logical cores by default.
-	static size_t                       GetCores(bool getPhysical);
+	static size_t                       GetCores(NCoreType theType = NCoreType::Logical);
 };
 
 

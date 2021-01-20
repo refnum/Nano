@@ -88,6 +88,10 @@ public:
 	static void                         SemaphoreDestroy(NSemaphoreRef theSemaphore);
 	static bool                         SemaphoreWait(   NSemaphoreRef theSemaphore, NInterval waitFor);
 	static void                         SemaphoreSignal( NSemaphoreRef theSemaphore);
+
+
+	// Process
+	static NString                      ProcessName();
 };
 
 

@@ -664,3 +664,27 @@ void NSharedLinux::SemaphoreSignal(NSemaphoreRef theSemaphore)
 
 	NN_EXPECT_NOT_ERR(sysErr);
 }
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::ProcessName : Get the process name.
+//-----------------------------------------------------------------------------
+NString NSharedLinux::ProcessName()
+{
+
+
+	// Get the name
+	NString       theText  = GetProcFile(NFilePath("/proc/self/status"));
+	NPatternGroup theMatch = theText.FindGroup("Name\\s*:\\s*([^\\n]*)", kNStringPattern);
+	NString       theName  = "UNKNOWN";
+
+	if (!theMatch.theGroups.empty())
+	{
+		theName = mPath.GetSubstring(theMatch.theGroups[0]);
+	}
+
+	return theName;
+}

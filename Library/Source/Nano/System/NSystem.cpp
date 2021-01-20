@@ -52,7 +52,14 @@ NString NSystem::GetEnv(const NString& theName)
 {
 
 
-	// To do
-	NN_LOG_UNIMPLEMENTED();
-	return "UNKNOWN";
+	// Get the environment variable
+	NString     theValue;
+	const char* envVar = getenv(theName.GetUTF8());
+
+	if (envVar != nullptr)
+	{
+		theValue = NString(envVar);
+	}
+
+	return theValue;
 }

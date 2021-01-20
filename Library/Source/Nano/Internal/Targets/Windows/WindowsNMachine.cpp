@@ -41,6 +41,15 @@
 //-----------------------------------------------------------------------------
 #include "NMachine.h"
 
+// Nano
+#include "NData.h"
+#include "NSharedWindows.h"
+
+// System
+#include <Windows.h>
+#include <intrin.h>
+#include <sysinfoapi.h>
+
 
 
 
@@ -48,11 +57,46 @@
 //=============================================================================
 //		NMachine::GetCores : Get the number of cores.
 //-----------------------------------------------------------------------------
-size_t NMachine::GetCores(bool getPhysical)
+size_t NMachine::GetCores(NCoreType theType)
 {
 
 
-	// To do
-	NN_LOG_UNIMPLEMENTED();
-	return 0;
+	// Get the state we need
+	DWORD theSize = 0;
+	BOOL  isValid = GetLogicalProcessorInformation(nullptr, &theSize);
+
+	NN_REQUIRE(!isValid);
+	NN_REQUIRE(theSize > 0);
+
+
+	NData theData(size_t(theSize), nullptr, NDataSource::None);
+	auto* procInfo =
+		reinterpret_cast<SYSTEM_LOGICAL_PROCESSOR_INFORMATION*>(theData.GetMutableData());
+
+	isValid = GetLogicalProcessorInformation(procInfo, &theSize);
+	NN_REQUIRE(isValid);
+
+
+
+	// Get the cores
+	size_t numCores   = 0;
+	size_t numRecords = theSize / sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
+
+	for (size_t n = 0; n < numRecords; n++)
+	{
+		if (procInfo[n].Relationship == RelationProcessorCore)
+		{
+			if (theType == NCoreType::Logical)
+			{
+				numCores += __popcnt64(procInfo[n].ProcessorMask);
+			}
+			else
+			{
+				numCores += 1;
+			}
+		}
+	}
+
+	NN_REQUIRE(numCores >= 1);
+	return numCores;
 }

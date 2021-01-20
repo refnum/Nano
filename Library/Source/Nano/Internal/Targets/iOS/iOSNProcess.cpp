@@ -41,6 +41,9 @@
 //-----------------------------------------------------------------------------
 #include "NProcess.h"
 
+// Nano
+#include "NSharedDarwin.h"
+
 
 
 
@@ -52,7 +55,6 @@ NString NProcess::GetName()
 {
 
 
-	// To do
-	NN_LOG_UNIMPLEMENTED();
-	return "UKNOWN";
+	// Get the name
+	return NSharedDarwin::ProcessName();
 }

@@ -59,9 +59,10 @@ NANO_FIXTURE(TSystem){};
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TSystem, "Default")
+NANO_TEST(TSystem, "GetEnv")
 {
 
 
 	// Perform the test
+	REQUIRE(!NSystem::GetEnv("PATH").IsEmpty());
 }

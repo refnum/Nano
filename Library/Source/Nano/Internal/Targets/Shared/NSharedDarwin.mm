@@ -42,6 +42,7 @@
 #include "NSharedDarwin.h"
 
 // Nano
+#include "NData.h"
 #include "NDebug.h"
 #include "NSharedPOSIX.h"
 #include "NString.h"
@@ -257,6 +258,66 @@ static NFilePath GetNSSearchPath(NSSearchPathDomainMask theDomain,
 	}
 
 	return thePath;
+}
+
+
+
+
+
+//=============================================================================
+//		GetSysctl : Get a named sysctl value.
+//-----------------------------------------------------------------------------
+template<typename T>
+T GetSysctl(const char* theName)
+{
+
+
+	// Get the value
+	size_t theSize = sizeof(T);
+	T      theResult{};
+
+	int sysErr = sysctlbyname(theName, &theResult, &theSize, nullptr, 0);
+	if (sysErr != 0)
+	{
+		NN_LOG_WARNING("sysctlbyname(\"{}\") failed with {}", theName, sysErr);
+	}
+
+	return theResult;
+}
+
+
+
+
+
+//=============================================================================
+//		GetSysctl : Get a named sysctl value.
+//-----------------------------------------------------------------------------
+template<>
+NString GetSysctl<NString>(const char* theName)
+{
+
+
+	// Get the size
+	size_t  theSize = 0;
+	NString theResult;
+
+	int sysErr = sysctlbyname(theName, nullptr, &theSize, nullptr, 0);
+	if (sysErr == 0)
+	{
+		NData theData(theSize, nullptr);
+
+		sysErr = sysctlbyname(theName, theData.GetMutableData(), &theSize, nullptr, 0);
+		if (sysErr == 0)
+		{
+			theResult.SetData(NStringEncoding::UTF8, theData);
+		}
+		else
+		{
+			NN_LOG_WARNING("sysctlbyname(\"{}\") failed with {}", theName, sysErr);
+		}
+	}
+
+	return theResult;
 }
 
 
@@ -973,4 +1034,41 @@ void NSharedDarwin::SemaphoreSignal(NSemaphoreRef theSemaphore)
 	dispatch_semaphore_t dispatchSem = dispatch_semaphore_t(theSemaphore);
 
 	(void) dispatch_semaphore_signal(dispatchSem);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::ProcessName : Get the process name.
+//-----------------------------------------------------------------------------
+NString NSharedDarwin::ProcessName()
+{
+
+
+	// Get the name
+	@autoreleasepool
+	{
+		return NString([[NSProcessInfo processInfo] processName].UTF8String);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::MachineCores : Get the number of cores.
+//-----------------------------------------------------------------------------
+size_t NSharedDarwin::MachineCores(NCoreType theType)
+{
+
+
+	// Get the cores
+	bool    getPhysical = (theType == NCoreType::Physical);
+	int32_t numCores = GetSysctl<int32_t>(getPhysical ? "hw.physicalcpu_max" : "hw.logicalcpu_max");
+	NN_REQUIRE(numCores >= 1);
+
+	return size_t(numCores);
 }

@@ -59,9 +59,15 @@ NANO_FIXTURE(TMachine){};
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TMachine, "Default")
+NANO_TEST(TMachine, "GetCores")
 {
 
 
 	// Perform the test
+	size_t numLogical  = NMachine::GetCores();
+	size_t numPhysical = NMachine::GetCores(NCoreType::Physical);
+
+	REQUIRE(numLogical >= 1);
+	REQUIRE(numPhysical >= 1);
+	REQUIRE(numLogical >= numPhysical);
 }

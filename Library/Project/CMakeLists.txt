@@ -271,6 +271,7 @@ target_include_directories("${PROJECT_NAME}"
 if (NN_TARGET_ANDROID)
 	target_sources("${PROJECT_NAME}"
 		PRIVATE
+			"${ANDROID_NDK}/sources/android/cpufeatures/cpu-features.c"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Android/AndroidNDebugger.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Android/AndroidNFileHandle.cpp"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Android/AndroidNFileInfo.cpp"
@@ -293,6 +294,8 @@ if (NN_TARGET_ANDROID)
 			"${ANDROID_NDK}/sources/android"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Android"
 	)
+
+	nano_target_compile_disable_warnings("${PROJECT_NAME}" "${ANDROID_NDK}/sources/android")
 endif()
 
 

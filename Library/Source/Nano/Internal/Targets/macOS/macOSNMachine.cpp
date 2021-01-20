@@ -41,6 +41,9 @@
 //-----------------------------------------------------------------------------
 #include "NMachine.h"
 
+// Nano
+#include "NSharedDarwin.h"
+
 
 
 
@@ -48,11 +51,10 @@
 //=============================================================================
 //		NMachine::GetCores : Get the number of cores.
 //-----------------------------------------------------------------------------
-size_t NMachine::GetCores(bool getPhysical)
+size_t NMachine::GetCores(NCoreType theType)
 {
 
 
-	// To do
-	NN_LOG_UNIMPLEMENTED();
-	return 0;
+	// Get the cores
+	return NSharedDarwin::MachineCores(theType);
 }

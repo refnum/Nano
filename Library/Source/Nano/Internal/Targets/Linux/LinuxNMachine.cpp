@@ -41,18 +41,64 @@
 //-----------------------------------------------------------------------------
 #include "NMachine.h"
 
+// Nano
+#include "NSharedLinux.h"
+
+// System
+#include <sys/sysconf.h>
+#include <unordered_set>
+
 
 
 
 
 //=============================================================================
-//		NMachine::GetCores : Get the number of cores.
+//		Internal Functions
 //-----------------------------------------------------------------------------
-size_t NMachine::GetCores(bool getPhysical)
+//		GetPhysicalCores : Get the number of physical cores.
+//-----------------------------------------------------------------------------
+long GetPhysicalCores()
 {
 
 
-	// To do
-	NN_LOG_UNIMPLEMENTED();
-	return 0;
+	// Get the physical cores
+	std::unordered_set<NString> coreIDs;
+
+	for (const auto& theLine : NSharedLinux::GetProcFile("/proc/cpuinfo").GetLines())
+	{
+		if (theLine.Contains("core id\\s*?:\\s*\\d+", kNStringPattern))
+		{
+			coreIDs.insert(theLine)
+		}
+	}
+
+	return long(coreIDs.size());
+}
+
+
+
+
+
+#pragma mark NMachine
+//=============================================================================
+//		NMachine::GetCores : Get the number of cores.
+//-----------------------------------------------------------------------------
+size_t NMachine::GetCores(NCoreType theType)
+{
+
+
+	// Get the cores
+	long numCores = 0;
+
+	switch (theType)
+	{
+		case NCoreType::Logical:
+			numCores = sysconf(_SC_NPROCESSORS_CONF);
+
+		case NCoreType::Physical:
+			numCores = GetPhysicalCores();
+	}
+
+	NN_REQUIRE(numCores >= 1);
+	return size_t(numCores);
 }

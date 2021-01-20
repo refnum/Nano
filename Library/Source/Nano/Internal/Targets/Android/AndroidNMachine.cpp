@@ -41,6 +41,10 @@
 //-----------------------------------------------------------------------------
 #include "NMachine.h"
 
+// System
+#include <cpufeatures/cpu-features.h>
+#include <sys/sysconf.h>
+
 
 
 
@@ -48,11 +52,22 @@
 //=============================================================================
 //		NMachine::GetCores : Get the number of cores.
 //-----------------------------------------------------------------------------
-size_t NMachine::GetCores(bool getPhysical)
+size_t NMachine::GetCores(NCoreType theType)
 {
 
 
-	// To do
-	NN_LOG_UNIMPLEMENTED();
-	return 0;
+	// Get the cores
+	long numCores = 0;
+
+	switch (theType)
+	{
+		case NCoreType::Logical:
+			numCores = sysconf(_SC_NPROCESSORS_CONF);
+
+		case NCoreType::Physical:
+			numCores = android_getCpuCount();
+	}
+
+	NN_REQUIRE(numCores >= 1);
+	return size_t(numCores);
 }

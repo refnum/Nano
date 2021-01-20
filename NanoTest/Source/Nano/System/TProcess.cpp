@@ -59,9 +59,11 @@ NANO_FIXTURE(TProcess){};
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TProcess, "Default")
+NANO_TEST(TProcess, "GetName")
 {
 
 
 	// Perform the test
+	NString theName = NProcess::GetName();
+	REQUIRE(theName.Contains("NanoTest"));
 }
