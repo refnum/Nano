@@ -1076,6 +1076,11 @@ size_t NSharedDarwin::SystemPageSize()
 
 	return size_t(pageSize);
 }
+
+
+
+
+
 //=============================================================================
 //		NSharedDarwin::MachineCores : Get the number of cores.
 //-----------------------------------------------------------------------------
@@ -1089,4 +1094,22 @@ size_t NSharedDarwin::MachineCores(NCoreType theType)
 	NN_REQUIRE(numCores >= 1);
 
 	return size_t(numCores);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::MachineMemory : Get the memory.
+//-----------------------------------------------------------------------------
+uint64_t NSharedDarwin::MachineMemory()
+{
+
+
+	// Get the memory
+	int64_t sizeBytes = GetSysctl<int64_t>("hw.memsize");
+	NN_REQUIRE(sizeBytes > 0);
+
+	return uint64_t(sizeBytes);
 }

@@ -117,6 +117,7 @@ public:
 
 	// Machine
 	static size_t                       MachineCores(NCoreType theType);
+	static uint64_t                     MachineMemory();
 };
 
 

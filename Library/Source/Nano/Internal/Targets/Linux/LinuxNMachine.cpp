@@ -104,3 +104,18 @@ size_t NMachine::GetCores(NCoreType theType)
 	NN_REQUIRE(numCores >= 1);
 	return size_t(numCores);
 }
+
+
+
+
+
+//=============================================================================
+//		NMachine::GetMemoryBytes : Get the memory.
+//-----------------------------------------------------------------------------
+uint64_t NMachine::GetMemoryBytes()
+{
+
+
+	// Get the memory
+	return NSharedLinux::MachineMemory();
+}

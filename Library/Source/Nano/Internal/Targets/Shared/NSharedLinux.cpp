@@ -706,3 +706,28 @@ size_t NSharedLinux::SystemPageSize()
 
 	return size_t(pageSize);
 }
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::MachineMemory : Get the memory.
+//-----------------------------------------------------------------------------
+uint64_t NSharedLinux::MachineMemory()
+{
+
+
+	// Get the memory
+	uint64_t      sizeBytes = 0;
+	NString       theText   = GetProcFile(NFilePath("/proc/meminfo"));
+	NPatternGroup theMatch  = theText.FindGroup("MemTotal:\\s*(\\d+)", kNStringPattern);
+
+	if (!theMatch.theGroups.empty())
+	{
+		NNumber theValue(theText.GetSubstring(theMatch.theGroups[0]));
+		sizeBytes = theValue.GetUInt64() * kNKibibyte;
+	}
+
+	return sizeBytes;
+}

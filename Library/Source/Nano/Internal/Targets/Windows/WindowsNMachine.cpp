@@ -100,3 +100,26 @@ size_t NMachine::GetCores(NCoreType theType)
 	NN_REQUIRE(numCores >= 1);
 	return numCores;
 }
+
+
+
+
+
+//=============================================================================
+//		NMachine::GetMemoryBytes : Get the memory.
+//-----------------------------------------------------------------------------
+uint64_t NMachine::GetMemoryBytes()
+{
+
+
+	// Get the memory
+	MEMORYSTATUSEX memInfo{};
+	memInfo.dwLength = sizeof(memInfo);
+
+	if (!GlobalMemoryStatusEx(&memInfo))
+	{
+		memInfo.ullTotalPhys = 0;
+	}
+
+	return memInfo.ullTotalPhys;
+}

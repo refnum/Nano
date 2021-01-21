@@ -58,3 +58,18 @@ size_t NMachine::GetCores(NCoreType theType)
 	// Get the cores
 	return NSharedDarwin::MachineCores(theType);
 }
+
+
+
+
+
+//=============================================================================
+//		NMachine::GetMemoryBytes : Get the memory.
+//-----------------------------------------------------------------------------
+uint64_t NMachine::GetMemoryBytes()
+{
+
+
+	// Get the memory
+	return NSharedDarwin::MachineMemory();
+}

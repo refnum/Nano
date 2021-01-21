@@ -96,6 +96,10 @@ public:
 
 	// System
 	static size_t                       SystemPageSize();
+
+
+	// Machine
+	static uint64_t                     MachineMemory();
 };
 
 

@@ -71,8 +71,21 @@ public:
 	static size_t                       GetCores(NCoreType theType = NCoreType::Logical);
 
 
+	// Get the memory
+	//
+	// The default scale factor returns physical memory in bytes.
+	//
+	// Passing a different scale factor will return the size in the
+	// appropriate units (e.g., a scale of kNGibibyte will return GiB).
+	static float64_t                    GetMemory(size_t theScale = kNByte);
+
+
 	// Get the CPU info
 	static NString                      GetCPUArchitecture();
+
+
+private:
+	static uint64_t                     GetMemoryBytes();
 };
 
 

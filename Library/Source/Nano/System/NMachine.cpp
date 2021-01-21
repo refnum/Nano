@@ -46,6 +46,24 @@
 
 
 //=============================================================================
+//		NMachine::GetMemory : Get the available memory.
+//-----------------------------------------------------------------------------
+float64_t NMachine::GetMemory(size_t theScale)
+{
+
+
+	// Get the memory
+	uint64_t sizeBytes = GetMemoryBytes();
+	NN_REQUIRE(sizeBytes > 0);
+
+	return float64_t(sizeBytes) / float64_t(theScale);
+}
+
+
+
+
+
+//=============================================================================
 //		NMachine::GetCPUArchitecture : Get the CPU architecture.
 //-----------------------------------------------------------------------------
 NString NMachine::GetCPUArchitecture()

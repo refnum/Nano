@@ -79,6 +79,26 @@ NANO_TEST(TMachine, "GetCores")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TMachine, "GetMemory")
+{
+
+
+	// Perform the test
+	float64_t sizeBytes = NMachine::GetMemory();
+	REQUIRE(sizeBytes > 0.0);
+
+	float64_t sizeGB = NMachine::GetMemory(kNGibibyte);
+	REQUIRE(sizeGB > 0.0);
+	REQUIRE(uint64_t(sizeGB) == uint64_t(sizeBytes / kNGibibyte));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TMachine, "GetCPUArchitecture")
 {
 
