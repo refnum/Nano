@@ -69,6 +69,10 @@ class NMachine
 public:
 	// Get the number of cores
 	static size_t                       GetCores(NCoreType theType = NCoreType::Logical);
+
+
+	// Get the CPU info
+	static NString                      GetCPUArchitecture();
 };
 
 

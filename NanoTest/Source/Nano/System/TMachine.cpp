@@ -71,3 +71,19 @@ NANO_TEST(TMachine, "GetCores")
 	REQUIRE(numPhysical >= 1);
 	REQUIRE(numLogical >= numPhysical);
 }
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TMachine, "GetCPUArchitecture")
+{
+
+
+	// Perform the test
+	NString theArch = NMachine::GetCPUArchitecture();
+	REQUIRE((theArch == "arm64" || theArch == "arm" || theArch == "x86_64" || theArch == "x86"));
+}

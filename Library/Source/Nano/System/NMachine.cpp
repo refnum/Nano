@@ -40,3 +40,32 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NMachine.h"
+
+
+
+
+
+//=============================================================================
+//		NMachine::GetCPUArchitecture : Get the CPU architecture.
+//-----------------------------------------------------------------------------
+NString NMachine::GetCPUArchitecture()
+{
+
+
+	// Get the architecture
+	if (NN_ARCH_ARM)
+	{
+		return NN_ARCH_64 ? "arm64" : "arm";
+	}
+
+	else if (NN_ARCH_X86)
+	{
+		return NN_ARCH_64 ? "x86_64" : "x86";
+	}
+
+	else
+	{
+		NN_LOG_WARNING("Unknown architecture!");
+		return "UNKNOWN";
+	}
+}
