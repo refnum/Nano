@@ -41,7 +41,17 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NMixinComparable.h"
 #include "NString.h"
+
+
+
+
+
+//=============================================================================
+//		Forward Declarations
+//-----------------------------------------------------------------------------
+enum class NVersionPart;
 
 
 
@@ -55,6 +65,15 @@ class NSystem
 public:
 	// Get an environment variable
 	static NString                      GetEnv(const NString& theName);
+
+
+	// Compare two versions
+	static NComparison                  CompareVersions(const NString& versionA, const NString& versionB);
+
+
+private:
+	static NVectorString                GetVersionParts(const NString& theVersion);
+	static NVersionPart                 GetPartType(    const NString& thePart);
 };
 
 

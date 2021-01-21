@@ -66,3 +66,25 @@ NANO_TEST(TSystem, "GetEnv")
 	// Perform the test
 	REQUIRE(!NSystem::GetEnv("PATH").IsEmpty());
 }
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TSystem, "CompareVersions")
+{
+
+
+	// Perform the test
+	REQUIRE(NSystem::CompareVersions("1.0", "1.0a1") == NComparison::GreaterThan);
+	REQUIRE(NSystem::CompareVersions("1.0", "1.0b1") == NComparison::GreaterThan);
+
+	REQUIRE(NSystem::CompareVersions("1.0a1", "1.0") == NComparison::LessThan);
+	REQUIRE(NSystem::CompareVersions("1.0b1", "1.0") == NComparison::LessThan);
+
+	REQUIRE(NSystem::CompareVersions("1.0", "1.0.1a1") == NComparison::LessThan);
+	REQUIRE(NSystem::CompareVersions("1.0", "2.0") == NComparison::LessThan);
+}

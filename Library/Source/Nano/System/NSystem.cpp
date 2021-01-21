@@ -46,20 +46,255 @@
 
 
 //=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+enum class NVersionPart
+{
+	Period,
+	Number,
+	String
+};
+
+
+
+
+
+//=============================================================================
 //		NSystem::GetEnv : Get an environment variable.
 //-----------------------------------------------------------------------------
 NString NSystem::GetEnv(const NString& theName)
 {
-
-
 	// Get the environment variable
 	NString     theValue;
-	const char* envVar = getenv(theName.GetUTF8());
+	const char* envVar                                      = getenv(theName.GetUTF8());
 
 	if (envVar != nullptr)
 	{
-		theValue = NString(envVar);
+		theValue                                            = NString(envVar);
 	}
 
 	return theValue;
+}
+
+
+
+
+
+//=============================================================================
+//		NSystem::CompareVersions : Compare two version strings.
+//-----------------------------------------------------------------------------
+//		Note :	Algorithm is based on Ricardo Batista's MacPad.
+//
+//				Version numbers are broken down into an array of parts, where
+//				each part is an integer/string/period.
+//
+//				Each part is compared in turn, and their type is used to drive
+//				the overall comparison.
+//
+//				Parts are compared alphabatically or numerically based on the
+//				type, and versions with a different number of parts examine
+//				the first "extra" part to identify the oldest version.
+//----------------------------------------------------------------------------
+NComparison NSystem::CompareVersions(const NString& versionA, const NString& versionB)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!versionA.IsEmpty());
+	NN_REQUIRE(!versionB.IsEmpty());
+
+
+
+	// Quick check
+	if (versionA == versionB)
+	{
+		return NComparison::EqualTo;
+	}
+
+
+
+	// Get the state we need
+	NVectorString partsA = GetVersionParts(versionA);
+	NVectorString partsB = GetVersionParts(versionB);
+
+	size_t numParts = std::min(partsA.size(), partsB.size());
+	size_t n        = 0;
+
+
+
+	// Compare the parts
+	for (n = 0; n < numParts; n++)
+	{
+		// Get the state we need
+		const NString& partA = partsA[n];
+		const NString& partB = partsB[n];
+
+		NVersionPart typeA = GetPartType(partA);
+		NVersionPart typeB = GetPartType(partB);
+
+
+
+		// Compare by value
+		//
+		// If we have a string or a number part, we can compare values.
+		if (typeA == typeB)
+		{
+			if (typeA != NVersionPart::Period)
+			{
+				NComparison theResult = partA.Compare(partB, kNStringNumeric);
+				if (theResult != NComparison::EqualTo)
+				{
+					return theResult;
+				}
+			}
+		}
+
+
+		// Or by precedence
+		else
+		{
+			// Part A wins if it's a digit/period
+			if (typeA != NVersionPart::String && typeB == NVersionPart::String)
+			{
+				return NComparison::GreaterThan;
+			}
+
+			// Part B wins if it's a digit/period
+			else if (typeA == NVersionPart::String && typeB != NVersionPart::String)
+			{
+				return NComparison::LessThan;
+			}
+
+			// Whichever part is numeric wins
+			else
+			{
+				if (typeA == NVersionPart::Number)
+				{
+					return NComparison::GreaterThan;
+				}
+				else
+				{
+					return NComparison::LessThan;
+				}
+			}
+		}
+	}
+
+
+
+	// Examine the largest string
+	if (partsA.size() != partsB.size())
+	{
+		// Get its next part
+		NComparison shorterResult, longerResult;
+		NString     nextPart;
+
+		if (partsA.size() > partsB.size())
+		{
+			nextPart      = partsA[n];
+			shorterResult = NComparison::LessThan;
+			longerResult  = NComparison::GreaterThan;
+		}
+		else
+		{
+			nextPart      = partsB[n];
+			shorterResult = NComparison::GreaterThan;
+			longerResult  = NComparison::LessThan;
+		}
+
+
+		// Compare by type
+		if (GetPartType(nextPart) == NVersionPart::String)
+		{
+			return shorterResult;
+		}
+		else
+		{
+			return longerResult;
+		}
+	}
+
+
+
+	// If we're still here, the versions are equal
+	return NComparison::EqualTo;
+}
+
+
+
+
+
+#pragma mark private
+//=============================================================================
+//		NSystem::GetVersionParts : Get a version's parts.
+//-----------------------------------------------------------------------------
+NVectorString NSystem::GetVersionParts(const NString& theVersion)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theVersion.IsEmpty());
+
+
+
+	// Get the state we need
+	NVectorString theParts;
+	NString       thePart;
+
+	size_t       numChars = theVersion.GetSize();
+	NVersionPart lastType = GetPartType(theVersion);
+
+
+	// Split the version into parts
+	for (size_t n = 0; n < numChars; n++)
+	{
+		NString      theChar  = theVersion.GetSubstring(NRange(n, 1));
+		NVersionPart partType = GetPartType(theChar);
+
+		if (partType != lastType || partType == NVersionPart::Period)
+		{
+			NN_REQUIRE(!thePart.IsEmpty());
+			theParts.emplace_back(thePart);
+			thePart.Clear();
+		}
+
+		thePart += theChar;
+		lastType = partType;
+	}
+
+	NN_REQUIRE(!thePart.IsEmpty());
+	theParts.emplace_back(thePart);
+
+	return theParts;
+}
+
+
+
+
+
+//=============================================================================
+//		NSystem::GetPartType : Get the type of a part.
+//-----------------------------------------------------------------------------
+NVersionPart NSystem::GetPartType(const NString& thePart)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!thePart.IsEmpty());
+
+
+
+	// Classify the part
+	const char* charPtr = thePart.GetUTF8();
+
+	if (charPtr[0] == '.')
+	{
+		return NVersionPart::Period;
+	}
+	else if (isdigit(charPtr[0]))
+	{
+		return NVersionPart::Number;
+	}
+
+	return NVersionPart::String;
 }
