@@ -89,13 +89,17 @@ static constexpr size_t kNSizeMax                           = std::numeric_limit
 
 
 // Memory
-static constexpr uint64_t kNKilobyte                        = 1000;
-static constexpr uint64_t kNMegabyte                        = 1000 * 1000;
-static constexpr uint64_t kNGigabyte                        = 1000 * 1000 * 1000;
+static constexpr uint64_t kNByte                            = 1;
 
-static constexpr uint64_t kNKibibyte                        = 1024;
-static constexpr uint64_t kNMebibyte                        = 1024 * 1024;
-static constexpr uint64_t kNGibibyte                        = 1024 * 1024 * 1024;
+static constexpr uint64_t kNKilobyte                        = 1000 * kNByte;
+static constexpr uint64_t kNMegabyte                        = 1000 * kNKilobyte;
+static constexpr uint64_t kNGigabyte                        = 1000 * kNMegabyte;
+static constexpr uint64_t kNTerabyte                        = 1000 * kNGigabyte;
+
+static constexpr uint64_t kNKibibyte                        = 1024 * kNByte;
+static constexpr uint64_t kNMebibyte                        = 1024 * kNKibibyte;
+static constexpr uint64_t kNGibibyte                        = 1024 * kNMebibyte;
+static constexpr uint64_t kNTebibyte                        = 1024 * kNGibibyte;
 
 
 // Frequency
