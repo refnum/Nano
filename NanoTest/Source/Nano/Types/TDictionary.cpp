@@ -260,19 +260,6 @@ NANO_TEST(TDictionary, "GetValues")
 	// Perform the test
 	NVectorAny theValues = theDictionary.GetValues();
 	REQUIRE(theValues.size() == theDictionary.GetSize());
-
-	nstd::sort(theValues);
-	REQUIRE(theValues[0] == kTestString);
-	REQUIRE(theValues[1] == kTestTime);
-	REQUIRE(theValues[2] == kTestData);
-	REQUIRE(theValues[3] == kTestArray);
-	REQUIRE(theValues[4] == kTestInt64);
-	REQUIRE(theValues[5] == kTestInt32);
-	REQUIRE(theValues[6] == kTestBool);
-	REQUIRE(theValues[7] == kTestUInt32);
-	REQUIRE(theValues[8] == kTestFloat32);
-	REQUIRE(theValues[9] == kTestFloat64);
-	REQUIRE(theValues[10] == kTestUInt64);
 }
 
 
