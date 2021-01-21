@@ -45,7 +45,7 @@
 #include "NSharedLinux.h"
 
 // System
-#include <sys/sysconf.h>
+#include <unistd.h>
 #include <unordered_set>
 
 
@@ -64,11 +64,11 @@ long GetPhysicalCores()
 	// Get the physical cores
 	std::unordered_set<NString> coreIDs;
 
-	for (const auto& theLine : NSharedLinux::GetProcFile("/proc/cpuinfo").GetLines())
+	for (const auto& theLine : NSharedLinux::GetProcFile(NFilePath("/proc/cpuinfo")).GetLines())
 	{
 		if (theLine.Contains("core id\\s*?:\\s*\\d+", kNStringPattern))
 		{
-			coreIDs.insert(theLine)
+			coreIDs.insert(theLine);
 		}
 	}
 
