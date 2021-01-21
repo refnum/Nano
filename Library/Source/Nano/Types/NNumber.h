@@ -71,6 +71,7 @@ static constexpr float64_t kNIntegerSafeMax                 = 9007199254740991.0
 //-----------------------------------------------------------------------------
 // Forward declaration
 class NAny;
+class NString;
 
 
 
@@ -82,13 +83,11 @@ class NAny;
 class NN_EMPTY_BASE NNumber final : public NMixinComparable<NNumber>
 {
 public:
-										NNumber() = default;
-
 	template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
 										NNumber(T theValue);
+										NNumber(const NString& theValue);
 
-	template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-	NNumber&                            operator=(T theValue);
+										NNumber() = default;
 
 
 	// Is this an integer number?
@@ -128,7 +127,14 @@ public:
 	// Set a value
 	//
 	// Returns true if the value was a recognised numeric type.
-	bool                                SetValue(const NAny& theValue);
+	bool                                SetValue(const NAny&    theValue);
+	bool                                SetValue(const NString& theValue);
+
+
+	// Operators
+	template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+	NNumber&                            operator=(T theValue);
+	NNumber&                            operator=(const NString& theValue);
 
 
 public:
@@ -139,6 +145,10 @@ public:
 
 private:
 	NComparison                         CompareIntReal(const NNumber& theNumber) const;
+
+	bool                                ParseInteger(const utf8_t* textStart);
+	bool                                ParseReal(   const utf8_t* textStart);
+	bool                                HasExponent( const utf8_t* textStart, char theToken) const;
 
 
 private:

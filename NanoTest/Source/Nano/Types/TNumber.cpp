@@ -387,3 +387,263 @@ NANO_TEST(TNumber, "Format")
 	theNumber = float64_t(12345.678);
 	REQUIRE(NFormat("{}", theNumber) == "12345.678");
 }
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TNumber, "StringIntegerUnsigned")
+{
+
+
+	// Perform the test
+	theNumber = NNumber("123");
+	REQUIRE(theNumber.IsInteger());
+	REQUIRE(!theNumber.IsReal());
+	REQUIRE(!theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(theNumber.GetUInt8() == 123);
+
+	theNumber = NNumber("12345");
+	REQUIRE(theNumber.IsInteger());
+	REQUIRE(!theNumber.IsReal());
+	REQUIRE(!theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(theNumber.GetUInt16() == 12345);
+
+	theNumber = NNumber("123456789");
+	REQUIRE(theNumber.IsInteger());
+	REQUIRE(!theNumber.IsReal());
+	REQUIRE(!theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(theNumber.GetUInt32() == 123456789);
+
+	theNumber = NNumber("12345678901234");
+	REQUIRE(theNumber.IsInteger());
+	REQUIRE(!theNumber.IsReal());
+	REQUIRE(!theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(theNumber.GetUInt64() == 12345678901234);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TNumber, "StringIntegerSigned")
+{
+
+
+	// Perform the test
+	theNumber = NNumber("-123");
+	REQUIRE(theNumber.IsInteger());
+	REQUIRE(!theNumber.IsReal());
+	REQUIRE(theNumber.IsSigned());
+	REQUIRE(!theNumber.IsPositive());
+	REQUIRE(theNumber.GetInt8() == -123);
+
+	theNumber = NNumber("-12345");
+	REQUIRE(theNumber.IsInteger());
+	REQUIRE(!theNumber.IsReal());
+	REQUIRE(theNumber.IsSigned());
+	REQUIRE(!theNumber.IsPositive());
+	REQUIRE(theNumber.GetInt16() == -12345);
+
+	theNumber = NNumber("-123456789");
+	REQUIRE(theNumber.IsInteger());
+	REQUIRE(!theNumber.IsReal());
+	REQUIRE(theNumber.IsSigned());
+	REQUIRE(!theNumber.IsPositive());
+	REQUIRE(theNumber.GetInt32() == -123456789);
+
+	theNumber = NNumber("-12345678901234");
+	REQUIRE(theNumber.IsInteger());
+	REQUIRE(!theNumber.IsReal());
+	REQUIRE(theNumber.IsSigned());
+	REQUIRE(!theNumber.IsPositive());
+	REQUIRE(theNumber.GetInt64() == -12345678901234);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TNumber, "StringIntegerHex")
+{
+
+
+	// Perform the test
+	theNumber = NNumber("0x7b");
+	REQUIRE(theNumber.IsInteger());
+	REQUIRE(!theNumber.IsReal());
+	REQUIRE(!theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(theNumber.GetUInt8() == 123);
+
+	theNumber = NNumber("0x7B");
+	REQUIRE(theNumber.IsInteger());
+	REQUIRE(!theNumber.IsReal());
+	REQUIRE(!theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(theNumber.GetUInt8() == 123);
+
+	theNumber = NNumber("0X75bcd15");
+	REQUIRE(theNumber.IsInteger());
+	REQUIRE(!theNumber.IsReal());
+	REQUIRE(!theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(theNumber.GetUInt32() == 123456789);
+
+	theNumber = NNumber("0X75BCD15");
+	REQUIRE(theNumber.IsInteger());
+	REQUIRE(!theNumber.IsReal());
+	REQUIRE(!theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(theNumber.GetUInt32() == 123456789);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TNumber, "StringIntegerOctal")
+{
+
+
+	// Perform the test
+	theNumber = NNumber("0173");
+	REQUIRE(theNumber.IsInteger());
+	REQUIRE(!theNumber.IsReal());
+	REQUIRE(!theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(theNumber.GetUInt8() == 123);
+
+	theNumber = NNumber("0726746425");
+	REQUIRE(theNumber.IsInteger());
+	REQUIRE(!theNumber.IsReal());
+	REQUIRE(!theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(theNumber.GetUInt32() == 123456789);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TNumber, "StringRealDecimal")
+{
+
+
+	// Perform the test
+	theNumber = NNumber("0.12345f");
+	REQUIRE(!theNumber.IsInteger());
+	REQUIRE(theNumber.IsReal());
+	REQUIRE(theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(theNumber.GetFloat32() == 0.12345f);
+
+	theNumber = NNumber("0.12345");
+	REQUIRE(!theNumber.IsInteger());
+	REQUIRE(theNumber.IsReal());
+	REQUIRE(theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(theNumber.GetFloat64() == 0.12345);
+
+	theNumber = NNumber("1.2345E-6");
+	REQUIRE(!theNumber.IsInteger());
+	REQUIRE(theNumber.IsReal());
+	REQUIRE(theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(theNumber.GetFloat64() == 0.0000012345);
+
+	theNumber = NNumber("-1.2345E-6");
+	REQUIRE(!theNumber.IsInteger());
+	REQUIRE(theNumber.IsReal());
+	REQUIRE(theNumber.IsSigned());
+	REQUIRE(!theNumber.IsPositive());
+	REQUIRE(theNumber.GetFloat64() == -0.0000012345);
+
+	theNumber = NNumber("1.2345E6");
+	REQUIRE(!theNumber.IsInteger());
+	REQUIRE(theNumber.IsReal());
+	REQUIRE(theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(theNumber.GetFloat64() == 1234500);
+
+	theNumber = NNumber("-1.2345E6");
+	REQUIRE(!theNumber.IsInteger());
+	REQUIRE(theNumber.IsReal());
+	REQUIRE(theNumber.IsSigned());
+	REQUIRE(!theNumber.IsPositive());
+	REQUIRE(theNumber.GetFloat64() == -1234500);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TNumber, "StringRealHex")
+{
+
+
+	// Perform the test
+	theNumber = NNumber("0x1.f9a6b50b0f27cp-4");
+	REQUIRE(!theNumber.IsInteger());
+	REQUIRE(theNumber.IsReal());
+	REQUIRE(theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(theNumber.GetFloat64() == 0.12345);
+
+	theNumber = NNumber("0X1.F9A6B50B0F27CP-4");
+	REQUIRE(!theNumber.IsInteger());
+	REQUIRE(theNumber.IsReal());
+	REQUIRE(theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(theNumber.GetFloat64() == 0.12345);
+
+	theNumber = NNumber("0x1.4b6231abfd271p-20");
+	REQUIRE(!theNumber.IsInteger());
+	REQUIRE(theNumber.IsReal());
+	REQUIRE(theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(theNumber.GetFloat64() == 0.0000012345);
+
+	theNumber = NNumber("-0X1.4B6231ABFD271P-20");
+	REQUIRE(!theNumber.IsInteger());
+	REQUIRE(theNumber.IsReal());
+	REQUIRE(theNumber.IsSigned());
+	REQUIRE(!theNumber.IsPositive());
+	REQUIRE(theNumber.GetFloat64() == -0.0000012345);
+
+	theNumber = NNumber("0x1.2d644p+20");
+	REQUIRE(!theNumber.IsInteger());
+	REQUIRE(theNumber.IsReal());
+	REQUIRE(theNumber.IsSigned());
+	REQUIRE(theNumber.IsPositive());
+	REQUIRE(theNumber.GetFloat64() == 1234500);
+
+	theNumber = NNumber("-0x1.2d644p+20");
+	REQUIRE(!theNumber.IsInteger());
+	REQUIRE(theNumber.IsReal());
+	REQUIRE(theNumber.IsSigned());
+	REQUIRE(!theNumber.IsPositive());
+	REQUIRE(theNumber.GetFloat64() == -1234500);
+}

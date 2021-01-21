@@ -44,6 +44,7 @@
 // Nano
 #include "NAny.h"
 #include "NDebug.h"
+#include "NString.h"
 #include "NanoConstants.h"
 
 
@@ -54,6 +55,23 @@
 //		Internal Macros
 //-----------------------------------------------------------------------------
 #define NN_LOG_INEXACT_COMPARISON                           0
+
+
+
+
+
+//=============================================================================
+//		NAny::NAny : Constructor.
+//-----------------------------------------------------------------------------
+NNumber::NNumber(const NString& theValue)
+	: mValue()
+{
+
+
+	// Set the value
+	bool wasOK = SetValue(theValue);
+	NN_REQUIRE(wasOK);
+}
 
 
 
@@ -521,6 +539,44 @@ bool NNumber::SetValue(const NAny& theValue)
 
 
 
+//=============================================================================
+//		NNumber::SetValue : Set a value.
+//-----------------------------------------------------------------------------
+bool NNumber::SetValue(const NString& theValue)
+{
+
+
+	// Set the value
+	//
+	// Reals must be parsed first as their prefix may look like an integer.
+	const utf8_t* textStart = theValue.GetUTF8();
+	bool          isValid   = ParseReal(textStart) || ParseInteger(textStart);
+
+	return isValid;
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::NAny : Constructor.
+//-----------------------------------------------------------------------------
+NNumber& NNumber::operator=(const NString& theValue)
+{
+
+
+	// Set the value
+	bool wasOK = SetValue(theValue);
+	NN_REQUIRE(wasOK);
+
+	return *this;
+}
+
+
+
+
+
 #pragma mark NMixinComparable
 //=============================================================================
 //		NNumber::CompareEqual : Perform an equality comparison.
@@ -755,4 +811,134 @@ NComparison NNumber::CompareIntReal(const NNumber& theNumber) const
 	}
 
 	return theResult;
+}
+
+
+
+
+
+//=============================================================================
+//		NNumber::ParseInteger : Attempt to parse an integer value.
+//-----------------------------------------------------------------------------
+bool NNumber::ParseInteger(const utf8_t* textStart)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(textStart != nullptr);
+
+
+	// Parse a negative integer
+	bool isNegative = (strchr(textStart, '-') != nullptr);
+	bool isValid    = false;
+
+	if (isNegative)
+	{
+		utf8_t* textEnd    = const_cast<utf8_t*>(textStart);
+		int64_t valueInt64 = strtoll(textStart, &textEnd, 0);
+
+		isValid = (errno != ERANGE && textEnd != textStart);
+		if (isValid)
+		{
+			mValue = valueInt64;
+		}
+	}
+
+
+
+	// Parse a positive integer
+	if (!isValid)
+	{
+		utf8_t*  textEnd     = const_cast<utf8_t*>(textStart);
+		uint64_t valueUInt64 = strtoull(textStart, &textEnd, 0);
+
+		isValid = (errno != ERANGE && textEnd != textStart);
+		if (isValid)
+		{
+			mValue = valueUInt64;
+		}
+	}
+
+	return isValid;
+}
+
+
+
+
+
+//=============================================================================
+//		NNumber::ParseReal : Attempt to parse a real value.
+//-----------------------------------------------------------------------------
+bool NNumber::ParseReal(const utf8_t* textStart)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(textStart != nullptr);
+
+
+
+	// Check the text
+	bool isValid = (strchr(textStart, '.') != nullptr);
+
+	if (!isValid)
+	{
+		isValid = HasExponent(textStart, 'e') || HasExponent(textStart, 'E') ||
+				  HasExponent(textStart, 'p') || HasExponent(textStart, 'P');
+	}
+
+
+
+	// Attempt to convert
+	if (isValid)
+	{
+		utf8_t*   textEnd      = const_cast<utf8_t*>(textStart);
+		float64_t valueFloat64 = strtod(textStart, &textEnd);
+
+		isValid = (errno != ERANGE && textEnd != textStart);
+		if (isValid)
+		{
+			mValue = valueFloat64;
+		}
+	}
+
+	return isValid;
+}
+
+
+
+
+
+//=============================================================================
+//		NNumber::ParseFloat64 : Attempt to parse a float64_t.
+//-----------------------------------------------------------------------------
+bool NNumber::HasExponent(const utf8_t* textStart, char theToken) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theToken == 'e' || theToken == 'E' || theToken == 'p' || theToken == 'P');
+
+
+
+	// Check for an exponent
+	//
+	// An exponent is an 'eEpP' character, an optional '+-' sign,
+	// and one or more decimal digits.
+	const char* exponentStart = strchr(textStart, theToken);
+	bool        hasExponent   = (exponentStart != nullptr);
+
+	if (hasExponent)
+	{
+		if (exponentStart[1] == '+' || exponentStart[1] == '-')
+		{
+			hasExponent = isdigit(exponentStart[2]);
+		}
+		else
+		{
+			hasExponent = isdigit(exponentStart[1]);
+		}
+	}
+
+	return hasExponent;
 }
