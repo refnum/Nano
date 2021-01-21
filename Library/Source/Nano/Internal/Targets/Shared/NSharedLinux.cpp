@@ -677,13 +677,13 @@ NString NSharedLinux::ProcessName()
 
 
 	// Get the name
+	NString       theName  = "UNKNOWN";
 	NString       theText  = GetProcFile(NFilePath("/proc/self/status"));
 	NPatternGroup theMatch = theText.FindGroup("Name\\s*:\\s*([^\\n]*)", kNStringPattern);
-	NString       theName  = "UNKNOWN";
 
 	if (!theMatch.theGroups.empty())
 	{
-		theName = mPath.GetSubstring(theMatch.theGroups[0]);
+		theName = theText.GetSubstring(theMatch.theGroups[0]);
 	}
 
 	return theName;
