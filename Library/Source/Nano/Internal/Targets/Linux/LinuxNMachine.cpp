@@ -94,9 +94,11 @@ size_t NMachine::GetCores(NCoreType theType)
 	{
 		case NCoreType::Logical:
 			numCores = sysconf(_SC_NPROCESSORS_CONF);
+			break;
 
 		case NCoreType::Physical:
 			numCores = GetPhysicalCores();
+			break;
 	}
 
 	NN_REQUIRE(numCores >= 1);
