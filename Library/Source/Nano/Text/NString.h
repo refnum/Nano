@@ -231,8 +231,8 @@ public:
 	//
 	// Find the first, or all, instances of a substring.
 	//
-	// kNStringPattern return the ranges of the overall match, ignoring
-	// any capture groups for pattern searches.
+	// kNStringPattern returns the ranges of the overall match,
+	// ignoring any capture groups for pattern searches.
 	//
 	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
 	NRange                              Find(const NString& theString,
@@ -248,8 +248,8 @@ public:
 	//
 	// Find the first, or all, instances of a substring.
 	//
-	// kNStringPattern return the ranges of the overall pattern, including
-	// any capture groups within that pattern.
+	// kNStringPattern returns the ranges of the overall pattern,
+	// including any capture groups within that pattern.
 	//
 	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
 	NPatternGroup                       FindGroup(const NString& theString,
