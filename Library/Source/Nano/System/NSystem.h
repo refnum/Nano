@@ -67,6 +67,10 @@ public:
 	static NString                      GetEnv(const NString& theName);
 
 
+	// Get the page size
+	static size_t                       GetPageSize();
+
+
 	// Compare two versions
 	static NComparison                  CompareVersions(const NString& versionA, const NString& versionB);
 

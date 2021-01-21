@@ -92,6 +92,10 @@ public:
 
 	// Process
 	static NString                      ProcessName();
+
+
+	// System
+	static size_t                       SystemPageSize();
 };
 
 

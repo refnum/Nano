@@ -40,3 +40,27 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NSystem.h"
+
+// System
+#include <Windows.h>
+#include <sysinfoapi.h>
+
+
+
+
+
+//=============================================================================
+//		NSystem::GetPageSize : Get the page size.
+//-----------------------------------------------------------------------------
+size_t NSystem::GetPageSize()
+{
+
+
+	// Get the page size
+	SYSTEM_INFO systemInfo{};
+
+	GetSystemInfo(&systemInfo);
+	NN_REQUIRE(systemInfo.dwPageSize > 0);
+
+	return size_t(systemInfo.dwPageSize);
+}

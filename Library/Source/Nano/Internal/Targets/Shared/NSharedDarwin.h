@@ -111,6 +111,10 @@ public:
 	static NString                      ProcessName();
 
 
+	// System
+	static size_t                       SystemPageSize();
+
+
 	// Machine
 	static size_t                       MachineCores(NCoreType theType);
 };

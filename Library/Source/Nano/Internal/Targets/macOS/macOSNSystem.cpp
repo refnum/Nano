@@ -40,3 +40,22 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NSystem.h"
+
+
+// Nano
+#include "NSharedDarwin.h"
+
+
+
+
+
+//=============================================================================
+//		NSystem::GetPageSize : Get the page size.
+//-----------------------------------------------------------------------------
+size_t NSystem::GetPageSize()
+{
+
+
+	// Get the page size
+	return NSharedDarwin::SystemPageSize();
+}

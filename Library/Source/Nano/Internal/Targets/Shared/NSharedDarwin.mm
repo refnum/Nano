@@ -1058,6 +1058,24 @@ NString NSharedDarwin::ProcessName()
 
 
 
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::SystemPageSize : Get the page size.
+//-----------------------------------------------------------------------------
+size_t NSharedDarwin::SystemPageSize()
+{
+
+
+	// Get the page size
+	int pageSize = getpagesize();
+	NN_REQUIRE(pageSize > 0);
+
+	return size_t(pageSize);
+}
 //=============================================================================
 //		NSharedDarwin::MachineCores : Get the number of cores.
 //-----------------------------------------------------------------------------

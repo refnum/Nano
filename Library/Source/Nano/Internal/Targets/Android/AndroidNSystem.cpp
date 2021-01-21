@@ -40,3 +40,21 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NSystem.h"
+
+// Nano
+#include "NSharedLinux.h"
+
+
+
+
+
+//=============================================================================
+//		NSystem::GetPageSize : Get the page size.
+//-----------------------------------------------------------------------------
+size_t NSystem::GetPageSize()
+{
+
+
+	// Get the page size
+	return NSharedLinux::SystemPageSize();
+}

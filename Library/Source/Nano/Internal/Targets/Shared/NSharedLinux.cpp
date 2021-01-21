@@ -688,3 +688,21 @@ NString NSharedLinux::ProcessName()
 
 	return theName;
 }
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::SystemPageSize : Get the page size.
+//-----------------------------------------------------------------------------
+size_t NSharedLinux::SystemPageSize()
+{
+
+
+	// Get the page size
+	long pageSize = sysconf(_SC_PAGE_SIZE);
+	NN_REQUIRE(pageSize > 0);
+
+	return size_t(pageSize);
+}
