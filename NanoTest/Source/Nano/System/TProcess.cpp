@@ -67,3 +67,23 @@ NANO_TEST(TProcess, "GetName")
 	NString theName = NProcess::GetName();
 	REQUIRE(theName.Contains("NanoTest"));
 }
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TProcess, "GetMemory")
+{
+
+
+	// Perform the test
+	NMemoryInfo theInfo = NProcess::GetMemory();
+
+	REQUIRE(theInfo.memoryAllocated != 0);
+	REQUIRE(theInfo.memoryResident != 0);
+	REQUIRE(theInfo.addressSpaceUsed != 0);
+	REQUIRE(theInfo.addressSpaceMax != 0);
+}

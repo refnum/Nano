@@ -46,6 +46,7 @@
 #include "NFilePath.h"
 #include "NFileUtils.h"
 #include "NMachine.h"
+#include "NProcess.h"
 #include "NRunLoop.h"
 #include "NSemaphore.h"
 #include "NString.h"
@@ -109,6 +110,7 @@ public:
 
 	// Process
 	static NString                      ProcessName();
+	static NMemoryInfo                  ProcessMemory();
 
 
 	// System

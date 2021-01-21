@@ -42,9 +42,9 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NFileInfo.h"
+#include "NProcess.h"
 #include "NSemaphore.h"
 #include "NString.h"
-#include "NanoTypes.h"
 
 
 
@@ -92,6 +92,7 @@ public:
 
 	// Process
 	static NString                      ProcessName();
+	static NMemoryInfo                  ProcessMemory();
 
 
 	// System

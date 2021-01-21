@@ -41,6 +41,76 @@
 //-----------------------------------------------------------------------------
 #include "NProcess.h"
 
+// Nano
+#include "NFilePath.h"
+
+// System
+#include <Windows.h>
+#include <psapi.h>
+
+
+
+
+
+//=============================================================================
+//		Internal Functions
+//-----------------------------------------------------------------------------
+//		GetAddressSpaceMax : Get the maximum address space.
+//-----------------------------------------------------------------------------
+static size_t GetAddressSpaceMax()
+{
+
+
+	// Determine if the app supports large addresses
+	uintptr_t          baseAddr  = reinterpret_cast<uintptr_t>(GetModuleHandle(nullptr));
+	IMAGE_DOS_HEADER*  headerDOS = reinterpret_cast<IMAGE_DOS_HEADER*>(baseAddr);
+	IMAGE_FILE_HEADER* headerPE =
+		reinterpret_cast<IMAGE_FILE_HEADER*>(baseAddr + headerDOS->e_lfanew + 4);
+
+	bool isAppLargeAddress = (headerPE->Characteristics & IMAGE_FILE_LARGE_ADDRESS_AWARE);
+
+
+
+	// Determine if the OS is 64-bit
+	BOOL isWindows64Bit = NN_ARCH_64 ? TRUE : FALSE;
+
+	if (!isWindows64Bit)
+	{
+		isWindows64Bit = IsWow64Process(GetCurrentProcess(), &isWindows64Bit) && isWindows64Bit;
+	}
+
+
+
+	// Get the address space
+	//
+	// We hard-code the standard sizes for 64-bit and 32-bit processes, based
+	// on large address support in the app and 64-bit support in the OS.
+	//
+	// These sizes are are documented at:
+	//
+	//	https://docs.microsoft.com/ru-ru/windows/win32/memory/memory-limits-for-windows-releases
+	//
+	size_t theSize = 0;
+
+	if (NN_ARCH_64)
+	{
+		theSize = isAppLargeAddress ? (128 * kNTebibyte) : (2 * kNGibibyte);
+	}
+	else
+	{
+		if (isWindows64Bit)
+		{
+			theSize = isAppLargeAddress ? (4 * kNGibibyte) : (2 * kNGibibyte);
+		}
+		else
+		{
+			theSize = isAppLargeAddress ? (3 * kNGibibyte) : (2 * kNGibibyte);
+		}
+	}
+
+	return theSize;
+}
+
 
 
 
@@ -61,7 +131,7 @@ NString NProcess::GetName()
 	// Get the name
 	if (GetModuleFileName(NULL, theBuffer, MAX_PATH))
 	{
-		NFilePath thePath(theBuffer);
+		NFilePath thePath(NString(theBuffer));
 
 		if (thePath.IsValid())
 		{
@@ -70,3 +140,42 @@ NString NProcess::GetName()
 
 		return theName;
 	}
+}
+
+
+
+
+
+//=============================================================================
+//		NProcess::GetMemory : Get memory usage.
+//-----------------------------------------------------------------------------
+NMemoryInfo NProcess::GetMemory()
+{
+
+
+	// Get the state we need
+	PROCESS_MEMORY_COUNTERS memCounters{};
+
+	BOOL wasOK = GetProcessMemoryInfo(GetCurrentProcess(), &memCounters, sizeof(memCounters));
+	NN_EXPECT(wasOK);
+
+
+
+	// Get the memory usage
+	//
+	// addressSpaceUsed is set to allocated memory, although we could
+	// obtain a more accurate result by iterating with VirtualQuery.
+	//
+	// addressSpaceMax is hard-coded to the standard Windows limits.
+	NMemoryInfo theInfo{};
+
+	if (wasOK)
+	{
+		theInfo.memoryResident   = memCounters.WorkingSetSize;
+		theInfo.memoryAllocated  = memCounters.PagefileUsage;
+		theInfo.addressSpaceUsed = memCounters.PagefileUsage;
+		theInfo.addressSpaceMax  = GetAddressSpaceMax();
+	}
+
+	return theInfo;
+}

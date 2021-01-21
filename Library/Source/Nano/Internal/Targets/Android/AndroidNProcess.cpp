@@ -58,3 +58,18 @@ NString NProcess::GetName()
 	// Get the name
 	return NSharedLinux::ProcessName();
 }
+
+
+
+
+
+//=============================================================================
+//		NProcess::GetMemory : Get memory usage.
+//-----------------------------------------------------------------------------
+NMemoryInfo NProcess::GetMemory()
+{
+
+
+	// Get the memory
+	return NSharedLinux::ProcessMemory();
+}

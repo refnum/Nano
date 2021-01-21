@@ -48,6 +48,24 @@
 
 
 //=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Process memory info
+//
+// All sizes are in bytes.
+struct NMemoryInfo
+{
+	size_t memoryAllocated;     // Total memory allocated
+	size_t memoryResident;      // Total memory resident in RAM
+	size_t addressSpaceUsed;    // Current address space usage
+	size_t addressSpaceMax;     // Maximum address space
+};
+
+
+
+
+
+//=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
 class NProcess
@@ -55,6 +73,10 @@ class NProcess
 public:
 	// Get the name
 	static NString                      GetName();
+
+
+	// Get memory usage
+	static NMemoryInfo                  GetMemory();
 };
 
 

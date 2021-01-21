@@ -43,8 +43,10 @@
 
 // Nano
 #include "NDebug.h"
+#include "NNumber.h"
 #include "NSharedPOSIX.h"
 #include "NTimeUtils.h"
+#include "NanoTargets.h"
 
 // System
 #include <fcntl.h>
@@ -687,6 +689,51 @@ NString NSharedLinux::ProcessName()
 	}
 
 	return theName;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::ProcessMemory : Get the process memory usage.
+//-----------------------------------------------------------------------------
+NMemoryInfo NSharedLinux::ProcessMemory()
+{
+
+
+	// Get the state we need
+	NString       theText = GetProcFile(NFilePath("/proc/self/status"));
+	NMemoryInfo   theInfo{};
+	NPatternGroup theMatch;
+
+
+
+	// Get the memory usage
+	//
+	// addressSpaceUsed is set to allocated memory, although this will
+	// over-estimate as freed memory typically does not release its
+	// address space.
+	//
+	// addressSpaceMax is hard-coded to the standard Linux limits.
+	theMatch = theText.FindGroup("VmRSS\\s*:\\s*([0-9]*) kB", kNStringPattern);
+	if (!theMatch.theGroups.empty())
+	{
+		NNumber theValue(theText.GetSubstring(theMatch.theGroups[0]));
+		theInfo.memoryResident = theValue.GetUInt64() * kNKibibyte;
+	}
+
+	theMatch = theText.FindGroup("VmSize\\s*:\\s*([0-9]*) kB", kNStringPattern);
+	if (!theMatch.theGroups.empty())
+	{
+		NNumber theValue(theText.GetSubstring(theMatch.theGroups[0]));
+		theInfo.addressSpaceUsed = theValue.GetUInt64() * kNKibibyte;
+	}
+
+	theInfo.memoryAllocated = theInfo.addressSpaceUsed;
+	theInfo.addressSpaceMax = NN_ARCH_64 ? (128 * kNTebibyte) : (3 * kNGibibyte);
+
+	return theInfo;
 }
 
 

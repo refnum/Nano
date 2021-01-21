@@ -1058,6 +1058,39 @@ NString NSharedDarwin::ProcessName()
 
 
 
+//=============================================================================
+//		NSharedDarwin::ProcessMemory : Get the process memory usage.
+//-----------------------------------------------------------------------------
+NMemoryInfo NSharedDarwin::ProcessMemory()
+{
+
+
+	// Get the state we need
+	task_vm_info_data_t    vmInfo{};
+	mach_msg_type_number_t theCount = TASK_VM_INFO_COUNT;
+
+	kern_return_t kernErr =
+		task_info(mach_task_self(), TASK_VM_INFO, task_info_t(&vmInfo), &theCount);
+
+	NN_EXPECT_NOT_ERR(kernErr);
+
+
+
+	// Get the memory usage
+	NMemoryInfo theInfo{};
+
+	if (kernErr == KERN_SUCCESS)
+	{
+		NN_REQUIRE(vmInfo.max_address > vmInfo.min_address);
+
+		theInfo.memoryAllocated  = vmInfo.phys_footprint;
+		theInfo.memoryResident   = vmInfo.resident_size;
+		theInfo.addressSpaceUsed = vmInfo.virtual_size;
+		theInfo.addressSpaceMax  = vmInfo.max_address - vmInfo.min_address;
+	}
+
+	return theInfo;
+}
 
 
 
