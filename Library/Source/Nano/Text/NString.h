@@ -261,6 +261,29 @@ public:
 													const NRange&  theRange = kNRangeAll) const;
 
 
+	// Get a pattern match
+	//
+	// Get the first, or all, substring matching a pattern.
+	//
+	// GetMatch requires a pattern with zero or one capture groups
+	// as it returns a single string.
+	//
+	// If the pattern contains capture groups then the result is
+	// the substrings matched by those capture groups.
+	//
+	// If the pattern does not contain capture groups then the
+	// result is the substrings matched by the pattern.
+	//
+	// Supports kNStringNoCase and kNStringMultiLine.
+	NString                             GetMatch(const NString& searchFor,
+												 NStringFlags   theFlags = kNStringNone,
+												 const NRange&  theRange = kNRangeAll) const;
+
+	NVectorString                       GetMatches(const NString& searchFor,
+												   NStringFlags   theFlags = kNStringNone,
+												   const NRange&  theRange = kNRangeAll) const;
+
+
 	// Replace a substring
 	//
 	// ReplaceAll returns the number of instances replaced within the string.

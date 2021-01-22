@@ -582,6 +582,129 @@ NANO_TEST(TString, "FindMatches")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TString, "GetMatch")
+{
+
+
+	// Perform the test
+	NString theMatch;
+
+	for (auto theString : stringObjects)
+	{
+		theMatch = theString.GetMatch("\\sWo\\w+");
+		if (theString == kTestStringSmall)
+		{
+			REQUIRE(theMatch == " World");
+		}
+		else
+		{
+			REQUIRE(theMatch == " World");
+		}
+
+
+		theMatch = theString.GetMatch("\\sWo(\\w+)");
+		if (theString == kTestStringSmall)
+		{
+			REQUIRE(theMatch == "rld");
+		}
+		else
+		{
+			REQUIRE(theMatch == "rld");
+		}
+
+
+		theMatch = theString.GetMatch("\\sWO(\\w+)", kNStringNoCase);
+		if (theString == kTestStringSmall)
+		{
+			REQUIRE(theMatch == "rld");
+		}
+		else
+		{
+			REQUIRE(theMatch == "rld");
+		}
+
+
+		theMatch = theString.GetMatch("\\sWO(\\w+)");
+		REQUIRE(theMatch.IsEmpty());
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "GetMatches")
+{
+
+
+	// Perform the test
+	NVectorString theMatches;
+
+	for (auto theString : stringObjects)
+	{
+		theMatches = theString.GetMatches("\\sWo\\w+");
+		if (theString == kTestStringSmall)
+		{
+			REQUIRE(theMatches.size() == 1);
+			REQUIRE(theMatches[0] == " World");
+		}
+		else
+		{
+			REQUIRE(theMatches.size() == 4);
+			REQUIRE(theMatches[0] == " World");
+			REQUIRE(theMatches[1] == " World");
+			REQUIRE(theMatches[2] == " World");
+			REQUIRE(theMatches[3] == " World");
+		}
+
+
+		theMatches = theString.GetMatches("\\sWo(\\w+)");
+		if (theString == kTestStringSmall)
+		{
+			REQUIRE(theMatches.size() == 1);
+			REQUIRE(theMatches[0] == "rld");
+		}
+		else
+		{
+			REQUIRE(theMatches.size() == 4);
+			REQUIRE(theMatches[0] == "rld");
+			REQUIRE(theMatches[1] == "rld");
+			REQUIRE(theMatches[2] == "rld");
+			REQUIRE(theMatches[3] == "rld");
+		}
+
+
+		theMatches = theString.GetMatches("\\sWO(\\w+)", kNStringNoCase);
+		if (theString == kTestStringSmall)
+		{
+			REQUIRE(theMatches.size() == 1);
+			REQUIRE(theMatches[0] == "rld");
+		}
+		else
+		{
+			REQUIRE(theMatches.size() == 4);
+			REQUIRE(theMatches[0] == "rld");
+			REQUIRE(theMatches[1] == "rld");
+			REQUIRE(theMatches[2] == "rld");
+			REQUIRE(theMatches[3] == "rld");
+		}
+
+
+		theMatches = theString.GetMatches("\\sWO(\\w+)");
+		REQUIRE(theMatches.empty());
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TString, "Replace/String")
 {
 

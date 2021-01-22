@@ -398,6 +398,73 @@ NVectorPatternMatch NString::FindMatches(const NString& searchFor,
 
 
 //=============================================================================
+//		NString::GetMatch : Get the first instance of a pattern.
+//-----------------------------------------------------------------------------
+NString NString::GetMatch(const NString& searchFor,
+						  NStringFlags   theFlags,
+						  const NRange&  theRange) const
+{
+
+
+	// Get the match
+	NString       theResult;
+	NPatternMatch theMatch = FindMatch(searchFor, theFlags, theRange);
+
+	if (theMatch.theGroups.empty())
+	{
+		theResult = GetSubstring(theMatch.thePattern);
+	}
+	else
+	{
+		NN_REQUIRE(theMatch.theGroups.size() == 1);
+		theResult = GetSubstring(theMatch.theGroups[0]);
+	}
+
+	return theResult;
+}
+
+
+
+
+
+//=============================================================================
+//		NString::GetMatches : Get all instances of a pattern.
+//-----------------------------------------------------------------------------
+NVectorString NString::GetMatches(const NString& searchFor,
+								  NStringFlags   theFlags,
+								  const NRange&  theRange) const
+{
+
+
+	// Get the matches
+	NVectorString theResult;
+
+	for (const auto& theMatch : FindMatches(searchFor, theFlags, theRange))
+	{
+		// Get the pattern
+		if (theMatch.theGroups.empty())
+		{
+			theResult.emplace_back(GetSubstring(theMatch.thePattern));
+		}
+
+		// Get the captures
+		else
+		{
+			for (const auto& theGroup : theMatch.theGroups)
+			{
+				theResult.emplace_back(GetSubstring(theGroup));
+			}
+		}
+	}
+
+	return theResult;
+}
+
+
+
+
+
+//=============================================================================
 //		NString::Replace : Replace a substring.
 //-----------------------------------------------------------------------------
 bool NString::Replace(const NString& searchFor,
