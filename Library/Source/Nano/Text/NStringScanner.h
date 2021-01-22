@@ -107,9 +107,9 @@ public:
 	//
 	// Supports kNStringNoCase and kNStringMultiLine.
 	static NVectorPatternMatch          FindMatches(const NString& theString,
-													  const NString& searchFor,
-													  NStringFlags   theFlags,
-													  const NRange&  theRange);
+													const NString& searchFor,
+													NStringFlags   theFlags,
+													const NRange&  theRange);
 
 
 	// Replace a substring
@@ -168,16 +168,16 @@ public:
 
 
 private:
-	static NPatternMatch          FindFirst(const NString& theString,
-											 const NString& searchFor,
-											 NStringFlags   theFlags,
-											 const NRange&  theRange);
+	static NPatternMatch                FindFirst(const NString& theString,
+												  const NString& searchFor,
+												  NStringFlags   theFlags,
+												  const NRange&  theRange);
 
 	static NVectorPatternMatch          FindAll(const NString& theString,
-											 const NString& searchFor,
-											 NStringFlags   theFlags,
-											 const NRange&  theRange,
-											 size_t         maxResult);
+												const NString& searchFor,
+												NStringFlags   theFlags,
+												const NRange&  theRange,
+												size_t         maxResult);
 
 
 	static NVectorPatternMatch          FindPattern(const NString& theString,

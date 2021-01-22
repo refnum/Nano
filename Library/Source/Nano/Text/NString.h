@@ -257,8 +257,8 @@ public:
 												  const NRange&  theRange = kNRangeAll) const;
 
 	NVectorPatternMatch                 FindMatches(const NString& searchFor,
-													  NStringFlags   theFlags = kNStringNone,
-													  const NRange&  theRange = kNRangeAll) const;
+													NStringFlags   theFlags = kNStringNone,
+													const NRange&  theRange = kNRangeAll) const;
 
 
 	// Replace a substring

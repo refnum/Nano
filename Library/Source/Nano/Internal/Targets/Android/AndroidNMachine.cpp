@@ -91,5 +91,3 @@ uint64_t NMachine::GetMemoryBytes()
 	// Get the memory
 	return NSharedLinux::MachineMemory();
 }
-
-

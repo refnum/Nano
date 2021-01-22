@@ -384,8 +384,8 @@ NPatternMatch NString::FindMatch(const NString& searchFor,
 //		NString::FindMatches : Find all instances of a pattern.
 //-----------------------------------------------------------------------------
 NVectorPatternMatch NString::FindMatches(const NString& searchFor,
-										   NStringFlags   theFlags,
-										   const NRange&  theRange) const
+										 NStringFlags   theFlags,
+										 const NRange&  theRange) const
 {
 
 

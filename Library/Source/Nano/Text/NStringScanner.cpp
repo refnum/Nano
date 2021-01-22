@@ -132,9 +132,9 @@ NPatternMatch NStringScanner::FindMatch(const NString& theString,
 //		NStringScanner::FindMatches : Find every instance of a pattern.
 //-----------------------------------------------------------------------------
 NVectorPatternMatch NStringScanner::FindMatches(const NString& theString,
-												  const NString& searchFor,
-												  NStringFlags   theFlags,
-												  const NRange&  theRange)
+												const NString& searchFor,
+												NStringFlags   theFlags,
+												const NRange&  theRange)
 {
 
 
@@ -350,9 +350,9 @@ NVectorString NStringScanner::Split(const NString& theString,
 //		NStringScanner::FindFirst : Find the first match.
 //-----------------------------------------------------------------------------
 NPatternMatch NStringScanner::FindFirst(const NString& theString,
-										 const NString& searchFor,
-										 NStringFlags   theFlags,
-										 const NRange&  theRange)
+										const NString& searchFor,
+										NStringFlags   theFlags,
+										const NRange&  theRange)
 {
 
 
@@ -369,14 +369,17 @@ NPatternMatch NStringScanner::FindFirst(const NString& theString,
 }
 
 
+
+
+
 //=============================================================================
 //		NStringScanner::FindAll : Find all the matches.
 //-----------------------------------------------------------------------------
 NVectorPatternMatch NStringScanner::FindAll(const NString& theString,
-										 const NString& searchFor,
-										 NStringFlags   theFlags,
-										 const NRange&  theRange,
-										 size_t         maxResuilt)
+											const NString& searchFor,
+											NStringFlags   theFlags,
+											const NRange&  theRange,
+											size_t         maxResuilt)
 {
 
 
@@ -710,8 +713,6 @@ NVectorPatternMatch NStringScanner::BytesToCodepoints(const NString&            
 
 
 
-
-
 //=============================================================================
 //		NStringScanner::BytesToCodepoints : Convert byte offsets to codepoint offsets.
 //-----------------------------------------------------------------------------
@@ -767,6 +768,8 @@ NRange NStringScanner::BytesToCodepoints(const NVectorSize& codePointOffsets,
 
 	return {codePointLocation, codePointSize};
 }
+
+
 
 
 
