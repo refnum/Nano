@@ -679,13 +679,12 @@ NString NSharedLinux::ProcessName()
 
 
 	// Get the name
-	NString       theName  = "UNKNOWN";
 	NString       theText  = GetProcFile(NFilePath("/proc/self/status"));
-	NPatternMatch theMatch = theText.FindMatch("Name\\s*:\\s*([^\\n]*)");
+	NString theName = theText.GetMatch("Name\\s*:\\s*([^\\n]*)");
 
-	if (!theMatch.theGroups.empty())
+	if (theName.IsEmpty())
 	{
-		theName = theText.GetSubstring(theMatch.theGroups[0]);
+		theName = "UNKNOWN";
 	}
 
 	return theName;
@@ -705,7 +704,7 @@ NMemoryInfo NSharedLinux::ProcessMemory()
 	// Get the state we need
 	NString       theText = GetProcFile(NFilePath("/proc/self/status"));
 	NMemoryInfo   theInfo{};
-	NPatternMatch theMatch;
+	NString theValue;
 
 
 
@@ -716,18 +715,16 @@ NMemoryInfo NSharedLinux::ProcessMemory()
 	// address space.
 	//
 	// addressSpaceMax is hard-coded to the standard Linux limits.
-	theMatch = theText.FindMatch("VmRSS\\s*:\\s*([0-9]*) kB");
-	if (!theMatch.theGroups.empty())
+	theValue = theText.GetMatch("VmRSS\\s*:\\s*([0-9]*) kB");
+	if (!theValue.IsEmpty())
 	{
-		NNumber theValue(theText.GetSubstring(theMatch.theGroups[0]));
-		theInfo.memoryResident = theValue.GetUInt64() * kNKibibyte;
+		theInfo.memoryResident = NNumber(theValue).GetUInt64() * kNKibibyte;
 	}
 
-	theMatch = theText.FindMatch("VmSize\\s*:\\s*([0-9]*) kB");
-	if (!theMatch.theGroups.empty())
+	theValue = theText.GetMatch("VmSize\\s*:\\s*([0-9]*) kB");
+	if (!theValue.IsEmpty())
 	{
-		NNumber theValue(theText.GetSubstring(theMatch.theGroups[0]));
-		theInfo.addressSpaceUsed = theValue.GetUInt64() * kNKibibyte;
+		theInfo.addressSpaceUsed = NNumber(theValue).GetUInt64() * kNKibibyte;
 	}
 
 	theInfo.memoryAllocated = theInfo.addressSpaceUsed;
@@ -768,12 +765,11 @@ uint64_t NSharedLinux::MachineMemory()
 	// Get the memory
 	uint64_t      sizeBytes = 0;
 	NString       theText   = GetProcFile(NFilePath("/proc/meminfo"));
-	NPatternMatch theMatch  = theText.FindMatch("MemTotal:\\s*(\\d+)");
+	NString theValue  = theText.GetMatch("MemTotal:\\s*(\\d+)");
 
-	if (!theMatch.theGroups.empty())
+	if (!theValue.IsEmpty())
 	{
-		NNumber theValue(theText.GetSubstring(theMatch.theGroups[0]));
-		sizeBytes = theValue.GetUInt64() * kNKibibyte;
+		sizeBytes = NNumber(theValue).GetUInt64() * kNKibibyte;
 	}
 
 	return sizeBytes;

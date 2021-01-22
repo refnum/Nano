@@ -144,26 +144,25 @@ NVectorString NDebugger::GetBacktrace(size_t skipFrames, size_t numFrames)
 	{
 		if (n >= skipFrames)
 		{
-			NString       theSymbol(theSymbols[n]);
-			NPatternMatch theMatch = theSymbol.FindMatch(kNDebuggerSymbolName);
+			// Get the raw name (if any)
+			NString theSymbol(theSymbols[n]);
+			NString theName = theSymbol.GetMatch(kNDebuggerSymbolName);
 
-			if (!theMatch.theGroups.empty())
+
+			// Demangle the name
+			//
+			// C symbols can't be demangled so are used as-is.
+			int   sysErr  = 0;
+			char* cppName = abi::__cxa_demangle(theName.GetUTF8(), nullptr, nullptr, &sysErr);
+
+			if (cppName != nullptr && sysErr == 0)
 			{
-				// Demangle the name
-				//
-				// C symbols can't be demangled so are used as-is.
-				int     sysErr  = 0;
-				NString theName = theSymbol.GetSubstring(theMatch.theGroups[0]);
-				char*   cppName = abi::__cxa_demangle(theName.GetUTF8(), nullptr, nullptr, &sysErr);
-
-				if (cppName != nullptr && sysErr == 0)
-				{
-					theName = cppName;
-					free(cppName);
-				}
-
-				theTrace.emplace_back(theName);
+				theName = cppName;
+				free(cppName);
 			}
+
+
+			theTrace.emplace_back(theName);
 		}
 	}
 
