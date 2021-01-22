@@ -233,37 +233,37 @@ NANO_TEST(TStringScanner, "FindAll/Pattern")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TStringScanner, "FindGroup/Literal")
+NANO_TEST(TStringScanner, "FindMatch/Pattern")
 {
 
 
 	// Perform the test
-	NPatternGroup patternGroup;
+	NPatternMatch patternMatch;
 
-	patternGroup = NStringScanner::FindGroup(kTestString, "Vivamus", kNStringNone, kNRangeAll);
-	REQUIRE(patternGroup.thePattern == kRangeVivamus1);
-	REQUIRE(patternGroup.theGroups.empty());
+	patternMatch = NStringScanner::FindMatch(kTestString, "Vivamus", kNStringNone, kNRangeAll);
+	REQUIRE(patternMatch.thePattern == kRangeVivamus1);
+	REQUIRE(patternMatch.theGroups.empty());
 
-	patternGroup = NStringScanner::FindGroup(kTestString, "VIVAMUS", kNStringNoCase, kNRangeAll);
-	REQUIRE(patternGroup.thePattern == kRangeVivamus1);
-	REQUIRE(patternGroup.theGroups.empty());
+	patternMatch = NStringScanner::FindMatch(kTestString, "VIVAMUS", kNStringNoCase, kNRangeAll);
+	REQUIRE(patternMatch.thePattern == kRangeVivamus1);
+	REQUIRE(patternMatch.theGroups.empty());
 
-	patternGroup = NStringScanner::FindGroup(kTestString, "VIVAMUS", kNStringNone, kNRangeAll);
-	REQUIRE(patternGroup.thePattern.IsEmpty());
-	REQUIRE(patternGroup.theGroups.empty());
+	patternMatch = NStringScanner::FindMatch(kTestString, "VIVAMUS", kNStringNone, kNRangeAll);
+	REQUIRE(patternMatch.thePattern.IsEmpty());
+	REQUIRE(patternMatch.theGroups.empty());
 
 
-	patternGroup = NStringScanner::FindGroup(kTestString, "Vivamus", kNStringNone, kRangeMissed);
-	REQUIRE(patternGroup.thePattern.IsEmpty());
-	REQUIRE(patternGroup.theGroups.empty());
+	patternMatch = NStringScanner::FindMatch(kTestString, "Vivamus", kNStringNone, kRangeMissed);
+	REQUIRE(patternMatch.thePattern.IsEmpty());
+	REQUIRE(patternMatch.theGroups.empty());
 
-	patternGroup = NStringScanner::FindGroup(kTestString, "VIVAMUS", kNStringNoCase, kRangeMissed);
-	REQUIRE(patternGroup.thePattern.IsEmpty());
-	REQUIRE(patternGroup.theGroups.empty());
+	patternMatch = NStringScanner::FindMatch(kTestString, "VIVAMUS", kNStringNoCase, kRangeMissed);
+	REQUIRE(patternMatch.thePattern.IsEmpty());
+	REQUIRE(patternMatch.theGroups.empty());
 
-	patternGroup = NStringScanner::FindGroup(kTestString, "VIVAMUS", kNStringNone, kRangeMissed);
-	REQUIRE(patternGroup.thePattern.IsEmpty());
-	REQUIRE(patternGroup.theGroups.empty());
+	patternMatch = NStringScanner::FindMatch(kTestString, "VIVAMUS", kNStringNone, kRangeMissed);
+	REQUIRE(patternMatch.thePattern.IsEmpty());
+	REQUIRE(patternMatch.theGroups.empty());
 }
 
 
@@ -273,43 +273,43 @@ NANO_TEST(TStringScanner, "FindGroup/Literal")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TStringScanner, "FindGroup/Pattern")
+NANO_TEST(TStringScanner, "FindMatch/Capture")
 {
 
 
 	// Perform the test
-	NPatternGroup patternGroup;
+	NPatternMatch patternMatch;
 
-	patternGroup =
-		NStringScanner::FindGroup(kTestString, "(V.)(v.m)us", kNStringPattern, kNRangeAll);
-	REQUIRE(patternGroup.thePattern == kRangeVivamus1);
-	REQUIRE(patternGroup.theGroups == kGroupsVivamus1);
+	patternMatch =
+		NStringScanner::FindMatch(kTestString, "(V.)(v.m)us", kNStringNone, kNRangeAll);
+	REQUIRE(patternMatch.thePattern == kRangeVivamus1);
+	REQUIRE(patternMatch.theGroups == kGroupsVivamus1);
 
-	patternGroup =
-		NStringScanner::FindGroup(kTestString, "(V.)(V.M)US", kNStringPatternNoCase, kNRangeAll);
-	REQUIRE(patternGroup.thePattern == kRangeVivamus1);
-	REQUIRE(patternGroup.theGroups == kGroupsVivamus1);
+	patternMatch =
+		NStringScanner::FindMatch(kTestString, "(V.)(V.M)US", kNStringNoCase, kNRangeAll);
+	REQUIRE(patternMatch.thePattern == kRangeVivamus1);
+	REQUIRE(patternMatch.theGroups == kGroupsVivamus1);
 
-	patternGroup =
-		NStringScanner::FindGroup(kTestString, "(V.)(V.M)US", kNStringPattern, kNRangeAll);
-	REQUIRE(patternGroup.thePattern.IsEmpty());
-	REQUIRE(patternGroup.theGroups.empty());
+	patternMatch =
+		NStringScanner::FindMatch(kTestString, "(V.)(V.M)US", kNStringNone, kNRangeAll);
+	REQUIRE(patternMatch.thePattern.IsEmpty());
+	REQUIRE(patternMatch.theGroups.empty());
 
 
-	patternGroup =
-		NStringScanner::FindGroup(kTestString, "(V.)(v.m)us", kNStringPattern, kRangeMissed);
-	REQUIRE(patternGroup.thePattern.IsEmpty());
-	REQUIRE(patternGroup.theGroups.empty());
+	patternMatch =
+		NStringScanner::FindMatch(kTestString, "(V.)(v.m)us", kNStringNone, kRangeMissed);
+	REQUIRE(patternMatch.thePattern.IsEmpty());
+	REQUIRE(patternMatch.theGroups.empty());
 
-	patternGroup =
-		NStringScanner::FindGroup(kTestString, "(V.)(V.M)US", kNStringPatternNoCase, kRangeMissed);
-	REQUIRE(patternGroup.thePattern.IsEmpty());
-	REQUIRE(patternGroup.theGroups.empty());
+	patternMatch =
+		NStringScanner::FindMatch(kTestString, "(V.)(V.M)US", kNStringNoCase, kRangeMissed);
+	REQUIRE(patternMatch.thePattern.IsEmpty());
+	REQUIRE(patternMatch.theGroups.empty());
 
-	patternGroup =
-		NStringScanner::FindGroup(kTestString, "(V.)(V.M)US", kNStringPattern, kRangeMissed);
-	REQUIRE(patternGroup.thePattern.IsEmpty());
-	REQUIRE(patternGroup.theGroups.empty());
+	patternMatch =
+		NStringScanner::FindMatch(kTestString, "(V.)(V.M)US", kNStringNone, kRangeMissed);
+	REQUIRE(patternMatch.thePattern.IsEmpty());
+	REQUIRE(patternMatch.theGroups.empty());
 }
 
 
@@ -319,43 +319,43 @@ NANO_TEST(TStringScanner, "FindGroup/Pattern")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TStringScanner, "FindAllGroups/Literal")
+NANO_TEST(TStringScanner, "FindMatches/Pattern")
 {
 
 
 	// Perform the test
-	NVectorPatternGroup patternGroups;
+	NVectorPatternMatch patternMatches;
 
-	patternGroups = NStringScanner::FindAllGroups(kTestString, "Vivamus", kNStringNone, kNRangeAll);
-	REQUIRE(patternGroups.size() == 2);
-	REQUIRE(patternGroups[0].thePattern == kRangeVivamus1);
-	REQUIRE(patternGroups[0].theGroups.empty());
-	REQUIRE(patternGroups[1].thePattern == kRangeVivamus2);
-	REQUIRE(patternGroups[1].theGroups.empty());
+	patternMatches = NStringScanner::FindMatches(kTestString, "Vivamus", kNStringNone, kNRangeAll);
+	REQUIRE(patternMatches.size() == 2);
+	REQUIRE(patternMatches[0].thePattern == kRangeVivamus1);
+	REQUIRE(patternMatches[0].theGroups.empty());
+	REQUIRE(patternMatches[1].thePattern == kRangeVivamus2);
+	REQUIRE(patternMatches[1].theGroups.empty());
 
-	patternGroups =
-		NStringScanner::FindAllGroups(kTestString, "VIVAMUS", kNStringNoCase, kNRangeAll);
-	REQUIRE(patternGroups.size() == 2);
-	REQUIRE(patternGroups[0].thePattern == kRangeVivamus1);
-	REQUIRE(patternGroups[0].theGroups.empty());
-	REQUIRE(patternGroups[1].thePattern == kRangeVivamus2);
-	REQUIRE(patternGroups[1].theGroups.empty());
+	patternMatches =
+		NStringScanner::FindMatches(kTestString, "VIVAMUS", kNStringNoCase, kNRangeAll);
+	REQUIRE(patternMatches.size() == 2);
+	REQUIRE(patternMatches[0].thePattern == kRangeVivamus1);
+	REQUIRE(patternMatches[0].theGroups.empty());
+	REQUIRE(patternMatches[1].thePattern == kRangeVivamus2);
+	REQUIRE(patternMatches[1].theGroups.empty());
 
-	patternGroups = NStringScanner::FindAllGroups(kTestString, "VIVAMUS", kNStringNone, kNRangeAll);
-	REQUIRE(patternGroups.empty());
+	patternMatches = NStringScanner::FindMatches(kTestString, "VIVAMUS", kNStringNone, kNRangeAll);
+	REQUIRE(patternMatches.empty());
 
 
-	patternGroups =
-		NStringScanner::FindAllGroups(kTestString, "Vivamus", kNStringNone, kRangeMissed);
-	REQUIRE(patternGroups.empty());
+	patternMatches =
+		NStringScanner::FindMatches(kTestString, "Vivamus", kNStringNone, kRangeMissed);
+	REQUIRE(patternMatches.empty());
 
-	patternGroups =
-		NStringScanner::FindAllGroups(kTestString, "VIVAMUS", kNStringNoCase, kRangeMissed);
-	REQUIRE(patternGroups.empty());
+	patternMatches =
+		NStringScanner::FindMatches(kTestString, "VIVAMUS", kNStringNoCase, kRangeMissed);
+	REQUIRE(patternMatches.empty());
 
-	patternGroups =
-		NStringScanner::FindAllGroups(kTestString, "VIVAMUS", kNStringNone, kRangeMissed);
-	REQUIRE(patternGroups.empty());
+	patternMatches =
+		NStringScanner::FindMatches(kTestString, "VIVAMUS", kNStringNone, kRangeMissed);
+	REQUIRE(patternMatches.empty());
 }
 
 
@@ -365,49 +365,49 @@ NANO_TEST(TStringScanner, "FindAllGroups/Literal")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TStringScanner, "FindAllGroups/Pattern")
+NANO_TEST(TStringScanner, "FindMatches/Capture")
 {
 
 
 	// Perform the test
-	NVectorPatternGroup patternGroups;
+	NVectorPatternMatch patternMatches;
 
-	patternGroups =
-		NStringScanner::FindAllGroups(kTestString, "(V.)(v.m)us", kNStringPattern, kNRangeAll);
-	REQUIRE(patternGroups.size() == 2);
-	REQUIRE(patternGroups[0].thePattern == kRangeVivamus1);
-	REQUIRE(patternGroups[0].theGroups == kGroupsVivamus1);
-	REQUIRE(patternGroups[1].thePattern == kRangeVivamus2);
-	REQUIRE(patternGroups[1].theGroups == kGroupsVivamus2);
+	patternMatches =
+		NStringScanner::FindMatches(kTestString, "(V.)(v.m)us", kNStringNone, kNRangeAll);
+	REQUIRE(patternMatches.size() == 2);
+	REQUIRE(patternMatches[0].thePattern == kRangeVivamus1);
+	REQUIRE(patternMatches[0].theGroups == kGroupsVivamus1);
+	REQUIRE(patternMatches[1].thePattern == kRangeVivamus2);
+	REQUIRE(patternMatches[1].theGroups == kGroupsVivamus2);
 
-	patternGroups = NStringScanner::FindAllGroups(kTestString,
+	patternMatches = NStringScanner::FindMatches(kTestString,
 												  "(V.)(V.M)US",
-												  kNStringPatternNoCase,
+												  kNStringNoCase,
 												  kNRangeAll);
-	REQUIRE(patternGroups.size() == 2);
-	REQUIRE(patternGroups[0].thePattern == kRangeVivamus1);
-	REQUIRE(patternGroups[0].theGroups == kGroupsVivamus1);
-	REQUIRE(patternGroups[1].thePattern == kRangeVivamus2);
-	REQUIRE(patternGroups[1].theGroups == kGroupsVivamus2);
+	REQUIRE(patternMatches.size() == 2);
+	REQUIRE(patternMatches[0].thePattern == kRangeVivamus1);
+	REQUIRE(patternMatches[0].theGroups == kGroupsVivamus1);
+	REQUIRE(patternMatches[1].thePattern == kRangeVivamus2);
+	REQUIRE(patternMatches[1].theGroups == kGroupsVivamus2);
 
-	patternGroups =
-		NStringScanner::FindAllGroups(kTestString, "(V.)(V.M)US", kNStringPattern, kNRangeAll);
-	REQUIRE(patternGroups.empty());
+	patternMatches =
+		NStringScanner::FindMatches(kTestString, "(V.)(V.M)US", kNStringNone, kNRangeAll);
+	REQUIRE(patternMatches.empty());
 
 
-	patternGroups =
-		NStringScanner::FindAllGroups(kTestString, "(V.)(v.m)us", kNStringPattern, kRangeMissed);
-	REQUIRE(patternGroups.empty());
+	patternMatches =
+		NStringScanner::FindMatches(kTestString, "(V.)(v.m)us", kNStringNone, kRangeMissed);
+	REQUIRE(patternMatches.empty());
 
-	patternGroups = NStringScanner::FindAllGroups(kTestString,
+	patternMatches = NStringScanner::FindMatches(kTestString,
 												  "(V.)(V.M)US",
-												  kNStringPatternNoCase,
+												  kNStringNoCase,
 												  kRangeMissed);
-	REQUIRE(patternGroups.empty());
+	REQUIRE(patternMatches.empty());
 
-	patternGroups =
-		NStringScanner::FindAllGroups(kTestString, "(V.)(V.M)US", kNStringPattern, kRangeMissed);
-	REQUIRE(patternGroups.empty());
+	patternMatches =
+		NStringScanner::FindMatches(kTestString, "(V.)(V.M)US", kNStringNone, kRangeMissed);
+	REQUIRE(patternMatches.empty());
 }
 
 

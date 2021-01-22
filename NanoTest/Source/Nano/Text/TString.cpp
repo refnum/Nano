@@ -451,48 +451,48 @@ NANO_TEST(TString, "FindAll")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TString, "FindGroups")
+NANO_TEST(TString, "FindMatch")
 {
 
 
 	// Perform the test
-	NPatternGroup patternGroup;
+	NPatternMatch patternMatch;
 
 	for (auto theString : stringObjects)
 	{
-		patternGroup = theString.FindGroup("\\sWo(\\w+)", kNStringPattern);
+		patternMatch = theString.FindMatch("\\sWo(\\w+)");
 		if (theString == kTestStringSmall)
 		{
-			REQUIRE(patternGroup.theGroups.size() == 1);
-			REQUIRE(patternGroup.thePattern == NRange(5, 6));
-			REQUIRE(patternGroup.theGroups[0] == NRange(8, 3));
+			REQUIRE(patternMatch.theGroups.size() == 1);
+			REQUIRE(patternMatch.thePattern == NRange(5, 6));
+			REQUIRE(patternMatch.theGroups[0] == NRange(8, 3));
 		}
 		else
 		{
-			REQUIRE(patternGroup.theGroups.size() == 1);
-			REQUIRE(patternGroup.thePattern == NRange(5, 6));
-			REQUIRE(patternGroup.theGroups[0] == NRange(8, 3));
+			REQUIRE(patternMatch.theGroups.size() == 1);
+			REQUIRE(patternMatch.thePattern == NRange(5, 6));
+			REQUIRE(patternMatch.theGroups[0] == NRange(8, 3));
 		}
 
 
-		patternGroup = theString.FindGroup("\\sWO(\\w+)", kNStringPatternNoCase);
+		patternMatch = theString.FindMatch("\\sWO(\\w+)", kNStringNoCase);
 		if (theString == kTestStringSmall)
 		{
-			REQUIRE(patternGroup.theGroups.size() == 1);
-			REQUIRE(patternGroup.thePattern == NRange(5, 6));
-			REQUIRE(patternGroup.theGroups[0] == NRange(8, 3));
+			REQUIRE(patternMatch.theGroups.size() == 1);
+			REQUIRE(patternMatch.thePattern == NRange(5, 6));
+			REQUIRE(patternMatch.theGroups[0] == NRange(8, 3));
 		}
 		else
 		{
-			REQUIRE(patternGroup.theGroups.size() == 1);
-			REQUIRE(patternGroup.thePattern == NRange(5, 6));
-			REQUIRE(patternGroup.theGroups[0] == NRange(8, 3));
+			REQUIRE(patternMatch.theGroups.size() == 1);
+			REQUIRE(patternMatch.thePattern == NRange(5, 6));
+			REQUIRE(patternMatch.theGroups[0] == NRange(8, 3));
 		}
 
 
-		patternGroup = theString.FindGroup("\\sWO(\\w+)", kNStringPattern);
-		REQUIRE(patternGroup.thePattern.IsEmpty());
-		REQUIRE(patternGroup.theGroups.empty());
+		patternMatch = theString.FindMatch("\\sWO(\\w+)");
+		REQUIRE(patternMatch.thePattern.IsEmpty());
+		REQUIRE(patternMatch.theGroups.empty());
 	}
 }
 
@@ -503,75 +503,75 @@ NANO_TEST(TString, "FindGroups")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TString, "FindAllGroups")
+NANO_TEST(TString, "FindMatches")
 {
 
 
 	// Perform the test
-	NVectorPatternGroup patternGroups;
+	NVectorPatternMatch patternMatches;
 
 	for (auto theString : stringObjects)
 	{
-		patternGroups = theString.FindAllGroups("\\sWo(\\w+)", kNStringPattern);
+		patternMatches = theString.FindMatches("\\sWo(\\w+)");
 		if (theString == kTestStringSmall)
 		{
-			REQUIRE(patternGroups.size() == 1);
-			REQUIRE(patternGroups[0].theGroups.size() == 1);
-			REQUIRE(patternGroups[0].thePattern == NRange(5, 6));
-			REQUIRE(patternGroups[0].theGroups[0] == NRange(8, 3));
+			REQUIRE(patternMatches.size() == 1);
+			REQUIRE(patternMatches[0].theGroups.size() == 1);
+			REQUIRE(patternMatches[0].thePattern == NRange(5, 6));
+			REQUIRE(patternMatches[0].theGroups[0] == NRange(8, 3));
 		}
 		else
 		{
-			REQUIRE(patternGroups.size() == 4);
-			REQUIRE(patternGroups[0].theGroups.size() == 1);
-			REQUIRE(patternGroups[0].thePattern == NRange(5, 6));
-			REQUIRE(patternGroups[0].theGroups[0] == NRange(8, 3));
+			REQUIRE(patternMatches.size() == 4);
+			REQUIRE(patternMatches[0].theGroups.size() == 1);
+			REQUIRE(patternMatches[0].thePattern == NRange(5, 6));
+			REQUIRE(patternMatches[0].theGroups[0] == NRange(8, 3));
 
-			REQUIRE(patternGroups[1].theGroups.size() == 1);
-			REQUIRE(patternGroups[1].thePattern == NRange(15, 6));
-			REQUIRE(patternGroups[1].theGroups[0] == NRange(18, 3));
+			REQUIRE(patternMatches[1].theGroups.size() == 1);
+			REQUIRE(patternMatches[1].thePattern == NRange(15, 6));
+			REQUIRE(patternMatches[1].theGroups[0] == NRange(18, 3));
 
-			REQUIRE(patternGroups[2].theGroups.size() == 1);
-			REQUIRE(patternGroups[2].thePattern == NRange(25, 6));
-			REQUIRE(patternGroups[2].theGroups[0] == NRange(28, 3));
+			REQUIRE(patternMatches[2].theGroups.size() == 1);
+			REQUIRE(patternMatches[2].thePattern == NRange(25, 6));
+			REQUIRE(patternMatches[2].theGroups[0] == NRange(28, 3));
 
-			REQUIRE(patternGroups[3].theGroups.size() == 1);
-			REQUIRE(patternGroups[3].thePattern == NRange(37, 6));
-			REQUIRE(patternGroups[3].theGroups[0] == NRange(40, 3));
+			REQUIRE(patternMatches[3].theGroups.size() == 1);
+			REQUIRE(patternMatches[3].thePattern == NRange(37, 6));
+			REQUIRE(patternMatches[3].theGroups[0] == NRange(40, 3));
 		}
 
 
-		patternGroups = theString.FindAllGroups("\\sWO(\\w+)", kNStringPatternNoCase);
+		patternMatches = theString.FindMatches("\\sWO(\\w+)", kNStringNoCase);
 		if (theString == kTestStringSmall)
 		{
-			REQUIRE(patternGroups.size() == 1);
-			REQUIRE(patternGroups[0].theGroups.size() == 1);
-			REQUIRE(patternGroups[0].thePattern == NRange(5, 6));
-			REQUIRE(patternGroups[0].theGroups[0] == NRange(8, 3));
+			REQUIRE(patternMatches.size() == 1);
+			REQUIRE(patternMatches[0].theGroups.size() == 1);
+			REQUIRE(patternMatches[0].thePattern == NRange(5, 6));
+			REQUIRE(patternMatches[0].theGroups[0] == NRange(8, 3));
 		}
 		else
 		{
-			REQUIRE(patternGroups.size() == 4);
-			REQUIRE(patternGroups[0].theGroups.size() == 1);
-			REQUIRE(patternGroups[0].thePattern == NRange(5, 6));
-			REQUIRE(patternGroups[0].theGroups[0] == NRange(8, 3));
+			REQUIRE(patternMatches.size() == 4);
+			REQUIRE(patternMatches[0].theGroups.size() == 1);
+			REQUIRE(patternMatches[0].thePattern == NRange(5, 6));
+			REQUIRE(patternMatches[0].theGroups[0] == NRange(8, 3));
 
-			REQUIRE(patternGroups[1].theGroups.size() == 1);
-			REQUIRE(patternGroups[1].thePattern == NRange(15, 6));
-			REQUIRE(patternGroups[1].theGroups[0] == NRange(18, 3));
+			REQUIRE(patternMatches[1].theGroups.size() == 1);
+			REQUIRE(patternMatches[1].thePattern == NRange(15, 6));
+			REQUIRE(patternMatches[1].theGroups[0] == NRange(18, 3));
 
-			REQUIRE(patternGroups[2].theGroups.size() == 1);
-			REQUIRE(patternGroups[2].thePattern == NRange(25, 6));
-			REQUIRE(patternGroups[2].theGroups[0] == NRange(28, 3));
+			REQUIRE(patternMatches[2].theGroups.size() == 1);
+			REQUIRE(patternMatches[2].thePattern == NRange(25, 6));
+			REQUIRE(patternMatches[2].theGroups[0] == NRange(28, 3));
 
-			REQUIRE(patternGroups[3].theGroups.size() == 1);
-			REQUIRE(patternGroups[3].thePattern == NRange(37, 6));
-			REQUIRE(patternGroups[3].theGroups[0] == NRange(40, 3));
+			REQUIRE(patternMatches[3].theGroups.size() == 1);
+			REQUIRE(patternMatches[3].thePattern == NRange(37, 6));
+			REQUIRE(patternMatches[3].theGroups[0] == NRange(40, 3));
 		}
 
 
-		patternGroups = theString.FindAllGroups("\\sWO(\\w+)", kNStringPattern);
-		REQUIRE(patternGroups.empty());
+		patternMatches = theString.FindMatches("\\sWO(\\w+)");
+		REQUIRE(patternMatches.empty());
 	}
 }
 

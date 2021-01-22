@@ -102,17 +102,17 @@ struct NStringData;
 using NVectorString = std::vector<NString>;
 
 
-// Pattern group
+// Pattern match
 //
-// A pattern group identifies both the range that matched the pattern,
+// A pattern match identifies both the range that matched the pattern,
 // and the ranges of individual capture groups within that pattern.
-struct NPatternGroup
+struct NPatternMatch
 {
 	NRange       thePattern;
 	NVectorRange theGroups;
 };
 
-using NVectorPatternGroup = std::vector<NPatternGroup>;
+using NVectorPatternMatch = std::vector<NPatternMatch>;
 
 
 // String storage
@@ -235,28 +235,28 @@ public:
 	// ignoring any capture groups for pattern searches.
 	//
 	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
-	NRange                              Find(const NString& theString,
+	NRange                              Find(const NString& searchFor,
 											 NStringFlags   theFlags = kNStringNone,
 											 const NRange&  theRange = kNRangeAll) const;
 
-	NVectorRange                        FindAll(const NString& theString,
+	NVectorRange                        FindAll(const NString& searchFor,
 												NStringFlags   theFlags = kNStringNone,
 												const NRange&  theRange = kNRangeAll) const;
 
 
-	// Find a capture group
+	// Find a pattern match
 	//
-	// Find the first, or all, instances of a substring.
+	// Find the first, or all, instances of a pattern.
 	//
-	// kNStringPattern returns the ranges of the overall pattern,
-	// including any capture groups within that pattern.
+	// Returns the match, or matches, for the pattern and any
+	// capture groups within that pattern.
 	//
-	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
-	NPatternGroup                       FindGroup(const NString& theString,
+	// Supports kNStringNoCase and kNStringMultiLine.
+	NPatternMatch                       FindMatch(const NString& searchFor,
 												  NStringFlags   theFlags = kNStringNone,
 												  const NRange&  theRange = kNRangeAll) const;
 
-	NVectorPatternGroup                 FindAllGroups(const NString& theString,
+	NVectorPatternMatch                 FindMatches(const NString& searchFor,
 													  NStringFlags   theFlags = kNStringNone,
 													  const NRange&  theRange = kNRangeAll) const;
 
@@ -266,12 +266,12 @@ public:
 	// ReplaceAll returns the number of instances replaced within the string.
 	//
 	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
-	bool                                Replace(const NString& theString,
+	bool                                Replace(const NString& searchFor,
 												const NString& replaceWith,
 												NStringFlags   theFlags = kNStringNone,
 												const NRange&  theRange = kNRangeAll);
 
-	size_t                              ReplaceAll(const NString& theString,
+	size_t                              ReplaceAll(const NString& searchFor,
 												   const NString& replaceWith,
 												   NStringFlags   theFlags = kNStringNone,
 												   const NRange&  theRange = kNRangeAll);

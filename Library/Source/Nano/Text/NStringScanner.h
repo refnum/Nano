@@ -88,25 +88,25 @@ public:
 												const NRange&  theRange);
 
 
-	// Find the first instance of a capturing pattern
+	// Find the first instance of a pattern
 	//
-	// kNStringPattern searches return the pattern group, with both the
-	// range of the overall pattern and the ranges of any capture groups.
+	// Returns the match for the pattern and any capture groups
+	// within that pattern.
 	//
-	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
-	static NPatternGroup                FindGroup(const NString& theString,
+	// Supports kNStringNoCase and kNStringMultiLine.
+	static NPatternMatch                FindMatch(const NString& theString,
 												  const NString& searchFor,
 												  NStringFlags   theFlags,
 												  const NRange&  theRange);
 
 
-	// Find every instance of a capturing pattern
+	// Find every instance of a pattern
 	//
-	// kNStringPattern searches return the pattern group, with both the
-	// range of the overall pattern and the ranges of any capture groups.
+	// Returns the matches for the pattern and any capture groups
+	// within that pattern.
 	//
-	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
-	static NVectorPatternGroup          FindAllGroups(const NString& theString,
+	// Supports kNStringNoCase and kNStringMultiLine.
+	static NVectorPatternMatch          FindMatches(const NString& theString,
 													  const NString& searchFor,
 													  NStringFlags   theFlags,
 													  const NRange&  theRange);
@@ -168,14 +168,19 @@ public:
 
 
 private:
-	static NVectorPatternGroup          Find(const NString& theString,
+	static NPatternMatch          FindFirst(const NString& theString,
+											 const NString& searchFor,
+											 NStringFlags   theFlags,
+											 const NRange&  theRange);
+
+	static NVectorPatternMatch          FindAll(const NString& theString,
 											 const NString& searchFor,
 											 NStringFlags   theFlags,
 											 const NRange&  theRange,
 											 size_t         maxResult);
 
 
-	static NVectorPatternGroup          FindPattern(const NString& theString,
+	static NVectorPatternMatch          FindPattern(const NString& theString,
 													const NString& searchFor,
 													NStringFlags   theFlags,
 													const NRange&  theRange,
@@ -185,17 +190,16 @@ private:
 
 	static pcre2_real_code_8*           GetRegexp(const NString& searchFor, NStringFlags theFlags);
 
-	static NVectorPatternGroup          BytesToCodepoints(const NString&             theString,
+	static NVectorPatternMatch          BytesToCodepoints(const NString&             theString,
 														  const NData&               dataUTF8,
 														  size_t                     rangeLocation,
-														  const NVectorPatternGroup& bytePatternGroups);
-
-	static bool                         IsFixedWidthUTF8(const NData& dataUTF8);
-
+														  const NVectorPatternMatch& bytePatternMatches);
 
 	static NRange                       BytesToCodepoints(const NVectorSize& codePointOffsets,
 														  size_t             codePointOffset,
 														  const NRange&      byteRange);
+
+	static bool                         IsFixedWidthUTF8(const NData& dataUTF8);
 };
 
 

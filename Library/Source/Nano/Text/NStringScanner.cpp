@@ -67,7 +67,7 @@ NRange NStringScanner::Find(const NString& theString,
 
 
 	// Find the first instance
-	return FindGroup(theString, searchFor, theFlags, theRange).thePattern;
+	return FindFirst(theString, searchFor, theFlags, theRange).thePattern;
 }
 
 
@@ -92,9 +92,9 @@ NVectorRange NStringScanner::FindAll(const NString& theString,
 	// Find every instance
 	NVectorRange theResult;
 
-	for (const auto& patternGroup : FindAllGroups(theString, searchFor, theFlags, theRange))
+	for (const auto& theMatch : FindAll(theString, searchFor, theFlags, theRange, kNSizeMax))
 	{
-		theResult.push_back(patternGroup.thePattern);
+		theResult.emplace_back(theMatch.thePattern);
 	}
 
 	return theResult;
@@ -105,9 +105,9 @@ NVectorRange NStringScanner::FindAll(const NString& theString,
 
 
 //=============================================================================
-//		NStringScanner::FindGroup : Find the first instance of a capturing pattern.
+//		NStringScanner::FindMatch : Find the first instance of pattern.
 //-----------------------------------------------------------------------------
-NPatternGroup NStringScanner::FindGroup(const NString& theString,
+NPatternMatch NStringScanner::FindMatch(const NString& theString,
 										const NString& searchFor,
 										NStringFlags   theFlags,
 										const NRange&  theRange)
@@ -116,19 +116,12 @@ NPatternGroup NStringScanner::FindGroup(const NString& theString,
 
 	// Check our parameters
 	NN_REQUIRE((theFlags & kNStringNumeric) == 0);
+	NN_REQUIRE((theFlags & kNStringPattern) == 0);
 
 
 
 	// Find the first instance
-	NVectorPatternGroup patternGroups = Find(theString, searchFor, theFlags, theRange, 1);
-	NPatternGroup       theResult;
-
-	if (!patternGroups.empty())
-	{
-		theResult = patternGroups.front();
-	}
-
-	return theResult;
+	return FindFirst(theString, searchFor, theFlags | kNStringPattern, theRange);
 }
 
 
@@ -136,9 +129,9 @@ NPatternGroup NStringScanner::FindGroup(const NString& theString,
 
 
 //=============================================================================
-//		NStringScanner::FindAllGroups : Find every instance of a capturing pattern.
+//		NStringScanner::FindMatches : Find every instance of a pattern.
 //-----------------------------------------------------------------------------
-NVectorPatternGroup NStringScanner::FindAllGroups(const NString& theString,
+NVectorPatternMatch NStringScanner::FindMatches(const NString& theString,
 												  const NString& searchFor,
 												  NStringFlags   theFlags,
 												  const NRange&  theRange)
@@ -147,11 +140,12 @@ NVectorPatternGroup NStringScanner::FindAllGroups(const NString& theString,
 
 	// Check our parameters
 	NN_REQUIRE((theFlags & kNStringNumeric) == 0);
+	NN_REQUIRE((theFlags & kNStringPattern) == 0);
 
 
 
 	// Find every instance
-	return Find(theString, searchFor, theFlags, theRange, kNSizeMax);
+	return FindAll(theString, searchFor, theFlags | kNStringPattern, theRange, kNSizeMax);
 }
 
 
@@ -353,9 +347,32 @@ NVectorString NStringScanner::Split(const NString& theString,
 
 #pragma mark private
 //=============================================================================
-//		NStringScanner::Find : Find a string.
+//		NStringScanner::FindFirst : Find the first match.
 //-----------------------------------------------------------------------------
-NVectorPatternGroup NStringScanner::Find(const NString& theString,
+NPatternMatch NStringScanner::FindFirst(const NString& theString,
+										 const NString& searchFor,
+										 NStringFlags   theFlags,
+										 const NRange&  theRange)
+{
+
+
+	// Find the match
+	NVectorPatternMatch theMatches = FindAll(theString, searchFor, theFlags, theRange, 1);
+	NPatternMatch       theResult;
+
+	if (!theMatches.empty())
+	{
+		theResult = theMatches.front();
+	}
+
+	return theResult;
+}
+
+
+//=============================================================================
+//		NStringScanner::FindAll : Find all the matches.
+//-----------------------------------------------------------------------------
+NVectorPatternMatch NStringScanner::FindAll(const NString& theString,
 										 const NString& searchFor,
 										 NStringFlags   theFlags,
 										 const NRange&  theRange,
@@ -370,17 +387,17 @@ NVectorPatternGroup NStringScanner::Find(const NString& theString,
 
 	// Get the state we need
 	NRange              finalRange = theRange.GetNormalized(theString.GetSize());
-	NVectorPatternGroup patternGroups;
+	NVectorPatternMatch theResult;
 
 
 
 	// Find the pattern
 	if (!theString.IsEmpty() && !searchFor.IsEmpty() && !finalRange.IsEmpty())
 	{
-		patternGroups = FindPattern(theString, searchFor, theFlags, finalRange, maxResuilt);
+		theResult = FindPattern(theString, searchFor, theFlags, finalRange, maxResuilt);
 	}
 
-	return patternGroups;
+	return theResult;
 }
 
 
@@ -388,9 +405,9 @@ NVectorPatternGroup NStringScanner::Find(const NString& theString,
 
 
 //=============================================================================
-//		NStringScanner::FindPattern : Find a string.
+//		NStringScanner::FindPattern : Find a pattern.
 //-----------------------------------------------------------------------------
-NVectorPatternGroup NStringScanner::FindPattern(const NString& theString,
+NVectorPatternMatch NStringScanner::FindPattern(const NString& theString,
 												const NString& searchFor,
 												NStringFlags   theFlags,
 												const NRange&  theRange,
@@ -414,8 +431,8 @@ NVectorPatternGroup NStringScanner::FindPattern(const NString& theString,
 	size_t        searchSize   = searchUTF8.GetSize();
 	size_t        searchOffset = 0;
 
-	NVectorPatternGroup patternGroups;
-	NPatternGroup       patternGroup;
+	NVectorPatternMatch patternMatches;
+	NPatternMatch       patternMatch;
 
 
 
@@ -457,20 +474,20 @@ NVectorPatternGroup NStringScanner::FindPattern(const NString& theString,
 
 			if (m == 0)
 			{
-				patternGroup.thePattern = matchRange;
+				patternMatch.thePattern = matchRange;
 			}
 			else
 			{
-				patternGroup.theGroups.push_back(matchRange);
+				patternMatch.theGroups.emplace_back(matchRange);
 			}
 		}
 
-		patternGroups.push_back(patternGroup);
-		patternGroup.theGroups.clear();
+		patternMatches.emplace_back(patternMatch);
+		patternMatch.theGroups.clear();
 
 
 		// Advance the search
-		searchOffset = patternGroup.thePattern.GetNext();
+		searchOffset = patternMatch.thePattern.GetNext();
 	}
 
 
@@ -479,7 +496,7 @@ NVectorPatternGroup NStringScanner::FindPattern(const NString& theString,
 	pcre2_match_data_free(regMatches);
 	pcre2_code_free(regExp);
 
-	return BytesToCodepoints(searchString, searchUTF8, theRange.GetLocation(), patternGroups);
+	return BytesToCodepoints(searchString, searchUTF8, theRange.GetLocation(), patternMatches);
 }
 
 
@@ -606,10 +623,10 @@ pcre2_real_code_8* NStringScanner::GetRegexp(const NString& searchFor, NStringFl
 //=============================================================================
 //		NStringScanner::BytesToCodepoints : Convert byte offsets to codepoint offsets.
 //-----------------------------------------------------------------------------
-NVectorPatternGroup NStringScanner::BytesToCodepoints(const NString&             theString,
+NVectorPatternMatch NStringScanner::BytesToCodepoints(const NString&             theString,
 													  const NData&               dataUTF8,
 													  size_t                     rangeLocation,
-													  const NVectorPatternGroup& bytePatternGroups)
+													  const NVectorPatternMatch& bytePatternMatches)
 {
 
 
@@ -622,7 +639,7 @@ NVectorPatternGroup NStringScanner::BytesToCodepoints(const NString&            
 	// search text is in fact fixed width UTF8.
 	//
 	// If it is then any byte offset results are already codepoint offsets.
-	NVectorPatternGroup codePointGroups(bytePatternGroups);
+	NVectorPatternMatch codePointMatches(bytePatternMatches);
 
 	if (!IsFixedWidthUTF8(dataUTF8))
 	{
@@ -635,16 +652,16 @@ NVectorPatternGroup NStringScanner::BytesToCodepoints(const NString&            
 		size_t      patternOffset = 0;
 		size_t      nextPattern   = 0;
 
-		for (auto& patternGroup : codePointGroups)
+		for (auto& patternMatch : codePointMatches)
 		{
 			// Convert the pattern range
 			//
 			// The returned offset is that of the last codepoint in the pattern
 			// itself, which gives us our starting point for the next pattern.
 			patternOffset = nextPattern;
-			patternGroup.thePattern =
-				BytesToCodepoints(codePointOffsets, patternOffset, patternGroup.thePattern);
-			nextPattern = patternGroup.thePattern.GetNext();
+			patternMatch.thePattern =
+				BytesToCodepoints(codePointOffsets, patternOffset, patternMatch.thePattern);
+			nextPattern = patternMatch.thePattern.GetNext();
 
 
 
@@ -656,7 +673,7 @@ NVectorPatternGroup NStringScanner::BytesToCodepoints(const NString&            
 			// However as captured groups follow sequentially from each other
 			// we can also use the end of each group as the starting point for
 			// the next group.
-			for (auto& theRange : patternGroup.theGroups)
+			for (auto& theRange : patternMatch.theGroups)
 			{
 				theRange      = BytesToCodepoints(codePointOffsets, patternOffset, theRange);
 				patternOffset = theRange.GetNext();
@@ -675,45 +692,21 @@ NVectorPatternGroup NStringScanner::BytesToCodepoints(const NString&            
 	// so we do this as a separate pass as required.
 	if (rangeLocation != 0)
 	{
-		for (auto& patternGroup : codePointGroups)
+		for (auto& patternMatch : codePointMatches)
 		{
-			patternGroup.thePattern.AddOffset(rangeLocation);
+			patternMatch.thePattern.AddOffset(rangeLocation);
 
-			for (auto& theRange : patternGroup.theGroups)
+			for (auto& theRange : patternMatch.theGroups)
 			{
 				theRange.AddOffset(rangeLocation);
 			}
 		}
 	}
 
-	return codePointGroups;
+	return codePointMatches;
 }
 
 
-
-
-
-//=============================================================================
-//		NStringScanner::IsFixedWidthUTF8 : Is UTF8 data fixed-width?
-//-----------------------------------------------------------------------------
-bool NStringScanner::IsFixedWidthUTF8(const NData& dataUTF8)
-{
-
-
-	// Check the bytes
-	size_t         theSize = dataUTF8.GetSize();
-	const uint8_t* theData = dataUTF8.GetData();
-
-	for (size_t n = 0; n < theSize; n++)
-	{
-		if ((theData[n] & kNUTF8VariableWidth) != 0)
-		{
-			return false;
-		}
-	}
-
-	return true;
-}
 
 
 
@@ -773,4 +766,28 @@ NRange NStringScanner::BytesToCodepoints(const NVectorSize& codePointOffsets,
 	}
 
 	return {codePointLocation, codePointSize};
+}
+
+
+
+//=============================================================================
+//		NStringScanner::IsFixedWidthUTF8 : Is UTF8 data fixed-width?
+//-----------------------------------------------------------------------------
+bool NStringScanner::IsFixedWidthUTF8(const NData& dataUTF8)
+{
+
+
+	// Check the bytes
+	size_t         theSize = dataUTF8.GetSize();
+	const uint8_t* theData = dataUTF8.GetData();
+
+	for (size_t n = 0; n < theSize; n++)
+	{
+		if ((theData[n] & kNUTF8VariableWidth) != 0)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }

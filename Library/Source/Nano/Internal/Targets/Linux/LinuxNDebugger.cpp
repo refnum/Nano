@@ -145,7 +145,7 @@ NVectorString NDebugger::GetBacktrace(size_t skipFrames, size_t numFrames)
 		if (n >= skipFrames)
 		{
 			NString       theSymbol(theSymbols[n]);
-			NPatternGroup theMatch = theSymbol.FindGroup(kNDebuggerSymbolName, kNStringPattern);
+			NPatternMatch theMatch = theSymbol.FindMatch(kNDebuggerSymbolName);
 
 			if (!theMatch.theGroups.empty())
 			{

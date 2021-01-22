@@ -681,7 +681,7 @@ NString NSharedLinux::ProcessName()
 	// Get the name
 	NString       theName  = "UNKNOWN";
 	NString       theText  = GetProcFile(NFilePath("/proc/self/status"));
-	NPatternGroup theMatch = theText.FindGroup("Name\\s*:\\s*([^\\n]*)", kNStringPattern);
+	NPatternMatch theMatch = theText.FindMatch("Name\\s*:\\s*([^\\n]*)");
 
 	if (!theMatch.theGroups.empty())
 	{
@@ -705,7 +705,7 @@ NMemoryInfo NSharedLinux::ProcessMemory()
 	// Get the state we need
 	NString       theText = GetProcFile(NFilePath("/proc/self/status"));
 	NMemoryInfo   theInfo{};
-	NPatternGroup theMatch;
+	NPatternMatch theMatch;
 
 
 
@@ -716,14 +716,14 @@ NMemoryInfo NSharedLinux::ProcessMemory()
 	// address space.
 	//
 	// addressSpaceMax is hard-coded to the standard Linux limits.
-	theMatch = theText.FindGroup("VmRSS\\s*:\\s*([0-9]*) kB", kNStringPattern);
+	theMatch = theText.FindMatch("VmRSS\\s*:\\s*([0-9]*) kB");
 	if (!theMatch.theGroups.empty())
 	{
 		NNumber theValue(theText.GetSubstring(theMatch.theGroups[0]));
 		theInfo.memoryResident = theValue.GetUInt64() * kNKibibyte;
 	}
 
-	theMatch = theText.FindGroup("VmSize\\s*:\\s*([0-9]*) kB", kNStringPattern);
+	theMatch = theText.FindMatch("VmSize\\s*:\\s*([0-9]*) kB");
 	if (!theMatch.theGroups.empty())
 	{
 		NNumber theValue(theText.GetSubstring(theMatch.theGroups[0]));
@@ -768,7 +768,7 @@ uint64_t NSharedLinux::MachineMemory()
 	// Get the memory
 	uint64_t      sizeBytes = 0;
 	NString       theText   = GetProcFile(NFilePath("/proc/meminfo"));
-	NPatternGroup theMatch  = theText.FindGroup("MemTotal:\\s*(\\d+)", kNStringPattern);
+	NPatternMatch theMatch  = theText.FindMatch("MemTotal:\\s*(\\d+)");
 
 	if (!theMatch.theGroups.empty())
 	{

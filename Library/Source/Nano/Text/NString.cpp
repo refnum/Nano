@@ -332,14 +332,14 @@ const void* NString::GetContent(NStringEncoding* theEncoding, size_t* theSize) c
 
 
 //=============================================================================
-//		NString::Find : Find the first instancs of a string.
+//		NString::Find : Find the first instance of a string.
 //-----------------------------------------------------------------------------
-NRange NString::Find(const NString& theString, NStringFlags theFlags, const NRange& theRange) const
+NRange NString::Find(const NString& searchFor, NStringFlags theFlags, const NRange& theRange) const
 {
 
 
 	// Find rhe string
-	return NStringScanner::Find(*this, theString, theFlags, theRange);
+	return NStringScanner::Find(*this, searchFor, theFlags, theRange);
 }
 
 
@@ -347,16 +347,16 @@ NRange NString::Find(const NString& theString, NStringFlags theFlags, const NRan
 
 
 //=============================================================================
-//		NString::FindAll : Find all instancs of a string.
+//		NString::FindAll : Find all instances of a string.
 //-----------------------------------------------------------------------------
-NVectorRange NString::FindAll(const NString& theString,
+NVectorRange NString::FindAll(const NString& searchFor,
 							  NStringFlags   theFlags,
 							  const NRange&  theRange) const
 {
 
 
 	// Find rhe strings
-	return NStringScanner::FindAll(*this, theString, theFlags, theRange);
+	return NStringScanner::FindAll(*this, searchFor, theFlags, theRange);
 }
 
 
@@ -364,16 +364,16 @@ NVectorRange NString::FindAll(const NString& theString,
 
 
 //=============================================================================
-//		NString::FindGroup : Find the first instancs of capturing pattern.
+//		NString::FindMatch : Find the first instance of a pattern.
 //-----------------------------------------------------------------------------
-NPatternGroup NString::FindGroup(const NString& theString,
+NPatternMatch NString::FindMatch(const NString& searchFor,
 								 NStringFlags   theFlags,
 								 const NRange&  theRange) const
 {
 
 
 	// Find rhe string
-	return NStringScanner::FindGroup(*this, theString, theFlags, theRange);
+	return NStringScanner::FindMatch(*this, searchFor, theFlags, theRange);
 }
 
 
@@ -381,16 +381,16 @@ NPatternGroup NString::FindGroup(const NString& theString,
 
 
 //=============================================================================
-//		NString::FindAllGroups : Find a;; instancs of capturing pattern.
+//		NString::FindMatches : Find all instances of a pattern.
 //-----------------------------------------------------------------------------
-NVectorPatternGroup NString::FindAllGroups(const NString& theString,
+NVectorPatternMatch NString::FindMatches(const NString& searchFor,
 										   NStringFlags   theFlags,
 										   const NRange&  theRange) const
 {
 
 
 	// Find rhe strings
-	return NStringScanner::FindAllGroups(*this, theString, theFlags, theRange);
+	return NStringScanner::FindMatches(*this, searchFor, theFlags, theRange);
 }
 
 
@@ -400,7 +400,7 @@ NVectorPatternGroup NString::FindAllGroups(const NString& theString,
 //=============================================================================
 //		NString::Replace : Replace a substring.
 //-----------------------------------------------------------------------------
-bool NString::Replace(const NString& theString,
+bool NString::Replace(const NString& searchFor,
 					  const NString& replaceWith,
 					  NStringFlags   theFlags,
 					  const NRange&  theRange)
@@ -408,7 +408,7 @@ bool NString::Replace(const NString& theString,
 
 
 	// Find and replace
-	return NStringScanner::Replace(*this, theString, replaceWith, theFlags, theRange);
+	return NStringScanner::Replace(*this, searchFor, replaceWith, theFlags, theRange);
 }
 
 
@@ -418,7 +418,7 @@ bool NString::Replace(const NString& theString,
 //=============================================================================
 //		NString::ReplaceAll : Replace substrings.
 //-----------------------------------------------------------------------------
-size_t NString::ReplaceAll(const NString& theString,
+size_t NString::ReplaceAll(const NString& searchFor,
 						   const NString& replaceWith,
 						   NStringFlags   theFlags,
 						   const NRange&  theRange)
@@ -426,7 +426,7 @@ size_t NString::ReplaceAll(const NString& theString,
 
 
 	// Find and replace
-	return NStringScanner::ReplaceAll(*this, theString, replaceWith, theFlags, theRange);
+	return NStringScanner::ReplaceAll(*this, searchFor, replaceWith, theFlags, theRange);
 }
 
 

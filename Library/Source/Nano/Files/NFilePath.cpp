@@ -760,7 +760,7 @@ NString NFilePath::GetPart(const NString& thePattern) const
 
 
 	// Get the part
-	NPatternGroup theMatch = mPath.FindGroup(thePattern, kNStringPattern);
+	NPatternMatch theMatch = mPath.FindMatch(thePattern);
 	NString       theResult;
 
 	if (!theMatch.theGroups.empty())
@@ -783,7 +783,7 @@ bool NFilePath::SetPart(const NString& thePattern, const NString& theValue)
 
 
 	// Set the part
-	NPatternGroup theMatch = mPath.FindGroup(thePattern, kNStringPattern);
+	NPatternMatch theMatch = mPath.FindMatch(thePattern);
 	bool          didSet   = !theMatch.theGroups.empty();
 
 	if (didSet)
