@@ -1145,3 +1145,27 @@ uint64_t NSharedDarwin::MachineMemory()
 
 	return uint64_t(sizeBytes);
 }
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::MachineCPUHertz : Get the CPU speed.
+//-----------------------------------------------------------------------------
+uint64_t NSharedDarwin::MachineCPUHertz()
+{
+
+
+	// Get the speed
+	//
+	// CPU frequency is only available on macOS.
+#if NN_TARGET_MACOS
+	int64_t speedHz = GetSysctl<int64_t>("hw.cpufrequency_max");
+	NN_REQUIRE(speedHz > 0);
+#else
+	int64_t speedHz = 2 * kNGigahertz;
+#endif
+
+	return uint64_t(speedHz);
+}

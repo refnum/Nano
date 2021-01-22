@@ -123,3 +123,24 @@ uint64_t NMachine::GetMemoryBytes()
 
 	return memInfo.ullTotalPhys;
 }
+
+
+
+
+
+//=============================================================================
+//		NMachine::GetCPUHertz : Get the CPU speed.
+//-----------------------------------------------------------------------------
+uint64_t NMachine::GetCPUHertz()
+{
+
+
+	// Get the speed
+	int32_t speedMhz =
+		NSharedWindows::RegistryGetInt32(HKEY_LOCAL_MACHINE,
+										 "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
+										 "~MHz");
+	NN_REQUIRE(speedMhz > 0);
+
+	return uint64_t(speedMhz) * kNMegahertz;
+}

@@ -774,3 +774,42 @@ uint64_t NSharedLinux::MachineMemory()
 
 	return sizeBytes;
 }
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::MachineCPUHertz : Get the CPU speed.
+//-----------------------------------------------------------------------------
+uint64_t NSharedLinux::MachineCPUHertz()
+{
+
+
+	// Get the maxium speed
+	uint64_t theSpeed = 0;
+	NString  theText =
+		GetProcFile(NFilePath("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq"));
+
+	if (!theText.IsEmpty())
+	{
+		theSpeed = NNumber(theText).GetUInt64() * kNKilohertz;
+	}
+
+
+
+	// Fall back to the current speed
+	if (theSpeed == 0)
+	{
+		theText = GetProcFile(NFilePath("/proc/cpuinfo"));
+		theText = theText.GetMatch("cpu MHz\\s*:\\s*(\\d+)");
+
+		if (!theText.IsEmpty())
+		{
+			theSpeed = NNumber(theText).GetUInt64() * kNMegahertz;
+		}
+	}
+
+	NN_REQUIRE(theSpeed != 0);
+	return theSpeed;
+}

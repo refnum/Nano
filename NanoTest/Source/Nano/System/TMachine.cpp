@@ -99,6 +99,26 @@ NANO_TEST(TMachine, "GetMemory")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TMachine, "GetCPUSpeed")
+{
+
+
+	// Perform the test
+	float64_t speedHertz = NMachine::GetCPUSpeed();
+	REQUIRE(speedHertz > 0.0);
+
+	float64_t speedGhz = NMachine::GetCPUSpeed(kNGigahertz);
+	REQUIRE(speedGhz > 0.0);
+	REQUIRE(uint64_t(speedGhz) == uint64_t(speedHertz / kNGigahertz));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TMachine, "GetCPUArchitecture")
 {
 

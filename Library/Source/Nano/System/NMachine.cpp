@@ -64,6 +64,24 @@ float64_t NMachine::GetMemory(size_t theScale)
 
 
 //=============================================================================
+//		NMachine::GetCPUSpeed : Get the CPU speed.
+//-----------------------------------------------------------------------------
+float64_t NMachine::GetCPUSpeed(size_t theScale)
+{
+
+
+	// Get the speed
+	uint64_t speedHertz = GetCPUHertz();
+	NN_REQUIRE(speedHertz > 0);
+
+	return float64_t(speedHertz) / float64_t(theScale);
+}
+
+
+
+
+
+//=============================================================================
 //		NMachine::GetCPUArchitecture : Get the CPU architecture.
 //-----------------------------------------------------------------------------
 NString NMachine::GetCPUArchitecture()

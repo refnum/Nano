@@ -80,12 +80,22 @@ public:
 	static float64_t                    GetMemory(size_t theScale = kNByte);
 
 
+	// Get the maximum CPU speed
+	//
+	// The default scale factor returns the speed in Hertz.
+	//
+	// Passing a different scale factor will return the speed in the
+	// appropriate units (e.g., a scale of kNGigahertz will return GHz).
+	static float64_t                    GetCPUSpeed(size_t theScale = kNHertz);
+
+
 	// Get the CPU info
 	static NString                      GetCPUArchitecture();
 
 
 private:
 	static uint64_t                     GetMemoryBytes();
+	static uint64_t                     GetCPUHertz();
 };
 
 

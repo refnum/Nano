@@ -73,3 +73,18 @@ uint64_t NMachine::GetMemoryBytes()
 	// Get the memory
 	return NSharedDarwin::MachineMemory();
 }
+
+
+
+
+
+//=============================================================================
+//		NMachine::GetCPUHertz : Get the CPU speed.
+//-----------------------------------------------------------------------------
+uint64_t NMachine::GetCPUHertz()
+{
+
+
+	// Get the speed
+	return NSharedDarwin::MachineCPUHertz();
+}

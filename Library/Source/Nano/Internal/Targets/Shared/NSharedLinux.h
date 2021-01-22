@@ -101,6 +101,7 @@ public:
 
 	// Machine
 	static uint64_t                     MachineMemory();
+	static uint64_t                     MachineCPUHertz();
 };
 
 
