@@ -42,6 +42,7 @@
 #include "NSharedWindows.h"
 
 // Nano
+#include "NString.h"
 #include "NTime.h"
 #include "NanoConstants.h"
 
@@ -183,4 +184,43 @@ NStatus NSharedWindows::GetLastError(bool wasOK)
 	}
 
 	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedWindows::RegistryGetInt32 : Get a uint32_t from the registry.
+//-----------------------------------------------------------------------------
+int32_t NSharedWindows::RegistryGetInt32(HKEY hKey, const NString& theKey, const NString& theValue)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(hKey != nullptr);
+	NN_REQUIRE(!theKey.IsEmpty());
+	NN_REQUIRE(!theValue.IsEmpty());
+
+
+
+	// Get the value
+	DWORD theResult = 0;
+	DWORD theSize   = sizeof(theResult);
+
+	LSTATUS winErr = RegGetValueA(hKey,
+								  theKey.GetUTF8(),
+								  theValue.GetUTF8(),
+								  RRF_RT_DWORD,
+								  nullptr,
+								  &theResult,
+								  &theSize);
+	NN_EXPECT_NOT_ERR(winErr);
+
+	if (winErr != ERROR_SUCCESS)
+	{
+		theResult = 0;
+	}
+
+	return int32_t(theResult);
 }

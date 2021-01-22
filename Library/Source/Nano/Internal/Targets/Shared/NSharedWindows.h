@@ -41,11 +41,22 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
 #include "NanoConstants.h"
 #include "NanoTypes.h"
 
 // System
 #include <Windows.h>
+
+
+
+
+
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Forward declaration
+class NString;
 
 
 
@@ -75,6 +86,10 @@ public:
 	// returns the current value of ::GetLastError as an NStatus.
 	static NStatus                      ToStatus(HRESULT winErr);
 	static NStatus                      GetLastError(bool wasOK = false);
+
+
+	// Registry
+	static int32_t                      RegistryGetInt32(HKEY hKey, const NString& theKey, const NString& theValue);
 };
 
 
