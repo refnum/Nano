@@ -121,7 +121,9 @@ NPatternMatch NStringScanner::FindMatch(const NString& theString,
 
 
 	// Find the first instance
-	return FindFirst(theString, searchFor, theFlags | kNStringPattern, theRange);
+	theFlags |= kNStringPattern;
+	
+	return FindFirst(theString, searchFor, theFlags, theRange);
 }
 
 
@@ -145,7 +147,9 @@ NVectorPatternMatch NStringScanner::FindMatches(const NString& theString,
 
 
 	// Find every instance
-	return FindAll(theString, searchFor, theFlags | kNStringPattern, theRange, kNSizeMax);
+	theFlags |= kNStringPattern;
+	
+	return FindAll(theString, searchFor, theFlags, theRange, kNSizeMax);
 }
 
 
