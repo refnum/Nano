@@ -495,7 +495,7 @@ NVectorString NSharedDarwin::DebuggerGetBacktrace(size_t skipFrames, size_t numF
 	{
 		if (n >= skipFrames)
 		{
-			NString       theSymbol(theSymbols[n]);
+			NString theSymbol(theSymbols[n]);
 			NString theName = theSymbol.GetMatch(kNDebuggerSymbolName);
 
 			if (!theName.IsEmpty())
@@ -503,8 +503,8 @@ NVectorString NSharedDarwin::DebuggerGetBacktrace(size_t skipFrames, size_t numF
 				// Demangle the name
 				//
 				// C symbols can't be demangled so are used as-is.
-				int     sysErr  = 0;
-				char*   cppName = abi::__cxa_demangle(theName.GetUTF8(), nullptr, nullptr, &sysErr);
+				int   sysErr  = 0;
+				char* cppName = abi::__cxa_demangle(theName.GetUTF8(), nullptr, nullptr, &sysErr);
 
 				if (cppName != nullptr && sysErr == 0)
 				{

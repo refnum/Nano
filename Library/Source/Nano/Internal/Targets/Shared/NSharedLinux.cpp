@@ -679,7 +679,7 @@ NString NSharedLinux::ProcessName()
 
 
 	// Get the name
-	NString       theText  = GetProcFile(NFilePath("/proc/self/status"));
+	NString theText = GetProcFile(NFilePath("/proc/self/status"));
 	NString theName = theText.GetMatch("Name\\s*:\\s*([^\\n]*)");
 
 	if (theName.IsEmpty())
@@ -702,9 +702,9 @@ NMemoryInfo NSharedLinux::ProcessMemory()
 
 
 	// Get the state we need
-	NString       theText = GetProcFile(NFilePath("/proc/self/status"));
-	NMemoryInfo   theInfo{};
-	NString theValue;
+	NString     theText = GetProcFile(NFilePath("/proc/self/status"));
+	NMemoryInfo theInfo{};
+	NString     theValue;
 
 
 
@@ -763,9 +763,9 @@ uint64_t NSharedLinux::MachineMemory()
 
 
 	// Get the memory
-	uint64_t      sizeBytes = 0;
-	NString       theText   = GetProcFile(NFilePath("/proc/meminfo"));
-	NString theValue  = theText.GetMatch("MemTotal:\\s*(\\d+)");
+	uint64_t sizeBytes = 0;
+	NString  theText   = GetProcFile(NFilePath("/proc/meminfo"));
+	NString  theValue  = theText.GetMatch("MemTotal:\\s*(\\d+)");
 
 	if (!theValue.IsEmpty())
 	{
