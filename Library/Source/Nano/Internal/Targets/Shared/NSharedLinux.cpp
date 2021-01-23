@@ -519,11 +519,11 @@ NVectorUInt8 NSharedLinux::ThreadGetCores()
 
 	if (size_t(CPU_COUNT(&affinityMask)) != std::thread::hardware_concurrency())
 	{
-		for (uint8_t n = 0; n < kNUInt8Max; n++)
+		for (int n = 0; n < CPU_SETSIZE; n++)
 		{
 			if (CPU_ISSET(n, &affinityMask))
 			{
-				theCores.push_back(n);
+				theCores.push_back(uint8_t(n));
 			}
 		}
 	}
@@ -540,6 +540,10 @@ NVectorUInt8 NSharedLinux::ThreadGetCores()
 //-----------------------------------------------------------------------------
 void NSharedLinux::ThreadSetCores(const NVectorUInt8& theCores)
 {
+
+
+	// Validate our parameters
+	NN_REQUIRE(theCores.size() <= CPU_SETSIZE);
 
 
 	// Build the thread affinity
