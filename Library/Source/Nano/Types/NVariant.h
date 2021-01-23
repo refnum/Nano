@@ -42,10 +42,23 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NanoMacros.h"
 #include "NanoTypes.h"
 
 // System
 #include <variant>
+
+
+
+
+
+//=============================================================================
+//		Macros
+//-----------------------------------------------------------------------------
+// Compiler warnings
+#if NN_COMPILER_MSVC != 0 && NN_COMPILER_MSVC < 192528611    // VS 2019 16.5
+NN_DIAGNOSTIC_IGNORE_MSVC(4582);    // Constructor is not implicitly called (std::variant pre-VS19)
+#endif
 
 
 
