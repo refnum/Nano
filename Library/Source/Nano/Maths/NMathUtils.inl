@@ -47,6 +47,38 @@
 
 
 //=============================================================================
+//		NMathUtils::IsOdd : Is this an odd number?
+//-----------------------------------------------------------------------------
+template<typename T, typename Enabled>
+bool NMathUtils::IsOdd(T theValue)
+{
+
+
+	// Test the value
+	return (theValue & 0x01) != 0;
+}
+
+
+
+
+
+//=============================================================================
+//		NMathUtils::IsEven : Is this an even number?
+//-----------------------------------------------------------------------------
+template<typename T, typename Enabled>
+bool NMathUtils::IsEven(T theValue)
+{
+
+
+	// Test the value
+	return (theValue & 0x01) == 0;
+}
+
+
+
+
+
+//=============================================================================
 //		NMathUtils::CountBits : Count the number of set bits.
 //-----------------------------------------------------------------------------
 template<typename T, typename Enabled>

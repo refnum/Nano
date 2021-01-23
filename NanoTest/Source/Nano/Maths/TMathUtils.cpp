@@ -59,6 +59,25 @@ NANO_FIXTURE(TMathUtils){};
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TMathUtils, "Parity")
+{
+
+
+	// Perform the test
+	REQUIRE(NMathUtils::IsOdd(1));
+	REQUIRE(!NMathUtils::IsOdd(2));
+
+	REQUIRE(!NMathUtils::IsEven(1));
+	REQUIRE(NMathUtils::IsEven(2));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TMathUtils, "CountBits")
 {
 

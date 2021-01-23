@@ -76,6 +76,14 @@ static constexpr float64_t kNPhi                            = 1.6180339887498948
 class NMathUtils
 {
 public:
+	// Test the parity
+	template<typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
+	static bool                         IsOdd(T theValue);
+
+	template<typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
+	static bool                         IsEven(T theValue);
+
+
 	// Count the number of set bits
 	template<typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
 	static size_t                       CountBits(T theValue);
