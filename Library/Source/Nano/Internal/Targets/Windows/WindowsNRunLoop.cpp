@@ -126,7 +126,10 @@ void NRunLoop::RunLoopSleep(NRunLoopHandle runLoop, NInterval sleepFor)
 	// Sleep the runloop
 	//
 	// We spend the remaining time waiting for us to awake.
-	(void) windowsRunLoop->Wait(sleepFor == kNTimeForever ? kNTimeForever : timeLeft);
+	if (timeLeft > 0.0)
+	{
+		(void) windowsRunLoop->Wait(sleepFor == kNTimeForever ? kNTimeForever : timeLeft);
+	}
 }
 
 
