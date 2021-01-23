@@ -261,3 +261,33 @@ T NMathUtils::RotateRight(T theValue, size_t rotateBy)
 	// Rotate the value
 	return T(T(theValue << (kNumBits - rotateBy)) | T(theValue >> rotateBy));
 }
+
+
+
+
+
+//=============================================================================
+//		NMathUtils::ToDegrees : Convert from radians to degrees.
+//-----------------------------------------------------------------------------
+inline NDegrees NMathUtils::ToDegrees(NRadians theValue)
+{
+
+
+	// Convert to degrees
+	return theValue * (180.0 / kNPi);
+}
+
+
+
+
+
+//=============================================================================
+//		NMathUtils::ToRadians : Convert from degrees to radians.
+//-----------------------------------------------------------------------------
+inline NRadians NMathUtils::ToRadians(NDegrees theValue)
+{
+
+
+	// Convert to radians
+	return theValue * (kNPi / 180.0);
+}

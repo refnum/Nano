@@ -84,6 +84,17 @@ static constexpr float64_t kNPhi                            = 1.6180339887498948
 
 
 //=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Geometry
+using NRadians                                              = float64_t;
+using NDegrees                                              = float64_t;
+
+
+
+
+
+//=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
 class NMathUtils
@@ -118,6 +129,11 @@ public:
 
 	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
 	static T                            RotateRight(T theValue, size_t rotateBy);
+
+
+	// Geometry
+	static NDegrees                     ToDegrees(NRadians theValue);
+	static NRadians                     ToRadians(NDegrees theValue);
 };
 
 
