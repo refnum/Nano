@@ -932,11 +932,11 @@ bool NNumber::HasExponent(const utf8_t* textStart, char theToken) const
 	{
 		if (exponentStart[1] == '+' || exponentStart[1] == '-')
 		{
-			hasExponent = isdigit(exponentStart[2]);
+			hasExponent = (isdigit(exponentStart[2]) != 0);
 		}
 		else
 		{
-			hasExponent = isdigit(exponentStart[1]);
+			hasExponent = (isdigit(exponentStart[1]) != 0);
 		}
 	}
 
