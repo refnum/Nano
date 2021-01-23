@@ -2,7 +2,7 @@
 		TStdContainer.cpp
 
 	DESCRIPTION:
-		NSTLUtilities tests.
+		NStdContainer tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software

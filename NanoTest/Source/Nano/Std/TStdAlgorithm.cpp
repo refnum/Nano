@@ -2,7 +2,7 @@
 		TStdAlgorithm.cpp
 
 	DESCRIPTION:
-		NSTLUtilities tests.
+		NStdAlgorithm tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
