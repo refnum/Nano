@@ -572,6 +572,7 @@ NANO_TEST(TStdAlgorithm, "nstd:values")
 	// Perform the test
 	NVectorUInt32 theKeys = nstd::values(kTestUnorderedMap);
 
+	nstd::sort(theKeys);
 	REQUIRE(theKeys.size() == 3);
 	REQUIRE(theKeys[0] == 111);
 	REQUIRE(theKeys[1] == 222);
