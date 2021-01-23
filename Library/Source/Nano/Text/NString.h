@@ -47,6 +47,7 @@
 #include "NMixinContainer.h"
 #include "NMixinHashable.h"
 #include "NRange.h"
+#include "NStdUtility.h"
 #include "NStringEncodings.h"
 #include "NanoMacros.h"
 
@@ -128,7 +129,7 @@ using NVectorPatternMatch = std::vector<NPatternMatch>;
 // The small data field must be the first field to ensure it has the
 // correct alignment to be recast to any type that is <= 16 bytes.
 //
-NN_STRUCT_PACK_1(alignas(16) NStringStorage {
+NN_STRUCT_PACK_1(NN_STD_ANY_ALIGNAS(16) NStringStorage {
 	union
 	{
 		struct
