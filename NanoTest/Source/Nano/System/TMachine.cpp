@@ -135,6 +135,22 @@ NANO_TEST(TMachine, "GetCPUName")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TMachine, "GetCPUVendor")
+{
+
+
+	// Perform the test
+	NString theVendor = NMachine::GetCPUVendor();
+	REQUIRE((!theVendor.IsEmpty() && theVendor != "Unknown"));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TMachine, "GetCPUArchitecture")
 {
 

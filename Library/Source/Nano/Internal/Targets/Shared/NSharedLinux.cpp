@@ -815,6 +815,30 @@ NString NSharedLinux::MachineCPUName()
 
 
 //=============================================================================
+//		NSharedLinux::MachineCPUVendor : Get the CPU vendor.
+//-----------------------------------------------------------------------------
+NString NSharedLinux::MachineCPUVendor()
+{
+
+
+	// Get the vendor
+	NString theText = GetProcFile(NFilePath("/proc/cpuinfo"));
+	NString theName = theText.GetMatch("vendor_id\\s*:\\s*(.*)");
+	NN_EXPECT(!theName.IsEmpty());
+
+	if (theName.IsEmpty())
+	{
+		theName = "Unknown";
+	}
+
+	return theName;
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedLinux::MachineCPUHertz : Get the CPU speed.
 //-----------------------------------------------------------------------------
 uint64_t NSharedLinux::MachineCPUHertz()

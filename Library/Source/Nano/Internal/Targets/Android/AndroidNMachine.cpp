@@ -112,6 +112,21 @@ NString NMachine::GetCPUName()
 
 
 //=============================================================================
+//		NMachine::GetCPUVendor : Get the CPU vendor.
+//-----------------------------------------------------------------------------
+NString NMachine::GetCPUVendor()
+{
+
+
+	// Get the vendor
+	return NSharedLinux::MachineCPUVendor();
+}
+
+
+
+
+
+//=============================================================================
 //		NMachine::GetCPUHertz : Get the CPU speed.
 //-----------------------------------------------------------------------------
 uint64_t NMachine::GetCPUHertz()

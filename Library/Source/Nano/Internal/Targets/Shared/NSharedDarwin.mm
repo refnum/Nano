@@ -1178,6 +1178,31 @@ NString NSharedDarwin::MachineCPUName()
 
 
 //=============================================================================
+//		NSharedDarwin::MachineCPUVendor : Get the CPU vendor.
+//-----------------------------------------------------------------------------
+NString NSharedDarwin::MachineCPUVendor()
+{
+
+
+	// Get the vendor
+	//
+	// CPU vendor is only available on macOS.
+	NString theName = GetSysctl<NString>("machdep.cpu.vendor");
+	NN_EXPECT(!theName.IsEmpty());
+
+	if (theName.IsEmpty())
+	{
+		theName = "Unknown";
+	}
+
+	return theName;
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedDarwin::MachineCPUHertz : Get the CPU speed.
 //-----------------------------------------------------------------------------
 uint64_t NSharedDarwin::MachineCPUHertz()

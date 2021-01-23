@@ -155,6 +155,32 @@ NString NMachine::GetCPUName()
 
 
 //=============================================================================
+//		NMachine::GetCPUVendor : Get the CPU vendor.
+//-----------------------------------------------------------------------------
+NString NMachine::GetCPUVendor()
+{
+
+
+	// Get the name
+	NString theName =
+		NSharedWindows::RegistryGetString(HKEY_LOCAL_MACHINE,
+										  "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
+										  "VendorIdentifier");
+	NN_EXPECT(!theName.IsEmpty());
+
+	if (theName.IsEmpty())
+	{
+		theName = "Unknown";
+	}
+
+	return theName;
+}
+
+
+
+
+
+//=============================================================================
 //		NMachine::GetCPUHertz : Get the CPU speed.
 //-----------------------------------------------------------------------------
 uint64_t NMachine::GetCPUHertz()
