@@ -40,6 +40,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NDebug.h"
 #include "NanoTargets.h"
 
 
@@ -211,4 +212,52 @@ size_t NMathUtils::CountBits(T theValue)
 
 	return T(theValue * kMagic01010101) >> kShiftDown;
 #endif
+}
+
+
+
+
+
+//=============================================================================
+//		NMathUtils::RotateLeft : Rotate left.
+//-----------------------------------------------------------------------------
+template<typename T, typename Enabled>
+T NMathUtils::RotateLeft(T theValue, size_t rotateBy)
+{
+
+
+	// Get the state we need
+	static constexpr T kNumBits = sizeof(T) * 8;
+
+	static_assert(kNumBits == 8 || kNumBits == 16 || kNumBits == 32 || kNumBits == 64);
+	NN_REQUIRE(rotateBy > 0 && rotateBy < kNumBits);
+
+
+
+	// Rotate the value
+	return T(T(theValue >> (kNumBits - rotateBy)) | T(theValue << rotateBy));
+}
+
+
+
+
+
+//=============================================================================
+//		NMathUtils::RotateRight : Rotate right.
+//-----------------------------------------------------------------------------
+template<typename T, typename Enabled>
+T NMathUtils::RotateRight(T theValue, size_t rotateBy)
+{
+
+
+	// Get the state we need
+	static constexpr T kNumBits = sizeof(T) * 8;
+
+	static_assert(kNumBits == 8 || kNumBits == 16 || kNumBits == 32 || kNumBits == 64);
+	NN_REQUIRE(rotateBy > 0 && rotateBy < kNumBits);
+
+
+
+	// Rotate the value
+	return T(T(theValue << (kNumBits - rotateBy)) | T(theValue >> rotateBy));
 }

@@ -167,3 +167,69 @@ NANO_TEST(TMathUtils, "CountBits")
 		v = uint64_t((v << 1) | 1);
 	}
 }
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TMathUtils, "RotateLeft")
+{
+
+
+	// Perform the test
+	REQUIRE(NMathUtils::RotateLeft(uint8_t(0b11001100), 1) == uint8_t(0b10011001));
+	REQUIRE(NMathUtils::RotateLeft(uint8_t(0b11001100), 2) == uint8_t(0b00110011));
+
+	REQUIRE(NMathUtils::RotateLeft(uint16_t(0b1100110011001100), 1) ==
+			uint16_t(0b1001100110011001));
+	REQUIRE(NMathUtils::RotateLeft(uint16_t(0b1100110011001100), 2) ==
+			uint16_t(0b0011001100110011));
+
+	REQUIRE(NMathUtils::RotateLeft(uint32_t(0b11001100110011001100110011001100), 1) ==
+			uint32_t(0b10011001100110011001100110011001));
+	REQUIRE(NMathUtils::RotateLeft(uint32_t(0b11001100110011001100110011001100), 2) ==
+			uint32_t(0b00110011001100110011001100110011));
+
+	REQUIRE(NMathUtils::RotateLeft(
+				uint64_t(0b1100110011001100110011001100110011001100110011001100110011001100),
+				1) == uint64_t(0b1001100110011001100110011001100110011001100110011001100110011001));
+	REQUIRE(NMathUtils::RotateLeft(
+				uint64_t(0b1100110011001100110011001100110011001100110011001100110011001100),
+				2) == uint64_t(0b0011001100110011001100110011001100110011001100110011001100110011));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TMathUtils, "RotateRight")
+{
+
+
+	// Perform the test
+	REQUIRE(NMathUtils::RotateRight(uint8_t(0b11001100), 1) == uint8_t(0b01100110));
+	REQUIRE(NMathUtils::RotateRight(uint8_t(0b11001100), 2) == uint8_t(0b00110011));
+
+	REQUIRE(NMathUtils::RotateRight(uint16_t(0b1100110011001100), 1) ==
+			uint16_t(0b0110011001100110));
+	REQUIRE(NMathUtils::RotateRight(uint16_t(0b1100110011001100), 2) ==
+			uint16_t(0b0011001100110011));
+
+	REQUIRE(NMathUtils::RotateRight(uint32_t(0b11001100110011001100110011001100), 1) ==
+			uint32_t(0b01100110011001100110011001100110));
+	REQUIRE(NMathUtils::RotateRight(uint32_t(0b11001100110011001100110011001100), 2) ==
+			uint32_t(0b00110011001100110011001100110011));
+
+	REQUIRE(NMathUtils::RotateRight(
+				uint64_t(0b1100110011001100110011001100110011001100110011001100110011001100),
+				1) == uint64_t(0b0110011001100110011001100110011001100110011001100110011001100110));
+	REQUIRE(NMathUtils::RotateRight(
+				uint64_t(0b1100110011001100110011001100110011001100110011001100110011001100),
+				2) == uint64_t(0b0011001100110011001100110011001100110011001100110011001100110011));
+}

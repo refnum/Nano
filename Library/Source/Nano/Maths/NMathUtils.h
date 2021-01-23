@@ -110,6 +110,14 @@ public:
 	// Count the number of set bits
 	template<typename T,                NN_ENABLE_IF_INTEGER(T)>
 	static size_t                       CountBits(           T theValue);
+
+
+	// Rotation
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	static T                            RotateLeft(T theValue, size_t rotateBy);
+
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	static T                            RotateRight(T theValue, size_t rotateBy);
 };
 
 
