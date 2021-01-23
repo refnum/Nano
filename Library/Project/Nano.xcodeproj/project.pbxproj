@@ -454,6 +454,7 @@
 		AB23BB3A102B6565009CA347 /* NAtomicList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAtomicList.h; sourceTree = "<group>"; };
 		AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSemaphore.cpp; sourceTree = "<group>"; };
 		AB23BB5D102B67DB009CA347 /* NSemaphore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSemaphore.h; sourceTree = "<group>"; };
+		AB269E0C25BBAEB9007EAEF8 /* NStdUtility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NStdUtility.h; sourceTree = "<group>"; };
 		AB28FBDD0FB5D36300F72C61 /* libNano_iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano_iOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB2A304324524C9100F21BF6 /* NDebugger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDebugger.cpp; sourceTree = "<group>"; };
 		AB2A304424524C9100F21BF6 /* NDebugger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDebugger.h; sourceTree = "<group>"; };
@@ -1128,6 +1129,7 @@
 			children = (
 				AB5127DD23D0778400528FBE /* NStdAlgorithm.h */,
 				AB5127E823D07FB400528FBE /* NStdContainer.h */,
+				AB269E0C25BBAEB9007EAEF8 /* NStdUtility.h */,
 			);
 			path = Std;
 			sourceTree = "<group>";

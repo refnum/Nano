@@ -31,6 +31,9 @@
 		AB1B4DAA23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4DA923F2F92A00B304D3 /* TStringTransformer.cpp */; };
 		AB1B4DAB23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4DA923F2F92A00B304D3 /* TStringTransformer.cpp */; };
 		AB1B4DAC23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4DA923F2F92A00B304D3 /* TStringTransformer.cpp */; };
+		AB269E0625BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB269E0525BBAEA7007EAEF8 /* TStdUtility.cpp */; };
+		AB269E0725BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB269E0525BBAEA7007EAEF8 /* TStdUtility.cpp */; };
+		AB269E0825BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB269E0525BBAEA7007EAEF8 /* TStdUtility.cpp */; };
 		AB2912192383771600509C66 /* TData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA51034184B00E5A6AD /* TData.cpp */; };
 		AB29121A2383771700509C66 /* TData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA51034184B00E5A6AD /* TData.cpp */; };
 		AB29121B2383771700509C66 /* TData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DA51034184B00E5A6AD /* TData.cpp */; };
@@ -215,6 +218,7 @@
 		AB1B4DA923F2F92A00B304D3 /* TStringTransformer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringTransformer.cpp; sourceTree = "<group>"; };
 		AB1BA195104E7D1400BB002B /* TTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTransform.cpp; sourceTree = "<group>"; };
 		AB1BA2A3105016AF00BB002B /* TGeometryUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TGeometryUtilities.cpp; sourceTree = "<group>"; };
+		AB269E0525BBAEA7007EAEF8 /* TStdUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdUtility.cpp; sourceTree = "<group>"; };
 		AB2A304824524CD700F21BF6 /* TDebugger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDebugger.cpp; sourceTree = "<group>"; };
 		AB2AAC761035B65D007BC4E6 /* TUTI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTI.cpp; sourceTree = "<group>"; };
 		AB2AAD7D10396310007BC4E6 /* TLocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLocale.cpp; sourceTree = "<group>"; };
@@ -493,6 +497,7 @@
 			children = (
 				AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */,
 				AB5127E923D07FC700528FBE /* TStdContainer.cpp */,
+				AB269E0525BBAEA7007EAEF8 /* TStdUtility.cpp */,
 			);
 			path = Std;
 			sourceTree = "<group>";
@@ -903,6 +908,7 @@
 				ABA7247423F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */,
 				ABDCE8EA241F8AEA0054A16E /* TFile.cpp in Sources */,
 				ABF513142397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
+				AB269E0725BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */,
 				ABCC4AAA25A4D5A600394AFE /* TAny.cpp in Sources */,
 				AB56392A23C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				ABCC4AC025A4F4E600394AFE /* TVariant.cpp in Sources */,
@@ -960,6 +966,7 @@
 				ABA7247323F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */,
 				ABDCE8E9241F8AEA0054A16E /* TFile.cpp in Sources */,
 				ABF513132397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
+				AB269E0625BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */,
 				ABCC4AA925A4D5A600394AFE /* TAny.cpp in Sources */,
 				AB56392B23C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				ABCC4ABF25A4F4E600394AFE /* TVariant.cpp in Sources */,
@@ -1017,6 +1024,7 @@
 				ABA7247523F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */,
 				ABDCE8EB241F8AEA0054A16E /* TFile.cpp in Sources */,
 				ABF513152397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
+				AB269E0825BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */,
 				ABCC4AAB25A4D5A600394AFE /* TAny.cpp in Sources */,
 				AB56392923C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				ABCC4AC125A4F4E600394AFE /* TVariant.cpp in Sources */,
