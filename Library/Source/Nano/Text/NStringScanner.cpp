@@ -122,7 +122,7 @@ NPatternMatch NStringScanner::FindMatch(const NString& theString,
 
 	// Find the first instance
 	theFlags |= kNStringPattern;
-	
+
 	return FindFirst(theString, searchFor, theFlags, theRange);
 }
 
@@ -148,7 +148,7 @@ NVectorPatternMatch NStringScanner::FindMatches(const NString& theString,
 
 	// Find every instance
 	theFlags |= kNStringPattern;
-	
+
 	return FindAll(theString, searchFor, theFlags, theRange, kNSizeMax);
 }
 
