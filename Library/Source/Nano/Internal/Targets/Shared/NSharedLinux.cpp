@@ -691,10 +691,11 @@ NString NSharedLinux::ProcessName()
 	// Get the name
 	NString theText = GetProcFile(NFilePath("/proc/self/status"));
 	NString theName = theText.GetMatch("Name\\s*:\\s*([^\\n]*)");
+	NN_EXPECT(!theName.IsEmpty());
 
 	if (theName.IsEmpty())
 	{
-		theName = "UNKNOWN";
+		theName = "Unknown";
 	}
 
 	return theName;

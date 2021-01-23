@@ -102,6 +102,6 @@ NString NMachine::GetCPUArchitecture()
 	else
 	{
 		NN_LOG_WARNING("Unknown architecture!");
-		return "UNKNOWN";
+		return "Unknown";
 	}
 }

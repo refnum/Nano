@@ -125,11 +125,8 @@ NString NProcess::GetName()
 
 	// Get the name
 	TCHAR   theBuffer[MAX_PATH]{};
-	NString theName = "UNKNOWN";
+	NString theName;
 
-
-
-	// Get the name
 	if (GetModuleFileName(NULL, theBuffer, MAX_PATH))
 	{
 		NFilePath thePath(NSharedWindows::ToString(theBuffer));
@@ -137,10 +134,16 @@ NString NProcess::GetName()
 		if (thePath.IsValid())
 		{
 			theName = thePath.GetStem();
+			NN_EXPECT(!theName.IsEmpty());
 		}
-
-		return theName;
 	}
+
+	if (theName.IsEmpty())
+	{
+		theName = "Unknown";
+	}
+	
+	return theName;
 }
 
 
