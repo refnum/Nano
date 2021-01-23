@@ -304,12 +304,12 @@ NString GetSysctl<NString>(const char* theName)
 	int sysErr = sysctlbyname(theName, nullptr, &theSize, nullptr, 0);
 	if (sysErr == 0)
 	{
-		NData theData(theSize, nullptr);
+		NData theData(theSize, nullptr, NDataSource::Zero);
 
 		sysErr = sysctlbyname(theName, theData.GetMutableData(), &theSize, nullptr, 0);
 		if (sysErr == 0)
 		{
-			theResult.SetData(NStringEncoding::UTF8, theData);
+			theResult = reinterpret_cast<const utf8_t*>(theData.GetData());
 		}
 		else
 		{
