@@ -78,6 +78,33 @@ NANO_TEST(TMathUtils, "Parity")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TMathUtils, "IsPowerOf2")
+{
+
+
+	// Perform the test
+	REQUIRE(!NMathUtils::IsPowerOf2(0));
+	REQUIRE(NMathUtils::IsPowerOf2(1));
+	REQUIRE(NMathUtils::IsPowerOf2(2));
+	REQUIRE(!NMathUtils::IsPowerOf2(3));
+	REQUIRE(NMathUtils::IsPowerOf2(4));
+	REQUIRE(!NMathUtils::IsPowerOf2(5));
+	REQUIRE(!NMathUtils::IsPowerOf2(6));
+	REQUIRE(!NMathUtils::IsPowerOf2(7));
+	REQUIRE(NMathUtils::IsPowerOf2(8));
+	REQUIRE(!NMathUtils::IsPowerOf2(9));
+	REQUIRE(!NMathUtils::IsPowerOf2(10));
+	REQUIRE(!NMathUtils::IsPowerOf2(11));
+	REQUIRE(!NMathUtils::IsPowerOf2(12));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TMathUtils, "CountBits")
 {
 

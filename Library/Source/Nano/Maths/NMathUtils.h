@@ -84,6 +84,11 @@ public:
 	static bool                         IsEven(T theValue);
 
 
+	// Test for a power of 2
+	template<typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
+	static bool                         IsPowerOf2(T theValue);
+
+
 	// Count the number of set bits
 	template<typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
 	static size_t                       CountBits(T theValue);

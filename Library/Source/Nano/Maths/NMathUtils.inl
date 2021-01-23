@@ -79,6 +79,22 @@ bool NMathUtils::IsEven(T theValue)
 
 
 //=============================================================================
+//		NMathUtils::IsPowerOf2 : Is this a power of 2?
+//-----------------------------------------------------------------------------
+template<typename T, typename Enabled>
+bool NMathUtils::IsPowerOf2(T theValue)
+{
+
+
+	// Test the value
+	return theValue != 0 && (theValue & (theValue - 1)) == 0;
+}
+
+
+
+
+
+//=============================================================================
 //		NMathUtils::CountBits : Count the number of set bits.
 //-----------------------------------------------------------------------------
 template<typename T, typename Enabled>
