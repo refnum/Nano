@@ -80,6 +80,10 @@ public:
 	static NInterval                    ToInterval(const FILETIME& fileTime);
 
 
+	// String conversion
+	static NString                      ToString(const TCHAR* theText);
+
+
 	// Error conversion
 	//
 	// GetLastError returns NStatus::OK if passed true, otherwise it

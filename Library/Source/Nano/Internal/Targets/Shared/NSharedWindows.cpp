@@ -109,6 +109,29 @@ NInterval NSharedWindows::ToInterval(const FILETIME& fileTime)
 
 
 //=============================================================================
+//		NSharedWindows::ToString : Convert to an NString.
+//-----------------------------------------------------------------------------
+NString NSharedWindows::ToString(const TCHAR* theText)
+{
+
+
+	// Convert the string
+	if constexpr (sizeof(TCHAR) == sizeof(wchar_t))
+	{
+		return NString(reinterpret_cast<const utf16_t*>(theText));
+	}
+	else
+	{
+		const char* textA = reinterpret_cast<const char*>(theText);
+		return NString(NStringEncoding::WindowsLatin1, strlen(textA), textA);
+	}
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedWindows::ToStatus : Convert an HRESULT to an NStatus.
 //-----------------------------------------------------------------------------
 NStatus NSharedWindows::ToStatus(HRESULT winErr)

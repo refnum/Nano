@@ -43,6 +43,7 @@
 
 // Nano
 #include "NFilePath.h"
+#include "NSharedWindows.h"
 
 // System
 #include <Windows.h>
@@ -131,7 +132,7 @@ NString NProcess::GetName()
 	// Get the name
 	if (GetModuleFileName(NULL, theBuffer, MAX_PATH))
 	{
-		NFilePath thePath(NString(theBuffer));
+		NFilePath thePath(NSharedWindows::ToString(theBuffer));
 
 		if (thePath.IsValid())
 		{
