@@ -41,6 +41,9 @@
 //-----------------------------------------------------------------------------
 #include "NThread.h"
 
+// Nano
+#include "NMachine.h"
+
 // System
 #include <Windows.h>
 
@@ -54,6 +57,9 @@
 // MSVC thread support
 static const DWORD MSVC_DEBUGGER                            = 0x406D1388;
 static const DWORD MSVC_SET_THREADNAME                      = 0x1000;
+
+// Thread affinity
+static constexpr uint8_t kNThreadCoresMax                   = sizeof(DWORD_PTR) * 8;
 
 
 
@@ -250,23 +256,31 @@ NVectorUInt8 NThread::GetCores()
 
 	// Get the thread affinity
 	//
-	// The current thread affinity is queried by setting some other affinity,
-	// then restoring the previous value afterwards.
+	// The current thread affinity can be queried by setting some
+	// other affinity, then restoring the previous value afterwards.
 	DWORD_PTR threadAffinity = SetThreadAffinityMask(GetCurrentThread(), 1 << 0);
-	NN_EXPECT_NOT_ERR(threadAffinity);
+	NN_EXPECT(threadAffinity != 0);
 
 	(void) SetThreadAffinityMask(GetCurrentThread(), threadAffinity);
+
+	size_t numCores = __popcnt64(uint64_t(threadAffinity));
+	NN_EXPECT(numCores != 0);
 
 
 
 	// Convert to cores
+	//
+	// An empty list indicates no affinity, i.e. every core.
 	NVectorUInt8 theCores;
 
-	for (uint8_t n = 0; n < kNUInt8Max; n++)
+	if (numCores != NMachine::GetCores())
 	{
-		if (threadAffinity & (DWORD_PTR(1) << n))
+		for (uint8_t n = 0; n < kNThreadCoresMax; n++)
 		{
-			theCores.push_back(n);
+			if (threadAffinity & (DWORD_PTR(1) << n))
+			{
+				theCores.push_back(n);
+			}
 		}
 	}
 
@@ -284,19 +298,37 @@ void NThread::SetCores(const NVectorUInt8& theCores)
 {
 
 
+	// Validate our parameters
+	NN_REQUIRE(theCores.size() <= kNThreadCoresMax);
+
+
 	// Get the state we need
+	//
+	// An empty list indicates no affinity, i.e. every core.
 	DWORD_PTR threadAffinity = 0;
 
-	for (auto n : theCores)
+	if (theCores.empty())
 	{
-		threadAffinity |= (DWORD_PTR(1) << n);
+		size_t numCores = NMachine::GetCores();
+
+		for (size_t n = 0; n < numCores; n++)
+		{
+			threadAffinity |= (DWORD_PTR(1) << n);
+		}
+	}
+	else
+	{
+		for (auto n : theCores)
+		{
+			threadAffinity |= (DWORD_PTR(1) << n);
+		}
 	}
 
 
 
 	// Set the thread affinity
 	DWORD_PTR oldAffinity = SetThreadAffinityMask(GetCurrentThread(), threadAffinity);
-	NN_EXPECT_NOT_ERR(oldAffinity);
+	NN_EXPECT(oldAffinity != 0);
 }
 
 
