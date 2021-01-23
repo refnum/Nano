@@ -129,6 +129,32 @@ uint64_t NMachine::GetMemoryBytes()
 
 
 //=============================================================================
+//		NMachine::GetCPUName : Get the CPU name.
+//-----------------------------------------------------------------------------
+NString NMachine::GetCPUName()
+{
+
+
+	// Get the name
+	NString theName =
+		NSharedWindows::RegistryGetString(HKEY_LOCAL_MACHINE,
+										  "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
+										  "ProcessorNameString");
+	NN_EXPECT(!theName.IsEmpty());
+
+	if (theName.IsEmpty())
+	{
+		theName = "Unknown";
+	}
+
+	return theName;
+}
+
+
+
+
+
+//=============================================================================
 //		NMachine::GetCPUHertz : Get the CPU speed.
 //-----------------------------------------------------------------------------
 uint64_t NMachine::GetCPUHertz()

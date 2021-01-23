@@ -90,6 +90,7 @@ public:
 
 
 	// Get the CPU info
+	static NString                      GetCPUName();
 	static NString                      GetCPUArchitecture();
 
 

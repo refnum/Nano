@@ -120,6 +120,7 @@ public:
 	// Machine
 	static size_t                       MachineCores(NCoreType theType);
 	static uint64_t                     MachineMemory();
+	static NString                      MachineCPUName();
 	static uint64_t                     MachineCPUHertz();
 };
 

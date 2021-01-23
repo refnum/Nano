@@ -1153,6 +1153,31 @@ uint64_t NSharedDarwin::MachineMemory()
 
 
 //=============================================================================
+//		NSharedDarwin::MachineCPUName : Get the CPU name.
+//-----------------------------------------------------------------------------
+NString NSharedDarwin::MachineCPUName()
+{
+
+
+	// Get the name
+	//
+	// CPU brand name is only available on macOS.
+	NString theName = GetSysctl<NString>("machdep.cpu.brand_string");
+	NN_EXPECT(!theName.IsEmpty());
+
+	if (theName.IsEmpty())
+	{
+		theName = "Unknown";
+	}
+
+	return theName;
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedDarwin::MachineCPUHertz : Get the CPU speed.
 //-----------------------------------------------------------------------------
 uint64_t NSharedDarwin::MachineCPUHertz()

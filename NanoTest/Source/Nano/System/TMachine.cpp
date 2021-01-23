@@ -119,6 +119,22 @@ NANO_TEST(TMachine, "GetCPUSpeed")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TMachine, "GetCPUName")
+{
+
+
+	// Perform the test
+	NString theName = NMachine::GetCPUName();
+	REQUIRE((!theName.IsEmpty() && theName != "Unknown"));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TMachine, "GetCPUArchitecture")
 {
 

@@ -101,6 +101,7 @@ public:
 
 	// Machine
 	static uint64_t                     MachineMemory();
+	static NString                      MachineCPUName();
 	static uint64_t                     MachineCPUHertz();
 };
 

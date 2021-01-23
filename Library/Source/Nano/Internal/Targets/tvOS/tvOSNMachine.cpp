@@ -79,6 +79,21 @@ uint64_t NMachine::GetMemoryBytes()
 
 
 //=============================================================================
+//		NMachine::GetCPUName : Get the CPU name.
+//-----------------------------------------------------------------------------
+NString NMachine::GetCPUName()
+{
+
+
+	// Get the name
+	return NSharedDarwin::MachineCPUName();
+}
+
+
+
+
+
+//=============================================================================
 //		NMachine::GetCPUHertz : Get the CPU speed.
 //-----------------------------------------------------------------------------
 uint64_t NMachine::GetCPUHertz()

@@ -791,6 +791,30 @@ uint64_t NSharedLinux::MachineMemory()
 
 
 //=============================================================================
+//		NSharedLinux::MachineCPUName : Get the CPU name.
+//-----------------------------------------------------------------------------
+NString NSharedLinux::MachineCPUName()
+{
+
+
+	// Get the name
+	NString theText = GetProcFile(NFilePath("/proc/cpuinfo"));
+	NString theName = theText.GetMatch("model name\\s*:\\s*(.*)");
+	NN_EXPECT(!theName.IsEmpty());
+
+	if (theName.IsEmpty())
+	{
+		theName = "Unknown";
+	}
+
+	return theName;
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedLinux::MachineCPUHertz : Get the CPU speed.
 //-----------------------------------------------------------------------------
 uint64_t NSharedLinux::MachineCPUHertz()
