@@ -58,10 +58,14 @@ static constexpr uint32_t kTestArray[]                      = {1, 2, 3};
 static const NVectorUInt32 kTestVector1                     = {1, 2, 3};
 static const NVectorUInt32 kTestVector2                     = {4, 5, 6, 7, 8, 9};
 
-static const std::map<uint32_t, uint32_t>           kTestMap{{1, 111}, {2, 222}, {3, 333}};
-static const std::unordered_map<uint32_t, uint32_t> kTestUnorderedMap{{3, 333}, {2, 222}, {1, 111}};
+static const std::map<uint32_t, uint32_t> kTestMap{{1u, 111u}, {2u, 222u}, {3u, 333u}};
 
-static const std::set<uint32_t>           kTestSet{1, 2, 3};
+static const std::unordered_map<uint32_t, uint32_t> kTestUnorderedMap{{3u, 333u},
+																	  {2u, 222u},
+																	  {1u, 111u}};
+
+static const std::set<uint32_t> kTestSet{1, 2, 3};
+
 static const std::unordered_set<uint32_t> kTestUnorderedSet{3, 2, 1};
 
 
