@@ -55,6 +55,7 @@
 #include <dispatch/semaphore.h>
 #include <execinfo.h>
 #include <fcntl.h>
+#include <mach/mach.h>
 #include <mach/mach_time.h>
 #include <mach/thread_policy.h>
 #include <sys/stat.h>
