@@ -69,7 +69,7 @@
 #if NN_TARGET_ANDROID
 static constexpr int NN_AT_EACCESS                          = 0;
 #else
-static constexpr int    NN_AT_EACCESS                       = AT_EACCESS;
+static constexpr int NN_AT_EACCESS                          = AT_EACCESS;
 #endif
 
 
@@ -1424,7 +1424,7 @@ void NSharedPOSIX::ThreadSetName(const NString& theName)
 	// Prepare the name
 	//
 	// The supplied name is truncated to fit within the maximum thread
-	// name lenght supported by this platform.
+	// name length supported by this platform.
 	char theBuffer[NAME_MAX]{};
 
 	size_t nameLen = std::min(kNThreadNameMax, sizeof(theBuffer) - 1);
