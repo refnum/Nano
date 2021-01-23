@@ -756,6 +756,8 @@ NVectorUInt8 NSharedDarwin::ThreadGetCores()
 
 	// Convert to cores
 	//
+	// An empty list indicates no affinity, i.e. every core.
+	//
 	// We use core+1 as our affinity tag so that a tag of 0 represents no preference.
 	NVectorUInt8 theCores;
 
