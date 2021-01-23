@@ -69,7 +69,7 @@
 #if NN_TARGET_ANDROID
 static constexpr int NN_AT_EACCESS                          = 0;
 #else
-static constexpr int NN_AT_EACCESS                          = AT_EACCESS;
+static constexpr int    NN_AT_EACCESS                       = AT_EACCESS;
 #endif
 
 
