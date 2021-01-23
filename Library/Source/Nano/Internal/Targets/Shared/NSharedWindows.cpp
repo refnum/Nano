@@ -42,6 +42,7 @@
 #include "NSharedWindows.h"
 
 // Nano
+#include "NData.h"
 #include "NString.h"
 #include "NTime.h"
 #include "NanoConstants.h"
@@ -246,4 +247,65 @@ int32_t NSharedWindows::RegistryGetInt32(HKEY hKey, const NString& theKey, const
 	}
 
 	return int32_t(theResult);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedWindows::RegistryGetString : Get an NString from the registry.
+//-----------------------------------------------------------------------------
+NString NSharedWindows::RegistryGetString(HKEY hKey, const NString& theKey, const NString& theValue)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(hKey != nullptr);
+	NN_REQUIRE(!theKey.IsEmpty());
+	NN_REQUIRE(!theValue.IsEmpty());
+
+
+	// Get the size
+	DWORD theSize = 0;
+
+	LSTATUS winErr = RegGetValueW(hKey,
+								  LPCWSTR(theKey.GetUTF16()),
+								  LPCWSTR(theValue.GetUTF16()),
+								  RRF_RT_REG_SZ,
+								  nullptr,
+								  nullptr,
+								  &theSize);
+	NN_EXPECT_NOT_ERR(winErr);
+
+	if (winErr != ERROR_SUCCESS)
+	{
+		theSize = 0;
+	}
+
+
+
+	// Get the string
+	NString theResult;
+
+	if (theSize != 0)
+	{
+		NData theData(size_t(theSize), nullptr, NDataSource::Zero);
+
+		winErr = RegGetValueW(hKey,
+							  LPCWSTR(theKey.GetUTF16()),
+							  LPCWSTR(theValue.GetUTF16()),
+							  RRF_RT_REG_SZ,
+							  nullptr,
+							  theData.GetMutableData(),
+							  &theSize);
+		NN_EXPECT_NOT_ERR(winErr);
+
+		if (winErr == ERROR_SUCCESS)
+		{
+			theResult = reinterpret_cast<const utf16_t*>(theData.GetData());
+		}
+	}
+
+	return theResult;
 }

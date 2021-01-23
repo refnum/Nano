@@ -93,7 +93,8 @@ public:
 
 
 	// Registry
-	static int32_t                      RegistryGetInt32(HKEY hKey, const NString& theKey, const NString& theValue);
+	static int32_t                      RegistryGetInt32( HKEY hKey, const NString& theKey, const NString& theValue);
+	static NString                      RegistryGetString(HKEY hKey, const NString& theKey, const NString& theValue);
 };
 
 
