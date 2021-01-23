@@ -43,6 +43,7 @@
 
 // Nano
 #include "NDebug.h"
+#include "NMachine.h"
 #include "NNumber.h"
 #include "NSharedPOSIX.h"
 #include "NTimeUtils.h"
@@ -510,6 +511,9 @@ NVectorUInt8 NSharedLinux::ThreadGetCores()
 	int sysErr = sched_getaffinity(0, sizeof(affinityMask), &affinityMask);
 	NN_EXPECT_NOT_ERR(sysErr);
 
+	size_t numCores = size_t(CPU_COUNT(&affinityMask));
+	NN_EXPECT(numCores != 0);
+
 
 
 	// Convert to cores
@@ -517,7 +521,7 @@ NVectorUInt8 NSharedLinux::ThreadGetCores()
 	// An empty list indicates no affinity, i.e. every core.
 	NVectorUInt8 theCores;
 
-	if (size_t(CPU_COUNT(&affinityMask)) != std::thread::hardware_concurrency())
+	if (numCores != NMachine::GetCores())
 	{
 		for (int n = 0; n < CPU_SETSIZE; n++)
 		{
@@ -554,7 +558,9 @@ void NSharedLinux::ThreadSetCores(const NVectorUInt8& theCores)
 
 	if (theCores.empty())
 	{
-		for (size_t n = 0; n < std::thread::hardware_concurrency(); n++)
+		size_t numCores = NMachine::GetCores();
+
+		for (size_t n = 0; n < numCores; n++)
 		{
 			CPU_SET(n, &affinityMask);
 		}
