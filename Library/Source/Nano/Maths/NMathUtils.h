@@ -102,6 +102,11 @@ public:
 	static bool                         IsPowerOf2(          T theValue);
 
 
+	// Get the next power of 2
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	static T                            NextPowerOf2(T theValue);
+
+
 	// Count the number of set bits
 	template<typename T,                NN_ENABLE_IF_INTEGER(T)>
 	static size_t                       CountBits(           T theValue);

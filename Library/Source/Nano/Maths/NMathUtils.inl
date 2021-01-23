@@ -95,6 +95,57 @@ bool NMathUtils::IsPowerOf2(T theValue)
 
 
 //=============================================================================
+//		NMathUtils::NextPowerOf2 : Get the next power of 2.
+//-----------------------------------------------------------------------------
+template<typename T, typename Enabled>
+T NMathUtils::NextPowerOf2(T theValue)
+{
+
+
+	// Get the value
+	//
+	// https://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
+	if (theValue <= 1)
+	{
+		theValue = 2;
+	}
+	else
+	{
+		theValue--;
+
+		if constexpr (sizeof(theValue) >= sizeof(uint8_t))
+		{
+			theValue |= theValue >> 1;
+			theValue |= theValue >> 2;
+			theValue |= theValue >> 4;
+		}
+
+		if constexpr (sizeof(theValue) >= sizeof(uint16_t))
+		{
+			theValue |= theValue >> 8;
+		}
+
+		if constexpr (sizeof(theValue) >= sizeof(uint32_t))
+		{
+			theValue |= theValue >> 16;
+		}
+
+		if constexpr (sizeof(theValue) >= sizeof(uint64_t))
+		{
+			theValue |= theValue >> 32;
+		}
+
+		theValue++;
+	}
+
+	return theValue;
+}
+
+
+
+
+
+//=============================================================================
 //		NMathUtils::CountBits : Count the number of set bits.
 //-----------------------------------------------------------------------------
 template<typename T, typename Enabled>

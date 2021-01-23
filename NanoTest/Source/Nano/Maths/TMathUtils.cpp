@@ -105,6 +105,39 @@ NANO_TEST(TMathUtils, "IsPowerOf2")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TMathUtils, "NextPowerOf2")
+{
+
+
+	// Perform the test
+	REQUIRE(NMathUtils::NextPowerOf2(uint8_t(0)) == 2);
+	REQUIRE(NMathUtils::NextPowerOf2(uint8_t(2)) == 2);
+	REQUIRE(NMathUtils::NextPowerOf2(uint8_t(4)) == 4);
+	REQUIRE(NMathUtils::NextPowerOf2(uint8_t(8)) == 8);
+
+	REQUIRE(NMathUtils::NextPowerOf2(uint16_t(1)) == 2);
+	REQUIRE(NMathUtils::NextPowerOf2(uint16_t(3)) == 4);
+	REQUIRE(NMathUtils::NextPowerOf2(uint16_t(5)) == 8);
+	REQUIRE(NMathUtils::NextPowerOf2(uint16_t(13)) == 16);
+
+	REQUIRE(NMathUtils::NextPowerOf2(uint32_t(27)) == 32);
+	REQUIRE(NMathUtils::NextPowerOf2(uint32_t(33)) == 64);
+	REQUIRE(NMathUtils::NextPowerOf2(uint32_t(100)) == 128);
+	REQUIRE(NMathUtils::NextPowerOf2(uint32_t(200)) == 256);
+
+	REQUIRE(NMathUtils::NextPowerOf2(uint64_t(501)) == 512);
+	REQUIRE(NMathUtils::NextPowerOf2(uint64_t(1000)) == 1024);
+	REQUIRE(NMathUtils::NextPowerOf2(uint64_t(2001)) == 2048);
+	REQUIRE(NMathUtils::NextPowerOf2(uint64_t(3210)) == 4096);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TMathUtils, "CountBits")
 {
 
