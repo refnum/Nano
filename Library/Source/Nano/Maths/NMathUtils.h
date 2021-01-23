@@ -48,6 +48,19 @@
 
 
 //=============================================================================
+//		Macros
+//-----------------------------------------------------------------------------
+// std::enable_if helpers
+#define NN_ENABLE_IF_INTEGER(_T)                            typename    = std::enable_if_t<std::is_integral_v<_T>>
+
+#define NN_ENABLE_IF_UNSIGNED_INTEGER(_T)                   \
+	typename                                                = std::enable_if_t < std::is_integral_v<_T> && std::is_unsigned_v<_T> >
+
+
+
+
+
+//=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
 // Standard constants
@@ -77,21 +90,21 @@ class NMathUtils
 {
 public:
 	// Test the parity
-	template<typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
+	template<typename T,                NN_ENABLE_IF_INTEGER(T)>
 	static bool                         IsOdd(T theValue);
 
-	template<typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
+	template<typename T,                NN_ENABLE_IF_INTEGER(T)>
 	static bool                         IsEven(T theValue);
 
 
 	// Test for a power of 2
-	template<typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
-	static bool                         IsPowerOf2(T theValue);
+	template<typename T,                NN_ENABLE_IF_INTEGER(T)>
+	static bool                         IsPowerOf2(          T theValue);
 
 
 	// Count the number of set bits
-	template<typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
-	static size_t                       CountBits(T theValue);
+	template<typename T,                NN_ENABLE_IF_INTEGER(T)>
+	static size_t                       CountBits(           T theValue);
 };
 
 
