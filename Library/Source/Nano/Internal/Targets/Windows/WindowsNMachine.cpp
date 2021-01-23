@@ -43,6 +43,7 @@
 
 // Nano
 #include "NData.h"
+#include "NMathUtils.h"
 #include "NSharedWindows.h"
 
 // System
@@ -88,7 +89,7 @@ size_t NMachine::GetCores(NCoreType theType)
 		{
 			if (theType == NCoreType::Logical)
 			{
-				numCores += __popcnt64(procInfo[n].ProcessorMask);
+				numCores += NMathUtils::CountBits(procInfo[n].ProcessorMask);
 			}
 			else
 			{
