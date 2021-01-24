@@ -15,6 +15,9 @@
 		AB081C3D25BC77FD0058D397 /* NMathUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB081C3B25BC77FD0058D397 /* NMathUtils.cpp */; };
 		AB081C3E25BC77FD0058D397 /* NMathUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB081C3B25BC77FD0058D397 /* NMathUtils.cpp */; };
 		AB081C3F25BC77FD0058D397 /* NMathUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB081C3B25BC77FD0058D397 /* NMathUtils.cpp */; };
+		AB081C6325BCD5E50058D397 /* NRandom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB081C6025BCD5E50058D397 /* NRandom.cpp */; };
+		AB081C6425BCD5E50058D397 /* NRandom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB081C6025BCD5E50058D397 /* NRandom.cpp */; };
+		AB081C6525BCD5E50058D397 /* NRandom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB081C6025BCD5E50058D397 /* NRandom.cpp */; };
 		AB0DBE6F23999B7200F6AD43 /* NTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */; };
 		AB0DBE7023999B7200F6AD43 /* NTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */; };
 		AB0DBE7123999B7200F6AD43 /* NTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */; };
@@ -365,6 +368,9 @@
 		AB081C3B25BC77FD0058D397 /* NMathUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMathUtils.cpp; sourceTree = "<group>"; };
 		AB081C3C25BC77FD0058D397 /* NMathUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMathUtils.h; sourceTree = "<group>"; };
 		AB081C4325BC78090058D397 /* NMathUtils.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NMathUtils.inl; sourceTree = "<group>"; };
+		AB081C6025BCD5E50058D397 /* NRandom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NRandom.cpp; sourceTree = "<group>"; };
+		AB081C6125BCD5E50058D397 /* NRandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRandom.h; sourceTree = "<group>"; };
+		AB081C6225BCD5E50058D397 /* NRandom.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NRandom.inl; sourceTree = "<group>"; };
 		AB0DBE6D23999B7100F6AD43 /* NTimeUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTimeUtils.h; sourceTree = "<group>"; };
 		AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTimeUtils.cpp; sourceTree = "<group>"; };
 		AB0DBE7223999B8200F6AD43 /* macOSNTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macOSNTimeUtils.cpp; sourceTree = "<group>"; };
@@ -990,6 +996,9 @@
 				AB081C3B25BC77FD0058D397 /* NMathUtils.cpp */,
 				AB081C3C25BC77FD0058D397 /* NMathUtils.h */,
 				AB081C4325BC78090058D397 /* NMathUtils.inl */,
+				AB081C6025BCD5E50058D397 /* NRandom.cpp */,
+				AB081C6125BCD5E50058D397 /* NRandom.h */,
+				AB081C6225BCD5E50058D397 /* NRandom.inl */,
 			);
 			path = Maths;
 			sourceTree = "<group>";
@@ -2033,6 +2042,7 @@
 				ABDCE8A3241C22AD0054A16E /* NClock.cpp in Sources */,
 				AB3A4989258194580065B4DA /* sqlite3.34.0.c in Sources */,
 				AB230A282581AB8600919EBD /* gzwrite.c in Sources */,
+				AB081C6525BCD5E50058D397 /* NRandom.cpp in Sources */,
 				ABDCE8B7241C59570054A16E /* NFileHandle.cpp in Sources */,
 				AB1B4DA023F0250C00B304D3 /* NStringScanner.cpp in Sources */,
 				AB198118259953A9002C5591 /* NRunLoop.cpp in Sources */,
@@ -2146,6 +2156,7 @@
 				ABDCE8B5241C59570054A16E /* NFileHandle.cpp in Sources */,
 				AB3A4987258194580065B4DA /* sqlite3.34.0.c in Sources */,
 				AB230A262581AB8600919EBD /* gzwrite.c in Sources */,
+				AB081C6325BCD5E50058D397 /* NRandom.cpp in Sources */,
 				AB1B4D9E23F0250C00B304D3 /* NStringScanner.cpp in Sources */,
 				AB0DBE6F23999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
 				AB198116259953A9002C5591 /* NRunLoop.cpp in Sources */,
@@ -2259,6 +2270,7 @@
 				AB1981092597C0E2002C5591 /* macOSNThread.cpp in Sources */,
 				ABDCE8AB241C2A550054A16E /* NPOSIX.cpp in Sources */,
 				AB230A332581AB8600919EBD /* adler32.c in Sources */,
+				AB081C6425BCD5E50058D397 /* NRandom.cpp in Sources */,
 				AB62326C242AF51300651349 /* NLogOutput.cpp in Sources */,
 				AB3A4988258194580065B4DA /* sqlite3.34.0.c in Sources */,
 				AB198117259953A9002C5591 /* NRunLoop.cpp in Sources */,

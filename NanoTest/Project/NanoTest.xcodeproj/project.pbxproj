@@ -13,6 +13,9 @@
 		AB081C4625BC78530058D397 /* TMathUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB081C4525BC78530058D397 /* TMathUtils.cpp */; };
 		AB081C4725BC78530058D397 /* TMathUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB081C4525BC78530058D397 /* TMathUtils.cpp */; };
 		AB081C4825BC78530058D397 /* TMathUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB081C4525BC78530058D397 /* TMathUtils.cpp */; };
+		AB081C5725BCD5D40058D397 /* TRandom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB081C5625BCD5D40058D397 /* TRandom.cpp */; };
+		AB081C5825BCD5D40058D397 /* TRandom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB081C5625BCD5D40058D397 /* TRandom.cpp */; };
+		AB081C5925BCD5D40058D397 /* TRandom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB081C5625BCD5D40058D397 /* TRandom.cpp */; };
 		AB0DBE7723999C1800F6AD43 /* TTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */; };
 		AB0DBE7823999C1800F6AD43 /* TTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */; };
 		AB0DBE7923999C1800F6AD43 /* TTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */; };
@@ -214,6 +217,7 @@
 		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		8D0C4E970486CD37000505A6 /* NanoTest_macOS */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NanoTest_macOS; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB081C4525BC78530058D397 /* TMathUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMathUtils.cpp; sourceTree = "<group>"; };
+		AB081C5625BCD5D40058D397 /* TRandom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TRandom.cpp; sourceTree = "<group>"; };
 		AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTimeUtils.cpp; sourceTree = "<group>"; };
 		AB14320D103F512C002BD0D1 /* TColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TColor.cpp; sourceTree = "<group>"; };
 		AB1980F525975D17002C5591 /* TThreadID.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TThreadID.cpp; sourceTree = "<group>"; };
@@ -419,6 +423,7 @@
 			isa = PBXGroup;
 			children = (
 				AB081C4525BC78530058D397 /* TMathUtils.cpp */,
+				AB081C5625BCD5D40058D397 /* TRandom.cpp */,
 			);
 			path = Maths;
 			sourceTree = "<group>";
@@ -940,6 +945,7 @@
 				AB29121A2383771700509C66 /* TData.cpp in Sources */,
 				AB54F9B223EF14CF005207BC /* TStringComparator.cpp in Sources */,
 				ABDCE8A6241C22BB0054A16E /* TClock.cpp in Sources */,
+				AB081C5825BCD5D40058D397 /* TRandom.cpp in Sources */,
 				ABF513172397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF5131A2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABDCE89D241BDAD50054A16E /* TTime.cpp in Sources */,
@@ -999,6 +1005,7 @@
 				AB2912192383771600509C66 /* TData.cpp in Sources */,
 				AB54F9B123EF14CF005207BC /* TStringComparator.cpp in Sources */,
 				ABDCE8A5241C22BB0054A16E /* TClock.cpp in Sources */,
+				AB081C5725BCD5D40058D397 /* TRandom.cpp in Sources */,
 				ABF513162397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF513192397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABDCE89C241BDAD50054A16E /* TTime.cpp in Sources */,
@@ -1058,6 +1065,7 @@
 				AB29121B2383771700509C66 /* TData.cpp in Sources */,
 				AB54F9B323EF14CF005207BC /* TStringComparator.cpp in Sources */,
 				ABDCE8A7241C22BB0054A16E /* TClock.cpp in Sources */,
+				AB081C5925BCD5D40058D397 /* TRandom.cpp in Sources */,
 				ABF513182397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF5131B2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABDCE89E241BDAD50054A16E /* TTime.cpp in Sources */,
