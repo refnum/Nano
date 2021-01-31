@@ -43,6 +43,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NDebug.h"
+#include "NRandomGenerator.h"
 
 // System
 #include <algorithm>
@@ -509,6 +510,19 @@ H search(H hayBegin, H hayEnd, N needleBegin, N needleEnd)
 					   hayEnd,
 					   std::boyer_moore_horspool_searcher(needleBegin, needleEnd));
 #endif
+}
+
+
+
+
+
+//=============================================================================
+//		nstd::shuffle : Shuffle the values within a container.
+//-----------------------------------------------------------------------------
+template<typename T>
+void shuffle(T& container)
+{
+	std::shuffle(std::begin(container), std::end(container), NRandomGenerator());
 }
 
 

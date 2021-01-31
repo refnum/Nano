@@ -486,6 +486,33 @@ NANO_TEST(TStdAlgorithm, "nstd:search/Iterators")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TStdAlgorithm, "nstd:shuffle")
+{
+
+
+	// Perform the test
+	NVectorUInt32 theVector{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+	nstd::shuffle(theVector);
+
+	size_t numDisplaced = 0;
+	for (size_t n = 0; n < theVector.size(); n++)
+	{
+		if (theVector[n] != n)
+		{
+			numDisplaced++;
+		}
+	}
+
+	REQUIRE(numDisplaced >= 5);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TStdAlgorithm, "nstd:sort")
 {
 
