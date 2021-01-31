@@ -219,6 +219,194 @@ constexpr size_t NMathUtils::CountBits(T theValue)
 
 
 //=============================================================================
+//		NMathUtils::CountLeadingZeros : Count the number of leading zeros.
+//-----------------------------------------------------------------------------
+template<typename T, typename Enabled>
+constexpr size_t NMathUtils::CountLeadingZeros(T theValue)
+{
+
+
+	// Validate our state
+	static_assert(sizeof(T) == 1 || sizeof(T) == 2 || sizeof(T) == 4 || sizeof(T) == 8);
+
+
+#if NN_COMPILER_CLANG || NN_COMPILER_GCC
+	// Count with an intrinsic
+	switch (sizeof(theValue))
+	{
+		case 1:
+			return size_t(__builtin_clz(uint32_t(theValue)) - 24);
+			break;
+
+		case 2:
+			return size_t(__builtin_clz(uint32_t(theValue)) - 16);
+			break;
+
+		case 4:
+			return size_t(__builtin_clz(uint32_t(theValue)));
+			break;
+
+		case 8:
+			return size_t(__builtin_clzll(uint64_t(theValue)));
+			break;
+	}
+
+#elif NN_COMPILER_MSVC
+	// Count with an intrinsic
+	switch (sizeof(theValue))
+	{
+		case 1:
+			return size_t(__lzcnt16(uint16_t(theValue)) - 8);
+			break;
+
+		case 2:
+			return size_t(__lzcnt16(uint16_t(theValue)));
+			break;
+
+		case 4:
+			return size_t(__lzcnt(uint32_t(theValue)));
+			break;
+
+		case 8:
+			return size_t(__lzcnt64(uint64_t(theValue)));
+			break;
+	}
+
+#else
+
+	// Count the bits
+	switch (sizeof(theValue))
+	{
+		case 1:
+			theValue |= (theValue >> 1);
+			theValue |= (theValue >> 2);
+			theValue |= (theValue >> 4);
+			break;
+
+		case 2:
+			theValue |= (theValue >> 1);
+			theValue |= (theValue >> 2);
+			theValue |= (theValue >> 4);
+			theValue |= (theValue >> 8);
+			break;
+
+		case 4:
+			theValue |= (theValue >> 1);
+			theValue |= (theValue >> 2);
+			theValue |= (theValue >> 4);
+			theValue |= (theValue >> 8);
+			theValue |= (theValue >> 16);
+			break;
+
+		case 8:
+			theValue |= (theValue >> 1);
+			theValue |= (theValue >> 2);
+			theValue |= (theValue >> 4);
+			theValue |= (theValue >> 8);
+			theValue |= (theValue >> 16);
+			theValue |= (theValue >> 32);
+			break;
+	}
+
+	return CountBits(T(~theValue));
+#endif
+}
+
+
+
+
+
+//=============================================================================
+//		NMathUtils::CountTrailingZeros : Count the number of trailing zeros.
+//-----------------------------------------------------------------------------
+template<typename T, typename Enabled>
+constexpr size_t NMathUtils::CountTrailingZeros(T theValue)
+{
+
+
+	// Validate our state
+	static_assert(sizeof(T) == 1 || sizeof(T) == 2 || sizeof(T) == 4 || sizeof(T) == 8);
+
+
+#if NN_COMPILER_CLANG || NN_COMPILER_GCC
+	// Count with an intrinsic
+	switch (sizeof(theValue))
+	{
+		case 1:
+		case 2:
+		case 4:
+			return size_t(__builtin_ctzl(uint32_t(theValue)));
+			break;
+
+		case 8:
+			return size_t(__builtin_ctzll(uint64_t(theValue)));
+			break;
+	}
+
+#elif NN_COMPILER_MSVC
+	// Count with an intrinsic
+	unsigned long bitIndex = 0;
+
+	switch (sizeof(theValue))
+	{
+		case 1:
+		case 2:
+		case 4:
+			_BitScanForward(&bitIndex, uint32_t(theValue));
+			break;
+
+		case 8:
+			_BitScanForward64(&bitIndex, uint64_t(theValue));
+			break;
+	}
+
+	return size_t(bitIndex);
+
+#else
+
+	// Count the bits
+	switch (sizeof(theValue))
+	{
+		case 1:
+			theValue |= (theValue << 1);
+			theValue |= (theValue << 2);
+			theValue |= (theValue << 4);
+			break;
+
+		case 2:
+			theValue |= (theValue << 1);
+			theValue |= (theValue << 2);
+			theValue |= (theValue << 4);
+			theValue |= (theValue << 8);
+			break;
+
+		case 4:
+			theValue |= (theValue << 1);
+			theValue |= (theValue << 2);
+			theValue |= (theValue << 4);
+			theValue |= (theValue << 8);
+			theValue |= (theValue << 16);
+			break;
+
+		case 8:
+			theValue |= (theValue << 1);
+			theValue |= (theValue << 2);
+			theValue |= (theValue << 4);
+			theValue |= (theValue << 8);
+			theValue |= (theValue << 16);
+			theValue |= (theValue << 32);
+			break;
+	}
+
+	return CountBits(T(~theValue));
+#endif
+}
+
+
+
+
+
+//=============================================================================
 //		NMathUtils::RotateLeft : Rotate left.
 //-----------------------------------------------------------------------------
 template<typename T, typename Enabled>

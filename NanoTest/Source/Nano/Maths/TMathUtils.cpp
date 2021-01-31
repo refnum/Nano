@@ -175,6 +175,80 @@ NANO_TEST(TMathUtils, "CountBits")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TMathUtils, "CountLeadingZeros")
+{
+
+
+	// Perform the test
+	for (uint8_t n = 0; n < 8; n++)
+	{
+		uint8_t v = uint8_t(1 << (7 - n));
+		REQUIRE(NMathUtils::CountLeadingZeros(v) == n);
+	}
+
+	for (uint16_t n = 0; n < 16; n++)
+	{
+		uint16_t v = uint16_t(1 << (15 - n));
+		REQUIRE(NMathUtils::CountLeadingZeros(v) == n);
+	}
+
+	for (uint32_t n = 0; n < 32; n++)
+	{
+		uint32_t v = uint32_t(1 << (31 - n));
+		REQUIRE(NMathUtils::CountLeadingZeros(v) == n);
+	}
+
+	for (uint64_t n = 0; n < 64; n++)
+	{
+		uint64_t v = uint64_t(1ull << (63 - n));
+		REQUIRE(NMathUtils::CountLeadingZeros(v) == n);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TMathUtils, "CountTrailingZeros")
+{
+
+
+	// Perform the test
+	for (uint8_t n = 0; n < 8; n++)
+	{
+		uint8_t v = uint8_t(1 << n);
+		REQUIRE(NMathUtils::CountTrailingZeros(v) == n);
+	}
+
+	for (uint16_t n = 0; n < 16; n++)
+	{
+		uint16_t v = uint16_t(1 << n);
+		REQUIRE(NMathUtils::CountTrailingZeros(v) == n);
+	}
+
+	for (uint32_t n = 0; n < 32; n++)
+	{
+		uint32_t v = uint32_t(1 << n);
+		REQUIRE(NMathUtils::CountTrailingZeros(v) == n);
+	}
+
+	for (uint64_t n = 0; n < 64; n++)
+	{
+		uint64_t v = uint64_t(1ull << n);
+		REQUIRE(NMathUtils::CountTrailingZeros(v) == n);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TMathUtils, "RotateLeft")
 {
 

@@ -123,6 +123,14 @@ public:
 	static constexpr size_t             CountBits(           T theValue);
 
 
+	// Count the number of leading / trailing zeros
+	template<typename T,                NN_ENABLE_IF_INTEGER(T)>
+	static constexpr size_t             CountLeadingZeros(   T theValue);
+
+	template<typename T,                NN_ENABLE_IF_INTEGER(T)>
+	static constexpr size_t             CountTrailingZeros(  T theValue);
+
+
 	// Rotate left
 	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
 	static T                            RotateLeft(T theValue, size_t rotateBy);
