@@ -102,28 +102,28 @@ class NMathUtils
 public:
 	// Test the parity
 	template<typename T,                NN_ENABLE_IF_INTEGER(T)>
-	static bool                         IsOdd(T theValue);
+	static constexpr bool               IsOdd(T theValue);
 
 	template<typename T,                NN_ENABLE_IF_INTEGER(T)>
-	static bool                         IsEven(T theValue);
+	static constexpr bool               IsEven(T theValue);
 
 
 	// Test for a power of 2
 	template<typename T,                NN_ENABLE_IF_INTEGER(T)>
-	static bool                         IsPowerOf2(          T theValue);
+	static constexpr bool               IsPowerOf2(          T theValue);
 
 
 	// Get the next power of 2
 	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
-	static T                            NextPowerOf2(T theValue);
+	static constexpr T                  NextPowerOf2(T theValue);
 
 
 	// Count the number of set bits
 	template<typename T,                NN_ENABLE_IF_INTEGER(T)>
-	static size_t                       CountBits(           T theValue);
+	static constexpr size_t             CountBits(           T theValue);
 
 
-	// Rotation
+	// Rotate left
 	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
 	static T                            RotateLeft(T theValue, size_t rotateBy);
 
@@ -132,8 +132,8 @@ public:
 
 
 	// Geometry
-	static NDegrees                     ToDegrees(NRadians theValue);
-	static NRadians                     ToRadians(NDegrees theValue);
+	static constexpr NDegrees           ToDegrees(NRadians theValue);
+	static constexpr NRadians           ToRadians(NDegrees theValue);
 };
 
 

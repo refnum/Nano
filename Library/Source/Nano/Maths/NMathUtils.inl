@@ -51,7 +51,7 @@
 //		NMathUtils::IsOdd : Is this an odd number?
 //-----------------------------------------------------------------------------
 template<typename T, typename Enabled>
-bool NMathUtils::IsOdd(T theValue)
+constexpr bool NMathUtils::IsOdd(T theValue)
 {
 
 
@@ -67,7 +67,7 @@ bool NMathUtils::IsOdd(T theValue)
 //		NMathUtils::IsEven : Is this an even number?
 //-----------------------------------------------------------------------------
 template<typename T, typename Enabled>
-bool NMathUtils::IsEven(T theValue)
+constexpr bool NMathUtils::IsEven(T theValue)
 {
 
 
@@ -83,7 +83,7 @@ bool NMathUtils::IsEven(T theValue)
 //		NMathUtils::IsPowerOf2 : Is this a power of 2?
 //-----------------------------------------------------------------------------
 template<typename T, typename Enabled>
-bool NMathUtils::IsPowerOf2(T theValue)
+constexpr bool NMathUtils::IsPowerOf2(T theValue)
 {
 
 
@@ -99,7 +99,7 @@ bool NMathUtils::IsPowerOf2(T theValue)
 //		NMathUtils::NextPowerOf2 : Get the next power of 2.
 //-----------------------------------------------------------------------------
 template<typename T, typename Enabled>
-T NMathUtils::NextPowerOf2(T theValue)
+constexpr T NMathUtils::NextPowerOf2(T theValue)
 {
 
 
@@ -150,7 +150,7 @@ T NMathUtils::NextPowerOf2(T theValue)
 //		NMathUtils::CountBits : Count the number of set bits.
 //-----------------------------------------------------------------------------
 template<typename T, typename Enabled>
-size_t NMathUtils::CountBits(T theValue)
+constexpr size_t NMathUtils::CountBits(T theValue)
 {
 
 
@@ -200,11 +200,11 @@ size_t NMathUtils::CountBits(T theValue)
 	// popcnt instruction is unavailable.
 	//
 	// http://graphics.stanford.edu/~seander/bithacks.html#CountBitsSetParallel
-	static constexpr T kMagic55555555 = T(~T(0)) / 0x03;
-	static constexpr T kMagic33333333 = T(~T(0)) / 0x05;
-	static constexpr T kMagic0F0F0F0F = T(~T(0)) / 0x11;
-	static constexpr T kMagic01010101 = T(~T(0)) / 0xFF;
-	static constexpr T kShiftDown     = (sizeof(T) - 1) * 8;
+	constexpr T kMagic55555555 = T(~T(0)) / 0x03;
+	constexpr T kMagic33333333 = T(~T(0)) / 0x05;
+	constexpr T kMagic0F0F0F0F = T(~T(0)) / 0x11;
+	constexpr T kMagic01010101 = T(~T(0)) / 0xFF;
+	constexpr T kShiftDown     = (sizeof(T) - 1) * 8;
 
 	theValue = theValue - ((theValue >> 1) & kMagic55555555);
 	theValue = (theValue & kMagic33333333) + ((theValue >> 2) & kMagic33333333);
@@ -222,16 +222,15 @@ size_t NMathUtils::CountBits(T theValue)
 //		NMathUtils::RotateLeft : Rotate left.
 //-----------------------------------------------------------------------------
 template<typename T, typename Enabled>
-T NMathUtils::RotateLeft(T theValue, size_t rotateBy)
+inline T NMathUtils::RotateLeft(T theValue, size_t rotateBy)
 {
 
 
 	// Get the state we need
-	static constexpr T kNumBits = sizeof(T) * 8;
+	constexpr T kNumBits = sizeof(T) * 8;
 
 	static_assert(kNumBits == 8 || kNumBits == 16 || kNumBits == 32 || kNumBits == 64);
 	NN_REQUIRE(rotateBy > 0 && rotateBy < kNumBits);
-
 
 
 	// Rotate the value
@@ -246,12 +245,12 @@ T NMathUtils::RotateLeft(T theValue, size_t rotateBy)
 //		NMathUtils::RotateRight : Rotate right.
 //-----------------------------------------------------------------------------
 template<typename T, typename Enabled>
-T NMathUtils::RotateRight(T theValue, size_t rotateBy)
+inline T NMathUtils::RotateRight(T theValue, size_t rotateBy)
 {
 
 
 	// Get the state we need
-	static constexpr T kNumBits = sizeof(T) * 8;
+	constexpr T kNumBits = sizeof(T) * 8;
 
 	static_assert(kNumBits == 8 || kNumBits == 16 || kNumBits == 32 || kNumBits == 64);
 	NN_REQUIRE(rotateBy > 0 && rotateBy < kNumBits);
@@ -269,7 +268,7 @@ T NMathUtils::RotateRight(T theValue, size_t rotateBy)
 //=============================================================================
 //		NMathUtils::ToDegrees : Convert from radians to degrees.
 //-----------------------------------------------------------------------------
-inline NDegrees NMathUtils::ToDegrees(NRadians theValue)
+constexpr NDegrees NMathUtils::ToDegrees(NRadians theValue)
 {
 
 
@@ -284,7 +283,7 @@ inline NDegrees NMathUtils::ToDegrees(NRadians theValue)
 //=============================================================================
 //		NMathUtils::ToRadians : Convert from degrees to radians.
 //-----------------------------------------------------------------------------
-inline NRadians NMathUtils::ToRadians(NDegrees theValue)
+constexpr NRadians NMathUtils::ToRadians(NDegrees theValue)
 {
 
 
