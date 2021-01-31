@@ -149,6 +149,7 @@ function(nano_target_build_app theTarget)
 		nano_target_link_add_library("${theTarget}" "CoreFoundation")
 
 	elseif (NN_TARGET_WINDOWS)
+		nano_target_link_add_library("${theTarget}" "bcrypt")
 
 	endif()
 

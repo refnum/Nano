@@ -41,9 +41,6 @@
 //-----------------------------------------------------------------------------
 #include "NRandom.h"
 
-// System
-#include <random>
-
 
 
 
@@ -55,6 +52,10 @@ NRandom::NRandom(uint64_t theSeed)
 	: mSeed{}
 	, mState{}
 {
+
+
+	// Validate our state
+	static_assert(sizeof(mState) == sizeof(NUInt128), "Insufficient state for PCG-64");
 
 
 	// Set the seed
@@ -87,17 +88,185 @@ void NRandom::SetSeed(uint64_t theSeed)
 {
 
 
-	// Generate a seed
+	// Set the seed
 	if (theSeed == 0)
 	{
-		theSeed = RandomSeed();
+		theSeed = GenerateSeed();
 	}
 
+	mSeed = theSeed;
 
 
-	// Set the seed
-	mSeed  = theSeed;
-	mState = ~mSeed;
+
+	// Initialise the state
+	//
+	// The initial state must be non-zero and derived from the seed.
+	uint128_t theState = NMakeUInt128(mSeed * 3, mSeed * 7);
+
+	static_assert(sizeof(mState) == sizeof(theState));
+	memcpy(&mState, &theState, sizeof(theState));
+}
+
+
+
+
+
+//=============================================================================
+//		NRandom::NextFloat32 : Get the next float32_t.
+//-----------------------------------------------------------------------------
+float32_t NRandom::NextFloat32()
+{
+
+
+	// Generate a float32_t
+	//
+	// See NextFloat64.
+	uint32_t n = NextUInt32();
+
+	if (n >= 0xff800000U)
+	{
+		constexpr uint32_t numerator   = 0x00000200U;
+		constexpr uint32_t denominator = 0x00800001U;
+		constexpr uint32_t mask        = 0x00ffffffU;
+
+		uint32_t m = 0;
+		do
+		{
+			m = NextUInt32() & mask;
+		} while (m >= denominator);
+
+		if (m < numerator)
+		{
+			return 1.0f;
+		}
+	}
+
+	uint32_t  valueInteger = 0x3f800000U | (n & 0x007fffffU);
+	float32_t valueReal;
+
+	memcpy(&valueReal, &valueInteger, sizeof(valueReal));
+
+	return valueReal - 1.0f;
+}
+
+
+
+
+
+//=============================================================================
+//		NRandom::NextFloat64 : Get the next float64_t.
+//-----------------------------------------------------------------------------
+float64_t NRandom::NextFloat64()
+{
+
+
+	// Generate a float64_t
+	//
+	// Generate a random float64_t with uniform distribution using Gainey's
+	// algorithm:
+	//
+	//		https://experilous.com/1/blog/post/perfect-fast-random-floating-point-numbers
+	//		https://archive.is/FM3a2
+	//
+	// A review of alternative algorithms, and how they diverge from uniform
+	// distribution, is at:
+	//
+	//		https://hal.archives-ouvertes.fr/hal-02427338/document
+	//
+	//
+	// This approach uses a 52-bit random integer to generate reals that
+	// are uniformly distributed from 1.0 to 2.0, then subtracting 1.0.
+	//
+	// The upper bound, 1.0, isomitted from this approach.
+	//
+	// It is restored by randomly inserting it into the results with the
+	// appropriate probability as if it could occur.
+	uint64_t n = NextUInt64();
+
+	if (n >= 0xfff0000000000000ULL)
+	{
+		constexpr uint64_t numerator   = 0x0000000000001000ULL;
+		constexpr uint64_t denominator = 0x0010000000000001ULL;
+		constexpr uint64_t mask        = 0x001fffffffffffffULL;
+
+		uint64_t m = 0;
+		do
+		{
+			m = NextUInt64() & mask;
+		} while (m >= denominator);
+
+		if (m < numerator)
+		{
+			return 1.0;
+		}
+	}
+
+	uint64_t  valueInteger = 0x3ff0000000000000ULL | (n & 0x000fffffffffffffULL);
+	float64_t valueReal;
+
+	memcpy(&valueReal, &valueInteger, sizeof(valueReal));
+
+	return valueReal - 1.0;
+}
+
+
+
+
+
+//=============================================================================
+//		NRandom::NextUInt8 : Get the next uint8_t.
+//-----------------------------------------------------------------------------
+uint8_t NRandom::NextUInt8(uint8_t minValue, uint8_t maxValue)
+{
+
+
+	// Get the value
+	return PCG_XSH_RR(minValue, maxValue);
+}
+
+
+
+
+
+//=============================================================================
+//		NRandom::NextUInt16 : Get the next uint16_t.
+//-----------------------------------------------------------------------------
+uint16_t NRandom::NextUInt16(uint16_t minValue, uint16_t maxValue)
+{
+
+
+	// Get the value
+	return PCG_XSH_RR(minValue, maxValue);
+}
+
+
+
+
+
+//=============================================================================
+//		NRandom::NextUInt32 : Get the next uint32_t.
+//-----------------------------------------------------------------------------
+uint32_t NRandom::NextUInt32(uint32_t minValue, uint32_t maxValue)
+{
+
+
+	// Get the value
+	return PCG_XSH_RR(minValue, maxValue);
+}
+
+
+
+
+
+//=============================================================================
+//		NRandom::NextUInt64 : Get the next uint64_t.
+//-----------------------------------------------------------------------------
+uint64_t NRandom::NextUInt64(uint64_t minValue, uint64_t maxValue)
+{
+
+
+	// Get the value
+	return PCG_XSH_RR(minValue, maxValue);
 }
 
 
@@ -111,22 +280,26 @@ void NRandom::NextData(size_t theSize, void* thePtr)
 {
 
 
-	// Fill the data
-	uint64_t* outputPtr = reinterpret_cast<uint64_t*>(thePtr);
+	// Fill 8-byte chunks
+	uint8_t* dstPtr = reinterpret_cast<uint8_t*>(thePtr);
+	uint64_t theChunk;
 
-	while (theSize > sizeof(uint64_t))
+	while (theSize > sizeof(theChunk))
 	{
-		*outputPtr++ = NextUInt64();
-		theSize -= sizeof(uint64_t);
+		theChunk = NextUInt64();
+		memcpy(dstPtr, &theChunk, sizeof(theChunk));
+
+		dstPtr += sizeof(theChunk);
+		theSize -= sizeof(theChunk);
 	}
 
 
 
-	// Fill the remainder
+	// Fill remaining bytes
 	if (theSize > 0)
 	{
-		uint64_t theValue = NextUInt64();
-		memcpy(outputPtr, &theValue, theSize);
+		theChunk = NextUInt64();
+		memcpy(dstPtr, &theChunk, theSize);
 	}
 }
 
@@ -136,16 +309,19 @@ void NRandom::NextData(size_t theSize, void* thePtr)
 
 #pragma mark private
 //=============================================================================
-//		NRandom::RandomSeed : Generate a random seed.
+//		NRandom::GenerateSeed : Generate a random seed.
 //-----------------------------------------------------------------------------
-uint64_t NRandom::RandomSeed()
+uint64_t NRandom::GenerateSeed()
 {
 
 
 	// Generate the seed
-	std::random_device sRandomDevice;
+	uint64_t theSeed = 0;
 
-	return sRandomDevice();
+	GetSecureData(sizeof(theSeed), &theSeed);
+	NN_REQUIRE(theSeed != 0);
+
+	return theSeed;
 }
 
 
@@ -153,31 +329,14 @@ uint64_t NRandom::RandomSeed()
 
 
 //=============================================================================
-//		NRandom::RandomUInt32 : Generate the next random value.
+//		NRandom::GetStream : Get the per-thread random stream.
 //-----------------------------------------------------------------------------
-uint32_t NRandom::RandomUInt32()
+NRandom& NRandom::GetStream()
 {
 
 
-	// Generate the value
-	//
-	// We use PCG-XSH-RR as our core generator.
-	//
-	// https://www.pcg-random.org
-	//
-	uint64_t oldState  = mState;
-	uint32_t rotateBy  = oldState >> 59u;
-	uint32_t theResult = uint32_t(oldState ^ (oldState >> 18u) >> 27u);
+	// Get the stream
+	static thread_local NRandom sRandom;
 
-	if (rotateBy != 0)
-	{
-		theResult = NMathUtils::RotateRight(theResult, rotateBy);
-	}
-
-
-
-	// Update our state
-	mState = (oldState * 6364136223846793005ULL) + (mSeed | 1);
-
-	return theResult;
+	return sRandom;
 }

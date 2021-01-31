@@ -818,6 +818,30 @@ void NSharedDarwin::ThreadSetCores(const NVectorUInt8& theCores)
 
 
 //=============================================================================
+//		NSharedDarwin::RandomSecureData : Get random data.
+//-----------------------------------------------------------------------------
+void NSharedDarwin::RandomSecureData(size_t theSize, void* thePtr)
+{
+
+
+	// Get the data
+	int sysErr = SecRandomCopyBytes(kSecRandomDefault, theSize, thePtr);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+
+
+	// Handle failure
+	if (sysErr != 0)
+	{
+		memset(thePtr, 0x00, theSize);
+	}
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedDarwin::RunLoopCreate : Create a runloop.
 //-----------------------------------------------------------------------------
 NRunLoopHandle NSharedDarwin::RunLoopCreate(bool isMain)

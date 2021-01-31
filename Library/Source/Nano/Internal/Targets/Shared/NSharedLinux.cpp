@@ -585,6 +585,40 @@ void NSharedLinux::ThreadSetCores(const NVectorUInt8& theCores)
 
 
 //=============================================================================
+//		NSharedLinux::RandomSecureData : Get random data.
+//-----------------------------------------------------------------------------
+void NSharedLinux::RandomSecureData(size_t theSize, void* thePtr)
+{
+
+
+	// Get the data
+	FILE* theFile = fopen("/dev/urandom", "r");
+	bool  wasOK   = (theFile != nullptr);
+	NN_EXPECT(wasOK);
+
+	if (theFile != nullptr)
+	{
+		size_t sizeRead = fread(thePtr, 1, theSize, theFile);
+		fclose(theFile);
+
+		wasOK = (sizeRead == theSize);
+		NN_EXPECT(wasOK);
+	}
+
+
+
+	// Handle failure
+	if (!wasOK)
+	{
+		memset(thePtr, 0x00, theSize);
+	}
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedLinux::SemaphoreCreate : Create a semaphore.
 //-----------------------------------------------------------------------------
 NSemaphoreRef NSharedLinux::SemaphoreCreate(size_t theValue)

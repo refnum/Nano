@@ -1,8 +1,8 @@
 /*	NAME:
-		NSharedLinux.h
+		WindowsNRandom.cpp
 
 	DESCRIPTION:
-		Linux support.
+		Windows random numbers.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -36,80 +36,47 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NSHARED_LINUX_H
-#define NSHARED_LINUX_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NFileInfo.h"
-#include "NProcess.h"
-#include "NSemaphore.h"
-#include "NString.h"
+#include "NRandom.h"
+
+
+// System
+#include <Windows.h>
+#include <bcrypt.h>
 
 
 
 
 
 //=============================================================================
-//		Class Declaration
+//		NRandom::GetSecureData : Get cryptographically-secure random data.
 //-----------------------------------------------------------------------------
-class NSharedLinux
+void NRandom::GetSecureData(size_t theSize, void* thePtr)
 {
-public:
-	// Time
-	static uint64_t                     GetClockTicks();
-	static uint64_t                     GetClockFrequency();
 
 
-	// Get a /proc file
-	static NString                      GetProcFile(const NFilePath& thePath);
+	// Get the data
+	BCRYPT_ALG_HANDLE hProvider;
+
+	bool wasOK =
+		BCRYPT_SUCCESS(BCryptOpenAlgorithmProvider(&hProvider, BCRYPT_RNG_ALGORITHM, nullptr, 0));
+	NN_EXPECT(wasOK);
+
+	if (wasOK)
+	{
+		wasOK = BCRYPT_SUCCESS(
+			BCryptGenRandom(hProvider, reinterpret_cast<PUCHAR>(thePtr), ULONG(theSize), 0));
+		NN_EXPECT(wasOK);
+
+		BCryptCloseAlgorithmProvider(hProvider, 0);
+	}
 
 
-	// Get file state
-	static bool                         GetFileState(const NFilePath& thePath,
-													 NFileInfoFlags   theFlags,
-													 NFileInfoFlags&  validState,
-													 NFileInfoState&  theState);
-
-
-	// File paths
-	static NStatus                      PathRename(  const NFilePath& oldPath, const NFilePath& newPath);
-	static NStatus                      PathExchange(const NFilePath& oldPath, const NFilePath& newPath);
-
-
-	// Threads
-	static size_t                       ThreadStackSize();
-	static NVectorUInt8                 ThreadGetCores();
-	static void                         ThreadSetCores(const NVectorUInt8& theCores);
-
-
-	// Random
-	static void                         RandomSecureData(size_t theSize, void* thePtr);
-
-
-	// Semaphores
-	static NSemaphoreRef                SemaphoreCreate(size_t theValue);
-	static void                         SemaphoreDestroy(NSemaphoreRef theSemaphore);
-	static bool                         SemaphoreWait(   NSemaphoreRef theSemaphore, NInterval waitFor);
-	static void                         SemaphoreSignal( NSemaphoreRef theSemaphore);
-
-
-	// Process
-	static NString                      ProcessName();
-	static NMemoryInfo                  ProcessMemory();
-
-
-	// System
-	static size_t                       SystemPageSize();
-
-
-	// Machine
-	static uint64_t                     MachineMemory();
-	static NString                      MachineCPUName();
-	static NString                      MachineCPUVendor();
-	static uint64_t                     MachineCPUHertz();
-};
-
-
-
-#endif // NSHARED_LINUX_H
+	// Handle failure
+	if (!wasOK)
+	{
+		memset(thePtr, 0x00, theSize);
+	}
+}

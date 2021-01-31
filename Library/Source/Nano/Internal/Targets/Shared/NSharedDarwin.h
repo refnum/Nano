@@ -94,6 +94,10 @@ public:
 	static void                         ThreadSetCores(const NVectorUInt8& theCores);
 
 
+	// Random
+	static void                         RandomSecureData(size_t theSize, void* thePtr);
+
+
 	// Runloops
 	static NRunLoopHandle               RunLoopCreate(bool isMain);
 	static void                         RunLoopDestroy(NRunLoopHandle runLoop);
