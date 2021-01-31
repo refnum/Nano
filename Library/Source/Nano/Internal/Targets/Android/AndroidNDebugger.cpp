@@ -114,16 +114,8 @@ bool NDebugger::IsActive()
 {
 
 
-	// Check for a tracer
-	NString theText  = NSharedLinux::GetProcFile(NFilePath("/proc/self/status"));
-	bool    isActive = !theText.Contains("TracerPid:\t0\n");
-
-	if (isActive)
-	{
-		isActive = theText.Contains("TracerPid:\t");
-	}
-
-	return isActive;
+	// Check the state
+	return NSharedLinux::DebuggerIsActive();
 }
 
 

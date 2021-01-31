@@ -421,6 +421,29 @@ bool NSharedLinux::GetFileState(const NFilePath& thePath,
 
 
 //=============================================================================
+//		NSharedLinux::DebuggerIsActive : Is a debugger active?
+//-----------------------------------------------------------------------------
+bool NSharedLinux::DebuggerIsActive()
+{
+
+
+	// Check for a tracer
+	NString theText  = NSharedLinux::GetProcFile(NFilePath("/proc/self/status"));
+	bool    isActive = !theText.Contains("TracerPid:\t0\n");
+
+	if (isActive)
+	{
+		isActive = theText.Contains("TracerPid:\t");
+	}
+
+	return isActive;
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedLinux::PathRename : Atomically rename a path.
 //-----------------------------------------------------------------------------
 NStatus NSharedLinux::PathRename(const NFilePath& oldPath, const NFilePath& newPath)

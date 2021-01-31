@@ -72,6 +72,10 @@ public:
 													 NFileInfoState&  theState);
 
 
+	// Debugger
+	static bool                         DebuggerIsActive();
+
+
 	// File paths
 	static NStatus                      PathRename(  const NFilePath& oldPath, const NFilePath& newPath);
 	static NStatus                      PathExchange(const NFilePath& oldPath, const NFilePath& newPath);

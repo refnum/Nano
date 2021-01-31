@@ -142,7 +142,7 @@ NString NProcess::GetName()
 	{
 		theName = "Unknown";
 	}
-	
+
 	return theName;
 }
 
