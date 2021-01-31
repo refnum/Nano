@@ -87,6 +87,10 @@ public:
 
 	// Join strings
 	static NString                      Join(const NVectorString& theStrings, const NString& joinWith = "");
+
+
+	// Repeat a string
+	static NString                      Repeat(size_t numRepeats, const NString& theString);
 };
 
 

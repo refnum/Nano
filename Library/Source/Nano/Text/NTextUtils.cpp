@@ -139,3 +139,25 @@ NString NTextUtils::Join(const NVectorString& theStrings, const NString& joinWit
 
 	return theResult;
 }
+
+
+
+
+
+//=============================================================================
+//		NTextUtils::Repeat : Repeat a string.
+//-----------------------------------------------------------------------------
+NString NTextUtils::Repeat(size_t numRepeats, const NString& theString)
+{
+
+
+	// Get the string
+	NString theResult;
+
+	for (size_t n = 0; n < numRepeats; n++)
+	{
+		theResult += theString;
+	}
+
+	return theResult;
+}

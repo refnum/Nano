@@ -227,7 +227,25 @@ NANO_TEST(NTextUtils, "Join")
 	NString theResult = NTextUtils::Join(kTestStrings, ",");
 	REQUIRE(theResult == "One,Two,,,Three,Four,");
 
-
 	theResult = NTextUtils::Join(NTextUtils::RemoveEmpty(kTestStrings), ",");
 	REQUIRE(theResult == "One,Two,Three,Four");
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(NTextUtils, "Repeat")
+{
+
+
+	// Perform the test
+	NString theResult = NTextUtils::Repeat(10, "*");
+	REQUIRE(theResult == "**********");
+
+	theResult = NTextUtils::Repeat(12, "A B");
+	REQUIRE(theResult == "A BA BA BA BA BA BA BA BA BA BA BA B");
 }
