@@ -649,6 +649,21 @@ def NRange_Summary(theRange, theInfo):
 
 
 #==============================================================================
+#		NUInt128_Summary : NUInt128 summary.
+#------------------------------------------------------------------------------
+def NUInt128_Summary(theValue, theInfo):
+
+	valueHi = getMemberUInt(theValue, "mHi")
+	valueLo = getMemberUInt(theValue, "mLo")
+	theInfo = ("0x%016x" % valueHi) + ("%016x" % valueLo)
+	
+	return theInfo;
+
+
+
+
+
+#==============================================================================
 #		NNumber_Summary : NNumber summary.
 #------------------------------------------------------------------------------
 def NNumber_Summary(theNumber, theInfo):
@@ -805,6 +820,7 @@ def loadNano(theDebugger):
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NFileHandle_Summary    NFileHandle")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NFileInfo_Summary      NFileInfo")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NFilePath_Summary      NFilePath")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NUInt128_Summary       NUInt128")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NNumber_Summary        NNumber")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NRange_Summary         NRange")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NString_Summary        NString")

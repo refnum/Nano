@@ -394,6 +394,8 @@
 		AB19812925995538002C5591 /* AndroidNRunLoop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidNRunLoop.cpp; sourceTree = "<group>"; };
 		AB19812A25995538002C5591 /* iOSNRunLoop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iOSNRunLoop.cpp; sourceTree = "<group>"; };
 		AB19812B25995538002C5591 /* macOSNRunLoop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = macOSNRunLoop.cpp; sourceTree = "<group>"; };
+		AB1A1AFB25BF888A0064DD1C /* NUInt128.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NUInt128.h; sourceTree = "<group>"; };
+		AB1A1AFC25BF888A0064DD1C /* NUInt128.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NUInt128.inl; sourceTree = "<group>"; };
 		AB1A789D103234BE00DFBA38 /* NUndoSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUndoSource.h; sourceTree = "<group>"; };
 		AB1A789E103234BE00DFBA38 /* NUndoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUndoManager.h; sourceTree = "<group>"; };
 		AB1A789F103234BE00DFBA38 /* NUndoSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUndoSource.cpp; sourceTree = "<group>"; };
@@ -999,6 +1001,8 @@
 				AB081C6025BCD5E50058D397 /* NRandom.cpp */,
 				AB081C6125BCD5E50058D397 /* NRandom.h */,
 				AB081C6225BCD5E50058D397 /* NRandom.inl */,
+				AB1A1AFB25BF888A0064DD1C /* NUInt128.h */,
+				AB1A1AFC25BF888A0064DD1C /* NUInt128.inl */,
 			);
 			path = Maths;
 			sourceTree = "<group>";

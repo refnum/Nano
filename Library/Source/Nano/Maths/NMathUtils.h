@@ -48,19 +48,6 @@
 
 
 //=============================================================================
-//		Macros
-//-----------------------------------------------------------------------------
-// std::enable_if helpers
-#define NN_ENABLE_IF_INTEGER(_T)                            typename    = std::enable_if_t<std::is_integral_v<_T>>
-
-#define NN_ENABLE_IF_UNSIGNED_INTEGER(_T)                   \
-	typename                                                = std::enable_if_t < std::is_integral_v<_T> && std::is_unsigned_v<_T> >
-
-
-
-
-
-//=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
 // Standard constants
@@ -86,9 +73,33 @@ static constexpr float64_t kNPhi                            = 1.6180339887498948
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
+// Forward declaration
+class NUInt128;
+
 // Geometry
-using NRadians                                              = float64_t;
-using NDegrees                                              = float64_t;
+using NRadians = float64_t;
+using NDegrees = float64_t;
+
+
+
+
+
+//=============================================================================
+//		Macros
+//-----------------------------------------------------------------------------
+// Type traits
+#define NN_IS_ARITHMETIC(_T)                                (std::is_class_v<NUInt128> || std::is_arithmetic_v<_T>)
+
+#define NN_IS_INTEGRAL(_T)                                  (std::is_class_v<NUInt128> || std::is_integral_v<_T>)
+
+#define NN_IS_UNSIGNED(_T)                                  (std::is_class_v<NUInt128> || std::is_unsigned_v<_T>)
+
+
+// std::enable_if helpers
+#define NN_ENABLE_IF_INTEGER(_T)                            typename = std::enable_if_t<NN_IS_INTEGRAL(_T)>
+
+#define NN_ENABLE_IF_UNSIGNED_INTEGER(_T)                   \
+	typename = std::enable_if_t <       NN_IS_INTEGRAL(_T) && NN_IS_UNSIGNED(_T) >
 
 
 

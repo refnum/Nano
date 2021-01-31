@@ -1,0 +1,1394 @@
+/*	NAME:
+		TUInt128.imp
+
+	DESCRIPTION:
+		NUInt128 tests.
+
+	COPYRIGHT:
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
+
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
+*/
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NMathUtils.h"
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("Traits")
+{
+
+
+	// Perform the test
+	REQUIRE(NN_IS_ARITHMETIC(NUINT128));
+	REQUIRE(NN_IS_INTEGRAL(NUINT128));
+	REQUIRE(NN_IS_UNSIGNED(NUINT128));
+
+	REQUIRE(!NMathUtils::IsOdd(Make128(0, 0)));
+	REQUIRE(NMathUtils::IsOdd(Make128(0, 1)));
+
+	REQUIRE(NMathUtils::IsEven(Make128(0, 0)));
+	REQUIRE(!NMathUtils::IsEven(Make128(0, 1)));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("Layout")
+{
+
+
+	// Perform the test
+	NUINT128 theValue = Make128(0x000000, 0x112233);
+
+	uint8_t byteValue[16] = {
+#if NN_ENDIAN_LITTLE
+		0x33,
+		0x22,
+		0x11,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00
+#else
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x11,
+		0x22,
+		0x33,
+#endif
+	};
+
+	REQUIRE(sizeof(theValue) == 16);
+	REQUIRE(memcmp(&theValue, &byteValue, 16) == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("Constructor")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x112233, 0x445566);
+	REQUIRE(GetHi(valueA) == 0x112233);
+	REQUIRE(GetLo(valueA) == 0x445566);
+
+	NUINT128 valueB(valueA);
+	REQUIRE(GetHi(valueB) == 0x112233);
+	REQUIRE(GetLo(valueB) == 0x445566);
+
+	REQUIRE(GetHi(NUINT128(true)) == 0);
+	REQUIRE(GetLo(NUINT128(true)) == 1);
+
+	REQUIRE(GetHi(NUINT128(false)) == 0);
+	REQUIRE(GetLo(NUINT128(false)) == 0);
+
+	REQUIRE(GetHi(NUINT128(uint8_t(0x11))) == 0x00);
+	REQUIRE(GetLo(NUINT128(uint8_t(0x11))) == 0x11);
+
+	REQUIRE(GetHi(NUINT128(uint16_t(0x1122))) == 0x0000);
+	REQUIRE(GetLo(NUINT128(uint16_t(0x1122))) == 0x1122);
+
+	REQUIRE(GetHi(NUINT128(uint32_t(0x112233))) == 0x000000);
+	REQUIRE(GetLo(NUINT128(uint32_t(0x112233))) == 0x112233);
+
+	REQUIRE(GetHi(NUINT128(uint64_t(0x11223344))) == 0x00000000);
+	REQUIRE(GetLo(NUINT128(uint64_t(0x11223344))) == 0x11223344);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("Assignment")
+{
+
+
+	// Perform the test
+	NUINT128 valueA   = Make128(0x112233, 0x445566);
+	NUINT128 theValue = valueA;
+	REQUIRE(GetHi(theValue) == 0x112233);
+	REQUIRE(GetLo(theValue) == 0x445566);
+
+	theValue = true;
+	REQUIRE(GetHi(theValue) == 0);
+	REQUIRE(GetLo(theValue) == 1);
+
+	theValue = false;
+	REQUIRE(GetHi(theValue) == 0);
+	REQUIRE(GetLo(theValue) == 0);
+
+	theValue = uint8_t(0x11);
+	REQUIRE(GetHi(theValue) == 0x00);
+	REQUIRE(GetLo(theValue) == 0x11);
+
+	theValue = uint16_t(0x1122);
+	REQUIRE(GetHi(theValue) == 0x0000);
+	REQUIRE(GetLo(theValue) == 0x1122);
+
+	theValue = uint32_t(0x112233);
+	REQUIRE(GetHi(theValue) == 0x000000);
+	REQUIRE(GetLo(theValue) == 0x112233);
+
+	theValue = uint64_t(0x11223344);
+	REQUIRE(GetHi(theValue) == 0x00000000);
+	REQUIRE(GetLo(theValue) == 0x11223344);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("IncrementDecrement")
+{
+
+
+	// Perform the test
+	NUINT128 theValue = Make128(0x112233, 0x445566);
+	theValue++;
+	REQUIRE(GetHi(theValue) == 0x112233);
+	REQUIRE(GetLo(theValue) == 0x445567);
+
+	theValue--;
+	REQUIRE(GetHi(theValue) == 0x112233);
+	REQUIRE(GetLo(theValue) == 0x445566);
+
+
+	theValue = Make128(0x0000000000000000ULL, 0xFFFFFFFFFFFFFFFFULL);
+	theValue++;
+	REQUIRE(GetHi(theValue) == 0x0000000000000001ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+	theValue--;
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0xFFFFFFFFFFFFFFFFULL);
+
+
+	NUINT128 valueA = Make128(111, 222);
+	NUINT128 valueB = ++valueA;
+	REQUIRE((GetHi(valueA) == 111 && GetLo(valueA) == 223));
+	REQUIRE((GetHi(valueB) == 111 && GetLo(valueB) == 223));
+
+	valueA = Make128(111, 222);
+	valueB = valueA++;
+	REQUIRE((GetHi(valueA) == 111 && GetLo(valueA) == 223));
+	REQUIRE((GetHi(valueB) == 111 && GetLo(valueB) == 222));
+
+
+	valueA = Make128(111, 222);
+	valueB = --valueA;
+	REQUIRE((GetHi(valueA) == 111 && GetLo(valueA) == 221));
+	REQUIRE((GetHi(valueB) == 111 && GetLo(valueB) == 221));
+
+	valueA = Make128(111, 222);
+	valueB = valueA--;
+	REQUIRE((GetHi(valueA) == 111 && GetLo(valueA) == 221));
+	REQUIRE((GetHi(valueB) == 111 && GetLo(valueB) == 222));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("Addition")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x11223344, 0x55667788);
+	NUINT128 valueB = Make128(0x00000011, 0x00000011);
+	NUINT128 theValue;
+
+	theValue = valueA + valueB;
+	REQUIRE(GetHi(theValue) == 0x11223355);
+	REQUIRE(GetLo(theValue) == 0x55667799);
+
+	theValue = valueA + uint8_t(0x22);
+	REQUIRE(GetHi(theValue) == 0x11223344);
+	REQUIRE(GetLo(theValue) == 0x556677AA);
+
+	theValue = valueA + uint16_t(0x22);
+	REQUIRE(GetHi(theValue) == 0x11223344);
+	REQUIRE(GetLo(theValue) == 0x556677AA);
+
+	theValue = valueA + uint32_t(0x22);
+	REQUIRE(GetHi(theValue) == 0x11223344);
+	REQUIRE(GetLo(theValue) == 0x556677AA);
+
+	theValue = valueA + uint64_t(0x22);
+	REQUIRE(GetHi(theValue) == 0x11223344);
+	REQUIRE(GetLo(theValue) == 0x556677AA);
+
+
+	theValue = valueA;
+	theValue += valueB;
+	REQUIRE(GetHi(theValue) == 0x11223355);
+	REQUIRE(GetLo(theValue) == 0x55667799);
+
+	theValue = valueA;
+	theValue += uint8_t(0x22);
+	REQUIRE(GetHi(theValue) == 0x11223344);
+	REQUIRE(GetLo(theValue) == 0x556677AA);
+
+	theValue = valueA;
+	theValue += uint16_t(0x22);
+	REQUIRE(GetHi(theValue) == 0x11223344);
+	REQUIRE(GetLo(theValue) == 0x556677AA);
+
+	theValue = valueA;
+	theValue += uint32_t(0x22);
+	REQUIRE(GetHi(theValue) == 0x11223344);
+	REQUIRE(GetLo(theValue) == 0x556677AA);
+
+	theValue = valueA;
+	theValue += uint64_t(0x22);
+	REQUIRE(GetHi(theValue) == 0x11223344);
+	REQUIRE(GetLo(theValue) == 0x556677AA);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("Subtraction")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x11223344, 0x55667788);
+	NUINT128 valueB = Make128(0x00000011, 0x00000011);
+	NUINT128 theValue;
+
+	theValue = valueA - valueB;
+	REQUIRE(GetHi(theValue) == 0x11223333);
+	REQUIRE(GetLo(theValue) == 0x55667777);
+
+	theValue = valueA - uint8_t(0x22);
+	REQUIRE(GetHi(theValue) == 0x11223344);
+	REQUIRE(GetLo(theValue) == 0x55667766);
+
+	theValue = valueA - uint16_t(0x22);
+	REQUIRE(GetHi(theValue) == 0x11223344);
+	REQUIRE(GetLo(theValue) == 0x55667766);
+
+	theValue = valueA - uint32_t(0x22);
+	REQUIRE(GetHi(theValue) == 0x11223344);
+	REQUIRE(GetLo(theValue) == 0x55667766);
+
+	theValue = valueA - uint64_t(0x22);
+	REQUIRE(GetHi(theValue) == 0x11223344);
+	REQUIRE(GetLo(theValue) == 0x55667766);
+
+
+	theValue = valueA;
+	theValue -= valueB;
+	REQUIRE(GetHi(theValue) == 0x11223333);
+	REQUIRE(GetLo(theValue) == 0x55667777);
+
+	theValue = valueA;
+	theValue -= uint8_t(0x22);
+	REQUIRE(GetHi(theValue) == 0x11223344);
+	REQUIRE(GetLo(theValue) == 0x55667766);
+
+	theValue = valueA;
+	theValue -= uint16_t(0x22);
+	REQUIRE(GetHi(theValue) == 0x11223344);
+	REQUIRE(GetLo(theValue) == 0x55667766);
+
+	theValue = valueA;
+	theValue -= uint32_t(0x22);
+	REQUIRE(GetHi(theValue) == 0x11223344);
+	REQUIRE(GetLo(theValue) == 0x55667766);
+
+	theValue = valueA;
+	theValue -= uint64_t(0x22);
+	REQUIRE(GetHi(theValue) == 0x11223344);
+	REQUIRE(GetLo(theValue) == 0x55667766);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("Multiplication")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x2222222222222222ULL, 0x1111111111111111ULL);
+	NUINT128 valueB = Make128(0x0000000000000000ULL, 0x0000000000000002ULL);
+	NUINT128 theValue;
+
+	theValue = valueA * valueB;
+	REQUIRE(GetHi(theValue) == 0x4444444444444444ULL);
+	REQUIRE(GetLo(theValue) == 0x2222222222222222ULL);
+
+	valueA   = Make128(0x1122334455667788ULL, 0x8877665544332211ULL);
+	valueB   = Make128(0x0123456789ABCDEFULL, 0xFEDCBA9876543210ULL);
+	theValue = valueA * valueB;
+	REQUIRE(GetHi(theValue) == 0x5d4ebe794c036c53ULL);
+	REQUIRE(GetLo(theValue) == 0x84959339436d7310ULL);
+
+	valueA   = Make128(0x1111111111111111ULL, 0x2222222222222222ULL);
+	theValue = valueA * uint8_t(0x22);
+	REQUIRE(GetHi(theValue) == 0x4444444444444446ULL);
+	REQUIRE(GetLo(theValue) == 0x8888888888888884ULL);
+
+	valueA   = Make128(0x1111111111111111ULL, 0x2222222222222222ULL);
+	theValue = valueA * uint16_t(0x2222);
+	REQUIRE(GetHi(theValue) == 0x8888888888888acfULL);
+	REQUIRE(GetLo(theValue) == 0x1111111111110c84ULL);
+
+	valueA   = Make128(0x1111111111111111ULL, 0x2222222222222222ULL);
+	theValue = valueA * uint32_t(0x22222222);
+	REQUIRE(GetHi(theValue) == 0x1111111113579be0ULL);
+	REQUIRE(GetLo(theValue) == 0x222222221d950c84ULL);
+
+	valueA   = Make128(0x1111111111111111ULL, 0x2222222222222222ULL);
+	theValue = valueA * uint64_t(0x2222222222222222ULL);
+	REQUIRE(GetHi(theValue) == 0x2468acf13579be02ULL);
+	REQUIRE(GetLo(theValue) == 0x3fb72ea61d950c84ULL);
+
+
+	theValue = Make128(0x2222222222222222ULL, 0x1111111111111111ULL);
+	theValue *= Make128(0x0000000000000000ULL, 0x0000000000000002ULL);
+	REQUIRE(GetHi(theValue) == 0x4444444444444444ULL);
+	REQUIRE(GetLo(theValue) == 0x2222222222222222ULL);
+
+	theValue = Make128(0x1122334455667788ULL, 0x8877665544332211ULL);
+	theValue *= Make128(0x0123456789ABCDEFULL, 0xFEDCBA9876543210ULL);
+	REQUIRE(GetHi(theValue) == 0x5d4ebe794c036c53ULL);
+	REQUIRE(GetLo(theValue) == 0x84959339436d7310ULL);
+
+	theValue = Make128(0x1111111111111111ULL, 0x2222222222222222ULL);
+	theValue *= uint8_t(0x22);
+	REQUIRE(GetHi(theValue) == 0x4444444444444446ULL);
+	REQUIRE(GetLo(theValue) == 0x8888888888888884ULL);
+
+	theValue = Make128(0x1111111111111111ULL, 0x2222222222222222ULL);
+	theValue *= uint16_t(0x2222);
+	REQUIRE(GetHi(theValue) == 0x8888888888888acfULL);
+	REQUIRE(GetLo(theValue) == 0x1111111111110c84ULL);
+
+	theValue = Make128(0x1111111111111111ULL, 0x2222222222222222ULL);
+	theValue *= uint32_t(0x22222222);
+	REQUIRE(GetHi(theValue) == 0x1111111113579be0ULL);
+	REQUIRE(GetLo(theValue) == 0x222222221d950c84ULL);
+
+	theValue = Make128(0x1111111111111111ULL, 0x2222222222222222ULL);
+	theValue *= uint64_t(0x2222222222222222ULL);
+	REQUIRE(GetHi(theValue) == 0x2468acf13579be02ULL);
+	REQUIRE(GetLo(theValue) == 0x3fb72ea61d950c84ULL);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("Division")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x4444444444444444ULL, 0x2222222222222222ULL);
+	NUINT128 theValue;
+
+	theValue = valueA / NUINT128(1);
+	REQUIRE(GetHi(theValue) == 0x4444444444444444ULL);
+	REQUIRE(GetLo(theValue) == 0x2222222222222222ULL);
+
+	theValue = valueA / valueA;
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000001ULL);
+
+	theValue = NUINT128(0) / Make128(0, 2);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+	theValue = Make128(0, 2) / valueA;
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+
+	theValue = valueA / Make128(0, 2);
+	REQUIRE(GetHi(theValue) == 0x2222222222222222ULL);
+	REQUIRE(GetLo(theValue) == 0x1111111111111111ULL);
+
+	theValue = valueA / Make128(0, 7);
+	REQUIRE(GetHi(theValue) == 0x09c09c09c09c09c0ULL);
+	REQUIRE(GetLo(theValue) == 0x9729729729729729ULL);
+
+	theValue = valueA / Make128(0, 16);
+	REQUIRE(GetHi(theValue) == 0x0444444444444444ULL);
+	REQUIRE(GetLo(theValue) == 0x4222222222222222ULL);
+
+	theValue = valueA / Make128(0, 33);
+	REQUIRE(GetHi(theValue) == 0x021195766eacbc40ULL);
+	REQUIRE(GetLo(theValue) == 0x20108cabb37565e2ULL);
+
+
+	theValue = valueA / uint8_t(2);
+	REQUIRE(GetHi(theValue) == 0x2222222222222222ULL);
+	REQUIRE(GetLo(theValue) == 0x1111111111111111ULL);
+
+	theValue = valueA / uint16_t(7);
+	REQUIRE(GetHi(theValue) == 0x09c09c09c09c09c0ULL);
+	REQUIRE(GetLo(theValue) == 0x9729729729729729ULL);
+
+	theValue = valueA / uint32_t(16);
+	REQUIRE(GetHi(theValue) == 0x0444444444444444ULL);
+	REQUIRE(GetLo(theValue) == 0x4222222222222222ULL);
+
+	theValue = valueA / uint64_t(33);
+	REQUIRE(GetHi(theValue) == 0x021195766eacbc40ULL);
+	REQUIRE(GetLo(theValue) == 0x20108cabb37565e2ULL);
+
+
+
+	theValue = valueA;
+	theValue /= NUINT128(1);
+	REQUIRE(GetHi(theValue) == 0x4444444444444444ULL);
+	REQUIRE(GetLo(theValue) == 0x2222222222222222ULL);
+
+	theValue = valueA;
+	theValue /= valueA;
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000001ULL);
+
+	theValue = NUINT128(0);
+	theValue /= Make128(0, 2);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+	theValue = Make128(0, 2);
+	theValue /= valueA;
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+
+	theValue = valueA;
+	theValue /= Make128(0, 2);
+	REQUIRE(GetHi(theValue) == 0x2222222222222222ULL);
+	REQUIRE(GetLo(theValue) == 0x1111111111111111ULL);
+
+	theValue = valueA;
+	theValue /= Make128(0, 7);
+	REQUIRE(GetHi(theValue) == 0x09c09c09c09c09c0ULL);
+	REQUIRE(GetLo(theValue) == 0x9729729729729729ULL);
+
+	theValue = valueA;
+	theValue /= Make128(0, 16);
+	REQUIRE(GetHi(theValue) == 0x0444444444444444ULL);
+	REQUIRE(GetLo(theValue) == 0x4222222222222222ULL);
+
+	theValue = valueA;
+	theValue /= Make128(0, 33);
+	REQUIRE(GetHi(theValue) == 0x021195766eacbc40ULL);
+	REQUIRE(GetLo(theValue) == 0x20108cabb37565e2ULL);
+
+
+	theValue = valueA;
+	theValue /= uint8_t(2);
+	REQUIRE(GetHi(theValue) == 0x2222222222222222ULL);
+	REQUIRE(GetLo(theValue) == 0x1111111111111111ULL);
+
+	theValue = valueA;
+	theValue /= uint16_t(7);
+	REQUIRE(GetHi(theValue) == 0x09c09c09c09c09c0ULL);
+	REQUIRE(GetLo(theValue) == 0x9729729729729729ULL);
+
+	theValue = valueA;
+	theValue /= uint32_t(16);
+	REQUIRE(GetHi(theValue) == 0x0444444444444444ULL);
+	REQUIRE(GetLo(theValue) == 0x4222222222222222ULL);
+
+	theValue = valueA;
+	theValue /= uint64_t(33);
+	REQUIRE(GetHi(theValue) == 0x021195766eacbc40ULL);
+	REQUIRE(GetLo(theValue) == 0x20108cabb37565e2ULL);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("Modulo")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x4444444444444444ULL, 0x2222222222222222ULL);
+	NUINT128 theValue;
+
+	theValue = valueA % NUINT128(1);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+	theValue = valueA % valueA;
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+	theValue = NUINT128(0) % Make128(0, 2);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+	theValue = Make128(0, 2) % valueA;
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000002ULL);
+
+
+	theValue = valueA % Make128(0, 2);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+	theValue = valueA % Make128(0, 7);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000003ULL);
+
+	theValue = valueA % Make128(0, 16);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000002ULL);
+
+	theValue = valueA % Make128(0, 33);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+
+	theValue = valueA % uint8_t(2);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+	theValue = valueA % uint16_t(7);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000003ULL);
+
+	theValue = valueA % uint32_t(16);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000002ULL);
+
+	theValue = valueA % uint64_t(33);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+
+
+	theValue = valueA;
+	theValue %= NUINT128(1);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+	theValue = valueA;
+	theValue %= valueA;
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+	theValue = NUINT128(0);
+	theValue %= Make128(0, 2);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+	theValue = Make128(0, 2);
+	theValue %= valueA;
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000002ULL);
+
+
+	theValue = valueA;
+	theValue %= Make128(0, 2);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+	theValue = valueA;
+	theValue %= Make128(0, 7);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000003ULL);
+
+	theValue = valueA;
+	theValue %= Make128(0, 16);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000002ULL);
+
+	theValue = valueA;
+	theValue %= Make128(0, 33);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+
+	theValue = valueA;
+	theValue %= uint8_t(2);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+	theValue = valueA;
+	theValue %= uint16_t(7);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000003ULL);
+
+	theValue = valueA;
+	theValue %= uint32_t(16);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000002ULL);
+
+	theValue = valueA;
+	theValue %= uint64_t(33);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("BitwiseNOT")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x0101010101010101ULL, 0x0101010101010101ULL);
+	NUINT128 valueB = ~valueA;
+
+	REQUIRE(GetHi(valueB) == 0xFEFEFEFEFEFEFEFEULL);
+	REQUIRE(GetLo(valueB) == 0xFEFEFEFEFEFEFEFEULL);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("BitwiseAND")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x1111111111111111ULL, 0x2222222222222222ULL);
+	NUINT128 valueB = Make128(0xFFFF0000FFFF0000ULL, 0x0000FFFF0000FFFFULL);
+	NUINT128 theValue;
+
+	theValue = valueA & valueB;
+	REQUIRE(GetHi(theValue) == 0x1111000011110000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000222200002222ULL);
+
+	theValue = valueA & uint8_t(0xFF);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000022ULL);
+
+	theValue = valueA & uint16_t(0xFFFF);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000002222ULL);
+
+	theValue = valueA & uint32_t(0xFFFFFFFF);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000022222222ULL);
+
+	theValue = valueA & uint64_t(0xFFFFFFFFFFFFFFFFULL);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x2222222222222222ULL);
+
+
+	theValue = valueA;
+	theValue &= valueB;
+	REQUIRE(GetHi(theValue) == 0x1111000011110000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000222200002222ULL);
+
+	theValue = valueA;
+	theValue &= uint8_t(0xFF);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000022ULL);
+
+	theValue = valueA;
+	theValue &= uint16_t(0xFFFF);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000002222ULL);
+
+	theValue = valueA;
+	theValue &= uint32_t(0xFFFFFFFF);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000022222222ULL);
+
+	theValue = valueA;
+	theValue &= uint64_t(0xFFFFFFFFFFFFFFFFULL);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x2222222222222222ULL);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("BitwiseOR")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x0011001100110011ULL, 0x2200220022002200ULL);
+	NUINT128 valueB = Make128(0xFFFF0000FFFF0000ULL, 0x0000FFFF0000FFFFULL);
+	NUINT128 theValue;
+
+	theValue = valueA | valueB;
+	REQUIRE(GetHi(theValue) == 0xFFFF0011FFFF0011ULL);
+	REQUIRE(GetLo(theValue) == 0x2200FFFF2200FFFFULL);
+
+	theValue = valueA | uint8_t(0xF0);
+	REQUIRE(GetHi(theValue) == 0x0011001100110011ULL);
+	REQUIRE(GetLo(theValue) == 0x22002200220022F0ULL);
+
+	theValue = valueA | uint16_t(0x00FF);
+	REQUIRE(GetHi(theValue) == 0x0011001100110011ULL);
+	REQUIRE(GetLo(theValue) == 0x22002200220022FFULL);
+
+	theValue = valueA | uint32_t(0x00FF00FF);
+	REQUIRE(GetHi(theValue) == 0x0011001100110011ULL);
+	REQUIRE(GetLo(theValue) == 0x2200220022FF22FFULL);
+
+	theValue = valueA | uint64_t(0x0000FFFF0000FFFFULL);
+	REQUIRE(GetHi(theValue) == 0x0011001100110011ULL);
+	REQUIRE(GetLo(theValue) == 0x2200FFFF2200FFFFULL);
+
+
+	theValue = valueA;
+	theValue |= valueB;
+	REQUIRE(GetHi(theValue) == 0xFFFF0011FFFF0011ULL);
+	REQUIRE(GetLo(theValue) == 0x2200FFFF2200FFFFULL);
+
+	theValue = valueA;
+	theValue |= uint8_t(0xF0);
+	REQUIRE(GetHi(theValue) == 0x0011001100110011ULL);
+	REQUIRE(GetLo(theValue) == 0x22002200220022F0ULL);
+
+	theValue = valueA;
+	theValue |= uint16_t(0x00FF);
+	REQUIRE(GetHi(theValue) == 0x0011001100110011ULL);
+	REQUIRE(GetLo(theValue) == 0x22002200220022FFULL);
+
+	theValue = valueA;
+	theValue |= uint32_t(0x00FF00FF);
+	REQUIRE(GetHi(theValue) == 0x0011001100110011ULL);
+	REQUIRE(GetLo(theValue) == 0x2200220022FF22FFULL);
+
+	theValue = valueA;
+	theValue |= uint64_t(0x0000FFFF0000FFFFULL);
+	REQUIRE(GetHi(theValue) == 0x0011001100110011ULL);
+	REQUIRE(GetLo(theValue) == 0x2200FFFF2200FFFFULL);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("BitwiseXOR")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0xFF00FF00FF00FF00ULL, 0xF0F0F0F0F0F0F0F0ULL);
+	NUINT128 valueB = Make128(0xF0F0F0F0F0F0F0F0ULL, 0x00FF00FF00FF00FFULL);
+	NUINT128 theValue;
+
+	theValue = valueA ^ valueB;
+	REQUIRE(GetHi(theValue) == 0x0FF00FF00FF00FF0ULL);
+	REQUIRE(GetLo(theValue) == 0xF00FF00FF00FF00FULL);
+
+	theValue = valueA ^ uint8_t(0xFF);
+	REQUIRE(GetHi(theValue) == 0xFF00FF00FF00FF00ULL);
+	REQUIRE(GetLo(theValue) == 0xF0F0F0F0F0F0F00FULL);
+
+	theValue = valueA ^ uint16_t(0x00FF);
+	REQUIRE(GetHi(theValue) == 0xFF00FF00FF00FF00ULL);
+	REQUIRE(GetLo(theValue) == 0xF0F0F0F0F0F0F00FULL);
+
+	theValue = valueA ^ uint32_t(0x00FF00FF);
+	REQUIRE(GetHi(theValue) == 0xFF00FF00FF00FF00ULL);
+	REQUIRE(GetLo(theValue) == 0xF0F0F0F0F00FF00FULL);
+
+	theValue = valueA ^ uint64_t(0x00FF00FF00FF00FFULL);
+	REQUIRE(GetHi(theValue) == 0xFF00FF00FF00FF00ULL);
+	REQUIRE(GetLo(theValue) == 0xF00FF00FF00FF00FULL);
+
+
+	theValue = valueA;
+	theValue ^= valueB;
+	REQUIRE(GetHi(theValue) == 0x0FF00FF00FF00FF0ULL);
+	REQUIRE(GetLo(theValue) == 0xF00FF00FF00FF00FULL);
+
+	theValue = valueA;
+	theValue ^= uint8_t(0xFF);
+	REQUIRE(GetHi(theValue) == 0xFF00FF00FF00FF00ULL);
+	REQUIRE(GetLo(theValue) == 0xF0F0F0F0F0F0F00FULL);
+
+	theValue = valueA;
+	theValue ^= uint16_t(0x00FF);
+	REQUIRE(GetHi(theValue) == 0xFF00FF00FF00FF00ULL);
+	REQUIRE(GetLo(theValue) == 0xF0F0F0F0F0F0F00FULL);
+
+	theValue = valueA;
+	theValue ^= uint32_t(0x00FF00FF);
+	REQUIRE(GetHi(theValue) == 0xFF00FF00FF00FF00ULL);
+	REQUIRE(GetLo(theValue) == 0xF0F0F0F0F00FF00FULL);
+
+	theValue = valueA;
+	theValue ^= uint64_t(0x00FF00FF00FF00FFULL);
+	REQUIRE(GetHi(theValue) == 0xFF00FF00FF00FF00ULL);
+	REQUIRE(GetLo(theValue) == 0xF00FF00FF00FF00FULL);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("ShiftLeft")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x1122334455667788ULL, 0xAAAABBBBCCCCDDDDULL);
+	NUINT128 theValue;
+
+	theValue = valueA << Make128(0, 0);
+	REQUIRE(GetHi(theValue) == 0x1122334455667788ULL);
+	REQUIRE(GetLo(theValue) == 0xAAAABBBBCCCCDDDDULL);
+
+	theValue = valueA << uint8_t(4);
+	REQUIRE(GetHi(theValue) == 0x122334455667788AULL);
+	REQUIRE(GetLo(theValue) == 0xAAABBBBCCCCDDDD0ULL);
+
+	theValue = valueA << uint16_t(64);
+	REQUIRE(GetHi(theValue) == 0xAAAABBBBCCCCDDDDULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+	theValue = valueA << uint32_t(68);
+	REQUIRE(GetHi(theValue) == 0xAAABBBBCCCCDDDD0ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+	theValue = valueA << uint64_t(124);
+	REQUIRE(GetHi(theValue) == 0xD000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+
+	theValue = valueA;
+	theValue <<= Make128(0, 0);
+	REQUIRE(GetHi(theValue) == 0x1122334455667788ULL);
+	REQUIRE(GetLo(theValue) == 0xAAAABBBBCCCCDDDDULL);
+
+	theValue = valueA;
+	theValue <<= uint8_t(4);
+	REQUIRE(GetHi(theValue) == 0x122334455667788AULL);
+	REQUIRE(GetLo(theValue) == 0xAAABBBBCCCCDDDD0ULL);
+
+	theValue = valueA;
+	theValue <<= uint16_t(64);
+	REQUIRE(GetHi(theValue) == 0xAAAABBBBCCCCDDDDULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+	theValue = valueA;
+	theValue <<= uint32_t(68);
+	REQUIRE(GetHi(theValue) == 0xAAABBBBCCCCDDDD0ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+
+	theValue = valueA;
+	theValue <<= uint64_t(124);
+	REQUIRE(GetHi(theValue) == 0xD000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000000ULL);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("ShiftRight")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x1122334455667788ULL, 0xAAAABBBBCCCCDDDDULL);
+	NUINT128 theValue;
+
+	theValue = valueA >> Make128(0, 0);
+	REQUIRE(GetHi(theValue) == 0x1122334455667788ULL);
+	REQUIRE(GetLo(theValue) == 0xAAAABBBBCCCCDDDDULL);
+
+	theValue = valueA >> uint8_t(4);
+	REQUIRE(GetHi(theValue) == 0x0112233445566778ULL);
+	REQUIRE(GetLo(theValue) == 0x8AAAABBBBCCCCDDDULL);
+
+	theValue = valueA >> uint16_t(64);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x1122334455667788ULL);
+
+	theValue = valueA >> uint32_t(68);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0112233445566778ULL);
+
+	theValue = valueA >> uint64_t(124);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000001ULL);
+
+
+	theValue = valueA;
+	theValue >>= Make128(0, 0);
+	REQUIRE(GetHi(theValue) == 0x1122334455667788ULL);
+	REQUIRE(GetLo(theValue) == 0xAAAABBBBCCCCDDDDULL);
+
+	theValue = valueA;
+	theValue >>= uint8_t(4);
+	REQUIRE(GetHi(theValue) == 0x0112233445566778ULL);
+	REQUIRE(GetLo(theValue) == 0x8AAAABBBBCCCCDDDULL);
+
+	theValue = valueA;
+	theValue >>= uint16_t(64);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x1122334455667788ULL);
+
+	theValue = valueA;
+	theValue >>= uint32_t(68);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0112233445566778ULL);
+
+	theValue = valueA;
+	theValue >>= uint64_t(124);
+	REQUIRE(GetHi(theValue) == 0x0000000000000000ULL);
+	REQUIRE(GetLo(theValue) == 0x0000000000000001ULL);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("LogicalNOT")
+{
+
+
+	// Perform the test
+	REQUIRE(!Make128(0x0000000000000000ULL, 0x0000000000000000ULL) == true);
+	REQUIRE(!Make128(0x1122334455667788ULL, 0x0000000000000000ULL) == false);
+	REQUIRE(!Make128(0x0000000000000000ULL, 0x1122334455667788ULL) == false);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("LogicalAND")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x0000000000000000ULL, 0x0000000000000000ULL);
+	NUINT128 valueB = Make128(0x0000000000000000ULL, 0x0000000000000000ULL);
+	REQUIRE((valueA && valueB) == false);
+
+	valueA = Make128(0x1122334455667788ULL, 0x0000000000000000ULL);
+	valueB = Make128(0x0000000000000000ULL, 0x1122334455667788ULL);
+	REQUIRE((valueA && valueB) == true);
+
+	valueA = Make128(0x0000000000000000ULL, 0x1122334455667788ULL);
+	valueB = Make128(0x1122334455667788ULL, 0x0000000000000000ULL);
+	REQUIRE((valueA && valueB) == true);
+
+
+	valueA = Make128(0xFFFFFFFFFFFFFFFFULL, 0xFFFFFFFFFFFFFFFFULL);
+	valueB = Make128(0x0000000000000000ULL, 0x0000000000000000ULL);
+
+	REQUIRE((valueA && uint8_t(0xFF)) == true);
+	REQUIRE((valueA && uint8_t(0x00)) == false);
+	REQUIRE((valueB && uint8_t(0xFF)) == false);
+	REQUIRE((valueB && uint8_t(0x00)) == false);
+
+	REQUIRE((valueA && uint16_t(0xFFFF)) == true);
+	REQUIRE((valueA && uint16_t(0x0000)) == false);
+	REQUIRE((valueB && uint16_t(0xFFFF)) == false);
+	REQUIRE((valueB && uint16_t(0x0000)) == false);
+
+	REQUIRE((valueA && uint32_t(0xFFFFFFFF)) == true);
+	REQUIRE((valueA && uint32_t(0x00000000)) == false);
+	REQUIRE((valueB && uint32_t(0xFFFFFFFF)) == false);
+	REQUIRE((valueB && uint32_t(0x00000000)) == false);
+
+	REQUIRE((valueA && uint64_t(0xFFFFFFFFFFFFFFFFULL)) == true);
+	REQUIRE((valueA && uint64_t(0x0000000000000000ULL)) == false);
+	REQUIRE((valueB && uint64_t(0xFFFFFFFFFFFFFFFFULL)) == false);
+	REQUIRE((valueB && uint64_t(0x0000000000000000ULL)) == false);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("LogicalOR")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x0000000000000000ULL, 0x0000000000000000ULL);
+	NUINT128 valueB = Make128(0x0000000000000000ULL, 0x0000000000000000ULL);
+	REQUIRE((valueA || valueB) == false);
+
+	valueA = Make128(0x1122334455667788ULL, 0x0000000000000000ULL);
+	valueB = Make128(0x0000000000000000ULL, 0x1122334455667788ULL);
+	REQUIRE((valueA || valueB) == true);
+
+	valueA = Make128(0x0000000000000000ULL, 0x1122334455667788ULL);
+	valueB = Make128(0x1122334455667788ULL, 0x0000000000000000ULL);
+	REQUIRE((valueA || valueB) == true);
+
+
+	valueA = Make128(0xFFFFFFFFFFFFFFFFULL, 0xFFFFFFFFFFFFFFFFULL);
+	valueB = Make128(0x0000000000000000ULL, 0x0000000000000000ULL);
+
+	REQUIRE((valueA || uint8_t(0xFF)) == true);
+	REQUIRE((valueA || uint8_t(0x00)) == true);
+	REQUIRE((valueB || uint8_t(0xFF)) == true);
+	REQUIRE((valueB || uint8_t(0x00)) == false);
+
+	REQUIRE((valueA || uint16_t(0xFFFF)) == true);
+	REQUIRE((valueA || uint16_t(0x0000)) == true);
+	REQUIRE((valueB || uint16_t(0xFFFF)) == true);
+	REQUIRE((valueB || uint16_t(0x0000)) == false);
+
+	REQUIRE((valueA || uint32_t(0xFFFFFFFF)) == true);
+	REQUIRE((valueA || uint32_t(0x00000000)) == true);
+	REQUIRE((valueB || uint32_t(0xFFFFFFFF)) == true);
+	REQUIRE((valueB || uint32_t(0x00000000)) == false);
+
+	REQUIRE((valueA || uint64_t(0xFFFFFFFFFFFFFFFFULL)) == true);
+	REQUIRE((valueA || uint64_t(0x0000000000000000ULL)) == true);
+	REQUIRE((valueB || uint64_t(0xFFFFFFFFFFFFFFFFULL)) == true);
+	REQUIRE((valueB || uint64_t(0x0000000000000000ULL)) == false);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("LessThan")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x0000000000000000ULL, 0x1111111111111111ULL);
+	NUINT128 valueB = Make128(0x0000000000000000ULL, 0x2222222222222222ULL);
+	REQUIRE(valueA < valueB);
+	REQUIRE(!(valueB < valueA));
+
+	valueA = Make128(0x1111111111111111ULL, 0x9999999999999999ULL);
+	valueB = Make128(0x2222222222222222ULL, 0x9999999999999999ULL);
+	REQUIRE(valueA < valueB);
+	REQUIRE(!(valueB < valueA));
+
+	valueA = Make128(0x0000000000000000ULL, 0x0000000000000011ULL);
+	REQUIRE(valueA < uint8_t(0x22));
+	REQUIRE(valueA < uint16_t(0x22));
+	REQUIRE(valueA < uint32_t(0x22));
+	REQUIRE(valueA < uint64_t(0x22));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("LessThanEquals")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x0000000000000000ULL, 0x1111111111111111ULL);
+	NUINT128 valueB = Make128(0x0000000000000000ULL, 0x1111111111111111ULL);
+	NUINT128 valueC = Make128(0x0000000000000000ULL, 0x2222222222222222ULL);
+	REQUIRE(valueA <= valueB);
+	REQUIRE(valueA <= valueC);
+
+	valueA = Make128(0x1111111111111111ULL, 0x9999999999999999ULL);
+	valueB = Make128(0x1111111111111111ULL, 0x9999999999999999ULL);
+	valueC = Make128(0x2222222222222222ULL, 0x9999999999999999ULL);
+	REQUIRE(valueA <= valueB);
+	REQUIRE(valueA <= valueC);
+
+	valueA = Make128(0x0000000000000000ULL, 0x0000000000000011ULL);
+	REQUIRE(valueA <= uint8_t(0x11));
+	REQUIRE(valueA <= uint16_t(0x11));
+	REQUIRE(valueA <= uint32_t(0x11));
+	REQUIRE(valueA <= uint64_t(0x11));
+
+	REQUIRE(valueA <= uint8_t(0x22));
+	REQUIRE(valueA <= uint16_t(0x22));
+	REQUIRE(valueA <= uint32_t(0x22));
+	REQUIRE(valueA <= uint64_t(0x22));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("GreaterThan")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x0000000000000000ULL, 0x2222222222222222ULL);
+	NUINT128 valueB = Make128(0x0000000000000000ULL, 0x1111111111111111ULL);
+	REQUIRE(valueA > valueB);
+	REQUIRE(!(valueB > valueA));
+
+	valueA = Make128(0x2222222222222222ULL, 0x9999999999999999ULL);
+	valueB = Make128(0x1111111111111111ULL, 0x9999999999999999ULL);
+	REQUIRE(valueA > valueB);
+	REQUIRE(!(valueB > valueA));
+
+	valueA = Make128(0x0000000000000000ULL, 0x0000000000000022ULL);
+	REQUIRE(valueA > uint8_t(0x11));
+	REQUIRE(valueA > uint16_t(0x11));
+	REQUIRE(valueA > uint32_t(0x11));
+	REQUIRE(valueA > uint64_t(0x11));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("GreaterThanEquals")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x0000000000000000ULL, 0x2222222222222222ULL);
+	NUINT128 valueB = Make128(0x0000000000000000ULL, 0x1111111111111111ULL);
+	NUINT128 valueC = Make128(0x0000000000000000ULL, 0x1111111111111111ULL);
+	REQUIRE(valueA >= valueB);
+	REQUIRE(valueA >= valueC);
+
+	valueA = Make128(0x2222222222222222ULL, 0x9999999999999999ULL);
+	valueB = Make128(0x2222222222222222ULL, 0x9999999999999999ULL);
+	valueC = Make128(0x1111111111111111ULL, 0x9999999999999999ULL);
+	REQUIRE(valueA >= valueB);
+	REQUIRE(valueA >= valueC);
+
+	valueA = Make128(0x0000000000000000ULL, 0x0000000000000022ULL);
+	REQUIRE(valueA >= uint8_t(0x11));
+	REQUIRE(valueA >= uint16_t(0x11));
+	REQUIRE(valueA >= uint32_t(0x11));
+	REQUIRE(valueA >= uint64_t(0x11));
+
+	REQUIRE(valueA >= uint8_t(0x22));
+	REQUIRE(valueA >= uint16_t(0x2));
+	REQUIRE(valueA >= uint32_t(0x22));
+	REQUIRE(valueA >= uint64_t(0x22));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("Equal")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x1122334455667788ULL, 0x1234567812345678ULL);
+	NUINT128 valueB = Make128(0x1122334455667788ULL, 0x1234567812345678ULL);
+	REQUIRE(valueA == valueB);
+
+	valueA = Make128(0, 0x11);
+	REQUIRE(valueA == uint8_t(0x11));
+
+	valueA = Make128(0, 0x1122);
+	REQUIRE(valueA == uint16_t(0x1122));
+
+	valueA = Make128(0, 0x11223344);
+	REQUIRE(valueA == uint32_t(0x11223344));
+
+	valueA = Make128(0, 0x1122334455667788ULL);
+	REQUIRE(valueA == uint64_t(0x1122334455667788ULL));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("NotEqual")
+{
+
+
+	// Perform the test
+	NUINT128 valueA = Make128(0x1122334455667788ULL, 0x1234567812345678ULL);
+	NUINT128 valueB = Make128(0xAABB00CCDD00EEFFULL, 0xAABB00CCDD00EEFFULL);
+	REQUIRE(valueA != valueB);
+
+	valueA = Make128(0, 0xAA);
+	REQUIRE(valueA != uint8_t(0x11));
+
+	valueA = Make128(0, 0xAABB);
+	REQUIRE(valueA != uint16_t(0x1122));
+
+	valueA = Make128(0, 0xAABBCCDD);
+	REQUIRE(valueA != uint32_t(0x11223344));
+
+	valueA = Make128(0, 0xAABBCCDDEEFFAABBULL);
+	REQUIRE(valueA != uint64_t(0x1122334455667788ULL));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("Cast")
+{
+
+
+	// Perform the test
+	NUINT128 theValue = Make128(0x1122334455667788ULL, 0x8877665544332211ULL);
+
+	REQUIRE(bool(theValue) == true);
+	REQUIRE(uint8_t(theValue) == 0x11);
+	REQUIRE(uint16_t(theValue) == 0x2211);
+	REQUIRE(uint32_t(theValue) == 0x44332211);
+	REQUIRE(uint64_t(theValue) == 0x8877665544332211ULL);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST_UINT128("Accessors")
+{
+
+
+	// Perform the test
+	NUINT128 theValue = Make128(0x1122334455667788ULL, 0x8877665544332211ULL);
+
+	REQUIRE(GetHi(theValue) == 0x1122334455667788ULL);
+	REQUIRE(GetLo(theValue) == 0x8877665544332211ULL);
+}
