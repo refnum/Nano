@@ -42,6 +42,7 @@
 #include "NSystem.h"
 
 // System
+#include <VersionHelpers.h>
 #include <Windows.h>
 #include <sysinfoapi.h>
 
@@ -63,4 +64,42 @@ size_t NSystem::GetPageSize()
 	NN_REQUIRE(systemInfo.dwPageSize > 0);
 
 	return size_t(systemInfo.dwPageSize);
+}
+
+
+
+
+
+//=============================================================================
+//		NSystem::GetVersion : Get the OS version.
+//-----------------------------------------------------------------------------
+NOSVersion NSystem::GetVersion()
+{
+
+
+	// Get the version
+	NOSVersion theVersion = kNOSWindows;
+
+	if (IsWindows10OrGreater())
+	{
+		theVersion = kNOSWindows_10;
+	}
+	else if (IsWindows8OrGreater())
+	{
+		theVersion = kNOSWindows_8;
+	}
+	else if (IsWindows7OrGreater())
+	{
+		theVersion = kNOSWindows_7;
+	}
+	else if (IsWindowsVistaOrGreater())
+	{
+		theVersion = kNOSWindows_Vista;
+	}
+	else if (IsWindowsXPOrGreater())
+	{
+		theVersion = kNOSWindows_XP;
+	}
+
+	return theVersion;
 }

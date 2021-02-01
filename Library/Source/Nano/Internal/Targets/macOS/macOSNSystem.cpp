@@ -59,3 +59,18 @@ size_t NSystem::GetPageSize()
 	// Get the page size
 	return NSharedDarwin::SystemPageSize();
 }
+
+
+
+
+
+//=============================================================================
+//		NSystem::GetVersion : Get the OS version.
+//-----------------------------------------------------------------------------
+NOSVersion NSystem::GetVersion()
+{
+
+
+	// Get the version
+	return NSharedDarwin::SystemVersion();
+}

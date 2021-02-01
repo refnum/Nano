@@ -50,6 +50,7 @@
 #include "NRunLoop.h"
 #include "NSemaphore.h"
 #include "NString.h"
+#include "NSystem.h"
 #include "NTime.h"
 
 
@@ -119,6 +120,7 @@ public:
 
 	// System
 	static size_t                       SystemPageSize();
+	static NOSVersion                   SystemVersion();
 
 
 	// Machine

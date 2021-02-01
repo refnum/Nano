@@ -42,7 +42,12 @@
 #include "NSystem.h"
 
 // Nano
+#include "NNumber.h"
 #include "NSharedLinux.h"
+
+
+// System
+#include <sys/system_properties.h>
 
 
 
@@ -57,4 +62,47 @@ size_t NSystem::GetPageSize()
 
 	// Get the page size
 	return NSharedLinux::SystemPageSize();
+}
+
+
+
+
+
+//=============================================================================
+//		NSystem::GetVersion : Get the OS version.
+//-----------------------------------------------------------------------------
+NOSVersion NSystem::GetVersion()
+{
+
+
+	// Get the version
+	char theBuffer[PROP_VALUE_MAX + 1]{};
+	int  strLen = __system_property_get("ro.build.version.release", theBuffer);
+	NN_EXPECT(strLen != 0);
+
+
+
+	// Encode the version
+	NVectorString theTokens  = NString(theBuffer).Split(".");
+	NOSVersion    theVersion = kNOSAndroid;
+
+	if (theTokens.size() > 0)
+	{
+		uint32_t majorVersion = NNumber(theTokens[0]).GetUInt32();
+		theVersion |= NOSVersion((majorVersion & 0xFF) * 0x10000);
+	}
+
+	if (theTokens.size() > 1)
+	{
+		uint32_t minorVersion = NNumber(theTokens[1]).GetUInt32();
+		theVersion |= NOSVersion((minorVersion & 0xFF) * 0x100);
+	}
+
+	if (theTokens.size() > 2)
+	{
+		uint32_t patchVersion = NNumber(theTokens[2]).GetUInt32();
+		theVersion |= NOSVersion(patchVersion & 0xFF);
+	}
+
+	return theVersion;
 }

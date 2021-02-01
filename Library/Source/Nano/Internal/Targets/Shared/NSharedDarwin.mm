@@ -1141,6 +1141,55 @@ size_t NSharedDarwin::SystemPageSize()
 
 
 //=============================================================================
+//		NSharedDarwin::SystemVersion : Get the version.
+//-----------------------------------------------------------------------------
+NOSVersion NSharedDarwin::SystemVersion()
+{
+
+
+	// Validate our state
+	static_assert(NN_TARGET_MACOS || NN_TARGET_IOS || NN_TARGET_TVOS);
+
+
+
+	// Get the version
+	NSOperatingSystemVersion osVersion{};
+
+	@autoreleasepool
+	{
+		osVersion = NSProcessInfo.processInfo.operatingSystemVersion;
+	}
+
+
+
+	// Encode the version
+	NOSVersion theVersion = kNOSUnknown;
+
+	theVersion |= NOSVersion((osVersion.majorVersion & 0xFF) * 0x10000);
+	theVersion |= NOSVersion((osVersion.minorVersion & 0xFF) * 0x100);
+	theVersion |= NOSVersion((osVersion.patchVersion & 0xFF));
+
+	if (NN_TARGET_MACOS)
+	{
+		theVersion |= kNOSmacOS;
+	}
+	else if (NN_TARGET_IOS)
+	{
+		theVersion |= kNOSiOS;
+	}
+	else if (NN_TARGET_TVOS)
+	{
+		theVersion |= kNOStvOS;
+	}
+
+	return theVersion;
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedDarwin::MachineCores : Get the number of cores.
 //-----------------------------------------------------------------------------
 size_t NSharedDarwin::MachineCores(NCoreType theType)
