@@ -90,6 +90,9 @@
 		AB2A305224524F6200F21BF6 /* iOSNDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304E24524F5F00F21BF6 /* iOSNDebugger.cpp */; };
 		AB2A305324524F7400F21BF6 /* macOSNDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A304F24524F5F00F21BF6 /* macOSNDebugger.cpp */; };
 		AB2A305424524F7900F21BF6 /* tvOSNDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB2A305024524F5F00F21BF6 /* tvOSNDebugger.cpp */; };
+		AB371A3125CAF80D00DEC50B /* NVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB371A2F25CAF80D00DEC50B /* NVersion.cpp */; };
+		AB371A3225CAF80D00DEC50B /* NVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB371A2F25CAF80D00DEC50B /* NVersion.cpp */; };
+		AB371A3325CAF80D00DEC50B /* NVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB371A2F25CAF80D00DEC50B /* NVersion.cpp */; };
 		AB3A4987258194580065B4DA /* sqlite3.34.0.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4984258194580065B4DA /* sqlite3.34.0.c */; };
 		AB3A4988258194580065B4DA /* sqlite3.34.0.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4984258194580065B4DA /* sqlite3.34.0.c */; };
 		AB3A4989258194580065B4DA /* sqlite3.34.0.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4984258194580065B4DA /* sqlite3.34.0.c */; };
@@ -499,6 +502,9 @@
 		AB3326B21046C6F000C8DF0A /* NShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NShape.h; sourceTree = "<group>"; };
 		AB35B34210011269009B75EF /* NTextUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTextUtilities.cpp; sourceTree = "<group>"; };
 		AB35B34310011269009B75EF /* NTextUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTextUtilities.h; sourceTree = "<group>"; };
+		AB371A2E25CAF80D00DEC50B /* NVersion.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NVersion.inl; sourceTree = "<group>"; };
+		AB371A2F25CAF80D00DEC50B /* NVersion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NVersion.cpp; sourceTree = "<group>"; };
+		AB371A3025CAF80D00DEC50B /* NVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NVersion.h; sourceTree = "<group>"; };
 		AB3A4984258194580065B4DA /* sqlite3.34.0.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.34.0.c; sourceTree = "<group>"; };
 		AB3A4985258194580065B4DA /* Nano_sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nano_sqlite3.h; sourceTree = "<group>"; };
 		AB3A4986258194580065B4DA /* sqlite3.34.0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.34.0.h; sourceTree = "<group>"; };
@@ -1500,6 +1506,9 @@
 				AB91551B0F9B4DD5009FFEAF /* NUnicodeParser.h */,
 				AB2AADB41039793F007BC4E6 /* NUTIRegistry.cpp */,
 				AB2AADB51039793F007BC4E6 /* NUTIRegistry.h */,
+				AB371A2F25CAF80D00DEC50B /* NVersion.cpp */,
+				AB371A3025CAF80D00DEC50B /* NVersion.h */,
+				AB371A2E25CAF80D00DEC50B /* NVersion.inl */,
 				AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */,
 				AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */,
 				ABB145D40FF36B03006F178C /* NXMLNode.cpp */,
@@ -2046,6 +2055,7 @@
 				ABC6472825818466009B82AD /* pcre2_ord2utf.c in Sources */,
 				ABDCE8D4241C61880054A16E /* tvOSNFileInfo.cpp in Sources */,
 				ABC6474925818466009B82AD /* pcre2_config.c in Sources */,
+				AB371A3325CAF80D00DEC50B /* NVersion.cpp in Sources */,
 				AB56391023C2A3A900675F68 /* NString.cpp in Sources */,
 				ABC646FE25818466009B82AD /* pcre2_script_run.c in Sources */,
 				ABC6474025818466009B82AD /* pcre2_context.c in Sources */,
@@ -2161,6 +2171,7 @@
 				AB56390E23C2A3A900675F68 /* NString.cpp in Sources */,
 				ABC6474725818466009B82AD /* pcre2_config.c in Sources */,
 				ABC646FC25818466009B82AD /* pcre2_script_run.c in Sources */,
+				AB371A3125CAF80D00DEC50B /* NVersion.cpp in Sources */,
 				ABC6473E25818466009B82AD /* pcre2_context.c in Sources */,
 				AB07EA272399D3D000E0AC49 /* iOSNTimeUtils.cpp in Sources */,
 				AB2A304524524C9100F21BF6 /* NDebugger.cpp in Sources */,
@@ -2276,6 +2287,7 @@
 				AB56391E23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
 				ABC6472725818466009B82AD /* pcre2_ord2utf.c in Sources */,
 				ABC6474825818466009B82AD /* pcre2_config.c in Sources */,
+				AB371A3225CAF80D00DEC50B /* NVersion.cpp in Sources */,
 				ABDCE8A2241C22AD0054A16E /* NClock.cpp in Sources */,
 				ABC646FD25818466009B82AD /* pcre2_script_run.c in Sources */,
 				ABC6473F25818466009B82AD /* pcre2_context.c in Sources */,

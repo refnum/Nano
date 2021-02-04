@@ -52,6 +52,9 @@
 		AB2F1DB724539CF3005F8C4F /* TDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB14A103AE59F004B1F6E /* TDataDigest.cpp */; };
 		AB2F1DB824539CF3005F8C4F /* TDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB14A103AE59F004B1F6E /* TDataDigest.cpp */; };
 		AB2F1DB924539CF3005F8C4F /* TDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB14A103AE59F004B1F6E /* TDataDigest.cpp */; };
+		AB371A2825CAF7EF00DEC50B /* TVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB371A2725CAF7EF00DEC50B /* TVersion.cpp */; };
+		AB371A2925CAF7EF00DEC50B /* TVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB371A2725CAF7EF00DEC50B /* TVersion.cpp */; };
+		AB371A2A25CAF7EF00DEC50B /* TVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB371A2725CAF7EF00DEC50B /* TVersion.cpp */; };
 		AB439B8123800C0100DBB6B2 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
 		AB439BF123800C0600DBB6B2 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
 		AB4AF5532422FEE700E665D4 /* TFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF5522422FEE600E665D4 /* TFileScanner.cpp */; };
@@ -242,6 +245,7 @@
 		AB328C8517612CBF00782F40 /* StdAfx.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StdAfx.cpp; sourceTree = "<group>"; };
 		AB328C8617612CBF00782F40 /* StdAfx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StdAfx.h; sourceTree = "<group>"; };
 		AB3326D11046C9B100C8DF0A /* TShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TShape.cpp; sourceTree = "<group>"; };
+		AB371A2725CAF7EF00DEC50B /* TVersion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TVersion.cpp; sourceTree = "<group>"; };
 		AB439B6B23800B1000DBB6B2 /* Nano.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nano.xcodeproj; path = ../../Library/Project/Nano.xcodeproj; sourceTree = "<group>"; };
 		AB439B7923800B9600DBB6B2 /* NanoTest_iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = NanoTest_iOS.xcconfig; sourceTree = "<group>"; };
 		AB439B7A23800B9600DBB6B2 /* NanoTest.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = NanoTest.xcconfig; sourceTree = "<group>"; };
@@ -633,6 +637,7 @@
 				ABC66E7B17411D52005B9357 /* TTask.cpp */,
 				AB514D891034184B00E5A6AD /* TUnicodeParser.cpp */,
 				AB2AADC81039797F007BC4E6 /* TUTIRegistry.cpp */,
+				AB371A2725CAF7EF00DEC50B /* TVersion.cpp */,
 				AB514D8B1034184B00E5A6AD /* TXMLEncoder.cpp */,
 				AB514D8D1034184B00E5A6AD /* TXMLNode.cpp */,
 				AB514D8F1034184B00E5A6AD /* TXMLParser.cpp */,
@@ -949,6 +954,7 @@
 				AB1B4DAB23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9A923EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB1980F725975D17002C5591 /* TThreadID.cpp in Sources */,
+				AB371A2925CAF7EF00DEC50B /* TVersion.cpp in Sources */,
 				ABB38CB825A7CCC80050D506 /* TDictionary.cpp in Sources */,
 				AB4EB4BC2430EDBB00D36016 /* TFilePath.cpp in Sources */,
 				AB07EA42239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
@@ -1011,6 +1017,7 @@
 				AB1B4DAA23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9A823EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB1980F625975D17002C5591 /* TThreadID.cpp in Sources */,
+				AB371A2825CAF7EF00DEC50B /* TVersion.cpp in Sources */,
 				ABB38CB925A7CCC80050D506 /* TDictionary.cpp in Sources */,
 				AB4EB4BB2430EDBB00D36016 /* TFilePath.cpp in Sources */,
 				AB07EA43239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
@@ -1073,6 +1080,7 @@
 				AB1B4DAC23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9AA23EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB1980F825975D17002C5591 /* TThreadID.cpp in Sources */,
+				AB371A2A25CAF7EF00DEC50B /* TVersion.cpp in Sources */,
 				ABB38CB125A7CCC80050D506 /* TDictionary.cpp in Sources */,
 				AB4EB4BD2430EDBB00D36016 /* TFilePath.cpp in Sources */,
 				AB07EA41239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
