@@ -53,6 +53,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <math.h>
+#include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
@@ -915,6 +916,63 @@ NStatus NSharedPOSIX::GetErrno(int sysErr)
 	}
 
 	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::EnvGet : Get an environment variable.
+//-----------------------------------------------------------------------------
+NString NSharedPOSIX::EnvGet(const NString& theName)
+{
+
+
+	// Valiate our parameters
+	NN_REQUIRE(!theName.IsEmpty());
+
+
+
+	// Get the variable
+	NString       theValue;
+	const utf8_t* envVar = getenv(theName.GetUTF8());
+
+	if (envVar != nullptr)
+	{
+		theValue = NString(envVar);
+	}
+
+	return theValue;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::EnvSet : Set an environment variable.
+//-----------------------------------------------------------------------------
+void NSharedPOSIX::EnvSet(const NString& theName, const NString& theValue)
+{
+
+
+	// Valiate our parameters
+	NN_REQUIRE(!theName.IsEmpty());
+
+
+
+	// Set the variable
+	if (theValue.IsEmpty())
+	{
+		int sysErr = unsetenv(theName.GetUTF8());
+		NN_EXPECT_NOT_ERR(sysErr);
+	}
+	else
+	{
+		int sysErr = setenv(theName.GetUTF8(), theValue.GetUTF8(), 1);
+		NN_EXPECT_NOT_ERR(sysErr);
+	}
 }
 
 

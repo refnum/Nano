@@ -56,6 +56,16 @@
 
 
 //=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Forward declaration
+class NString;
+
+
+
+
+
+//=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
 class NSharedPOSIX
@@ -86,6 +96,11 @@ public:
 	// returns the current value of errno as an NStatus.
 	static NStatus                      ToStatus(int sysErr);
 	static NStatus                      GetErrno(int sysErr = -1);
+
+
+	// Environment
+	static NString                      EnvGet(const NString& theName);
+	static void                         EnvSet(const NString& theName, const NString& theValue);
 
 
 	// Get an access() state

@@ -55,6 +55,36 @@
 
 
 //=============================================================================
+//		NSystem::GetEnv : Get an environment variable.
+//-----------------------------------------------------------------------------
+NString NSystem::GetEnv(const NString& theName)
+{
+
+
+	// Get the variable
+	return NSharedPOSIX::EnvGet(theName);
+}
+
+
+
+
+
+//=============================================================================
+//		NSystem::SetEnv : Set an environment variable.
+//-----------------------------------------------------------------------------
+void NSystem::SetEnv(const NString& theName, const NString& theValue)
+{
+
+
+	// Set the variable
+	NSharedPOSIX::EnvSet(theName, theValue);
+}
+
+
+
+
+
+//=============================================================================
 //		NSystem::GetPageSize : Get the page size.
 //-----------------------------------------------------------------------------
 size_t NSystem::GetPageSize()

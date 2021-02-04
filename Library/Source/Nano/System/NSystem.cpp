@@ -50,29 +50,6 @@
 
 
 //=============================================================================
-//		NSystem::GetEnv : Get an environment variable.
-//-----------------------------------------------------------------------------
-NString NSystem::GetEnv(const NString& theName)
-{
-
-
-	// Get the environment variable
-	NString     theValue;
-	const char* envVar = getenv(theName.GetUTF8());
-
-	if (envVar != nullptr)
-	{
-		theValue = NString(envVar);
-	}
-
-	return theValue;
-}
-
-
-
-
-
-//=============================================================================
 //		NSystem::GetName : Get the OS name.
 //-----------------------------------------------------------------------------
 NString NSystem::GetName(NOSName theName)

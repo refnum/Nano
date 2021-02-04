@@ -87,8 +87,11 @@ class NVersion;
 class NSystem
 {
 public:
-	// Get an environment variable
+	// Get / set an environment variable
+	//
+	// Assigning an empty name will remove the variable.
 	static NString                      GetEnv(const NString& theName);
+	static void                         SetEnv(const NString& theName, const NString& theValue);
 
 
 	// Get the page size

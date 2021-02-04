@@ -75,6 +75,27 @@ NANO_TEST(TSystem, "GetEnv")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TSystem, "SetEnv")
+{
+
+
+	// Perform the test
+	NString theName  = "TSystem_setenv";
+	NString theValue = "0123456789";
+
+	REQUIRE(NSystem::GetEnv(theName) == "");
+
+	NSystem::SetEnv(theName, theValue);
+	REQUIRE(NSystem::GetEnv(theName) == theValue);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TSystem, "GetPageSize")
 {
 

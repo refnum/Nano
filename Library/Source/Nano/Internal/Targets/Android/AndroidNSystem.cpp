@@ -45,6 +45,7 @@
 #include "NFormat.h"
 #include "NNumber.h"
 #include "NSharedLinux.h"
+#include "NSharedPOSIX.h"
 #include "NVersion.h"
 
 // System
@@ -76,6 +77,36 @@ static NString GetSystemProperty(const NString& theName)
 
 
 #pragma mark NSystem
+//=============================================================================
+//		NSystem::GetEnv : Get an environment variable.
+//-----------------------------------------------------------------------------
+NString NSystem::GetEnv(const NString& theName)
+{
+
+
+	// Get the variable
+	return NSharedPOSIX::EnvGet(theName);
+}
+
+
+
+
+
+//=============================================================================
+//		NSystem::SetEnv : Set an environment variable.
+//-----------------------------------------------------------------------------
+void NSystem::SetEnv(const NString& theName, const NString& theValue)
+{
+
+
+	// Set the variable
+	NSharedPOSIX::EnvSet(theName, theValue);
+}
+
+
+
+
+
 //=============================================================================
 //		NSystem::GetPageSize : Get the page size.
 //-----------------------------------------------------------------------------

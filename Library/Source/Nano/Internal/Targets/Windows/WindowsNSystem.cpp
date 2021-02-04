@@ -49,7 +49,58 @@
 // System
 #include <VersionHelpers.h>
 #include <Windows.h>
+#include <stdlib.h>
 #include <sysinfoapi.h>
+
+
+
+
+
+//=============================================================================
+//		NSystem::GetEnv : Get an environment variable.
+//-----------------------------------------------------------------------------
+NString NSystem::GetEnv(const NString& theName)
+{
+
+
+	// Valiate our parameters
+	NN_REQUIRE(!theName.IsEmpty());
+
+
+	// Get the variable
+	NString        theValue;
+	const wchar_t* winName  = reinterpret_cast<const wchar_t*>(theName.GetUTF16());
+	const utf16_t* winValue = reinterpret_cast<const utf16_t*>(_wgetenv(winName));
+
+	if (winValue != nullptr)
+	{
+		theValue = NString(winValue);
+	}
+
+	return theValue;
+}
+
+
+
+
+
+//=============================================================================
+//		NSystem::SetEnv : Set an environment variable.
+//-----------------------------------------------------------------------------
+void NSystem::SetEnv(const NString& theName, const NString& theValue)
+{
+
+
+	// Valiate our parameters
+	NN_REQUIRE(!theName.IsEmpty());
+
+
+	// Set the variable
+	NString nameValue = theName + "=" + theValue;
+
+	int sysErr = _wputenv(reinterpret_cast<const wchar_t*>(nameValue.GetUTF16()));
+	NN_EXPECT_NOT_ERR(sysErr);
+}
 
 
 
