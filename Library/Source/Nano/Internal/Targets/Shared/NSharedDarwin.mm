@@ -118,26 +118,74 @@ struct NDarwinRunLoop
 //=============================================================================
 //		Internal Functions
 //-----------------------------------------------------------------------------
-//      GetBootTime : Get the boot time.
+//		GetSysctl : Get a named sysctl value.
+//-----------------------------------------------------------------------------
+template<typename T>
+T GetSysctl(const char* theName)
+{
+	// Get the value
+	size_t theSize = sizeof(T);
+	T      theResult{};
+
+	int sysErr = sysctlbyname(theName, &theResult, &theSize, nullptr, 0);
+	if (sysErr != 0)
+	{
+		NN_LOG_WARNING("sysctlbyname(\"{}\") failed with {}", theName, sysErr);
+		memset(&theResult, 0x00, sizeof(theResult));
+	}
+
+	return theResult;
+}
+
+
+
+
+
+//=============================================================================
+//		GetSysctl : Get a named sysctl value.
+//-----------------------------------------------------------------------------
+template<>
+NString GetSysctl<NString>(const char* theName)
+{
+
+
+	// Get the size
+	size_t  theSize = 0;
+	NString theResult;
+
+	int sysErr = sysctlbyname(theName, nullptr, &theSize, nullptr, 0);
+	if (sysErr == 0)
+	{
+		NData theData(theSize, nullptr, NDataSource::Zero);
+
+		sysErr = sysctlbyname(theName, theData.GetMutableData(), &theSize, nullptr, 0);
+		if (sysErr == 0)
+		{
+			theResult = reinterpret_cast<const utf8_t*>(theData.GetData());
+		}
+		else
+		{
+			NN_LOG_WARNING("sysctlbyname(\"{}\") failed with {}", theName, sysErr);
+		}
+	}
+
+	return theResult;
+}
+
+
+
+
+
+//=============================================================================
+//		GetBootTime : Get the boot time.
 //-----------------------------------------------------------------------------
 static NTime GetBootTime()
 {
+
+
 	// Get the boot time
-	struct timeval timeVal    = {};
-	size_t         theSize    = sizeof(timeVal);
-	int            theName[2] = {CTL_KERN, KERN_BOOTTIME};
+	struct timeval timeVal = GetSysctl<struct timeval>("kern.boottime");
 
-	int sysErr = sysctl(theName, std::size(theName), &timeVal, &theSize, nullptr, 0);
-	NN_EXPECT_NOT_ERR(sysErr);
-
-	if (sysErr != 0)
-	{
-		timeVal = {};
-	}
-
-
-
-	// Convert the time
 	return NTime(NSharedPOSIX::ToInterval(timeVal), kNanoEpochFrom2001);
 }
 
@@ -259,66 +307,6 @@ static NFilePath GetNSSearchPath(NSSearchPathDomainMask theDomain,
 	}
 
 	return thePath;
-}
-
-
-
-
-
-//=============================================================================
-//		GetSysctl : Get a named sysctl value.
-//-----------------------------------------------------------------------------
-template<typename T>
-T GetSysctl(const char* theName)
-{
-
-
-	// Get the value
-	size_t theSize = sizeof(T);
-	T      theResult{};
-
-	int sysErr = sysctlbyname(theName, &theResult, &theSize, nullptr, 0);
-	if (sysErr != 0)
-	{
-		NN_LOG_WARNING("sysctlbyname(\"{}\") failed with {}", theName, sysErr);
-	}
-
-	return theResult;
-}
-
-
-
-
-
-//=============================================================================
-//		GetSysctl : Get a named sysctl value.
-//-----------------------------------------------------------------------------
-template<>
-NString GetSysctl<NString>(const char* theName)
-{
-
-
-	// Get the size
-	size_t  theSize = 0;
-	NString theResult;
-
-	int sysErr = sysctlbyname(theName, nullptr, &theSize, nullptr, 0);
-	if (sysErr == 0)
-	{
-		NData theData(theSize, nullptr, NDataSource::Zero);
-
-		sysErr = sysctlbyname(theName, theData.GetMutableData(), &theSize, nullptr, 0);
-		if (sysErr == 0)
-		{
-			theResult = reinterpret_cast<const utf8_t*>(theData.GetData());
-		}
-		else
-		{
-			NN_LOG_WARNING("sysctlbyname(\"{}\") failed with {}", theName, sysErr);
-		}
-	}
-
-	return theResult;
 }
 
 
