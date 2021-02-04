@@ -203,7 +203,7 @@ inline NString::NString(NStringEncoding theEncoding, const NData& theData)
 //=============================================================================
 //		NString::NString : Constructor.
 //-----------------------------------------------------------------------------
-inline NString::NString()
+constexpr NString::NString()
 	: mString{}
 {
 

@@ -169,7 +169,7 @@ public:
 										NString(NStringEncoding theEncoding, size_t numBytes, const void* theData);
 										NString(NStringEncoding theEncoding, const NData& theData);
 
-										NString();
+	constexpr                           NString();
 									   ~NString();
 
 										NString(  const NString& otherString);
