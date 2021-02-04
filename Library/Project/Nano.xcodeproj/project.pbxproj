@@ -592,8 +592,6 @@
 		AB669B4F10035285006CB82F /* NDateFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDateFormatter.cpp; sourceTree = "<group>"; };
 		AB669B5010035285006CB82F /* NDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDateFormatter.h; sourceTree = "<group>"; };
 		AB68DB8A25B25E4F009C406D /* NNumber.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NNumber.inl; sourceTree = "<group>"; };
-		AB76913D10FCEA6200AD6A3F /* NUncopyable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUncopyable.cpp; sourceTree = "<group>"; };
-		AB76913E10FCEA6200AD6A3F /* NUncopyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUncopyable.h; sourceTree = "<group>"; };
 		AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDataCipher.cpp; sourceTree = "<group>"; };
 		AB7AAFD6103AC4EF004B1F6E /* NDataCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDataCipher.h; sourceTree = "<group>"; };
 		AB7AB0D9103ADEDD004B1F6E /* NDataDigest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDataDigest.h; sourceTree = "<group>"; };
@@ -1658,8 +1656,6 @@
 				AB91555F0F9B4DD6009FFEAF /* NSharedValue.h */,
 				ABB57CFD112ADBFA003D714C /* NSingleton.cpp */,
 				ABB57CFE112ADBFA003D714C /* NSingleton.h */,
-				AB76913D10FCEA6200AD6A3F /* NUncopyable.cpp */,
-				AB76913E10FCEA6200AD6A3F /* NUncopyable.h */,
 				AB481C4012A5327B0052C55F /* NURL.cpp */,
 				AB481C4112A5327B0052C55F /* NURL.h */,
 				AB2AAC621035B621007BC4E6 /* NUTI.cpp */,
