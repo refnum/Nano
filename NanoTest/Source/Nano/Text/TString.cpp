@@ -115,8 +115,14 @@ NANO_TEST(TString, "Default")
 	REQUIRE(theString.IsEmpty());
 	REQUIRE(theString.GetHash() == 0);
 	REQUIRE(theString.GetSize() == 0);
+
 	REQUIRE(theString.GetUTF8() != nullptr);
-	REQUIRE(strcmp(theString.GetUTF8(), "") == 0);
+	REQUIRE(theString.GetUTF16() != nullptr);
+	REQUIRE(theString.GetUTF32() != nullptr);
+
+	REQUIRE(theString.GetUTF8()[0] == utf8_t(0));
+	REQUIRE(theString.GetUTF16()[0] == utf16_t(0));
+	REQUIRE(theString.GetUTF32()[0] == utf32_t(0));
 }
 
 
@@ -259,6 +265,47 @@ NANO_TEST(TString, "GetText")
 	REQUIRE(strcmp(textUTF8, static_cast<const char*>(textMacRoman)) == 0);
 	REQUIRE(strcmp(textUTF8, static_cast<const char*>(textISOLatin1)) == 0);
 	REQUIRE(strcmp(textUTF8, static_cast<const char*>(textWinLatin1)) == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TString, "GetText/Empty")
+{
+
+
+	// Perform the test
+	//
+	// Empty strings can return encoding from their small buffer.
+	NString theString;
+
+	const void* textUTF8      = theString.GetText(NStringEncoding::UTF8);
+	const void* textUTF16     = theString.GetText(NStringEncoding::UTF16);
+	const void* textUTF32     = theString.GetText(NStringEncoding::UTF32);
+	const void* textASCII     = theString.GetText(NStringEncoding::ASCII);
+	const void* textMacRoman  = theString.GetText(NStringEncoding::MacRoman);
+	const void* textISOLatin1 = theString.GetText(NStringEncoding::ISOLatin1);
+	const void* textWinLatin1 = theString.GetText(NStringEncoding::WindowsLatin1);
+
+	REQUIRE(textUTF8 != nullptr);
+	REQUIRE(textUTF16 != nullptr);
+	REQUIRE(textUTF32 != nullptr);
+	REQUIRE(textASCII != nullptr);
+	REQUIRE(textMacRoman != nullptr);
+	REQUIRE(textISOLatin1 != nullptr);
+	REQUIRE(textWinLatin1 != nullptr);
+
+	REQUIRE(static_cast<const utf8_t*>(textUTF8)[0] == utf8_t(0));
+	REQUIRE(static_cast<const utf16_t*>(textUTF16)[0] == utf16_t(0));
+	REQUIRE(static_cast<const utf32_t*>(textUTF32)[0] == utf32_t(0));
+	REQUIRE(static_cast<const char*>(textASCII)[0] == char(0));
+	REQUIRE(static_cast<const char*>(textMacRoman)[0] == char(0));
+	REQUIRE(static_cast<const char*>(textISOLatin1)[0] == char(0));
+	REQUIRE(static_cast<const char*>(textWinLatin1)[0] == char(0));
 }
 
 

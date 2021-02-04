@@ -97,6 +97,23 @@ const void* NString::GetText(NStringEncoding theEncoding) const
 
 
 
+	// Get empty text
+	//
+	// Empty strings are always small and can return the small storage
+	// regardless of encoding as it contains enough zero bytes to hold
+	// a null character in any encoding.
+	if (IsEmpty())
+	{
+		NN_REQUIRE(IsSmall());
+		NN_REQUIRE(sizeof(mString.Small.theData) >= NStringEncoder::GetCodeUnitSize(theEncoding));
+		NN_REQUIRE(NDataDigest::GetAdler32(sizeof(mString.Small.theData), &mString.Small.theData) ==
+				   0);
+
+		return &mString.Small.theData;
+	}
+
+
+
 	// Get small text
 	if (theEncoding == NStringEncoding::UTF8 && IsSmallUTF8())
 	{
