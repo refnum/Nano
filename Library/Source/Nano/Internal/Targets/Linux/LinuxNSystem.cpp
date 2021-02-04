@@ -44,6 +44,8 @@
 // Nano
 #include "NFormat.h"
 #include "NSharedLinux.h"
+#include "NSharedPOSIX.h"
+#include "NVersion.h"
 
 // System
 #include <sys/utsname.h>
@@ -70,11 +72,11 @@ size_t NSystem::GetPageSize()
 //=============================================================================
 //		NSystem::GetVersion : Get the OS version.
 //-----------------------------------------------------------------------------
-NOSVersion NSystem::GetVersion()
+NVersion NSystem::GetVersion()
 {
 
 
-	// Get the version
+	// Get the state we need
 	struct utsname sysInfo
 	{
 	};
@@ -96,14 +98,17 @@ NOSVersion NSystem::GetVersion()
 		}
 	}
 
+	NN_EXPECT(majorVersion <= kNUInt8Max);
+	NN_EXPECT(minorVersion <= kNUInt8Max);
+	NN_EXPECT(patchVersion <= kNUInt8Max);
 
 
-	// Encode the version
-	NOSVersion theVersion = kNOSLinux;
 
-	theVersion |= NOSVersion((osVersion.majorVersion & 0xFF) * 0x10000);
-	theVersion |= NOSVersion((osVersion.minorVersion & 0xFF) * 0x100);
-	theVersion |= NOSVersion((osVersion.patchVersion & 0xFF));
+	// Get the version
+	NVersion theVersion(kNOSLinux,
+						uint8_t(majorVersion),
+						uint8_t(minorVersion),
+						uint8_t(patchVersion));
 
 	return theVersion;
 }

@@ -66,7 +66,7 @@ size_t NSystem::GetPageSize()
 //=============================================================================
 //		NSystem::GetVersion : Get the OS version.
 //-----------------------------------------------------------------------------
-NOSVersion NSystem::GetVersion()
+NVersion NSystem::GetVersion()
 {
 
 

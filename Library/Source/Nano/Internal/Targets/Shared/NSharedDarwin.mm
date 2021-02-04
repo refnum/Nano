@@ -48,6 +48,7 @@
 #include "NSharedPOSIX.h"
 #include "NString.h"
 #include "NTimeUtils.h"
+#include "NVersion.h"
 
 // System
 #include <CoreFoundation/CoreFoundation.h>
@@ -1130,9 +1131,9 @@ size_t NSharedDarwin::SystemPageSize()
 
 
 //=============================================================================
-//		NSharedDarwin::SystemVersion : Get the version.
+//		NSharedDarwin::SystemVersion : Get the OS version.
 //-----------------------------------------------------------------------------
-NOSVersion NSharedDarwin::SystemVersion()
+NVersion NSharedDarwin::SystemVersion()
 {
 
 
@@ -1141,7 +1142,7 @@ NOSVersion NSharedDarwin::SystemVersion()
 
 
 
-	// Get the version
+	// Get the state we need
 	NSOperatingSystemVersion osVersion{};
 
 	@autoreleasepool
@@ -1149,26 +1150,25 @@ NOSVersion NSharedDarwin::SystemVersion()
 		osVersion = NSProcessInfo.processInfo.operatingSystemVersion;
 	}
 
+	NN_EXPECT(osVersion.majorVersion <= kNUInt8Max);
+	NN_EXPECT(osVersion.minorVersion <= kNUInt8Max);
+	NN_EXPECT(osVersion.patchVersion <= kNUInt8Max);
 
 
-	// Encode the version
-	NOSVersion theVersion = kNOSUnknown;
 
-	theVersion |= NOSVersion((osVersion.majorVersion & 0xFF) * 0x10000);
-	theVersion |= NOSVersion((osVersion.minorVersion & 0xFF) * 0x100);
-	theVersion |= NOSVersion((osVersion.patchVersion & 0xFF));
+	// Get the version
+	NVersion theVersion(kNOSmacOS,
+						uint8_t(osVersion.majorVersion),
+						uint8_t(osVersion.minorVersion),
+						uint8_t(osVersion.patchVersion));
 
-	if (NN_TARGET_MACOS)
+	if (NN_TARGET_IOS)
 	{
-		theVersion |= kNOSmacOS;
-	}
-	else if (NN_TARGET_IOS)
-	{
-		theVersion |= kNOSiOS;
+		theVersion.SetProduct(kNOSiOS);
 	}
 	else if (NN_TARGET_TVOS)
 	{
-		theVersion |= kNOStvOS;
+		theVersion.SetProduct(kNOStvOS);
 	}
 
 	return theVersion;

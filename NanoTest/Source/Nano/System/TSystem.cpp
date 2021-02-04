@@ -42,6 +42,7 @@
 // Nano
 #include "NSystem.h"
 #include "NTestFixture.h"
+#include "NVersion.h"
 
 
 
@@ -94,7 +95,29 @@ NANO_TEST(TSystem, "GetVersion")
 
 
 	// Perform the test
-	REQUIRE(NSystem::GetVersion() != kNOSUnknown);
+	NVersion theVersion = NSystem::GetVersion();
+	REQUIRE(theVersion.IsValid());
+
+#if NN_TARGET_ANDROID
+	REQUIRE(theVersion >= kNOSAndroid_11);
+
+#elif NN_TARGET_LINUX
+	REQUIRE(theVersion >= kNOSLinux_5);
+
+#elif NN_TARGET_IOS
+	REQUIRE(theVersion >= kNOSiOS_14);
+
+#elif NN_TARGET_MACOS
+	REQUIRE(theVersion >= kNOSmacOS_11);
+
+#elif NN_TARGET_TVOS
+	REQUIRE(theVersion >= kNOStvOS_14);
+
+#elif NN_TARGET_WINDOWS
+	REQUIRE(theVersion >= kNOSWindows_8);
+#else
+	NN_LOG_WARNING("Unknown platform!");
+#endif
 }
 
 
@@ -115,26 +138,4 @@ NANO_TEST(TSystem, "GetName")
 	REQUIRE(!NSystem::GetName(NOSName::Short).IsEmpty());
 	REQUIRE(!NSystem::GetName(NOSName::Detailed).IsEmpty());
 	REQUIRE(!NSystem::GetName(NOSName::Maximum).IsEmpty());
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TSystem, "CompareVersions")
-{
-
-
-	// Perform the test
-	REQUIRE(NSystem::CompareVersions("1.0", "1.0a1") == NComparison::GreaterThan);
-	REQUIRE(NSystem::CompareVersions("1.0", "1.0b1") == NComparison::GreaterThan);
-
-	REQUIRE(NSystem::CompareVersions("1.0a1", "1.0") == NComparison::LessThan);
-	REQUIRE(NSystem::CompareVersions("1.0b1", "1.0") == NComparison::LessThan);
-
-	REQUIRE(NSystem::CompareVersions("1.0", "1.0.1a1") == NComparison::LessThan);
-	REQUIRE(NSystem::CompareVersions("1.0", "2.0") == NComparison::LessThan);
 }

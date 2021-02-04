@@ -51,60 +51,6 @@
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-// OS version
-//
-// A NOSVersion represents the major.minor.patch release of an OS.
-//
-// These constants may be serialised - their values are fixed.
-using NOSVersion                                            = uint32_t;
-
-inline constexpr NOSVersion kNOSUnknown                     = 0x00000000;
-
-inline constexpr NOSVersion kNOSAndroid                     = 0x10000000;
-inline constexpr NOSVersion kNOSAndroid_8                   = 0x10080000;
-inline constexpr NOSVersion kNOSAndroid_9                   = 0x10090000;
-inline constexpr NOSVersion kNOSAndroid_10                  = 0x100a0000;
-inline constexpr NOSVersion kNOSAndroid_11                  = 0x100b0000;
-
-inline constexpr NOSVersion kNOSLinux                       = 0x20000000;
-inline constexpr NOSVersion kNOSLinux_4                     = 0x20040000;
-inline constexpr NOSVersion kNOSLinux_5                     = 0x20050000;
-
-inline constexpr NOSVersion kNOSiOS                         = 0x30000000;
-inline constexpr NOSVersion kNOSiOS_13                      = 0x300d0000;
-inline constexpr NOSVersion kNOSiOS_14                      = 0x300e0000;
-inline constexpr NOSVersion kNOSiOS_14_0_1                  = 0x300e0001;
-inline constexpr NOSVersion kNOSiOS_14_1                    = 0x300e0100;
-inline constexpr NOSVersion kNOSiOS_14_2                    = 0x300e0200;
-inline constexpr NOSVersion kNOSiOS_14_2_1                  = 0x300e0201;
-inline constexpr NOSVersion kNOSiOS_14_3                    = 0x300e0300;
-inline constexpr NOSVersion kNOSiOS_14_4                    = 0x300e0400;
-
-inline constexpr NOSVersion kNOSmacOS                       = 0x40000000;
-inline constexpr NOSVersion kNOSmacOS_10_14                 = 0x400a0e00;
-inline constexpr NOSVersion kNOSmacOS_10_15                 = 0x400a0f00;
-inline constexpr NOSVersion kNOSmacOS_11                    = 0x400b0000;
-inline constexpr NOSVersion kNOSmacOS_11_0_1                = 0x400b0001;
-inline constexpr NOSVersion kNOSmacOS_11_1                  = 0x400b0100;
-inline constexpr NOSVersion kNOSmacOS_11_2                  = 0x400b0200;
-
-inline constexpr NOSVersion kNOStvOS                        = 0x50000000;
-inline constexpr NOSVersion kNOStvOS_13                     = 0x500d0000;
-inline constexpr NOSVersion kNOStvOS_14                     = 0x500e0000;
-inline constexpr NOSVersion kNOStvOS_14_0_1                 = 0x500e0001;
-inline constexpr NOSVersion kNOStvOS_14_0_2                 = 0x500e0002;
-inline constexpr NOSVersion kNOStvOS_14_2                   = 0x500e0200;
-inline constexpr NOSVersion kNOStvOS_14_3                   = 0x500e0300;
-inline constexpr NOSVersion kNOStvOS_14_4                   = 0x500e0400;
-
-inline constexpr NOSVersion kNOSWindows                     = 0x60000000;
-inline constexpr NOSVersion kNOSWindows_XP                  = 0x60050000;
-inline constexpr NOSVersion kNOSWindows_Vista               = 0x60060000;
-inline constexpr NOSVersion kNOSWindows_7                   = 0x60070000;
-inline constexpr NOSVersion kNOSWindows_8                   = 0x60080000;
-inline constexpr NOSVersion kNOSWindows_10                  = 0x600a0000;
-
-
 // OS name
 //
 // An NOSName represents a formatted name for an OS.
@@ -129,7 +75,7 @@ enum class NOSName
 //		Types
 //-----------------------------------------------------------------------------
 // Forward declaration
-enum class NVersionPart;
+class NVersion;
 
 
 
@@ -150,22 +96,15 @@ public:
 
 
 	// Get the version
-	static NOSVersion                   GetVersion();
+	static NVersion                     GetVersion();
 
 
 	// Get the name
 	static NString                      GetName(NOSName theName = NOSName::Short);
 
 
-	// Compare two versions
-	static NComparison                  CompareVersions(const NString& versionA, const NString& versionB);
-
-
 private:
 	static NString                      SystemName(NOSName theName);
-
-	static NVectorString                GetVersionParts(const NString& theVersion);
-	static NVersionPart                 GetPartType(    const NString& thePart);
 };
 
 

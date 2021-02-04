@@ -52,6 +52,7 @@
 #include "NString.h"
 #include "NSystem.h"
 #include "NTime.h"
+#include "NVersion.h"
 
 
 
@@ -120,7 +121,7 @@ public:
 
 	// System
 	static size_t                       SystemPageSize();
-	static NOSVersion                   SystemVersion();
+	static NVersion                     SystemVersion();
 	static NString                      SystemName(NOSName theName);
 
 

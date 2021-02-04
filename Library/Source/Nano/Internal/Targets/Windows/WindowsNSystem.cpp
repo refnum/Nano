@@ -44,6 +44,7 @@
 // Nano
 #include "NFormat.h"
 #include "NSharedWindows.h"
+#include "NVersion.h"
 
 // System
 #include <VersionHelpers.h>
@@ -77,35 +78,33 @@ size_t NSystem::GetPageSize()
 //=============================================================================
 //		NSystem::GetVersion : Get the OS version.
 //-----------------------------------------------------------------------------
-NOSVersion NSystem::GetVersion()
+NVersion NSystem::GetVersion()
 {
 
 
 	// Get the version
-	NOSVersion theVersion = kNOSWindows;
-
 	if (IsWindows10OrGreater())
 	{
-		theVersion = kNOSWindows_10;
+		return kNOSWindows_10;
 	}
 	else if (IsWindows8OrGreater())
 	{
-		theVersion = kNOSWindows_8;
+		return kNOSWindows_8;
 	}
 	else if (IsWindows7OrGreater())
 	{
-		theVersion = kNOSWindows_7;
+		return kNOSWindows_7;
 	}
 	else if (IsWindowsVistaOrGreater())
 	{
-		theVersion = kNOSWindows_Vista;
+		return kNOSWindows_Vista;
 	}
 	else if (IsWindowsXPOrGreater())
 	{
-		theVersion = kNOSWindows_XP;
+		return kNOSWindows_XP;
 	}
 
-	return theVersion;
+	return NVersion(kNOSWindows, 0);
 }
 
 

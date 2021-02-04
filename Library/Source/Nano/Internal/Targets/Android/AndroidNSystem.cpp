@@ -42,9 +42,10 @@
 #include "NSystem.h"
 
 // Nano
+#include "NFormat.h"
 #include "NNumber.h"
 #include "NSharedLinux.h"
-
+#include "NVersion.h"
 
 // System
 #include <sys/system_properties.h>
@@ -93,35 +94,32 @@ size_t NSystem::GetPageSize()
 //=============================================================================
 //		NSystem::GetVersion : Get the OS version.
 //-----------------------------------------------------------------------------
-NOSVersion NSystem::GetVersion()
+NVersion NSystem::GetVersion()
 {
 
 
-	// Get the version
+	// Get the state we need
 	NString       theText   = GetSystemProperty("ro.build.version.release");
 	NVectorString theTokens = theText.Split(".");
 
 
 
-	// Encode the version
-	NOSVersion    theVersion = kNOSAndroid;
+	// Get the version
+	NVersion theVersion(kNOSAndroid, 0, 0, 0);
 
 	if (theTokens.size() > 0)
 	{
-		uint32_t majorVersion = NNumber(theTokens[0]).GetUInt32();
-		theVersion |= NOSVersion((majorVersion & 0xFF) * 0x10000);
+		theVersion.SetMajor(NNumber(theTokens[0]).GetUInt8());
 	}
 
 	if (theTokens.size() > 1)
 	{
-		uint32_t minorVersion = NNumber(theTokens[1]).GetUInt32();
-		theVersion |= NOSVersion((minorVersion & 0xFF) * 0x100);
+		theVersion.SetMinor(NNumber(theTokens[1]).GetUInt8());
 	}
 
 	if (theTokens.size() > 2)
 	{
-		uint32_t patchVersion = NNumber(theTokens[2]).GetUInt32();
-		theVersion |= NOSVersion(patchVersion & 0xFF);
+		theVersion.SetPatch(NNumber(theTokens[2]).GetUInt8());
 	}
 
 	return theVersion;
