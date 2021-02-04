@@ -38,7 +38,7 @@ endif()
 #		Architecture
 #------------------------------------------------------------------------------
 set(NN_ARCH_ARM												0)
-set(NN_ARCH_INTEL											0)
+set(NN_ARCH_X86												0)
 
 if (NN_TARGET_ANDROID)
 	set(NN_ARCH_ARM											1)
@@ -47,16 +47,16 @@ elseif (NN_TARGET_IOS)
 	set(NN_ARCH_ARM											1)
 
 elseif (NN_TARGET_LINUX)
-	set(NN_ARCH_INTEL										1)
+	set(NN_ARCH_X86											1)
 
 elseif (NN_TARGET_MACOS)
-	set(NN_ARCH_INTEL										1)
+	set(NN_ARCH_X86											1)
 
 elseif (NN_TARGET_TVOS)
 	set(NN_ARCH_ARM											1)
 
 elseif (NN_TARGET_WINDOWS)
-	set(NN_ARCH_INTEL										1)
+	set(NN_ARCH_X86											1)
 
 else()
 	message(FATAL_ERROR "[Nano] Unable to identify target architecture")
