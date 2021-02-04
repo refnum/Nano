@@ -660,8 +660,6 @@
 		AB9155540F9B4DD6009FFEAF /* NNumber.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNumber.cpp; sourceTree = "<group>"; };
 		AB9155550F9B4DD6009FFEAF /* NNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNumber.h; sourceTree = "<group>"; };
 		AB9155590F9B4DD6009FFEAF /* NRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRange.h; sourceTree = "<group>"; };
-		AB91555C0F9B4DD6009FFEAF /* NRefCounted.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NRefCounted.cpp; sourceTree = "<group>"; };
-		AB91555D0F9B4DD6009FFEAF /* NRefCounted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRefCounted.h; sourceTree = "<group>"; };
 		AB91555E0F9B4DD6009FFEAF /* NSharedValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSharedValue.cpp; sourceTree = "<group>"; };
 		AB91555F0F9B4DD6009FFEAF /* NSharedValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSharedValue.h; sourceTree = "<group>"; };
 		AB91556B0F9B4DD6009FFEAF /* NFileUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFileUtilities.cpp; sourceTree = "<group>"; };
@@ -1650,8 +1648,6 @@
 				AB514F631035784000E5A6AD /* NPropertyStore.h */,
 				AB9155590F9B4DD6009FFEAF /* NRange.h */,
 				AB4E383423C8D9D50089B916 /* NRange.inl */,
-				AB91555C0F9B4DD6009FFEAF /* NRefCounted.cpp */,
-				AB91555D0F9B4DD6009FFEAF /* NRefCounted.h */,
 				AB91555E0F9B4DD6009FFEAF /* NSharedValue.cpp */,
 				AB91555F0F9B4DD6009FFEAF /* NSharedValue.h */,
 				ABB57CFD112ADBFA003D714C /* NSingleton.cpp */,
