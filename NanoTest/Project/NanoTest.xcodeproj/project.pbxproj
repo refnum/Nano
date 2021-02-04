@@ -271,7 +271,6 @@
 		AB514D6E1034184B00E5A6AD /* TDBHandlePool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDBHandlePool.cpp; sourceTree = "<group>"; };
 		AB514D711034184B00E5A6AD /* TBroadcaster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TBroadcaster.cpp; sourceTree = "<group>"; };
 		AB514D731034184B00E5A6AD /* TListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TListener.cpp; sourceTree = "<group>"; };
-		AB514D751034184B00E5A6AD /* TTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTimer.cpp; sourceTree = "<group>"; };
 		AB514D781034184B00E5A6AD /* TBundle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TBundle.cpp; sourceTree = "<group>"; };
 		AB514D7C1034184B00E5A6AD /* TFileMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileMap.cpp; sourceTree = "<group>"; };
 		AB514D7E1034184B00E5A6AD /* TPropertyList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPropertyList.cpp; sourceTree = "<group>"; };
@@ -592,7 +591,6 @@
 			children = (
 				AB514D711034184B00E5A6AD /* TBroadcaster.cpp */,
 				AB514D731034184B00E5A6AD /* TListener.cpp */,
-				AB514D751034184B00E5A6AD /* TTimer.cpp */,
 			);
 			path = Events;
 			sourceTree = "<group>";

@@ -28,14 +28,6 @@
 //----------------------------------------------------------------------------
 class NTargetTime {
 public:
-	// Manage timers
-	//
-	// Timers are always executed on the main thread.
-	static NTimerID						TimerCreate(const NTimerFunctor &theFunctor, NTime fireAfter, NTime fireEvery);
-	static void							TimerDestroy(NTimerID theTimer);
-	static void							TimerReset(  NTimerID theTimer, NTime fireAfter);
-
-
 	// Date/time conversion
 	//
 	// NTime values are always in UTC, relative to the Nano epoch, while gregorian

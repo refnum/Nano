@@ -406,8 +406,6 @@
 		AB1A789E103234BE00DFBA38 /* NUndoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUndoManager.h; sourceTree = "<group>"; };
 		AB1A789F103234BE00DFBA38 /* NUndoSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUndoSource.cpp; sourceTree = "<group>"; };
 		AB1A78A0103234BE00DFBA38 /* NUndoManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUndoManager.cpp; sourceTree = "<group>"; };
-		AB1A78CB1032398000DFBA38 /* NTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTimer.cpp; sourceTree = "<group>"; };
-		AB1A78CC1032398000DFBA38 /* NTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTimer.h; sourceTree = "<group>"; };
 		AB1A78FB103241C200DFBA38 /* NFileMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFileMap.cpp; sourceTree = "<group>"; };
 		AB1A78FC103241C200DFBA38 /* NFileMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileMap.h; sourceTree = "<group>"; };
 		AB1A7934103248AF00DFBA38 /* NThreadTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NThreadTask.cpp; sourceTree = "<group>"; };
@@ -1435,8 +1433,6 @@
 				AB9155120F9B4DD5009FFEAF /* NBroadcaster.h */,
 				AB9155130F9B4DD5009FFEAF /* NListener.cpp */,
 				AB9155140F9B4DD5009FFEAF /* NListener.h */,
-				AB1A78CB1032398000DFBA38 /* NTimer.cpp */,
-				AB1A78CC1032398000DFBA38 /* NTimer.h */,
 			);
 			path = Events;
 			sourceTree = "<group>";
