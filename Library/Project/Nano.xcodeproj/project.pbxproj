@@ -528,10 +528,6 @@
 		AB4AF54E2422FEC600E665D4 /* NFileScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileScanner.h; sourceTree = "<group>"; };
 		AB4E383423C8D9D50089B916 /* NRange.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NRange.inl; sourceTree = "<group>"; };
 		AB4E546423FD2AE60004BC30 /* NStringEncoder.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NStringEncoder.inl; sourceTree = "<group>"; };
-		AB4EA38B1009B16500E7B73C /* NTargetPOSIX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetPOSIX.h; sourceTree = "<group>"; };
-		AB4EA38C1009B16D00E7B73C /* NMacPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacPOSIX.cpp; sourceTree = "<group>"; };
-		AB4EA38E1009B17400E7B73C /* NIOSPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSPOSIX.cpp; sourceTree = "<group>"; };
-		AB4EA3901009B17C00E7B73C /* NWinPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinPOSIX.cpp; sourceTree = "<group>"; };
 		AB4EB4BE2430EE0F00D36016 /* NFilePath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFilePath.cpp; sourceTree = "<group>"; };
 		AB4EB4BF2430EE0F00D36016 /* NFilePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFilePath.h; sourceTree = "<group>"; };
 		AB4EB4C72430F3AF00D36016 /* NFormat.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NFormat.inl; sourceTree = "<group>"; };
@@ -564,7 +560,6 @@
 		AB54F9AC23EF14A7005207BC /* NStringComparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStringComparator.h; sourceTree = "<group>"; };
 		AB555161173FF8D8008D8AF6 /* NLinuxFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxFile.cpp; sourceTree = "<group>"; };
 		AB555163173FF8D8008D8AF6 /* NLinuxNetwork.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxNetwork.cpp; sourceTree = "<group>"; };
-		AB555164173FF8D8008D8AF6 /* NLinuxPOSIX.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxPOSIX.cpp; sourceTree = "<group>"; };
 		AB555165173FF8D8008D8AF6 /* NLinuxPreferences.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxPreferences.cpp; sourceTree = "<group>"; };
 		AB555166173FF8D8008D8AF6 /* NLinuxSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxSystem.cpp; sourceTree = "<group>"; };
 		AB555167173FF8D8008D8AF6 /* NLinuxTarget.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxTarget.cpp; sourceTree = "<group>"; };
@@ -1198,7 +1193,6 @@
 				AB07EA282399D3DB00E0AC49 /* LinuxNTimeUtils.cpp */,
 				AB555161173FF8D8008D8AF6 /* NLinuxFile.cpp */,
 				AB555163173FF8D8008D8AF6 /* NLinuxNetwork.cpp */,
-				AB555164173FF8D8008D8AF6 /* NLinuxPOSIX.cpp */,
 				AB555165173FF8D8008D8AF6 /* NLinuxPreferences.cpp */,
 				AB555166173FF8D8008D8AF6 /* NLinuxSystem.cpp */,
 				AB555167173FF8D8008D8AF6 /* NLinuxTarget.cpp */,
@@ -1494,7 +1488,6 @@
 			children = (
 				AB9155280F9B4DD6009FFEAF /* NTargetFile.h */,
 				AB481C2312A531220052C55F /* NTargetNetwork.h */,
-				AB4EA38B1009B16500E7B73C /* NTargetPOSIX.h */,
 				ABB146540FF37315006F178C /* NTargetPreferences.h */,
 				AB91552B0F9B4DD6009FFEAF /* NTargetSystem.h */,
 				AB91552D0F9B4DD6009FFEAF /* NTargetTime.h */,
@@ -1526,7 +1519,6 @@
 				AB0DBE7223999B8200F6AD43 /* macOSNTimeUtils.cpp */,
 				AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */,
 				AB481C2212A531220052C55F /* NMacNetwork.cpp */,
-				AB4EA38C1009B16D00E7B73C /* NMacPOSIX.cpp */,
 				ABB146560FF37325006F178C /* NMacPreferences.cpp */,
 				AB9155220F9B4DD6009FFEAF /* NMacSystem.cpp */,
 				AB9155230F9B4DD6009FFEAF /* NMacTarget.cpp */,
@@ -1553,7 +1545,6 @@
 				AB07EA2C2399D3F900E0AC49 /* WindowsNTimeUtils.cpp */,
 				AB9155300F9B4DD6009FFEAF /* NWinFile.cpp */,
 				AB481C3912A5315E0052C55F /* NWinNetwork.cpp */,
-				AB4EA3901009B17C00E7B73C /* NWinPOSIX.cpp */,
 				ABB146550FF37321006F178C /* NWinPreferences.cpp */,
 				AB9155330F9B4DD6009FFEAF /* NWinSystem.cpp */,
 				AB9155340F9B4DD6009FFEAF /* NWinTarget.cpp */,
@@ -1723,7 +1714,6 @@
 				AB07EA262399D3D000E0AC49 /* iOSNTimeUtils.cpp */,
 				ABB95B750FB7250100C5A7FF /* NIOSFile.cpp */,
 				AB481C2112A531220052C55F /* NIOSNetwork.cpp */,
-				AB4EA38E1009B17400E7B73C /* NIOSPOSIX.cpp */,
 				ABB146580FF3732E006F178C /* NIOSPreferences.cpp */,
 				ABB95B780FB7250100C5A7FF /* NIOSSystem.cpp */,
 				ABB95B790FB7250100C5A7FF /* NIOSTarget.cpp */,
