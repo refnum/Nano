@@ -638,8 +638,6 @@
 		AB9155340F9B4DD6009FFEAF /* NWinTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinTarget.cpp; sourceTree = "<group>"; };
 		AB9155350F9B4DD6009FFEAF /* NWinTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NWinTarget.h; sourceTree = "<group>"; };
 		AB9155370F9B4DD6009FFEAF /* NWinTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinTime.cpp; sourceTree = "<group>"; };
-		AB91553B0F9B4DD6009FFEAF /* NLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NLock.cpp; sourceTree = "<group>"; };
-		AB91553C0F9B4DD6009FFEAF /* NLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLock.h; sourceTree = "<group>"; };
 		AB91553E0F9B4DD6009FFEAF /* NArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NArray.cpp; sourceTree = "<group>"; };
 		AB91553F0F9B4DD6009FFEAF /* NArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NArray.h; sourceTree = "<group>"; };
 		AB9155400F9B4DD6009FFEAF /* NBitVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NBitVector.cpp; sourceTree = "<group>"; };
@@ -1559,8 +1557,6 @@
 			children = (
 				AB23BB39102B6565009CA347 /* NAtomicList.cpp */,
 				AB23BB3A102B6565009CA347 /* NAtomicList.h */,
-				AB91553B0F9B4DD6009FFEAF /* NLock.cpp */,
-				AB91553C0F9B4DD6009FFEAF /* NLock.h */,
 				ABC75E5D1753910100BB5983 /* NMutex.cpp */,
 				ABC75E5E1753910100BB5983 /* NMutex.h */,
 				ABB3379923A03F54000B81B0 /* NMutex.inl */,

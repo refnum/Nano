@@ -281,7 +281,6 @@
 		AB514D8D1034184B00E5A6AD /* TXMLNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TXMLNode.cpp; sourceTree = "<group>"; };
 		AB514D8F1034184B00E5A6AD /* TXMLParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TXMLParser.cpp; sourceTree = "<group>"; };
 		AB514D941034184B00E5A6AD /* TAtomicList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TAtomicList.cpp; sourceTree = "<group>"; };
-		AB514D961034184B00E5A6AD /* TLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLock.cpp; sourceTree = "<group>"; };
 		AB514D981034184B00E5A6AD /* TSemaphore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSemaphore.cpp; sourceTree = "<group>"; };
 		AB514D9A1034184B00E5A6AD /* TThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TThread.cpp; sourceTree = "<group>"; };
 		AB514D9C1034184B00E5A6AD /* TThreadPool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TThreadPool.cpp; sourceTree = "<group>"; };
@@ -643,7 +642,6 @@
 			isa = PBXGroup;
 			children = (
 				AB514D941034184B00E5A6AD /* TAtomicList.cpp */,
-				AB514D961034184B00E5A6AD /* TLock.cpp */,
 				ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */,
 				ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */,
 				AB19811C259953C8002C5591 /* TRunLoop.cpp */,
