@@ -61,7 +61,7 @@
 // RunLoop work
 using NRunLoopWorkID                                        = uint32_t;
 
-static constexpr NRunLoopWorkID NRunLoopWorkNone            = 0;
+inline constexpr NRunLoopWorkID NRunLoopWorkNone            = 0;
 
 
 

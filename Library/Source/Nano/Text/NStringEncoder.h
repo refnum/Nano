@@ -69,19 +69,19 @@
 // in the input string.
 using NStringEncoderFlags                                   = uint8_t;
 
-static constexpr NStringEncoderFlags kNStringEncoderNone                = 0;
-static constexpr NStringEncoderFlags kNStringEncoderRemoveBOM           = (1 << 0);
-static constexpr NStringEncoderFlags kNStringEncoderRemoveTerminator    = (1 << 1);
-static constexpr NStringEncoderFlags kNStringEncoderAddBOM              = (1 << 2);
-static constexpr NStringEncoderFlags kNStringEncoderAddTerminator       = (1 << 3);
+inline constexpr NStringEncoderFlags kNStringEncoderNone                = 0;
+inline constexpr NStringEncoderFlags kNStringEncoderRemoveBOM           = (1 << 0);
+inline constexpr NStringEncoderFlags kNStringEncoderRemoveTerminator    = (1 << 1);
+inline constexpr NStringEncoderFlags kNStringEncoderAddBOM              = (1 << 2);
+inline constexpr NStringEncoderFlags kNStringEncoderAddTerminator       = (1 << 3);
 
-static constexpr NStringEncoderFlags kNStringEncoderBOM =
+inline constexpr NStringEncoderFlags kNStringEncoderBOM =
 	kNStringEncoderRemoveBOM | kNStringEncoderAddBOM;
 
-static constexpr NStringEncoderFlags kNStringEncoderTerminator =
+inline constexpr NStringEncoderFlags kNStringEncoderTerminator =
 	kNStringEncoderRemoveTerminator | kNStringEncoderAddTerminator;
 
-static constexpr NStringEncoderFlags kNStringEncoderBOMTerminator =
+inline constexpr NStringEncoderFlags kNStringEncoderBOMTerminator =
 	kNStringEncoderBOM | kNStringEncoderTerminator;
 
 

@@ -64,7 +64,7 @@ using NFileHandleRef = void*;
 //		Constants
 //-----------------------------------------------------------------------------
 // Native file handle
-static constexpr NFileHandleRef kNFileHandleNone = nullptr;
+inline constexpr NFileHandleRef kNFileHandleNone = nullptr;
 
 
 // File access
@@ -117,10 +117,10 @@ enum class NFileAccess
 //
 using NFileFlags                                            = uint8_t;
 
-static constexpr NFileFlags kNFileDefault                   = 0;
-static constexpr NFileFlags kNFileWillRead                  = (1 << 1);
-static constexpr NFileFlags kNFilePositionSequential        = (1 << 2);
-static constexpr NFileFlags kNFilePositionRandom            = (1 << 3);
+inline constexpr NFileFlags kNFileDefault                   = 0;
+inline constexpr NFileFlags kNFileWillRead                  = (1 << 1);
+inline constexpr NFileFlags kNFilePositionSequential        = (1 << 2);
+inline constexpr NFileFlags kNFilePositionRandom            = (1 << 3);
 
 
 // File offsets

@@ -52,10 +52,10 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr uint8_t kNDataFlagIsLarge                  = 0b10000000;
-static constexpr uint8_t kNDataFlagSmallSizeMask            = 0b00011111;
+inline constexpr uint8_t kNDataFlagIsLarge                  = 0b10000000;
+inline constexpr uint8_t kNDataFlagSmallSizeMask            = 0b00011111;
 
-static constexpr uint8_t kNDataSmallSizeMax                 = 27;
+inline constexpr uint8_t kNDataSmallSizeMax                 = 27;
 
 
 

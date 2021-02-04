@@ -93,18 +93,18 @@ enum class NStringEncoding
 
 
 // Replacements
-static constexpr utf32_t kNUTF32Replacement                 = 0xFFFD;
-static constexpr char    kNASCIIReplacement                 = '?';
+inline constexpr utf32_t kNUTF32Replacement                 = 0xFFFD;
+inline constexpr char    kNASCIIReplacement                 = '?';
 
 
 // Misc
-static constexpr utf8_t  kNUTF8VariableWidth                = utf8_t(0x80U);
-static constexpr utf16_t kNUTF16SurrogatesStart             = utf16_t(0xD800);
-static constexpr utf16_t kNUTF16SurrogatesEnd               = utf16_t(0xDFFF);
-static constexpr utf16_t kNUTF16SurrogateHiStart            = utf16_t(0xD800);
-static constexpr utf16_t kNUTF16SurrogateHiEnd              = utf16_t(0xDBFF);
-static constexpr utf16_t kNUTF16SurrogateLoStart            = utf16_t(0xDC00);
-static constexpr utf16_t kNUTF16SurrogateLoEnd              = utf16_t(0xDFFF);
+inline constexpr utf8_t  kNUTF8VariableWidth                = utf8_t(0x80U);
+inline constexpr utf16_t kNUTF16SurrogatesStart             = utf16_t(0xD800);
+inline constexpr utf16_t kNUTF16SurrogatesEnd               = utf16_t(0xDFFF);
+inline constexpr utf16_t kNUTF16SurrogateHiStart            = utf16_t(0xD800);
+inline constexpr utf16_t kNUTF16SurrogateHiEnd              = utf16_t(0xDBFF);
+inline constexpr utf16_t kNUTF16SurrogateLoStart            = utf16_t(0xDC00);
+inline constexpr utf16_t kNUTF16SurrogateLoEnd              = utf16_t(0xDFFF);
 
 
 

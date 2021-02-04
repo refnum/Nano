@@ -53,13 +53,13 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr uint8_t kNStringFlagIsLarge                = 0b10000000;
-static constexpr uint8_t kNStringFlagIsSmallUTF16           = 0b01000000;
-static constexpr uint8_t kNStringFlagCreatedSmall           = 0b00100000;
-static constexpr uint8_t kNStringFlagSmallSizeMask          = 0b00011111;
+inline constexpr uint8_t kNStringFlagIsLarge                = 0b10000000;
+inline constexpr uint8_t kNStringFlagIsSmallUTF16           = 0b01000000;
+inline constexpr uint8_t kNStringFlagCreatedSmall           = 0b00100000;
+inline constexpr uint8_t kNStringFlagSmallSizeMask          = 0b00011111;
 
-static constexpr uint8_t kNStringSmallSizeMaxUTF8           = 26;
-static constexpr uint8_t kNStringSmallSizeMaxUTF16          = 12;
+inline constexpr uint8_t kNStringSmallSizeMaxUTF8           = 26;
+inline constexpr uint8_t kNStringSmallSizeMaxUTF16          = 12;
 
 
 

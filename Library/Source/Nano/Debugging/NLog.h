@@ -59,8 +59,8 @@
 //		Constants
 //-----------------------------------------------------------------------------
 // Misc
-static constexpr size_t kNLogMessageMax                     = 8 * kNKibibyte;
-static constexpr size_t kNLogSourceMax                      = 128;
+inline constexpr size_t kNLogMessageMax                     = 8 * kNKibibyte;
+inline constexpr size_t kNLogSourceMax                      = 128;
 
 
 

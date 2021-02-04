@@ -56,7 +56,7 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr uintptr_t kNThreadIDNone                   = 0;
+inline constexpr uintptr_t kNThreadIDNone                   = 0;
 
 
 

@@ -59,15 +59,15 @@
 //
 // The Nano epoch starts at 00:00:00 on 2001/01/01 in UTC.
 //
-static constexpr NInterval kNanoEpochTo2001                 = 0.0;              // Darwin
-static constexpr NInterval kNanoEpochTo1970                 = 978307200.0;      // Unix
-static constexpr NInterval kNanoEpochTo1904                 = 3061152000.0;     // Mac OS 9
-static constexpr NInterval kNanoEpochTo1601                 = 12622780800.0;    // Windows
+inline constexpr NInterval kNanoEpochTo2001                 = 0.0;              // Darwin
+inline constexpr NInterval kNanoEpochTo1970                 = 978307200.0;      // Unix
+inline constexpr NInterval kNanoEpochTo1904                 = 3061152000.0;     // Mac OS 9
+inline constexpr NInterval kNanoEpochTo1601                 = 12622780800.0;    // Windows
 
-static constexpr NInterval kNanoEpochFrom2001               = -kNanoEpochTo2001;    // Darwin
-static constexpr NInterval kNanoEpochFrom1970               = -kNanoEpochTo1970;    // Unix
-static constexpr NInterval kNanoEpochFrom1904               = -kNanoEpochTo1904;    // Mac OS 9
-static constexpr NInterval kNanoEpochFrom1601               = -kNanoEpochTo1601;    // Windows
+inline constexpr NInterval kNanoEpochFrom2001               = -kNanoEpochTo2001;    // Darwin
+inline constexpr NInterval kNanoEpochFrom1970               = -kNanoEpochTo1970;    // Unix
+inline constexpr NInterval kNanoEpochFrom1904               = -kNanoEpochTo1904;    // Mac OS 9
+inline constexpr NInterval kNanoEpochFrom1601               = -kNanoEpochTo1601;    // Windows
 
 
 

@@ -61,7 +61,7 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr size_t kNSpinLockLoopsYield                = 1000;
+inline constexpr size_t kNSpinLockLoopsYield                = 1000;
 
 
 

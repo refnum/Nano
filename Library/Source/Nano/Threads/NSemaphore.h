@@ -64,7 +64,7 @@ class NMutex;
 //		Constants
 //-----------------------------------------------------------------------------
 // Native semaphore
-static constexpr NSemaphoreRef kNSemaphoreNone = nullptr;
+inline constexpr NSemaphoreRef kNSemaphoreNone = nullptr;
 
 
 

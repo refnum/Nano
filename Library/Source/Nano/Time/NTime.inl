@@ -49,7 +49,7 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr NInterval kNTimeMaxUInt64                  = NInterval(kNUInt64Max);
+inline constexpr NInterval kNTimeMaxUInt64                  = NInterval(kNUInt64Max);
 
 
 

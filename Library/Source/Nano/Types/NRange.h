@@ -185,8 +185,8 @@ private:
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-static constexpr NRange kNRangeNone(  kNNotFound, 0);
-static constexpr NRange kNRangeAll(0, kNNotFound);
+inline constexpr NRange kNRangeNone(  kNNotFound, 0);
+inline constexpr NRange kNRangeAll(0, kNNotFound);
 
 
 

@@ -54,7 +54,7 @@
 // "None" hash
 //
 // The hash of nothing is always kNHashNone.
-static constexpr size_t kNHashNone                          = 0;
+inline constexpr size_t kNHashNone                          = 0;
 
 
 

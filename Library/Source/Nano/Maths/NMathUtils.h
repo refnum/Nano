@@ -51,20 +51,20 @@
 //		Constants
 //-----------------------------------------------------------------------------
 // Standard constants
-static constexpr float64_t kNE                              = 2.718281828459045235360;     // e
-static constexpr float64_t kNLog2E                          = 1.442695040888963407360;     // log2(e)
-static constexpr float64_t kNLog10E                         = 0.434294481903251827651;     // log10(e)
-static constexpr float64_t kNPi                             = 3.141592653589793238460;     // pi
-static constexpr float64_t kNInvPi                          = 0.318309886183790671538;     // 1/pi
-static constexpr float64_t kNInvSqrtPi                      = 0.564189583547756286948;     // 1/sqrt(pi)
-static constexpr float64_t kNLn2                            = 0.693147180559945309417;     // ln(2)
-static constexpr float64_t kNLn10                           = 2.302585092994045684020;     // ln(10)
-static constexpr float64_t kNSqrt2                          = 1.4142135623730950488016;    // sqrt(2)
-static constexpr float64_t kNInvSqrt2                       = 0.7071067811865475244008;    // 1/sqrt(2)
-static constexpr float64_t kNSqrt3                          = 1.7320508075688772935274;    // sqrt(3)
-static constexpr float64_t kNInvSqrt3                       = 0.5773502691896257645091;    // 1/sqrt(3)
-static constexpr float64_t kNEGamma                         = 0.577215664901532860606;     // Euler–Mascheroni constant
-static constexpr float64_t kNPhi                            = 1.618033988749894848204;     // phi
+inline constexpr float64_t kNE                              = 2.718281828459045235360;     // e
+inline constexpr float64_t kNLog2E                          = 1.442695040888963407360;     // log2(e)
+inline constexpr float64_t kNLog10E                         = 0.434294481903251827651;     // log10(e)
+inline constexpr float64_t kNPi                             = 3.141592653589793238460;     // pi
+inline constexpr float64_t kNInvPi                          = 0.318309886183790671538;     // 1/pi
+inline constexpr float64_t kNInvSqrtPi                      = 0.564189583547756286948;     // 1/sqrt(pi)
+inline constexpr float64_t kNLn2                            = 0.693147180559945309417;     // ln(2)
+inline constexpr float64_t kNLn10                           = 2.302585092994045684020;     // ln(10)
+inline constexpr float64_t kNSqrt2                          = 1.4142135623730950488016;    // sqrt(2)
+inline constexpr float64_t kNInvSqrt2                       = 0.7071067811865475244008;    // 1/sqrt(2)
+inline constexpr float64_t kNSqrt3                          = 1.7320508075688772935274;    // sqrt(3)
+inline constexpr float64_t kNInvSqrt3                       = 0.5773502691896257645091;    // 1/sqrt(3)
+inline constexpr float64_t kNEGamma                         = 0.577215664901532860606;     // Euler–Mascheroni constant
+inline constexpr float64_t kNPhi                            = 1.618033988749894848204;     // phi
 
 
 

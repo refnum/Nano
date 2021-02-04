@@ -64,27 +64,27 @@
 // String flags
 using NStringFlags                                          = uint8_t;
 
-static constexpr NStringFlags kNStringNone                  = 0;
-static constexpr NStringFlags kNStringNoCase                = (1 << 0);
-static constexpr NStringFlags kNStringNumeric               = (1 << 1);
-static constexpr NStringFlags kNStringPattern               = (1 << 2);
-static constexpr NStringFlags kNStringMultiLine             = (1 << 3);
+inline constexpr NStringFlags kNStringNone                  = 0;
+inline constexpr NStringFlags kNStringNoCase                = (1 << 0);
+inline constexpr NStringFlags kNStringNumeric               = (1 << 1);
+inline constexpr NStringFlags kNStringPattern               = (1 << 2);
+inline constexpr NStringFlags kNStringMultiLine             = (1 << 3);
 
-static constexpr NStringFlags kNStringPatternNoCase         = kNStringPattern | kNStringNoCase;
+inline constexpr NStringFlags kNStringPatternNoCase         = kNStringPattern | kNStringNoCase;
 
 
 // Transform flags
 using NStringTransform                                      = uint8_t;
 
-static constexpr NStringTransform kNStringTransformNone                 = 0;
-static constexpr NStringTransform kNStringTransformToLower              = (1 << 0);
-static constexpr NStringTransform kNStringTransformToUpper              = (1 << 1);
-static constexpr NStringTransform kNStringTransformCapitalizeWords      = (1 << 2);
-static constexpr NStringTransform kNStringTransformCapitalizeSentences  = (1 << 3);
+inline constexpr NStringTransform kNStringTransformNone                 = 0;
+inline constexpr NStringTransform kNStringTransformToLower              = (1 << 0);
+inline constexpr NStringTransform kNStringTransformToUpper              = (1 << 1);
+inline constexpr NStringTransform kNStringTransformCapitalizeWords      = (1 << 2);
+inline constexpr NStringTransform kNStringTransformCapitalizeSentences  = (1 << 3);
 
 
 // Strings
-static constexpr const char* kNStringWhitespace             = "\\s+";
+inline constexpr const char* kNStringWhitespace             = "\\s+";
 
 
 

@@ -59,8 +59,8 @@
 // Limits
 //
 // The maximum integer values that can be round-tripped to a real value.
-static constexpr float64_t kNIntegerSafeMin                 = -9007199254740991.0;
-static constexpr float64_t kNIntegerSafeMax                 = 9007199254740991.0;
+inline constexpr float64_t kNIntegerSafeMin                 = -9007199254740991.0;
+inline constexpr float64_t kNIntegerSafeMax                 = 9007199254740991.0;
 
 
 
