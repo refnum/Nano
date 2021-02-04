@@ -42,6 +42,7 @@
 #include "NSystem.h"
 
 // Nano
+#include "NFormat.h"
 #include "NSharedLinux.h"
 
 // System
@@ -105,4 +106,40 @@ NOSVersion NSystem::GetVersion()
 	theVersion |= NOSVersion((osVersion.patchVersion & 0xFF));
 
 	return theVersion;
+}
+
+
+
+
+
+//=============================================================================
+//		NSystem::SystemName : Get the OS name.
+//-----------------------------------------------------------------------------
+NString NSystem::SystemName(NOSName theName)
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(theName == NOSName::Build || theName == NOSName::Maximum);
+
+
+
+	// Get the state we need
+	NString fullVersion = NSharedLinux::GetProcFile(NFilePath("/proc/version"));
+
+
+
+	// Get the name
+	NString theText;
+
+	if (theName == NOSName::Build)
+	{
+		theText = fullVersion.GetMatch("Linux version .*?-(.*?) ");
+	}
+	else
+	{
+		theText = NFormat("{} [{}]", NSystem::GetName(NOSName::Detailed), fullVersion);
+	}
+
+	return theText;
 }

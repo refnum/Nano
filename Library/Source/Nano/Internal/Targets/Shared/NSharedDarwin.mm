@@ -44,6 +44,7 @@
 // Nano
 #include "NData.h"
 #include "NDebug.h"
+#include "NFormat.h"
 #include "NSharedPOSIX.h"
 #include "NString.h"
 #include "NTimeUtils.h"
@@ -1171,6 +1172,39 @@ NOSVersion NSharedDarwin::SystemVersion()
 	}
 
 	return theVersion;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::SystemName : Get the OS name.
+//-----------------------------------------------------------------------------
+NString NSharedDarwin::SystemName(NOSName theName)
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(theName == NOSName::Build || theName == NOSName::Maximum);
+
+
+
+	// Get the name
+	NString theText;
+
+	if (theName == NOSName::Build)
+	{
+		theText = GetSysctl<NString>("kern.osversion");
+	}
+	else
+	{
+		theText = NFormat("{} [{}]",
+						  NSystem::GetName(NOSName::Detailed),
+						  GetSysctl<NString>("kern.version"));
+	}
+
+	return theText;
 }
 
 

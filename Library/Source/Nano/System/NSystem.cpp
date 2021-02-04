@@ -41,6 +41,9 @@
 //-----------------------------------------------------------------------------
 #include "NSystem.h"
 
+// Nano
+#include "NFormat.h"
+
 
 
 
@@ -74,6 +77,90 @@ NString NSystem::GetEnv(const NString& theName)
 	}
 
 	return theValue;
+}
+
+
+
+
+
+//=============================================================================
+//		NSystem::GetName : Get the OS name.
+//-----------------------------------------------------------------------------
+NString NSystem::GetName(NOSName theName)
+{
+
+
+	// Get the name
+	NString theText;
+
+	switch (theName)
+	{
+		case NOSName::Platform:
+			if (NN_TARGET_ANDROID)
+			{
+				theText = "Android";
+			}
+			else if (NN_TARGET_IOS)
+			{
+				theText = "iOS";
+			}
+			else if (NN_TARGET_LINUX)
+			{
+				theText = "Linux";
+			}
+			else if (NN_TARGET_MACOS)
+			{
+				theText = "macOS";
+			}
+			else if (NN_TARGET_TVOS)
+			{
+				theText = "tvOS";
+			}
+			else if (NN_TARGET_WINDOWS)
+			{
+				theText = "Windows";
+			}
+			break;
+
+
+		case NOSName::Version:
+		{
+			NOSVersion theVersion = GetVersion();
+
+			theText = NFormat("{}.{}.{}",
+							  uint8_t(theVersion >> 16),
+							  uint8_t(theVersion >> 8),
+							  uint8_t(theVersion >> 0));
+
+			if (theText.EndsWith(".0"))
+			{
+				theText.RemoveSuffix(2);
+			}
+		}
+		break;
+
+
+		case NOSName::Short:
+			theText = NFormat("{} {}", GetName(NOSName::Platform), GetName(NOSName::Version));
+			break;
+
+
+		case NOSName::Detailed:
+			NN_DIAGNOSTIC_IGNORE_MSVC(4840);
+			theText = NFormat("{} {} ({})",
+							  GetName(NOSName::Platform),
+							  GetName(NOSName::Version),
+							  GetName(NOSName::Build));
+			break;
+
+
+		case NOSName::Build:
+		case NOSName::Maximum:
+			theText = SystemName(theName);
+			break;
+	}
+
+	return theText;
 }
 
 

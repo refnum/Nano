@@ -121,6 +121,7 @@ public:
 	// System
 	static size_t                       SystemPageSize();
 	static NOSVersion                   SystemVersion();
+	static NString                      SystemName(NOSName theName);
 
 
 	// Machine

@@ -41,6 +41,10 @@
 //-----------------------------------------------------------------------------
 #include "NSystem.h"
 
+// Nano
+#include "NFormat.h"
+#include "NSharedWindows.h"
+
 // System
 #include <VersionHelpers.h>
 #include <Windows.h>
@@ -102,4 +106,64 @@ NOSVersion NSystem::GetVersion()
 	}
 
 	return theVersion;
+}
+
+
+
+
+
+//=============================================================================
+//		NSystem::SystemName : Get the OS name.
+//-----------------------------------------------------------------------------
+NString NSystem::SystemName(NOSName theName)
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(theName == NOSName::Build || theName == NOSName::Maximum);
+
+
+
+	// Get the state we need
+	NN_DIAGNOSTIC_PUSH();
+	NN_DIAGNOSTIC_IGNORE_MSVC(4996);    // Deprecated function
+
+	OSVERSIONINFOEX theInfo{};
+	theInfo.dwOSVersionInfoSize = sizeof(theInfo);
+
+	BOOL wasOK = GetVersionEx((LPOSVERSIONINFO) &theInfo);
+	NN_EXPECT(wasOK);
+
+	NN_DIAGNOSTIC_POP();
+
+
+
+	// Get the name
+	NString theText;
+
+	if (wasOK)
+	{
+		if (theName == NOSName::Build)
+		{
+			theText = NFormat("{}", theInfo.dwBuildNumber);
+		}
+		else
+		{
+			NString csdVersion = NSharedWindows::ToString(theInfo.szCSDVersion);
+			if (!csdVersion.IsEmpty())
+			{
+				csdVersion += " ";
+			}
+
+			NN_DIAGNOSTIC_IGNORE_MSVC(4840);
+			theText = NFormat("{} [{}{}.{}-{}]",
+							  NSystem::GetName(NOSName::Detailed),
+							  csdVersion,
+							  theInfo.wServicePackMajor,
+							  theInfo.wServicePackMinor,
+							  theInfo.wProductType);
+		}
+	}
+
+	return theText;
 }

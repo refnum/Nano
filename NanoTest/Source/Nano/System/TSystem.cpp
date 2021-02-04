@@ -104,6 +104,26 @@ NANO_TEST(TSystem, "GetVersion")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TSystem, "GetName")
+{
+
+
+	// Perform the test
+	REQUIRE(!NSystem::GetName(NOSName::Platform).IsEmpty());
+	REQUIRE(!NSystem::GetName(NOSName::Version).IsEmpty());
+	REQUIRE(!NSystem::GetName(NOSName::Build).IsEmpty());
+	REQUIRE(!NSystem::GetName(NOSName::Short).IsEmpty());
+	REQUIRE(!NSystem::GetName(NOSName::Detailed).IsEmpty());
+	REQUIRE(!NSystem::GetName(NOSName::Maximum).IsEmpty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TSystem, "CompareVersions")
 {
 

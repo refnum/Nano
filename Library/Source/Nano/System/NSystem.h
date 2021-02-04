@@ -105,6 +105,23 @@ inline constexpr NOSVersion kNOSWindows_8                   = 0x60080000;
 inline constexpr NOSVersion kNOSWindows_10                  = 0x600a0000;
 
 
+// OS name
+//
+// An NOSName represents a formatted name for an OS.
+//
+// The structure of OS names may vary per platform, and over time.
+enum class NOSName
+{
+	Platform,    // "macOS"
+	Version,     // "11.1
+	Build,       // "20C69"
+
+	Short,       // "macOS 11.1"
+	Detailed,    // "macOS 11.1 (20C69)"
+	Maximum,     // "macOS 11.1 (20C69) [Darwin Kernel Version...]"
+};
+
+
 
 
 
@@ -136,11 +153,17 @@ public:
 	static NOSVersion                   GetVersion();
 
 
+	// Get the name
+	static NString                      GetName(NOSName theName = NOSName::Short);
+
+
 	// Compare two versions
 	static NComparison                  CompareVersions(const NString& versionA, const NString& versionB);
 
 
 private:
+	static NString                      SystemName(NOSName theName);
+
 	static NVectorString                GetVersionParts(const NString& theVersion);
 	static NVersionPart                 GetPartType(    const NString& thePart);
 };

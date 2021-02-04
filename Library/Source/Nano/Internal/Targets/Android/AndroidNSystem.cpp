@@ -126,3 +126,36 @@ NOSVersion NSystem::GetVersion()
 
 	return theVersion;
 }
+
+
+
+
+
+//=============================================================================
+//		NSystem::SystemName : Get the OS name.
+//-----------------------------------------------------------------------------
+NString NSystem::SystemName(NOSName theName)
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(theName == NOSName::Build || theName == NOSName::Maximum);
+
+
+
+	// Get the name
+	NString theText;
+
+	if (theName == NOSName::Build)
+	{
+		theText = GetSystemProperty("ro.build.version.incremental");
+	}
+	else
+	{
+		theText = NFormat("{} [{}]",
+						  NSystem::GetName(NOSName::Detailed),
+						  GetSystemProperty("ro.build.version.base_os"));
+	}
+
+	return theText;
+}

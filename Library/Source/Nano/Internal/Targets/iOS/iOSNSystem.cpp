@@ -73,3 +73,18 @@ NOSVersion NSystem::GetVersion()
 	// Get the version
 	return NSharedDarwin::SystemVersion();
 }
+
+
+
+
+
+//=============================================================================
+//		NSystem::SystemName : Get the OS name.
+//-----------------------------------------------------------------------------
+NString NSystem::SystemName(NOSName theName)
+{
+
+
+	// Get the version
+	return NSharedDarwin::SystemName(theName);
+}
