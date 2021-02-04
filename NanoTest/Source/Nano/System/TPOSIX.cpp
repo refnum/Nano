@@ -58,43 +58,6 @@ NANO_FIXTURE(TPOSIX){};
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TPOSIX, "getenv")
-{
-
-
-	// Perform the test
-	NString theValue = NPOSIX::getenv("PATH");
-	REQUIRE(!theValue.IsEmpty());
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TPOSIX, "setenv")
-{
-
-
-	// Perform the test
-	NString theName  = "TPOSIX_setenv";
-	NString theValue = "0123456789";
-
-	REQUIRE(NPOSIX::getenv(theName) == "");
-
-	NPOSIX::setenv(theName, theValue);
-	REQUIRE(NPOSIX::getenv(theName) == theValue);
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
 NANO_TEST(TPOSIX, "gmtime")
 {
 

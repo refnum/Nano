@@ -60,60 +60,6 @@
 
 
 //=============================================================================
-//		NPOSIX::getenv : Get an environment variable.
-//-----------------------------------------------------------------------------
-NString NPOSIX::getenv(const NString& theName)
-{
-
-
-	// Get the value
-	NString theValue;
-
-#if NN_TARGET_WINDOWS
-	const wchar_t* winName  = reinterpret_cast<const wchar_t*>(theName.GetUTF16());
-	const wchar_t* winValue = _wgetenv(winName);
-	if (winValue != nullptr)
-	{
-		const utf16_t* envValue = reinterpret_cast<const utf16_t*>(winValue);
-		theValue                = NString(envValue);
-	}
-#else
-	const utf8_t* envValue = ::getenv(theName.GetUTF8());
-	if (envValue != nullptr)
-	{
-		theValue = envValue;
-	}
-#endif
-
-	return theValue;
-}
-
-
-
-
-
-//=============================================================================
-//		NPOSIX::setenv : Set an environment variable.
-//-----------------------------------------------------------------------------
-void NPOSIX::setenv(const NString& theName, const NString& theValue)
-{
-#if NN_TARGET_WINDOWS
-	NString nameValue = theName + "=" + theValue;
-
-	int sysErr = _wputenv(reinterpret_cast<const wchar_t*>(nameValue.GetUTF16()));
-	NN_EXPECT_NOT_ERR(sysErr);
-
-#else
-	int sysErr = ::setenv(theName.GetUTF8(), theValue.GetUTF8(), 1);
-	NN_EXPECT_NOT_ERR(sysErr);
-#endif
-}
-
-
-
-
-
-//=============================================================================
 //		NPOSIX::gmtime : Convert a time_t to a struct tm in GMT (UTC).
 //-----------------------------------------------------------------------------
 struct tm NPOSIX::gmtime(time_t timeUnix)

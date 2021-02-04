@@ -42,9 +42,9 @@
 #include "NFileUtils.h"
 
 // Nano
-#include "NPOSIX.h"
 #include "NSharedLinux.h"
 #include "NSharedPOSIX.h"
+#include "NSystem.h"
 
 
 
@@ -138,26 +138,26 @@ NFilePath NFileUtils::PathLocation(NFileLocation theLocation)
 	switch (theLocation)
 	{
 		case NFileLocation::AppCaches:
-			thePath = NPOSIX::getenv("XDG_CACHE_HOME");
+			thePath = NSystem::GetEnv("XDG_CACHE_HOME");
 			if (!thePath.IsValid())
 			{
-				thePath = NPOSIX::getenv("HOME") + "/.cache";
+				thePath = NSystem::GetEnv("HOME") + "/.cache";
 			}
 			break;
 
 		case NFileLocation::AppSupport:
-			thePath = NPOSIX::getenv("XDG_DATA_HOME");
+			thePath = NSystem::GetEnv("XDG_DATA_HOME");
 			if (!thePath.IsValid())
 			{
-				thePath = NPOSIX::getenv("HOME") + "/.local/share";
+				thePath = NSystem::GetEnv("HOME") + "/.local/share";
 			}
 			break;
 
 		case NFileLocation::AppTemporaries:
-			thePath = NPOSIX::getenv("XDG_RUNTIME_DIR");
+			thePath = NSystem::GetEnv("XDG_RUNTIME_DIR");
 			if (!thePath.IsValid())
 			{
-				thePath = NPOSIX::getenv("TMPDIR");
+				thePath = NSystem::GetEnv("TMPDIR");
 			}
 
 			if (!thePath.IsValid())
@@ -167,7 +167,7 @@ NFilePath NFileUtils::PathLocation(NFileLocation theLocation)
 			break;
 
 		case NFileLocation::SharedSupport:
-			thePath = NPOSIX::getenv("XDG_DATA_DIRS");
+			thePath = NSystem::GetEnv("XDG_DATA_DIRS");
 			if (thePath.IsValid() && thePath.GetPath().Contains(":"))
 			{
 				thePath = thePath.GetPath().Split(":").front();
@@ -180,54 +180,54 @@ NFilePath NFileUtils::PathLocation(NFileLocation theLocation)
 			break;
 
 		case NFileLocation::UserDesktop:
-			thePath = NPOSIX::getenv("XDG_DESKTOP_DIR");
+			thePath = NSystem::GetEnv("XDG_DESKTOP_DIR");
 			if (!thePath.IsValid())
 			{
-				thePath = NPOSIX::getenv("HOME") + "/Desktop";
+				thePath = NSystem::GetEnv("HOME") + "/Desktop";
 			}
 			break;
 
 		case NFileLocation::UserDocuments:
-			thePath = NPOSIX::getenv("XDG_DOCUMENTS_DIR");
+			thePath = NSystem::GetEnv("XDG_DOCUMENTS_DIR");
 			if (!thePath.IsValid())
 			{
-				thePath = NPOSIX::getenv("HOME") + "/Documents";
+				thePath = NSystem::GetEnv("HOME") + "/Documents";
 			}
 			break;
 
 		case NFileLocation::UserDownloads:
-			thePath = NPOSIX::getenv("XDG_DOWNLOAD_DIR");
+			thePath = NSystem::GetEnv("XDG_DOWNLOAD_DIR");
 			if (!thePath.IsValid())
 			{
-				thePath = NPOSIX::getenv("HOME") + "/Downloads";
+				thePath = NSystem::GetEnv("HOME") + "/Downloads";
 			}
 			break;
 
 		case NFileLocation::UserHome:
-			thePath = NPOSIX::getenv("HOME");
+			thePath = NSystem::GetEnv("HOME");
 			break;
 
 		case NFileLocation::UserLogs:
-			thePath = NPOSIX::getenv("XDG_DATA_HOME");
+			thePath = NSystem::GetEnv("XDG_DATA_HOME");
 			if (!thePath.IsValid())
 			{
-				thePath = NPOSIX::getenv("HOME") + "/.local/share/logs";
+				thePath = NSystem::GetEnv("HOME") + "/.local/share/logs";
 			}
 			break;
 
 		case NFileLocation::UserPictures:
-			thePath = NPOSIX::getenv("XDG_PICTURES_DIR");
+			thePath = NSystem::GetEnv("XDG_PICTURES_DIR");
 			if (!thePath.IsValid())
 			{
-				thePath = NPOSIX::getenv("HOME") + "/Pictures";
+				thePath = NSystem::GetEnv("HOME") + "/Pictures";
 			}
 			break;
 
 		case NFileLocation::UserPreferences:
-			thePath = NPOSIX::getenv("XDG_CONFIG_HOME");
+			thePath = NSystem::GetEnv("XDG_CONFIG_HOME");
 			if (!thePath.IsValid())
 			{
-				thePath = NPOSIX::getenv("HOME") + "/.config";
+				thePath = NSystem::GetEnv("HOME") + "/.config";
 			}
 			break;
 	}
