@@ -565,7 +565,6 @@
 		AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NStringComparator.cpp; sourceTree = "<group>"; };
 		AB54F9AC23EF14A7005207BC /* NStringComparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStringComparator.h; sourceTree = "<group>"; };
 		AB555161173FF8D8008D8AF6 /* NLinuxFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxFile.cpp; sourceTree = "<group>"; };
-		AB555162173FF8D8008D8AF6 /* NLinuxMath.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxMath.cpp; sourceTree = "<group>"; };
 		AB555163173FF8D8008D8AF6 /* NLinuxNetwork.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxNetwork.cpp; sourceTree = "<group>"; };
 		AB555164173FF8D8008D8AF6 /* NLinuxPOSIX.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxPOSIX.cpp; sourceTree = "<group>"; };
 		AB555165173FF8D8008D8AF6 /* NLinuxPreferences.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NLinuxPreferences.cpp; sourceTree = "<group>"; };
@@ -637,19 +636,16 @@
 		AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUnicodeParser.cpp; sourceTree = "<group>"; };
 		AB91551B0F9B4DD5009FFEAF /* NUnicodeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUnicodeParser.h; sourceTree = "<group>"; };
 		AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NMacFile.cpp; sourceTree = "<group>"; };
-		AB9155210F9B4DD6009FFEAF /* NMacMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacMath.cpp; sourceTree = "<group>"; };
 		AB9155220F9B4DD6009FFEAF /* NMacSystem.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NMacSystem.cpp; sourceTree = "<group>"; };
 		AB9155230F9B4DD6009FFEAF /* NMacTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacTarget.cpp; sourceTree = "<group>"; };
 		AB9155240F9B4DD6009FFEAF /* NMacTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMacTarget.h; sourceTree = "<group>"; };
 		AB9155250F9B4DD6009FFEAF /* NMacThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacThread.cpp; sourceTree = "<group>"; };
 		AB9155260F9B4DD6009FFEAF /* NMacTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacTime.cpp; sourceTree = "<group>"; };
 		AB9155280F9B4DD6009FFEAF /* NTargetFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetFile.h; sourceTree = "<group>"; };
-		AB91552A0F9B4DD6009FFEAF /* NTargetMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetMath.h; sourceTree = "<group>"; };
 		AB91552B0F9B4DD6009FFEAF /* NTargetSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetSystem.h; sourceTree = "<group>"; };
 		AB91552C0F9B4DD6009FFEAF /* NTargetThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetThread.h; sourceTree = "<group>"; };
 		AB91552D0F9B4DD6009FFEAF /* NTargetTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTargetTime.h; sourceTree = "<group>"; };
 		AB9155300F9B4DD6009FFEAF /* NWinFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinFile.cpp; sourceTree = "<group>"; };
-		AB9155320F9B4DD6009FFEAF /* NWinMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinMath.cpp; sourceTree = "<group>"; };
 		AB9155330F9B4DD6009FFEAF /* NWinSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinSystem.cpp; sourceTree = "<group>"; };
 		AB9155340F9B4DD6009FFEAF /* NWinTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWinTarget.cpp; sourceTree = "<group>"; };
 		AB9155350F9B4DD6009FFEAF /* NWinTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NWinTarget.h; sourceTree = "<group>"; };
@@ -676,8 +672,6 @@
 		AB91555F0F9B4DD6009FFEAF /* NSharedValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSharedValue.h; sourceTree = "<group>"; };
 		AB91556B0F9B4DD6009FFEAF /* NFileUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFileUtilities.cpp; sourceTree = "<group>"; };
 		AB91556C0F9B4DD6009FFEAF /* NFileUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileUtilities.h; sourceTree = "<group>"; };
-		AB91556D0F9B4DD6009FFEAF /* NMathUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMathUtilities.cpp; sourceTree = "<group>"; };
-		AB91556E0F9B4DD6009FFEAF /* NMathUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMathUtilities.h; sourceTree = "<group>"; };
 		AB9155710F9B4DD6009FFEAF /* NSystemUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSystemUtilities.cpp; sourceTree = "<group>"; };
 		AB9155720F9B4DD6009FFEAF /* NSystemUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSystemUtilities.h; sourceTree = "<group>"; };
 		AB9155730F9B4DD6009FFEAF /* NThreadUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NThreadUtilities.cpp; sourceTree = "<group>"; };
@@ -755,7 +749,6 @@
 		ABB6781712AE55AA0077D64E /* NCFURL.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCFURL.cpp; sourceTree = "<group>"; };
 		ABB6781812AE55AA0077D64E /* NCFURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFURL.h; sourceTree = "<group>"; };
 		ABB95B750FB7250100C5A7FF /* NIOSFile.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NIOSFile.cpp; sourceTree = "<group>"; };
-		ABB95B770FB7250100C5A7FF /* NIOSMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSMath.cpp; sourceTree = "<group>"; };
 		ABB95B780FB7250100C5A7FF /* NIOSSystem.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NIOSSystem.cpp; sourceTree = "<group>"; };
 		ABB95B790FB7250100C5A7FF /* NIOSTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSTarget.cpp; sourceTree = "<group>"; };
 		ABB95B7A0FB7250100C5A7FF /* NIOSTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NIOSTarget.h; sourceTree = "<group>"; };
@@ -1223,7 +1216,6 @@
 				AB1981012597C0CD002C5591 /* LinuxNThread.cpp */,
 				AB07EA282399D3DB00E0AC49 /* LinuxNTimeUtils.cpp */,
 				AB555161173FF8D8008D8AF6 /* NLinuxFile.cpp */,
-				AB555162173FF8D8008D8AF6 /* NLinuxMath.cpp */,
 				AB555163173FF8D8008D8AF6 /* NLinuxNetwork.cpp */,
 				AB555164173FF8D8008D8AF6 /* NLinuxPOSIX.cpp */,
 				AB555165173FF8D8008D8AF6 /* NLinuxPreferences.cpp */,
@@ -1523,7 +1515,6 @@
 			isa = PBXGroup;
 			children = (
 				AB9155280F9B4DD6009FFEAF /* NTargetFile.h */,
-				AB91552A0F9B4DD6009FFEAF /* NTargetMath.h */,
 				AB481C2312A531220052C55F /* NTargetNetwork.h */,
 				AB4EA38B1009B16500E7B73C /* NTargetPOSIX.h */,
 				ABB146540FF37315006F178C /* NTargetPreferences.h */,
@@ -1557,7 +1548,6 @@
 				AB1981042597C0CD002C5591 /* macOSNThread.cpp */,
 				AB0DBE7223999B8200F6AD43 /* macOSNTimeUtils.cpp */,
 				AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */,
-				AB9155210F9B4DD6009FFEAF /* NMacMath.cpp */,
 				AB481C2212A531220052C55F /* NMacNetwork.cpp */,
 				AB4EA38C1009B16D00E7B73C /* NMacPOSIX.cpp */,
 				ABB146560FF37325006F178C /* NMacPreferences.cpp */,
@@ -1573,16 +1563,6 @@
 		AB91552E0F9B4DD6009FFEAF /* Windows */ = {
 			isa = PBXGroup;
 			children = (
-				AB9155300F9B4DD6009FFEAF /* NWinFile.cpp */,
-				AB9155320F9B4DD6009FFEAF /* NWinMath.cpp */,
-				AB481C3912A5315E0052C55F /* NWinNetwork.cpp */,
-				AB4EA3901009B17C00E7B73C /* NWinPOSIX.cpp */,
-				ABB146550FF37321006F178C /* NWinPreferences.cpp */,
-				AB9155330F9B4DD6009FFEAF /* NWinSystem.cpp */,
-				AB9155340F9B4DD6009FFEAF /* NWinTarget.cpp */,
-				AB9155350F9B4DD6009FFEAF /* NWinTarget.h */,
-				AB9155360F9B4DD6009FFEAF /* NWinThread.cpp */,
-				AB9155370F9B4DD6009FFEAF /* NWinTime.cpp */,
 				AB2A305124524F5F00F21BF6 /* WindowsNDebugger.cpp */,
 				ABDCE8C8241C604F0054A16E /* WindowsNFileHandle.cpp */,
 				ABDCE8C3241C604E0054A16E /* WindowsNFileInfo.cpp */,
@@ -1595,6 +1575,15 @@
 				ABA478E425B7B91200F3C3C9 /* WindowsNSystem.cpp */,
 				AB1981022597C0CD002C5591 /* WindowsNThread.cpp */,
 				AB07EA2C2399D3F900E0AC49 /* WindowsNTimeUtils.cpp */,
+				AB9155300F9B4DD6009FFEAF /* NWinFile.cpp */,
+				AB481C3912A5315E0052C55F /* NWinNetwork.cpp */,
+				AB4EA3901009B17C00E7B73C /* NWinPOSIX.cpp */,
+				ABB146550FF37321006F178C /* NWinPreferences.cpp */,
+				AB9155330F9B4DD6009FFEAF /* NWinSystem.cpp */,
+				AB9155340F9B4DD6009FFEAF /* NWinTarget.cpp */,
+				AB9155350F9B4DD6009FFEAF /* NWinTarget.h */,
+				AB9155360F9B4DD6009FFEAF /* NWinThread.cpp */,
+				AB9155370F9B4DD6009FFEAF /* NWinTime.cpp */,
 			);
 			path = Windows;
 			sourceTree = "<group>";
@@ -1701,8 +1690,6 @@
 				AB91556C0F9B4DD6009FFEAF /* NFileUtilities.h */,
 				AB1BA28F1050168900BB002B /* NGeometryUtilities.cpp */,
 				AB1BA2901050168900BB002B /* NGeometryUtilities.h */,
-				AB91556D0F9B4DD6009FFEAF /* NMathUtilities.cpp */,
-				AB91556E0F9B4DD6009FFEAF /* NMathUtilities.h */,
 				AB9155710F9B4DD6009FFEAF /* NSystemUtilities.cpp */,
 				AB9155720F9B4DD6009FFEAF /* NSystemUtilities.h */,
 				AB35B34210011269009B75EF /* NTextUtilities.cpp */,
@@ -1772,7 +1759,6 @@
 				AB1980FF2597C0CD002C5591 /* iOSNThread.cpp */,
 				AB07EA262399D3D000E0AC49 /* iOSNTimeUtils.cpp */,
 				ABB95B750FB7250100C5A7FF /* NIOSFile.cpp */,
-				ABB95B770FB7250100C5A7FF /* NIOSMath.cpp */,
 				AB481C2112A531220052C55F /* NIOSNetwork.cpp */,
 				AB4EA38E1009B17400E7B73C /* NIOSPOSIX.cpp */,
 				ABB146580FF3732E006F178C /* NIOSPreferences.cpp */,
