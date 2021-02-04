@@ -54,6 +54,28 @@
 
 
 //=============================================================================
+//		Internal Functions
+//-----------------------------------------------------------------------------
+//		GetSystemProperty : Get a system property.
+//-----------------------------------------------------------------------------
+static NString GetSystemProperty(const NString& theName)
+{
+
+
+	// Get the property
+	char theBuffer[PROP_VALUE_MAX + 1]{};
+	int  strLen = __system_property_get(theName.GetUTF8(), theBuffer);
+	NN_EXPECT(strLen != 0);
+
+	return theBuffer;
+}
+
+
+
+
+
+#pragma mark NSystem
+//=============================================================================
 //		NSystem::GetPageSize : Get the page size.
 //-----------------------------------------------------------------------------
 size_t NSystem::GetPageSize()
@@ -76,14 +98,12 @@ NOSVersion NSystem::GetVersion()
 
 
 	// Get the version
-	char theBuffer[PROP_VALUE_MAX + 1]{};
-	int  strLen = __system_property_get("ro.build.version.release", theBuffer);
-	NN_EXPECT(strLen != 0);
+	NString       theText   = GetSystemProperty("ro.build.version.release");
+	NVectorString theTokens = theText.Split(".");
 
 
 
 	// Encode the version
-	NVectorString theTokens  = NString(theBuffer).Split(".");
 	NOSVersion    theVersion = kNOSAndroid;
 
 	if (theTokens.size() > 0)
