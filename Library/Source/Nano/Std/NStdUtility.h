@@ -43,9 +43,6 @@
 //-----------------------------------------------------------------------------
 #include "NanoTargets.h"
 
-namespace nstd
-{
-
 
 
 
@@ -69,9 +66,6 @@ namespace nstd
 	#define NN_STD_ANY_ALIGNAS(_x)                          alignas(_x)
 #endif
 
-
-
-}    // namespace nstd
 
 
 #endif // NSTD_UTILITY_H
