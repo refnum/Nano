@@ -55,6 +55,9 @@
 		AB371A2825CAF7EF00DEC50B /* TVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB371A2725CAF7EF00DEC50B /* TVersion.cpp */; };
 		AB371A2925CAF7EF00DEC50B /* TVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB371A2725CAF7EF00DEC50B /* TVersion.cpp */; };
 		AB371A2A25CAF7EF00DEC50B /* TVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB371A2725CAF7EF00DEC50B /* TVersion.cpp */; };
+		AB371AA025CB884000DEC50B /* TScopedLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB371A9F25CB884000DEC50B /* TScopedLock.cpp */; };
+		AB371AA125CB884000DEC50B /* TScopedLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB371A9F25CB884000DEC50B /* TScopedLock.cpp */; };
+		AB371AA225CB884000DEC50B /* TScopedLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB371A9F25CB884000DEC50B /* TScopedLock.cpp */; };
 		AB439B8123800C0100DBB6B2 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
 		AB439BF123800C0600DBB6B2 /* NanoTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9156350F9B4F37009FFEAF /* NanoTest.cpp */; };
 		AB4AF5532422FEE700E665D4 /* TFileScanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4AF5522422FEE600E665D4 /* TFileScanner.cpp */; };
@@ -246,6 +249,7 @@
 		AB328C8617612CBF00782F40 /* StdAfx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StdAfx.h; sourceTree = "<group>"; };
 		AB3326D11046C9B100C8DF0A /* TShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TShape.cpp; sourceTree = "<group>"; };
 		AB371A2725CAF7EF00DEC50B /* TVersion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TVersion.cpp; sourceTree = "<group>"; };
+		AB371A9F25CB884000DEC50B /* TScopedLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TScopedLock.cpp; sourceTree = "<group>"; };
 		AB439B6B23800B1000DBB6B2 /* Nano.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nano.xcodeproj; path = ../../Library/Project/Nano.xcodeproj; sourceTree = "<group>"; };
 		AB439B7923800B9600DBB6B2 /* NanoTest_iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = NanoTest_iOS.xcconfig; sourceTree = "<group>"; };
 		AB439B7A23800B9600DBB6B2 /* NanoTest.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = NanoTest.xcconfig; sourceTree = "<group>"; };
@@ -645,6 +649,7 @@
 				ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */,
 				ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */,
 				AB19811C259953C8002C5591 /* TRunLoop.cpp */,
+				AB371A9F25CB884000DEC50B /* TScopedLock.cpp */,
 				AB514D981034184B00E5A6AD /* TSemaphore.cpp */,
 				ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */,
 				AB514D9A1034184B00E5A6AD /* TThread.cpp */,
@@ -937,6 +942,7 @@
 				AB56392A23C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				ABCC4AC025A4F4E600394AFE /* TVariant.cpp in Sources */,
 				AB19811E259953C8002C5591 /* TRunLoop.cpp in Sources */,
+				AB371AA125CB884000DEC50B /* TScopedLock.cpp in Sources */,
 				ABA478C725B7B7FE00F3C3C9 /* TMachine.cpp in Sources */,
 				AB4EB4C52430F34E00D36016 /* TFormat.cpp in Sources */,
 				AB1B4DAB23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
@@ -1000,6 +1006,7 @@
 				AB56392B23C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				ABCC4ABF25A4F4E600394AFE /* TVariant.cpp in Sources */,
 				AB19811D259953C8002C5591 /* TRunLoop.cpp in Sources */,
+				AB371AA025CB884000DEC50B /* TScopedLock.cpp in Sources */,
 				ABA478C625B7B7FE00F3C3C9 /* TMachine.cpp in Sources */,
 				AB4EB4C42430F34E00D36016 /* TFormat.cpp in Sources */,
 				AB1B4DAA23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
@@ -1063,6 +1070,7 @@
 				AB56392923C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				ABCC4AC125A4F4E600394AFE /* TVariant.cpp in Sources */,
 				AB19811F259953C8002C5591 /* TRunLoop.cpp in Sources */,
+				AB371AA225CB884000DEC50B /* TScopedLock.cpp in Sources */,
 				ABA478C825B7B7FE00F3C3C9 /* TMachine.cpp in Sources */,
 				AB4EB4C62430F34E00D36016 /* TFormat.cpp in Sources */,
 				AB1B4DAC23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,

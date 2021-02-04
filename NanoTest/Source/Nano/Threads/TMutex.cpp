@@ -159,6 +159,29 @@ NANO_TEST(TMutex, "Default")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
+NANO_TEST(TMutex, "Scoped")
+{
+
+
+	// Perform the test
+	REQUIRE(!theLock.IsLocked());
+
+	if (true)
+	{
+		NScopedLock acquireLock(theLock);
+		REQUIRE(theLock.IsLocked());
+	}
+
+	REQUIRE(!theLock.IsLocked());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
 NANO_TEST(TMutex, "Recursion")
 {
 
