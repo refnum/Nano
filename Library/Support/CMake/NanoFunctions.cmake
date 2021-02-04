@@ -94,21 +94,6 @@ endfunction()
 
 
 #==============================================================================
-#		nano_target_link_add_library : Find and link to a library.
-#------------------------------------------------------------------------------
-function(nano_target_link_add_library theTarget theLibrary)
-
-	find_library("_NN_LIBRARY_${theLibrary}" "${theLibrary}")
-
-	target_link_libraries("${theTarget}" PRIVATE "${_NN_LIBRARY_${theLibrary}}")
-
-endfunction()
-
-
-
-
-
-#==============================================================================
 #		nano_target_build_library : Build a library target.
 #------------------------------------------------------------------------------
 function(nano_target_build_library theTarget)
@@ -137,19 +122,25 @@ function(nano_target_build_app theTarget)
 		target_link_libraries("${theTarget}" PRIVATE "log")
 
 	elseif (NN_TARGET_IOS)
-		nano_target_link_add_library("${theTarget}" "CoreFoundation")
+		target_link_libraries("${theTarget}" PRIVATE "-framework CoreFoundation")
+		target_link_libraries("${theTarget}" PRIVATE "-framework Foundation")
+		target_link_libraries("${theTarget}" PRIVATE "-framework Security")
 
 	elseif (NN_TARGET_LINUX)
 		target_link_libraries("${theTarget}" PRIVATE "pthread")
 
 	elseif (NN_TARGET_MACOS)
-		nano_target_link_add_library("${theTarget}" "CoreFoundation")
+		target_link_libraries("${theTarget}" PRIVATE "-framework CoreFoundation")
+		target_link_libraries("${theTarget}" PRIVATE "-framework Foundation")
+		target_link_libraries("${theTarget}" PRIVATE "-framework Security")
 
 	elseif (NN_TARGET_TVOS)
-		nano_target_link_add_library("${theTarget}" "CoreFoundation")
+		target_link_libraries("${theTarget}" PRIVATE "-framework CoreFoundation")
+		target_link_libraries("${theTarget}" PRIVATE "-framework Foundation")
+		target_link_libraries("${theTarget}" PRIVATE "-framework Security")
 
 	elseif (NN_TARGET_WINDOWS)
-		nano_target_link_add_library("${theTarget}" "bcrypt")
+		target_link_libraries("${theTarget}" PRIVATE "bcrypt")
 
 	endif()
 
