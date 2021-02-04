@@ -56,21 +56,6 @@ public:
 	static NFile						FindBundle(const NString &bundleID);
 
 
-	// Get the OS details
-	static OSVersion					GetOSVersion(void);
-	static NString						GetOSName(   void);
-
-
-	// Get the process details
-	static NString						GetProcessName(void);
-	
-
-	// Get the system details
-	static uint64_t						GetSystemCPU( void);
-	static uint64_t						GetSystemRAM( void);
-	static NString						GetSystemArch(void);
-
-
 	// Tasks
 	static TaskInfo						TaskCreate(const NString &theCmd, const NStringList &theArgs);
 	static void							TaskDestroy(     TaskInfo &theTask);
