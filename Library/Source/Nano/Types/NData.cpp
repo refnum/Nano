@@ -818,6 +818,15 @@ bool NData::CompareEqual(const NData& theData) const
 {
 
 
+	// Compare the size
+	//
+	// A different size means no equality
+	if (GetSize() != theData.GetSize())
+	{
+		return false;
+	}
+
+
 	// Compare the hash
 	//
 	// A different hash means no equality.
