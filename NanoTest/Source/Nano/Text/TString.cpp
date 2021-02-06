@@ -151,7 +151,7 @@ NANO_TEST(TString, "Container")
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TString, "Construction")
+NANO_TEST(TString, "Constructor")
 {
 
 
