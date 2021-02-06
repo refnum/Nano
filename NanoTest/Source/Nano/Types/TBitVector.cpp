@@ -52,13 +52,6 @@
 NANO_FIXTURE(TBitVector)
 {
 	NBitVector theVector;
-
-	SETUP
-	{
-		theVector.AppendBit(true);
-		theVector.AppendBit(false);
-		theVector.AppendBit(true);
-	}
 };
 
 
@@ -68,54 +61,12 @@ NANO_FIXTURE(TBitVector)
 //=============================================================================
 //		Test case
 //-----------------------------------------------------------------------------
-NANO_TEST(TBitVector, "Manipulate")
+NANO_TEST(TBitVector, "Default")
 {
 
 
 	// Perform the test
-	REQUIRE(theVector.GetSize() == 3);
-
-	theVector.FlipBits();
-	REQUIRE(theVector.GetBit(0) == false);
-	REQUIRE(theVector.GetBit(1) == true);
-	REQUIRE(theVector.GetBit(2) == false);
-	REQUIRE(theVector.CountBits(false) == 2);
-	REQUIRE(theVector.CountBits(true) == 1);
-	REQUIRE(theVector.GetBits().GetSize() == 1);
-	REQUIRE(theVector.GetBits(0, 3) == 0x02);
-
-	theVector.FlipBit(1);
-	REQUIRE(theVector.GetBit(1) == false);
-
-	theVector.FlipBit(1);
-	REQUIRE(theVector.FindFirstBit(true) == 1);
-	REQUIRE(theVector.FindLastBit(true) == 1);
-	REQUIRE(theVector.FindFirstBit(false) == 0);
-	REQUIRE(theVector.FindLastBit(false) == 2);
-
-	theVector.SetBit(1, true);
-	REQUIRE(theVector.GetBit(1) == true);
-}
-
-
-
-
-
-//=============================================================================
-//		Test case
-//-----------------------------------------------------------------------------
-NANO_TEST(TBitVector, "Set")
-{
-
-
-	// Perform the test
-	theVector.SetBits(false);
-	REQUIRE(!theVector.ContainsBit(true));
-	REQUIRE(theVector.ContainsBit(false));
-
-	theVector.SetBits(true);
-	REQUIRE(theVector.ContainsBit(true));
-	REQUIRE(!theVector.ContainsBit(false));
+	REQUIRE(theVector.IsEmpty());
 }
 
 
@@ -130,6 +81,815 @@ NANO_TEST(TBitVector, "Clear")
 
 
 	// Perform the test
+	theVector.AppendBit(true);
+	REQUIRE(!theVector.IsEmpty());
+
 	theVector.Clear();
 	REQUIRE(theVector.IsEmpty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "GetSize")
+{
+
+
+	// Perform the test
+	REQUIRE(theVector.GetSize() == 0);
+	theVector.AppendBit(true);
+	REQUIRE(theVector.GetSize() == 1);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "SetSize")
+{
+
+
+	// Perform the test
+	REQUIRE(theVector.GetSize() == 0);
+
+	theVector.SetSize(10);
+	REQUIRE(theVector.GetSize() == 10);
+
+
+	theVector.SetBits(1);
+	REQUIRE(theVector.GetBit(0) == 1);
+	REQUIRE(theVector.GetBit(1) == 1);
+	REQUIRE(theVector.GetBit(2) == 1);
+	REQUIRE(theVector.GetBit(3) == 1);
+	REQUIRE(theVector.GetBit(4) == 1);
+	REQUIRE(theVector.GetBit(5) == 1);
+	REQUIRE(theVector.GetBit(6) == 1);
+	REQUIRE(theVector.GetBit(7) == 1);
+	REQUIRE(theVector.GetBit(8) == 1);
+	REQUIRE(theVector.GetBit(9) == 1);
+
+	theVector.SetSize(3);
+	REQUIRE(theVector.GetBit(0) == 1);
+	REQUIRE(theVector.GetBit(1) == 1);
+	REQUIRE(theVector.GetBit(2) == 1);
+
+	theVector.SetSize(10);
+	REQUIRE(theVector.GetBit(0) == 1);
+	REQUIRE(theVector.GetBit(1) == 1);
+	REQUIRE(theVector.GetBit(2) == 1);
+	REQUIRE(theVector.GetBit(3) == 0);
+	REQUIRE(theVector.GetBit(4) == 0);
+	REQUIRE(theVector.GetBit(5) == 0);
+	REQUIRE(theVector.GetBit(6) == 0);
+	REQUIRE(theVector.GetBit(8) == 0);
+	REQUIRE(theVector.GetBit(9) == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "GetCapacity")
+{
+
+
+	// Perform the test
+	theVector.SetCapacity(11);
+	REQUIRE(theVector.GetCapacity() >= 11);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "SetCapacity")
+{
+
+
+	// Perform the test
+	theVector.SetCapacity(11);
+	REQUIRE(theVector.GetCapacity() >= 11);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "GetData")
+{
+
+
+	// Perform the test
+	REQUIRE(theVector.IsEmpty());
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(1);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+
+	NData theData = theVector.GetData();
+	REQUIRE(theData.GetSize() == 1);
+	REQUIRE(theData.GetData()[0] == 0b00010000);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "SetData")
+{
+
+
+	// Perform the test
+	uint8_t theValue = 0b10101010;
+
+	REQUIRE(theVector.IsEmpty());
+	theVector.SetData(NData(sizeof(theValue), &theValue));
+	REQUIRE(!theVector.IsEmpty());
+
+	REQUIRE(theVector.GetBit(0) == 1);
+	REQUIRE(theVector.GetBit(1) == 0);
+	REQUIRE(theVector.GetBit(2) == 1);
+	REQUIRE(theVector.GetBit(3) == 0);
+	REQUIRE(theVector.GetBit(4) == 1);
+	REQUIRE(theVector.GetBit(5) == 0);
+	REQUIRE(theVector.GetBit(6) == 1);
+	REQUIRE(theVector.GetBit(7) == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "GetBit")
+{
+
+
+	// Perform the test
+	theVector.SetSize(9);
+	REQUIRE(theVector.GetBit(0) == 0);
+	REQUIRE(theVector.GetBit(1) == 0);
+	REQUIRE(theVector.GetBit(2) == 0);
+	REQUIRE(theVector.GetBit(3) == 0);
+	REQUIRE(theVector.GetBit(4) == 0);
+	REQUIRE(theVector.GetBit(5) == 0);
+	REQUIRE(theVector.GetBit(6) == 0);
+	REQUIRE(theVector.GetBit(7) == 0);
+	REQUIRE(theVector.GetBit(8) == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "SetBit")
+{
+
+
+	// Perform the test
+	theVector.SetSize(9);
+	theVector.SetBit(0, 0);
+	theVector.SetBit(1, 1);
+	theVector.SetBit(2, 0);
+	theVector.SetBit(3, 1);
+	theVector.SetBit(4, 0);
+	theVector.SetBit(5, 1);
+	theVector.SetBit(6, 0);
+	theVector.SetBit(7, 1);
+	theVector.SetBit(8, 0);
+
+	REQUIRE(theVector.GetBit(0) == 0);
+	REQUIRE(theVector.GetBit(1) == 1);
+	REQUIRE(theVector.GetBit(2) == 0);
+	REQUIRE(theVector.GetBit(3) == 1);
+	REQUIRE(theVector.GetBit(4) == 0);
+	REQUIRE(theVector.GetBit(5) == 1);
+	REQUIRE(theVector.GetBit(6) == 0);
+	REQUIRE(theVector.GetBit(7) == 1);
+	REQUIRE(theVector.GetBit(8) == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "HasBit")
+{
+
+
+	// Perform the test
+	theVector.AppendBit(0);
+	REQUIRE(theVector.HasBit(0));
+	REQUIRE(!theVector.HasBit(1));
+
+	theVector.Clear();
+	theVector.AppendBit(1);
+	REQUIRE(!theVector.HasBit(0));
+	REQUIRE(theVector.HasBit(1));
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "SetBits")
+{
+
+
+	// Perform the test
+	theVector.SetSize(9);
+	theVector.SetBit(0, 0);
+	theVector.SetBit(1, 1);
+	theVector.SetBit(2, 0);
+	theVector.SetBit(3, 1);
+	theVector.SetBit(4, 0);
+	theVector.SetBit(5, 1);
+	theVector.SetBit(6, 0);
+	theVector.SetBit(7, 1);
+	theVector.SetBit(8, 0);
+
+	theVector.SetBits(1, NRange(3, 4));
+	REQUIRE(theVector.GetBit(0) == 0);
+	REQUIRE(theVector.GetBit(1) == 1);
+	REQUIRE(theVector.GetBit(2) == 0);
+	REQUIRE(theVector.GetBit(3) == 1);
+	REQUIRE(theVector.GetBit(4) == 1);
+	REQUIRE(theVector.GetBit(5) == 1);
+	REQUIRE(theVector.GetBit(6) == 1);
+	REQUIRE(theVector.GetBit(7) == 1);
+	REQUIRE(theVector.GetBit(8) == 0);
+
+	theVector.SetBits(0, NRange(1, 6));
+	REQUIRE(theVector.GetBit(0) == 0);
+	REQUIRE(theVector.GetBit(1) == 0);
+	REQUIRE(theVector.GetBit(2) == 0);
+	REQUIRE(theVector.GetBit(3) == 0);
+	REQUIRE(theVector.GetBit(4) == 0);
+	REQUIRE(theVector.GetBit(5) == 0);
+	REQUIRE(theVector.GetBit(6) == 0);
+	REQUIRE(theVector.GetBit(7) == 1);
+	REQUIRE(theVector.GetBit(8) == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "AppendBit")
+{
+
+
+	// Perform the test
+	theVector.AppendBit(0);
+	theVector.AppendBit(1);
+	theVector.AppendBit(0);
+	theVector.AppendBit(1);
+	theVector.AppendBit(0);
+	theVector.AppendBit(1);
+	theVector.AppendBit(0);
+	theVector.AppendBit(1);
+	theVector.AppendBit(0);
+
+	REQUIRE(theVector.GetBit(0) == 0);
+	REQUIRE(theVector.GetBit(1) == 1);
+	REQUIRE(theVector.GetBit(2) == 0);
+	REQUIRE(theVector.GetBit(3) == 1);
+	REQUIRE(theVector.GetBit(4) == 0);
+	REQUIRE(theVector.GetBit(5) == 1);
+	REQUIRE(theVector.GetBit(6) == 0);
+	REQUIRE(theVector.GetBit(7) == 1);
+	REQUIRE(theVector.GetBit(8) == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "FindFirst")
+{
+
+
+	// Perform the test
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(1);
+	theVector.AppendBit(1);
+	theVector.AppendBit(1);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+
+	REQUIRE(theVector.FindFirst(0) == 0);
+	REQUIRE(theVector.FindFirst(1) == 3);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "FindLast")
+{
+
+
+	// Perform the test
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(1);
+	theVector.AppendBit(1);
+	theVector.AppendBit(1);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+
+	REQUIRE(theVector.FindLast(0) == 8);
+	REQUIRE(theVector.FindLast(1) == 5);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "CountBits")
+{
+
+
+	// Perform the test
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(1);
+	theVector.AppendBit(1);
+	theVector.AppendBit(1);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+
+	REQUIRE(theVector.CountBits(0) == 6);
+	REQUIRE(theVector.CountBits(1) == 3);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "CountLeadingBits")
+{
+
+
+	// Perform the test
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(1);
+	theVector.AppendBit(1);
+	theVector.AppendBit(1);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+
+	REQUIRE(theVector.CountLeadingBits(0) == 3);
+	REQUIRE(theVector.CountLeadingBits(1) == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "CountTrailingBits")
+{
+
+
+	// Perform the test
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(1);
+	theVector.AppendBit(1);
+	theVector.AppendBit(1);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+
+	REQUIRE(theVector.CountTrailingBits(0) == 3);
+	REQUIRE(theVector.CountTrailingBits(1) == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "FlipBit")
+{
+
+
+	// Perform the test
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(1);
+	theVector.AppendBit(1);
+	theVector.AppendBit(1);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+
+	theVector.FlipBit(1);
+	theVector.FlipBit(4);
+	theVector.FlipBit(7);
+
+	REQUIRE(theVector.GetBit(0) == 0);
+	REQUIRE(theVector.GetBit(1) == 1);
+	REQUIRE(theVector.GetBit(2) == 0);
+	REQUIRE(theVector.GetBit(3) == 1);
+	REQUIRE(theVector.GetBit(4) == 0);
+	REQUIRE(theVector.GetBit(5) == 1);
+	REQUIRE(theVector.GetBit(6) == 0);
+	REQUIRE(theVector.GetBit(7) == 1);
+	REQUIRE(theVector.GetBit(8) == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "FlipBits")
+{
+
+
+	// Perform the test
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(1);
+	theVector.AppendBit(1);
+	theVector.AppendBit(1);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+	theVector.AppendBit(0);
+
+	theVector.FlipBits();
+
+	REQUIRE(theVector.GetBit(0) == 1);
+	REQUIRE(theVector.GetBit(1) == 1);
+	REQUIRE(theVector.GetBit(2) == 1);
+	REQUIRE(theVector.GetBit(3) == 0);
+	REQUIRE(theVector.GetBit(4) == 0);
+	REQUIRE(theVector.GetBit(5) == 0);
+	REQUIRE(theVector.GetBit(6) == 1);
+	REQUIRE(theVector.GetBit(7) == 1);
+	REQUIRE(theVector.GetBit(8) == 1);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "BitwiseNOT")
+{
+
+
+	// Perform the test
+	NBitVector vectorA, vectorB;
+
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(1);
+	vectorA.AppendBit(1);
+	vectorA.AppendBit(1);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+
+	vectorB = ~vectorA;
+	REQUIRE(vectorB.GetBit(0) == 1);
+	REQUIRE(vectorB.GetBit(1) == 1);
+	REQUIRE(vectorB.GetBit(2) == 1);
+	REQUIRE(vectorB.GetBit(3) == 0);
+	REQUIRE(vectorB.GetBit(4) == 0);
+	REQUIRE(vectorB.GetBit(5) == 0);
+	REQUIRE(vectorB.GetBit(6) == 1);
+	REQUIRE(vectorB.GetBit(7) == 1);
+	REQUIRE(vectorB.GetBit(8) == 1);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "BitwiseAND")
+{
+
+
+	// Perform the test
+	NBitVector vectorA, vectorB, vectorC;
+
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(1);
+	vectorA.AppendBit(1);
+	vectorA.AppendBit(1);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+
+	vectorB.AppendBit(0);
+	vectorB.AppendBit(0);
+	vectorB.AppendBit(1);
+	vectorB.AppendBit(1);
+	vectorB.AppendBit(0);
+	vectorB.AppendBit(1);
+	vectorB.AppendBit(1);
+	vectorB.AppendBit(0);
+	vectorB.AppendBit(0);
+
+	vectorC = vectorA & vectorB;
+	REQUIRE(vectorC.GetBit(0) == 0);
+	REQUIRE(vectorC.GetBit(1) == 0);
+	REQUIRE(vectorC.GetBit(2) == 0);
+	REQUIRE(vectorC.GetBit(3) == 1);
+	REQUIRE(vectorC.GetBit(4) == 0);
+	REQUIRE(vectorC.GetBit(5) == 1);
+	REQUIRE(vectorC.GetBit(6) == 0);
+	REQUIRE(vectorC.GetBit(7) == 0);
+	REQUIRE(vectorC.GetBit(8) == 0);
+
+	vectorC = vectorA;
+	vectorC &= vectorB;
+	REQUIRE(vectorC.GetBit(0) == 0);
+	REQUIRE(vectorC.GetBit(1) == 0);
+	REQUIRE(vectorC.GetBit(2) == 0);
+	REQUIRE(vectorC.GetBit(3) == 1);
+	REQUIRE(vectorC.GetBit(4) == 0);
+	REQUIRE(vectorC.GetBit(5) == 1);
+	REQUIRE(vectorC.GetBit(6) == 0);
+	REQUIRE(vectorC.GetBit(7) == 0);
+	REQUIRE(vectorC.GetBit(8) == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "BitwiseOR")
+{
+
+
+	// Perform the test
+	NBitVector vectorA, vectorB, vectorC;
+
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(1);
+	vectorA.AppendBit(1);
+	vectorA.AppendBit(1);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+
+	vectorB.AppendBit(0);
+	vectorB.AppendBit(0);
+	vectorB.AppendBit(1);
+	vectorB.AppendBit(1);
+	vectorB.AppendBit(0);
+	vectorB.AppendBit(1);
+	vectorB.AppendBit(1);
+	vectorB.AppendBit(0);
+	vectorB.AppendBit(0);
+
+	vectorC = vectorA | vectorB;
+	REQUIRE(vectorC.GetBit(0) == 0);
+	REQUIRE(vectorC.GetBit(1) == 0);
+	REQUIRE(vectorC.GetBit(2) == 1);
+	REQUIRE(vectorC.GetBit(3) == 1);
+	REQUIRE(vectorC.GetBit(4) == 1);
+	REQUIRE(vectorC.GetBit(5) == 1);
+	REQUIRE(vectorC.GetBit(6) == 1);
+	REQUIRE(vectorC.GetBit(7) == 0);
+	REQUIRE(vectorC.GetBit(8) == 0);
+
+	vectorC = vectorA;
+	vectorC |= vectorB;
+	REQUIRE(vectorC.GetBit(0) == 0);
+	REQUIRE(vectorC.GetBit(1) == 0);
+	REQUIRE(vectorC.GetBit(2) == 1);
+	REQUIRE(vectorC.GetBit(3) == 1);
+	REQUIRE(vectorC.GetBit(4) == 1);
+	REQUIRE(vectorC.GetBit(5) == 1);
+	REQUIRE(vectorC.GetBit(6) == 1);
+	REQUIRE(vectorC.GetBit(7) == 0);
+	REQUIRE(vectorC.GetBit(8) == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "BitwiseXOR")
+{
+
+
+	// Perform the test
+	NBitVector vectorA, vectorB, vectorC;
+
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(1);
+	vectorA.AppendBit(1);
+	vectorA.AppendBit(1);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+
+	vectorB.AppendBit(0);
+	vectorB.AppendBit(0);
+	vectorB.AppendBit(1);
+	vectorB.AppendBit(1);
+	vectorB.AppendBit(0);
+	vectorB.AppendBit(1);
+	vectorB.AppendBit(1);
+	vectorB.AppendBit(0);
+	vectorB.AppendBit(0);
+
+	vectorC = vectorA ^ vectorB;
+	REQUIRE(vectorC.GetBit(0) == 0);
+	REQUIRE(vectorC.GetBit(1) == 0);
+	REQUIRE(vectorC.GetBit(2) == 1);
+	REQUIRE(vectorC.GetBit(3) == 0);
+	REQUIRE(vectorC.GetBit(4) == 1);
+	REQUIRE(vectorC.GetBit(5) == 0);
+	REQUIRE(vectorC.GetBit(6) == 1);
+	REQUIRE(vectorC.GetBit(7) == 0);
+	REQUIRE(vectorC.GetBit(8) == 0);
+
+	vectorC = vectorA;
+	vectorC ^= vectorB;
+	REQUIRE(vectorC.GetBit(0) == 0);
+	REQUIRE(vectorC.GetBit(1) == 0);
+	REQUIRE(vectorC.GetBit(2) == 1);
+	REQUIRE(vectorC.GetBit(3) == 0);
+	REQUIRE(vectorC.GetBit(4) == 1);
+	REQUIRE(vectorC.GetBit(5) == 0);
+	REQUIRE(vectorC.GetBit(6) == 1);
+	REQUIRE(vectorC.GetBit(7) == 0);
+	REQUIRE(vectorC.GetBit(8) == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "Append")
+{
+
+
+	// Perform the test
+	NBitVector vectorA, vectorB, vectorC;
+
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+
+	vectorB.AppendBit(1);
+	vectorB.AppendBit(1);
+	vectorB.AppendBit(1);
+
+	vectorC = vectorA + vectorB;
+	REQUIRE(vectorC.GetBit(0) == 0);
+	REQUIRE(vectorC.GetBit(1) == 0);
+	REQUIRE(vectorC.GetBit(2) == 0);
+	REQUIRE(vectorC.GetBit(3) == 1);
+	REQUIRE(vectorC.GetBit(4) == 1);
+	REQUIRE(vectorC.GetBit(5) == 1);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "CompareEqual")
+{
+
+
+	// Perform the test
+	NBitVector vectorA, vectorB;
+
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+	vectorB.AppendBit(1);
+	vectorB.AppendBit(1);
+	vectorB.AppendBit(1);
+	REQUIRE(vectorB != vectorA);
+
+	vectorB = vectorA;
+	REQUIRE(vectorB == vectorA);
+
+	vectorB.AppendBit(1);
+	REQUIRE(vectorB != vectorA);
+}
+
+
+
+
+
+//=============================================================================
+//		Test case
+//-----------------------------------------------------------------------------
+NANO_TEST(TBitVector, "CompareOrder")
+{
+
+
+	// Perform the test
+	NBitVector vectorA, vectorB;
+
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+	vectorA.AppendBit(0);
+	vectorB.AppendBit(1);
+	vectorB.AppendBit(1);
+	vectorB.AppendBit(1);
+	REQUIRE(vectorB > vectorA);
+	REQUIRE(vectorA < vectorB);
 }

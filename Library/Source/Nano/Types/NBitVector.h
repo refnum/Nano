@@ -41,12 +41,22 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NComparable.h"
-#include "NContainer.h"
+// Nano
 #include "NData.h"
-#include "NEncodable.h"
-#include "NRange.h"
-#include "NStringFormatter.h"
+#include "NMixinAppendable.h"
+#include "NMixinComparable.h"
+#include "NMixinContainer.h"
+
+
+
+
+
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Forward declaration
+class NRange;
+struct NBitPointer;
 
 
 
@@ -55,97 +65,119 @@
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NBitVector
-	: public NContainer
-	, public NEncodable
-	, public NComparable<NBitVector>
+class NN_EMPTY_BASE NBitVector final
+	: public NMixinAppendable<NBitVector>
+	, public NMixinComparable<NBitVector>
+	, public NMixinContainer<NBitVector>
 {
 public:
-										NENCODABLE_DECLARE(NBitVector);
-
-										NBitVector(const NBitVector& theValue);
-
 										NBitVector();
-	virtual                            ~NBitVector();
+									   ~NBitVector() = default;
+
+										NBitVector(const NBitVector& otherVector);
+	NBitVector&                         operator=( const NBitVector& otherVector);
+
+										NBitVector(NBitVector&& otherVector);
+	NBitVector&                         operator=( NBitVector&& otherVector);
 
 
 	// Clear the vector
 	void                                Clear();
 
 
-	// Compare the value
-	NComparison                         Compare(const NBitVector& theValue) const;
-
-
-	// Get/set the vector size
+	// Get / set the size
 	//
-	// Increasing the size will append 0'd bits to the vector.
+	// Increasing the size will zero-fill any new bits.
+	size_t                              GetSize() const;
+	void                                SetSize(size_t numBits);
+
+
+	// Get/set the capacity
 	//
-	// To amortize the cost of repeatedly growing a bit vector, extra capacity can
-	// be requested to reserve storage for at least that many extra bits. These bits
-	// can not be accessed until a subsequent SetSize increases the vector size.
-	NIndex                              GetSize() const;
-	void                                SetSize(NIndex theSize, NIndex extraCapacity = 0);
-
-
-	// Get/set a bit
-	inline bool                         GetBit(NIndex theIndex) const;
-	inline void                         SetBit(NIndex theIndex, bool theValue);
-
-
-	// Get/set the bits
+	// The capacity is the maximum size available before reallocation.
 	//
-	// Bits are returned in the least-most-significant numBits bits of the result.
-	NData                               GetBits() const;
-	inline uint32_t                     GetBits(NIndex theIndex, NIndex numBits) const;
-
-	void                                SetBits(bool theValue);
-	void                                SetBits(const NData& theData);
-
-
-	// Append bits
+	// Reducing the capacity below the current size will also reduce
+	// the current size.
 	//
-	// Bits are read from the least-most-significant numBits of theValue.
-	void                                AppendBit(bool      theValue);
-	void                                AppendBits(uint32_t theValue, NIndex numBits);
+	// Increasing the capacity above the current size may round the
+	// requested capacity upwards.
+	size_t                              GetCapacity() const;
+	void                                SetCapacity(size_t numBits);
+
+
+	// Get / set the data
+	//
+	// GetData rounds the size up to the nearest byte, with bytes outside
+	// the vector being set to 0.
+	NData                               GetData() const;
+	void                                SetData(  const NData& theData);
+
+
+	// Get / set a bit
+	bool                                GetBit(size_t theIndex) const;
+	void                                SetBit(size_t theIndex, bool theValue);
+
+
+	// Get / set bits in a range
+	//
+	// HasBit returns as any bit in the range has the specified value.
+	bool                                HasBit( bool theValue, const NRange& theRange = kNRangeAll) const;
+	void                                SetBits(bool theValue, const NRange& theRange = kNRangeAll);
+
+
+	// Append a bit
+	void                                AppendBit(bool theValue);
+
+
+	// Find a bit
+	//
+	// Returns the first / last instance of a bit in a range.
+	size_t                              FindFirst(bool theValue, const NRange& theRange = kNRangeAll) const;
+	size_t                              FindLast( bool theValue, const NRange& theRange = kNRangeAll) const;
+
+
+	// Count bits
+	size_t                              CountBits(        bool theValue, const NRange& theRange = kNRangeAll) const;
+	size_t                              CountLeadingBits( bool theValue) const;
+	size_t                              CountTrailingBits(bool theValue) const;
 
 
 	// Flip bits
-	void                                FlipBit(NIndex theIndex);
+	void                                FlipBit(size_t theIndex);
 	void                                FlipBits(const NRange& theRange = kNRangeAll);
 
 
-	// Test bits
-	NIndex                              CountBits(  bool theValue, const NRange& theRange = kNRangeAll) const;
-	bool                                ContainsBit(bool theValue, const NRange& theRange = kNRangeAll) const;
-
-
-	// Find bits
-	NIndex                              FindFirstBit(bool theValue, const NRange& theRange = kNRangeAll) const;
-	NIndex                              FindLastBit( bool theValue, const NRange& theRange = kNRangeAll) const;
-
-
 	// Operators
-	const NBitVector&                   operator=(const NBitVector& theObject);
-					  operator NFormatArgument()  const;
+	NBitVector                          operator~() const;
+
+	NBitVector                          operator&(const NBitVector& theVector) const;
+	NBitVector                          operator|(const NBitVector& theVector) const;
+	NBitVector                          operator^(const NBitVector& theVector) const;
+
+	NBitVector&                         operator&=(const NBitVector& theVector);
+	NBitVector&                         operator|=(const NBitVector& theVector);
+	NBitVector&                         operator^=(const NBitVector& theVector);
 
 
-protected:
-	// Encode/decode the object
-	void                                EncodeSelf(      NEncoder& theEncoder) const;
-	void                                DecodeSelf(const NEncoder& theEncoder);
+public:
+	// NMixinAppendable
+	void                                Append(const NBitVector& theVector);
+
+
+	// NMixinComparable
+	bool                                CompareEqual(const NBitVector& theVector) const;
+	NComparison                         CompareOrder(const NBitVector& theVector) const;
+
 
 
 private:
-	void                                UpdateSize( NIndex numBits);
-	NIndex                              GetByteSize(NIndex numBits) const;
-
-	inline uint8_t*                     GetByteForBit(NIndex theIndex, NIndex& bitIndex) const;
+	NBitPointer                         GetBitPointer(size_t theIndex) const;
+	size_t                              GetByteSize(  size_t numBits)  const;
 
 
 private:
 	NData                               mData;
-	NIndex                              mSize;
+	size_t                              mSize;
 	mutable uint8_t*                    mBytes;
 };
 
@@ -154,118 +186,9 @@ private:
 
 
 //=============================================================================
-//		NBitVector::GetByteForBit : Get the byte that contains a bit.
+//		Includes
 //-----------------------------------------------------------------------------
-//		Note : Inlined for performance.
-//----------------------------------------------------------------------------
-inline uint8_t* NBitVector::GetByteForBit(NIndex theIndex, NIndex& bitIndex) const
-{
-	NIndex                              byteIndex;
-
-
-	// Validate our parameters
-										NN_ASSERT(theIndex >= 0 && theIndex < GetSize());
-
-
-	// Get the byte
-	//
-	// The bit index as the index within the byte, not the vector.
-	byteIndex = theIndex /              8;
-	bitIndex  = 7 - (theIndex - (byteIndex * 8));
-
-	return &mBytes[byteIndex];
-}
-
-
-
-
-
-//=============================================================================
-//		NBitVector::GetBit : Get a bit.
-//-----------------------------------------------------------------------------
-//		Note : Inlined for performance.
-//----------------------------------------------------------------------------
-inline bool NBitVector::GetBit(NIndex theIndex) const
-{
-	NIndex  bitIndex;
-	uint8_t theByte;
-
-
-
-	// Get the bit
-	theByte = *GetByteForBit(theIndex, bitIndex);
-
-	return (theByte >> bitIndex) & 0x01;
-}
-
-
-
-
-
-//=============================================================================
-//		NBitVector::GetBits : Get the bits.
-//-----------------------------------------------------------------------------
-//		Note : Inlined for performance.
-//----------------------------------------------------------------------------
-inline uint32_t NBitVector::GetBits(NIndex theIndex, NIndex numBits) const
-{
-	uint32_t theResult, theMask;
-	NIndex   n;
-
-
-
-	// Validate our parameters
-	NN_ASSERT((theIndex + numBits) <= GetSize());
-	NN_ASSERT(numBits >= 1 && numBits <= 32);
-
-
-
-	// Get the bits
-	theResult = 0;
-	theMask   = (1 << (numBits - 1));
-
-	for (n = 0; n < numBits; n++)
-	{
-		if (GetBit(theIndex + n))
-		{
-			theResult |= theMask;
-		}
-
-		theMask >>= 1;
-	}
-
-	return theResult;
-}
-
-
-
-
-
-//=============================================================================
-//		NBitVector::SetBit : Set a bit.
-//-----------------------------------------------------------------------------
-//		Note : Inlined for performance.
-//----------------------------------------------------------------------------
-inline void NBitVector::SetBit(NIndex theIndex, bool theValue)
-{
-	NIndex   bitIndex;
-	uint8_t* bytePtr;
-
-
-
-	// Set the bit
-	bytePtr = GetByteForBit(theIndex, bitIndex);
-
-	if (theValue)
-	{
-		*bytePtr |= (1 << bitIndex);
-	}
-	else
-	{
-		*bytePtr &= ~(1 << bitIndex);
-	}
-}
-
+#include "NBitVector.inl"
 
 
 #endif // NBIT_VECTOR_H

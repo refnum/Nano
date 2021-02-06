@@ -4,10 +4,6 @@
 	DESCRIPTION:
 		Bit vector.
 
-		Although std::vector<bool> provides a specialization that uses 1 bit per
-		value, it does not provide an efficient way to get/set the contents as a
-		block of memory (and std::bitset requires a fixed size on creation).
-
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
 		All rights reserved.
@@ -43,3 +39,317 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+
+
+
+
+
+//=============================================================================
+//		Internal Types
+//-----------------------------------------------------------------------------
+struct NBitPointer
+{
+	uint8_t* theByte;
+	uint8_t  bitIndex;
+};
+
+
+
+
+
+//=============================================================================
+//		NBitVector::NBitVector : Constructor.
+//-----------------------------------------------------------------------------
+inline NBitVector::NBitVector()
+	: mData{}
+	, mSize(0)
+	, mBytes(nullptr)
+{
+}
+
+
+
+
+
+//=============================================================================
+//		NBitVector::NBitVector : Constructor.
+//-----------------------------------------------------------------------------
+inline NBitVector::NBitVector(const NBitVector& otherVector)
+	: mData(otherVector.mData)
+	, mSize(otherVector.mSize)
+	, mBytes(mData.GetMutableData())
+{
+}
+
+
+
+
+
+//=============================================================================
+//		NBitVector::NBitVector : Constructor.
+//-----------------------------------------------------------------------------
+inline NBitVector& NBitVector::operator=(const NBitVector& otherVector)
+{
+
+
+	// Assign the vector
+	if (this != &otherVector)
+	{
+		mData  = otherVector.mData;
+		mSize  = otherVector.mSize;
+		mBytes = mData.GetMutableData();
+	}
+
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NBitVector::NBitVector : Constructor.
+//-----------------------------------------------------------------------------
+inline NBitVector::NBitVector(NBitVector&& otherVector)
+	: mData{}
+	, mSize(0)
+	, mBytes(nullptr)
+{
+
+
+	// Initialise ourselves
+	std::swap(mData, otherVector.mData);
+	std::swap(mSize, otherVector.mSize);
+	mBytes = mData.GetMutableData();
+}
+
+
+
+
+
+//=============================================================================
+//		NBitVector::NBitVector : Constructor.
+//-----------------------------------------------------------------------------
+inline NBitVector& NBitVector::operator=(NBitVector&& otherVector)
+{
+
+
+	// Move the vector
+	if (this != &otherVector)
+	{
+		std::swap(mData, otherVector.mData);
+		std::swap(mSize, otherVector.mSize);
+		mBytes = mData.GetMutableData();
+
+		otherVector.mData.Clear();
+		otherVector.mSize  = 0;
+		otherVector.mBytes = nullptr;
+	}
+
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NBitVector::Clear : Clear the vector.
+//-----------------------------------------------------------------------------
+inline void NBitVector::Clear()
+{
+
+
+	// Clear the vector
+	mData.Clear();
+	mSize  = 0;
+	mBytes = nullptr;
+}
+
+
+
+
+
+//=============================================================================
+//		NBitVector::GetSize : Get the size.
+//-----------------------------------------------------------------------------
+inline size_t NBitVector::GetSize() const
+{
+
+
+	// Get the size
+	return mSize;
+}
+
+
+
+
+
+//=============================================================================
+//		NBitVector::GetCapacity : Get the capacity.
+//-----------------------------------------------------------------------------
+inline size_t NBitVector::GetCapacity() const
+{
+
+
+	// Get the size
+	return mData.GetCapacity() * 8;
+}
+
+
+
+
+
+//=============================================================================
+//		NBitVector::GetBit : Get a bit.
+//-----------------------------------------------------------------------------
+inline bool NBitVector::GetBit(size_t theIndex) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theIndex <= mSize);
+
+
+
+	// Get the bit
+	NBitPointer bitPointer = GetBitPointer(theIndex);
+
+	return (*bitPointer.theByte >> bitPointer.bitIndex) & 0x01;
+}
+
+
+
+
+
+//=============================================================================
+//		NBitVector::SetBit : Set a bit.
+//-----------------------------------------------------------------------------
+inline void NBitVector::SetBit(size_t theIndex, bool theValue)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theIndex <= mSize);
+
+
+
+	// Get the bit
+	NBitPointer bitPointer = GetBitPointer(theIndex);
+
+	if (theValue)
+	{
+		*bitPointer.theByte |= uint8_t(1 << bitPointer.bitIndex);
+	}
+	else
+	{
+		*bitPointer.theByte &= ~uint8_t(1 << bitPointer.bitIndex);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NBitVector::FlipBit : Flip a bit.
+//-----------------------------------------------------------------------------
+inline void NBitVector::FlipBit(size_t theIndex)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theIndex < GetSize());
+
+
+
+	// Flip the bit
+	NBitPointer bitPointer = GetBitPointer(theIndex);
+
+	*bitPointer.theByte ^= uint8_t(1 << bitPointer.bitIndex);
+}
+
+
+
+
+
+//=============================================================================
+//		NBitVector::operator~ : Bitwise NOT operator.
+//-----------------------------------------------------------------------------
+inline NBitVector NBitVector::operator~() const
+{
+	NBitVector theResult(*this);
+
+	theResult.FlipBits();
+
+	return theResult;
+}
+
+
+
+
+
+//=============================================================================
+//		NBitVector::operator&= : Bitwise AND operator.
+//-----------------------------------------------------------------------------
+inline NBitVector& NBitVector::operator&=(const NBitVector& theVector)
+{
+	*this = *this & theVector;
+
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NBitVector::operator|= : Bitwise OR operator.
+//-----------------------------------------------------------------------------
+inline NBitVector& NBitVector::operator|=(const NBitVector& theVector)
+{
+	*this = *this | theVector;
+
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NBitVector::operator^= : Bitwise XOR operator.
+//-----------------------------------------------------------------------------
+inline NBitVector& NBitVector::operator^=(const NBitVector& theVector)
+{
+	*this = *this ^ theVector;
+
+	return *this;
+}
+
+
+
+
+
+#pragma mark private
+//=============================================================================
+//		NBitVector::GetBitPointer : Get a pointer to a bit.
+//-----------------------------------------------------------------------------
+inline NBitPointer NBitVector::GetBitPointer(size_t theIndex) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theIndex <= mSize);
+
+
+
+	// Get the bit
+	NBitPointer bitPointer{};
+
+	size_t byteIndex    = theIndex / 8;
+	bitPointer.bitIndex = uint8_t(7 - (theIndex - (byteIndex * 8)));
+	bitPointer.theByte  = &mBytes[byteIndex];
+
+	return bitPointer;
+}

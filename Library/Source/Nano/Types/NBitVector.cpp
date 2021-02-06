@@ -4,10 +4,6 @@
 	DESCRIPTION:
 		Bit vector.
 
-		Although std::vector<bool> provides a specialization that uses 1 bit per
-		value, it does not provide an efficient way to get/set the contents as a
-		block of memory (and std::bitset requires a fixed size on creation).
-
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
 		All rights reserved.
@@ -44,133 +40,40 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NBitVector.h"
-#include "NEncoder.h"
-#include "NString.h"
+
+// Nano
+#include "NRange.h"
 
 
 
 
 
 //=============================================================================
-//		Implementation
+//		NBitVector::SetSize : Set the size.
 //-----------------------------------------------------------------------------
-NENCODABLE_DEFINE(NBitVector);
-
-
-
-
-
-//=============================================================================
-//		NBitVector::NBitVector : Constructor.
-//-----------------------------------------------------------------------------
-NBitVector::NBitVector(const NBitVector& theValue)
-	: NContainer()
-	, NEncodable()
-	, NComparable<NBitVector>()
+void NBitVector::SetSize(size_t numBits)
 {
 
 
-	// Initialize ourselves
-	mData = theValue.mData;
-	UpdateSize(theValue.mSize);
-}
-
-
-
-
-
-//=============================================================================
-//		NBitVector::NBitVector : Constructor.
-//-----------------------------------------------------------------------------
-NBitVector::NBitVector()
-{
-
-
-	// Initialize ourselves
-	mSize  = 0;
-	mBytes = NULL;
-}
-
-
-
-
-
-//=============================================================================
-//		NBitVector::~NBitVector : Destructor.
-//-----------------------------------------------------------------------------
-NBitVector::~NBitVector()
-{
-}
-
-
-
-
-
-//=============================================================================
-//		NBitVector::Clear : Clear the vector.
-//-----------------------------------------------------------------------------
-void NBitVector::Clear()
-{
-
-
-	// Clear the vector
-	SetSize(0);
-}
-
-
-
-
-
-//=============================================================================
-//		NBitVector::Compare : Compare the value.
-//-----------------------------------------------------------------------------
-NComparison NBitVector::Compare(const NBitVector& theValue) const
-{
-	NComparison theResult;
-
-
-
-	// Compare the value
+	// Clear unused bits
 	//
-	// We have no natural order, so the only real comparison is equality.
-	theResult = CompareData(mSize / 8, mBytes, theValue.mSize / 8, theValue.mBytes);
-
-	return theResult;
-}
-
-
-
-
-
-//=============================================================================
-//		NBitVector::GetSize : Get the size.
-//-----------------------------------------------------------------------------
-NIndex NBitVector::GetSize() const
-{
-
-
-	// Get the size
-	return mSize;
-}
-
-
-
-
-
-//=============================================================================
-//		NBitVector::SetSize : Set the vector size.
-//-----------------------------------------------------------------------------
-void NBitVector::SetSize(NIndex theSize, NIndex extraCapacity)
-{
-	NIndex numBytes;
+	// Growing the storage will always append zero-filled bits.
+	//
+	// To ensure unued bits are always zero then we also need to clear
+	// any previously used bits in the byte containing our final bit.
+	if (numBits < mSize)
+	{
+		size_t unusedBits = 8 - (numBits % 8);
+		SetBits(false, NRange(numBits, unusedBits));
+	}
 
 
 
 	// Set the size
-	numBytes = GetByteSize(theSize) + GetByteSize(extraCapacity);
-	mData.SetSize(numBytes);
+	mData.SetSize(GetByteSize(numBits));
 
-	UpdateSize(theSize);
+	mSize  = numBits;
+	mBytes = mData.GetMutableData();
 }
 
 
@@ -178,28 +81,28 @@ void NBitVector::SetSize(NIndex theSize, NIndex extraCapacity)
 
 
 //=============================================================================
-//		NBitVector::GetBits : Get the bits.
+//		NBitVector::SetCapacity : Set the capacity.
 //-----------------------------------------------------------------------------
-NData NBitVector::GetBits() const
+void NBitVector::SetCapacity(size_t numBits)
 {
-	NBitVector* thisPtr;
-	NIndex      theSize;
+
+
+	// Set the capacity
+	size_t numBytes = GetByteSize(mSize + numBits);
+
+	mData.SetCapacity(numBytes);
+	mBytes = mData.GetMutableData();
+}
 
 
 
-	// Shrink the buffer
-	//
-	// Since the buffer may have been over-allocated to minimise resize costs,
-	// we may need to compact it to contain just the valid bytes.
-	theSize = GetByteSize(GetSize());
-	if (mData.GetSize() != theSize)
-	{
-		thisPtr = const_cast<NBitVector*>(this);
 
-		thisPtr->mData.SetSize(theSize);
-		thisPtr->UpdateSize(mSize);
-	}
 
+//=============================================================================
+//		NBitVector::GetData : Get the bits as an NData.
+//-----------------------------------------------------------------------------
+NData NBitVector::GetData() const
+{
 
 
 	// Get the bits
@@ -211,14 +114,16 @@ NData NBitVector::GetBits() const
 
 
 //=============================================================================
-//		NBitVector::SetBits : Set the bits.
+//		NBitVector::SetData : Set the bits as an NData.
 //-----------------------------------------------------------------------------
-void NBitVector::SetBits(bool theValue)
+void NBitVector::SetData(const NData& theData)
 {
 
 
 	// Set the bits
-	memset(mData.GetData(), theValue ? 0xFF : 0x00, mData.GetSize());
+	mData  = theData;
+	mSize  = mData.GetSize() * 8;
+	mBytes = mData.GetMutableData();
 }
 
 
@@ -226,174 +131,16 @@ void NBitVector::SetBits(bool theValue)
 
 
 //=============================================================================
-//		NBitVector::SetBits : Set the bits.
+//		NBitVector::HasBit : Test the bits in a range.
 //-----------------------------------------------------------------------------
-void NBitVector::SetBits(const NData& theData)
+bool NBitVector::HasBit(bool theValue, const NRange& theRange) const
 {
-
-
-	// Set the bits
-	mData = theData;
-	UpdateSize(mData.GetSize() * 8);
-}
-
-
-
-
-
-//=============================================================================
-//		NBitVector::AppendBit : Append a bit.
-//-----------------------------------------------------------------------------
-void NBitVector::AppendBit(bool theValue)
-{
-
-
-	// Add the bit
-	AppendBits(theValue ? 0x01 : 0x00, 1);
-}
-
-
-
-
-
-//=============================================================================
-//		NBitVector::AppendBits : Append bits.
-//-----------------------------------------------------------------------------
-void NBitVector::AppendBits(uint32_t theValue, NIndex numBits)
-{
-	NIndex   n, theSize;
-	uint32_t theMask;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(numBits >= 1 && numBits <= 32);
-
-
-
-	// Get the state we need
-	theSize = GetSize();
-	theMask = (1 << (numBits - 1));
-
-
-
-	// Grow the buffer
-	//
-	// To reduce the cost of repeatedly growing the buffer, we
-	// pre-allocate to ensure most appends do not need to grow.
-	SetSize(theSize + numBits, kNKilobyte * 8);
-
-
-
-	// Append the bits
-	for (n = 0; n < numBits; n++)
-	{
-		SetBit(theSize + n, (theValue & theMask) != 0);
-		theMask >>= 1;
-	}
-}
-
-
-
-
-
-//=============================================================================
-//		NBitVector::FlipBit : Flip a bit.
-//-----------------------------------------------------------------------------
-void NBitVector::FlipBit(NIndex theIndex)
-{
-
-
-	// Flip the bit
-	SetBit(theIndex, !GetBit(theIndex));
-}
-
-
-
-
-
-//=============================================================================
-//		NBitVector::FlipBits : Flip the bits.
-//-----------------------------------------------------------------------------
-void NBitVector::FlipBits(const NRange& theRange)
-{
-	NIndex n, firstBit, lastBit;
-	NRange finalRange;
-
-
-
-	// Get the state we need
-	finalRange = GetNormalized(theRange);
-	firstBit   = finalRange.GetFirst();
-	lastBit    = finalRange.GetLast();
-
-
-
-	// Flip the bits
-	for (n = firstBit; n <= lastBit; n++)
-	{
-		SetBit(n, !GetBit(n));
-	}
-}
-
-
-
-
-
-//=============================================================================
-//		NBitVector::CountBits : Count the bits with a specific value.
-//-----------------------------------------------------------------------------
-NIndex NBitVector::CountBits(bool theValue, const NRange& theRange) const
-{
-	NIndex n, firstBit, lastBit, numFound;
-	NRange finalRange;
-
-
-
-	// Get the state we need
-	finalRange = GetNormalized(theRange);
-	firstBit   = finalRange.GetFirst();
-	lastBit    = finalRange.GetLast();
-
 
 
 	// Count the bits
-	numFound = 0;
+	NRange finalRange = theRange.GetNormalized(GetSize());
 
-	for (n = firstBit; n <= lastBit; n++)
-	{
-		if (GetBit(n) == theValue)
-		{
-			numFound++;
-		}
-	}
-
-	return numFound;
-}
-
-
-
-
-
-//=============================================================================
-//		NBitVector::ContainsBit : Does a range contain a value?
-//-----------------------------------------------------------------------------
-bool NBitVector::ContainsBit(bool theValue, const NRange& theRange) const
-{
-	NIndex n, firstBit, lastBit;
-	NRange finalRange;
-
-
-
-	// Get the state we need
-	finalRange = GetNormalized(theRange);
-	firstBit   = finalRange.GetFirst();
-	lastBit    = finalRange.GetLast();
-
-
-
-	// Test the bits
-	for (n = firstBit; n <= lastBit; n++)
+	for (size_t n = finalRange.GetFirst(); n < finalRange.GetNext(); n++)
 	{
 		if (GetBit(n) == theValue)
 		{
@@ -409,24 +156,52 @@ bool NBitVector::ContainsBit(bool theValue, const NRange& theRange) const
 
 
 //=============================================================================
-//		NBitVector::FindFirstBit : Find the first bit with a specific value.
+//		NBitVector::SetBits : Set the bits in a range.
 //-----------------------------------------------------------------------------
-NIndex NBitVector::FindFirstBit(bool theValue, const NRange& theRange) const
+void NBitVector::SetBits(bool theValue, const NRange& theRange)
 {
-	NIndex n, firstBit, lastBit;
-	NRange finalRange;
+
+
+	// Set the bits
+	NRange finalRange = theRange.GetNormalized(GetSize());
+
+	for (size_t n = finalRange.GetFirst(); n < finalRange.GetNext(); n++)
+	{
+		SetBit(n, theValue);
+	}
+}
 
 
 
-	// Get the state we need
-	finalRange = GetNormalized(theRange);
-	firstBit   = finalRange.GetFirst();
-	lastBit    = finalRange.GetLast();
 
+
+//=============================================================================
+//		NBitVector::AppendBit : Append a bit.
+//-----------------------------------------------------------------------------
+void NBitVector::AppendBit(bool theValue)
+{
+
+
+	// Append the bit
+	SetSize(GetSize() + 1);
+	SetBit(GetSize() - 1, theValue);
+}
+
+
+
+
+
+//=============================================================================
+//		NBitVector::FindFirst : Find the first bit with a value.
+//-----------------------------------------------------------------------------
+size_t NBitVector::FindFirst(bool theValue, const NRange& theRange) const
+{
 
 
 	// Find the bit
-	for (n = firstBit; n <= lastBit; n++)
+	NRange finalRange = theRange.GetNormalized(GetSize());
+
+	for (size_t n = finalRange.GetFirst(); n < finalRange.GetNext(); n++)
 	{
 		if (GetBit(n) == theValue)
 		{
@@ -434,7 +209,7 @@ NIndex NBitVector::FindFirstBit(bool theValue, const NRange& theRange) const
 		}
 	}
 
-	return kNIndexNone;
+	return kNNotFound;
 }
 
 
@@ -442,32 +217,29 @@ NIndex NBitVector::FindFirstBit(bool theValue, const NRange& theRange) const
 
 
 //=============================================================================
-//		NBitVector::FindLastBit : Find the last bit with a specific value.
+//		NBitVector::FindLast : Find the last bit with a value.
 //-----------------------------------------------------------------------------
-NIndex NBitVector::FindLastBit(bool theValue, const NRange& theRange) const
+size_t NBitVector::FindLast(bool theValue, const NRange& theRange) const
 {
-	NIndex n, firstBit, lastBit;
-	NRange finalRange;
-
-
-
-	// Get the state we need
-	finalRange = GetNormalized(theRange);
-	firstBit   = finalRange.GetFirst();
-	lastBit    = finalRange.GetLast();
-
 
 
 	// Find the bit
-	for (n = lastBit; n >= firstBit; n--)
+	NRange finalRange = theRange.GetNormalized(GetSize());
+
+	for (size_t n = finalRange.GetLast(); n >= finalRange.GetFirst(); n--)
 	{
-		if (n >= 0 && GetBit(n) == theValue)
+		if (GetBit(n) == theValue)
 		{
 			return n;
 		}
+
+		if (n == 0)
+		{
+			break;
+		}
 	}
 
-	return kNIndexNone;
+	return kNNotFound;
 }
 
 
@@ -475,20 +247,25 @@ NIndex NBitVector::FindLastBit(bool theValue, const NRange& theRange) const
 
 
 //=============================================================================
-//		NBitVector::= : Assignment operator.
+//		NBitVector::CountBits : Count the bits with a value.
 //-----------------------------------------------------------------------------
-const NBitVector& NBitVector::operator=(const NBitVector& theValue)
+size_t NBitVector::CountBits(bool theValue, const NRange& theRange) const
 {
 
 
-	// Assign the object
-	if (this != &theValue)
+	// Count the bits
+	NRange finalRange = theRange.GetNormalized(GetSize());
+	size_t numFound   = 0;
+
+	for (size_t n = finalRange.GetFirst(); n < finalRange.GetNext(); n++)
 	{
-		mData = theValue.mData;
-		UpdateSize(theValue.mSize);
+		if (GetBit(n) == theValue)
+		{
+			numFound++;
+		}
 	}
 
-	return *this;
+	return numFound;
 }
 
 
@@ -496,16 +273,103 @@ const NBitVector& NBitVector::operator=(const NBitVector& theValue)
 
 
 //=============================================================================
-//		NBitVector::NFormatArgument : NFormatArgument operator.
+//		NBitVector::CountLeadingBits : Count the leading bits with a value.
 //-----------------------------------------------------------------------------
-NBitVector::operator NFormatArgument() const
+size_t NBitVector::CountLeadingBits(bool theValue) const
 {
-	NString theResult;
+
+
+	// Count the bits
+	size_t numFound = 0;
+
+	for (size_t n = 0; n < mSize; n++)
+	{
+		if (GetBit(n) != theValue)
+		{
+			break;
+		}
+
+		numFound++;
+	}
+
+	return numFound;
+}
 
 
 
-	// Get the value
-	theResult.Format("{size=%ld}", GetSize());
+
+
+//=============================================================================
+//		NBitVector::CountTrailingBits : Count the trailing bits with a value.
+//-----------------------------------------------------------------------------
+size_t NBitVector::CountTrailingBits(bool theValue) const
+{
+
+
+	// Count the bits
+	size_t numFound = 0;
+
+	for (size_t n = mSize - 1; ssize_t(n) >= 0; n--)
+	{
+		if (GetBit(size_t(n)) != theValue)
+		{
+			break;
+		}
+
+		numFound++;
+
+		if (n == 0)
+		{
+			break;
+		}
+	}
+
+	return numFound;
+}
+
+
+
+
+
+//=============================================================================
+//		NBitVector::FlipBits : Flip the bits.
+//-----------------------------------------------------------------------------
+void NBitVector::FlipBits(const NRange& theRange)
+{
+
+
+	// Flip the bits
+	NRange finalRange = theRange.GetNormalized(GetSize());
+
+	for (size_t n = finalRange.GetFirst(); n < finalRange.GetNext(); n++)
+	{
+		FlipBit(n);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NBitVector::operator& : Bitwise AND operator.
+//-----------------------------------------------------------------------------
+NBitVector NBitVector::operator&(const NBitVector& theVector) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theVector.GetSize() == GetSize());
+
+
+
+	// Combine the vectors
+	NBitVector theResult(*this);
+
+	for (size_t n = 0; n < mData.GetSize(); n++)
+	{
+		theResult.mBytes[n] &= theVector.mBytes[n];
+	}
 
 	return theResult;
 }
@@ -514,16 +378,27 @@ NBitVector::operator NFormatArgument() const
 
 
 
-#pragma mark protected
 //=============================================================================
-//		NBitVector::EncodeSelf : Encode the object.
+//		NBitVector::operator| : Bitwise OR operator.
 //-----------------------------------------------------------------------------
-void NBitVector::EncodeSelf(NEncoder& theEncoder) const
+NBitVector NBitVector::operator|(const NBitVector& theVector) const
 {
 
 
-	// Encode the object
-	theEncoder.EncodeData(kNEncoderValueKey, GetBits());
+	// Validate our parameters
+	NN_REQUIRE(theVector.GetSize() == GetSize());
+
+
+
+	// Combine the vectors
+	NBitVector theResult(*this);
+
+	for (size_t n = 0; n < mData.GetSize(); n++)
+	{
+		theResult.mBytes[n] |= theVector.mBytes[n];
+	}
+
+	return theResult;
 }
 
 
@@ -531,14 +406,100 @@ void NBitVector::EncodeSelf(NEncoder& theEncoder) const
 
 
 //=============================================================================
-//		NBitVector::DecodeSelf : Decode the object.
+//		NBitVector::operator^ : Bitwise XOR operator.
 //-----------------------------------------------------------------------------
-void NBitVector::DecodeSelf(const NEncoder& theEncoder)
+NBitVector NBitVector::operator^(const NBitVector& theVector) const
 {
 
 
-	// Decode the object
-	SetBits(theEncoder.DecodeData(kNEncoderValueKey));
+	// Validate our parameters
+	NN_REQUIRE(theVector.GetSize() == GetSize());
+
+
+
+	// Combine the vectors
+	NBitVector theResult(*this);
+
+	for (size_t n = 0; n < mData.GetSize(); n++)
+	{
+		theResult.mBytes[n] ^= theVector.mBytes[n];
+	}
+
+	return theResult;
+}
+
+
+
+
+
+#pragma mark NMixinAppendable
+//=============================================================================
+//		NBitVector::Append : Append a value.
+//-----------------------------------------------------------------------------
+void NBitVector::Append(const NBitVector& theVector)
+{
+
+
+	// Append as bytes
+	if ((mSize % 8) == 0)
+	{
+		mData += theVector.mData;
+		mSize += theVector.mSize;
+		mBytes = mData.GetMutableData();
+	}
+
+
+	// Append as bits
+	else
+	{
+		SetCapacity(GetSize() + theVector.GetSize());
+
+		for (size_t n = 0; n < theVector.GetSize(); n++)
+		{
+			AppendBit(theVector.GetBit(n));
+		}
+	}
+}
+
+
+
+
+
+#pragma mark NMixinComparable
+//=============================================================================
+//		NBitVector::CompareEqual : Perform an equality comparison.
+//-----------------------------------------------------------------------------
+bool NBitVector::CompareEqual(const NBitVector& theVector) const
+{
+
+
+	// Compare the size
+	//
+	// A different size means no equality.
+	if (GetSize() != theVector.GetSize())
+	{
+		return false;
+	}
+
+
+
+	// Compare the bits
+	return mData.CompareEqual(theVector.mData);
+}
+
+
+
+
+
+//=============================================================================
+//		NBitVector::CompareOrder : Perform a three-way comparison.
+//-----------------------------------------------------------------------------
+NComparison NBitVector::CompareOrder(const NBitVector& theVector) const
+{
+
+
+	// Order by bits
+	return mData.CompareOrder(theVector.mData);
 }
 
 
@@ -547,34 +508,16 @@ void NBitVector::DecodeSelf(const NEncoder& theEncoder)
 
 #pragma mark private
 //=============================================================================
-//		NBitVector::UpdateSize : Update the size.
-//-----------------------------------------------------------------------------
-void NBitVector::UpdateSize(NIndex numBits)
-{
-
-
-	// Update our state
-	mSize  = numBits;
-	mBytes = (mSize == 0) ? NULL : mData.GetData();
-}
-
-
-
-
-
-//=============================================================================
 //		NBitVector::GetByteSize : Get the byte count for a bit count.
 //-----------------------------------------------------------------------------
-NIndex NBitVector::GetByteSize(NIndex numBits) const
+size_t NBitVector::GetByteSize(size_t numBits) const
 {
-	NIndex numBytes;
 
 
+	// Get the byte count
+	size_t numBytes = numBits / 8;
 
-	// Count the number of bytes
-	numBytes = numBits / 8;
-
-	if ((numBytes * 8) < numBits)
+	if ((numBytes * 8) != numBits)
 	{
 		numBytes++;
 	}
