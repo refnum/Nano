@@ -56,15 +56,8 @@
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
-// Forward declarations
-class NFileScanner;
-
-// Roots
-struct NFileScannerRoot
-{
-	NFile  theFile;
-	size_t theDepth;
-};
+// Forward declaration
+class NFileScannerIterator;
 
 
 // Filters
@@ -74,41 +67,19 @@ struct NFileScannerRoot
 //
 // The stopScan flag should be set to true if the scan should
 // stop after the current item.
-typedef std::function<bool(const NFile& theFile, bool& stopScan)> NFileScannerFilter;
+using NFileScannerFilter = std::function<bool(const NFile& theFile, bool& stopScan)>;
+
+
+// Roots
+struct NFileScannerRoot
+{
+	NFile  theFile;
+	size_t theDepth;
+};
 
 
 // Containers
 using NVectorFileScannerRoot = std::vector<NFileScannerRoot>;
-
-
-
-
-
-//=============================================================================
-//		Class Declaration
-//-----------------------------------------------------------------------------
-class NFileScannerIterator
-{
-public:
-										NFileScannerIterator(NFileScanner& theScanner, const NFile& theFile);
-
-
-	// Operators
-	const NFile&                        operator*() const;
-
-	NFileScannerIterator&               operator++();
-	NFileScannerIterator                operator++(int);
-
-	NFileScannerIterator                operator+(size_t n) const;
-
-	bool                                operator==(const NFileScannerIterator& otherIter) const;
-	bool                                operator!=(const NFileScannerIterator& otherIter) const;
-
-
-private:
-	NFileScanner&                       mScanner;
-	NFile                               mFile;
-};
 
 
 
@@ -180,7 +151,7 @@ public:
 	NVectorFile                         GetFiles();
 
 
-	// Get NFileScanner iterators
+	// Get iterators
 	//
 	// May only be called when a scan is underway.
 	//
@@ -209,6 +180,14 @@ private:
 	NVectorFile                         mScanResults;
 };
 
+
+
+
+
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NFileScanner.inl"
 
 
 #endif // NFILE_SCANNER_H
