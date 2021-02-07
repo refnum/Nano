@@ -122,21 +122,6 @@ NMutex::~NMutex()
 
 
 
-//=============================================================================
-//		NMutex::IsLocked : Is the lock locked?
-//-----------------------------------------------------------------------------
-bool NMutex::IsLocked() const
-{
-
-
-	// Check our state
-	return mLockCount != 0;
-}
-
-
-
-
-
 #pragma mark private
 //=============================================================================
 //		NMutex::WaitForLock : Wait for the lock.
