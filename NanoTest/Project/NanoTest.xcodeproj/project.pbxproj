@@ -112,6 +112,9 @@
 		ABA478CC25B7B7FE00F3C3C9 /* TSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA478C525B7B7FE00F3C3C9 /* TSystem.cpp */; };
 		ABA478CD25B7B7FE00F3C3C9 /* TSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA478C525B7B7FE00F3C3C9 /* TSystem.cpp */; };
 		ABA478CE25B7B7FE00F3C3C9 /* TSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA478C525B7B7FE00F3C3C9 /* TSystem.cpp */; };
+		ABA6244F25CE3C4900D2FA4D /* TLockable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA6244B25CE3C4900D2FA4D /* TLockable.cpp */; };
+		ABA6245025CE3C4900D2FA4D /* TLockable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA6244B25CE3C4900D2FA4D /* TLockable.cpp */; };
+		ABA6245125CE3C4900D2FA4D /* TLockable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA6244B25CE3C4900D2FA4D /* TLockable.cpp */; };
 		ABA7247323F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA7247223F8415E00CF6EC2 /* TMixinAppendable.cpp */; };
 		ABA7247423F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA7247223F8415E00CF6EC2 /* TMixinAppendable.cpp */; };
 		ABA7247523F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABA7247223F8415E00CF6EC2 /* TMixinAppendable.cpp */; };
@@ -333,6 +336,7 @@
 		ABA478C525B7B7FE00F3C3C9 /* TSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSystem.cpp; sourceTree = "<group>"; };
 		ABA529CC16626BFA000C695B /* TNetworkBrowser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNetworkBrowser.cpp; sourceTree = "<group>"; };
 		ABA529CE16626BFA000C695B /* TNetworkService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNetworkService.cpp; sourceTree = "<group>"; };
+		ABA6244B25CE3C4900D2FA4D /* TLockable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLockable.cpp; sourceTree = "<group>"; };
 		ABA7247223F8415E00CF6EC2 /* TMixinAppendable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMixinAppendable.cpp; sourceTree = "<group>"; };
 		ABB4E03F1767BA6800892A75 /* TImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TImage.cpp; sourceTree = "<group>"; };
 		ABB6782E12AE56EF0077D64E /* TCFURL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCFURL.cpp; sourceTree = "<group>"; };
@@ -649,6 +653,7 @@
 			isa = PBXGroup;
 			children = (
 				AB514D941034184B00E5A6AD /* TAtomicList.cpp */,
+				ABA6244B25CE3C4900D2FA4D /* TLockable.cpp */,
 				ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */,
 				ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */,
 				AB19811C259953C8002C5591 /* TRunLoop.cpp */,
@@ -977,6 +982,7 @@
 				AB56392323C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7823999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
 				AB8E64B125A2A68000AF2CE9 /* TNumber.cpp in Sources */,
+				ABA6245025CE3C4900D2FA4D /* TLockable.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1042,6 +1048,7 @@
 				AB56392223C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7723999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
 				AB8E64B525A2A68100AF2CE9 /* TNumber.cpp in Sources */,
+				ABA6244F25CE3C4900D2FA4D /* TLockable.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1107,6 +1114,7 @@
 				AB56392423C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7923999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
 				AB8E64AD25A2A68000AF2CE9 /* TNumber.cpp in Sources */,
+				ABA6245125CE3C4900D2FA4D /* TLockable.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

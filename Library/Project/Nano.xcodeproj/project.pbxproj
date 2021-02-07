@@ -703,6 +703,8 @@
 		ABA529D416626C4E000C695B /* NNetworkBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNetworkBrowser.h; sourceTree = "<group>"; };
 		ABA529D516626C4E000C695B /* NNetworkService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNetworkService.cpp; sourceTree = "<group>"; };
 		ABA529D616626C4E000C695B /* NNetworkService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNetworkService.h; sourceTree = "<group>"; };
+		ABA6244825CE3C1300D2FA4D /* NLockable.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NLockable.inl; sourceTree = "<group>"; };
+		ABA6244925CE3C1300D2FA4D /* NLockable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLockable.h; sourceTree = "<group>"; };
 		ABA7247023F8412800CF6EC2 /* NMixinAppendable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMixinAppendable.h; sourceTree = "<group>"; };
 		ABA7247123F8412800CF6EC2 /* NMixinAppendable.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NMixinAppendable.inl; sourceTree = "<group>"; };
 		ABAB539412AF8E800061AD01 /* NRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NRegistry.cpp; sourceTree = "<group>"; };
@@ -1561,6 +1563,8 @@
 			children = (
 				AB23BB39102B6565009CA347 /* NAtomicList.cpp */,
 				AB23BB3A102B6565009CA347 /* NAtomicList.h */,
+				ABA6244925CE3C1300D2FA4D /* NLockable.h */,
+				ABA6244825CE3C1300D2FA4D /* NLockable.inl */,
 				ABC75E5D1753910100BB5983 /* NMutex.cpp */,
 				ABC75E5E1753910100BB5983 /* NMutex.h */,
 				ABB3379923A03F54000B81B0 /* NMutex.inl */,
