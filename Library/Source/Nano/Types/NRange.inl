@@ -47,6 +47,223 @@
 
 
 //=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NRangeIterator
+{
+public:
+	constexpr                           NRangeIterator(size_t theIndex);
+
+
+	// Operators
+	constexpr size_t                    operator*() const;
+
+	constexpr NRangeIterator&           operator++();
+	constexpr NRangeIterator            operator++(int);
+
+	inline NRangeIterator&              operator--();
+	inline NRangeIterator               operator--(int);
+
+	constexpr NRangeIterator            operator+(size_t n) const;
+	inline NRangeIterator               operator-(size_t n) const;
+
+	constexpr bool                      operator==(const NRangeIterator& otherIter) const;
+	constexpr bool                      operator!=(const NRangeIterator& otherIter) const;
+
+
+private:
+	size_t                              mIndex;
+};
+
+
+
+
+
+#pragma mark NRangeIterator
+//=============================================================================
+//		NRangeIterator::NRangeIterator : Constructor.
+//-----------------------------------------------------------------------------
+constexpr NRangeIterator::NRangeIterator(size_t theIndex)
+	: mIndex(theIndex)
+{
+}
+
+
+
+
+
+//=============================================================================
+//		NRangeIterator::operator* : Dereference operator.
+//-----------------------------------------------------------------------------
+constexpr size_t NRangeIterator::operator*() const
+{
+
+
+	// Get the index
+	return mIndex;
+}
+
+
+
+
+
+//=============================================================================
+//		NRangeIterator::operator++ : Prefix increment operator.
+//-----------------------------------------------------------------------------
+constexpr NRangeIterator& NRangeIterator::operator++()
+{
+
+
+	// Decrement the iterator
+	mIndex++;
+
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NRangeIterator::operator++ : Postfix increment operator.
+//-----------------------------------------------------------------------------
+constexpr NRangeIterator NRangeIterator::operator++(int)
+{
+
+
+	// Increment the iterator
+	NRangeIterator prevIter = *this;
+
+	mIndex++;
+
+	return prevIter;
+}
+
+
+
+
+
+//=============================================================================
+//		NRangeIterator::operator-- : Prefix decrement operator.
+//-----------------------------------------------------------------------------
+inline NRangeIterator& NRangeIterator::operator--()
+{
+
+
+	// Validate our state
+	NN_REQUIRE(mIndex != 0);
+
+
+
+	// Decrement the iterator
+	mIndex--;
+
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NRangeIterator::operator-- : Postfix decrement operator.
+//-----------------------------------------------------------------------------
+inline NRangeIterator NRangeIterator::operator--(int)
+{
+
+
+	// Validate our state
+	NN_REQUIRE(mIndex != 0);
+
+
+
+	// Decrement the iterator
+	NRangeIterator prevIter = *this;
+
+	mIndex--;
+
+	return prevIter;
+}
+
+
+
+
+
+//=============================================================================
+//		NRangeIterator::operator+ : Addition operator.
+//-----------------------------------------------------------------------------
+constexpr NRangeIterator NRangeIterator::operator+(size_t n) const
+{
+
+
+	// Increment the iterator
+	NRangeIterator theIter = *this;
+
+	theIter.mIndex += n;
+
+	return theIter;
+}
+
+
+
+
+
+//=============================================================================
+//		NRangeIterator::operator- : Subtraction operator.
+//-----------------------------------------------------------------------------
+inline NRangeIterator NRangeIterator::operator-(size_t n) const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(mIndex >= n);
+
+
+
+	// Decrement the iterator
+	NRangeIterator theIter = *this;
+
+	theIter.mIndex -= n;
+
+	return theIter;
+}
+
+
+
+
+
+//=============================================================================
+//		NRangeIterator::operator== : Equality operator.
+//-----------------------------------------------------------------------------
+constexpr bool NRangeIterator::operator==(const NRangeIterator& otherIter) const
+{
+
+
+	// Compare the iterator
+	return mIndex == otherIter.mIndex;
+}
+
+
+
+
+
+//=============================================================================
+//		NRangeIterator::operator!= : Inequality operator.
+//-----------------------------------------------------------------------------
+constexpr bool NRangeIterator::operator!=(const NRangeIterator& otherIter) const
+{
+
+
+	// Compare the iterator
+	return mIndex != otherIter.mIndex;
+}
+
+
+
+
+
+#pragma mark NRange
+//=============================================================================
 //		NRange::NRange : Constructor.
 //-----------------------------------------------------------------------------
 constexpr NRange::NRange(size_t theLocation, size_t theSize)
@@ -461,6 +678,36 @@ constexpr NRange NRange::GetNormalized(size_t theSize) const
 	}
 
 	return theRange;
+}
+
+
+
+
+
+//=============================================================================
+//		NRange::begin : Get an iterator to the start of the range.
+//-----------------------------------------------------------------------------
+constexpr NRangeIterator NRange::begin() const
+{
+
+
+	// Get the iterator
+	return NRangeIterator(GetFirst());
+}
+
+
+
+
+
+//=============================================================================
+//		NRange::end : Get an iterator to the end of the range.
+//-----------------------------------------------------------------------------
+constexpr NRangeIterator NRange::end() const
+{
+
+
+	// Get the iterator
+	return NRangeIterator(GetNext());
 }
 
 

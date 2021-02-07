@@ -138,9 +138,7 @@ bool NBitVector::HasBit(bool theValue, const NRange& theRange) const
 
 
 	// Count the bits
-	NRange finalRange = theRange.GetNormalized(GetSize());
-
-	for (size_t n = finalRange.GetFirst(); n < finalRange.GetNext(); n++)
+	for (size_t n : theRange.GetNormalized(GetSize()))
 	{
 		if (GetBit(n) == theValue)
 		{
@@ -163,9 +161,7 @@ void NBitVector::SetBits(bool theValue, const NRange& theRange)
 
 
 	// Set the bits
-	NRange finalRange = theRange.GetNormalized(GetSize());
-
-	for (size_t n = finalRange.GetFirst(); n < finalRange.GetNext(); n++)
+	for (size_t n : theRange.GetNormalized(GetSize()))
 	{
 		SetBit(n, theValue);
 	}
@@ -199,9 +195,7 @@ size_t NBitVector::FindFirst(bool theValue, const NRange& theRange) const
 
 
 	// Find the bit
-	NRange finalRange = theRange.GetNormalized(GetSize());
-
-	for (size_t n = finalRange.GetFirst(); n < finalRange.GetNext(); n++)
+	for (size_t n : theRange.GetNormalized(GetSize()))
 	{
 		if (GetBit(n) == theValue)
 		{
@@ -254,10 +248,9 @@ size_t NBitVector::CountBits(bool theValue, const NRange& theRange) const
 
 
 	// Count the bits
-	NRange finalRange = theRange.GetNormalized(GetSize());
-	size_t numFound   = 0;
+	size_t numFound = 0;
 
-	for (size_t n = finalRange.GetFirst(); n < finalRange.GetNext(); n++)
+	for (size_t n : theRange.GetNormalized(GetSize()))
 	{
 		if (GetBit(n) == theValue)
 		{
@@ -339,9 +332,7 @@ void NBitVector::FlipBits(const NRange& theRange)
 
 
 	// Flip the bits
-	NRange finalRange = theRange.GetNormalized(GetSize());
-
-	for (size_t n = finalRange.GetFirst(); n < finalRange.GetNext(); n++)
+	for (size_t n : theRange.GetNormalized(GetSize()))
 	{
 		FlipBit(n);
 	}

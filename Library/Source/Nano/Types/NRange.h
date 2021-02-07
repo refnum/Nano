@@ -59,6 +59,7 @@
 //-----------------------------------------------------------------------------
 // Forward declarations
 class NRange;
+class NRangeIterator;
 
 
 // Aliases
@@ -156,6 +157,11 @@ public:
 	// A range whose location falls ouside the implied 0..theSize range keeps
 	// its original location and receives a size of 0.
 	constexpr NRange                    GetNormalized(size_t theSize) const;
+
+
+	// Get iterators
+	constexpr NRangeIterator            begin() const;
+	constexpr NRangeIterator            end()   const;
 
 
 public:
