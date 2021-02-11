@@ -78,7 +78,7 @@ static const NVectorRange kGroupsVivamus2                   = {kRangeVivamus2Gro
 
 
 //=============================================================================
-//		Test fixture
+//		Test Fixture
 //-----------------------------------------------------------------------------
 NANO_FIXTURE(TStringScanner){};
 
@@ -87,7 +87,7 @@ NANO_FIXTURE(TStringScanner){};
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TStringScanner, "Find/Literal")
 {
@@ -122,7 +122,7 @@ NANO_TEST(TStringScanner, "Find/Literal")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TStringScanner, "Find/Pattern")
 {
@@ -157,7 +157,7 @@ NANO_TEST(TStringScanner, "Find/Pattern")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TStringScanner, "FindAll/Literal")
 {
@@ -193,7 +193,7 @@ NANO_TEST(TStringScanner, "FindAll/Literal")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TStringScanner, "FindAll/Pattern")
 {
@@ -231,7 +231,7 @@ NANO_TEST(TStringScanner, "FindAll/Pattern")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TStringScanner, "FindMatch/Pattern")
 {
@@ -271,7 +271,7 @@ NANO_TEST(TStringScanner, "FindMatch/Pattern")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TStringScanner, "FindMatch/Capture")
 {
@@ -315,7 +315,7 @@ NANO_TEST(TStringScanner, "FindMatch/Capture")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TStringScanner, "FindMatches/Pattern")
 {
@@ -361,7 +361,7 @@ NANO_TEST(TStringScanner, "FindMatches/Pattern")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TStringScanner, "FindMatches/Capture")
 {
@@ -409,7 +409,7 @@ NANO_TEST(TStringScanner, "FindMatches/Capture")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TStringScanner, "Replace/String")
 {
@@ -463,7 +463,7 @@ NANO_TEST(TStringScanner, "Replace/String")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TStringScanner, "ReplaceAll/String")
 {
@@ -522,7 +522,7 @@ NANO_TEST(TStringScanner, "ReplaceAll/String")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TStringScanner, "Replace/Range")
 {
@@ -563,7 +563,7 @@ NANO_TEST(TStringScanner, "Replace/Range")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TStringScanner, "ReplaceAll/Range")
 {
@@ -590,7 +590,7 @@ NANO_TEST(TStringScanner, "ReplaceAll/Range")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TStringScanner, "Split")
 {

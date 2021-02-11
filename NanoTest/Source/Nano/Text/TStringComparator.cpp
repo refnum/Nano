@@ -59,7 +59,7 @@ static const NString kTestStringUTF32                       = U"Hello World";
 
 
 //=============================================================================
-//		Test fixture
+//		Test Fixture
 //-----------------------------------------------------------------------------
 NANO_FIXTURE(NStringComparator)
 {
@@ -71,7 +71,7 @@ NANO_FIXTURE(NStringComparator)
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(NStringComparator, "Compare")
 {
@@ -104,7 +104,7 @@ NANO_TEST(NStringComparator, "Compare")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(NStringComparator, "CompareFast/MatchingEncoding")
 {
@@ -123,7 +123,7 @@ NANO_TEST(NStringComparator, "CompareFast/MatchingEncoding")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(NStringComparator, "CompareFast/SharedEncoding")
 {
@@ -144,7 +144,7 @@ NANO_TEST(NStringComparator, "CompareFast/SharedEncoding")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(NStringComparator, "CompareGeneral")
 {
@@ -163,7 +163,7 @@ NANO_TEST(NStringComparator, "CompareGeneral")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(NStringComparator, "NoCase")
 {
@@ -182,7 +182,7 @@ NANO_TEST(NStringComparator, "NoCase")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(NStringComparator, "Numeric")
 {

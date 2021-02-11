@@ -67,7 +67,7 @@ static const NFilePath kPathTmpChildC                       = kPathTmpOne.GetChi
 
 
 //=============================================================================
-//		Test fixture
+//		Test Fixture
 //-----------------------------------------------------------------------------
 NANO_FIXTURE(TFileScanner)
 {
@@ -102,7 +102,7 @@ NANO_FIXTURE(TFileScanner)
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TFileScanner, "Default")
 {
@@ -120,7 +120,7 @@ NANO_TEST(TFileScanner, "Default")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TFileScanner, "SetRecurseDepth")
 {
@@ -141,7 +141,7 @@ NANO_TEST(TFileScanner, "SetRecurseDepth")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TFileScanner, "SetFilterPath")
 {
@@ -162,7 +162,7 @@ NANO_TEST(TFileScanner, "SetFilterPath")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TFileScanner, "SetFilterName")
 {
@@ -183,7 +183,7 @@ NANO_TEST(TFileScanner, "SetFilterName")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TFileScanner, "SetFilterItem/None")
 {
@@ -207,7 +207,7 @@ NANO_TEST(TFileScanner, "SetFilterItem/None")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TFileScanner, "SetFilterItem/All")
 {
@@ -230,7 +230,7 @@ NANO_TEST(TFileScanner, "SetFilterItem/All")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TFileScanner, "SetFilterItem/Some")
 {
@@ -253,7 +253,7 @@ NANO_TEST(TFileScanner, "SetFilterItem/Some")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TFileScanner, "GetFiles")
 {
@@ -272,7 +272,7 @@ NANO_TEST(TFileScanner, "GetFiles")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TFileScanner, "RangeBasedFor")
 {

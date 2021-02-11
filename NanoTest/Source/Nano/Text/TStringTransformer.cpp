@@ -66,7 +66,7 @@ static const NString kTestSentenceCapitals                  = "Get, sentences? I
 
 
 //=============================================================================
-//		Test fixture
+//		Test Fixture
 //-----------------------------------------------------------------------------
 NANO_FIXTURE(NStringTransformer)
 {
@@ -79,7 +79,7 @@ NANO_FIXTURE(NStringTransformer)
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(NStringTransformer, "LowerCase")
 {
@@ -97,7 +97,7 @@ NANO_TEST(NStringTransformer, "LowerCase")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(NStringTransformer, "UpperCase")
 {
@@ -115,7 +115,7 @@ NANO_TEST(NStringTransformer, "UpperCase")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(NStringTransformer, "CapitaliseWords")
 {
@@ -133,7 +133,7 @@ NANO_TEST(NStringTransformer, "CapitaliseWords")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(NStringTransformer, "CapitaliseSentences")
 {
@@ -153,7 +153,7 @@ NANO_TEST(NStringTransformer, "CapitaliseSentences")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(NStringTransformer, "Range")
 {

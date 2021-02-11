@@ -88,7 +88,7 @@ static const TestComparable kTestObjectPlusOne(1);
 
 
 //=============================================================================
-//		Test fixture
+//		Test Fixture
 //-----------------------------------------------------------------------------
 NANO_FIXTURE(TMixinComparable){};
 
@@ -97,7 +97,7 @@ NANO_FIXTURE(TMixinComparable){};
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TMixinComparable, "NMixinComparable")
 {
@@ -120,7 +120,7 @@ NANO_TEST(TMixinComparable, "NMixinComparable")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TMixinComparable, "NCompare/Value")
 {
@@ -145,7 +145,7 @@ NANO_TEST(TMixinComparable, "NCompare/Value")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TMixinComparable, "NCompare/memcmp")
 {
@@ -162,7 +162,7 @@ NANO_TEST(TMixinComparable, "NCompare/memcmp")
 
 
 //=============================================================================
-//		Test case
+//		Test Case
 //-----------------------------------------------------------------------------
 NANO_TEST(TMixinComparable, "NCompare/Data")
 {
