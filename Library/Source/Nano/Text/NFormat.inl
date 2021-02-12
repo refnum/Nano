@@ -237,7 +237,7 @@ public:
 	auto format(const NRange& theParam, FormatContext& theContext)
 	{
 		return format_to(theContext.out(),
-						 "{{{}, {}}}",
+						 "{{location = {}, size = {}}}",
 						 theParam.GetLocation(),
 						 theParam.GetSize());
 	}

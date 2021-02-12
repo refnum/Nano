@@ -450,7 +450,7 @@ NANO_TEST(TRange, "Format")
 
 
 	// Perform the test
-	REQUIRE(NFormat("{}", kTestRange1) == "{0, 5}");
-	REQUIRE(NFormat("{}", kTestRange2) == "{3, 7}");
-	REQUIRE(NFormat("{}", kTestRange3) == "{3, 4}");
+	REQUIRE(NFormat("{}", kTestRange1) == "{location = 0, size = 5}");
+	REQUIRE(NFormat("{}", kTestRange2) == "{location = 3, size = 7}");
+	REQUIRE(NFormat("{}", kTestRange3) == "{location = 3, size = 4}");
 }
