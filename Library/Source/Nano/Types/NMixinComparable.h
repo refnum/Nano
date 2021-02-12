@@ -74,25 +74,25 @@ class NMixinComparable
 {
 public:
 	// Operators
-	bool                                operator==(const T& theValue) const;
-	bool                                operator!=(const T& theValue) const;
-	bool                                operator<=(const T& theValue) const;
-	bool                                operator<( const T& theValue) const;
-	bool                                operator>=(const T& theValue) const;
-	bool                                operator>( const T& theValue) const;
+	constexpr bool                      operator==(const T& theValue) const;
+	constexpr bool                      operator!=(const T& theValue) const;
+	constexpr bool                      operator<=(const T& theValue) const;
+	constexpr bool                      operator<( const T& theValue) const;
+	constexpr bool                      operator>=(const T& theValue) const;
+	constexpr bool                      operator>( const T& theValue) const;
 
 
 public:
 	// Compare an object
 	//
 	// Must be implemented by derived classes.
-	bool                                CompareEqual(const T& theValue) const;
-	NComparison                         CompareOrder(const T& theValue) const;
+	constexpr bool                      CompareEqual(const T& theValue) const;
+	constexpr NComparison               CompareOrder(const T& theValue) const;
 
 
 private:
-	bool                                IsEqual( const T& theValue) const;
-	NComparison                         GetOrder(const T& theValue) const;
+	constexpr bool                      IsEqual( const T& theValue) const;
+	constexpr NComparison               GetOrder(const T& theValue) const;
 };
 
 
