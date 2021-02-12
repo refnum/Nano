@@ -116,16 +116,6 @@ public:
 
 
 	// Arithmetic operators
-	NTime&                              operator+=(const NTime& theTime);
-	NTime&                              operator-=(const NTime& theTime);
-	NTime&                              operator*=(const NTime& theTime);
-	NTime&                              operator/=(const NTime& theTime);
-
-	NTime&                              operator+=(NInterval theValue);
-	NTime&                              operator-=(NInterval theValue);
-	NTime&                              operator*=(NInterval theValue);
-	NTime&                              operator/=(NInterval theValue);
-
 	constexpr NTime                     operator+(const NTime& theTime) const;
 	constexpr NTime                     operator-(const NTime& theTime) const;
 	constexpr NTime                     operator*(const NTime& theTime) const;
@@ -135,6 +125,16 @@ public:
 	constexpr NTime                     operator-(NInterval theValue) const;
 	constexpr NTime                     operator*(NInterval theValue) const;
 	constexpr NTime                     operator/(NInterval theValue) const;
+
+	constexpr NTime&                    operator+=(const NTime& theTime);
+	constexpr NTime&                    operator-=(const NTime& theTime);
+	constexpr NTime&                    operator*=(const NTime& theTime);
+	constexpr NTime&                    operator/=(const NTime& theTime);
+
+	constexpr NTime&                    operator+=(NInterval theValue);
+	constexpr NTime&                    operator-=(NInterval theValue);
+	constexpr NTime&                    operator*=(NInterval theValue);
+	constexpr NTime&                    operator/=(NInterval theValue);
 
 
 private:

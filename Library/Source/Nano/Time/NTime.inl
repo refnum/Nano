@@ -348,110 +348,6 @@ constexpr bool NTime::operator>=(NInterval theValue) const
 
 
 //=============================================================================
-//		NTime::operator += : Addition operator.
-//-----------------------------------------------------------------------------
-inline NTime& NTime::operator+=(const NTime& theTime)
-{
-	mValue += theTime.mValue;
-	return *this;
-}
-
-
-
-
-
-//=============================================================================
-//		NTime::operator -= : Subtraction operator.
-//-----------------------------------------------------------------------------
-inline NTime& NTime::operator-=(const NTime& theTime)
-{
-	mValue -= theTime.mValue;
-	return *this;
-}
-
-
-
-
-
-//=============================================================================
-//		NTime::operator *= : Multiplication operator.
-//-----------------------------------------------------------------------------
-inline NTime& NTime::operator*=(const NTime& theTime)
-{
-	mValue *= theTime.mValue;
-	return *this;
-}
-
-
-
-
-
-//=============================================================================
-//		NTime::operator /= : Division operator.
-//-----------------------------------------------------------------------------
-inline NTime& NTime::operator/=(const NTime& theTime)
-{
-	mValue /= theTime.mValue;
-	return *this;
-}
-
-
-
-
-
-//=============================================================================
-//		NTime::operator += : Addition operator.
-//-----------------------------------------------------------------------------
-inline NTime& NTime::operator+=(NInterval theValue)
-{
-	mValue += theValue;
-	return *this;
-}
-
-
-
-
-
-//=============================================================================
-//		NTime::operator -= : Subtraction operator.
-//-----------------------------------------------------------------------------
-inline NTime& NTime::operator-=(NInterval theValue)
-{
-	mValue -= theValue;
-	return *this;
-}
-
-
-
-
-
-//=============================================================================
-//		NTime::operator *= : Multiplication operator.
-//-----------------------------------------------------------------------------
-inline NTime& NTime::operator*=(NInterval theValue)
-{
-	mValue *= theValue;
-	return *this;
-}
-
-
-
-
-
-//=============================================================================
-//		NTime::operator /= : Division operator.
-//-----------------------------------------------------------------------------
-inline NTime& NTime::operator/=(NInterval theValue)
-{
-	mValue /= theValue;
-	return *this;
-}
-
-
-
-
-
-//=============================================================================
 //		NTime::operator + : Addition operator.
 //-----------------------------------------------------------------------------
 constexpr NTime NTime::operator+(const NTime& theTime) const
@@ -541,4 +437,108 @@ constexpr NTime NTime::operator*(NInterval theValue) const
 constexpr NTime NTime::operator/(NInterval theValue) const
 {
 	return NTime(mValue / theValue);
+}
+
+
+
+
+
+//=============================================================================
+//		NTime::operator += : Addition operator.
+//-----------------------------------------------------------------------------
+constexpr NTime& NTime::operator+=(const NTime& theTime)
+{
+	*this = *this + theTime;
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NTime::operator -= : Subtraction operator.
+//-----------------------------------------------------------------------------
+constexpr NTime& NTime::operator-=(const NTime& theTime)
+{
+	*this = *this - theTime;
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NTime::operator *= : Multiplication operator.
+//-----------------------------------------------------------------------------
+constexpr NTime& NTime::operator*=(const NTime& theTime)
+{
+	*this = *this * theTime;
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NTime::operator /= : Division operator.
+//-----------------------------------------------------------------------------
+constexpr NTime& NTime::operator/=(const NTime& theTime)
+{
+	*this = *this / theTime;
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NTime::operator += : Addition operator.
+//-----------------------------------------------------------------------------
+constexpr NTime& NTime::operator+=(NInterval theValue)
+{
+	*this = *this + theValue;
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NTime::operator -= : Subtraction operator.
+//-----------------------------------------------------------------------------
+constexpr NTime& NTime::operator-=(NInterval theValue)
+{
+	*this = *this - theValue;
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NTime::operator *= : Multiplication operator.
+//-----------------------------------------------------------------------------
+constexpr NTime& NTime::operator*=(NInterval theValue)
+{
+	*this = *this * theValue;
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NTime::operator /= : Division operator.
+//-----------------------------------------------------------------------------
+constexpr NTime& NTime::operator/=(NInterval theValue)
+{
+	*this = *this / theValue;
+	return *this;
 }
