@@ -160,8 +160,8 @@ public:
 
 
 	// Get iterators
-	constexpr NRangeIterator            begin() const;
-	constexpr NRangeIterator            end()   const;
+	NRangeIterator                      begin() const;
+	NRangeIterator                      end()   const;
 
 
 public:

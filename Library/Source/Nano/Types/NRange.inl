@@ -52,6 +52,14 @@
 class NRangeIterator
 {
 public:
+	using iterator_category = std::random_access_iterator_tag;
+	using value_type        =           size_t;
+	using difference_type   =           size_t;
+	using pointer           = const size_t*;
+	using reference         = size_t&;
+
+
+public:
 	constexpr                           NRangeIterator(size_t theIndex);
 
 
@@ -498,6 +506,8 @@ inline size_t NRange::GetFirst() const
 	// Validate our state
 	NN_REQUIRE(!IsMeta());
 
+
+
 	// Get the first element
 	return mLocation;
 }
@@ -515,6 +525,8 @@ inline size_t NRange::GetLast() const
 
 	// Validate our state
 	NN_REQUIRE(!IsMeta());
+
+
 
 	// Get the last element
 	if (mSize == 0)
@@ -687,7 +699,7 @@ constexpr NRange NRange::GetNormalized(size_t theSize) const
 //=============================================================================
 //		NRange::begin : Get an iterator to the start of the range.
 //-----------------------------------------------------------------------------
-constexpr NRangeIterator NRange::begin() const
+inline NRangeIterator NRange::begin() const
 {
 
 
@@ -702,7 +714,7 @@ constexpr NRangeIterator NRange::begin() const
 //=============================================================================
 //		NRange::end : Get an iterator to the end of the range.
 //-----------------------------------------------------------------------------
-constexpr NRangeIterator NRange::end() const
+inline NRangeIterator NRange::end() const
 {
 
 
