@@ -144,6 +144,10 @@ NANO_TEST(TRandom, "NextValue")
 		(void) theStream.NextUInt8();
 
 		uint16_t valueUInt16 = theStream.NextUInt16();
+		if (valueUInt16 == prevUInt16)
+		{
+			prevUInt16 = theStream.NextUInt16();
+		}
 		REQUIRE(valueUInt16 != prevUInt16);
 
 		uint32_t valueUInt32 = theStream.NextUInt32();
@@ -233,6 +237,10 @@ NANO_TEST(TRandom, "GetValue")
 		(void) NRandom::GetUInt8();
 
 		uint16_t valueUInt16 = NRandom::GetUInt16();
+		if (valueUInt16 == prevUInt16)
+		{
+			valueUInt16 = NRandom::GetUInt16();
+		}
 		REQUIRE(valueUInt16 != prevUInt16);
 
 		uint32_t valueUInt32 = NRandom::GetUInt32();
