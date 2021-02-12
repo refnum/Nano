@@ -668,8 +668,8 @@ def NNumber_Summary(theNumber, theInfo):
 #------------------------------------------------------------------------------
 def NPoint_Summary(thePoint, theInfo):
 
-	x = formatFloat(getMemberFloat(thePoint, "x"));
-	y = formatFloat(getMemberFloat(thePoint, "y"));
+	x = formatFloat(getMemberFloat(thePoint, "x"))
+	y = formatFloat(getMemberFloat(thePoint, "y"))
 	
 	return "{x = " + x + ", y = " + y + "}"
 
@@ -703,10 +703,10 @@ def NRange_Summary(theRange, theInfo):
 #------------------------------------------------------------------------------
 def NRectangle_Summary(theRectangle, theInfo):
 
-	x      = formatFloat(getExpressionPathFloat(theRectangle, "->origin.x"));
-	y      = formatFloat(getExpressionPathFloat(theRectangle, "->origin.y"));
-	width  = formatFloat(getExpressionPathFloat(theRectangle, "->size.width"));
-	height = formatFloat(getExpressionPathFloat(theRectangle, "->size.height"));
+	x      = formatFloat(getExpressionPathFloat(theRectangle, "->origin.x"))
+	y      = formatFloat(getExpressionPathFloat(theRectangle, "->origin.y"))
+	width  = formatFloat(getExpressionPathFloat(theRectangle, "->size.width"))
+	height = formatFloat(getExpressionPathFloat(theRectangle, "->size.height"))
 	
 	return "{origin = {x = " + x + ", y = " + y + "}, size = {width = " + width + ", height = " + height + "}}"
 
@@ -719,8 +719,8 @@ def NRectangle_Summary(theRectangle, theInfo):
 #------------------------------------------------------------------------------
 def NSize_Summary(theSize, theInfo):
 
-	width  = formatFloat(getMemberFloat(theSize, "width"));
-	height = formatFloat(getMemberFloat(theSize, "height"));
+	width  = formatFloat(getMemberFloat(theSize, "width"))
+	height = formatFloat(getMemberFloat(theSize, "height"))
 	
 	return "{width = " + width + ", height = " + height + "}"
 
@@ -843,7 +843,7 @@ def NUInt128_Summary(theValue, theInfo):
 	valueLo = getMemberUInt(theValue, "mLo")
 	theInfo = ("0x%016x" % valueHi) + ("%016x" % valueLo)
 	
-	return theInfo;
+	return theInfo
 
 
 
@@ -876,8 +876,8 @@ def NVariant_Summary(theVariant, theInfo):
 #------------------------------------------------------------------------------
 def NVector_Summary(theVector, theInfo):
 
-	x = formatFloat(getMemberFloat(theVector, "x"));
-	y = formatFloat(getMemberFloat(theVector, "y"));
+	x = formatFloat(getMemberFloat(theVector, "x"))
+	y = formatFloat(getMemberFloat(theVector, "y"))
 	
 	return "{x = " + x + ", y = " + y + "}"
 
