@@ -133,7 +133,7 @@ NANO_FIXTURE(TUInt128){};
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-NANO_TEST(TUInt128, "NUInt128/Default")
+NANO_TEST(TUInt128, "Default/NUInt128")
 {
 
 
@@ -152,7 +152,7 @@ NANO_TEST(TUInt128, "NUInt128/Default")
 //		NUInt128 Tests
 //-----------------------------------------------------------------------------
 #define NUINT128                                            NUInt128
-#define NANO_TEST_UINT128(_name)                            NANO_TEST(TUInt128, "NUInt128/" _name)
+#define NANO_TEST_UINT128(_name)                            NANO_TEST(TUInt128, _name "/NUInt128")
 #define Make128(_hi, _lo)                                   Make128Nano(_hi, _lo)
 
 #include "TUInt128.imp"
@@ -170,7 +170,7 @@ NANO_TEST(TUInt128, "NUInt128/Default")
 	#undef Make128
 
 	#define NUINT128                                        uint128_t
-	#define NANO_TEST_UINT128(_name)                        NANO_TEST(TUInt128, "uint128_t/" _name)
+	#define NANO_TEST_UINT128(_name)                        NANO_TEST(TUInt128, _name "/uint128_t")
 	#define Make128(_hi, _lo)                               Make128Native(_hi, _lo)
 
 	#include "TUInt128.imp"
