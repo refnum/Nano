@@ -85,18 +85,18 @@ public:
 	//
 	// Accessing an unavailable method is a compile error.
 	template<typename T>
-	bool                                Is() const;
+	constexpr bool                      Is() const;
 
-	bool                                IsUInt8()   const;
-	bool                                IsUInt16()  const;
-	bool                                IsUInt32()  const;
-	bool                                IsUInt64()  const;
-	bool                                IsInt8()    const;
-	bool                                IsInt16()   const;
-	bool                                IsInt32()   const;
-	bool                                IsInt64()   const;
-	bool                                IsFloat32() const;
-	bool                                IsFloat64() const;
+	constexpr bool                      IsUInt8()   const;
+	constexpr bool                      IsUInt16()  const;
+	constexpr bool                      IsUInt32()  const;
+	constexpr bool                      IsUInt64()  const;
+	constexpr bool                      IsInt8()    const;
+	constexpr bool                      IsInt16()   const;
+	constexpr bool                      IsInt32()   const;
+	constexpr bool                      IsInt64()   const;
+	constexpr bool                      IsFloat32() const;
+	constexpr bool                      IsFloat64() const;
 
 
 	// Get the value

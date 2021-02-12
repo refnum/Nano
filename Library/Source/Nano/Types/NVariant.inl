@@ -51,7 +51,7 @@
 //-----------------------------------------------------------------------------
 template<typename... Types>
 template<typename T>
-bool NVariant<Types...>::Is() const
+constexpr bool NVariant<Types...>::Is() const
 {
 
 
@@ -67,7 +67,7 @@ bool NVariant<Types...>::Is() const
 //		NVariant::IsUInt8 : Do we contain a uint8_t?
 //-----------------------------------------------------------------------------
 template<typename... Types>
-inline bool NVariant<Types...>::IsUInt8() const
+constexpr bool NVariant<Types...>::IsUInt8() const
 {
 
 
@@ -83,7 +83,7 @@ inline bool NVariant<Types...>::IsUInt8() const
 //		NVariant::IsUInt16 : Do we contain a uint16_t?
 //-----------------------------------------------------------------------------
 template<typename... Types>
-inline bool NVariant<Types...>::IsUInt16() const
+constexpr bool NVariant<Types...>::IsUInt16() const
 {
 
 
@@ -99,7 +99,7 @@ inline bool NVariant<Types...>::IsUInt16() const
 //		NVariant::IsUInt32 : Do we contain a uint32_t?
 //-----------------------------------------------------------------------------
 template<typename... Types>
-inline bool NVariant<Types...>::IsUInt32() const
+constexpr bool NVariant<Types...>::IsUInt32() const
 {
 
 
@@ -115,7 +115,7 @@ inline bool NVariant<Types...>::IsUInt32() const
 //		NVariant::IsUInt64 : Do we contain a uint64_t?
 //-----------------------------------------------------------------------------
 template<typename... Types>
-inline bool NVariant<Types...>::IsUInt64() const
+constexpr bool NVariant<Types...>::IsUInt64() const
 {
 
 
@@ -131,7 +131,7 @@ inline bool NVariant<Types...>::IsUInt64() const
 //		NVariant::IsInt8 : Do we contain an int8_t?
 //-----------------------------------------------------------------------------
 template<typename... Types>
-inline bool NVariant<Types...>::IsInt8() const
+constexpr bool NVariant<Types...>::IsInt8() const
 {
 
 
@@ -147,7 +147,7 @@ inline bool NVariant<Types...>::IsInt8() const
 //		NVariant::IsInt16 : Do we contain an int16_t?
 //-----------------------------------------------------------------------------
 template<typename... Types>
-inline bool NVariant<Types...>::IsInt16() const
+constexpr bool NVariant<Types...>::IsInt16() const
 {
 
 
@@ -163,7 +163,7 @@ inline bool NVariant<Types...>::IsInt16() const
 //		NVariant::IsInt32 : Do we contain an int32_t?
 //-----------------------------------------------------------------------------
 template<typename... Types>
-inline bool NVariant<Types...>::IsInt32() const
+constexpr bool NVariant<Types...>::IsInt32() const
 {
 
 
@@ -179,7 +179,7 @@ inline bool NVariant<Types...>::IsInt32() const
 //		NVariant::IsInt64 : Do we contain an int64_t?
 //-----------------------------------------------------------------------------
 template<typename... Types>
-inline bool NVariant<Types...>::IsInt64() const
+constexpr bool NVariant<Types...>::IsInt64() const
 {
 
 
@@ -195,7 +195,7 @@ inline bool NVariant<Types...>::IsInt64() const
 //		NVariant::IsFloat32 : Do we contain a float32_t?
 //-----------------------------------------------------------------------------
 template<typename... Types>
-inline bool NVariant<Types...>::IsFloat32() const
+constexpr bool NVariant<Types...>::IsFloat32() const
 {
 
 
@@ -211,7 +211,7 @@ inline bool NVariant<Types...>::IsFloat32() const
 //		NVariant::IsFloat64 : Do we contain a float64_t?
 //-----------------------------------------------------------------------------
 template<typename... Types>
-inline bool NVariant<Types...>::IsFloat64() const
+constexpr bool NVariant<Types...>::IsFloat64() const
 {
 
 
