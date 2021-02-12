@@ -46,6 +46,7 @@
 #include "NDebug.h"
 #include "NString.h"
 #include "NanoConstants.h"
+#include "Nano_fast_float.h"
 
 
 
@@ -892,10 +893,33 @@ bool NNumber::ParseReal(const utf8_t* textStart)
 	// Attempt to convert
 	if (isValid)
 	{
-		utf8_t*   textEnd      = const_cast<utf8_t*>(textStart);
-		float64_t valueFloat64 = strtod(textStart, &textEnd);
+		// Get the state we need
+		float64_t valueFloat64 = 0.0;
+		size_t    textLen      = strlen(textStart);
 
-		isValid = (errno != ERANGE && textEnd != textStart);
+		bool isHex = (textLen >= 2 && textStart[0] == '0' && tolower(textStart[1]) == 'x') ||
+					 (textLen >= 3 && textStart[1] == '0' && tolower(textStart[2]) == 'x');
+
+
+		// Parse the value
+		//
+		// fast_float does not currently support hex so we must fall
+		// back to strtod to parse these numbers.
+		if (!isHex)
+		{
+			const utf8_t* textEnd   = textStart + strlen(textStart);
+			auto          theResult = fast_float::from_chars(textStart, textEnd, valueFloat64);
+			isValid                 = (theResult.ec == std::errc());
+		}
+		else
+		{
+			utf8_t* textEnd = const_cast<utf8_t*>(textStart);
+			valueFloat64    = strtod(textStart, &textEnd);
+			isValid         = (errno != ERANGE && textEnd != textStart);
+		}
+
+
+		// Update the value
 		if (isValid)
 		{
 			mValue = valueFloat64;

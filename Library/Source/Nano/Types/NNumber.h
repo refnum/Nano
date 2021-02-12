@@ -42,6 +42,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NAny.h"
 #include "NMixinComparable.h"
 #include "NVariant.h"
 #include "NanoMacros.h"
@@ -70,7 +71,6 @@ inline constexpr float64_t kNIntegerSafeMax                 = 9007199254740991.0
 //		Types
 //-----------------------------------------------------------------------------
 // Forward declaration
-class NAny;
 class NString;
 
 

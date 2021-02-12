@@ -100,7 +100,6 @@ Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Files"
 Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Graphics"
 Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Internal/Components/fmt-7.1.3"
 Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Internal/Components/xxHash-0.8.0"
-Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Internal/Targets"
 Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Maths"
 Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Network"
 Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Std"
@@ -112,6 +111,7 @@ Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Types"
 Nano_UHSP = $(inherited) "$(Nano)/Library/Source/Nano/Utilities"
 
 Nano_UHSP_Private = $(inherited) "$(Nano)/Library/Source/Nano/Internal/Components/zlib-1.2.11"
+Nano_UHSP_Private = $(inherited) "$(Nano)/Library/Source/Nano/Internal/Components/fast_float-0.8.0"
 
 USER_HEADER_SEARCH_PATHS				= $(Nano_UHSP) $(Nano_UHSP_Private)
 ALWAYS_SEARCH_USER_PATHS				= NO

@@ -866,6 +866,15 @@
 		ABDCE8CE241C604F0054A16E /* macOSNFileInfo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = macOSNFileInfo.cpp; sourceTree = "<group>"; };
 		ABDCE8E3241F8ACD0054A16E /* NFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFile.cpp; sourceTree = "<group>"; };
 		ABDCE8E4241F8ACD0054A16E /* NFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFile.h; sourceTree = "<group>"; };
+		ABE59A7F25D3419D0048AD5F /* fast_float.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fast_float.h; sourceTree = "<group>"; };
+		ABE59A8025D3419D0048AD5F /* parse_number.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = parse_number.h; sourceTree = "<group>"; };
+		ABE59A8125D3419D0048AD5F /* simple_decimal_conversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = simple_decimal_conversion.h; sourceTree = "<group>"; };
+		ABE59A8225D3419D0048AD5F /* float_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = float_common.h; sourceTree = "<group>"; };
+		ABE59A8325D3419D0048AD5F /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		ABE59A8425D3419D0048AD5F /* decimal_to_binary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = decimal_to_binary.h; sourceTree = "<group>"; };
+		ABE59A8525D3419D0048AD5F /* ascii_number.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ascii_number.h; sourceTree = "<group>"; };
+		ABE59A8625D3419D0048AD5F /* fast_table.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fast_table.h; sourceTree = "<group>"; };
+		ABE59A8A25D3427A0048AD5F /* Nano_fast_float.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Nano_fast_float.h; sourceTree = "<group>"; };
 		ABEB0BF516760BDF00B74B71 /* NMessageServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMessageServer.cpp; sourceTree = "<group>"; };
 		ABEB0BF616760BDF00B74B71 /* NMessageServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMessageServer.h; sourceTree = "<group>"; };
 		ABEB0BF716760BDF00B74B71 /* NNetworkMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNetworkMessage.cpp; sourceTree = "<group>"; };
@@ -1387,6 +1396,7 @@
 			children = (
 				AB9154FD0F9B4DD5009FFEAF /* Read Me.txt */,
 				ABC6466A2581666F009B82AD /* expat-2.2.10 */,
+				ABE59A7E25D3419D0048AD5F /* fast_float-0.8.0 */,
 				ABC646AE25817DF2009B82AD /* fmt-7.1.3 */,
 				AB3A4990258199E70065B4DA /* json-parser-1.1.0 */,
 				ABC646BA258180BD009B82AD /* libb64-1.2 */,
@@ -1840,6 +1850,22 @@
 				ABCA9E3925818E4000E0B965 /* xxhash.h */,
 			);
 			path = "xxHash-0.8.0";
+			sourceTree = "<group>";
+		};
+		ABE59A7E25D3419D0048AD5F /* fast_float-0.8.0 */ = {
+			isa = PBXGroup;
+			children = (
+				ABE59A7F25D3419D0048AD5F /* fast_float.h */,
+				ABE59A8025D3419D0048AD5F /* parse_number.h */,
+				ABE59A8125D3419D0048AD5F /* simple_decimal_conversion.h */,
+				ABE59A8225D3419D0048AD5F /* float_common.h */,
+				ABE59A8325D3419D0048AD5F /* LICENSE */,
+				ABE59A8A25D3427A0048AD5F /* Nano_fast_float.h */,
+				ABE59A8425D3419D0048AD5F /* decimal_to_binary.h */,
+				ABE59A8525D3419D0048AD5F /* ascii_number.h */,
+				ABE59A8625D3419D0048AD5F /* fast_table.h */,
+			);
+			path = "fast_float-0.8.0";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
