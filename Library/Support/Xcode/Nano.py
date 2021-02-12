@@ -251,6 +251,17 @@ def getExpressionPathUInt(sbValue, thePath):
 
 
 #==============================================================================
+#		getExpressionPathFloat : Get an expression path as a float.
+#------------------------------------------------------------------------------
+def getExpressionPathFloat(sbValue, thePath):
+
+	return float(sbValue.GetValueForExpressionPath(thePath).GetValue())
+
+
+
+
+
+#==============================================================================
 #		getMemoryBytes : Get bytes from an address.
 #------------------------------------------------------------------------------
 def getMemoryBytes(sbValue, theOffset, theSize):
@@ -349,6 +360,17 @@ def getFilePath(theValue, thePath):
 
 
 #==============================================================================
+#		formatFloat : Format a float.
+#------------------------------------------------------------------------------
+def formatFloat(theValue):
+
+	return "{:.9g}".format(theValue)
+
+
+
+
+
+#==============================================================================
 #		NAny_Summary : NAny summary.
 #------------------------------------------------------------------------------
 def NAny_Summary(theObject, theInfo):
@@ -386,7 +408,7 @@ def NAny_Summary(theObject, theInfo):
 def NArray_Summary(theObject, theInfo):
 
 	try:
-		return "size=" + str(theObject.GetNumChildren())
+		return "{size = " + str(theObject.GetNumChildren()) + "}"
 
 	except:
 		return kInscrutable
@@ -474,21 +496,21 @@ def NData_Summary(theData, theInfo):
 			if (theSize != 0):
 				theOffset = getExpressionPathUInt(   theData, "->mData.Large.theSlice.mLocation")
 				thePtr    = getExpressionPathSBValue(theData, "->mData.Large.theState->theData")
-				theInfo   = ", data=" + hex(thePtr.GetValueAsUnsigned() + theOffset)
+				theInfo   = ", data = " + hex(thePtr.GetValueAsUnsigned() + theOffset)
 
 		else:
 			theSize = (theFlags & kNDataFlagSmallSizeMask)
 		
 			if (theSize != 0):
 				sbData  = getExpressionPathSBData(theData, "->mData.Small.theData")
-				theInfo = ", data={0x" + ", 0x".join(format(x, "02X") for x in sbData.uint8s[0:theSize]) + "}"
+				theInfo = ", data = {0x" + ", 0x".join(format(x, "02X") for x in sbData.uint8s[0:theSize]) + "}"
 
 
 		if (theSize == 0):
-			return "size=0"
+			return "{size = 0}"
 
 		else:
-			return "size=" + str(theSize) + theInfo
+			return "{size = " + str(theSize) + theInfo + "}"
 
 	except:
 		return kInscrutable
@@ -503,7 +525,7 @@ def NData_Summary(theData, theInfo):
 def NDictionary_Summary(theObject, theInfo):
 
 	try:
-		return "size=" + str(theObject.GetNumChildren())
+		return "{size = " + str(theObject.GetNumChildren()) + "}"
 
 	except:
 		return kInscrutable
@@ -628,6 +650,34 @@ def NFilePath_Summary(filePath, theInfo):
 
 
 #==============================================================================
+#		NNumber_Summary : NNumber summary.
+#------------------------------------------------------------------------------
+def NNumber_Summary(theNumber, theInfo):
+
+	theInfo = str(theNumber.GetChildMemberWithName("mValue"))
+	theInfo = re.sub(r".*mValue = ", "", theInfo)
+	
+	return theInfo
+
+
+
+
+
+#==============================================================================
+#		NPoint_Summary : NPoint summary.
+#------------------------------------------------------------------------------
+def NPoint_Summary(thePoint, theInfo):
+
+	x = formatFloat(getMemberFloat(thePoint, "x"));
+	y = formatFloat(getMemberFloat(thePoint, "y"));
+	
+	return "{x = " + x + ", y = " + y + "}"
+
+
+
+
+
+#==============================================================================
 #		NRange_Summary : NRange summary.
 #------------------------------------------------------------------------------
 def NRange_Summary(theRange, theInfo):
@@ -639,7 +689,7 @@ def NRange_Summary(theRange, theInfo):
 		theLocation = "kNNotFound" if (theLocation == kNNotFound) else str(theLocation)
 		theSize     = "kNNotFound" if (theSize     == kNNotFound) else str(theSize)
 
-		return "location=" + theLocation + ", size=" + theSize
+		return "{location = " + theLocation + ", size = " + theSize + "}"
 
 	except:
 		return kInscrutable
@@ -649,29 +699,30 @@ def NRange_Summary(theRange, theInfo):
 
 
 #==============================================================================
-#		NUInt128_Summary : NUInt128 summary.
+#		NRectangle_Summary : NRectangle summary.
 #------------------------------------------------------------------------------
-def NUInt128_Summary(theValue, theInfo):
+def NRectangle_Summary(theRectangle, theInfo):
 
-	valueHi = getMemberUInt(theValue, "mHi")
-	valueLo = getMemberUInt(theValue, "mLo")
-	theInfo = ("0x%016x" % valueHi) + ("%016x" % valueLo)
+	x      = formatFloat(getExpressionPathFloat(theRectangle, "->origin.x"));
+	y      = formatFloat(getExpressionPathFloat(theRectangle, "->origin.y"));
+	width  = formatFloat(getExpressionPathFloat(theRectangle, "->size.width"));
+	height = formatFloat(getExpressionPathFloat(theRectangle, "->size.height"));
 	
-	return theInfo;
+	return "{origin = {x = " + x + ", y = " + y + "}, size = {width = " + width + ", height = " + height + "}}"
 
 
 
 
 
 #==============================================================================
-#		NNumber_Summary : NNumber summary.
+#		NSize_Summary : NSize summary.
 #------------------------------------------------------------------------------
-def NNumber_Summary(theNumber, theInfo):
+def NSize_Summary(theSize, theInfo):
 
-	theInfo = str(theNumber.GetChildMemberWithName("mValue"))
-	theInfo = re.sub(r".*mValue = ", "", theInfo)
+	width  = formatFloat(getMemberFloat(theSize, "width"));
+	height = formatFloat(getMemberFloat(theSize, "height"));
 	
-	return theInfo
+	return "{width = " + width + ", height = " + height + "}"
 
 
 
@@ -772,12 +823,27 @@ def NTime_Summary(theTime, theInfo):
 	unixFrac = unixSecs - math.floor(unixSecs)
 
 	strTime = datetime.datetime.utcfromtimestamp(unixSecs).strftime("%Y-%m-%d %H:%M:%S.")
-	strSecs = "{:.9g}".format(unixFrac)
+	strSecs = formatFloat(unixFrac)
 
 	if (strSecs != "0"):
 		strSecs = strSecs[2:]
 
 	return strTime + strSecs
+
+
+
+
+
+#==============================================================================
+#		NUInt128_Summary : NUInt128 summary.
+#------------------------------------------------------------------------------
+def NUInt128_Summary(theValue, theInfo):
+
+	valueHi = getMemberUInt(theValue, "mHi")
+	valueLo = getMemberUInt(theValue, "mLo")
+	theInfo = ("0x%016x" % valueHi) + ("%016x" % valueLo)
+	
+	return theInfo;
 
 
 
@@ -806,6 +872,20 @@ def NVariant_Summary(theVariant, theInfo):
 
 
 #==============================================================================
+#		NVector_Summary : NVector summary.
+#------------------------------------------------------------------------------
+def NVector_Summary(theVector, theInfo):
+
+	x = formatFloat(getMemberFloat(theVector, "x"));
+	y = formatFloat(getMemberFloat(theVector, "y"));
+	
+	return "{x = " + x + ", y = " + y + "}"
+
+
+
+
+
+#==============================================================================
 #		loadNano : Load the Nano summarisers.
 #------------------------------------------------------------------------------
 def loadNano(theDebugger):
@@ -820,13 +900,17 @@ def loadNano(theDebugger):
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NFileHandle_Summary    NFileHandle")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NFileInfo_Summary      NFileInfo")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NFilePath_Summary      NFilePath")
-	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NUInt128_Summary       NUInt128")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NNumber_Summary        NNumber")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NPoint_Summary         NPoint")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NRange_Summary         NRange")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NRectangle_Summary     NRectangle")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NSize_Summary          NSize")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NString_Summary        NString")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NThreadID_Summary      NThreadID")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NTime_Summary          NTime")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NUInt128_Summary       NUInt128")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NVariant_Summary   -x 'NVariant<.*>'")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NVector_Summary        NVector")
 	theDebugger.HandleCommand("type category enable Nano")
 
 

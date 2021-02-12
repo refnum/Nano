@@ -53,7 +53,11 @@
 #include "NFileInfo.h"
 #include "NFilePath.h"
 #include "NNumber.h"
+#include "NPoint.h"
+#include "NRectangle.h"
+#include "NSize.h"
 #include "NTimeUtils.h"
+#include "NVector.h"
 #include "NanoMacros.h"
 
 
@@ -225,6 +229,55 @@ public:
 
 
 
+#pragma mark NNumber
+//=============================================================================
+//		NNumber formatter
+//-----------------------------------------------------------------------------
+template<>
+class fmt::formatter<NNumber> : public NSimpleFormatter
+{
+public:
+	template<typename FormatContext>
+	auto format(const NNumber& theParam, FormatContext& theContext)
+	{
+		if (theParam.IsReal())
+		{
+			return format_to(theContext.out(), "{}", theParam.GetFloat64());
+		}
+		else if (theParam.IsSigned())
+		{
+			return format_to(theContext.out(), "{}", theParam.GetInt64());
+		}
+		else
+		{
+			return format_to(theContext.out(), "{}", theParam.GetUInt64());
+		}
+	}
+};
+
+
+
+
+
+#pragma mark NPoint
+//=============================================================================
+//		NPoint formatter
+//-----------------------------------------------------------------------------
+template<>
+class fmt::formatter<NPoint> : public NSimpleFormatter
+{
+public:
+	template<typename FormatContext>
+	auto format(const NPoint& theParam, FormatContext& theContext)
+	{
+		return format_to(theContext.out(), "{{x = {}, y = {}}}", theParam.x, theParam.y);
+	}
+};
+
+
+
+
+
 #pragma mark NRange
 //=============================================================================
 //		NRange formatter
@@ -240,6 +293,52 @@ public:
 						 "{{location = {}, size = {}}}",
 						 theParam.GetLocation(),
 						 theParam.GetSize());
+	}
+};
+
+
+
+
+
+#pragma mark NRectangle
+//=============================================================================
+//		NRectangle formatter
+//-----------------------------------------------------------------------------
+template<>
+class fmt::formatter<NRectangle> : public NSimpleFormatter
+{
+public:
+	template<typename FormatContext>
+	auto format(const NRectangle& theParam, FormatContext& theContext)
+	{
+		return format_to(theContext.out(),
+						 "{{origin = {{x = {}, y = {}}}, size = {{width = {}, height = {}}}}}",
+						 theParam.origin.x,
+						 theParam.origin.y,
+						 theParam.size.width,
+						 theParam.size.height);
+	}
+};
+
+
+
+
+
+#pragma mark NSize
+//=============================================================================
+//		NSize formatter
+//-----------------------------------------------------------------------------
+template<>
+class fmt::formatter<NSize> : public NSimpleFormatter
+{
+public:
+	template<typename FormatContext>
+	auto format(const NSize& theParam, FormatContext& theContext)
+	{
+		return format_to(theContext.out(),
+						 "{{width = {}, height = {}}}",
+						 theParam.width,
+						 theParam.height);
 	}
 };
 
@@ -295,28 +394,17 @@ public:
 
 
 
-#pragma mark NNumber
+#pragma mark NVector
 //=============================================================================
-//		NNumber formatter
+//		NVector formatter
 //-----------------------------------------------------------------------------
 template<>
-class fmt::formatter<NNumber> : public NSimpleFormatter
+class fmt::formatter<NVector> : public NSimpleFormatter
 {
 public:
 	template<typename FormatContext>
-	auto format(const NNumber& theParam, FormatContext& theContext)
+	auto format(const NVector& theParam, FormatContext& theContext)
 	{
-		if (theParam.IsReal())
-		{
-			return format_to(theContext.out(), "{}", theParam.GetFloat64());
-		}
-		else if (theParam.IsSigned())
-		{
-			return format_to(theContext.out(), "{}", theParam.GetInt64());
-		}
-		else
-		{
-			return format_to(theContext.out(), "{}", theParam.GetUInt64());
-		}
+		return format_to(theContext.out(), "{{x = {}, y = {}}}", theParam.x, theParam.y);
 	}
 };
