@@ -3,152 +3,134 @@
 
 	DESCRIPTION:
 		Vector object.
-	
+
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NVECTOR_HDR
-#define NVECTOR_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NStringFormatter.h"
-#include "NComparable.h"
-#include "NEncodable.h"
-#include "NVariant.h"
-#include "NPoint.h"
+#ifndef NVECTOR_H
+#define NVECTOR_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NMixinComparable.h"
+#include "NanoMacros.h"
+#include "NanoTypes.h"
 
 
 
 
 
-//============================================================================
-//		Types
-//----------------------------------------------------------------------------
-// Classes
-template <class T> class NVectorT;
-
-typedef NVectorT<float64_t> NVector64;
-typedef NVectorT<float32_t> NVector32;
-typedef NVector32           NVector;
-
-
-// Lists
-typedef std::vector<NVector64>										NVector64List;
-typedef NVector64List::iterator										NVector64ListIterator;
-typedef NVector64List::const_iterator								NVector64ListConstIterator;
-
-typedef std::vector<NVector32>										NVector32List;
-typedef NVector32List::iterator										NVector32ListIterator;
-typedef NVector32List::const_iterator								NVector32ListConstIterator;
-
-typedef std::vector<NVector>										NVectorList;
-typedef NVectorList::iterator										NVectorListIterator;
-typedef NVectorList::const_iterator									NVectorListConstIterator;
-
-
-
-
-
-//============================================================================
-//		Constants
-//----------------------------------------------------------------------------
-extern const NVector kNVectorNorth;
-extern const NVector kNVectorSouth;
-extern const NVector kNVectorEast;
-extern const NVector kNVectorWest;
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-template<class T> class NVectorT {
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NN_EMPTY_BASE NVector final : public NMixinComparable<NVector>
+{
 public:
-										NVectorT(const NVariant &theValue);
-
-										NVectorT(const NPointT<T> &point1, const NPointT<T> &point2);
-										NVectorT(T x, T y);
-										NVectorT(void);
+	constexpr                           NVector(float64_t x, float64_t y);
+	constexpr                           NVector();
 
 
 	// Clear the vector
-	void								Clear(void);
+	constexpr void                      Clear();
 
 
-	// Test the vector
-	bool								IsZero      (void) const;
-	bool								IsNormalized(void) const;
+	// Is the vector zero?
+	constexpr bool                      IsZero() const;
 
 
-	// Compare the value
-	NComparison							Compare(const NVectorT<T> &theValue) const;
-
-
-	// Manipulate the vector
-	void								Normalize(void);
-	void								Negate(void);
-	void								Scale(T scaleBy);
-
-	NVectorT<T>							GetNormalized(void)  const;
-	NVectorT<T>							GetNegated(void)     const;
-	NVectorT<T>							GetScaled(T scaleBy) const;
+	// Is the vector normalized?
+	bool                                IsNormalized() const;
 
 
 	// Get the length
-	T									GetLength (void) const;
-	T									GetLength2(void) const;
+	float64_t                           GetLength()  const;
+	constexpr float64_t                 GetLength2() const;
 
 
-	// Get the dot/cross products
-	T									GetDot(  const NVectorT<T> &theVector) const;
-	T									GetCross(const NVectorT<T> &theVector) const;
+	// Get the dot product
+	constexpr float64_t                 GetDot(const NVector& theVector) const;
 
 
-	// Get the angle between two vectors
-	NDegrees							GetAngle(const NVectorT<T> &theVector) const;
+	// Get the cross product
+	constexpr float64_t                 GetCross(const NVector& theVector) const;
+
+
+	// Get the angle to another vector
+	NDegrees                            GetAngle(const NVector& theVector) const;
+
+
+	// Get a normalized vector
+	NVector                             GetNormalized() const;
+	void                                Normalize();
+
+
+	// Get a negated vector
+	constexpr NVector                   GetNegated() const;
+	constexpr void                      Negate();
+
+
+	// Get a scaled vector
+	constexpr NVector                   GetScaled(float64_t scaleBy) const;
+	constexpr void                      Scale(    float64_t scaleBy);
 
 
 	// Operators
-	NCOMPARABLE_OPERATORS(NVectorT<T>)
+	constexpr NVector                   operator+(const NVector& theVector) const;
+	constexpr NVector                   operator-(const NVector& theVector) const;
 
-	const NVectorT<T>&					operator +=(const NVectorT<T> &theVector);
-	const NVectorT<T>&					operator -=(const NVectorT<T> &theVector);
-
-										operator NEncodable(     void) const;
-										operator NFormatArgument(void) const;
+	constexpr const NVector&            operator+=(const NVector& theVector);
+	constexpr const NVector&            operator-=(const NVector& theVector);
 
 
 public:
-	T									x;
-	T									y;
+	// NMixinComparable
+	constexpr bool                      CompareEqual(const NVector& theVector) const;
+	constexpr NComparison               CompareOrder(const NVector& theVector) const;
+
+
+public:
+	float64_t                           x;
+	float64_t                           y;
 };
 
 
 
 
 
-//============================================================================
-//		Template files
-//----------------------------------------------------------------------------
-#define   NVECTOR_CPP
-#include "NVector.cpp"
-#undef    NVECTOR_CPP
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NVector.inl"
 
 
 
-
-
-
-
-
-
-#endif // NVECTOR_HDR
-
-
+#endif // NVECTOR_H

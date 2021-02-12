@@ -3,118 +3,115 @@
 
 	DESCRIPTION:
 		Size object.
-	
+
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NSIZE_HDR
-#define NSIZE_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NStringFormatter.h"
-#include "NComparable.h"
-#include "NEncodable.h"
-#include "NVariant.h"
+#ifndef NSIZE_H
+#define NSIZE_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NMixinComparable.h"
+#include "NanoMacros.h"
+#include "NanoTypes.h"
 
 
 
 
 
-//============================================================================
-//		Types
-//----------------------------------------------------------------------------
-// Classes
-template <class T> class NSizeT;
-
-typedef NSizeT<float64_t> NSize64;
-typedef NSizeT<float32_t> NSize32;
-typedef NSize32           NSize;
-
-
-// Lists
-typedef std::vector<NSize64>										NSize64List;
-typedef NSize64List::iterator										NSize64ListIterator;
-typedef NSize64List::const_iterator									NSize64ListConstIterator;
-
-typedef std::vector<NSize32>										NSize32List;
-typedef NSize32List::iterator										NSize32ListIterator;
-typedef NSize32List::const_iterator									NSize32ListConstIterator;
-
-typedef std::vector<NSize>											NSizeList;
-typedef NSizeList::iterator											NSizeListIterator;
-typedef NSizeList::const_iterator									NSizeListConstIterator;
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-template<class T> class NSizeT {
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NN_EMPTY_BASE NSize final : public NMixinComparable<NSize>
+{
 public:
-										NSizeT(const NVariant &theValue);
-
-										NSizeT(T width, T height);
-										NSizeT(void);
+	constexpr                           NSize(float64_t theWidth, float64_t theHeight);
+	constexpr                           NSize();
 
 
 	// Clear the size
-	void								Clear(void);
+	constexpr void                      Clear();
 
 
-	// Test the size
-	bool								IsEmpty(void) const;
+	// Is the size empty?
+	constexpr bool                      IsEmpty() const;
 
 
-	// Compare the value
-	NComparison							Compare(const NSizeT<T> &theValue) const;
+	// Get an integral size
+	//
+	// An integral size is rounded up to create the smallest integral
+	// size that is equal to or larger than the current size.
+	NSize                               GetIntegral() const;
+	void                                MakeIntegral();
 
 
-	// Manipulate the size
-	void								Normalize(void);
-	void								MakeIntegral(void);
-	void								Resize(T deltaX, T deltaY);
-	void								Scale( T scaleBy);
-
-	NSizeT<T>							GetNormalized(void)            const;
-	NSizeT<T>							GetIntegral(void)              const;
-	NSizeT<T>							GetResized(T deltaX, T deltaY) const;
-	NSizeT<T>							GetScaled( T scaleBy)          const;
+	// Get a normalized size
+	//
+	// A normalised size has positive dimensions.
+	constexpr NSize                     GetNormalized() const;
+	constexpr void                      Normalize();
 
 
-	// Operators
-	NCOMPARABLE_OPERATORS(NSizeT<T>)
+	// Get a scaled size
+	constexpr NSize                     GetScaled(float64_t scaleBy) const;
+	constexpr void                      Scale(    float64_t scaleBy);
 
-										operator NEncodable(     void) const;
-										operator NFormatArgument(void) const;
+
+	// Get a resized size
+	constexpr NSize                     GetResized(float64_t deltaX, float64_t deltaY) const;
+	constexpr void                      Resize(    float64_t deltaX, float64_t deltaY);
 
 
 public:
-	T									width;
-	T									height;
+	// NMixinComparable
+	constexpr bool                      CompareEqual(const NSize& theSize) const;
+	constexpr NComparison               CompareOrder(const NSize& theSize) const;
+
+
+public:
+	float64_t                           width;
+	float64_t                           height;
 };
 
 
 
 
 
-//============================================================================
-//		Template files
-//----------------------------------------------------------------------------
-#define   NSIZE_CPP
-#include "NSize.cpp"
-#undef    NSIZE_CPP
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NSize.inl"
 
 
 
-
-
-#endif // NSIZE_HDR
-
-
+#endif // NSIZE_H

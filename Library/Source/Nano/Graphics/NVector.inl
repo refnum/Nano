@@ -1,8 +1,10 @@
 /*	NAME:
-		TVector.cpp
+		NVector.inl
 
 	DESCRIPTION:
-		NVector tests.
+		Vector object.
+
+		NEncodable support uses a helper class to avoid a v-table.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -39,37 +41,19 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NFormat.h"
-#include "NTestFixture.h"
-#include "NVector.h"
+#include "NMathUtils.h"
 
 
 
 
 
 //=============================================================================
-//		Test Fixture
+//		NVector::NVector : Constructor.
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(TVector)
+constexpr NVector::NVector(float64_t valX, float64_t valY)
+	: x(valX)
+	, y(valY)
 {
-	NVector theVector;
-};
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TVector, "Default")
-{
-
-
-	// Perform the test
-	REQUIRE(theVector.x == 0.0);
-	REQUIRE(theVector.y == 0.0);
-	REQUIRE(sizeof(theVector) == 16);
 }
 
 
@@ -77,16 +61,12 @@ NANO_TEST(TVector, "Default")
 
 
 //=============================================================================
-//		Test Case
+//		NVector::NVector : Constructor.
 //-----------------------------------------------------------------------------
-NANO_TEST(TVector, "Constructor")
+constexpr NVector::NVector()
+	: x(0.0)
+	, y(0.0)
 {
-
-
-	// Perform the test
-	theVector = NVector(1, 2);
-	REQUIRE(theVector.x == 1.0);
-	REQUIRE(theVector.y == 2.0);
 }
 
 
@@ -94,20 +74,15 @@ NANO_TEST(TVector, "Constructor")
 
 
 //=============================================================================
-//		Test Case
+//		NVector::Clear : Clear the vector.
 //-----------------------------------------------------------------------------
-NANO_TEST(TVector, "Clear")
+constexpr void NVector::Clear()
 {
 
 
-	// Perform the test
-	theVector = NVector(1, 2);
-	REQUIRE(theVector.x == 1.0);
-	REQUIRE(theVector.y == 2.0);
-
-	theVector.Clear();
-	REQUIRE(theVector.x == 0.0);
-	REQUIRE(theVector.y == 0.0);
+	// Clear the vector
+	x = 0;
+	y = 0;
 }
 
 
@@ -115,17 +90,11 @@ NANO_TEST(TVector, "Clear")
 
 
 //=============================================================================
-//		Test Case
+//		NVector::IsZero : Is the vector zero?
 //-----------------------------------------------------------------------------
-NANO_TEST(TVector, "IsZero")
+constexpr bool NVector::IsZero() const
 {
-
-
-	// Perform the test
-	REQUIRE(theVector.IsZero());
-
-	theVector = NVector(1, 2);
-	REQUIRE(!theVector.IsZero());
+	return x == 0.0 && y == 0.0;
 }
 
 
@@ -133,18 +102,11 @@ NANO_TEST(TVector, "IsZero")
 
 
 //=============================================================================
-//		Test Case
+//		NVector::IsNormalized : Is the vector normalized?
 //-----------------------------------------------------------------------------
-NANO_TEST(TVector, "IsNormalized")
+inline bool NVector::IsNormalized() const
 {
-
-
-	// Perform the test
-	theVector = NVector(1, 0);
-	REQUIRE(theVector.IsNormalized());
-
-	theVector = NVector(1, 1);
-	REQUIRE(!theVector.IsNormalized());
+	return GetLength() == 1.0;
 }
 
 
@@ -152,18 +114,11 @@ NANO_TEST(TVector, "IsNormalized")
 
 
 //=============================================================================
-//		Test Case
+//		NVector::GetLength : Get the length.
 //-----------------------------------------------------------------------------
-NANO_TEST(TVector, "GetLength")
+inline float64_t NVector::GetLength() const
 {
-
-
-	// Perform the test
-	theVector = NVector(1, 0);
-	REQUIRE(theVector.GetLength() == 1);
-
-	theVector = NVector(0, 2);
-	REQUIRE(theVector.GetLength() == 2);
+	return sqrt(GetLength2());
 }
 
 
@@ -171,18 +126,14 @@ NANO_TEST(TVector, "GetLength")
 
 
 //=============================================================================
-//		Test Case
+//		NVector::GetLength2 : Get the length^2.
 //-----------------------------------------------------------------------------
-NANO_TEST(TVector, "GetLength2")
+constexpr float64_t NVector::GetLength2() const
 {
 
 
-	// Perform the test
-	theVector = NVector(1, 0);
-	REQUIRE(theVector.GetLength2() == 1);
-
-	theVector = NVector(0, 2);
-	REQUIRE(theVector.GetLength2() == 4);
+	// Get the length^2
+	return (x * x) + (y * y);
 }
 
 
@@ -190,18 +141,14 @@ NANO_TEST(TVector, "GetLength2")
 
 
 //=============================================================================
-//		Test Case
+//		NVector::GetDot : Get the dot product.
 //-----------------------------------------------------------------------------
-NANO_TEST(TVector, "GetDot")
+constexpr float64_t NVector::GetDot(const NVector& theVector) const
 {
 
 
-	// Perform the test
-	NVector vectorA(1, 0);
-	NVector vectorB(0, 1);
-
-	REQUIRE(vectorA.GetDot(vectorB) == 0.0);
-	REQUIRE(vectorB.GetDot(vectorA) == 0.0);
+	// Get the dot product
+	return (x * theVector.x) + (y * theVector.y);
 }
 
 
@@ -209,18 +156,14 @@ NANO_TEST(TVector, "GetDot")
 
 
 //=============================================================================
-//		Test Case
+//		NVector::GetCross : Get the cross product.
 //-----------------------------------------------------------------------------
-NANO_TEST(TVector, "GetCross")
+constexpr float64_t NVector::GetCross(const NVector& theVector) const
 {
 
 
-	// Perform the test
-	NVector vectorA(1, 0);
-	NVector vectorB(0, 1);
-
-	REQUIRE(vectorA.GetCross(vectorB) == 1.0);
-	REQUIRE(vectorB.GetCross(vectorA) == -1.0);
+	// Get the cross product
+	return (x * theVector.y) - (y * theVector.x);
 }
 
 
@@ -228,18 +171,21 @@ NANO_TEST(TVector, "GetCross")
 
 
 //=============================================================================
-//		Test Case
+//		NVector::GetAngle : Get the angle to another vector.
 //-----------------------------------------------------------------------------
-NANO_TEST(TVector, "GetAngle")
+inline NDegrees NVector::GetAngle(const NVector& theVector) const
 {
 
 
-	// Perform the test
-	NVector vectorA(1, 0);
-	NVector vectorB(0, 1);
+	// Calculate the angle
+	NVector normal1(GetNormalized());
+	NVector normal2(theVector.GetNormalized());
 
-	REQUIRE(vectorA.GetAngle(vectorB) == 90.0);
-	REQUIRE(vectorB.GetAngle(vectorA) == -90.0);
+	float64_t dotProduct   = normal1.GetDot(normal2);
+	float64_t crossProduct = normal1.GetCross(normal2);
+	float64_t angleRad     = atan2(crossProduct, dotProduct);
+
+	return NMathUtils::ToDegrees(angleRad);
 }
 
 
@@ -247,29 +193,16 @@ NANO_TEST(TVector, "GetAngle")
 
 
 //=============================================================================
-//		Test Case
+//		NVector::GetNormalized : Get the normalized vector.
 //-----------------------------------------------------------------------------
-NANO_TEST(TVector, "GetNormalized")
+inline NVector NVector::GetNormalized() const
 {
 
 
-	// Perform the test
-	theVector = NVector(1, 0);
-	REQUIRE(theVector.GetNormalized() == NVector(1, 0));
+	// Normalize the vector
+	float64_t invLength = 1.0 / GetLength();
 
-	theVector = NVector(1, 1);
-	REQUIRE(NFormat("{:.10f}", theVector.GetNormalized().x) == "0.7071067812");
-	REQUIRE(NFormat("{:.10f}", theVector.GetNormalized().y) == "0.7071067812");
-
-
-	theVector = NVector(1, 0);
-	theVector.Normalize();
-	REQUIRE(theVector == NVector(1, 0));
-
-	theVector = NVector(1, 1);
-	theVector.Normalize();
-	REQUIRE(NFormat("{:.10f}", theVector.x) == "0.7071067812");
-	REQUIRE(NFormat("{:.10f}", theVector.y) == "0.7071067812");
+	return NVector(x * invLength, y * invLength);
 }
 
 
@@ -277,34 +210,11 @@ NANO_TEST(TVector, "GetNormalized")
 
 
 //=============================================================================
-//		Test Case
+//		NVector::Normalize : Normalize the vector.
 //-----------------------------------------------------------------------------
-NANO_TEST(TVector, "GetNegated")
+inline void NVector::Normalize()
 {
-
-
-	// Perform the test
-	theVector = NVector(1, 2);
-	REQUIRE(theVector.GetNegated() == NVector(-1, -2));
-
-	theVector = NVector(-1, 2);
-	REQUIRE(theVector.GetNegated() == NVector(1, -2));
-
-	theVector = NVector(-1, -2);
-	REQUIRE(theVector.GetNegated() == NVector(1, 2));
-
-
-	theVector = NVector(1, 2);
-	theVector.Negate();
-	REQUIRE(theVector == NVector(-1, -2));
-
-	theVector = NVector(-1, 2);
-	theVector.Negate();
-	REQUIRE(theVector == NVector(1, -2));
-
-	theVector = NVector(-1, -2);
-	theVector.Negate();
-	REQUIRE(theVector == NVector(1, 2));
+	*this = GetNormalized();
 }
 
 
@@ -312,34 +222,14 @@ NANO_TEST(TVector, "GetNegated")
 
 
 //=============================================================================
-//		Test Case
+//		NVector::GetNegated : Get the negated vector.
 //-----------------------------------------------------------------------------
-NANO_TEST(TVector, "GetScaled")
+constexpr NVector NVector::GetNegated() const
 {
 
 
-	// Perform the test
-	theVector = NVector(1, 2);
-	REQUIRE(theVector.GetScaled(1) == NVector(1, 2));
-
-	theVector = NVector(-1, 2);
-	REQUIRE(theVector.GetScaled(2) == NVector(-2, 4));
-
-	theVector = NVector(-1, -2);
-	REQUIRE(theVector.GetScaled(3) == NVector(-3, -6));
-
-
-	theVector = NVector(1, 2);
-	theVector.Scale(1);
-	REQUIRE(theVector == NVector(1, 2));
-
-	theVector = NVector(-1, 2);
-	theVector.Scale(2);
-	REQUIRE(theVector == NVector(-2, 4));
-
-	theVector = NVector(-1, -2);
-	theVector.Scale(3);
-	REQUIRE(theVector == NVector(-3, -6));
+	// Negate the vector
+	return NVector(-x, -y);
 }
 
 
@@ -347,22 +237,11 @@ NANO_TEST(TVector, "GetScaled")
 
 
 //=============================================================================
-//		Test Case
+//		NVector::Negate : Negate the vector.
 //-----------------------------------------------------------------------------
-NANO_TEST(TVector, "Addition")
+constexpr void NVector::Negate()
 {
-
-
-	// Perform the test
-	NVector vectorA(3.1, -8.1);
-	NVector vectorB(1, 2);
-
-	theVector = vectorA + vectorB;
-	REQUIRE(theVector == NVector(4.1, -6.1));
-
-	theVector = vectorA;
-	theVector += vectorB;
-	REQUIRE(theVector == NVector(4.1, -6.1));
+	*this = GetNegated();
 }
 
 
@@ -370,22 +249,14 @@ NANO_TEST(TVector, "Addition")
 
 
 //=============================================================================
-//		Test Case
+//		NVector::GetScaled : Get the scaled vector.
 //-----------------------------------------------------------------------------
-NANO_TEST(TVector, "Subtraction")
+constexpr NVector NVector::GetScaled(float64_t scaleBy) const
 {
 
 
-	// Perform the test
-	NVector vectorA(1, 2);
-	NVector vectorB(3.1, -8.1);
-
-	theVector = vectorA - vectorB;
-	REQUIRE(theVector == NVector(-2.1, 10.1));
-
-	theVector = vectorA;
-	theVector -= vectorB;
-	REQUIRE(theVector == NVector(-2.1, 10.1));
+	// Scale the vector
+	return NVector(x * scaleBy, y * scaleBy);
 }
 
 
@@ -393,18 +264,11 @@ NANO_TEST(TVector, "Subtraction")
 
 
 //=============================================================================
-//		Test Case
+//		NVector::Scale : Scale the vector.
 //-----------------------------------------------------------------------------
-NANO_TEST(TVector, "CompareEqual")
+constexpr void NVector::Scale(float64_t scaleBy)
 {
-
-
-	// Perform the test
-	NVector vectorA(3.8, 1.3);
-	NVector vectorB(8.1, 4.9);
-
-	REQUIRE(vectorA == vectorA);
-	REQUIRE(vectorA != vectorB);
+	*this = GetScaled(scaleBy);
 }
 
 
@@ -412,18 +276,14 @@ NANO_TEST(TVector, "CompareEqual")
 
 
 //=============================================================================
-//		Test Case
+//		NVector::+ : Addition operator.
 //-----------------------------------------------------------------------------
-NANO_TEST(TVector, "CompareOrder")
+constexpr NVector NVector::operator+(const NVector& theVector) const
 {
 
 
-	// Perform the test
-	NVector vectorA(3.8, 1.3);
-	NVector vectorB(8.1, 4.9);
-
-	REQUIRE(vectorA < vectorB);
-	REQUIRE(vectorB > vectorA);
+	// Add the vector
+	return NVector(x + theVector.x, y + theVector.y);
 }
 
 
@@ -431,14 +291,86 @@ NANO_TEST(TVector, "CompareOrder")
 
 
 //=============================================================================
-//		Test Case
+//		NVector::- : Subtraction operator.
 //-----------------------------------------------------------------------------
-NANO_TEST(TVector, "Format")
+constexpr NVector NVector::operator-(const NVector& theVector) const
 {
 
 
-	// Perform the test
-	REQUIRE(NFormat("{}", NVector()) == "{x = 0, y = 0}");
-	REQUIRE(NFormat("{}", NVector(1.5, 2)) == "{x = 1.5, y = 2}");
-	REQUIRE(NFormat("{}", NVector(1, -2.5)) == "{x = 1, y = -2.5}");
+	// Subtract the vector
+	return NVector(x - theVector.x, y - theVector.y);
+}
+
+
+
+
+
+//=============================================================================
+//		NVector::+= : Addition operator.
+//-----------------------------------------------------------------------------
+constexpr const NVector& NVector::operator+=(const NVector& theVector)
+{
+	*this = *this + theVector;
+
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NVector::-= : Subtraction operator.
+//-----------------------------------------------------------------------------
+constexpr const NVector& NVector::operator-=(const NVector& theVector)
+{
+	*this = *this - theVector;
+
+	return *this;
+}
+
+
+
+
+
+#pragma mark NMixinComparable
+//=============================================================================
+//		NVector::CompareEqual : Perform an equality comparison.
+//-----------------------------------------------------------------------------
+constexpr bool NVector::CompareEqual(const NVector& theVector) const
+{
+
+
+	// Compare the vector
+	return x == theVector.x && y == theVector.y;
+}
+
+
+
+
+
+//=============================================================================
+//		NVector::CompareOrder : Perform a three-way comparison.
+//-----------------------------------------------------------------------------
+constexpr NComparison NVector::CompareOrder(const NVector& theVector) const
+{
+
+
+	// Order the vector
+	//
+	// A vector has no real ordering so we sort by length (magnitude)
+	// and then by location.
+	NComparison theResult = NCompare(GetLength2(), theVector.GetLength2());
+
+	if (theResult == NComparison::EqualTo)
+	{
+		theResult = NCompare(x, theVector.x);
+
+		if (theResult == NComparison::EqualTo)
+		{
+			theResult = NCompare(y, theVector.y);
+		}
+	}
+
+	return theResult;
 }

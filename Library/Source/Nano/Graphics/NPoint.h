@@ -3,126 +3,126 @@
 
 	DESCRIPTION:
 		Point object.
-	
+
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NPOINT_HDR
-#define NPOINT_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NStringFormatter.h"
-#include "NComparable.h"
-#include "NEncodable.h"
-#include "NVariant.h"
+#ifndef NPOINT_H
+#define NPOINT_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NMixinComparable.h"
+#include "NanoMacros.h"
+#include "NanoTypes.h"
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		Types
-//----------------------------------------------------------------------------
-// Classes
-template<class T> class NPointT;
-template<class T> class NVectorT;
-
-typedef NPointT<float64_t> NPoint64;
-typedef NPointT<float32_t> NPoint32;
-typedef NPoint32           NPoint;
-
-
-// Lists
-typedef std::vector<NPoint64>										NPoint64List;
-typedef NPoint64List::iterator										NPoint64ListIterator;
-typedef NPoint64List::const_iterator								NPoint64ListConstIterator;
-
-typedef std::vector<NPoint32>										NPoint32List;
-typedef NPoint32List::iterator										NPoint32ListIterator;
-typedef NPoint32List::const_iterator								NPoint32ListConstIterator;
-
-typedef std::vector<NPoint>											NPointList;
-typedef NPointList::iterator										NPointListIterator;
-typedef NPointList::const_iterator									NPointListConstIterator;
+//-----------------------------------------------------------------------------
+// Forward declarations
+class NVector;
 
 
 
 
 
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-template<class T> class NPointT {
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NN_EMPTY_BASE NPoint final : public NMixinComparable<NPoint>
+{
 public:
-										NPointT(const NVariant &theValue);
-
-										NPointT(T x, T y);
-										NPointT(void);
+	constexpr                           NPoint(float64_t x, float64_t y);
+	constexpr                           NPoint();
 
 
 	// Clear the point
-	void								Clear(void);
+	constexpr void                      Clear();
 
 
-	// Test the point
-	bool								IsZero(void) const;
-
-
-	// Compare the value
-	NComparison							Compare(const NPointT<T> &theValue) const;
+	// Is the point zero?
+	constexpr bool                      IsZero() const;
 
 
 	// Get the distance to a point
-	T									GetDistance( const NPointT<T> &thePoint) const;
-	T									GetDistance2(const NPointT<T> &thePoint) const;
+	float64_t                           GetDistance( const NPoint& thePoint) const;
+	constexpr float64_t                 GetDistance2(const NPoint& thePoint) const;
 
 
-	// Manipulate the point
-	void								MakeIntegral(void);
-	void								Offset(   T deltaX, T deltaY);
-	NPointT<T>							GetIntegral(void)             const;
-	NPointT<T>							GetOffset(T deltaX, T deltaY) const;
+	// Get an integral point
+	//
+	// An integral point is rounded to the nearest integer coordinate.
+	NPoint                              GetIntegral() const;
+	void                                MakeIntegral();
+
+
+	// Get an offset point
+	constexpr NPoint                    GetOffset(float64_t deltaX, float64_t deltaY) const;
+	constexpr void                      Offset(   float64_t deltaX, float64_t deltaY);
 
 
 	// Operators
-	NCOMPARABLE_OPERATORS(NPointT<T>)
+	constexpr NPoint                    operator+(const NVector& theVector) const;
+	constexpr NPoint                    operator-(const NVector& theVector) const;
+	constexpr NVector                   operator-(const NPoint& thePoint)   const;
 
-	const NPointT<T>&					operator +=(const NVectorT<T> &theVector);
-	const NPointT<T>&					operator -=(const NVectorT<T> &theVector);
-
-	NPointT<T>							operator +(const NVectorT<T> &theVector) const;
-	NPointT<T>							operator -(const NVectorT<T> &theVector) const;
-	NVectorT<T>							operator -(const NPointT<T>  &thePoint)  const;
-
-										operator NEncodable(     void) const;
-										operator NFormatArgument(void) const;
+	constexpr const NPoint&             operator+=(const NVector& theVector);
+	constexpr const NPoint&             operator-=(const NVector& theVector);
 
 
 public:
-	T									x;
-	T									y;
+	// NMixinComparable
+	constexpr bool                      CompareEqual(const NPoint& thePoint) const;
+	constexpr NComparison               CompareOrder(const NPoint& thePoint) const;
+
+
+public:
+	float64_t                           x;
+	float64_t                           y;
 };
 
 
 
 
 
-//============================================================================
-//		Template files
-//----------------------------------------------------------------------------
-#define   NPOINT_CPP
-#include "NPoint.cpp"
-#undef    NPOINT_CPP
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NPoint.inl"
 
 
 
-
-
-#endif // NPOINT_HDR
-
-
+#endif // NPOINT_H

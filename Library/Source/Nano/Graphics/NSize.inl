@@ -1,8 +1,10 @@
 /*	NAME:
-		TPoint.cpp
+		NSize.inl
 
 	DESCRIPTION:
-		NPoint tests.
+		Size object.
+
+		NEncodable support uses a helper class to avoid a v-table.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -39,37 +41,18 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NFormat.h"
-#include "NPoint.h"
-#include "NTestFixture.h"
 
 
 
 
 
 //=============================================================================
-//		Test Fixture
+//		NSize::NSize : Constructor.
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(TPoint)
+constexpr NSize::NSize(float64_t theWidth, float64_t theHeight)
+	: width(theWidth)
+	, height(theHeight)
 {
-	NPoint thePoint;
-};
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "Default")
-{
-
-
-	// Perform the test
-	REQUIRE(thePoint.x == 0.0);
-	REQUIRE(thePoint.y == 0.0);
-	REQUIRE(sizeof(thePoint) == 16);
 }
 
 
@@ -77,16 +60,12 @@ NANO_TEST(TPoint, "Default")
 
 
 //=============================================================================
-//		Test Case
+//		NSize::NSize : Constructor.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "Constructor")
+constexpr NSize::NSize()
+	: width(0.0)
+	, height(0.0)
 {
-
-
-	// Perform the test
-	thePoint = NPoint(1, 2);
-	REQUIRE(thePoint.x == 1.0);
-	REQUIRE(thePoint.y == 2.0);
 }
 
 
@@ -94,20 +73,15 @@ NANO_TEST(TPoint, "Constructor")
 
 
 //=============================================================================
-//		Test Case
+//		NSize::Clear : Clear the size.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "Clear")
+constexpr void NSize::Clear()
 {
 
 
-	// Perform the test
-	thePoint = NPoint(1, 2);
-	REQUIRE(thePoint.x == 1.0);
-	REQUIRE(thePoint.y == 2.0);
-
-	thePoint.Clear();
-	REQUIRE(thePoint.x == 0.0);
-	REQUIRE(thePoint.y == 0.0);
+	// Clear the size
+	width  = 0;
+	height = 0;
 }
 
 
@@ -115,17 +89,11 @@ NANO_TEST(TPoint, "Clear")
 
 
 //=============================================================================
-//		Test Case
+//		NSize::IsEmpty : Is the size empty?
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "IsZero")
+constexpr bool NSize::IsEmpty() const
 {
-
-
-	// Perform the test
-	REQUIRE(thePoint.IsZero());
-
-	thePoint = NPoint(1, 2);
-	REQUIRE(!thePoint.IsZero());
+	return width == 0.0 && height == 0.0;
 }
 
 
@@ -133,18 +101,22 @@ NANO_TEST(TPoint, "IsZero")
 
 
 //=============================================================================
-//		Test Case
+//		NSize::GetIntegral : Get an integral size.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "GetDistance")
+inline NSize NSize::GetIntegral() const
 {
 
 
-	// Perform the test
-	NPoint pointA(1, 1);
-	NPoint pointB(10, 10);
+	// Get an integral size
+	//
+	// We round with ceil() to create the smallest integral size that
+	// is equal to or larger than the current size.
+	NSize theResult;
 
-	REQUIRE(NFormat("{:.5f}", pointA.GetDistance(pointB)) == "12.72792");
-	REQUIRE(NFormat("{:.5f}", pointA.GetDistance2(pointB)) == "162.00000");
+	theResult.width  = ceil(width);
+	theResult.height = ceil(height);
+
+	return theResult;
 }
 
 
@@ -152,34 +124,11 @@ NANO_TEST(TPoint, "GetDistance")
 
 
 //=============================================================================
-//		Test Case
+//		NSize::MakeIntegral : Make the size integral.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "GetIntegral")
+inline void NSize::MakeIntegral()
 {
-
-
-	// Perform the test
-	thePoint = NPoint(1, 2);
-	REQUIRE(thePoint.GetIntegral() == NPoint(1, 2));
-
-	thePoint = NPoint(1.4, 2.5);
-	REQUIRE(thePoint.GetIntegral() == NPoint(1, 3));
-
-	thePoint = NPoint(1.5, 2.6);
-	REQUIRE(thePoint.GetIntegral() == NPoint(2, 3));
-
-
-	thePoint = NPoint(1, 2);
-	thePoint.MakeIntegral();
-	REQUIRE(thePoint == NPoint(1, 2));
-
-	thePoint = NPoint(1.4, 2.5);
-	thePoint.MakeIntegral();
-	REQUIRE(thePoint == NPoint(1, 3));
-
-	thePoint = NPoint(1.5, 2.6);
-	thePoint.MakeIntegral();
-	REQUIRE(thePoint == NPoint(2, 3));
+	*this = GetIntegral();
 }
 
 
@@ -187,27 +136,21 @@ NANO_TEST(TPoint, "GetIntegral")
 
 
 //=============================================================================
-//		Test Case
+//		NSize::GetNormalized : Get a normalized size.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "GetOffset")
+constexpr NSize NSize::GetNormalized() const
 {
 
 
-	// Perform the test
-	thePoint = NPoint(1, 2);
-	REQUIRE(thePoint.GetOffset(-1, -2) == NPoint(0, 0));
+	// Noramlize the size
+	//
+	// A normalized size has a positive width and height.
+	NSize theResult;
 
-	thePoint = NPoint(1.4, 2.5);
-	REQUIRE(thePoint.GetOffset(1, 2) == NPoint(2.4, 4.5));
+	theResult.width  = (width < 0.0) ? -width : width;
+	theResult.height = (height < 0.0) ? -height : height;
 
-
-	thePoint = NPoint(1, 2);
-	thePoint.Offset(-1, -2);
-	REQUIRE(thePoint == NPoint(0, 0));
-
-	thePoint = NPoint(1.4, 2.5);
-	thePoint.Offset(1, 2);
-	REQUIRE(thePoint == NPoint(2.4, 4.5));
+	return theResult;
 }
 
 
@@ -215,21 +158,11 @@ NANO_TEST(TPoint, "GetOffset")
 
 
 //=============================================================================
-//		Test Case
+//		NSize::Normalize : Normalize the size.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "Addition")
+constexpr void NSize::Normalize()
 {
-
-
-	// Perform the test
-	NVector theVector(3.1, -8.1);
-
-	thePoint = NPoint(1, 2) + theVector;
-	REQUIRE(thePoint == NPoint(4.1, -6.1));
-
-	thePoint = NPoint(1, 2);
-	thePoint += theVector;
-	REQUIRE(thePoint == NPoint(4.1, -6.1));
+	*this = GetNormalized();
 }
 
 
@@ -237,25 +170,19 @@ NANO_TEST(TPoint, "Addition")
 
 
 //=============================================================================
-//		Test Case
+//		NSize::GetScaled : Get a scaled size.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "Subtraction")
+constexpr NSize NSize::GetScaled(float64_t scaleBy) const
 {
 
 
-	// Perform the test
-	NVector theVector(3.1, -8.1);
+	// Get a scaled size
+	NSize theResult;
 
-	thePoint = NPoint(1, 2) - theVector;
-	REQUIRE(thePoint == NPoint(-2.1, 10.1));
+	theResult.width  = width * scaleBy;
+	theResult.height = height * scaleBy;
 
-	thePoint = NPoint(1, 2);
-	thePoint -= theVector;
-	REQUIRE(thePoint == NPoint(-2.1, 10.1));
-
-	NPoint pointA(1, 2);
-	NPoint pointB(-2.1, 10.1);
-	REQUIRE((pointA - pointB) == theVector);
+	return theResult;
 }
 
 
@@ -263,18 +190,11 @@ NANO_TEST(TPoint, "Subtraction")
 
 
 //=============================================================================
-//		Test Case
+//		NSize::Scale : Scale the size.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "CompareEqual")
+constexpr void NSize::Scale(float64_t scaleBy)
 {
-
-
-	// Perform the test
-	NPoint pointA(3.8, 1.3);
-	NPoint pointB(8.1, 4.9);
-
-	REQUIRE(pointA == pointA);
-	REQUIRE(pointA != pointB);
+	*this = GetScaled(scaleBy);
 }
 
 
@@ -282,18 +202,19 @@ NANO_TEST(TPoint, "CompareEqual")
 
 
 //=============================================================================
-//		Test Case
+//		NSize::GetResized : Get a resized size.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "CompareOrder")
+constexpr NSize NSize::GetResized(float64_t deltaX, float64_t deltaY) const
 {
 
 
-	// Perform the test
-	NPoint pointA(3.8, 1.3);
-	NPoint pointB(8.1, 4.9);
+	// Get a resized size
+	NSize theResult;
 
-	REQUIRE(pointA < pointB);
-	REQUIRE(pointB > pointA);
+	theResult.width  = width + deltaX;
+	theResult.height = height + deltaY;
+
+	return theResult;
 }
 
 
@@ -301,14 +222,45 @@ NANO_TEST(TPoint, "CompareOrder")
 
 
 //=============================================================================
-//		Test Case
+//		NSize::Resize : Resize the size.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "Format")
+constexpr void NSize::Resize(float64_t deltaX, float64_t deltaY)
+{
+	*this = GetResized(deltaX, deltaY);
+}
+
+
+
+
+
+#pragma mark NMixinComparable
+//=============================================================================
+//		NSize::CompareEqual : Perform an equality comparison.
+//-----------------------------------------------------------------------------
+constexpr bool NSize::CompareEqual(const NSize& theSize) const
 {
 
 
-	// Perform the test
-	REQUIRE(NFormat("{}", NPoint()) == "{x = 0, y = 0}");
-	REQUIRE(NFormat("{}", NPoint(1.5, 2)) == "{x = 1.5, y = 2}");
-	REQUIRE(NFormat("{}", NPoint(1, -2.5)) == "{x = 1, y = -2.5}");
+	// Compare the size
+	return width == theSize.width && height == theSize.height;
+}
+
+
+
+
+
+//=============================================================================
+//		NSize::CompareOrder : Perform a three-way comparison.
+//-----------------------------------------------------------------------------
+constexpr NComparison NSize::CompareOrder(const NSize& theSize) const
+{
+
+
+	// Order the size
+	//
+	// A size has no real ordering so we sort by area.
+	float64_t areaA = width * height;
+	float64_t areaB = theSize.width * theSize.height;
+
+	return NCompare(areaA, areaB);
 }

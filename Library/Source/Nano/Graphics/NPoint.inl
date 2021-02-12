@@ -1,8 +1,10 @@
 /*	NAME:
-		TPoint.cpp
+		NPoint.inl
 
 	DESCRIPTION:
-		NPoint tests.
+		Point object.
+
+		NEncodable support uses a helper class to avoid a v-table.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -39,37 +41,19 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NFormat.h"
-#include "NPoint.h"
-#include "NTestFixture.h"
+#include "NVector.h"
 
 
 
 
 
 //=============================================================================
-//		Test Fixture
+//		NPoint::NPoint : Constructor.
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(TPoint)
+constexpr NPoint::NPoint(float64_t valX, float64_t valY)
+	: x(valX)
+	, y(valY)
 {
-	NPoint thePoint;
-};
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "Default")
-{
-
-
-	// Perform the test
-	REQUIRE(thePoint.x == 0.0);
-	REQUIRE(thePoint.y == 0.0);
-	REQUIRE(sizeof(thePoint) == 16);
 }
 
 
@@ -77,16 +61,12 @@ NANO_TEST(TPoint, "Default")
 
 
 //=============================================================================
-//		Test Case
+//		NPoint::NPoint : Constructor.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "Constructor")
+constexpr NPoint::NPoint()
+	: x(0.0)
+	, y(0.0)
 {
-
-
-	// Perform the test
-	thePoint = NPoint(1, 2);
-	REQUIRE(thePoint.x == 1.0);
-	REQUIRE(thePoint.y == 2.0);
 }
 
 
@@ -94,20 +74,15 @@ NANO_TEST(TPoint, "Constructor")
 
 
 //=============================================================================
-//		Test Case
+//		NPoint::Clear : Clear the point.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "Clear")
+constexpr void NPoint::Clear()
 {
 
 
-	// Perform the test
-	thePoint = NPoint(1, 2);
-	REQUIRE(thePoint.x == 1.0);
-	REQUIRE(thePoint.y == 2.0);
-
-	thePoint.Clear();
-	REQUIRE(thePoint.x == 0.0);
-	REQUIRE(thePoint.y == 0.0);
+	// Clear the point
+	x = 0.0;
+	y = 0.0;
 }
 
 
@@ -115,17 +90,11 @@ NANO_TEST(TPoint, "Clear")
 
 
 //=============================================================================
-//		Test Case
+//		NPoint::IsZero : Is the point zero?
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "IsZero")
+constexpr bool NPoint::IsZero() const
 {
-
-
-	// Perform the test
-	REQUIRE(thePoint.IsZero());
-
-	thePoint = NPoint(1, 2);
-	REQUIRE(!thePoint.IsZero());
+	return x == 0.0 && y == 0.0;
 }
 
 
@@ -133,18 +102,11 @@ NANO_TEST(TPoint, "IsZero")
 
 
 //=============================================================================
-//		Test Case
+//		NPoint::GetDistance : Get the distance to a point.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "GetDistance")
+inline float64_t NPoint::GetDistance(const NPoint& thePoint) const
 {
-
-
-	// Perform the test
-	NPoint pointA(1, 1);
-	NPoint pointB(10, 10);
-
-	REQUIRE(NFormat("{:.5f}", pointA.GetDistance(pointB)) == "12.72792");
-	REQUIRE(NFormat("{:.5f}", pointA.GetDistance2(pointB)) == "162.00000");
+	return sqrt(GetDistance2(thePoint));
 }
 
 
@@ -152,34 +114,17 @@ NANO_TEST(TPoint, "GetDistance")
 
 
 //=============================================================================
-//		Test Case
+//		NPoint::GetDistance2 : Get the distance^2 to a point.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "GetIntegral")
+constexpr float64_t NPoint::GetDistance2(const NPoint& thePoint) const
 {
 
 
-	// Perform the test
-	thePoint = NPoint(1, 2);
-	REQUIRE(thePoint.GetIntegral() == NPoint(1, 2));
+	// Get the distance^2
+	float64_t deltaX = x - thePoint.x;
+	float64_t deltaY = y - thePoint.y;
 
-	thePoint = NPoint(1.4, 2.5);
-	REQUIRE(thePoint.GetIntegral() == NPoint(1, 3));
-
-	thePoint = NPoint(1.5, 2.6);
-	REQUIRE(thePoint.GetIntegral() == NPoint(2, 3));
-
-
-	thePoint = NPoint(1, 2);
-	thePoint.MakeIntegral();
-	REQUIRE(thePoint == NPoint(1, 2));
-
-	thePoint = NPoint(1.4, 2.5);
-	thePoint.MakeIntegral();
-	REQUIRE(thePoint == NPoint(1, 3));
-
-	thePoint = NPoint(1.5, 2.6);
-	thePoint.MakeIntegral();
-	REQUIRE(thePoint == NPoint(2, 3));
+	return (deltaX * deltaX) + (deltaY * deltaY);
 }
 
 
@@ -187,27 +132,22 @@ NANO_TEST(TPoint, "GetIntegral")
 
 
 //=============================================================================
-//		Test Case
+//		NPoint::GetIntegral : Get an integral point.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "GetOffset")
+inline NPoint NPoint::GetIntegral() const
 {
 
 
-	// Perform the test
-	thePoint = NPoint(1, 2);
-	REQUIRE(thePoint.GetOffset(-1, -2) == NPoint(0, 0));
+	// Get an integral point
+	//
+	// We round with round() to ensure consistent behaviour regardless of
+	// the current rounding direction.
+	NPoint theResult;
 
-	thePoint = NPoint(1.4, 2.5);
-	REQUIRE(thePoint.GetOffset(1, 2) == NPoint(2.4, 4.5));
+	theResult.x = round(x);
+	theResult.y = round(y);
 
-
-	thePoint = NPoint(1, 2);
-	thePoint.Offset(-1, -2);
-	REQUIRE(thePoint == NPoint(0, 0));
-
-	thePoint = NPoint(1.4, 2.5);
-	thePoint.Offset(1, 2);
-	REQUIRE(thePoint == NPoint(2.4, 4.5));
+	return theResult;
 }
 
 
@@ -215,21 +155,11 @@ NANO_TEST(TPoint, "GetOffset")
 
 
 //=============================================================================
-//		Test Case
+//		NPoint::Make : Make the point integral.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "Addition")
+inline void NPoint::MakeIntegral()
 {
-
-
-	// Perform the test
-	NVector theVector(3.1, -8.1);
-
-	thePoint = NPoint(1, 2) + theVector;
-	REQUIRE(thePoint == NPoint(4.1, -6.1));
-
-	thePoint = NPoint(1, 2);
-	thePoint += theVector;
-	REQUIRE(thePoint == NPoint(4.1, -6.1));
+	*this = GetIntegral();
 }
 
 
@@ -237,25 +167,19 @@ NANO_TEST(TPoint, "Addition")
 
 
 //=============================================================================
-//		Test Case
+//		NPoint::GetOffset : Get an offset point.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "Subtraction")
+constexpr NPoint NPoint::GetOffset(float64_t deltaX, float64_t deltaY) const
 {
 
 
-	// Perform the test
-	NVector theVector(3.1, -8.1);
+	// Offset the point
+	NPoint theResult;
 
-	thePoint = NPoint(1, 2) - theVector;
-	REQUIRE(thePoint == NPoint(-2.1, 10.1));
+	theResult.x = x + deltaX;
+	theResult.y = y + deltaY;
 
-	thePoint = NPoint(1, 2);
-	thePoint -= theVector;
-	REQUIRE(thePoint == NPoint(-2.1, 10.1));
-
-	NPoint pointA(1, 2);
-	NPoint pointB(-2.1, 10.1);
-	REQUIRE((pointA - pointB) == theVector);
+	return theResult;
 }
 
 
@@ -263,18 +187,11 @@ NANO_TEST(TPoint, "Subtraction")
 
 
 //=============================================================================
-//		Test Case
+//		NPoint::Offset : Offset the point.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "CompareEqual")
+constexpr void NPoint::Offset(float64_t deltaX, float64_t deltaY)
 {
-
-
-	// Perform the test
-	NPoint pointA(3.8, 1.3);
-	NPoint pointB(8.1, 4.9);
-
-	REQUIRE(pointA == pointA);
-	REQUIRE(pointA != pointB);
+	*this = GetOffset(deltaX, deltaY);
 }
 
 
@@ -282,18 +199,14 @@ NANO_TEST(TPoint, "CompareEqual")
 
 
 //=============================================================================
-//		Test Case
+//		NPoint::+ : Addition operator.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "CompareOrder")
+constexpr NPoint NPoint::operator+(const NVector& theVector) const
 {
 
 
-	// Perform the test
-	NPoint pointA(3.8, 1.3);
-	NPoint pointB(8.1, 4.9);
-
-	REQUIRE(pointA < pointB);
-	REQUIRE(pointB > pointA);
+	// Add the vector
+	return NPoint(x + theVector.x, y + theVector.y);
 }
 
 
@@ -301,14 +214,95 @@ NANO_TEST(TPoint, "CompareOrder")
 
 
 //=============================================================================
-//		Test Case
+//		NPoint::- : Subtraction operator.
 //-----------------------------------------------------------------------------
-NANO_TEST(TPoint, "Format")
+constexpr NPoint NPoint::operator-(const NVector& theVector) const
 {
 
 
-	// Perform the test
-	REQUIRE(NFormat("{}", NPoint()) == "{x = 0, y = 0}");
-	REQUIRE(NFormat("{}", NPoint(1.5, 2)) == "{x = 1.5, y = 2}");
-	REQUIRE(NFormat("{}", NPoint(1, -2.5)) == "{x = 1, y = -2.5}");
+	// Subtract the vector
+	return NPoint(x - theVector.x, y - theVector.y);
+}
+
+
+
+
+
+//=============================================================================
+//		NPoint::- : Subtraction operator.
+//-----------------------------------------------------------------------------
+constexpr NVector NPoint::operator-(const NPoint& thePoint) const
+{
+
+
+	// Subtract the point
+	return NVector(x - thePoint.x, y - thePoint.y);
+}
+
+
+
+
+
+//=============================================================================
+//		NPoint::+= : Addition operator.
+//-----------------------------------------------------------------------------
+constexpr const NPoint& NPoint::operator+=(const NVector& theVector)
+{
+	*this = *this + theVector;
+
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NPoint::-= : Subtraction operator.
+//-----------------------------------------------------------------------------
+constexpr const NPoint& NPoint::operator-=(const NVector& theVector)
+{
+	*this = *this - theVector;
+
+	return *this;
+}
+
+
+
+
+
+#pragma mark NMixinComparable
+//=============================================================================
+//		NPoint::CompareEqual : Perform an equality comparison.
+//-----------------------------------------------------------------------------
+constexpr bool NPoint::CompareEqual(const NPoint& thePoint) const
+{
+
+
+	// Compare the point
+	return x == thePoint.x && y == thePoint.y;
+}
+
+
+
+
+
+//=============================================================================
+//		NPoint::CompareOrder : Perform a three-way comparison.
+//-----------------------------------------------------------------------------
+constexpr NComparison NPoint::CompareOrder(const NPoint& thePoint) const
+{
+
+
+	// Order the point
+	//
+	// A point has no real ordering so we sort by x then y.
+	NComparison theResult = NCompare(x, thePoint.x);
+
+	if (theResult == NComparison::EqualTo)
+	{
+		theResult = NCompare(y, thePoint.y);
+	}
+
+	return theResult;
 }
