@@ -52,38 +52,9 @@
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
+// Forward declaration
 class NString;
-class NUnicodeView;
-
-
-
-
-
-//=============================================================================
-//		Class Declaration
-//-----------------------------------------------------------------------------
-class NUTF32Iterator
-{
-public:
-										NUTF32Iterator(const NUnicodeView* theView, size_t theOffset);
-
-
-	// Operators
-	utf32_t                             operator*() const;
-
-	NUTF32Iterator&                     operator++();
-	NUTF32Iterator                      operator++(int);
-
-	NUTF32Iterator                      operator+(size_t n) const;
-
-	bool                                operator==(const NUTF32Iterator& otherIter) const;
-	bool                                operator!=(const NUTF32Iterator& otherIter) const;
-
-
-private:
-	const NUnicodeView*                 mView;
-	size_t                              mOffset;
-};
+class NUTF32Iterator;
 
 
 
@@ -140,12 +111,12 @@ public:
 	// Get UTF32 iterators
 	//
 	// Returns iterators suitable for a range-based for.
-	NUTF32Iterator                      begin() const;
-	NUTF32Iterator                      end()   const;
+	constexpr NUTF32Iterator            begin() const;
+	constexpr NUTF32Iterator            end()   const;
 
 
 private:
-	bool                                IsValid() const;
+	constexpr bool                      IsValid() const;
 
 	size_t                              DecodeUTF(  size_t theOffset, utf32_t& codePoint) const;
 	size_t                              DecodeUTF8( size_t theSize, const uint8_t* theData, utf32_t& codePoint) const;
@@ -159,6 +130,14 @@ private:
 	const uint8_t*                      mData;
 };
 
+
+
+
+
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NUnicodeView.inl"
 
 
 #endif // NUNICODE_VIEW_H

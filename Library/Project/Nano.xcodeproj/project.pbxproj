@@ -866,6 +866,7 @@
 		ABDCE8CE241C604F0054A16E /* macOSNFileInfo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = macOSNFileInfo.cpp; sourceTree = "<group>"; };
 		ABDCE8E3241F8ACD0054A16E /* NFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFile.cpp; sourceTree = "<group>"; };
 		ABDCE8E4241F8ACD0054A16E /* NFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFile.h; sourceTree = "<group>"; };
+		ABE59A7A25D337590048AD5F /* NUnicodeView.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NUnicodeView.inl; sourceTree = "<group>"; };
 		ABE59A7F25D3419D0048AD5F /* fast_float.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fast_float.h; sourceTree = "<group>"; };
 		ABE59A8025D3419D0048AD5F /* parse_number.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = parse_number.h; sourceTree = "<group>"; };
 		ABE59A8125D3419D0048AD5F /* simple_decimal_conversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = simple_decimal_conversion.h; sourceTree = "<group>"; };
@@ -1240,6 +1241,7 @@
 				AB1B4DA223F0A65500B304D3 /* NTextUtils.inl */,
 				AB56393923C75C3A00675F68 /* NUnicodeView.cpp */,
 				AB56393A23C75C3A00675F68 /* NUnicodeView.h */,
+				ABE59A7A25D337590048AD5F /* NUnicodeView.inl */,
 			);
 			path = Text;
 			sourceTree = "<group>";
