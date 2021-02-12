@@ -439,7 +439,7 @@ NComparison NVersion::CompareOrder(const NVersion& theVersion) const
 {
 
 
-	// Order by comparison
+	// Order by component
 	NComparison theResult = NCompare(mProduct, theVersion.mProduct);
 
 	if (theResult == NComparison::EqualTo)
