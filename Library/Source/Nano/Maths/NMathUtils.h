@@ -88,17 +88,20 @@ using NDegrees = float64_t;
 //		Macros
 //-----------------------------------------------------------------------------
 // Type traits
-#define NN_IS_ARITHMETIC(_T)                                (std::is_class_v<NUInt128> || std::is_arithmetic_v<_T>)
+#define NN_IS_ARITHMETIC(_T)                                (std::is_arithmetic_v<_T> || std::is_class_v<NUInt128>)
 
-#define NN_IS_INTEGRAL(_T)                                  (std::is_class_v<NUInt128> || std::is_integral_v<_T>)
+#define NN_IS_INTEGRAL(_T)                                  (std::is_integral_v<_T> || std::is_class_v<NUInt128>)
 
-#define NN_IS_UNSIGNED(_T)                                  (std::is_class_v<NUInt128> || std::is_unsigned_v<_T>)
+#define NN_IS_UNSIGNED(_T)                                  (std::is_unsigned_v<_T> || std::is_class_v<NUInt128>)
+
 
 
 // std::enable_if helpers
-#define NN_ENABLE_IF_INTEGER(_T)                            typename = std::enable_if_t<NN_IS_INTEGRAL(_T)>
+#define NN_ENABLE_IF_ARITHMETIC(_T)                         typename = std::enable_if_t<NN_IS_ARITHMETIC(_T)>
 
-#define NN_ENABLE_IF_UNSIGNED_INTEGER(_T)                   \
+#define NN_ENABLE_IF_INTEGRAL(_T)                           typename = std::enable_if_t<NN_IS_INTEGRAL(_T)>
+
+#define NN_ENABLE_IF_UNSIGNED_INTEGRAL(_T)                  \
 	typename = std::enable_if_t <       NN_IS_INTEGRAL(_T) && NN_IS_UNSIGNED(_T) >
 
 
@@ -111,42 +114,41 @@ using NDegrees = float64_t;
 class NMathUtils
 {
 public:
-	// Test the parity
-	template<typename T,                NN_ENABLE_IF_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_INTEGRAL(T)>
 	static constexpr bool               IsOdd(T theValue);
 
-	template<typename T,                NN_ENABLE_IF_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_INTEGRAL(T)>
 	static constexpr bool               IsEven(T theValue);
 
 
 	// Test for a power of 2
-	template<typename T,                NN_ENABLE_IF_INTEGER(T)>
-	static constexpr bool               IsPowerOf2(          T theValue);
+	template<typename T,                NN_ENABLE_IF_INTEGRAL(T)>
+	static constexpr bool               IsPowerOf2(           T theValue);
 
 
 	// Get the next power of 2
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	static constexpr T                  NextPowerOf2(T theValue);
 
 
 	// Count the number of set bits
-	template<typename T,                NN_ENABLE_IF_INTEGER(T)>
-	static constexpr size_t             CountBits(           T theValue);
+	template<typename T,                NN_ENABLE_IF_INTEGRAL(T)>
+	static constexpr size_t             CountBits(T theValue);
 
 
 	// Count the number of leading / trailing zeros
-	template<typename T,                NN_ENABLE_IF_INTEGER(T)>
-	static constexpr size_t             CountLeadingZeros(   T theValue);
+	template<typename T,                NN_ENABLE_IF_INTEGRAL(T)>
+	static constexpr size_t             CountLeadingZeros(    T theValue);
 
-	template<typename T,                NN_ENABLE_IF_INTEGER(T)>
-	static constexpr size_t             CountTrailingZeros(  T theValue);
+	template<typename T,                NN_ENABLE_IF_INTEGRAL(T)>
+	static constexpr size_t             CountTrailingZeros(   T theValue);
 
 
 	// Rotate left
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	static T                            RotateLeft(T theValue, size_t rotateBy);
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	static T                            RotateRight(T theValue, size_t rotateBy);
 
 

@@ -82,10 +82,10 @@ public:
 	constexpr                           NUInt128( const NUInt128& theValue);
 	constexpr NUInt128&                 operator=(const NUInt128& theValue);
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr                           NUInt128(T theValue);
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128&                 operator=(T theValue);
 
 
@@ -108,34 +108,34 @@ public:
 	constexpr NUInt128&                 operator/=(const NUInt128& theValue);
 	constexpr NUInt128&                 operator%=(const NUInt128& theValue);
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128                  operator+(T theValue) const;
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128                  operator-(T theValue) const;
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128                  operator*(T theValue) const;
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128                  operator/(T theValue) const;
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128                  operator%(T theValue) const;
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128&                 operator+=(T theValue);
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128&                 operator-=(T theValue);
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128&                 operator*=(T theValue);
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128&                 operator/=(T theValue);
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128&                 operator%=(T theValue);
 
 
@@ -154,34 +154,34 @@ public:
 	constexpr NUInt128&                 operator<<=(const NUInt128& theValue);
 	constexpr NUInt128&                 operator>>=(const NUInt128& theValue);
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128                  operator&(T theValue) const;
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128                  operator|(T theValue) const;
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128                  operator^(T theValue) const;
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128                  operator<<(T theValue) const;
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128                  operator>>(T theValue) const;
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128&                 operator&=(T theValue);
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128&                 operator|=(T theValue);
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128&                 operator^=(T theValue);
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128&                 operator<<=(T theValue);
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr NUInt128&                 operator>>=(T theValue);
 
 
@@ -190,10 +190,10 @@ public:
 	constexpr bool                      operator&&( const NUInt128& theValue) const;
 	constexpr bool                      operator||( const NUInt128& theValue) const;
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr bool                      operator&&(T theValue) const;
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr bool                      operator||(T theValue) const;
 
 
@@ -205,22 +205,22 @@ public:
 	constexpr bool                      operator==(const NUInt128& theValue) const;
 	constexpr bool                      operator!=(const NUInt128& theValue) const;
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr bool                      operator<(T theValue) const;
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr bool                      operator>(T theValue) const;
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr bool                      operator<=(T theValue) const;
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr bool                      operator>=(T theValue) const;
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr bool                      operator==(T theValue) const;
 
-	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGER(T)>
+	template<typename T,                NN_ENABLE_IF_UNSIGNED_INTEGRAL(T)>
 	constexpr bool                      operator!=(T theValue) const;
 
 
