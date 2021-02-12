@@ -43,6 +43,7 @@
 
 // Nano
 #include "NFormat.h"
+#include "NNumber.h"
 #include "NStdAlgorithm.h"
 
 
