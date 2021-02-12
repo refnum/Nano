@@ -471,8 +471,6 @@
 		AB23BAF0102B5B95009CA347 /* NDBHandlePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDBHandlePool.h; sourceTree = "<group>"; };
 		AB23BAF1102B5B95009CA347 /* NDBResult.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDBResult.cpp; sourceTree = "<group>"; };
 		AB23BAF2102B5B95009CA347 /* NDBResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDBResult.h; sourceTree = "<group>"; };
-		AB23BB39102B6565009CA347 /* NAtomicList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NAtomicList.cpp; sourceTree = "<group>"; };
-		AB23BB3A102B6565009CA347 /* NAtomicList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAtomicList.h; sourceTree = "<group>"; };
 		AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSemaphore.cpp; sourceTree = "<group>"; };
 		AB23BB5D102B67DB009CA347 /* NSemaphore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSemaphore.h; sourceTree = "<group>"; };
 		AB269E0C25BBAEB9007EAEF8 /* NStdUtility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NStdUtility.h; sourceTree = "<group>"; };
@@ -1574,8 +1572,6 @@
 		AB9155380F9B4DD6009FFEAF /* Threads */ = {
 			isa = PBXGroup;
 			children = (
-				AB23BB39102B6565009CA347 /* NAtomicList.cpp */,
-				AB23BB3A102B6565009CA347 /* NAtomicList.h */,
 				ABA6244925CE3C1300D2FA4D /* NLockable.h */,
 				ABA6244825CE3C1300D2FA4D /* NLockable.inl */,
 				ABC75E5D1753910100BB5983 /* NMutex.cpp */,
