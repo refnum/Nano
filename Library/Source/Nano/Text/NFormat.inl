@@ -49,6 +49,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NColor.h"
 #include "NFile.h"
 #include "NFileInfo.h"
 #include "NFilePath.h"
@@ -167,6 +168,30 @@ constexpr auto NSimpleFormatter::parse(fmt::format_parse_context& theContext) co
 
 	return theIter;
 }
+
+
+
+
+
+#pragma mark NColor
+//=============================================================================
+//		NColor formatter
+//-----------------------------------------------------------------------------
+template<>
+class fmt::formatter<NColor> : public NSimpleFormatter
+{
+public:
+	template<typename FormatContext>
+	auto format(const NColor& theParam, FormatContext& theContext)
+	{
+		return format_to(theContext.out(),
+						 "{{r = {:.2g}, g = {:.2g}, b = {:.2g}, a = {:.2g}}}",
+						 theParam.GetRed(),
+						 theParam.GetGreen(),
+						 theParam.GetBlue(),
+						 theParam.GetAlpha());
+	}
+};
 
 
 

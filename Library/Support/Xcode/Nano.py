@@ -362,9 +362,10 @@ def getFilePath(theValue, thePath):
 #==============================================================================
 #		formatFloat : Format a float.
 #------------------------------------------------------------------------------
-def formatFloat(theValue):
+def formatFloat(theValue, thePrecision=9):
 
-	return "{:.9g}".format(theValue)
+	theText = "{:." + str(thePrecision) + "g}"
+	return theText.format(theValue)
 
 
 
@@ -476,6 +477,22 @@ class NArray_Contents:
 
 		except:
 			pass
+
+
+
+
+
+#==============================================================================
+#		NColor_Summary : NColor summary.
+#------------------------------------------------------------------------------
+def NColor_Summary(theColor, theInfo):
+
+	r = formatFloat(getMemberFloat(theColor, "mRed"),   2)
+	g = formatFloat(getMemberFloat(theColor, "mGreen"), 2)
+	b = formatFloat(getMemberFloat(theColor, "mBlue"),  2)
+	a = formatFloat(getMemberFloat(theColor, "mAlpha"), 2)
+	
+	return "{r = " + r + ", g = " + g + ", b = " + b + ", a = " + a + "}"
 
 
 
@@ -893,6 +910,7 @@ def loadNano(theDebugger):
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NAny_Summary           NAny")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NArray_Summary         NArray")
 	theDebugger.HandleCommand("type synthetic add -w Nano -l Nano.NArray_Contents        NArray")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NColor_Summary         NColor")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NData_Summary          NData")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NDictionary_Summary    NDictionary")
 	theDebugger.HandleCommand("type synthetic add -w Nano -l Nano.NDictionary_Contents   NDictionary")
