@@ -57,7 +57,7 @@
 //		Types
 //-----------------------------------------------------------------------------
 // Forward declaration
-class NFileScannerIterator;
+class NFileIterator;
 
 
 // Filters
@@ -158,8 +158,8 @@ public:
 	// A call to begin() implicitly restarts the scan.
 	//
 	// Returns iterators suitable for a range-based for.
-	NFileScannerIterator                begin();
-	NFileScannerIterator                end();
+	NFileIterator                       begin();
+	NFileIterator                       end();
 
 
 private:

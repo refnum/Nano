@@ -178,48 +178,6 @@ NVectorFile NFileScanner::GetFiles()
 
 
 
-//=============================================================================
-//		NFileScanner::begin : Return the initial iterator.
-//-----------------------------------------------------------------------------
-NFileScannerIterator NFileScanner::begin()
-{
-
-
-	// Validate our state
-	NN_REQUIRE(IsValid());
-
-
-
-	// Get the iterator
-	//
-	// Scanning from the start implicitly restarts the scan.
-	Scan(mScanRoot);
-
-	return {*this, GetNext()};
-}
-
-
-
-
-
-//=============================================================================
-//		NFileScanner::end : Return the end iterator.
-//-----------------------------------------------------------------------------
-NFileScannerIterator NFileScanner::end()
-{
-
-
-	// Validate our state
-	NN_REQUIRE(IsValid());
-
-	// Get the iterator
-	return {*this, NFile()};
-}
-
-
-
-
-
 #pragma mark private
 //=============================================================================
 //		NFileScanner::ContinueScan : Continue the scan.

@@ -47,22 +47,30 @@
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NFileScannerIterator
+class NFileIterator
 {
 public:
-										NFileScannerIterator(NFileScanner& theScanner, const NFile& theFile);
+	using iterator_category = std::forward_iterator_tag;
+	using value_type        =           NFile;
+	using difference_type   =           NFile;
+	using pointer           = const NFile*;
+	using reference         = NFile&;
+
+
+public:
+										NFileIterator(NFileScanner& theScanner, const NFile& theFile);
 
 
 	// Operators
 	const NFile&                        operator*() const;
 
-	NFileScannerIterator&               operator++();
-	NFileScannerIterator                operator++(int);
+	NFileIterator&                      operator++();
+	NFileIterator                       operator++(int);
 
-	NFileScannerIterator                operator+(size_t n) const;
+	NFileIterator                       operator+(size_t n) const;
 
-	bool                                operator==(const NFileScannerIterator& otherIter) const;
-	bool                                operator!=(const NFileScannerIterator& otherIter) const;
+	bool                                operator==(const NFileIterator& otherIter) const;
+	bool                                operator!=(const NFileIterator& otherIter) const;
 
 
 private:
@@ -74,11 +82,11 @@ private:
 
 
 
-#pragma mark NFileScannerIterator
+#pragma mark NFileIterator
 //=============================================================================
-//		NFileScannerIterator::NFileScannerIterator : Constructor.
+//		NFileIterator::NFileIterator : Constructor.
 //-----------------------------------------------------------------------------
-inline NFileScannerIterator::NFileScannerIterator(NFileScanner& theScanner, const NFile& theFile)
+inline NFileIterator::NFileIterator(NFileScanner& theScanner, const NFile& theFile)
 	: mScanner(theScanner)
 	, mFile(theFile)
 {
@@ -89,9 +97,9 @@ inline NFileScannerIterator::NFileScannerIterator(NFileScanner& theScanner, cons
 
 
 //=============================================================================
-//		NFileScannerIterator::operator* : Dereference operator.
+//		NFileIterator::operator* : Dereference operator.
 //-----------------------------------------------------------------------------
-inline const NFile& NFileScannerIterator::operator*() const
+inline const NFile& NFileIterator::operator*() const
 {
 
 
@@ -104,9 +112,9 @@ inline const NFile& NFileScannerIterator::operator*() const
 
 
 //=============================================================================
-//		NFileScannerIterator::operator++ : Prefix increment operator.
+//		NFileIterator::operator++ : Prefix increment operator.
 //-----------------------------------------------------------------------------
-inline NFileScannerIterator& NFileScannerIterator::operator++()
+inline NFileIterator& NFileIterator::operator++()
 {
 
 
@@ -121,14 +129,14 @@ inline NFileScannerIterator& NFileScannerIterator::operator++()
 
 
 //=============================================================================
-//		NFileScannerIterator::operator++ : Postfix increment operator.
+//		NFileIterator::operator++ : Postfix increment operator.
 //-----------------------------------------------------------------------------
-inline NFileScannerIterator NFileScannerIterator::operator++(int)
+inline NFileIterator NFileIterator::operator++(int)
 {
 
 
 	// Increment the iterator
-	NFileScannerIterator prevIter = *this;
+	NFileIterator prevIter = *this;
 
 	mFile = mScanner.GetNext();
 
@@ -140,14 +148,14 @@ inline NFileScannerIterator NFileScannerIterator::operator++(int)
 
 
 //=============================================================================
-//		NFileScannerIterator::operator+ : Addition operator.
+//		NFileIterator::operator+ : Addition operator.
 //-----------------------------------------------------------------------------
-inline NFileScannerIterator NFileScannerIterator::operator+(size_t n) const
+inline NFileIterator NFileIterator::operator+(size_t n) const
 {
 
 
 	// Increment the iterator
-	NFileScannerIterator theIter = *this;
+	NFileIterator theIter = *this;
 
 	for (size_t x = 0; x < n; x++)
 	{
@@ -162,9 +170,9 @@ inline NFileScannerIterator NFileScannerIterator::operator+(size_t n) const
 
 
 //=============================================================================
-//		NFileScannerIterator::operator== : Equality operator.
+//		NFileIterator::operator== : Equality operator.
 //-----------------------------------------------------------------------------
-inline bool NFileScannerIterator::operator==(const NFileScannerIterator& otherIter) const
+inline bool NFileIterator::operator==(const NFileIterator& otherIter) const
 {
 
 
@@ -182,9 +190,9 @@ inline bool NFileScannerIterator::operator==(const NFileScannerIterator& otherIt
 
 
 //=============================================================================
-//		NFileScannerIterator::operator!= : Inequality operator.
+//		NFileIterator::operator!= : Inequality operator.
 //-----------------------------------------------------------------------------
-inline bool NFileScannerIterator::operator!=(const NFileScannerIterator& otherIter) const
+inline bool NFileIterator::operator!=(const NFileIterator& otherIter) const
 {
 
 
@@ -316,6 +324,50 @@ inline void NFileScanner::SetFilterItem(const NFileScannerFilter& theFilter)
 
 	// Set the filter
 	mFilterItem = theFilter;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileScanner::begin : Return the initial iterator.
+//-----------------------------------------------------------------------------
+inline NFileIterator NFileScanner::begin()
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Get the iterator
+	//
+	// Scanning from the start implicitly restarts the scan.
+	Scan(mScanRoot);
+
+	return {*this, GetNext()};
+}
+
+
+
+
+
+//=============================================================================
+//		NFileScanner::end : Return the end iterator.
+//-----------------------------------------------------------------------------
+inline NFileIterator NFileScanner::end()
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Get the iterator
+	return {*this, NFile()};
 }
 
 
