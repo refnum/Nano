@@ -155,7 +155,7 @@ bool contains(const T& container, const typename T::value_type& value)
 //=============================================================================
 //		nstd::contains : Does a container contain a value?
 //-----------------------------------------------------------------------------
-template<class T, size_t N>
+template<typename T, size_t N>
 bool contains(const T (&container)[N], const T& value)
 {
 	auto iterBegin = std::begin(container);
@@ -249,7 +249,7 @@ void erase(std::vector<T>& container, size_t theLocation, size_t theSize)
 //=============================================================================
 //		nstd::extract_back : Extract the last element from a container.
 //-----------------------------------------------------------------------------
-template<class T>
+template<typename T>
 typename T::value_type extract_back(T& container)
 {
 	NN_REQUIRE(!container.empty());
@@ -269,7 +269,7 @@ typename T::value_type extract_back(T& container)
 //=============================================================================
 //		nstd::extract_front : Extract the first element from a container.
 //-----------------------------------------------------------------------------
-template<class T>
+template<typename T>
 typename T::value_type extract_front(T& container)
 {
 	NN_REQUIRE(!container.empty());
@@ -289,7 +289,7 @@ typename T::value_type extract_front(T& container)
 //=============================================================================
 //		nstd::fetch : Fetch a value from an associative container.
 //-----------------------------------------------------------------------------
-template<class T>
+template<typename T>
 typename T::mapped_type fetch(const T&                       container,
 							  const typename T::key_type&    key,
 							  const typename T::mapped_type& defaultValue)
@@ -313,7 +313,7 @@ typename T::mapped_type fetch(const T&                       container,
 //=============================================================================
 //		nstd::front : Get a pointer to the first element in a container.
 //-----------------------------------------------------------------------------
-template<class T>
+template<typename T>
 typename T::value_type* front(T& container)
 {
 	if (container.empty())
@@ -333,7 +333,7 @@ typename T::value_type* front(T& container)
 //=============================================================================
 //		nstd::keys : Get the keys from an associative container.
 //-----------------------------------------------------------------------------
-template<class T>
+template<typename T>
 std::vector<typename T::key_type> keys(const T& container)
 {
 	std::vector<typename T::key_type> result;
@@ -584,7 +584,7 @@ void stable_sort(T& container, const C& comparator)
 //=============================================================================
 //		nstd::stable_uniquify : Order-preserving uniquify the values in a container.
 //-----------------------------------------------------------------------------
-template<class T>
+template<typename T>
 void stable_uniquify(T& container)
 {
 	typedef typename T::value_type V;
@@ -634,7 +634,7 @@ void stable_uniquify(T& container)
 //=============================================================================
 //		nstd::uniquify : Uniquify the values in a container.
 //-----------------------------------------------------------------------------
-template<class T>
+template<typename T>
 void uniquify(T& container)
 {
 	auto iterBegin = container.begin();
@@ -651,7 +651,7 @@ void uniquify(T& container)
 //=============================================================================
 //		nstd::values : Get the values from an associative container.
 //-----------------------------------------------------------------------------
-template<class T>
+template<typename T>
 std::vector<typename T::mapped_type> values(const T& container)
 {
 	std::vector<typename T::mapped_type> result;

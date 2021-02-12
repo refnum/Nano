@@ -53,7 +53,7 @@ namespace nstd
 //=============================================================================
 //		nstd::vector : Create a vector from a C array of values.
 //-----------------------------------------------------------------------------
-template<class T, size_t numValues>
+template<typename T, size_t numValues>
 std::vector<T> vector(const T (&theValues)[numValues])
 {
 	return std::vector<T>(theValues, theValues + numValues);
@@ -66,7 +66,7 @@ std::vector<T> vector(const T (&theValues)[numValues])
 //=============================================================================
 //		nstd::vector : Create a vector from a pointer to values.
 //-----------------------------------------------------------------------------
-template<class T>
+template<typename T>
 std::vector<T> vector(size_t numValues, const T* theValues)
 {
 	return std::vector<T>(theValues, theValues + numValues);
