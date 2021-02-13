@@ -214,6 +214,12 @@ public:
 													NFileAction    theAction = NFileAction::CanCreate);
 
 
+	// Get a temporary file
+	//
+	// Returns a unqiuely named temporary file.
+	static NFilePath                    GetTemporary(const NString& baseName = "");
+
+
 	// Atomically rename a path
 	static NStatus                      Rename(const NFilePath& oldPath, const NFilePath& newPath);
 

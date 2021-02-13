@@ -386,6 +386,21 @@ NFilePath NFileUtils::GetLocation(NFileLocation  theLocation,
 
 
 //=============================================================================
+//		NFileUtils::GetTemporary : Get a temporary file.
+//-----------------------------------------------------------------------------
+NFilePath NFileUtils::GetTemporary(const NString& baseName)
+{
+
+
+	// Get the file
+	return GetUniqueChild(GetLocation(NFileLocation::AppTemporaries), baseName);
+}
+
+
+
+
+
+//=============================================================================
 //		NFileUtils::Rename : Atomically rename a path.
 //-----------------------------------------------------------------------------
 NStatus NFileUtils::Rename(const NFilePath& oldPath, const NFilePath& newPath)

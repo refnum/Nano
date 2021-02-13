@@ -256,6 +256,22 @@ NANO_TEST(TFileUtils, "GetUniqueChild")
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
+NANO_TEST(TFileUtils, "GetTemporary")
+{
+
+
+	// Perform the test
+	REQUIRE(NFileUtils::GetTemporary().IsValid());
+	REQUIRE(NFileUtils::GetTemporary("000").IsValid());
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
 NANO_TEST(TFileUtils, "Rename")
 {
 
