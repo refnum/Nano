@@ -160,6 +160,12 @@ public:
 	NFileIterator                       end();
 
 
+	// Scan for matching files
+	static NVectorFile                  Scan(const NFile&   theRoot,
+											 const NString& patternName = "",
+											 const NString& patternPath = "");
+
+
 private:
 	bool                                IsValid();
 	void                                ContinueScan();

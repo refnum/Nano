@@ -178,6 +178,34 @@ NVectorFile NFileScanner::GetFiles()
 
 
 
+//=============================================================================
+//		NFileScanner::Scan : Scan for matching files.
+//-----------------------------------------------------------------------------
+NVectorFile NFileScanner::Scan(const NFile&   theRoot,
+							   const NString& patternName,
+							   const NString& patternPath)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theRoot.IsDirectory());
+
+
+
+	// Get the matches
+	NFileScanner fileScanner;
+
+	fileScanner.SetFilterName(patternName);
+	fileScanner.SetFilterPath(patternPath);
+	fileScanner.Start(theRoot);
+
+	return fileScanner.GetFiles();
+}
+
+
+
+
+
 #pragma mark private
 //=============================================================================
 //		NFileScanner::ContinueScan : Continue the scan.

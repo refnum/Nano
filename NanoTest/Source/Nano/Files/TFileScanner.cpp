@@ -293,3 +293,22 @@ NANO_TEST(TFileScanner, "RangeBasedFor")
 	REQUIRE(numDirs == 4);
 	REQUIRE(numFiles == 2);
 }
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TFileScanner, "GetMatches")
+{
+
+
+	// Perform the test
+	theFiles = NFileScanner::Scan(kPathTmpDirectory);
+	REQUIRE(theFiles.size() == 6);
+
+	theFiles = NFileScanner::Scan(kPathTmpDirectory, ".*\\.dat");
+	REQUIRE(theFiles.size() == 2);
+}
