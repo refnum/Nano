@@ -45,10 +45,8 @@
 #include "NFileHandle.h"
 #include "NFileInfo.h"
 #include "NFormat.h"
+#include "NRandom.h"
 #include "NString.h"
-
-// System
-#include <random>
 
 
 
@@ -298,9 +296,6 @@ NFilePath NFileUtils::GetUniqueChild(const NFilePath& thePath, const NString bas
 
 
 	// Get the state we need
-	std::random_device randDevice;
-	std::mt19937_64    randUInt64(randDevice());
-
 	NString theStem      = "NFileUtils";
 	NString theExtension = ".tmp";
 
@@ -325,11 +320,13 @@ NFilePath NFileUtils::GetUniqueChild(const NFilePath& thePath, const NString bas
 	// Generate a unique child
 	while (true)
 	{
-		NString uniqueName =
-			NFormat("{}_{:08x}{:08x}{}", theStem, randUInt64(), randUInt64(), theExtension);
+		NString uniqueName = NFormat("{}_{:08x}{:08x}{}",
+									 theStem,
+									 NRandom::GetUInt64(),
+									 NRandom::GetUInt64(),
+									 theExtension);
 
 		NFileInfo theInfo(thePath.GetChild(uniqueName));
-
 		if (!theInfo.Exists())
 		{
 			return theInfo.GetPath();
@@ -403,6 +400,7 @@ NStatus NFileUtils::Rename(const NFilePath& oldPath, const NFilePath& newPath)
 	NN_EXPECT(!NFileInfo(newPath).Exists());
 
 
+
 	// Rename the path
 	return PathRename(oldPath, newPath);
 }
@@ -424,6 +422,7 @@ NStatus NFileUtils::Exchange(const NFilePath& oldPath, const NFilePath& newPath)
 
 	NN_EXPECT(NFileInfo(oldPath).Exists());
 	NN_EXPECT(NFileInfo(newPath).Exists());
+
 
 
 	// Exchange the paths
