@@ -213,7 +213,7 @@ public:
 	// As strings may contain embedded nulls the string data does not need to
 	// have a null terminator nor will a terminator be added on retrieval.
 	//
-	// A string will a trailing null element will preserves that null as part of
+	// A string with a trailing null element will preserves that null as part of
 	// its content, just as it would a null at any other location.
 	NData                               GetData(NStringEncoding theEncoding) const;
 	void                                SetData(NStringEncoding theEncoding, const NData& theData);
