@@ -836,6 +836,7 @@
 		ABCD3CB825D6BF9900276B30 /* NColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NColor.cpp; sourceTree = "<group>"; };
 		ABCFE38F1773A0100054EEA3 /* NCGShading.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCGShading.cpp; sourceTree = "<group>"; };
 		ABCFE3901773A0100054EEA3 /* NCGShading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCGShading.h; sourceTree = "<group>"; };
+		ABD3681925D74D4000C825B6 /* NStdMemory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NStdMemory.h; sourceTree = "<group>"; };
 		ABD681641679DEC400CB2E04 /* NMessageClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMessageClient.cpp; sourceTree = "<group>"; };
 		ABD681651679DEC400CB2E04 /* NMessageClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMessageClient.h; sourceTree = "<group>"; };
 		ABD681661679DEC400CB2E04 /* NMessageEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMessageEntity.cpp; sourceTree = "<group>"; };
@@ -1167,6 +1168,7 @@
 				AB5127DD23D0778400528FBE /* NStdAlgorithm.h */,
 				AB5127E823D07FB400528FBE /* NStdContainer.h */,
 				AB20329125D73E0A0050DB00 /* NStdMath.h */,
+				ABD3681925D74D4000C825B6 /* NStdMemory.h */,
 				AB269E0C25BBAEB9007EAEF8 /* NStdUtility.h */,
 			);
 			path = Std;

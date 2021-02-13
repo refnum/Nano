@@ -157,6 +157,9 @@
 		ABCC4AC825A535F500394AFE /* TArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D9F1034184B00E5A6AD /* TArray.cpp */; };
 		ABCC4ACC25A535F500394AFE /* TArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D9F1034184B00E5A6AD /* TArray.cpp */; };
 		ABCC4ACD25A535F500394AFE /* TArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D9F1034184B00E5A6AD /* TArray.cpp */; };
+		ABD3681325D74D0E00C825B6 /* TStdMemory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD3681225D74D0E00C825B6 /* TStdMemory.cpp */; };
+		ABD3681425D74D0E00C825B6 /* TStdMemory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD3681225D74D0E00C825B6 /* TStdMemory.cpp */; };
+		ABD3681525D74D0E00C825B6 /* TStdMemory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD3681225D74D0E00C825B6 /* TStdMemory.cpp */; };
 		ABDCE89C241BDAD50054A16E /* TTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE89B241BDAD50054A16E /* TTime.cpp */; };
 		ABDCE89D241BDAD50054A16E /* TTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE89B241BDAD50054A16E /* TTime.cpp */; };
 		ABDCE89E241BDAD50054A16E /* TTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE89B241BDAD50054A16E /* TTime.cpp */; };
@@ -374,6 +377,7 @@
 		ABCFE3971773A09C0054EEA3 /* TCGImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCGImage.cpp; sourceTree = "<group>"; };
 		ABCFE3981773A09C0054EEA3 /* TCGShading.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCGShading.cpp; sourceTree = "<group>"; };
 		ABCFE3991773A09C0054EEA3 /* TCoreGraphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCoreGraphics.cpp; sourceTree = "<group>"; };
+		ABD3681225D74D0E00C825B6 /* TStdMemory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdMemory.cpp; sourceTree = "<group>"; };
 		ABD6816D167A481B00CB2E04 /* TMessageClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMessageClient.cpp; sourceTree = "<group>"; };
 		ABD6816F167A481C00CB2E04 /* TNetworkMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNetworkMessage.cpp; sourceTree = "<group>"; };
 		ABD6817D167AB8AA00CB2E04 /* TJSONEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TJSONEncoder.cpp; sourceTree = "<group>"; };
@@ -554,6 +558,7 @@
 				AB5127E123D0780400528FBE /* TStdAlgorithm.cpp */,
 				AB5127E923D07FC700528FBE /* TStdContainer.cpp */,
 				AB20329225D73E1F0050DB00 /* TStdMath.cpp */,
+				ABD3681225D74D0E00C825B6 /* TStdMemory.cpp */,
 				AB269E0525BBAEA7007EAEF8 /* TStdUtility.cpp */,
 			);
 			path = Std;
@@ -955,6 +960,7 @@
 				AB56391923C2A3F600675F68 /* TString.cpp in Sources */,
 				ABB3379A23A04E09000B81B0 /* TMutex.cpp in Sources */,
 				ABBB2B6523801DBB00EB2840 /* TDebug.cpp in Sources */,
+				ABD3681425D74D0E00C825B6 /* TStdMemory.cpp in Sources */,
 				ABE7C0CA25D0AD8D00914618 /* TSize.cpp in Sources */,
 				AB20328B25D72B6D0050DB00 /* TColor.cpp in Sources */,
 				ABA478CA25B7B7FE00F3C3C9 /* TProcess.cpp in Sources */,
@@ -1027,6 +1033,7 @@
 				AB56391823C2A3F600675F68 /* TString.cpp in Sources */,
 				ABB3379B23A04E0A000B81B0 /* TMutex.cpp in Sources */,
 				ABBB2B6123801DBB00EB2840 /* TLogOutput.cpp in Sources */,
+				ABD3681325D74D0E00C825B6 /* TStdMemory.cpp in Sources */,
 				ABE7C0CD25D0AD8D00914618 /* TSize.cpp in Sources */,
 				AB20328C25D72B6E0050DB00 /* TColor.cpp in Sources */,
 				ABA478C925B7B7FE00F3C3C9 /* TProcess.cpp in Sources */,
@@ -1099,6 +1106,7 @@
 				AB56391A23C2A3F600675F68 /* TString.cpp in Sources */,
 				ABB3379C23A04E0A000B81B0 /* TMutex.cpp in Sources */,
 				ABBB2B6323801DBB00EB2840 /* TLogOutput.cpp in Sources */,
+				ABD3681525D74D0E00C825B6 /* TStdMemory.cpp in Sources */,
 				ABE7C0C425D0AD8C00914618 /* TSize.cpp in Sources */,
 				AB20328725D72B6D0050DB00 /* TColor.cpp in Sources */,
 				ABA478CB25B7B7FE00F3C3C9 /* TProcess.cpp in Sources */,
