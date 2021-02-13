@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 NANO_PLATFORM							= iOS
 
-IPHONEOS_DEPLOYMENT_TARGET				= 12.1
+IPHONEOS_DEPLOYMENT_TARGET				= 13.0
 SUPPORTED_PLATFORMS						= iphoneos
 
 #include "Nano.xcconfig"

@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------------
 NANO_PLATFORM							= tvOS
 
-TVOS_DEPLOYMENT_TARGET					= 13.0
+TVOS_DEPLOYMENT_TARGET					= 14.0
 SUPPORTED_PLATFORMS						= appletvos
 
 #include "Nano.xcconfig"
