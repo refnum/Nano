@@ -344,8 +344,8 @@ inline NFileIterator NFileScanner::begin()
 
 	// Get the iterator
 	//
-	// Scanning from the start implicitly restarts the scan.
-	Scan(mScanRoot);
+	// Accessing the initial iterator implicitly restarts the scan.
+	Start(mScanRoot);
 
 	return {*this, GetNext()};
 }

@@ -128,9 +128,7 @@ NANO_TEST(TFileScanner, "SetRecurseDepth")
 
 	// Perform the test
 	fileScanner.SetRecurseDepth(2);
-
-	theErr = fileScanner.Scan(kPathTmpDirectory);
-	REQUIRE(theErr == NStatus::OK);
+	fileScanner.Start(kPathTmpDirectory);
 
 	theFiles = fileScanner.GetFiles();
 	REQUIRE(theFiles.size() == 6);
@@ -149,9 +147,7 @@ NANO_TEST(TFileScanner, "SetFilterPath")
 
 	// Perform the test
 	fileScanner.SetFilterPath(".*two.*");
-
-	theErr = fileScanner.Scan(kPathTmpDirectory);
-	REQUIRE(theErr == NStatus::OK);
+	fileScanner.Start(kPathTmpDirectory);
 
 	theFiles = fileScanner.GetFiles();
 	REQUIRE(theFiles.size() == 4);
@@ -169,10 +165,8 @@ NANO_TEST(TFileScanner, "SetFilterName")
 
 
 	// Perform the test
-	fileScanner.SetFilterPath(".*\\.dat");
-
-	theErr = fileScanner.Scan(kPathTmpDirectory);
-	REQUIRE(theErr == NStatus::OK);
+	fileScanner.SetFilterName(".*\\.dat");
+	fileScanner.Start(kPathTmpDirectory);
 
 	theFiles = fileScanner.GetFiles();
 	REQUIRE(theFiles.size() == 2);
@@ -195,8 +189,7 @@ NANO_TEST(TFileScanner, "SetFilterItem/None")
 		return true;
 	});
 
-	theErr = fileScanner.Scan(kPathTmpDirectory);
-	REQUIRE(theErr == NStatus::OK);
+	fileScanner.Start(kPathTmpDirectory);
 
 	theFiles = fileScanner.GetFiles();
 	REQUIRE(theFiles.size() == 1);
@@ -218,8 +211,7 @@ NANO_TEST(TFileScanner, "SetFilterItem/All")
 		return true;
 	});
 
-	theErr = fileScanner.Scan(kPathTmpDirectory);
-	REQUIRE(theErr == NStatus::OK);
+	fileScanner.Start(kPathTmpDirectory);
 
 	theFiles = fileScanner.GetFiles();
 	REQUIRE(theFiles.size() == 6);
@@ -241,8 +233,7 @@ NANO_TEST(TFileScanner, "SetFilterItem/Some")
 		return theFile.IsFile();
 	});
 
-	theErr = fileScanner.Scan(kPathTmpDirectory);
-	REQUIRE(theErr == NStatus::OK);
+	fileScanner.Start(kPathTmpDirectory);
 
 	theFiles = fileScanner.GetFiles();
 	REQUIRE(theFiles.size() == 2);
@@ -260,8 +251,7 @@ NANO_TEST(TFileScanner, "GetFiles")
 
 
 	// Perform the test
-	theErr = fileScanner.Scan(kPathTmpDirectory);
-	REQUIRE(theErr == NStatus::OK);
+	fileScanner.Start(kPathTmpDirectory);
 
 	theFiles = fileScanner.GetFiles();
 	REQUIRE(theFiles.size() == 6);
@@ -279,13 +269,11 @@ NANO_TEST(TFileScanner, "RangeBasedFor")
 
 
 	// Perform the test
-	theErr = fileScanner.Scan(kPathTmpDirectory);
-	REQUIRE(theErr == NStatus::OK);
-
 	size_t numItems = 0;
 	size_t numFiles = 0;
 	size_t numDirs  = 0;
 
+	fileScanner.Start(kPathTmpDirectory);
 	for (const auto& theFile : fileScanner)
 	{
 		numItems++;

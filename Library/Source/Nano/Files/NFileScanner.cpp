@@ -95,9 +95,9 @@ NFileScanner::NFileScanner()
 
 
 //=============================================================================
-//		NFileScanner::Scan : Scan the files.
+//		NFileScanner::Start : Start a scan.
 //-----------------------------------------------------------------------------
-NStatus NFileScanner::Scan(const NFile& theRoot)
+void NFileScanner::Start(const NFile& theRoot)
 {
 
 
@@ -112,8 +112,6 @@ NStatus NFileScanner::Scan(const NFile& theRoot)
 	mScanStop    = false;
 	mScanDepth   = 0;
 	mScanResults = {};
-
-	return NStatus::OK;
 }
 
 
@@ -162,6 +160,8 @@ NVectorFile NFileScanner::GetFiles()
 
 	// Validate our state
 	NN_REQUIRE(IsValid());
+
+
 
 	// Get the files
 	NVectorFile theFiles;

@@ -129,10 +129,8 @@ public:
 	void                                SetFilterItem(  const NFileScannerFilter& theFilter);
 
 
-	// Scan the files
-	//
-	// Start scanning a directory.
-	NStatus                             Scan(const NFile& theRoot);
+	// Start a scan
+	void                                Start(const NFile& theRoot);
 
 
 	// Get the next file
