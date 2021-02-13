@@ -41,6 +41,9 @@
 //-----------------------------------------------------------------------------
 #include "NFilePath.h"
 
+// System
+#include <filesystem>
+
 
 
 
@@ -650,6 +653,41 @@ const utf16_t* NFilePath::GetUTF16() const
 
 	// Get the path
 	return mPath.GetUTF16();
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::GetCurrent : Get the current working directory.
+//-----------------------------------------------------------------------------
+NFilePath NFilePath::GetCurrent()
+{
+
+
+	// Get the path
+	return NString(std::filesystem::current_path().c_str());
+}
+
+
+
+
+
+//=============================================================================
+//		NFilePath::SetCurrent : Set the current working directory.
+//-----------------------------------------------------------------------------
+void NFilePath::SetCurrent(const NFilePath& thePath)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(thePath.IsValid());
+
+
+
+	// Set the path
+	std::filesystem::current_path(thePath.GetUTF8());
 }
 
 

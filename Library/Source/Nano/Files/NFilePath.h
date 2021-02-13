@@ -188,6 +188,11 @@ public:
 	const utf16_t*                      GetUTF16() const;
 
 
+	// Get / set the current working directory
+	static NFilePath                    GetCurrent();
+	static void                         SetCurrent(const NFilePath& thePath);
+
+
 public:
 	// NMixinAppendable
 	void                                Append(const NFilePath& thePath);

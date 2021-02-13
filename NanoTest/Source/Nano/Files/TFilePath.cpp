@@ -674,6 +674,24 @@ NANO_TEST(TFilePath, "GetUTF16")
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
+NANO_TEST(TFilePath, "GetCurrent")
+{
+
+
+	// Perform the test
+	thePath = NFilePath::GetCurrent();
+	REQUIRE(thePath.IsValid());
+
+	NFilePath::SetCurrent(thePath);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
 NANO_TEST(TFilePath, "Appendable")
 {
 
