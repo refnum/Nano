@@ -655,8 +655,6 @@
 		AB9155540F9B4DD6009FFEAF /* NNumber.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNumber.cpp; sourceTree = "<group>"; };
 		AB9155550F9B4DD6009FFEAF /* NNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNumber.h; sourceTree = "<group>"; };
 		AB9155590F9B4DD6009FFEAF /* NRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRange.h; sourceTree = "<group>"; };
-		AB91556B0F9B4DD6009FFEAF /* NFileUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFileUtilities.cpp; sourceTree = "<group>"; };
-		AB91556C0F9B4DD6009FFEAF /* NFileUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileUtilities.h; sourceTree = "<group>"; };
 		AB9156770F9B5328009FFEAF /* NCFObject.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCFObject.cpp; sourceTree = "<group>"; };
 		AB9156780F9B5328009FFEAF /* NCFObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFObject.h; sourceTree = "<group>"; };
 		AB9156790F9B5328009FFEAF /* NCFString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFString.h; sourceTree = "<group>"; };
@@ -1670,8 +1668,6 @@
 		AB91556A0F9B4DD6009FFEAF /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				AB91556B0F9B4DD6009FFEAF /* NFileUtilities.cpp */,
-				AB91556C0F9B4DD6009FFEAF /* NFileUtilities.h */,
 				AB1BA28F1050168900BB002B /* NGeometryUtilities.cpp */,
 				AB1BA2901050168900BB002B /* NGeometryUtilities.h */,
 				AB35B34210011269009B75EF /* NTextUtilities.cpp */,
