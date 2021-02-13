@@ -671,9 +671,9 @@ constexpr NRange NRange::GetNormalized(size_t theSize) const
 		theRange.Clear();
 	}
 
-	else if (theRange.GetLocation() == 0 && theRange.GetSize() == kNNotFound)
+	else if (theRange.GetSize() == kNNotFound)
 	{
-		theRange.SetRange(0, theSize);
+		theRange.SetSize(theSize - theRange.GetLocation());
 	}
 
 
