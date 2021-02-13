@@ -17,6 +17,8 @@ set(TARGET_SOURCE_DIR "${PROJECT_SOURCE_DIR}/../Source/Nano")
 
 target_sources("${PROJECT_NAME}"
 	PRIVATE
+		"${TARGET_SOURCE_DIR}/Application/NCommandLine.cpp"
+		"${TARGET_SOURCE_DIR}/Application/NCommandLine.h"
 		"${TARGET_SOURCE_DIR}/Core/NanoConstants.h"
 		"${TARGET_SOURCE_DIR}/Core/NanoMacros.h"
 		"${TARGET_SOURCE_DIR}/Core/NanoTargets.h"
@@ -281,6 +283,7 @@ target_sources("${PROJECT_NAME}"
 
 target_include_directories("${PROJECT_NAME}"
 	PUBLIC
+		"${TARGET_SOURCE_DIR}/Application"
 		"${TARGET_SOURCE_DIR}/Core"
 		"${TARGET_SOURCE_DIR}/Debugging"
 		"${TARGET_SOURCE_DIR}/Files"

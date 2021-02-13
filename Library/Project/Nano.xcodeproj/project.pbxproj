@@ -315,6 +315,9 @@
 		ABCD3CB925D6BF9900276B30 /* NColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCD3CB825D6BF9900276B30 /* NColor.cpp */; };
 		ABCD3CBA25D6BF9900276B30 /* NColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCD3CB825D6BF9900276B30 /* NColor.cpp */; };
 		ABCD3CBB25D6BF9900276B30 /* NColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCD3CB825D6BF9900276B30 /* NColor.cpp */; };
+		ABD3682425D7502100C825B6 /* NCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155070F9B4DD5009FFEAF /* NCommandLine.cpp */; };
+		ABD3682825D7502100C825B6 /* NCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155070F9B4DD5009FFEAF /* NCommandLine.cpp */; };
+		ABD3682C25D7502100C825B6 /* NCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155070F9B4DD5009FFEAF /* NCommandLine.cpp */; };
 		ABDCE8A1241C22AD0054A16E /* NClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A0241C22AD0054A16E /* NClock.cpp */; };
 		ABDCE8A2241C22AD0054A16E /* NClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A0241C22AD0054A16E /* NClock.cpp */; };
 		ABDCE8A3241C22AD0054A16E /* NClock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8A0241C22AD0054A16E /* NClock.cpp */; };
@@ -2012,6 +2015,7 @@
 				ABC6475525818466009B82AD /* pcre2_serialize.c in Sources */,
 				ABC646C5258180BD009B82AD /* cencode.c in Sources */,
 				AB56392723C69CD000675F68 /* NByteSwap.cpp in Sources */,
+				ABD3682C25D7502100C825B6 /* NCommandLine.cpp in Sources */,
 				AB230A132581AB8600919EBD /* gzread.c in Sources */,
 				ABC6471625818466009B82AD /* pcre2_chartables.c in Sources */,
 				ABC6473425818466009B82AD /* pcre2_find_bracket.c in Sources */,
@@ -2130,6 +2134,7 @@
 				ABC646C3258180BD009B82AD /* cencode.c in Sources */,
 				AB230A112581AB8600919EBD /* gzread.c in Sources */,
 				ABC6471425818466009B82AD /* pcre2_chartables.c in Sources */,
+				ABD3682825D7502100C825B6 /* NCommandLine.cpp in Sources */,
 				ABC6473225818466009B82AD /* pcre2_find_bracket.c in Sources */,
 				ABC6472F25818466009B82AD /* pcre2_ucd.c in Sources */,
 				ABA4791A25B7B91300F3C3C9 /* iOSNProcess.cpp in Sources */,
@@ -2248,6 +2253,7 @@
 				ABC646C4258180BD009B82AD /* cencode.c in Sources */,
 				AB56392623C69CD000675F68 /* NByteSwap.cpp in Sources */,
 				AB230A122581AB8600919EBD /* gzread.c in Sources */,
+				ABD3682425D7502100C825B6 /* NCommandLine.cpp in Sources */,
 				ABC6471525818466009B82AD /* pcre2_chartables.c in Sources */,
 				ABC6473325818466009B82AD /* pcre2_find_bracket.c in Sources */,
 				ABC6473025818466009B82AD /* pcre2_ucd.c in Sources */,

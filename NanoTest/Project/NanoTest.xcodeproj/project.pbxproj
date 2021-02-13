@@ -160,6 +160,9 @@
 		ABD3681325D74D0E00C825B6 /* TStdMemory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD3681225D74D0E00C825B6 /* TStdMemory.cpp */; };
 		ABD3681425D74D0E00C825B6 /* TStdMemory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD3681225D74D0E00C825B6 /* TStdMemory.cpp */; };
 		ABD3681525D74D0E00C825B6 /* TStdMemory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABD3681225D74D0E00C825B6 /* TStdMemory.cpp */; };
+		ABD3683025D7502600C825B6 /* TCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D601034184B00E5A6AD /* TCommandLine.cpp */; };
+		ABD3683125D7502600C825B6 /* TCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D601034184B00E5A6AD /* TCommandLine.cpp */; };
+		ABD3683525D7502700C825B6 /* TCommandLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D601034184B00E5A6AD /* TCommandLine.cpp */; };
 		ABDCE89C241BDAD50054A16E /* TTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE89B241BDAD50054A16E /* TTime.cpp */; };
 		ABDCE89D241BDAD50054A16E /* TTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE89B241BDAD50054A16E /* TTime.cpp */; };
 		ABDCE89E241BDAD50054A16E /* TTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE89B241BDAD50054A16E /* TTime.cpp */; };
@@ -965,6 +968,7 @@
 				AB20328B25D72B6D0050DB00 /* TColor.cpp in Sources */,
 				ABA478CA25B7B7FE00F3C3C9 /* TProcess.cpp in Sources */,
 				ABCC4ACC25A535F500394AFE /* TArray.cpp in Sources */,
+				ABD3683125D7502600C825B6 /* TCommandLine.cpp in Sources */,
 				ABDCE8C1241C59680054A16E /* TFileHandle.cpp in Sources */,
 				ABA478CD25B7B7FE00F3C3C9 /* TSystem.cpp in Sources */,
 				ABF5130E2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
@@ -1038,6 +1042,7 @@
 				AB20328C25D72B6E0050DB00 /* TColor.cpp in Sources */,
 				ABA478C925B7B7FE00F3C3C9 /* TProcess.cpp in Sources */,
 				ABCC4ACD25A535F500394AFE /* TArray.cpp in Sources */,
+				ABD3683525D7502700C825B6 /* TCommandLine.cpp in Sources */,
 				ABDCE8C0241C59680054A16E /* TFileHandle.cpp in Sources */,
 				ABA478CC25B7B7FE00F3C3C9 /* TSystem.cpp in Sources */,
 				ABF5130D2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
@@ -1111,6 +1116,7 @@
 				AB20328725D72B6D0050DB00 /* TColor.cpp in Sources */,
 				ABA478CB25B7B7FE00F3C3C9 /* TProcess.cpp in Sources */,
 				ABCC4AC825A535F500394AFE /* TArray.cpp in Sources */,
+				ABD3683025D7502600C825B6 /* TCommandLine.cpp in Sources */,
 				ABDCE8C2241C59680054A16E /* TFileHandle.cpp in Sources */,
 				ABA478CE25B7B7FE00F3C3C9 /* TSystem.cpp in Sources */,
 				ABF5130F2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,

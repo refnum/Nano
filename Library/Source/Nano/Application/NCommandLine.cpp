@@ -2,286 +2,318 @@
 		NCommandLine.cpp
 
 	DESCRIPTION:
-		Command line parser.
-	
-	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Command line support.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+	COPYRIGHT:
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
+
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NFileUtilities.h"
-#include "NTextUtilities.h"
-#include "NNumber.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NCommandLine.h"
 
+// Nano
+#include "NFile.h"
+#include "NNumber.h"
 
 
 
 
-//============================================================================
-//		NCommandLine::NCommandLine : Constructor.
-//----------------------------------------------------------------------------
-NCommandLine::NCommandLine(int argc, const char **argv)
+
+//=============================================================================
+//		NCommandLine::HasFlag : Does a flag exist?
+//-----------------------------------------------------------------------------
+bool NCommandLine::HasFlag(const NString& theName)
 {
 
 
-	// Initialize ourselves
-	SetArguments(argc, argv);
-}
+	// Validate our parameters
+	NN_REQUIRE(!theName.IsEmpty());
+	NN_REQUIRE(!theName.StartsWith("-"));
 
 
 
-
-
-//============================================================================
-//		NCommandLine::NCommandLine : Constructor.
-//----------------------------------------------------------------------------
-NCommandLine::NCommandLine(const NStringList &theArguments)
-{
-
-
-	// Initialize ourselves
-	SetArguments(theArguments);
-}
-
-
-
-
-
-//============================================================================
-//		NCommandLine::NCommandLine : Constructor.
-//----------------------------------------------------------------------------
-NCommandLine::NCommandLine(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NCommandLine::~NCommandLine : Destructor.
-//----------------------------------------------------------------------------
-NCommandLine::~NCommandLine(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NCommandLine::Clear : Clear the command line.
-//----------------------------------------------------------------------------
-void NCommandLine::Clear(void)
-{
-
-
-	// Reset our state
-	mArguments.clear();
-}
-
-
-
-
-
-//============================================================================
-//		NCommandLine::HasArgument : Does an argument exist?
-//----------------------------------------------------------------------------
-bool NCommandLine::HasArgument(const NString &theArgument) const
-{	NStringList					theTokens;
-	NStringListConstIterator	theIter;
-	NString						theArg;
+	// Get the state we need
+	NString flagNoValue1 = "-" + theName;
+	NString flagNoValue2 = "--" + theName;
+	NString flagValue1   = "-" + theName + "=";
+	NString flagValue2   = "--" + theName + "=";
 
 
 
 	// Check the arguments
-	for (theIter = mArguments.begin(); theIter != mArguments.end(); theIter++)
+	for (const auto& theArg : GetState())
+	{
+		if (theArg == flagNoValue1 || theArg == flagNoValue2)
 		{
-		theTokens = theIter->Split(kNTokenEquals);
-		if (theTokens.size() == 2)
-			theArg = theTokens[0];
-		else
-			theArg = *theIter;
-		
-		theArg.TrimLeft("-*", kNStringPattern);
-		if (theArg == theArgument)
-			return(true);
+			return true;
 		}
-	
-	return(false);
-}
 
-
-
-
-
-//============================================================================
-//		NCommandLine::GetFlagInt64 : Get an sint64_t flag value.
-//----------------------------------------------------------------------------
-int64_t NCommandLine::GetFlagInt64(const NString &theArgument) const
-{	int64_t		theResult;
-	NString		theFlag;
-
-
-
-	// Get the value
-	theFlag   = GetFlagString(theArgument);
-	theResult = NNumber(theFlag).GetInt64();
-
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NCommandLine::GetFlagFloat64 : Get a float64_t flag value.
-//----------------------------------------------------------------------------
-float64_t NCommandLine::GetFlagFloat64(const NString &theArgument) const
-{	float64_t	theResult;
-	NString		theFlag;
-
-
-
-	// Get the value
-	theFlag   = GetFlagString(theArgument);
-	theResult = NNumber(theFlag).GetFloat64();
-
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NCommandLine::GetFlagString : Get a string flag value.
-//----------------------------------------------------------------------------
-NString NCommandLine::GetFlagString(const NString &theArgument) const
-{	NString						theArg, theValue;
-	NStringList					theTokens;
-	NStringListConstIterator	theIter;
-
-
-
-	// Get the value
-	for (theIter = mArguments.begin(); theIter != mArguments.end(); theIter++)
+		if (theArg.StartsWith(flagValue1) || theArg.StartsWith(flagValue2))
 		{
-		theTokens = theIter->Split(kNTokenEquals);
-		if (theTokens.size() == 2)
-			{
-			theArg   = theTokens[0];
-			theValue = theTokens[1];
-			
-			theArg.TrimLeft("-*", kNStringPattern);
-			if (theArg == theArgument)
-				return(theValue);
-			}
+			return true;
 		}
-	
-	return("");
+	}
+
+	return false;
 }
 
 
 
 
 
-//============================================================================
-//		NCommandLine::GetFlagFile : Get a file flag value.
-//----------------------------------------------------------------------------
-NFile NCommandLine::GetFlagFile(const NString &theArgument) const
-{	NFile		theResult;
-	NString		theValue;
-
+//=============================================================================
+//		NCommandLine::GetBool : Get a bool flag.
+//-----------------------------------------------------------------------------
+bool NCommandLine::GetBool(const NString& theName)
+{
 
 
 	// Get the value
-	//
-	// Relative paths are relative to the current working directory.
-	theValue = GetFlagString(theArgument);
-	
+	NString theValue = GetString(theName).GetLower();
+
+	return theValue == "true" || theValue == "yes" || theValue == "1";
+}
+
+
+
+
+
+//=============================================================================
+//		NCommandLine::GetInt64 : Get an int64_t flag.
+//-----------------------------------------------------------------------------
+int64_t NCommandLine::GetInt64(const NString& theName)
+{
+
+
+	// Get the value
+	NString theValue = GetString(theName);
+	NNumber theNumber;
+
+	if (theNumber.SetValue(theValue) && theNumber.IsInteger())
+	{
+		return theNumber.GetInt64();
+	}
+
+	return 0;
+}
+
+
+
+
+
+//=============================================================================
+//		NCommandLine::GetFloat64 : Get a float64_t flag.
+//-----------------------------------------------------------------------------
+float64_t NCommandLine::GetFloat64(const NString& theName)
+{
+
+
+	// Get the value
+	NString theValue = GetString(theName);
+	NNumber theNumber;
+
+	if (theNumber.SetValue(theValue))
+	{
+		return theNumber.GetFloat64();
+	}
+
+	return 0.0;
+}
+
+
+
+
+
+//=============================================================================
+//		NCommandLine::GetFile : Get an NFile flag.
+//-----------------------------------------------------------------------------
+NFile NCommandLine::GetFile(const NString& theName)
+{
+
+
+	// Get the value
+	NString theValue = GetString(theName);
+
 	if (!theValue.IsEmpty())
-		{
-		if (!theValue.StartsWith("/"))
-			theValue = NFileUtilities::GetCWD().GetPath() + "/" + theValue;
+	{
+		return NFile(theValue);
+	}
 
-		theResult = NFile(theValue);
-		}
-
-	return(theResult);
+	return NFile();
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
+//		NCommandLine::GetString : Get an NString flag.
+//-----------------------------------------------------------------------------
+NString NCommandLine::GetString(const NString& theName)
+{
+
+
+	// Get the state we need
+	NString flagValue1 = "-" + theName + "=";
+	NString flagValue2 = "--" + theName + "=";
+	NString theValue;
+
+
+	// Get the value
+	for (const auto& theArg : GetState())
+	{
+		if (theArg.StartsWith(flagValue1))
+		{
+			theValue = theArg.GetSubstring(NRange(flagValue1.GetSize(), kNNotFound));
+			break;
+		}
+
+		else if (theArg.StartsWith(flagValue2))
+		{
+			theValue = theArg.GetSubstring(NRange(flagValue2.GetSize(), kNNotFound));
+			break;
+		}
+	}
+
+
+
+	// Strip quotes
+	if (theValue.StartsWith("\""))
+	{
+		theValue.RemovePrefix(1);
+	}
+
+	if (theValue.EndsWith("\""))
+	{
+		theValue.RemoveSuffix(1);
+	}
+
+	return theValue;
+}
+
+
+
+
+
+//=============================================================================
 //		NCommandLine::GetArguments : Get the arguments.
-//----------------------------------------------------------------------------
-NStringList NCommandLine::GetArguments(void) const
+//-----------------------------------------------------------------------------
+NVectorString NCommandLine::GetArguments(NArguments theArguments)
 {
 
 
 	// Get the arguments
-	return(mArguments);
+	NVectorString theResult;
+
+	switch (theArguments)
+	{
+		case NArguments::All:
+			theResult = GetState();
+			break;
+
+		case NArguments::Named:
+			for (const auto& theArg : GetState())
+			{
+				if (theArg.StartsWith("-"))
+				{
+					theResult.emplace_back(theArg);
+				}
+			}
+			break;
+
+		case NArguments::Unnamed:
+			for (const auto& theArg : GetState())
+			{
+				if (!theArg.StartsWith("-"))
+				{
+					theResult.emplace_back(theArg);
+				}
+			}
+			break;
+	}
+
+	return theResult;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NCommandLine::SetArguments : Set the arguments.
-//----------------------------------------------------------------------------
-void NCommandLine::SetArguments(int argc, const char **argv)
-{	NIndex		n;
-
-
-
-	// Set the arguments
-	mArguments.clear();
-
-	for (n = 0; n < argc; n++)
-		mArguments.push_back(argv[n]);
-}
-
-
-
-
-
-//============================================================================
-//		NCommandLine::SetArguments : Set the arguments.
-//----------------------------------------------------------------------------
-void NCommandLine::SetArguments(const NStringList &theArgs)
+//-----------------------------------------------------------------------------
+void NCommandLine::SetArguments(const NVectorString& theArgs)
 {
 
 
 	// Set the arguments
-	mArguments = theArgs;
+	GetState() = theArgs;
 }
 
 
 
 
 
-//============================================================================
-//      NCommandLine::Get : Get the command line.
-//----------------------------------------------------------------------------
-NCommandLine *NCommandLine::Get(void)
-{   static NCommandLine   sInstance;
+//=============================================================================
+//		NCommandLine::SetArguments : Set the arguments.
+//-----------------------------------------------------------------------------
+void NCommandLine::SetArguments(int argc, const char** argv)
+{
 
 
+	// Set the arguments
+	GetState().clear();
 
-    // Get the instance
-	return(&sInstance);
+	for (int n = 0; n < argc; n++)
+	{
+		GetState().emplace_back(argv[n]);
+	}
 }
 
 
 
+
+
+#pragma mark private
+//=============================================================================
+//		NCommandLine::GetState : Get the state.
+//-----------------------------------------------------------------------------
+NVectorString& NCommandLine::GetState()
+{
+
+
+	// Get the state
+	static NVectorString sState;
+
+	return sState;
+}
