@@ -41,12 +41,18 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-// Nano
-#include "NString.h"
-
-
 // System
 #include <time.h>
+
+
+
+
+
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Forward declaration
+class NFilePath;
 
 
 
@@ -61,6 +67,11 @@ public:
 	// time.h
 	static struct tm                    gmtime(   time_t timeUnix);
 	static struct tm                    localtime(time_t timeUnix);
+
+
+	// unistd.h
+	static NFilePath                    getcwd();
+	static void                         chdir(const NFilePath& thePath);
 };
 
 

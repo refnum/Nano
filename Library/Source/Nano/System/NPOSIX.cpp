@@ -43,6 +43,7 @@
 
 
 // Nano
+#include "NFilePath.h"
 #include "NanoTargets.h"
 
 
@@ -51,8 +52,10 @@
 
 #if NN_TARGET_WINDOWS
 	#include <io.h>
+	#include <direct.h>
 #else
 	#include <unistd.h>
+	#include <sys/param.h>
 #endif
 
 
@@ -105,4 +108,48 @@ struct tm NPOSIX::localtime(time_t timeUnix)
 #endif
 
 	return localTime;
+}
+
+
+
+
+
+//=============================================================================
+//		NPOSIX::getcwd : Get the current directory.
+//-----------------------------------------------------------------------------
+NFilePath NPOSIX::getcwd()
+{
+
+
+	// Get the directory
+#if NN_TARGET_WINDOWS
+	utf16_t thePath[_MAX_PATH]{};
+	_wgetcwd(reinterpret_cast<wchar_t*>(thePath), _MAX_PATH);
+#else
+	char thePath[MAXPATHLEN]{};
+	::getcwd(thePath, MAXPATHLEN);
+#endif
+
+	return NString(thePath);
+}
+
+
+
+
+
+//=============================================================================
+//		NPOSIX::chdir : Set the current directory.
+//-----------------------------------------------------------------------------
+void NPOSIX::chdir(const NFilePath& thePath)
+{
+
+
+	// Set the directory
+#if NN_TARGET_WINDOWS
+	int sysErr = _wchdir(reinterpret_cast<const wchar_t*>(thePath.GetUTF16()));
+	NN_EXPECT_NOT_ERR(sysErr);
+#else
+	int sysErr = ::chdir(thePath.GetUTF8());
+	NN_EXPECT_NOT_ERR(sysErr);
+#endif
 }

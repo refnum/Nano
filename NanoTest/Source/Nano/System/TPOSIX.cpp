@@ -39,6 +39,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NFilePath.h"
 #include "NPOSIX.h"
 #include "NTestFixture.h"
 
@@ -99,4 +100,22 @@ NANO_TEST(TPOSIX, "localtime")
 	REQUIRE(theTime.tm_wday == 4);
 	REQUIRE(theTime.tm_yday == 0);
 	REQUIRE(theTime.tm_isdst == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TPOSIX, "getcwd")
+{
+
+
+	// Perform the test
+	NFilePath thePath = NPOSIX::getcwd();
+	REQUIRE(thePath.IsValid());
+
+	NPOSIX::chdir(thePath);
 }
