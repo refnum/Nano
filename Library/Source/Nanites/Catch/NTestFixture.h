@@ -182,6 +182,10 @@ NN_DIAGNOSTIC_POP();
 	_nano_TEST_CASE_METHOD(Fixture_##_fixture, "Nano/" #_fixture "/" __VA_ARGS__)
 
 
+// Errors
+#define REQUIRE_NOT_ERR(_error)                             REQUIRE(!_nn_is_error(_error))
+
+
 
 
 
