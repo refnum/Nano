@@ -411,7 +411,6 @@ if (NN_TARGET_LINUX)
 
 	target_include_directories("${PROJECT_NAME}"
 		PRIVATE
-			"${TARGET_SOURCE_DIR}/Internal/Targets/Android"
 			"${TARGET_SOURCE_DIR}/Internal/Targets/Linux"
 	)
 endif()
