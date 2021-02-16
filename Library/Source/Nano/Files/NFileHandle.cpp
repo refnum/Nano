@@ -58,7 +58,7 @@
 NFileHandle::NFileHandle()
 	: mPath{}
 	, mAccess(NFileAccess::ReadOnly)
-	, mHandle(kNFileHandleNone)
+	, mHandle(nullptr)
 {
 }
 
@@ -92,7 +92,7 @@ bool NFileHandle::IsOpen() const
 
 
 	// Check the state
-	return mHandle != kNFileHandleNone;
+	return mHandle != nullptr;
 }
 
 
@@ -149,7 +149,7 @@ NStatus NFileHandle::Open(const NFilePath& thePath, NFileAccess theAccess, NFile
 	if (theErr == NStatus::OK)
 	{
 		// Update our state
-		NN_REQUIRE(mHandle != kNFileHandleNone);
+		NN_REQUIRE(mHandle != nullptr);
 
 		mPath   = thePath;
 		mAccess = theAccess;
@@ -216,7 +216,7 @@ void NFileHandle::Close()
 
 	mPath.Clear();
 	mAccess = NFileAccess::ReadOnly;
-	mHandle = kNFileHandleNone;
+	mHandle = nullptr;
 }
 
 

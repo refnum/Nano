@@ -48,25 +48,8 @@
 
 
 //=============================================================================
-//		Types
-//-----------------------------------------------------------------------------
-// Forward declarations
-class NFile;
-
-// Native file handle
-using NFileHandleRef = void*;
-
-
-
-
-
-//=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-// Native file handle
-inline constexpr NFileHandleRef kNFileHandleNone = nullptr;
-
-
 // File access
 //
 // A file may be opened for access in one mode at a time:
@@ -133,6 +116,19 @@ enum class NFileOffset
 	FromPosition,
 	FromEnd
 };
+
+
+
+
+
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Forward declarations
+class NFile;
+
+// Native file handle
+using NFileHandleRef = void*;
 
 
 
