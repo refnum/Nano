@@ -302,7 +302,7 @@ size_t NBitVector::CountTrailingBits(bool theValue) const
 	// Count the bits
 	size_t numFound = 0;
 
-	for (size_t n = mSize - 1; ssize_t(n) >= 0; n--)
+	for (int64_t n = int64_t(mSize) - 1; n >= 0; n--)
 	{
 		if (GetBit(size_t(n)) != theValue)
 		{
