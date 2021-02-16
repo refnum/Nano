@@ -1,8 +1,8 @@
 /*	NAME:
-		TFileMap.cpp
+		AndroidNFileMap.cpp
 
 	DESCRIPTION:
-		NFileMap tests.
+		Android file map.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -39,66 +39,24 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NData.h"
-#include "NFile.h"
-#include "NFileHandle.h"
 #include "NFileMap.h"
-#include "NFileUtils.h"
-#include "NTestFixture.h"
+
+// Nano
+#include "NSharedPOSIX.h"
 
 
 
 
 
 //=============================================================================
-//		Constants
+//		NFileMap::MapPageSize : Get the file mapping page size.
 //-----------------------------------------------------------------------------
-static constexpr size_t  kBufferSize                        = 9;
-static constexpr uint8_t kBufferData[kBufferSize]           = {'T', 'e', 's', 't', ' ', 'd', 'a', 't', 'a'};
-
-
-
-
-
-//=============================================================================
-//		Test Fixture
-//-----------------------------------------------------------------------------
-NANO_FIXTURE(TFileMap)
-{
-	NFileMap fileMap;
-	NFile    theFile;
-	NStatus  theErr;
-
-	SETUP
-	{
-		theFile = NFileUtils::GetTemporary();
-		theErr  = NFileHandle::WriteData(theFile, NData(kBufferSize, kBufferData));
-		REQUIRE_NOT_ERR(theErr);
-	}
-
-	TEARDOWN
-	{
-		if (theFile.Exists())
-		{
-			theErr = theFile.Delete();
-			REQUIRE_NOT_ERR(theErr);
-		}
-	}
-};
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TFileMap, "Default")
+size_t NFileMap::MapPageSize()
 {
 
 
-	// Perform the test
-	REQUIRE(!fileMap.IsOpen());
+	// Get the page size
+	return NSharedPOSIX::MapPageSize();
 }
 
 
@@ -106,20 +64,14 @@ NANO_TEST(TFileMap, "Default")
 
 
 //=============================================================================
-//		Test Case
+//		NFileMap::MapOpen : Open a file for mapping.
 //-----------------------------------------------------------------------------
-NANO_TEST(TFileMap, "Open")
+NFileMapRef NFileMap::MapOpen(const NFilePath& thePath, NMapAccess theAccess)
 {
 
 
-	// Perform the test
-	theErr = fileMap.Open(theFile);
-	REQUIRE_NOT_ERR(theErr);
-
-	REQUIRE(fileMap.IsOpen());
-
-	fileMap.Close();
-	REQUIRE(!fileMap.IsOpen());
+	// Open the file
+	return NSharedPOSIX::MapOpen(thePath, theAccess);
 }
 
 
@@ -127,21 +79,42 @@ NANO_TEST(TFileMap, "Open")
 
 
 //=============================================================================
-//		Test Case
+//		NFileMap::MapClose : Close a mapped file.
 //-----------------------------------------------------------------------------
-NANO_TEST(TFileMap, "Map")
+void NFileMap::MapClose(NFileMapRef theHandle)
 {
 
 
-	// Perform the test
-	theErr = fileMap.Open(theFile);
-	REQUIRE_NOT_ERR(theErr);
+	// Close the file
+	NSharedPOSIX::MapClose(theHandle);
+}
 
-	const void* thePtr = fileMap.Map(0, kBufferSize);
-	REQUIRE(memcmp(thePtr, kBufferData, kBufferSize) == 0);
 
-	fileMap.Unmap(thePtr);
 
-	fileMap.Close();
-	REQUIRE(!fileMap.IsOpen());
+
+
+//=============================================================================
+//		NFileMap::MapFetch : Fetch mapped pages.
+//-----------------------------------------------------------------------------
+void NFileMap::MapFetch(NFileMapRef theHandle, NFileMapping& theMapping)
+{
+
+
+	// Map the pages
+	NSharedPOSIX::MapFetch(theHandle, theMapping);
+}
+
+
+
+
+
+//=============================================================================
+//		NFileMap::MapDiscard : Discard mapped pages.
+//-----------------------------------------------------------------------------
+void NFileMap::MapDiscard(NFileMapRef theHandle, const NFileMapping& theMapping)
+{
+
+
+	// Discard the pages
+	NSharedPOSIX::MapDiscard(theHandle, theMapping);
 }

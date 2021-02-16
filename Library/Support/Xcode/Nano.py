@@ -656,6 +656,17 @@ def NFileInfo_Summary(fileInfo, theInfo):
 
 
 #==============================================================================
+#		NFileMap_Summary : NFileMap summary.
+#------------------------------------------------------------------------------
+def NFileMap_Summary(fileMap, theInfo):
+
+	return getFilePath(fileMap, "->mPath.mPath")
+
+
+
+
+
+#==============================================================================
 #		NFilePath_Summary : NFilePath summary.
 #------------------------------------------------------------------------------
 def NFilePath_Summary(filePath, theInfo):
@@ -917,6 +928,7 @@ def loadNano(theDebugger):
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NFile_Summary          NFile")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NFileHandle_Summary    NFileHandle")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NFileInfo_Summary      NFileInfo")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NFileMap_Summary       NFileMap")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NFilePath_Summary      NFilePath")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NNumber_Summary        NNumber")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NPoint_Summary         NPoint")

@@ -46,6 +46,7 @@
 #include "NFileUtils.h"
 #include "NFormat.h"
 #include "NString.h"
+#include "NSystem.h"
 #include "NTimeUtils.h"
 
 // System
@@ -54,6 +55,8 @@
 #include <fcntl.h>
 #include <math.h>
 #include <stdlib.h>
+#include <sys/fcntl.h>
+#include <sys/mman.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
@@ -1284,6 +1287,143 @@ NStatus NSharedPOSIX::FileFlush(NFileHandleRef fileHandle)
 	NN_EXPECT_NOT_ERR(sysErr);
 
 	return GetErrno(sysErr);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::MapPageSize : Get the file mapping page size.
+//-----------------------------------------------------------------------------
+size_t NSharedPOSIX::MapPageSize()
+{
+
+
+	// Get the page size
+	return NSystem::GetPageSize();
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::MapOpen : Open a file for mapping.
+//-----------------------------------------------------------------------------
+NFileMapRef NSharedPOSIX::MapOpen(const NFilePath& thePath, NMapAccess theAccess)
+{
+
+
+	// Validate our state
+	static_assert(sizeof(uintptr_t) >= sizeof(int));
+
+
+
+	// Open the file
+	NFileMapRef theHandle;
+
+	int theFlags = (theAccess == NMapAccess::ReadWrite ? O_RDWR : O_RDONLY);
+	int theFD    = open(thePath.GetUTF8(), theFlags, 0);
+
+	if (theFD != -1)
+	{
+		theHandle = uintptr_t(theFD);
+	}
+
+	return theHandle;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::MapClose : Close a mapped file.
+//-----------------------------------------------------------------------------
+void NSharedPOSIX::MapClose(NFileMapRef theHandle)
+{
+
+
+	// Close the file
+	int theFD = int(theHandle.value());
+	NN_REQUIRE(theFD != -1);
+
+	int sysErr = close(theFD);
+	NN_EXPECT_NOT_ERR(sysErr);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::MapFetch : Fetch mapped pages.
+//-----------------------------------------------------------------------------
+void NSharedPOSIX::MapFetch(NFileMapRef theHandle, NFileMapping& theMapping)
+{
+
+
+	// Get the state we need
+	int theFD = int(theHandle.value());
+	NN_REQUIRE(theFD != -1);
+
+	int pagePerm  = PROT_READ;
+	int pageFlags = MAP_FILE;
+
+	if (theMapping.theAccess != NMapAccess::ReadOnly)
+	{
+		pagePerm |= PROT_WRITE;
+	}
+
+	if (theMapping.theAccess == NMapAccess::CopyOnWrite)
+	{
+		pageFlags |= MAP_PRIVATE;
+	}
+	else
+	{
+		pageFlags |= MAP_SHARED;
+	}
+
+
+
+	// Map the pages
+	theMapping.thePtr = static_cast<const uint8_t*>(
+		mmap(nullptr, theMapping.theSize, pagePerm, pageFlags, theFD, off_t(theMapping.theOffset)));
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::MapDiscard : Discard mapped pages.
+//-----------------------------------------------------------------------------
+void NSharedPOSIX::MapDiscard(NFileMapRef theHandle, const NFileMapping& theMapping)
+{
+
+
+	// Get the state we need
+	int theFD = int(theHandle.value());
+	NN_REQUIRE(theFD != -1);
+
+	uint8_t* thePtr = const_cast<uint8_t*>(theMapping.thePtr);
+	int      sysErr = 0;
+
+
+
+	// Flush mutable pages
+	if (theMapping.theAccess == NMapAccess::ReadWrite)
+	{
+		sysErr = msync(thePtr, theMapping.theSize, MS_SYNC);
+		NN_EXPECT_NOT_ERR(sysErr);
+	}
+
+
+
+	// Discard the pages
+	sysErr = munmap(thePtr, theMapping.theSize);
+	NN_EXPECT_NOT_ERR(sysErr);
 }
 
 

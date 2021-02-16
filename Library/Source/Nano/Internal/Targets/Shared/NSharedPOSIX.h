@@ -44,6 +44,7 @@
 #include "NFile.h"
 #include "NFileHandle.h"
 #include "NFileInfo.h"
+#include "NFileMap.h"
 #include "NThread.h"
 #include "NTime.h"
 
@@ -136,6 +137,14 @@ public:
 												  uint64_t&      sizeWritten);
 
 	static NStatus                      FileFlush(NFileHandleRef fileHandle);
+
+
+	// File maps
+	static size_t                       MapPageSize();
+	static NFileMapRef                  MapOpen(const NFilePath& thePath, NMapAccess theAccess);
+	static void                         MapClose(  NFileMapRef theHandle);
+	static void                         MapFetch(  NFileMapRef theHandle,       NFileMapping& theMapping);
+	static void                         MapDiscard(NFileMapRef theHandle, const NFileMapping& theMapping);
 
 
 	// File paths
