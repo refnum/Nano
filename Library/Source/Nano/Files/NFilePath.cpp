@@ -41,8 +41,8 @@
 //-----------------------------------------------------------------------------
 #include "NFilePath.h"
 
-// System
-#include <filesystem>
+// Nano
+#include "NPOSIX.h"
 
 
 
@@ -667,7 +667,7 @@ NFilePath NFilePath::GetCurrent()
 
 
 	// Get the path
-	return NString(std::filesystem::current_path().c_str());
+	return NPOSIX::getcwd();
 }
 
 
@@ -687,7 +687,7 @@ void NFilePath::SetCurrent(const NFilePath& thePath)
 
 
 	// Set the path
-	std::filesystem::current_path(thePath.GetUTF8());
+	NPOSIX::chdir(thePath);
 }
 
 
