@@ -124,10 +124,10 @@ NFilePath NPOSIX::getcwd()
 	// Get the directory
 #if NN_TARGET_WINDOWS
 	utf16_t thePath[_MAX_PATH]{};
-	_wgetcwd(reinterpret_cast<wchar_t*>(thePath), _MAX_PATH);
+	(void) _wgetcwd(reinterpret_cast<wchar_t*>(thePath), _MAX_PATH);
 #else
 	char thePath[MAXPATHLEN]{};
-	::getcwd(thePath, MAXPATHLEN);
+	(void) ::getcwd(thePath, MAXPATHLEN);
 #endif
 
 	return NString(thePath);
