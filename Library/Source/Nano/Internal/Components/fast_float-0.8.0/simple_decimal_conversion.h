@@ -297,7 +297,7 @@ adjusted_mantissa compute_float(decimal &d) {
       if (d.digits[0] >= 5) {
         break;
       }
-      shift = (d.digits[0] < 2) ? 2 : 1;
+      shift = (d.digits[0] < 2) ? 2u : 1u;
     } else {
       uint32_t n = uint32_t(-d.decimal_point);
       shift = (n < num_powers) ? powers[n] : max_shift;
