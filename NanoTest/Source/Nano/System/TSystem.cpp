@@ -129,7 +129,7 @@ NANO_TEST(TSystem, "GetVersion")
 	REQUIRE(theVersion >= kNOSiOS_14);
 
 #elif NN_TARGET_MACOS
-	REQUIRE(theVersion >= kNOSmacOS_11);
+	REQUIRE(theVersion >= kNOSmacOS_10_15);
 
 #elif NN_TARGET_TVOS
 	REQUIRE(theVersion >= kNOStvOS_14);
