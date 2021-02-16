@@ -52,16 +52,17 @@
 //-----------------------------------------------------------------------------
 #define kTestString                                         "s t r i n g"
 
-static const char* kTestArguments[]                         = {"app",
-									   "-arg1",
-									   "-arg2=true",
-									   "-arg3=-2",
-									   "--arg4=3.0",
-									   "--arg5=/tmp/test",
-									   "--arg6=\"" kTestString "\"",
-									   "--arg7=" kTestString,
-									   "apple",
-									   "banana"};
+static const int   kTestArgC                                = 10;
+static const char* kTestArgV[kTestArgC]                     = {"app",
+										   "-arg1",
+										   "-arg2=true",
+										   "-arg3=-2",
+										   "--arg4=3.0",
+										   "--arg5=/tmp/test",
+										   "--arg6=\"" kTestString "\"",
+										   "--arg7=" kTestString,
+										   "apple",
+										   "banana"};
 
 
 
@@ -70,8 +71,11 @@ static const char* kTestArguments[]                         = {"app",
 //=============================================================================
 //		Test Fixture
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(TCommandLine){
-	SETUP{NCommandLine::SetArguments(std::size(kTestArguments), kTestArguments);
+NANO_FIXTURE(TCommandLine){SETUP{
+
+
+	// Set the arguments
+	NCommandLine::SetArguments(kTestArgC, kTestArgV);
 }
 }
 ;
@@ -202,32 +206,32 @@ NANO_TEST(TCommandLine, "GetArguments")
 
 	theArgs = NCommandLine::GetArguments(NArguments::All);
 	REQUIRE(theArgs.size() == 10);
-	REQUIRE(theArgs[0] == kTestArguments[0]);
-	REQUIRE(theArgs[1] == kTestArguments[1]);
-	REQUIRE(theArgs[2] == kTestArguments[2]);
-	REQUIRE(theArgs[3] == kTestArguments[3]);
-	REQUIRE(theArgs[4] == kTestArguments[4]);
-	REQUIRE(theArgs[5] == kTestArguments[5]);
-	REQUIRE(theArgs[6] == kTestArguments[6]);
-	REQUIRE(theArgs[7] == kTestArguments[7]);
-	REQUIRE(theArgs[8] == kTestArguments[8]);
-	REQUIRE(theArgs[9] == kTestArguments[9]);
+	REQUIRE(theArgs[0] == kTestArgV[0]);
+	REQUIRE(theArgs[1] == kTestArgV[1]);
+	REQUIRE(theArgs[2] == kTestArgV[2]);
+	REQUIRE(theArgs[3] == kTestArgV[3]);
+	REQUIRE(theArgs[4] == kTestArgV[4]);
+	REQUIRE(theArgs[5] == kTestArgV[5]);
+	REQUIRE(theArgs[6] == kTestArgV[6]);
+	REQUIRE(theArgs[7] == kTestArgV[7]);
+	REQUIRE(theArgs[8] == kTestArgV[8]);
+	REQUIRE(theArgs[9] == kTestArgV[9]);
 
 	theArgs = NCommandLine::GetArguments(NArguments::Named);
 	REQUIRE(theArgs.size() == 7);
-	REQUIRE(theArgs[0] == kTestArguments[1]);
-	REQUIRE(theArgs[1] == kTestArguments[2]);
-	REQUIRE(theArgs[2] == kTestArguments[3]);
-	REQUIRE(theArgs[3] == kTestArguments[4]);
-	REQUIRE(theArgs[4] == kTestArguments[5]);
-	REQUIRE(theArgs[5] == kTestArguments[6]);
-	REQUIRE(theArgs[6] == kTestArguments[7]);
+	REQUIRE(theArgs[0] == kTestArgV[1]);
+	REQUIRE(theArgs[1] == kTestArgV[2]);
+	REQUIRE(theArgs[2] == kTestArgV[3]);
+	REQUIRE(theArgs[3] == kTestArgV[4]);
+	REQUIRE(theArgs[4] == kTestArgV[5]);
+	REQUIRE(theArgs[5] == kTestArgV[6]);
+	REQUIRE(theArgs[6] == kTestArgV[7]);
 
 	theArgs = NCommandLine::GetArguments(NArguments::Unnamed);
 	REQUIRE(theArgs.size() == 3);
-	REQUIRE(theArgs[0] == kTestArguments[0]);
-	REQUIRE(theArgs[1] == kTestArguments[8]);
-	REQUIRE(theArgs[2] == kTestArguments[9]);
+	REQUIRE(theArgs[0] == kTestArgV[0]);
+	REQUIRE(theArgs[1] == kTestArgV[8]);
+	REQUIRE(theArgs[2] == kTestArgV[9]);
 
 	REQUIRE(NCommandLine::GetArguments() == NCommandLine::GetArguments(NArguments::All));
 }
@@ -266,7 +270,7 @@ NANO_TEST(TCommandLine, "SetArguments/argc")
 	const char* theArgs[] = {"a", "b", "c"};
 
 	REQUIRE(NCommandLine::GetArguments().size() != std::size(theArgs));
-	NCommandLine::SetArguments(std::size(theArgs), theArgs);
+	NCommandLine::SetArguments(int(std::size(theArgs)), theArgs);
 
 	NVectorString stringArgs = NCommandLine::GetArguments();
 	REQUIRE(stringArgs.size() == std::size(theArgs));
