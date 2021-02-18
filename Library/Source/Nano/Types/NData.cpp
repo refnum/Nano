@@ -599,8 +599,8 @@ void NData::ReplaceAppend(size_t sizeReplace, size_t theSize, const void* theDat
 	NN_REQUIRE(theSize != 0 && sizeReplace <= theSize);
 	NN_REQUIRE_NOT_NULL(theData);
 
-	NN_REQUIRE(((uintptr_t(theData) + theSize) < uintptr_t(GetData())) ||
-			   (uintptr_t(theData) > uintptr_t(GetData() + GetSize())));
+	NN_REQUIRE(((uintptr_t(theData) + theSize - 1) < uintptr_t(GetData())) ||
+			   (uintptr_t(GetData() + GetSize() - 1) < uintptr_t(theData)));
 
 
 
