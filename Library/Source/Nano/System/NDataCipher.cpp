@@ -3,67 +3,70 @@
 
 	DESCRIPTION:
 		Data encryption.
-	
+
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "tero_des.h"
-#include "blowfish.h"
-
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NDataCipher.h"
 
-
-
-
-
-//============================================================================
-//		NDataCipher::NDataCipher : Constructor.
-//----------------------------------------------------------------------------
-NDataCipher::NDataCipher(void)
-{
-}
+// Nano
+#include "WjCryptLib_Aes.h"
 
 
 
 
 
-//============================================================================
-//		NDataCipher::~NDataCipher : Destructor.
-//----------------------------------------------------------------------------
-NDataCipher::~NDataCipher(void)
-{
-}
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NDataCipher::GetKey : Get the key.
-//----------------------------------------------------------------------------
-NData NDataCipher::GetKey(void) const
+//-----------------------------------------------------------------------------
+NData NDataCipher::GetKey() const
 {
 
 
 	// Get the key
-	return(mKey);
+	return mKey;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NDataCipher::SetKey : Set the key.
-//----------------------------------------------------------------------------
-void NDataCipher::SetKey(const NData &theKey)
+//-----------------------------------------------------------------------------
+void NDataCipher::SetKey(const NData& theKey)
 {
 
 
@@ -75,303 +78,161 @@ void NDataCipher::SetKey(const NData &theKey)
 
 
 
-//============================================================================
+//=============================================================================
 //		NDataCipher::Encrypt : Encrypt data.
-//----------------------------------------------------------------------------
-NData NDataCipher::Encrypt(const NData &srcData, NEncryption theAlgorithm)
-{	NData		dstData;
-	NStatus		theErr;
-
+//-----------------------------------------------------------------------------
+NData NDataCipher::Encrypt(NCipher theCipher, const NData& srcData)
+{
 
 
 	// Validate our parameters and state
-	NN_ASSERT(!srcData.IsEmpty());
-	NN_ASSERT(!mKey.IsEmpty());
-
-
-
-	// Get the state we need
-	if (mKey.IsEmpty())
-		return(dstData);
-
-	dstData = srcData;
+	NN_REQUIRE(!srcData.IsEmpty());
+	NN_REQUIRE(!mKey.IsEmpty() || theCipher == NCipher::Null);
 
 
 
 	// Encrypt the data
-	switch (theAlgorithm) {
-		case kNEncryptionNone:
-			theErr = Null_Encrypt(dstData);
+	NData dstData = srcData;
+
+	switch (theCipher)
+	{
+		case NCipher::Null:
+			Null_Encrypt(dstData);
 			break;
 
-		case kNEncryptionDES:
-			theErr = DES_Encrypt(dstData);
+		case NCipher::AES_256:
+			AES256_Encrypt(dstData);
 			break;
+	}
 
-		case kNEncryptionDES3:
-			theErr = DES3_Encrypt(dstData);
-			break;
-
-		case kNEncryptionBlowfish:
-			theErr = Blowfish_Encrypt(dstData);
-			break;
-	
-		default:
-			NN_LOG("Unknown algorithm: %d", theAlgorithm);
-			theErr = kNErrParam;
-			break;
-		}
-
-	NN_ASSERT_NOERR(theErr);
-
-
-
-	// Handle failure
-	if (theErr != kNoErr)
-		dstData.Clear();
-	
-	return(dstData);
+	return dstData;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NDataCipher::Decrypt : Decrypt data.
-//----------------------------------------------------------------------------
-NData NDataCipher::Decrypt(const NData &srcData, NEncryption theAlgorithm)
-{	NData		dstData;
-	NStatus		theErr;
-
+//-----------------------------------------------------------------------------
+NData NDataCipher::Decrypt(NCipher theCipher, const NData& srcData)
+{
 
 
 	// Validate our parameters and state
-	NN_ASSERT(!srcData.IsEmpty());
-	NN_ASSERT(!mKey.IsEmpty());
-
-
-
-	// Get the state we need
-	if (mKey.IsEmpty())
-		return(dstData);
-
-	dstData = srcData;
+	NN_REQUIRE(!srcData.IsEmpty());
+	NN_REQUIRE(!mKey.IsEmpty() || theCipher == NCipher::Null);
 
 
 
 	// Decrypt the data
-	switch (theAlgorithm) {
-		case kNEncryptionNone:
-			theErr = Null_Decrypt(dstData);
+	NData dstData = srcData;
+
+	switch (theCipher)
+	{
+		case NCipher::Null:
+			Null_Decrypt(dstData);
 			break;
 
-		case kNEncryptionDES:
-			theErr = DES_Decrypt(dstData);
+		case NCipher::AES_256:
+			AES256_Decrypt(dstData);
 			break;
+	}
 
-		case kNEncryptionDES3:
-			theErr = DES3_Decrypt(dstData);
-			break;
-
-		case kNEncryptionBlowfish:
-			theErr = Blowfish_Decrypt(dstData);
-			break;
-	
-		default:
-			NN_LOG("Unknown algorithm: %d", theAlgorithm);
-			theErr = kNErrParam;
-			break;
-		}
-
-	NN_ASSERT_NOERR(theErr);
-
-
-
-	// Handle failure
-	if (theErr != kNoErr)
-		dstData.Clear();
-	
-	return(dstData);
-}			
+	return dstData;
+}
 
 
 
 
 
 #pragma mark private
-//============================================================================
-//		NDataCipher::Null_Encrypt : Encrypt using null encryption.
-//----------------------------------------------------------------------------
-NStatus NDataCipher::Null_Encrypt(NData &/*theData*/)
+//=============================================================================
+//		NDataCipher::Null_Encrypt : Null encryption.
+//-----------------------------------------------------------------------------
+void NDataCipher::Null_Encrypt(NData& /*theData*/)
 {
-
-
-	// Encrypt the data
-	return(kNoErr);
 }
 
 
 
 
 
-//============================================================================
-//		NDataCipher::Null_Decrypt : Decrypt using null encryption.
-//----------------------------------------------------------------------------
-NStatus NDataCipher::Null_Decrypt(NData &/*theData*/)
+//=============================================================================
+//		NDataCipher::Null_Decrypt : Null dencryption.
+//-----------------------------------------------------------------------------
+void NDataCipher::Null_Decrypt(NData& /*theData*/)
 {
+}
+
+
+
+
+
+//=============================================================================
+//		NDataCipher::AES256_Encrypt : AES-256 encryption.
+//-----------------------------------------------------------------------------
+void NDataCipher::AES256_Encrypt(NData& theData)
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE((theData.GetSize() % AES_BLOCK_SIZE) == 0);
+	NN_REQUIRE(mKey.GetSize() == 32);
+
+
+
+	// Prepare the context
+	AesContext aesContext{};
+
+	int sysErr = AesInitialise(&aesContext, mKey.GetData(), uint32_t(mKey.GetSize()));
+	NN_REQUIRE(sysErr == 0);
+
+
+
+	// Encrypt the data
+	uint8_t* theBlock  = theData.GetMutableData();
+	size_t   numBlocks = theData.GetSize() / AES_BLOCK_SIZE;
+
+	for (size_t n = 0; n < numBlocks; n++)
+	{
+		AesEncryptInPlace(&aesContext, theBlock);
+		theBlock += AES_BLOCK_SIZE;
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NDataCipher::AES256_Decrypt : AES-256 decryption.
+//-----------------------------------------------------------------------------
+void NDataCipher::AES256_Decrypt(NData& theData)
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE((theData.GetSize() % AES_BLOCK_SIZE) == 0);
+	NN_REQUIRE(mKey.GetSize() == 32);
+
+
+
+	// Prepare the context
+	AesContext aesContext{};
+
+	int sysErr = AesInitialise(&aesContext, mKey.GetData(), uint32_t(mKey.GetSize()));
+	NN_REQUIRE(sysErr == 0);
+
 
 
 	// Decrypt the data
-	return(kNoErr);
+	uint8_t* theBlock  = theData.GetMutableData();
+	size_t   numBlocks = theData.GetSize() / AES_BLOCK_SIZE;
+
+	for (size_t n = 0; n < numBlocks; n++)
+	{
+		AesDecryptInPlace(&aesContext, theBlock);
+		theBlock += AES_BLOCK_SIZE;
+	}
 }
-
-
-
-
-
-//============================================================================
-//		NDataCipher::DES_Encrypt : Encrypt using DES encryption.
-//----------------------------------------------------------------------------
-NStatus NDataCipher::DES_Encrypt(NData &theData)
-{
-
-
-	// Encrypt the data
-	::DES_Encrypt(mKey.GetSize(), mKey.GetData(), theData.GetSize(), theData.GetData());
-	
-	return(kNoErr);
-}
-
-
-
-
-
-//============================================================================
-//		NDataCipher::DES_Decrypt : Decrypt using DES encryption.
-//----------------------------------------------------------------------------
-NStatus NDataCipher::DES_Decrypt(NData &theData)
-{
-
-
-	// Decrypt the data
-	::DES_Decrypt(mKey.GetSize(), mKey.GetData(), theData.GetSize(), theData.GetData());
-	
-	return(kNoErr);
-}
-
-
-
-
-
-//============================================================================
-//		NDataCipher::DES3_Encrypt : Encrypt using DES3 encryption.
-//----------------------------------------------------------------------------
-NStatus NDataCipher::DES3_Encrypt(NData &theData)
-{
-
-
-	// Encrypt the data
-	::DES3_Encrypt(mKey.GetSize(), mKey.GetData(), theData.GetSize(), theData.GetData());
-	
-	return(kNoErr);
-}
-
-
-
-
-
-//============================================================================
-//		NDataCipher::DES3_Decrypt : Decrypt using DES3 encryption.
-//----------------------------------------------------------------------------
-NStatus NDataCipher::DES3_Decrypt(NData &theData)
-{
-
-
-	// Decrypt the data
-	::DES3_Decrypt(mKey.GetSize(), mKey.GetData(), theData.GetSize(), theData.GetData());
-	
-	return(kNoErr);
-}
-
-
-
-
-
-//============================================================================
-//		NDataCipher::Blowfish_Encrypt : Encrypt using Blowfish encryption.
-//----------------------------------------------------------------------------
-NStatus NDataCipher::Blowfish_Encrypt(NData &theData)
-{	NIndex					n, numWords;
-	uint32_t				*dataPtr;
-	blowfish_context_t		bfState;
-
-
-
-	// Check our parameters
-	if ((theData.GetSize() % 8) != 0)
-		return(kNErrParam);
-
-
-
-	// Get the state we need
-	dataPtr  = (uint32_t *) theData.GetData();
-	numWords =              theData.GetSize() / sizeof(uint32_t);
-
-
-
-	// Encrypt the data
-	blowfish_initiate(&bfState, mKey.GetData(), mKey.GetSize());
-	
-	for (n = 0; n < numWords; n += 2)
-		blowfish_encryptblock(&bfState, &dataPtr[n+0], &dataPtr[n+1]);
-
-	blowfish_clean(&bfState);
-
-	return(kNoErr);
-}
-
-
-
-
-
-//============================================================================
-//		NDataCipher::Blowfish_Decrypt : Decrypt using Blowfish encryption.
-//----------------------------------------------------------------------------
-NStatus NDataCipher::Blowfish_Decrypt(NData &theData)
-{	NIndex					n, numWords;
-	uint32_t				*dataPtr;
-	blowfish_context_t		bfState;
-
-
-
-	// Check our parameters
-	if ((theData.GetSize() % 8) != 0)
-		return(kNErrParam);
-
-
-
-	// Get the state we need
-	dataPtr  = (uint32_t *) theData.GetData();
-	numWords =              theData.GetSize() / sizeof(uint32_t);
-
-
-
-	// Encrypt the data
-	blowfish_initiate(&bfState, mKey.GetData(), mKey.GetSize());
-	
-	for (n = 0; n < numWords; n += 2)
-		blowfish_decryptblock(&bfState, &dataPtr[n+0], &dataPtr[n+1]);
-
-	blowfish_clean(&bfState);
-
-	return(kNoErr);
-}
-
-
-
-
-
-
-
-

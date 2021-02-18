@@ -3,111 +3,108 @@
 
 	DESCRIPTION:
 		Data encryption.
-	
-	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+	COPYRIGHT:
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
+
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NDATACIPHER_HDR
-#define NDATACIPHER_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
+#ifndef NDATA_CIPHER_H
+#define NDATA_CIPHER_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NData.h"
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		Constants
-//----------------------------------------------------------------------------
-// Encryption algorithms
+//-----------------------------------------------------------------------------
+// Ciphers
 //
-// These values are considered to be fixed, and will never change.
-typedef enum {
-	kNEncryptionNone			= 0x6E756C6C,	// 'null'
-	kNEncryptionDES				= 0x64657331,	// 'des1'
-	kNEncryptionDES3			= 0x64657333,	// 'des3'
-	kNEncryptionBlowfish		= 0x626C6F66	// 'blof'
-} NEncryption;
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NDataCipher {
-public:
-										NDataCipher(void);
-	virtual							   ~NDataCipher(void);
-
-
-	// Get/set the key
-	//
-	// A key must be assigned before data can be encrypted/decrypted.
-	//
-	// Requirements are:
-	//
-	//		kNEncryptionNone			None
-	//		kNEncryptionDES				Only first  8 bytes of key are used
-	//		kNEncryptionDES3			Only first 24 bytes of key are used
-	//		kNEncryptionBlowfish		None
-	//
-	NData								GetKey(void) const;
-	void								SetKey(const NData &theKey);
-
-
-	// Encrypt/decrypt data
-	//
-	// Requirements are:
-	//
-	//		kNEncryptionNone			None
-	//		kNEncryptionDES				Data must be multiple of 8 bytes in size
-	//		kNEncryptionDES3			Data must be multiple of 8 bytes in size
-	//		kNEncryptionBlowfish		Data must be multiple of 8 bytes in size
-	//
-	// Additional notes:
-	//
-	//		DES/DES3 encryption treats the key, input data, and output data as
-	//		an array of big-endian 32-bit words.
-	//
-	//		These are swapped to native-endian internally for processing, then
-	//		back to big-endian for the result.
-	//
-	//		This behaviour was chosen to match the openssl command-line tool.
-	//
-	NData								Encrypt(const NData &srcData, NEncryption theAlgorithm=kNEncryptionBlowfish);
-	NData								Decrypt(const NData &srcData, NEncryption theAlgorithm=kNEncryptionBlowfish);
-
-
-private:
-	NStatus								Null_Encrypt(NData &theData);
-	NStatus								Null_Decrypt(NData &theData);
-
-	NStatus								DES_Encrypt(NData &theData);
-	NStatus								DES_Decrypt(NData &theData);
-
-	NStatus								DES3_Encrypt(NData &theData);
-	NStatus								DES3_Decrypt(NData &theData);
-
-	NStatus								Blowfish_Encrypt(NData &theData);
-	NStatus								Blowfish_Decrypt(NData &theData);
-
-
-private:
-	NData								mKey;
+// Cipher identifiers may be serialised. They will never change.
+enum class NCipher
+{
+	Null                                                    = 0x6E756C6C,    // 'null'
+	AES_256                                                 = 0x61323536     // 'a256'
 };
 
 
 
 
 
-#endif // NDATACIPHER_HDR
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NDataCipher final
+{
+public:
+	// Get/set the key
+	//
+	// A key must be assigned before data can be encrypted/decrypted.
+	//
+	// Requirements are:
+	//
+	//		NCipher::Null				Key may be any size
+	//		NCipher::AES_256			Key must be 32 bytes in size
+	//
+	NData                               GetKey() const;
+	void                                SetKey(  const NData& theKey);
 
 
+	// Encrypt/decrypt data
+	//
+	// Requirements are:
+	//
+	//		NCipher::Null				Data may be any size
+	//		NCipher::AES_256			Data must be a multiple of 16 bytes in size
+	//
+	NData                               Encrypt(NCipher theCipher, const NData& theData);
+	NData                               Decrypt(NCipher theCipher, const NData& theData);
+
+
+private:
+	void                                Null_Encrypt(NData& theData);
+	void                                Null_Decrypt(NData& theData);
+
+	void                                AES256_Encrypt(NData& theData);
+	void                                AES256_Decrypt(NData& theData);
+
+
+private:
+	NData                               mKey;
+};
+
+
+
+#endif // NDATA_CIPHER_H

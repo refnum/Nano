@@ -186,6 +186,9 @@
 		ABA8EBE02385DE7500D1F979 /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
 		ABA8EBE12385DE7500D1F979 /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
 		ABA8EBE22385DE7600D1F979 /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AB0DA103ADEDD004B1F6E /* NDataDigest.cpp */; };
+		ABAA15BD25DF2B8400785E5D /* NDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */; };
+		ABAA15C125DF2B8400785E5D /* NDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */; };
+		ABAA15C225DF2B8400785E5D /* NDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */; };
 		ABAFD6F924092DB900CAE9ED /* NTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD6F824092DB900CAE9ED /* NTextUtils.cpp */; };
 		ABAFD6FA24092DB900CAE9ED /* NTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD6F824092DB900CAE9ED /* NTextUtils.cpp */; };
 		ABAFD6FB24092DB900CAE9ED /* NTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD6F824092DB900CAE9ED /* NTextUtils.cpp */; };
@@ -2047,6 +2050,7 @@
 				ABDCE8D5241C61880054A16E /* tvOSNSemaphore.cpp in Sources */,
 				ABBB2B832380C6FD00EB2840 /* NData.cpp in Sources */,
 				ABAFD6FB24092DB900CAE9ED /* NTextUtils.cpp in Sources */,
+				ABAA15BD25DF2B8400785E5D /* NDataCipher.cpp in Sources */,
 				ABC6470125818466009B82AD /* pcre2_convert.c in Sources */,
 				AB3A4997258199E70065B4DA /* json.c in Sources */,
 				ABC6472225818466009B82AD /* pcre2_compile.c in Sources */,
@@ -2168,6 +2172,7 @@
 				ABBB2B852380C6FE00EB2840 /* NData.cpp in Sources */,
 				ABA8EBE22385DE7600D1F979 /* NDataDigest.cpp in Sources */,
 				ABC646FF25818466009B82AD /* pcre2_convert.c in Sources */,
+				ABAA15C225DF2B8400785E5D /* NDataCipher.cpp in Sources */,
 				AB3A4995258199E70065B4DA /* json.c in Sources */,
 				ABC6472025818466009B82AD /* pcre2_compile.c in Sources */,
 				AB1B4DA623F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
@@ -2289,6 +2294,7 @@
 				AB53BBE2242123AB009960AA /* NFileUtils.cpp in Sources */,
 				AB1B4DA723F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
 				ABDCE8E0241C61960054A16E /* macOSNFileInfo.cpp in Sources */,
+				ABAA15C125DF2B8400785E5D /* NDataCipher.cpp in Sources */,
 				AB19813C25995538002C5591 /* macOSNRunLoop.cpp in Sources */,
 				ABBB2B6923806E6200EB2840 /* NTestFixture.cpp in Sources */,
 				ABC6470025818466009B82AD /* pcre2_convert.c in Sources */,
