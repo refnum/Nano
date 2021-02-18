@@ -1,9 +1,9 @@
 #==============================================================================
 #	NAME:
-#		CMakeLists.txt
+#		nano_target_build.cmake
 #
 #	DESCRIPTION:
-#		Nano CMake support.
+#		Build functions.
 #
 #	COPYRIGHT:
 #		Copyright (c) 2006-2021, refNum Software
@@ -36,21 +36,56 @@
 #		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 #		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #==============================================================================
-#		Configuration
+#		nano_target_build_library : Build a library target.
 #------------------------------------------------------------------------------
-cmake_minimum_required(VERSION 3.19)
+function(nano_target_build_library theTarget)
 
-project(Nano VERSION 4.0)
+	nano_target_compile_create_groups("${theTarget}")
+	nano_target_compile_set_defaults( "${theTarget}")
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/Library/Support/CMake")
-include(Nano)
+endfunction()
 
 
 
 
 
 #==============================================================================
-#		Projects
+#		nano_target_build_app : Build the current project as an app.
 #------------------------------------------------------------------------------
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Library/Project")
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/NanoTest/Project")
+function(nano_target_build_app theTarget)
+
+	nano_target_compile_create_groups("${theTarget}")
+	nano_target_compile_set_defaults( "${theTarget}")
+	target_link_libraries(            "${theTarget}" PRIVATE "Nano")
+
+	if (NN_TARGET_ANDROID)
+		target_link_libraries("${theTarget}" PRIVATE "android")
+		target_link_libraries("${theTarget}" PRIVATE "log")
+
+	elseif (NN_TARGET_IOS)
+		target_link_libraries("${theTarget}" PRIVATE "-framework CoreFoundation")
+		target_link_libraries("${theTarget}" PRIVATE "-framework Foundation")
+		target_link_libraries("${theTarget}" PRIVATE "-framework Security")
+
+	elseif (NN_TARGET_LINUX)
+		target_link_libraries("${theTarget}" PRIVATE "pthread")
+
+	elseif (NN_TARGET_MACOS)
+		target_link_libraries("${theTarget}" PRIVATE "-framework CoreFoundation")
+		target_link_libraries("${theTarget}" PRIVATE "-framework Foundation")
+		target_link_libraries("${theTarget}" PRIVATE "-framework Security")
+
+	elseif (NN_TARGET_TVOS)
+		target_link_libraries("${theTarget}" PRIVATE "-framework CoreFoundation")
+		target_link_libraries("${theTarget}" PRIVATE "-framework Foundation")
+		target_link_libraries("${theTarget}" PRIVATE "-framework Security")
+
+	elseif (NN_TARGET_WINDOWS)
+		target_link_libraries("${theTarget}" PRIVATE "bcrypt")
+
+	endif()
+
+endfunction()
+
+
+

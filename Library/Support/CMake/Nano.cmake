@@ -1,9 +1,9 @@
 #==============================================================================
 #	NAME:
-#		CMakeLists.txt
+#		Nano.cmake
 #
 #	DESCRIPTION:
-#		Nano CMake support.
+#		CMake builds.
 #
 #	COPYRIGHT:
 #		Copyright (c) 2006-2021, refNum Software
@@ -36,21 +36,15 @@
 #		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 #		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #==============================================================================
-#		Configuration
+#		Includes
 #------------------------------------------------------------------------------
-cmake_minimum_required(VERSION 3.19)
-
-project(Nano VERSION 4.0)
-
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/Library/Support/CMake")
-include(Nano)
-
+# Configuration
+include(Functions/nano_log)
+include(Configuration/NanoTargets)
+include(Configuration/NanoConfigurations)
+include(Configuration/NanoCompilers)
 
 
-
-
-#==============================================================================
-#		Projects
-#------------------------------------------------------------------------------
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Library/Project")
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/NanoTest/Project")
+# Functions
+include(Functions/nano_target_compile)
+include(Functions/nano_target_build)

@@ -1,9 +1,9 @@
 #==============================================================================
 #	NAME:
-#		CMakeLists.txt
+#		NanoConfigurations.cmake
 #
 #	DESCRIPTION:
-#		Nano CMake support.
+#		Nano configuration definitions.
 #
 #	COPYRIGHT:
 #		Copyright (c) 2006-2021, refNum Software
@@ -38,19 +38,16 @@
 #==============================================================================
 #		Configuration
 #------------------------------------------------------------------------------
-cmake_minimum_required(VERSION 3.19)
+set(NN_DEBUG												0)
+set(NN_RELEASE												0)
 
-project(Nano VERSION 4.0)
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+	set(NN_DEBUG											1)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/Library/Support/CMake")
-include(Nano)
+elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
+	set(NN_RELEASE											1)
 
+else()
+	nano_log_error("Unable to identify configuration from '${CMAKE_BUILD_TYPE}'")
+endif()
 
-
-
-
-#==============================================================================
-#		Projects
-#------------------------------------------------------------------------------
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Library/Project")
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/NanoTest/Project")

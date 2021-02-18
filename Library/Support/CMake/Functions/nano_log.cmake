@@ -1,9 +1,9 @@
 #==============================================================================
 #	NAME:
-#		CMakeLists.txt
+#		nano_log.cmake
 #
 #	DESCRIPTION:
-#		Nano CMake support.
+#		Logging support.
 #
 #	COPYRIGHT:
 #		Copyright (c) 2006-2021, refNum Software
@@ -36,21 +36,55 @@
 #		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 #		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #==============================================================================
-#		Configuration
+#		Constants
 #------------------------------------------------------------------------------
-cmake_minimum_required(VERSION 3.19)
+# Colours
+string(ASCII 27 NN_LOG_ANSI)
 
-project(Nano VERSION 4.0)
-
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/Library/Support/CMake")
-include(Nano)
+set(NN_LOG_RED    "${NN_LOG_ANSI}[31m")
+set(NN_LOG_RESET  "${NN_LOG_ANSI}[m")
+set(NN_LOG_YELLOW "${NN_LOG_ANSI}[33m")
 
 
 
 
 
 #==============================================================================
-#		Projects
+#		nano_log_info : Log an informational message.
 #------------------------------------------------------------------------------
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Library/Project")
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/NanoTest/Project")
+function(nano_log_info theMsg)
+
+	message(STATUS "[Nano] ${theMsg}")
+
+endfunction()
+
+
+
+
+
+#==============================================================================
+#		nano_log_warning : Log a warning message.
+#------------------------------------------------------------------------------
+function(nano_log_warning theMsg)
+
+	message(WARNING "${NN_LOG_YELLOW}[Nano] ${theMsg}${NN_LOG_RESET}")
+
+endfunction()
+
+
+
+
+
+#==============================================================================
+#		nano_log_error : Log an error message.
+#------------------------------------------------------------------------------
+function(nano_log_error theMsg)
+
+	message(FATAL_ERROR "${NN_LOG_RED}[Nano] ${theMsg}${NN_LOG_RESET}")
+
+endfunction()
+
+
+
+
+
