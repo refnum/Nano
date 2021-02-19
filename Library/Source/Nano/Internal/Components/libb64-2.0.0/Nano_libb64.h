@@ -46,8 +46,17 @@
 
 
 // libb64
+#if defined(__cplusplus)
+extern "C"
+{
+#endif // defined(__cplusplus)
+
 #include "cdecode.h"
 #include "cencode.h"
+
+#if defined(__cplusplus)
+}
+#endif // defined(__cplusplus)
 
 
 // System
@@ -61,9 +70,7 @@
 //=============================================================================
 //		libb64
 //-----------------------------------------------------------------------------
-NN_DIAGNOSTIC_IGNORE_CLANG("-Wshorten-64-to-32");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wimplicit-int-conversion");
-NN_DIAGNOSTIC_IGNORE_CLANG("-Wmissing-variable-declarations");
 
 
 

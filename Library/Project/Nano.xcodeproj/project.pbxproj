@@ -189,6 +189,12 @@
 		ABAA15BD25DF2B8400785E5D /* NDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */; };
 		ABAA15C125DF2B8400785E5D /* NDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */; };
 		ABAA15C225DF2B8400785E5D /* NDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */; };
+		ABAA15EF25DF492600785E5D /* cdecode.c in Sources */ = {isa = PBXBuildFile; fileRef = ABAA15ED25DF492600785E5D /* cdecode.c */; };
+		ABAA15F025DF492600785E5D /* cdecode.c in Sources */ = {isa = PBXBuildFile; fileRef = ABAA15ED25DF492600785E5D /* cdecode.c */; };
+		ABAA15F125DF492600785E5D /* cdecode.c in Sources */ = {isa = PBXBuildFile; fileRef = ABAA15ED25DF492600785E5D /* cdecode.c */; };
+		ABAA15F225DF492600785E5D /* cencode.c in Sources */ = {isa = PBXBuildFile; fileRef = ABAA15EE25DF492600785E5D /* cencode.c */; };
+		ABAA15F325DF492600785E5D /* cencode.c in Sources */ = {isa = PBXBuildFile; fileRef = ABAA15EE25DF492600785E5D /* cencode.c */; };
+		ABAA15F425DF492600785E5D /* cencode.c in Sources */ = {isa = PBXBuildFile; fileRef = ABAA15EE25DF492600785E5D /* cencode.c */; };
 		ABAFD6F924092DB900CAE9ED /* NTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD6F824092DB900CAE9ED /* NTextUtils.cpp */; };
 		ABAFD6FA24092DB900CAE9ED /* NTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD6F824092DB900CAE9ED /* NTextUtils.cpp */; };
 		ABAFD6FB24092DB900CAE9ED /* NTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABAFD6F824092DB900CAE9ED /* NTextUtils.cpp */; };
@@ -219,12 +225,6 @@
 		ABC646892581666F009B82AD /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC6467C2581666F009B82AD /* xmltok.c */; };
 		ABC6468A2581666F009B82AD /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC6467C2581666F009B82AD /* xmltok.c */; };
 		ABC6468B2581666F009B82AD /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC6467C2581666F009B82AD /* xmltok.c */; };
-		ABC646C0258180BD009B82AD /* cdecode.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC646BE258180BD009B82AD /* cdecode.c */; };
-		ABC646C1258180BD009B82AD /* cdecode.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC646BE258180BD009B82AD /* cdecode.c */; };
-		ABC646C2258180BD009B82AD /* cdecode.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC646BE258180BD009B82AD /* cdecode.c */; };
-		ABC646C3258180BD009B82AD /* cencode.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC646BF258180BD009B82AD /* cencode.c */; };
-		ABC646C4258180BD009B82AD /* cencode.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC646BF258180BD009B82AD /* cencode.c */; };
-		ABC646C5258180BD009B82AD /* cencode.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC646BF258180BD009B82AD /* cencode.c */; };
 		ABC646F925818466009B82AD /* pcre2_xclass.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC646D125818466009B82AD /* pcre2_xclass.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABC646FA25818466009B82AD /* pcre2_xclass.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC646D125818466009B82AD /* pcre2_xclass.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABC646FB25818466009B82AD /* pcre2_xclass.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC646D125818466009B82AD /* pcre2_xclass.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -715,6 +715,13 @@
 		ABA6245B25CF740900D2FA4D /* NFileScanner.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NFileScanner.inl; sourceTree = "<group>"; };
 		ABA7247023F8412800CF6EC2 /* NMixinAppendable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMixinAppendable.h; sourceTree = "<group>"; };
 		ABA7247123F8412800CF6EC2 /* NMixinAppendable.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NMixinAppendable.inl; sourceTree = "<group>"; };
+		ABAA15E825DF492600785E5D /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		ABAA15E925DF492600785E5D /* ccommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccommon.h; sourceTree = "<group>"; };
+		ABAA15EA25DF492600785E5D /* Nano_libb64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nano_libb64.h; sourceTree = "<group>"; };
+		ABAA15EB25DF492600785E5D /* cencode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cencode.h; sourceTree = "<group>"; };
+		ABAA15EC25DF492600785E5D /* cdecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cdecode.h; sourceTree = "<group>"; };
+		ABAA15ED25DF492600785E5D /* cdecode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cdecode.c; sourceTree = "<group>"; };
+		ABAA15EE25DF492600785E5D /* cencode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cencode.c; sourceTree = "<group>"; };
 		ABAB539412AF8E800061AD01 /* NRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NRegistry.cpp; sourceTree = "<group>"; };
 		ABAB539512AF8E800061AD01 /* NRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRegistry.h; sourceTree = "<group>"; };
 		ABAFD6F824092DB900CAE9ED /* NTextUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTextUtils.cpp; sourceTree = "<group>"; };
@@ -782,12 +789,6 @@
 		ABC646B325817DF2009B82AD /* fmt_format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fmt_format.h; sourceTree = "<group>"; };
 		ABC646B425817DF2009B82AD /* LICENSE.rst */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.rst; sourceTree = "<group>"; };
 		ABC646B525817DF2009B82AD /* fmt_printf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fmt_printf.h; sourceTree = "<group>"; };
-		ABC646BB258180BD009B82AD /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		ABC646BC258180BD009B82AD /* cencode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cencode.h; sourceTree = "<group>"; };
-		ABC646BD258180BD009B82AD /* cdecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cdecode.h; sourceTree = "<group>"; };
-		ABC646BE258180BD009B82AD /* cdecode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cdecode.c; sourceTree = "<group>"; };
-		ABC646BF258180BD009B82AD /* cencode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cencode.c; sourceTree = "<group>"; };
-		ABC646CC2581829F009B82AD /* Nano_libb64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Nano_libb64.h; sourceTree = "<group>"; };
 		ABC646D125818466009B82AD /* pcre2_xclass.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pcre2_xclass.c; sourceTree = "<group>"; };
 		ABC646D225818466009B82AD /* pcre2_script_run.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pcre2_script_run.c; sourceTree = "<group>"; };
 		ABC646D325818466009B82AD /* pcre2_convert.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pcre2_convert.c; sourceTree = "<group>"; };
@@ -1427,7 +1428,7 @@
 				ABE59A7E25D3419D0048AD5F /* fast_float-0.8.0 */,
 				ABC646AE25817DF2009B82AD /* fmt-7.1.3 */,
 				AB3A4990258199E70065B4DA /* json-parser-1.1.0 */,
-				ABC646BA258180BD009B82AD /* libb64-1.2 */,
+				ABAA15E725DF492600785E5D /* libb64-2.0.0 */,
 				ABC646D025818466009B82AD /* pcre2-10.36 */,
 				AB3A4983258194580065B4DA /* sqlite-3.34.0 */,
 				AB84535B2581A09D00B78BF7 /* WjCryptLib-2.3.0 */,
@@ -1705,6 +1706,20 @@
 			path = Qt;
 			sourceTree = "<group>";
 		};
+		ABAA15E725DF492600785E5D /* libb64-2.0.0 */ = {
+			isa = PBXGroup;
+			children = (
+				ABAA15E925DF492600785E5D /* ccommon.h */,
+				ABAA15ED25DF492600785E5D /* cdecode.c */,
+				ABAA15EC25DF492600785E5D /* cdecode.h */,
+				ABAA15EE25DF492600785E5D /* cencode.c */,
+				ABAA15EB25DF492600785E5D /* cencode.h */,
+				ABAA15E825DF492600785E5D /* LICENSE.md */,
+				ABAA15EA25DF492600785E5D /* Nano_libb64.h */,
+			);
+			path = "libb64-2.0.0";
+			sourceTree = "<group>";
+		};
 		ABB95B640FB7241B00C5A7FF /* Internal */ = {
 			isa = PBXGroup;
 			children = (
@@ -1807,19 +1822,6 @@
 				ABC646AF25817DF2009B82AD /* Nano_fmt_format.h */,
 			);
 			path = "fmt-7.1.3";
-			sourceTree = "<group>";
-		};
-		ABC646BA258180BD009B82AD /* libb64-1.2 */ = {
-			isa = PBXGroup;
-			children = (
-				ABC646BE258180BD009B82AD /* cdecode.c */,
-				ABC646BD258180BD009B82AD /* cdecode.h */,
-				ABC646BF258180BD009B82AD /* cencode.c */,
-				ABC646BC258180BD009B82AD /* cencode.h */,
-				ABC646BB258180BD009B82AD /* LICENSE */,
-				ABC646CC2581829F009B82AD /* Nano_libb64.h */,
-			);
-			path = "libb64-1.2";
 			sourceTree = "<group>";
 		};
 		ABC646D025818466009B82AD /* pcre2-10.36 */ = {
@@ -1985,13 +1987,13 @@
 				ABB3379D23A04E8E000B81B0 /* NMutex.cpp in Sources */,
 				ABD3686525D81E9700C825B6 /* tvOSNFileMap.cpp in Sources */,
 				ABC6468B2581666F009B82AD /* xmltok.c in Sources */,
+				ABAA15F425DF492600785E5D /* cencode.c in Sources */,
 				AB54F9AF23EF14A7005207BC /* NStringComparator.cpp in Sources */,
 				AB4EB4CC2430F3AF00D36016 /* NFormat.cpp in Sources */,
 				AB8453672581A09D00B78BF7 /* WjCryptLib_Aes.c in Sources */,
 				ABDCE8BA241C59570054A16E /* NFileInfo.cpp in Sources */,
 				AB19813125995538002C5591 /* tvOSNRunLoop.cpp in Sources */,
 				AB1980E72596C52F002C5591 /* NThread.cpp in Sources */,
-				ABC646C2258180BD009B82AD /* cdecode.c in Sources */,
 				AB4AF5512422FEC600E665D4 /* NFileScanner.cpp in Sources */,
 				ABC6472B25818466009B82AD /* pcre2_tables.c in Sources */,
 				AB230A2B2581AB8600919EBD /* trees.c in Sources */,
@@ -2031,7 +2033,6 @@
 				ABC6470D25818466009B82AD /* pcre2_string_utils.c in Sources */,
 				AB623270242AF51300651349 /* NDebug.cpp in Sources */,
 				ABC6475525818466009B82AD /* pcre2_serialize.c in Sources */,
-				ABC646C5258180BD009B82AD /* cencode.c in Sources */,
 				AB56392723C69CD000675F68 /* NByteSwap.cpp in Sources */,
 				ABD3682C25D7502100C825B6 /* NCommandLine.cpp in Sources */,
 				AB230A132581AB8600919EBD /* gzread.c in Sources */,
@@ -2065,6 +2066,7 @@
 				ABC6474025818466009B82AD /* pcre2_context.c in Sources */,
 				ABA8EBE02385DE7500D1F979 /* NDataDigest.cpp in Sources */,
 				ABCC4AB525A4D7CA00394AFE /* NAny.cpp in Sources */,
+				ABAA15F125DF492600785E5D /* cdecode.c in Sources */,
 				ABC6475225818466009B82AD /* pcre2_auto_possess.c in Sources */,
 				AB2A304724524C9100F21BF6 /* NDebugger.cpp in Sources */,
 				AB4EB4C22430EE0F00D36016 /* NFilePath.cpp in Sources */,
@@ -2107,13 +2109,13 @@
 				ABB3379F23A04E8F000B81B0 /* NMutex.cpp in Sources */,
 				ABC646892581666F009B82AD /* xmltok.c in Sources */,
 				ABDCE8D0241C60540054A16E /* iOSNFileInfo.cpp in Sources */,
+				ABAA15F225DF492600785E5D /* cencode.c in Sources */,
 				AB54F9AD23EF14A7005207BC /* NStringComparator.cpp in Sources */,
 				AB8453652581A09D00B78BF7 /* WjCryptLib_Aes.c in Sources */,
 				ABD3685D25D81E8C00C825B6 /* iOSNFileMap.cpp in Sources */,
 				AB4EB4CA2430F3AF00D36016 /* NFormat.cpp in Sources */,
 				AB1980EF2596C52F002C5591 /* NThread.cpp in Sources */,
 				ABDCE8B8241C59570054A16E /* NFileInfo.cpp in Sources */,
-				ABC646C0258180BD009B82AD /* cdecode.c in Sources */,
 				ABC6472925818466009B82AD /* pcre2_tables.c in Sources */,
 				AB230A292581AB8600919EBD /* trees.c in Sources */,
 				ABC646F925818466009B82AD /* pcre2_xclass.c in Sources */,
@@ -2152,7 +2154,6 @@
 				AB62326E242AF51300651349 /* NDebug.cpp in Sources */,
 				ABC6475325818466009B82AD /* pcre2_serialize.c in Sources */,
 				AB56391D23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
-				ABC646C3258180BD009B82AD /* cencode.c in Sources */,
 				AB230A112581AB8600919EBD /* gzread.c in Sources */,
 				ABC6471425818466009B82AD /* pcre2_chartables.c in Sources */,
 				ABD3682825D7502100C825B6 /* NCommandLine.cpp in Sources */,
@@ -2187,6 +2188,7 @@
 				AB2A304524524C9100F21BF6 /* NDebugger.cpp in Sources */,
 				ABCC4AB325A4D7CA00394AFE /* NAny.cpp in Sources */,
 				ABC6475025818466009B82AD /* pcre2_auto_possess.c in Sources */,
+				ABAA15EF25DF492600785E5D /* cdecode.c in Sources */,
 				AB4EB4C02430EE0F00D36016 /* NFilePath.cpp in Sources */,
 				ABC646862581666F009B82AD /* xmlparse.c in Sources */,
 				ABA478BA25B7B7A400F3C3C9 /* NSystem.cpp in Sources */,
@@ -2229,6 +2231,7 @@
 				AB56393C23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
 				ABC6468A2581666F009B82AD /* xmltok.c in Sources */,
 				AB1B4D9F23F0250C00B304D3 /* NStringScanner.cpp in Sources */,
+				ABAA15F325DF492600785E5D /* cencode.c in Sources */,
 				AB56390F23C2A3A900675F68 /* NString.cpp in Sources */,
 				AB8453662581A09D00B78BF7 /* WjCryptLib_Aes.c in Sources */,
 				ABA478F725B7B91300F3C3C9 /* macOSNSystem.cpp in Sources */,
@@ -2236,7 +2239,6 @@
 				AB1980EB2596C52F002C5591 /* NThread.cpp in Sources */,
 				AB07EA45239A567500E0AC49 /* NSemaphore.cpp in Sources */,
 				ABA478F425B7B91300F3C3C9 /* macOSNProcess.cpp in Sources */,
-				ABC646C1258180BD009B82AD /* cdecode.c in Sources */,
 				ABC6472A25818466009B82AD /* pcre2_tables.c in Sources */,
 				AB230A2A2581AB8600919EBD /* trees.c in Sources */,
 				ABC646FA25818466009B82AD /* pcre2_xclass.c in Sources */,
@@ -2274,7 +2276,6 @@
 				ABC6470C25818466009B82AD /* pcre2_string_utils.c in Sources */,
 				AB62326F242AF51300651349 /* NDebug.cpp in Sources */,
 				ABC6475425818466009B82AD /* pcre2_serialize.c in Sources */,
-				ABC646C4258180BD009B82AD /* cencode.c in Sources */,
 				AB56392623C69CD000675F68 /* NByteSwap.cpp in Sources */,
 				AB230A122581AB8600919EBD /* gzread.c in Sources */,
 				ABD3682425D7502100C825B6 /* NCommandLine.cpp in Sources */,
@@ -2309,6 +2310,7 @@
 				ABC6473F25818466009B82AD /* pcre2_context.c in Sources */,
 				AB86FDF623999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */,
 				ABB3379E23A04E8E000B81B0 /* NMutex.cpp in Sources */,
+				ABAA15F025DF492600785E5D /* cdecode.c in Sources */,
 				ABCC4AB425A4D7CA00394AFE /* NAny.cpp in Sources */,
 				ABC6475125818466009B82AD /* pcre2_auto_possess.c in Sources */,
 				ABDCE8B6241C59570054A16E /* NFileHandle.cpp in Sources */,
