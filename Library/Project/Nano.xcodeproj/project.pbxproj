@@ -189,6 +189,9 @@
 		ABAA15BD25DF2B8400785E5D /* NDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */; };
 		ABAA15C125DF2B8400785E5D /* NDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */; };
 		ABAA15C225DF2B8400785E5D /* NDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */; };
+		ABAA15D225DF3ACC00785E5D /* NDataEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CE2B3104D5F7000306EDC /* NDataEncoder.cpp */; };
+		ABAA15D625DF3ACC00785E5D /* NDataEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CE2B3104D5F7000306EDC /* NDataEncoder.cpp */; };
+		ABAA15DA25DF3ACD00785E5D /* NDataEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CE2B3104D5F7000306EDC /* NDataEncoder.cpp */; };
 		ABAA15EF25DF492600785E5D /* cdecode.c in Sources */ = {isa = PBXBuildFile; fileRef = ABAA15ED25DF492600785E5D /* cdecode.c */; };
 		ABAA15F025DF492600785E5D /* cdecode.c in Sources */ = {isa = PBXBuildFile; fileRef = ABAA15ED25DF492600785E5D /* cdecode.c */; };
 		ABAA15F125DF492600785E5D /* cdecode.c in Sources */ = {isa = PBXBuildFile; fileRef = ABAA15ED25DF492600785E5D /* cdecode.c */; };
@@ -2064,6 +2067,7 @@
 				AB56391023C2A3A900675F68 /* NString.cpp in Sources */,
 				ABC646FE25818466009B82AD /* pcre2_script_run.c in Sources */,
 				ABC6474025818466009B82AD /* pcre2_context.c in Sources */,
+				ABAA15D225DF3ACC00785E5D /* NDataEncoder.cpp in Sources */,
 				ABA8EBE02385DE7500D1F979 /* NDataDigest.cpp in Sources */,
 				ABCC4AB525A4D7CA00394AFE /* NAny.cpp in Sources */,
 				ABAA15F125DF492600785E5D /* cdecode.c in Sources */,
@@ -2186,6 +2190,7 @@
 				ABC6473E25818466009B82AD /* pcre2_context.c in Sources */,
 				AB07EA272399D3D000E0AC49 /* iOSNTimeUtils.cpp in Sources */,
 				AB2A304524524C9100F21BF6 /* NDebugger.cpp in Sources */,
+				ABAA15DA25DF3ACD00785E5D /* NDataEncoder.cpp in Sources */,
 				ABCC4AB325A4D7CA00394AFE /* NAny.cpp in Sources */,
 				ABC6475025818466009B82AD /* pcre2_auto_possess.c in Sources */,
 				ABAA15EF25DF492600785E5D /* cdecode.c in Sources */,
@@ -2308,6 +2313,7 @@
 				ABDCE8A2241C22AD0054A16E /* NClock.cpp in Sources */,
 				ABC646FD25818466009B82AD /* pcre2_script_run.c in Sources */,
 				ABC6473F25818466009B82AD /* pcre2_context.c in Sources */,
+				ABAA15D625DF3ACC00785E5D /* NDataEncoder.cpp in Sources */,
 				AB86FDF623999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */,
 				ABB3379E23A04E8E000B81B0 /* NMutex.cpp in Sources */,
 				ABAA15F025DF492600785E5D /* cdecode.c in Sources */,

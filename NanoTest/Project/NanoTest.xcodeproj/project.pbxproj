@@ -127,6 +127,9 @@
 		ABAA15C625DF2B8A00785E5D /* TDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AAFE8103AC51C004B1F6E /* TDataCipher.cpp */; };
 		ABAA15CA25DF2B8A00785E5D /* TDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AAFE8103AC51C004B1F6E /* TDataCipher.cpp */; };
 		ABAA15CE25DF2B8B00785E5D /* TDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB7AAFE8103AC51C004B1F6E /* TDataCipher.cpp */; };
+		ABAA15DE25DF3AD100785E5D /* TDataEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CE2E5104D617100306EDC /* TDataEncoder.cpp */; };
+		ABAA15DF25DF3AD100785E5D /* TDataEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CE2E5104D617100306EDC /* TDataEncoder.cpp */; };
+		ABAA15E325DF3AD200785E5D /* TDataEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8CE2E5104D617100306EDC /* TDataEncoder.cpp */; };
 		ABB3379A23A04E09000B81B0 /* TMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */; };
 		ABB3379B23A04E0A000B81B0 /* TMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */; };
 		ABB3379C23A04E0A000B81B0 /* TMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */; };
@@ -1023,6 +1026,7 @@
 				AB0DBE7823999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
 				AB8E64B125A2A68000AF2CE9 /* TNumber.cpp in Sources */,
 				ABA6245025CE3C4900D2FA4D /* TLockable.cpp in Sources */,
+				ABAA15DF25DF3AD100785E5D /* TDataEncoder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1099,6 +1103,7 @@
 				AB0DBE7723999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
 				AB8E64B525A2A68100AF2CE9 /* TNumber.cpp in Sources */,
 				ABA6244F25CE3C4900D2FA4D /* TLockable.cpp in Sources */,
+				ABAA15E325DF3AD200785E5D /* TDataEncoder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1175,6 +1180,7 @@
 				AB0DBE7923999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
 				AB8E64AD25A2A68000AF2CE9 /* TNumber.cpp in Sources */,
 				ABA6245125CE3C4900D2FA4D /* TLockable.cpp in Sources */,
+				ABAA15DE25DF3AD100785E5D /* TDataEncoder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
