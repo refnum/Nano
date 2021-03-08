@@ -202,6 +202,9 @@
 		ABE7C0D225D0B06400914618 /* TVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514EBC1034654800E5A6AD /* TVector.cpp */; };
 		ABE7C0D925D0B06500914618 /* TVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514EBC1034654800E5A6AD /* TVector.cpp */; };
 		ABE7C0DD25D0B06500914618 /* TVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514EBC1034654800E5A6AD /* TVector.cpp */; };
+		ABE8141E25E04F55002FA8CD /* TDataCompressor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D871034184B00E5A6AD /* TDataCompressor.cpp */; };
+		ABE8142225E04F56002FA8CD /* TDataCompressor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D871034184B00E5A6AD /* TDataCompressor.cpp */; };
+		ABE8142325E04F56002FA8CD /* TDataCompressor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D871034184B00E5A6AD /* TDataCompressor.cpp */; };
 		ABF5130D2397B193001F9F8B /* TMixinAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */; };
 		ABF5130E2397B193001F9F8B /* TMixinAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */; };
 		ABF5130F2397B193001F9F8B /* TMixinAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */; };
@@ -987,6 +990,7 @@
 				ABCC4AAA25A4D5A600394AFE /* TAny.cpp in Sources */,
 				AB56392A23C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				ABCC4AC025A4F4E600394AFE /* TVariant.cpp in Sources */,
+				ABE8142225E04F56002FA8CD /* TDataCompressor.cpp in Sources */,
 				AB19811E259953C8002C5591 /* TRunLoop.cpp in Sources */,
 				AB371AA125CB884000DEC50B /* TScopedLock.cpp in Sources */,
 				ABA478C725B7B7FE00F3C3C9 /* TMachine.cpp in Sources */,
@@ -1064,6 +1068,7 @@
 				ABCC4AA925A4D5A600394AFE /* TAny.cpp in Sources */,
 				AB56392B23C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				ABCC4ABF25A4F4E600394AFE /* TVariant.cpp in Sources */,
+				ABE8142325E04F56002FA8CD /* TDataCompressor.cpp in Sources */,
 				AB19811D259953C8002C5591 /* TRunLoop.cpp in Sources */,
 				AB371AA025CB884000DEC50B /* TScopedLock.cpp in Sources */,
 				ABA478C625B7B7FE00F3C3C9 /* TMachine.cpp in Sources */,
@@ -1141,6 +1146,7 @@
 				ABCC4AAB25A4D5A600394AFE /* TAny.cpp in Sources */,
 				AB56392923C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				ABCC4AC125A4F4E600394AFE /* TVariant.cpp in Sources */,
+				ABE8141E25E04F55002FA8CD /* TDataCompressor.cpp in Sources */,
 				AB19811F259953C8002C5591 /* TRunLoop.cpp in Sources */,
 				AB371AA225CB884000DEC50B /* TScopedLock.cpp in Sources */,
 				ABA478C825B7B7FE00F3C3C9 /* TMachine.cpp in Sources */,

@@ -355,6 +355,9 @@
 		ABDCE8E5241F8ACD0054A16E /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8E3241F8ACD0054A16E /* NFile.cpp */; };
 		ABDCE8E6241F8ACD0054A16E /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8E3241F8ACD0054A16E /* NFile.cpp */; };
 		ABDCE8E7241F8ACD0054A16E /* NFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8E3241F8ACD0054A16E /* NFile.cpp */; };
+		ABE8141525E04F4E002FA8CD /* NDataCompressor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA7111018B3810060ED12 /* NDataCompressor.cpp */; };
+		ABE8141925E04F4E002FA8CD /* NDataCompressor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA7111018B3810060ED12 /* NDataCompressor.cpp */; };
+		ABE8141A25E04F4E002FA8CD /* NDataCompressor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFAA7111018B3810060ED12 /* NDataCompressor.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -2040,6 +2043,7 @@
 				ABD3682C25D7502100C825B6 /* NCommandLine.cpp in Sources */,
 				AB230A132581AB8600919EBD /* gzread.c in Sources */,
 				ABC6471625818466009B82AD /* pcre2_chartables.c in Sources */,
+				ABE8141525E04F4E002FA8CD /* NDataCompressor.cpp in Sources */,
 				ABC6473425818466009B82AD /* pcre2_find_bracket.c in Sources */,
 				ABC6473125818466009B82AD /* pcre2_ucd.c in Sources */,
 				ABA4791F25B7B91300F3C3C9 /* tvOSNMachine.cpp in Sources */,
@@ -2163,6 +2167,7 @@
 				ABD3682825D7502100C825B6 /* NCommandLine.cpp in Sources */,
 				ABC6473225818466009B82AD /* pcre2_find_bracket.c in Sources */,
 				ABC6472F25818466009B82AD /* pcre2_ucd.c in Sources */,
+				ABE8141A25E04F4E002FA8CD /* NDataCompressor.cpp in Sources */,
 				ABA4791A25B7B91300F3C3C9 /* iOSNProcess.cpp in Sources */,
 				AB56392523C69CCF00675F68 /* NByteSwap.cpp in Sources */,
 				ABBE8C8F2446096C009E9B53 /* NUsageLog.cpp in Sources */,
@@ -2286,6 +2291,7 @@
 				ABD3682425D7502100C825B6 /* NCommandLine.cpp in Sources */,
 				ABC6471525818466009B82AD /* pcre2_chartables.c in Sources */,
 				ABC6473325818466009B82AD /* pcre2_find_bracket.c in Sources */,
+				ABE8141925E04F4E002FA8CD /* NDataCompressor.cpp in Sources */,
 				ABC6473025818466009B82AD /* pcre2_ucd.c in Sources */,
 				ABDCE8DF241C61960054A16E /* macOSNFileHandle.cpp in Sources */,
 				ABDCE8E2241C61960054A16E /* macOSNTimeUtils.cpp in Sources */,

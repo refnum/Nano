@@ -3,106 +3,104 @@
 
 	DESCRIPTION:
 		Data compressor.
-	
+
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NDATACOMPRESSOR_HDR
-#define NDATACOMPRESSOR_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NData.h"
+#ifndef NDATA_COMPRESSOR_H
+#define NDATA_COMPRESSOR_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NanoTypes.h"
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		Constants
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // Compression algorithms
 //
-// These values are considered to be fixed, and will never change.
-typedef enum {
-	kNCompressionNull			= 0x6E6E756C,
-	kNCompressionZLib			= 0x6E7A6C62
-} NCompression;
-
-
-
-
-
-//============================================================================
-//		Types
-//----------------------------------------------------------------------------
-// Compression header
-#pragma pack(push, 4)
-
-typedef struct {
-	uint32_t		compression;
-	uint32_t		reserved;
-	uint32_t		origSize;
-} NCompressionHeader;
-
-#pragma pack(pop)
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NDataCompressor {
-public:
-										NDataCompressor(void);
-	virtual							   ~NDataCompressor(void);
-
-
-	// Compress/decompress data
-	//
-	// Compressed data is returned with a NCompressionHeader prefix.
-	//
-	// If this header is removed from the data and stored elsewhere, it must be
-	// supplied externally to decompress the data.
-	//
-	// External headers are assumed to be in native endian. Internal headers are
-	// stored in big endian.
-	NData								Compress(  const NData &srcData,       NCompression theCompression=kNCompressionZLib);
-	NData								Decompress(const NData &srcData, const NCompressionHeader *theHeader=NULL);
-
-
-	// Get the required size for compressed data
-	//
-	// Returns the maximum size required for data compressed with the specified
-	// algorithm, including a NCompressionHeader prefix.
-	NIndex								GetRequiredSize(NIndex theSize, NCompression theCompression=kNCompressionZLib);
-
-
-private:
-	NStatus								Null_Compress(  const NData &srcData, NData &dstData);
-	NStatus								Null_Decompress(const NData &srcData, NData &dstData);
-	NIndex								Null_RequiredSize(NIndex theSize);
-	
-	NStatus								ZLib_Compress(  const NData &srcData, NData &dstData);
-	NStatus								ZLib_Decompress(const NData &srcData, NData &dstData);
-	NIndex								ZLib_RequiredSize(NIndex theSize);
-
-
-private:
-
-
+// Algorithm identifiers may be serialised. They will never change.
+enum class NCompression
+{
+	Null                                                    = 0x6E756C6C,    // 'null'
+	ZLib                                                    = 0x7A6C6962     // 'zlib'
 };
 
 
 
 
 
-#endif // NDATACOMPRESSOR_HDR
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Forward declaration
+class NData;
 
 
+
+
+
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NDataCompressor final
+{
+public:
+	// Compress/decompress data
+	static NData                        Compress(  NCompression theCompression, const NData& theData);
+	static NData                        Decompress(NCompression theCompression, const NData& theData);
+
+
+	// Get the maximum size
+	//
+	// Returns the maximum size required for compressing the specified
+	// number of bytes with a particular compression algorithm.
+	static size_t                       GetMaxSize(NCompression theCompression, size_t theSize);
+
+
+private:
+	static NData                        Null_Compress(  const NData& theData);
+	static NData                        Null_Decompress(const NData& theData);
+	static size_t                       Null_MaxSize(size_t theSize);
+
+	static NData                        ZLib_Compress(  const NData& theData);
+	static NData                        ZLib_Decompress(const NData& theData);
+	static size_t                       ZLib_MaxSize(size_t theSize);
+};
+
+
+
+#endif // NDATA_COMPRESSOR_H
