@@ -50,6 +50,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NColor.h"
+#include "NDate.h"
 #include "NFile.h"
 #include "NFileInfo.h"
 #include "NFilePath.h"
@@ -190,6 +191,29 @@ public:
 						 theParam.GetGreen(),
 						 theParam.GetBlue(),
 						 theParam.GetAlpha());
+	}
+};
+
+
+
+
+
+#pragma mark NDate
+//=============================================================================
+//		NDate formatter
+//-----------------------------------------------------------------------------
+template<>
+class fmt::formatter<NDate> : public NSimpleFormatter
+{
+public:
+	template<typename FormatContext>
+	auto format(const NDate& theParam, FormatContext& theContext)
+	{
+		return format_to(theContext.out(),
+						 "{:04d}-{:02d}-{:02d}",
+						 theParam.GetYear(),
+						 theParam.GetMonth(),
+						 theParam.GetDay());
 	}
 };
 

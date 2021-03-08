@@ -537,6 +537,21 @@ def NData_Summary(theData, theInfo):
 
 
 #==============================================================================
+#		NDate_Summary : NDate summary.
+#------------------------------------------------------------------------------
+def NDate_Summary(theDate, theInfo):
+
+	theYear  = getMemberUInt(theDate, "mYear")
+	theMonth = getMemberUInt(theDate, "mMonth")
+	theDay   = getMemberUInt(theDate, "mDay")
+
+	return ("%04d-" % theYear) + ("%02d-" % theMonth) + ("%02d" % theDay)
+
+
+
+
+
+#==============================================================================
 #		NDictionary_Summary : NDictionary summary.
 #------------------------------------------------------------------------------
 def NDictionary_Summary(theObject, theInfo):
@@ -923,6 +938,7 @@ def loadNano(theDebugger):
 	theDebugger.HandleCommand("type synthetic add -w Nano -l Nano.NArray_Contents        NArray")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NColor_Summary         NColor")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NData_Summary          NData")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NDate_Summary          NDate")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NDictionary_Summary    NDictionary")
 	theDebugger.HandleCommand("type synthetic add -w Nano -l Nano.NDictionary_Contents   NDictionary")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NFile_Summary          NFile")
