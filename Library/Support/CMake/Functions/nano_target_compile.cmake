@@ -131,7 +131,7 @@ function(nano_target_compile_set_warnings_none theTarget thePattern)
 	foreach (theFile ${theSources})
 
 		if ("${theFile}" MATCHES "${thePattern}")
-			SET_SOURCE_FILES_PROPERTIES("${theFile}" PROPERTIES COMPILE_FLAGS "${NN_COMPILER_WARNINGS_NONE}")
+			set_source_files_properties("${theFile}" PROPERTIES COMPILE_FLAGS "${NN_COMPILER_WARNINGS_NONE}")
 		endif()
 
  	endforeach()
