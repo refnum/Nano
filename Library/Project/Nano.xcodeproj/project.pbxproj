@@ -132,6 +132,9 @@
 		AB56393B23C75C3A00675F68 /* NUnicodeView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56393923C75C3A00675F68 /* NUnicodeView.cpp */; };
 		AB56393C23C75C3A00675F68 /* NUnicodeView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56393923C75C3A00675F68 /* NUnicodeView.cpp */; };
 		AB56393D23C75C3A00675F68 /* NUnicodeView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB56393923C75C3A00675F68 /* NUnicodeView.cpp */; };
+		AB5E179025F84AC200920CF0 /* NDateFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5E178F25F84AC200920CF0 /* NDateFormatter.cpp */; };
+		AB5E179125F84AC200920CF0 /* NDateFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5E178F25F84AC200920CF0 /* NDateFormatter.cpp */; };
+		AB5E179225F84AC200920CF0 /* NDateFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB5E178F25F84AC200920CF0 /* NDateFormatter.cpp */; };
 		AB623268242AF51300651349 /* NLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB623263242AF51300651349 /* NLog.cpp */; };
 		AB623269242AF51300651349 /* NLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB623263242AF51300651349 /* NLog.cpp */; };
 		AB62326A242AF51300651349 /* NLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB623263242AF51300651349 /* NLog.cpp */; };
@@ -596,6 +599,8 @@
 		AB56392E23C6B13900675F68 /* NStringEncodings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStringEncodings.h; sourceTree = "<group>"; };
 		AB56393923C75C3A00675F68 /* NUnicodeView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUnicodeView.cpp; sourceTree = "<group>"; };
 		AB56393A23C75C3A00675F68 /* NUnicodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUnicodeView.h; sourceTree = "<group>"; };
+		AB5E178E25F84AC200920CF0 /* NDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDateFormatter.h; sourceTree = "<group>"; };
+		AB5E178F25F84AC200920CF0 /* NDateFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDateFormatter.cpp; sourceTree = "<group>"; };
 		AB623261242AF51300651349 /* NDebug.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NDebug.inl; sourceTree = "<group>"; };
 		AB623262242AF51300651349 /* NDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDebug.h; sourceTree = "<group>"; };
 		AB623263242AF51300651349 /* NLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NLog.cpp; sourceTree = "<group>"; };
@@ -604,8 +609,6 @@
 		AB623266242AF51300651349 /* NLogOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLogOutput.h; sourceTree = "<group>"; };
 		AB623267242AF51300651349 /* NDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDebug.cpp; sourceTree = "<group>"; };
 		AB62327124301A4000651349 /* NSharedDarwin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NSharedDarwin.mm; sourceTree = "<group>"; };
-		AB669B4F10035285006CB82F /* NDateFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDateFormatter.cpp; sourceTree = "<group>"; };
-		AB669B5010035285006CB82F /* NDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDateFormatter.h; sourceTree = "<group>"; };
 		AB68DB8A25B25E4F009C406D /* NNumber.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NNumber.inl; sourceTree = "<group>"; };
 		AB7AAFD5103AC4EF004B1F6E /* NDataCipher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDataCipher.cpp; sourceTree = "<group>"; };
 		AB7AAFD6103AC4EF004B1F6E /* NDataCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDataCipher.h; sourceTree = "<group>"; };
@@ -1053,6 +1056,8 @@
 				ABE8151725E47E6B002FA8CD /* NDate.cpp */,
 				ABE8151825E47E6B002FA8CD /* NDate.h */,
 				ABE8151F25E48343002FA8CD /* NDate.inl */,
+				AB5E178F25F84AC200920CF0 /* NDateFormatter.cpp */,
+				AB5E178E25F84AC200920CF0 /* NDateFormatter.h */,
 				ABDCE89A241BD9130054A16E /* NTime.inl */,
 				AB07EA302399D7ED00E0AC49 /* NTime.h */,
 				AB0DBE6E23999B7100F6AD43 /* NTimeUtils.cpp */,
@@ -1659,8 +1664,6 @@
 				AB9155480F9B4DD6009FFEAF /* NData.cpp */,
 				AB9155490F9B4DD6009FFEAF /* NData.h */,
 				AB5127EE23D0FD1A00528FBE /* NData.inl */,
-				AB669B4F10035285006CB82F /* NDateFormatter.cpp */,
-				AB669B5010035285006CB82F /* NDateFormatter.h */,
 				AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */,
 				AB91554D0F9B4DD6009FFEAF /* NDictionary.h */,
 				ABB38CB025A7CC830050D506 /* NDictionary.inl */,
@@ -2074,6 +2077,7 @@
 				ABDCE8D4241C61880054A16E /* tvOSNFileInfo.cpp in Sources */,
 				ABC6474925818466009B82AD /* pcre2_config.c in Sources */,
 				AB371A3325CAF80D00DEC50B /* NVersion.cpp in Sources */,
+				AB5E179225F84AC200920CF0 /* NDateFormatter.cpp in Sources */,
 				AB56391023C2A3A900675F68 /* NString.cpp in Sources */,
 				ABC646FE25818466009B82AD /* pcre2_script_run.c in Sources */,
 				ABC6474025818466009B82AD /* pcre2_context.c in Sources */,
@@ -2199,6 +2203,7 @@
 				ABC6474725818466009B82AD /* pcre2_config.c in Sources */,
 				ABC646FC25818466009B82AD /* pcre2_script_run.c in Sources */,
 				AB371A3125CAF80D00DEC50B /* NVersion.cpp in Sources */,
+				AB5E179025F84AC200920CF0 /* NDateFormatter.cpp in Sources */,
 				ABC6473E25818466009B82AD /* pcre2_context.c in Sources */,
 				AB07EA272399D3D000E0AC49 /* iOSNTimeUtils.cpp in Sources */,
 				AB2A304524524C9100F21BF6 /* NDebugger.cpp in Sources */,
@@ -2324,6 +2329,7 @@
 				ABC6472725818466009B82AD /* pcre2_ord2utf.c in Sources */,
 				ABC6474825818466009B82AD /* pcre2_config.c in Sources */,
 				AB371A3225CAF80D00DEC50B /* NVersion.cpp in Sources */,
+				AB5E179125F84AC200920CF0 /* NDateFormatter.cpp in Sources */,
 				ABDCE8A2241C22AD0054A16E /* NClock.cpp in Sources */,
 				ABC646FD25818466009B82AD /* pcre2_script_run.c in Sources */,
 				ABC6473F25818466009B82AD /* pcre2_context.c in Sources */,

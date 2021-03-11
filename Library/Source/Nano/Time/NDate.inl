@@ -290,7 +290,7 @@ inline void NDate::SubtractDays(size_t numDays)
 
 #pragma mark private
 //=============================================================================
-//		NDate::GetDaysInMonth : Get the days in a month.
+//		NDate::GetDaysInMonth : Get the days in the month.
 //-----------------------------------------------------------------------------
 constexpr NDay NDate::GetDaysInMonth() const
 {
