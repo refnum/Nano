@@ -425,7 +425,6 @@ public:
 	template<typename FormatContext>
 	auto format(const NTime& theParam, FormatContext& theContext)
 	{
-		// Simple ISO-8601 formatter
 		struct tm timeLocal = NTimeUtils::ToTmUTC(theParam);
 
 		return format_to(theContext.out(),

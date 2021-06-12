@@ -60,11 +60,10 @@ enum class NDateWidth;
 // Date formats
 //
 // Date formats are defined by <http://unicode.org/reports/tr35/tr35-6.html#Date_Format_Patterns>
-//
 inline constexpr const char* kNDateFormatDefault            = "HH:mm yy/MM/dd";
-//inline constexpr const char* kNDateFormatShort											="HH:mm yy/MM/dd";
-//inline constexpr const char* kNDateFormatMedium											="hh:mma dd MMM, yyyy";
-//inline constexpr const char* kNDateFormatLong											="hh:mma dd MMMM, yyyy G";
+inline constexpr const char* kNDateFormatShort											="HH:mm yy/MM/dd";
+inline constexpr const char* kNDateFormatMedium											="hh:mma dd MMM, yyyy";
+inline constexpr const char* kNDateFormatLong											="hh:mma dd MMMM, yyyy G";
 
 
 
@@ -87,7 +86,6 @@ public:
 	// Format the date
 	//
 	// Date formats are defined by <http://unicode.org/reports/tr35/tr35-6.html#Date_Format_Patterns>
-	//
 	NString                             Format(const NString& theFormat = kNDateFormatDefault) const;
 
 
