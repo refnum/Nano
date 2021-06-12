@@ -40,7 +40,7 @@
 #------------------------------------------------------------------------------
 project(NanoTest VERSION 4.0)
 
-add_executable("${PROJECT_NAME}")
+nano_project(APP)
 
 
 
@@ -49,91 +49,110 @@ add_executable("${PROJECT_NAME}")
 #==============================================================================
 #		Common
 #------------------------------------------------------------------------------
-set(TARGET_SOURCE_DIR "${PROJECT_SOURCE_DIR}/../Source")
-
-target_sources("${PROJECT_NAME}"
+nano_project_sources(
 	PRIVATE
-		"${TARGET_SOURCE_DIR}/../../Library/Source/Nanites/Catch/NTestFixture.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Application/TCommandLine.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Debugging/TDebug.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Debugging/TDebugger.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Debugging/TLog.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Debugging/TLogOutput.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Debugging/TUsageBucket.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Debugging/TUsageLog.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Files/TFile.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Files/TFileHandle.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Files/TFileInfo.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Files/TFileMap.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Files/TFilePath.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Files/TFileScanner.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Files/TFileUtils.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Graphics/TColor.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Graphics/TPoint.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Graphics/TRectangle.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Graphics/TSize.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Graphics/TVector.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Maths/TMathUtils.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Maths/TRandom.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Maths/TRandomGenerator.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Maths/TUInt128.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Maths/TUInt128.imp"
-		"${TARGET_SOURCE_DIR}/Nano/Std/TStdAlgorithm.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Std/TStdContainer.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Std/TStdMath.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Std/TStdMemory.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Std/TStdUtility.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/System/TByteSwap.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/System/TDataCipher.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/System/TDataCompressor.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/System/TDataDigest.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/System/TDataEncoder.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/System/TMachine.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/System/TPOSIX.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/System/TProcess.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/System/TSystem.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/System/TVersion.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Text/TFormat.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Text/TString.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Text/TStringComparator.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Text/TStringEncoder.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Text/TStringScanner.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Text/TStringTransformer.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Text/TTextUtils.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Text/TUnicodeView.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Threads/TLockable.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Threads/TMutex.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Threads/TRunLoop.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Threads/TScopedLock.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Threads/TSemaphore.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Threads/TSpinLock.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Threads/TThread.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Threads/TThreadID.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Time/TClock.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Time/TDate.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Time/TDateFormatter.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Time/TTime.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Time/TTimeUtils.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Types/TAny.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Types/TArray.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Types/TData.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Types/TDictionary.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Types/TMixinAppendable.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Types/TMixinAttributes.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Types/TMixinComparable.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Types/TMixinContainer.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Types/TMixinHashable.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Types/TNumber.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Types/TRange.cpp"
-		"${TARGET_SOURCE_DIR}/Nano/Types/TVariant.cpp"
-		"${TARGET_SOURCE_DIR}/NanoTest.cpp"
+		"${NN_SOURCE_DIR}/../../Library/Source/Nanites/Catch/NTestFixture.cpp"
+		"${NN_SOURCE_DIR}/Nano/Application/TCommandLine.cpp"
+		"${NN_SOURCE_DIR}/Nano/Debugging/TDebug.cpp"
+		"${NN_SOURCE_DIR}/Nano/Debugging/TDebugger.cpp"
+		"${NN_SOURCE_DIR}/Nano/Debugging/TLog.cpp"
+		"${NN_SOURCE_DIR}/Nano/Debugging/TLogOutput.cpp"
+		"${NN_SOURCE_DIR}/Nano/Debugging/TUsageBucket.cpp"
+		"${NN_SOURCE_DIR}/Nano/Debugging/TUsageLog.cpp"
+		"${NN_SOURCE_DIR}/Nano/Files/TFile.cpp"
+		"${NN_SOURCE_DIR}/Nano/Files/TFileHandle.cpp"
+		"${NN_SOURCE_DIR}/Nano/Files/TFileInfo.cpp"
+		"${NN_SOURCE_DIR}/Nano/Files/TFileMap.cpp"
+		"${NN_SOURCE_DIR}/Nano/Files/TFilePath.cpp"
+		"${NN_SOURCE_DIR}/Nano/Files/TFileScanner.cpp"
+		"${NN_SOURCE_DIR}/Nano/Files/TFileUtils.cpp"
+		"${NN_SOURCE_DIR}/Nano/Graphics/TColor.cpp"
+		"${NN_SOURCE_DIR}/Nano/Graphics/TPoint.cpp"
+		"${NN_SOURCE_DIR}/Nano/Graphics/TRectangle.cpp"
+		"${NN_SOURCE_DIR}/Nano/Graphics/TSize.cpp"
+		"${NN_SOURCE_DIR}/Nano/Graphics/TVector.cpp"
+		"${NN_SOURCE_DIR}/Nano/Maths/TMathUtils.cpp"
+		"${NN_SOURCE_DIR}/Nano/Maths/TRandom.cpp"
+		"${NN_SOURCE_DIR}/Nano/Maths/TRandomGenerator.cpp"
+		"${NN_SOURCE_DIR}/Nano/Maths/TUInt128.cpp"
+		"${NN_SOURCE_DIR}/Nano/Maths/TUInt128.imp"
+		"${NN_SOURCE_DIR}/Nano/Std/TStdAlgorithm.cpp"
+		"${NN_SOURCE_DIR}/Nano/Std/TStdContainer.cpp"
+		"${NN_SOURCE_DIR}/Nano/Std/TStdMath.cpp"
+		"${NN_SOURCE_DIR}/Nano/Std/TStdMemory.cpp"
+		"${NN_SOURCE_DIR}/Nano/Std/TStdUtility.cpp"
+		"${NN_SOURCE_DIR}/Nano/System/TByteSwap.cpp"
+		"${NN_SOURCE_DIR}/Nano/System/TDataCipher.cpp"
+		"${NN_SOURCE_DIR}/Nano/System/TDataCompressor.cpp"
+		"${NN_SOURCE_DIR}/Nano/System/TDataDigest.cpp"
+		"${NN_SOURCE_DIR}/Nano/System/TDataEncoder.cpp"
+		"${NN_SOURCE_DIR}/Nano/System/TMachine.cpp"
+		"${NN_SOURCE_DIR}/Nano/System/TPOSIX.cpp"
+		"${NN_SOURCE_DIR}/Nano/System/TProcess.cpp"
+		"${NN_SOURCE_DIR}/Nano/System/TSystem.cpp"
+		"${NN_SOURCE_DIR}/Nano/System/TVersion.cpp"
+		"${NN_SOURCE_DIR}/Nano/Text/TFormat.cpp"
+		"${NN_SOURCE_DIR}/Nano/Text/TString.cpp"
+		"${NN_SOURCE_DIR}/Nano/Text/TStringComparator.cpp"
+		"${NN_SOURCE_DIR}/Nano/Text/TStringEncoder.cpp"
+		"${NN_SOURCE_DIR}/Nano/Text/TStringScanner.cpp"
+		"${NN_SOURCE_DIR}/Nano/Text/TStringTransformer.cpp"
+		"${NN_SOURCE_DIR}/Nano/Text/TTextUtils.cpp"
+		"${NN_SOURCE_DIR}/Nano/Text/TUnicodeView.cpp"
+		"${NN_SOURCE_DIR}/Nano/Threads/TLockable.cpp"
+		"${NN_SOURCE_DIR}/Nano/Threads/TMutex.cpp"
+		"${NN_SOURCE_DIR}/Nano/Threads/TRunLoop.cpp"
+		"${NN_SOURCE_DIR}/Nano/Threads/TScopedLock.cpp"
+		"${NN_SOURCE_DIR}/Nano/Threads/TSemaphore.cpp"
+		"${NN_SOURCE_DIR}/Nano/Threads/TSpinLock.cpp"
+		"${NN_SOURCE_DIR}/Nano/Threads/TThread.cpp"
+		"${NN_SOURCE_DIR}/Nano/Threads/TThreadID.cpp"
+		"${NN_SOURCE_DIR}/Nano/Time/TClock.cpp"
+		"${NN_SOURCE_DIR}/Nano/Time/TDate.cpp"
+		"${NN_SOURCE_DIR}/Nano/Time/TDateFormatter.cpp"
+		"${NN_SOURCE_DIR}/Nano/Time/TTime.cpp"
+		"${NN_SOURCE_DIR}/Nano/Time/TTimeUtils.cpp"
+		"${NN_SOURCE_DIR}/Nano/Types/TAny.cpp"
+		"${NN_SOURCE_DIR}/Nano/Types/TArray.cpp"
+		"${NN_SOURCE_DIR}/Nano/Types/TData.cpp"
+		"${NN_SOURCE_DIR}/Nano/Types/TDictionary.cpp"
+		"${NN_SOURCE_DIR}/Nano/Types/TMixinAppendable.cpp"
+		"${NN_SOURCE_DIR}/Nano/Types/TMixinAttributes.cpp"
+		"${NN_SOURCE_DIR}/Nano/Types/TMixinComparable.cpp"
+		"${NN_SOURCE_DIR}/Nano/Types/TMixinContainer.cpp"
+		"${NN_SOURCE_DIR}/Nano/Types/TMixinHashable.cpp"
+		"${NN_SOURCE_DIR}/Nano/Types/TNumber.cpp"
+		"${NN_SOURCE_DIR}/Nano/Types/TRange.cpp"
+		"${NN_SOURCE_DIR}/Nano/Types/TVariant.cpp"
+		"${NN_SOURCE_DIR}/NanoTest.cpp"
 )
 
-target_include_directories("${PROJECT_NAME}"
+nano_project_include_paths(
 	PRIVATE
-		"${TARGET_SOURCE_DIR}"
-		"${TARGET_SOURCE_DIR}/../../Library/Source/Nanites/Catch"
+		"${NN_SOURCE_DIR}"
+		"${NN_SOURCE_DIR}/../../Library/Source/Nanites/Catch"
 )
+
+nano_project_libraries(
+	PRIVATE
+		Nano
+)
+
+
+
+
+
+#==============================================================================
+#		macOS
+#------------------------------------------------------------------------------
+if (NN_TARGET_MACOS)
+	nano_project_libraries(
+		PRIVATE
+			"-framework CoreFoundation"
+			"-framework Foundation"
+			"-framework Security"
+	)
+endif()
 
 
 
@@ -143,9 +162,9 @@ target_include_directories("${PROJECT_NAME}"
 #		Windows
 #------------------------------------------------------------------------------
 if (NN_TARGET_WINDOWS)
-	target_sources("${PROJECT_NAME}"
+	nano_project_sources(
 		PRIVATE
-			"${TARGET_SOURCE_DIR}/../../Library/Support/Visual Studio/Nano.natvis"
+			"${NN_SOURCE_DIR}/../../Library/Support/Visual Studio/Nano.natvis"
 	)
 endif()
 
@@ -156,7 +175,5 @@ endif()
 #==============================================================================
 #		Build
 #------------------------------------------------------------------------------
-nano_target_compile_set_warnings_maximum("${PROJECT_NAME}")
-
-nano_target_build_app("${PROJECT_NAME}")
+nano_build_project()
 

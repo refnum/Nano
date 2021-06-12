@@ -38,16 +38,24 @@
 #==============================================================================
 #		Configuration
 #------------------------------------------------------------------------------
-set(NN_DEBUG												0)
-set(NN_RELEASE												0)
+set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-	set(NN_DEBUG											1)
 
-elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
-	set(NN_RELEASE											1)
 
-else()
-	nano_log_error("Unable to identify configuration from '${CMAKE_BUILD_TYPE}'")
+
+
+#==============================================================================
+#		Architectures
+#------------------------------------------------------------------------------
+if (NN_TARGET_MACOS)
+	set(CMAKE_OSX_ARCHITECTURES arm64 x86_64)
+
+elseif (NN_TARGET_IOS OR NN_TARGET_TVOS)
+	set(CMAKE_OSX_ARCHITECTURES arm64)
+
 endif()
+
+
+
+
 

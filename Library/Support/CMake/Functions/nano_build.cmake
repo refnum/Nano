@@ -1,9 +1,9 @@
 #==============================================================================
 #	NAME:
-#		nano_target_compile.cmake
+#		nano_target_build.cmake
 #
 #	DESCRIPTION:
-#		target_compile functions.
+#		Build functions.
 #
 #	COPYRIGHT:
 #		Copyright (c) 2006-2021, refNum Software
@@ -36,25 +36,27 @@
 #		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 #		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #==============================================================================
-#		nano_target_compile_create_groups : Create IDE source groups.
+#		Internal Functions
 #------------------------------------------------------------------------------
-function(nano_target_compile_create_groups theTarget)
+#		_nano_build_create_groups : Create the IDE source groups.
+#------------------------------------------------------------------------------
+function(_nano_build_create_groups)
 
-	get_target_property(theSources "${theTarget}" SOURCES)
+	# Get the state we need
+	get_target_property(PROJECT_SOURCES "${PROJECT_NAME}" SOURCES)
 
-	foreach (theFile ${theSources})
+	get_filename_component(SOURCE_ROOT "${NN_SOURCE_DIR}" ABSOLUTE)
 
-		get_filename_component(thePath "${theFile}" ABSOLUTE)
-		get_filename_component(thePath "${thePath}" PATH)
 
-		if ("${theFile}" MATCHES "${PROJECT_BINARY_DIR}")
-			file(RELATIVE_PATH "${thePath}" "${PROJECT_BINARY_DIR}" "${thePath}")
-		else()
-			file(RELATIVE_PATH "${thePath}" "${PROJECT_SOURCE_DIR}" "${thePath}")
+	# Group files under the source root
+	foreach (FILE_PATH ${PROJECT_SOURCES})
+		get_filename_component(FILE_PATH "${FILE_PATH}" ABSOLUTE)
+
+		string(FIND "${FILE_PATH}" "${SOURCE_ROOT}" OFFSET_PREFIX)
+
+		if (OFFSET_PREFIX EQUAL 0)
+			source_group(TREE "${NN_SOURCE_DIR}" FILES ${FILE_PATH})
 		endif()
-
-		string(REGEX REPLACE "/" "\\\\" winPath "${thePath}")
-		source_group("${winPath}" REGULAR_EXPRESSION "${thePath}/[^/\\]+\\..*")
 
 	endforeach()
 
@@ -65,78 +67,98 @@ endfunction()
 
 
 #==============================================================================
-#		nano_target_compile_set_defaults : Set the default compiler options.
+#		_nano_build_defaults : Set the default build options.
 #------------------------------------------------------------------------------
-function(nano_target_compile_set_defaults theTarget)
+function(_nano_build_defaults)
 
 	# Features
-	target_compile_features("${theTarget}" PUBLIC "cxx_std_17")
-	target_compile_features("${theTarget}" PUBLIC "c_std_11")
+	target_compile_features("${PROJECT_NAME}" PUBLIC cxx_std_17)
+	target_compile_features("${PROJECT_NAME}" PUBLIC c_std_11)
 
 
-	# Flags
-	if (NN_COMPILER_WARNINGS STREQUAL "")
-		nano_target_compile_set_warnings_maximum(${theTarget})
+
+	# Definitions
+	target_compile_definitions("${PROJECT_NAME}" PRIVATE NN_DEBUG=$<BOOL:$<CONFIG:Debug>>)
+	target_compile_definitions("${PROJECT_NAME}" PRIVATE NN_RELEASE=$<BOOL:$<CONFIG:Release>>)
+
+
+
+	# Compiler
+	get_property(TARGET_WARNINGS TARGET "${PROJECT_NAME}" PROPERTY NN_COMPILER_WARNINGS)
+	if (TARGET_WARNINGS STREQUAL "")
+		nano_build_warnings(MAXIMUM)
+		get_property(TARGET_WARNINGS TARGET "${PROJECT_NAME}" PROPERTY NN_COMPILER_WARNINGS)
 	endif()
 
-	target_compile_options("${theTarget}" PRIVATE ${NN_COMPILER_WARNINGS})
-	target_compile_options("${theTarget}" PRIVATE ${NN_COMPILER_FLAGS})
-	target_link_options(   "${theTarget}" PRIVATE ${NN_LINKER_FLAGS})
+	target_compile_options("${PROJECT_NAME}" PRIVATE ${TARGET_WARNINGS})
+	target_compile_options("${PROJECT_NAME}" PRIVATE ${NN_COMPILER_FLAGS})
 
-endfunction()
-
-
-
-
-
-#==============================================================================
-#		nano_target_compile_set_prefix : Set the compiler prefix header.
-#------------------------------------------------------------------------------
-function(nano_target_compile_set_prefix theTarget thePrefix)
-
-	if (NN_COMPILER_MSVC)
-		target_compile_options("${theTarget}" PRIVATE       /FI"${thePrefix}")
-	else()
-		target_compile_options("${theTarget}" PRIVATE -include "${thePrefix}")
-	endif()
-
-endfunction()
-
-
-
-
-
-#==============================================================================
-#		nano_target_compile_set_warnings_maximum : Set maximum warnings.
-#------------------------------------------------------------------------------
-function(nano_target_compile_set_warnings_maximum theTarget)
-
-	set(NN_COMPILER_WARNINGS ${NN_COMPILER_WARNINGS_MAXIMUM})
-
-endfunction()
-
-
-
-
-
-#==============================================================================
-#		nano_target_compile_set_warnings_none : Set no warnings.
-#------------------------------------------------------------------------------
-#		Note : Applies to specific files within the target.
-#------------------------------------------------------------------------------
-function(nano_target_compile_set_warnings_none theTarget thePattern)
-
-	get_target_property(theSources "${theTarget}" SOURCES)
-
-	foreach (theFile ${theSources})
-
-		if ("${theFile}" MATCHES "${thePattern}")
-			set_source_files_properties("${theFile}" PROPERTIES COMPILE_FLAGS "${NN_COMPILER_WARNINGS_NONE}")
+	if (${CMAKE_GENERATOR} STREQUAL "Ninja")
+		if (NN_COMPILER_CLANG)
+			target_compile_options("${PROJECT_NAME}" PRIVATE "-fcolor-diagnostics")
+		
+		elseif (NN_COMPILER_GCC)
+			target_compile_options("${PROJECT_NAME}" PRIVATE "-fdiagnostics-color=always")
 		endif()
+	endif()
 
- 	endforeach()
+
+
+	# Linker
+	target_link_options("${PROJECT_NAME}" PRIVATE ${NN_LINKER_FLAGS})
 
 endfunction()
 
 
 
+
+
+#==============================================================================
+#		_nano_build_app : Build an app.
+#------------------------------------------------------------------------------
+function(_nano_build_app)
+
+	_nano_build_create_groups()
+	_nano_build_defaults()
+
+endfunction()
+
+
+
+
+
+#==============================================================================
+#		_nano_build_library : Build a library.
+#------------------------------------------------------------------------------
+function(_nano_build_library)
+
+	_nano_build_create_groups()
+	_nano_build_defaults()
+
+endfunction()
+
+
+
+
+
+#==============================================================================
+#		Public Functions
+#------------------------------------------------------------------------------
+#		nano_build_project : Build the project.
+#------------------------------------------------------------------------------
+function(nano_build_project)
+
+	get_target_property(PROJECT_TYPE "${PROJECT_NAME}" TYPE)
+
+	if ("${PROJECT_TYPE}" STREQUAL "EXECUTABLE")
+		_nano_build_app()
+
+	elseif ("${PROJECT_TYPE}" STREQUAL "STATIC_LIBRARY" OR
+			"${PROJECT_TYPE}" STREQUAL "SHARED_LIBRARY")
+		_nano_build_library()
+
+	else()
+		nano_log_error("Unknown project type '${PROJECT_TYPE}'")
+	endif()
+
+endfunction()
