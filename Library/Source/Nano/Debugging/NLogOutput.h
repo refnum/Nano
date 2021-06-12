@@ -86,7 +86,7 @@ class NLogOutputConsole final : public NLogOutput
 {
 public:
 										NLogOutputConsole()          = default;
-	virtual                            ~NLogOutputConsole()          = default;
+	virtual                            ~NLogOutputConsole() override = default;
 
 										NLogOutputConsole(const NLogOutputConsole&) = delete;
 	NLogOutputConsole&                  operator=(        const NLogOutputConsole&) = delete;
@@ -96,7 +96,7 @@ public:
 
 
 	// Log a message
-	void                                LogMessage(const NLogMessage& theMsg);
+	void                                LogMessage(const NLogMessage& theMsg) override;
 };
 
 
