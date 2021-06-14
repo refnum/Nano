@@ -313,6 +313,35 @@ typename T::mapped_type fetch(const T&                       container,
 
 
 //=============================================================================
+//		nstd::find : Find an item in an assocaitive container.
+//-----------------------------------------------------------------------------
+template<typename T>
+typename T::const_iterator find(const T& container, const typename T::key_type& key)
+{
+	return container.find(key);
+}
+
+
+
+
+
+//=============================================================================
+//		nstd::find : Find an item in a container.
+//-----------------------------------------------------------------------------
+template<typename T>
+typename T::const_iterator find(const T& container, const typename T::value_type& value)
+{
+	auto iterBegin = std::begin(container);
+	auto iterEnd   = std::end(container);
+
+	return std::find(iterBegin, iterEnd, value);
+}
+
+
+
+
+
+//=============================================================================
 //		nstd::front : Get a pointer to the first element in a container.
 //-----------------------------------------------------------------------------
 template<typename T>

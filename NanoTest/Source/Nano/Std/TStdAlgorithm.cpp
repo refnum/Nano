@@ -264,6 +264,25 @@ NANO_TEST(TStdAlgorithm, "nstd:fetch")
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
+NANO_TEST(TStdAlgorithm, "nstd:find")
+{
+
+
+	// Perform the test
+	REQUIRE(nstd::find(kTestVector1, 1) != kTestVector1.end());
+	REQUIRE(nstd::find(kTestVector1, 5) == kTestVector1.end());
+
+	REQUIRE(nstd::find(kTestUnorderedMap, 1) != kTestUnorderedMap.end());
+	REQUIRE(nstd::find(kTestUnorderedMap, 5) == kTestUnorderedMap.end());
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
 NANO_TEST(TStdAlgorithm, "nstd:front")
 {
 
