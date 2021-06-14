@@ -74,7 +74,8 @@
 // printf formatting errors are reported as a compile error.
 //
 #define NFormat(_format, ...)                                               \
-	[&]() {                                                                 \
+	[&]()                                                                   \
+	{                                                                       \
 		auto _format_message = FMT_STRING(_format);                         \
 																			\
 		if constexpr (_nn_has_format_specifiers(_format))                   \

@@ -170,7 +170,8 @@ void NThread::CreateThread(const NString& theName,
 	NSemaphore      isRunning;
 
 	theContext->stackSize   = stackSize;
-	theContext->threadEntry = [=, &isRunning]() {
+	theContext->threadEntry = [=, &isRunning]()
+	{
 		// Prepare the thread
 		mCurrentThread = this;
 

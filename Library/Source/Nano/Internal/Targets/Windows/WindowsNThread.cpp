@@ -74,12 +74,13 @@ static constexpr uint8_t kNThreadCoresMax                   = sizeof(DWORD_PTR) 
 //
 //	http://msdn.microsoft.com/en-us/library/xcb2z8hs.aspx
 //
-NN_STRUCT_PACK_8(THREADNAME_INFO {
-	DWORD  dwType;
-	LPCSTR szName;
-	DWORD  dwThreadID;
-	DWORD  dwFlags;
-});
+NN_STRUCT_PACK_8(THREADNAME_INFO
+				 {
+					 DWORD  dwType;
+					 LPCSTR szName;
+					 DWORD  dwThreadID;
+					 DWORD  dwFlags;
+				 });
 
 
 

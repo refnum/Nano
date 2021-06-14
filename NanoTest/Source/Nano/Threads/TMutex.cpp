@@ -75,8 +75,9 @@ NInterval BenchmarkMutex(std::function<void(MutexType&)> lockFunc,
 
 	for (size_t t = 0; t < kNumThreads; t++)
 	{
-		theThreads.emplace_back(
-			NThread([&lockFunc, &unlockFunc, &startFlag, &theMutex = theMutexes[t]]() {
+		theThreads.emplace_back(NThread(
+			[&lockFunc, &unlockFunc, &startFlag, &theMutex = theMutexes[t]]()
+			{
 				// Wait for the flag
 				std::mt19937 randomWork{std::random_device{}()};
 
@@ -218,10 +219,12 @@ NANO_TEST(TMutex, "Benchmark/Uncontended")
 
 
 	NInterval timeNMutex = BenchmarkMutex<NMutex, kNumIters, kNumThreads>(
-		[](NMutex& theLock) {
+		[](NMutex& theLock)
+		{
 			theLock.Lock();
 		},
-		[](NMutex& theLock) {
+		[](NMutex& theLock)
+		{
 			theLock.Unlock();
 		});
 
@@ -229,10 +232,12 @@ NANO_TEST(TMutex, "Benchmark/Uncontended")
 
 
 	NInterval timeStdMutex = BenchmarkMutex<std::mutex, kNumIters, kNumThreads>(
-		[](std::mutex& theLock) {
+		[](std::mutex& theLock)
+		{
 			theLock.lock();
 		},
-		[](std::mutex& theLock) {
+		[](std::mutex& theLock)
+		{
 			theLock.unlock();
 		});
 
@@ -262,10 +267,12 @@ NANO_TEST(TMutex, "Benchmark/Contended")
 
 
 	NInterval timeNMutex = BenchmarkMutex<NMutex, kNumIters, kNumThreads>(
-		[](NMutex& theLock) {
+		[](NMutex& theLock)
+		{
 			theLock.Lock();
 		},
-		[](NMutex& theLock) {
+		[](NMutex& theLock)
+		{
 			theLock.Unlock();
 		});
 
@@ -273,10 +280,12 @@ NANO_TEST(TMutex, "Benchmark/Contended")
 
 
 	NInterval timeStdMutex = BenchmarkMutex<std::mutex, kNumIters, kNumThreads>(
-		[](std::mutex& theLock) {
+		[](std::mutex& theLock)
+		{
 			theLock.lock();
 		},
-		[](std::mutex& theLock) {
+		[](std::mutex& theLock)
+		{
 			theLock.unlock();
 		});
 

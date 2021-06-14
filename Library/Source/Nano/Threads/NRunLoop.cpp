@@ -612,9 +612,11 @@ NRunLoopWork* NRunLoop::GetNextWork()
 	// timestamps.
 	if (mSortWork)
 	{
-		nstd::stable_sort(mWork, [](const NRunLoopWork& workA, const NRunLoopWork& workB) {
-			return workA.executeAt < workB.executeAt;
-		});
+		nstd::stable_sort(mWork,
+						  [](const NRunLoopWork& workA, const NRunLoopWork& workB)
+						  {
+							  return workA.executeAt < workB.executeAt;
+						  });
 
 		mSortWork = false;
 	}

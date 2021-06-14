@@ -85,8 +85,8 @@ public:
 class NLogOutputConsole final : public NLogOutput
 {
 public:
-										NLogOutputConsole()          = default;
-	virtual                            ~NLogOutputConsole() override = default;
+										NLogOutputConsole()                   = default;
+	virtual                            ~NLogOutputConsole() override          = default;
 
 										NLogOutputConsole(const NLogOutputConsole&) = delete;
 	NLogOutputConsole&                  operator=(        const NLogOutputConsole&) = delete;

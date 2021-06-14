@@ -190,9 +190,11 @@ bool equal(const T& container1, const T& container2)
 template<typename T>
 bool erase(T& container, const typename T::value_type& value)
 {
-	return erase_if(container, [&](const typename T::value_type& element) {
-		return element == value;
-	});
+	return erase_if(container,
+					[&](const typename T::value_type& element)
+					{
+						return element == value;
+					});
 }
 
 

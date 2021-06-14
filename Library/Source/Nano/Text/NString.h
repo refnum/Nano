@@ -129,24 +129,25 @@ using NVectorPatternMatch = std::vector<NPatternMatch>;
 // The small data field must be the first field to ensure it has the
 // correct alignment to be recast to any type that is <= 16 bytes.
 //
-NN_STRUCT_PACK_1(NN_STD_ANY_ALIGNAS(16) NStringStorage {
-	union
-	{
-		struct
-		{
-			uint8_t theData[27];
-		} Small;
+NN_STRUCT_PACK_1(NN_STD_ANY_ALIGNAS(16) NStringStorage
+				 {
+					 union
+					 {
+						 struct
+						 {
+							 uint8_t theData[27];
+						 } Small;
 
-		struct
-		{
-			struct NStringState* theState;
-			NRange               theSlice;
-		} Large;
-	};
+						 struct
+						 {
+							 struct NStringState* theState;
+							 NRange               theSlice;
+						 } Large;
+					 };
 
-	uint8_t  theFlags;
-	uint32_t theHash;
-});
+					 uint8_t  theFlags;
+					 uint32_t theHash;
+				 });
 
 
 

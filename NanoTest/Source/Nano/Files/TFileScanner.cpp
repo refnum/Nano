@@ -184,10 +184,12 @@ NANO_TEST(TFileScanner, "SetFilterItem/None")
 
 
 	// Perform the test
-	fileScanner.SetFilterItem([](const NFile& /*theFile*/, bool& stopScan) {
-		stopScan = true;
-		return true;
-	});
+	fileScanner.SetFilterItem(
+		[](const NFile& /*theFile*/, bool& stopScan)
+		{
+			stopScan = true;
+			return true;
+		});
 
 	fileScanner.Start(kPathTmpDirectory);
 
@@ -207,9 +209,11 @@ NANO_TEST(TFileScanner, "SetFilterItem/All")
 
 
 	// Perform the test
-	fileScanner.SetFilterItem([](const NFile& /*theFile*/, bool& /*stopScan*/) {
-		return true;
-	});
+	fileScanner.SetFilterItem(
+		[](const NFile& /*theFile*/, bool& /*stopScan*/)
+		{
+			return true;
+		});
 
 	fileScanner.Start(kPathTmpDirectory);
 
@@ -229,9 +233,11 @@ NANO_TEST(TFileScanner, "SetFilterItem/Some")
 
 
 	// Perform the test
-	fileScanner.SetFilterItem([](const NFile& theFile, bool& /*stopScan*/) {
-		return theFile.IsFile();
-	});
+	fileScanner.SetFilterItem(
+		[](const NFile& theFile, bool& /*stopScan*/)
+		{
+			return theFile.IsFile();
+		});
 
 	fileScanner.Start(kPathTmpDirectory);
 

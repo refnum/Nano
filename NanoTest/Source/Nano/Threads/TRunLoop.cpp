@@ -111,10 +111,12 @@ NANO_TEST(TRunLoop, "GetCurrent")
 	NSemaphore theSemaphore;
 	bool       isMain = true;
 
-	NThread theThread("TRunLoop_GetCurrent", [&]() {
-		isMain = (NRunLoop::GetCurrent() == NRunLoop::GetMain());
-		theSemaphore.Signal();
-	});
+	NThread theThread("TRunLoop_GetCurrent",
+					  [&]()
+					  {
+						  isMain = (NRunLoop::GetCurrent() == NRunLoop::GetMain());
+						  theSemaphore.Signal();
+					  });
 
 	theSemaphore.Wait();
 	REQUIRE(!isMain);

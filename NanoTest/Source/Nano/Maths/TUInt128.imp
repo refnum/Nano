@@ -78,7 +78,8 @@ NANO_TEST_UINT128("Layout")
 	// Perform the test
 	NUINT128 theValue = Make128(0x000000, 0x112233);
 
-	uint8_t byteValue[16] = {
+	uint8_t byteValue[16] =
+	{
 #if NN_ENDIAN_LITTLE
 		0x33,
 		0x22,

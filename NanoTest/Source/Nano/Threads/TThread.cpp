@@ -82,13 +82,15 @@ NANO_TEST(TThread, "GetRunLoop")
 
 
 	// Perform the test
-	NThread theThread2("TThread_GetRunLoop", []() {
-		NThread* currentThread = NThread::GetCurrent();
+	NThread theThread2("TThread_GetRunLoop",
+					   []()
+					   {
+						   NThread* currentThread = NThread::GetCurrent();
 
-		REQUIRE(currentThread->GetRunLoop() != nullptr);
-		REQUIRE(currentThread->GetRunLoop() != NRunLoop::GetMain());
-		REQUIRE(currentThread->GetRunLoop() == NRunLoop::GetCurrent());
-	});
+						   REQUIRE(currentThread->GetRunLoop() != nullptr);
+						   REQUIRE(currentThread->GetRunLoop() != NRunLoop::GetMain());
+						   REQUIRE(currentThread->GetRunLoop() == NRunLoop::GetCurrent());
+					   });
 }
 
 
@@ -103,9 +105,11 @@ NANO_TEST(TThread, "WaitForCompletion")
 
 
 	// Perform the test
-	NThread theThread("TThread_WaitForCompletion", []() {
-		NThread::Sleep(0.050);
-	});
+	NThread theThread("TThread_WaitForCompletion",
+					  []()
+					  {
+						  NThread::Sleep(0.050);
+					  });
 
 	REQUIRE(!theThread.IsComplete());
 	theThread.WaitForCompletion();
@@ -124,14 +128,16 @@ NANO_TEST(TThread, "RequestStop")
 
 
 	// Perform the test
-	NThread theThread("TThread_RequestStop", []() {
-		NThread* currentThread = NThread::GetCurrent();
+	NThread theThread("TThread_RequestStop",
+					  []()
+					  {
+						  NThread* currentThread = NThread::GetCurrent();
 
-		while (!currentThread->ShouldStop())
-		{
-			NThread::Sleep(0.001);
-		}
-	});
+						  while (!currentThread->ShouldStop())
+						  {
+							  NThread::Sleep(0.001);
+						  }
+					  });
 
 	REQUIRE(!theThread.IsComplete());
 	theThread.RequestStop();
@@ -153,9 +159,11 @@ NANO_TEST(TThread, "IsMain")
 	// Perform the test
 	REQUIRE(NThread::IsMain());
 
-	NThread theThread("TThread_IsMain", []() {
-		REQUIRE(!NThread::IsMain());
-	});
+	NThread theThread("TThread_IsMain",
+					  []()
+					  {
+						  REQUIRE(!NThread::IsMain());
+					  });
 }
 
 
@@ -172,9 +180,11 @@ NANO_TEST(TThread, "GetCurrent")
 	// Perform the test
 	REQUIRE(NThread::GetCurrent() == nullptr);
 
-	NThread theThread2("TThread_GetCurrent", []() {
-		REQUIRE(NThread::GetCurrent() != nullptr);
-	});
+	NThread theThread2("TThread_GetCurrent",
+					   []()
+					   {
+						   REQUIRE(NThread::GetCurrent() != nullptr);
+					   });
 }
 
 
@@ -192,10 +202,13 @@ NANO_TEST(TThread, "StackSize")
 	size_t theSize = NThread::GetStackSize();
 	REQUIRE(theSize != 0);
 
-	NThread theThread("TThread_StackSize", size_t(300 * kNMebibyte), []() {
-		size_t customSize = NThread::GetStackSize();
-		REQUIRE(customSize >= 295 * kNMebibyte);
-	});
+	NThread theThread("TThread_StackSize",
+					  size_t(300 * kNMebibyte),
+					  []()
+					  {
+						  size_t customSize = NThread::GetStackSize();
+						  REQUIRE(customSize >= 295 * kNMebibyte);
+					  });
 }
 
 
@@ -218,9 +231,11 @@ NANO_TEST(TThread, "Name")
 	NThread::SetName("");
 	REQUIRE(NThread::GetName().IsEmpty());
 
-	NThread theThread("TestName", []() {
-		REQUIRE(NThread::GetName() == "TestName");
-	});
+	NThread theThread("TestName",
+					  []()
+					  {
+						  REQUIRE(NThread::GetName() == "TestName");
+					  });
 }
 
 

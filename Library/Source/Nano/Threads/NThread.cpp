@@ -72,9 +72,12 @@ NThread::NThread(const NString& theName, size_t stackSize)
 
 
 	// Create the thread
-	CreateThread(theName, stackSize, [&]() {
-		mRunLoop->Run();
-	});
+	CreateThread(theName,
+				 stackSize,
+				 [&]()
+				 {
+					 mRunLoop->Run();
+				 });
 }
 
 

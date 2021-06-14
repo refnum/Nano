@@ -108,9 +108,11 @@ NVectorString NTextUtils::RemoveEmpty(const NVectorString& theStrings)
 	// Remove any empty strings
 	NVectorString theResult(theStrings);
 
-	nstd::erase_if(theResult, [](const NString& theString) {
-		return theString.IsEmpty();
-	});
+	nstd::erase_if(theResult,
+				   [](const NString& theString)
+				   {
+					   return theString.IsEmpty();
+				   });
 
 	return theResult;
 }
