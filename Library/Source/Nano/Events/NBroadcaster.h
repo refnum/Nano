@@ -3,115 +3,116 @@
 
 	DESCRIPTION:
 		Message broadcaster.
-	
+
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NBROADCASTER_HDR
-#define NBROADCASTER_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
+#ifndef NBROADCASTER_H
+#define NBROADCASTER_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+// Nano
+#include "NMutex.h"
+#include "NString.h"
+
+// System
+#include <functional>
+#include <unordered_map>
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		Types
-//----------------------------------------------------------------------------
-// Messages
-typedef uint32_t NBroadcastMsg;
-
-
-// Listeners
+//-----------------------------------------------------------------------------
+// Forward declaratiosn
 class NListener;
 
-typedef std::map<NListener*, uint8_t>								NListenerMap;
-typedef NListenerMap::iterator										NListenerMapIterator;
-typedef NListenerMap::const_iterator								NListenerMapConstIterator;
+
+// Functors
+using NFunctionListenID   = std::function<void(const NString& theMsg)>;
+using NFunctionListenVoid = std::function<void()>;
 
 
-// State
-typedef struct {
-	bool				isDead;
-	NListenerMap		theRecipients;
-} NBroadcastState;
-
-
-typedef std::vector<NBroadcastState *>								NBroadcastStateList;
-typedef NBroadcastStateList::iterator								NBroadcastStateListIterator;
-typedef NBroadcastStateList::const_iterator							NBroadcastStateListConstIterator;
+// Containers
+using NMapListenerFunctions = std::unordered_map<NListener*, NFunctionListenID>;
+using NMapMessageRecipients = std::unordered_map<NString, NMapListenerFunctions>;
 
 
 
 
 
-//============================================================================
-//		Constants
-//----------------------------------------------------------------------------
-// Messages
-static const NBroadcastMsg kMsgNBroadcasterDestroyed				= 0xDEADDEAD;
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NBroadcaster
+{
+	friend class                        NListener;
 
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NBroadcaster {
 public:
-										NBroadcaster(const NBroadcaster &theBroadcaster);
+										NBroadcaster() = default;
+	virtual                            ~NBroadcaster();
 
-										NBroadcaster(void);
-	virtual							   ~NBroadcaster(void);
+										NBroadcaster(const NBroadcaster& otherBroadcaster) = delete;
+	NBroadcaster&                       operator=(   const NBroadcaster& otherBroadcaster) = delete;
 
+										NBroadcaster(NBroadcaster&& otherBroadcaster) = delete;
+	NBroadcaster&                       operator=(   NBroadcaster&& otherBroadcaster) = delete;
 
-	// Get/set the broadcasting state
-	bool								IsBroadcasting(void) const;
-	void								SetBroadcasting(bool isBroadcasting);
-
-
-	// Do we have any listeners?
-	bool								HasListeners(void) const;
-	
-
-	// Add/remove a listener
-	void								AddListener(   NListener *theListener);
-	void								RemoveListener(NListener *theListener);
-
-
-	// Remove all listeners
-	void								RemoveListeners(void);
-	
 
 	// Broadcast a message
-	void								BroadcastMessage(NBroadcastMsg theMsg, const void *msgData=NULL);
+	void                                Broadcast(const NString& theMsg);
 
 
-	// Operators
-	const NBroadcaster					&operator = (const NBroadcaster &theBroadcaster);
+protected:
+	// Add / remove a listener
+	void                                AddListener(NListener*               theListener,
+													const NString&           theMsg,
+													const NFunctionListenID& theFunctor);
+
+	void                                RemoveListener(NListener* theListener, const NString& theMsg);
 
 
 private:
-	void								CloneBroadcaster(const NBroadcaster &theBroadcaster);
+	void                                RemoveListeners();
 
 
 private:
-	bool								mIsBroadcasting;
-	NBroadcastStateList					mBroadcasts;
-	NListenerMap						mListeners;
+	NMutex                              mLock;
+	NMapMessageRecipients               mRecipients;
 };
 
 
 
-
-
-#endif // NBROADCASTER_HDR
-
-
+#endif // NBROADCASTER_H

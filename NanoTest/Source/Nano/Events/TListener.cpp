@@ -5,166 +5,230 @@
 		NListener tests.
 
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NTestFixture.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NListener.h"
-
-#include "CTestListener.h"
-
+#include "NTestFixture.h"
 
 
 
-//============================================================================
-//		Test fixture
-//----------------------------------------------------------------------------
-#define TEST_NLISTENER(...)											TEST_NANO(TListener, ##__VA_ARGS__)
 
-FIXTURE_NANO(TListener)
+
+//=============================================================================
+//		Test Fixture
+//-----------------------------------------------------------------------------
+NANO_FIXTURE(TListener)
 {
-	NBroadcaster	theBroadcaster;
-	CTestListener	theListener;
+	NBroadcaster theBroadcaster;
+	NListener    theListener;
+
+	NFunctionListenVoid doEvent;
+	uint32_t            numEvents;
+
+	SETUP
+	{
+		numEvents = 0;
+		doEvent   = std::bind(&Fixture_TListener::IncrementEvent, this);
+	}
+
+	void IncrementEvent()
+	{
+		numEvents++;
+	}
 };
 
 
 
 
 
-//============================================================================
-//		Test case
-//----------------------------------------------------------------------------
-TEST_NLISTENER("Default")
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TListener, "Default")
 {
 
 
 	// Perform the test
-	REQUIRE( theListener.IsListening());
-	REQUIRE(!theListener.IsListeningTo());
+	theListener.StartListening(&theBroadcaster,
+							   "apple",
+							   []()
+							   {
+							   });
+
+	theBroadcaster.Broadcast("apple");
+	theBroadcaster.Broadcast("banana");
 }
 
 
 
 
 
-//============================================================================
-//		Test case
-//----------------------------------------------------------------------------
-TEST_NLISTENER("Single")
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TListener, "Member")
 {
 
 
 	// Perform the test
-	theBroadcaster.AddListener(&theListener);
-	REQUIRE(theListener.IsListeningTo());
-	REQUIRE(theListener.IsListeningTo(&theBroadcaster));
-	
-	theBroadcaster.RemoveListener(&theListener);
-	REQUIRE(!theListener.IsListeningTo());
-	REQUIRE(!theListener.IsListeningTo(&theBroadcaster));
+	theListener.StartListening(&theBroadcaster, "apple", doEvent);
+	REQUIRE(numEvents == 0);
+
+	theBroadcaster.Broadcast("apple");
+	REQUIRE(numEvents == 1);
 }
 
 
 
 
 
-//============================================================================
-//		Test case
-//----------------------------------------------------------------------------
-TEST_NLISTENER("Multiple")
-{	NBroadcaster	theBroadcaster2;
-
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TListener, "LambdaID")
+{
 
 
 	// Perform the test
-	theBroadcaster.AddListener( &theListener);
-	theBroadcaster2.AddListener(&theListener);
+	theListener.StartListening(&theBroadcaster,
+							   "apple",
+							   [&](const NString&)
+							   {
+								   IncrementEvent();
+							   });
+	REQUIRE(numEvents == 0);
 
-	REQUIRE(theListener.IsListeningTo());
-	REQUIRE(theListener.IsListeningTo(&theBroadcaster));
-	REQUIRE(theListener.IsListeningTo(&theBroadcaster2));
-	
-	theListener.RemoveFromBroadcasters();
+	theBroadcaster.Broadcast("apple");
+	REQUIRE(numEvents == 1);
 }
 
 
 
 
 
-//============================================================================
-//		Test case
-//----------------------------------------------------------------------------
-TEST_NLISTENER("Active")
-{	uint32_t	theValue;
-
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TListener, "LambdaVoid")
+{
 
 
 	// Perform the test
-	theValue = kTestMsgNone;
-	theListener.SetTargetUInt32(&theValue);
+	theListener.StartListening(&theBroadcaster,
+							   "apple",
+							   [&]()
+							   {
+								   IncrementEvent();
+							   });
+	REQUIRE(numEvents == 0);
 
-	theBroadcaster.AddListener(&theListener);
-	theBroadcaster.BroadcastMessage(kTestMsgSetUInt32);
-
-	REQUIRE(theValue == kTestMsgSetUInt32);
+	theBroadcaster.Broadcast("apple");
+	REQUIRE(numEvents == 1);
 }
 
 
 
 
 
-//============================================================================
-//		Test case
-//----------------------------------------------------------------------------
-TEST_NLISTENER("Inactive")
-{	uint32_t	theValue;
-
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TListener, "IgnoredEvent")
+{
 
 
 	// Perform the test
-	theValue = kTestMsgNone;
-	theListener.SetTargetUInt32(&theValue);
+	theListener.StartListening(&theBroadcaster, "apple", doEvent);
+	REQUIRE(numEvents == 0);
 
-	theListener.SetListening(false);
-	theBroadcaster.BroadcastMessage(kTestMsgSetUInt32);
-	theListener.SetListening(true);
+	theBroadcaster.Broadcast("apple");
+	REQUIRE(numEvents == 1);
 
-	REQUIRE(theValue == kTestMsgNone);
+	theBroadcaster.Broadcast("banana");
+	REQUIRE(numEvents == 1);
+
+	theBroadcaster.Broadcast("apple");
+	REQUIRE(numEvents == 2);
 }
 
 
 
 
 
-//============================================================================
-//		Test case
-//----------------------------------------------------------------------------
-TEST_NLISTENER("Copy")
-{	CTestListener	theListener2;
-	uint32_t		theValue;
-
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TListener, "MultipleEvents")
+{
 
 
 	// Perform the test
-	theValue = kTestMsgNone;
-	theListener.SetTargetUInt32(&theValue);
+	theListener.StartListening(&theBroadcaster, "apple", doEvent);
+	theListener.StartListening(&theBroadcaster, "banana", doEvent);
+	REQUIRE(numEvents == 0);
 
-	theBroadcaster.AddListener(&theListener);
-	
-	theListener2 = theListener;
-	theListener.RemoveFromBroadcasters();
-	
-	theBroadcaster.BroadcastMessage(kTestMsgSetUInt32);
+	theBroadcaster.Broadcast("apple");
+	REQUIRE(numEvents == 1);
 
-	REQUIRE(theValue == kTestMsgSetUInt32);
+	theBroadcaster.Broadcast("banana");
+	REQUIRE(numEvents == 2);
+
+	theBroadcaster.Broadcast("apple");
+	REQUIRE(numEvents == 3);
 }
 
 
 
 
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TListener, "StopListening")
+{
+
+
+	// Perform the test
+	theListener.StartListening(&theBroadcaster, "apple", doEvent);
+	REQUIRE(numEvents == 0);
+
+	theBroadcaster.Broadcast("apple");
+	REQUIRE(numEvents == 1);
+
+	theListener.StopListening(&theBroadcaster, "apple");
+
+	theBroadcaster.Broadcast("apple");
+	REQUIRE(numEvents == 1);
+}

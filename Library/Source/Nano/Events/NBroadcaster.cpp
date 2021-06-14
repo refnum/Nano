@@ -3,278 +3,62 @@
 
 	DESCRIPTION:
 		Message broadcaster.
-	
-	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+	COPYRIGHT:
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
+
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NSTLUtilities.h"
-#include "NListener.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NBroadcaster.h"
 
-
-
-
-
-//============================================================================
-//		NBroadcaster::NBroadcaster : Constructor.
-//----------------------------------------------------------------------------
-NBroadcaster::NBroadcaster(const NBroadcaster &theBroadcaster)
-{
-
-
-	// Initialize ourselves
-	CloneBroadcaster(theBroadcaster);
-}
+// Nano
+#include "NListener.h"
+#include "NScopedLock.h"
+#include "NStdAlgorithm.h"
 
 
 
 
 
-//============================================================================
-//		NBroadcaster::NBroadcaster : Constructor.
-//----------------------------------------------------------------------------
-NBroadcaster::NBroadcaster(void)
-{
-
-
-	// Initialize ourselves
-	mIsBroadcasting = true;
-}
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NBroadcaster::~NBroadcaster : Destructor.
-//----------------------------------------------------------------------------
-NBroadcaster::~NBroadcaster(void)
-{	NBroadcastStateListIterator		theIter;
-
-
-
-	// Let everyone know
-	BroadcastMessage(kMsgNBroadcasterDestroyed, this);
-
+//-----------------------------------------------------------------------------
+NBroadcaster::~NBroadcaster()
+{
 
 
 	// Clean up
 	RemoveListeners();
-
-
-
-	// Update our state
-	for (theIter = mBroadcasts.begin(); theIter != mBroadcasts.end(); theIter++)
-		(*theIter)->isDead = true;
-}
-
-
-
-
-
-//============================================================================
-//		NBroadcaster::IsBroadcasting : Are we broadcasting messages?
-//----------------------------------------------------------------------------
-bool NBroadcaster::IsBroadcasting(void) const
-{
-
-
-	// Get our state
-	return(mIsBroadcasting);
-}
-
-
-
-
-
-//============================================================================
-//		NBroadcaster::SetBroadcasting : Set our broadcasting state.
-//----------------------------------------------------------------------------
-void NBroadcaster::SetBroadcasting(bool isBroadcasting)
-{
-
-
-	// Set our state
-	mIsBroadcasting = isBroadcasting;
-}
-
-
-
-
-
-//============================================================================
-//		NBroadcaster::HasListeners : Do we have any listeners?
-//----------------------------------------------------------------------------
-bool NBroadcaster::HasListeners(void) const
-{
-
-
-	// Check our state
-	return(!mListeners.empty());
-}
-
-
-
-
-
-//============================================================================
-//		NBroadcaster::AddListener : Add a listener.
-//----------------------------------------------------------------------------
-void NBroadcaster::AddListener(NListener *theListener)
-{
-
-
-	// Validate our parameters
-	NN_ASSERT(theListener != NULL);
-	
-	if (NN_DEBUG && theListener->IsListeningTo(this))
-		NN_LOG("NBroadcaster already being listened to by %p", theListener);
-
-
-
-	// Add the listener
-	mListeners[theListener] = 1;
-	
-	theListener->AddBroadcaster(this);
-}
-
-
-
-
-
-//============================================================================
-//		NBroadcaster::RemoveListener : Remove a listener.
-//----------------------------------------------------------------------------
-void NBroadcaster::RemoveListener(NListener *theListener)
-{	NBroadcastStateListIterator		theIter;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theListener != NULL);
-
-	if (NN_DEBUG && !theListener->IsListeningTo(this))
-		NN_LOG("NBroadcaster wasn't being listened to by %p", theListener);
-
-
-
-	// Remove the listener
-	mListeners.erase(theListener);
-
-	theListener->RemoveBroadcaster(this);
-
-
-
-	// Update our state
-	for (theIter = mBroadcasts.begin(); theIter != mBroadcasts.end(); theIter++)
-		(*theIter)->theRecipients.erase(theListener);
-}
-
-
-
-
-
-//============================================================================
-//		NBroadcaster::RemoveListeners : Remove all listeners.
-//----------------------------------------------------------------------------
-void NBroadcaster::RemoveListeners(void)
-{	NListener		*theListener;
-	NListenerMap	theList;
-
-
-
-	// Stop broadcasting to our listeners
-	while (!mListeners.empty())
-		{
-		theListener = mListeners.begin()->first;
-		RemoveListener(theListener);
-		}
-}
-
-
-
-
-
-//============================================================================
-//		NBroadcaster::BroadcastMessage : Broadcast a message.
-//----------------------------------------------------------------------------
-void NBroadcaster::BroadcastMessage(NBroadcastMsg theMsg, const void *msgData)
-{	NListener						*theListener;
-	NBroadcastState					theState;
-	NListenerMapIterator			theIter;
-
-
-
-	// Check our state
-	if (!mIsBroadcasting)
-		return;
-
-
-
-	// Update our state
-	//
-	// Since a broadcast invokes a function, it can trigger arbitrary events
-	// including:
-	//
-	//		- Destruction of the broadcaster
-	//		- Destruction of a listener
-	//		- Removal     of a listener
-	//		- Broadcast of additional messages (by this object)
-	//
-	// To allow us to perform a broadcast without interference, we maintain a
-	// list of the state for the broadcasts being performed by this object.
-	//
-	// Each broadcast requires a flag to indicate if the broadcaster has been
-	// destroyed, and a list of recipients for the broadcast (the listeners
-	// that were present when the broadcast was requested).
-	//
-	//
-	// This state is stored on our stack, and a pointer to it placed in the
-	// list of broadcasts being performed by this object.
-	//
-	// This list is updated if the broadcaster itself is destroyed, or if a
-	// listener is removed during the broadcast.
-	theState.isDead        = false;
-	theState.theRecipients = mListeners;
-	
-	mBroadcasts.push_back(&theState);
-
-
-
-	// Broadcast the message
-	//
-	// Since recipients might be removed or destroyed while we're broadcasting,
-	// we need to prune the list as we go rather than iterate through it.
-	//
-	// If the broadcaster itself is destroyed, our stack-based state will have
-	// its flag set letting us know we need to stop the broadcast.
-	
-	while (!theState.isDead && !theState.theRecipients.empty())
-		{
-		// Get the state we need
-		theIter     = theState.theRecipients.begin();
-		theListener = theIter->first;
-		
-		theState.theRecipients.erase(theIter);
-
-
-		// Send the message
-		if (theListener->IsListening())
-			theListener->DoMessage(theMsg, msgData);
-		}
-
-
-
-	// Update our state
-	if (!theState.isDead)
-		erase(mBroadcasts, &theState);
 }
 
 
@@ -282,17 +66,107 @@ void NBroadcaster::BroadcastMessage(NBroadcastMsg theMsg, const void *msgData)
 
 
 //=============================================================================
-//		NBroadcaster::operator = : Assignment operator.
+//		NBroadcaster::Broadcast : Broadcast a message.
 //-----------------------------------------------------------------------------
-const NBroadcaster &NBroadcaster::operator = (const NBroadcaster &theBroadcaster)
+void NBroadcaster::Broadcast(const NString& theMsg)
 {
 
 
-	// Assign the object
-	if (this != &theBroadcaster)
-		CloneBroadcaster(theBroadcaster);
+	// Validate our parameters
+	NN_REQUIRE(!theMsg.IsEmpty());
 
-	return(*this);
+
+	// Broadcast the message
+	NScopedLock acquireLock(mLock);
+
+	auto theRecipients = mRecipients.find(theMsg);
+	if (theRecipients != mRecipients.end())
+	{
+		for (const auto& theRecipient : theRecipients->second)
+		{
+			theRecipient.second(theMsg);
+		}
+	}
+}
+
+
+
+
+
+#pragma mark protected
+//=============================================================================
+//		NBroadcaster::AddListener : Add a listener.
+//-----------------------------------------------------------------------------
+void NBroadcaster::AddListener(NListener*               theListener,
+							   const NString&           theMsg,
+							   const NFunctionListenID& theFunctor)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theListener != nullptr);
+	NN_REQUIRE(!theMsg.IsEmpty());
+	NN_REQUIRE(theFunctor);
+
+
+
+	// Add the listener
+	NScopedLock acquireLock(mLock);
+
+	auto& theRecipients = mRecipients[theMsg];
+
+	NN_REQUIRE(!nstd::contains(theRecipients, theListener));
+	theRecipients[theListener] = theFunctor;
+}
+
+
+
+
+
+//=============================================================================
+//		NBroadcaster::RemoveListener : Remove a listener.
+//-----------------------------------------------------------------------------
+void NBroadcaster::RemoveListener(NListener* theListener, const NString& theMsg)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theListener != nullptr);
+
+
+
+	// Remove the listener
+	NScopedLock acquireLock(mLock);
+
+	if (theMsg.IsEmpty())
+	{
+		// Remove for all events
+		for (auto theIter = mRecipients.begin(); theIter != mRecipients.end();)
+		{
+			theIter->second.erase(theListener);
+			if (theIter->second.empty())
+			{
+				theIter = mRecipients.erase(theIter);
+			}
+			else
+			{
+				theIter++;
+			}
+		}
+	}
+
+	else
+	{
+		// Remove for the specified event
+		const auto& theIter = mRecipients.find(theMsg);
+		NN_REQUIRE(theIter != mRecipients.end());
+
+		theIter->second.erase(theListener);
+		if (theIter->second.empty())
+		{
+			mRecipients.erase(theIter);
+		}
+	}
 }
 
 
@@ -301,34 +175,22 @@ const NBroadcaster &NBroadcaster::operator = (const NBroadcaster &theBroadcaster
 
 #pragma mark private
 //=============================================================================
-//		NBroadcaster::CloneBroadcaster : Clone a broadcaster.
+//		NBroadcaster::RemoveListeners : Remove all of our listeners.
 //-----------------------------------------------------------------------------
-void NBroadcaster::CloneBroadcaster(const NBroadcaster &theBroadcaster)
-{	NListenerMapConstIterator	theIter;
+void NBroadcaster::RemoveListeners()
+{
 
 
+	// Remove the listeners
+	NScopedLock acquireLock(mLock);
 
-	// Validate our state
-	NN_ASSERT(mBroadcasts.empty());
+	for (const auto& theIter : mRecipients)
+	{
+		for (auto& theRecipient : theIter.second)
+		{
+			theRecipient.first->StopListening(this, theIter.first);
+		}
+	}
 
-
-
-	// Clone the broadcaster
-	//
-	// An explicit clone is necessary to ensure the pointers between listener and
-	// broadcaster are correctly established (the default copy constructor would
-	// copy the pointers in this object, but wouldn't update the other).
-	//
-	// Cloning a broadcaster that's currently broadcasting will clone the listeners
-	// so that future broadcasts go to the same place - however we don't clone the
-	// list of active broadcasts, since we're not ourselves broadcasting.
-	mIsBroadcasting = theBroadcaster.mIsBroadcasting;
-	mBroadcasts.clear();
-
-	for (theIter = theBroadcaster.mListeners.begin(); theIter != theBroadcaster.mListeners.end(); theIter++)
-		AddListener(theIter->first);
+	mRecipients.clear();
 }
-
-
-
-

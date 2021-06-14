@@ -3,100 +3,107 @@
 
 	DESCRIPTION:
 		Message listener.
-	
+
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NLISTENER_HDR
-#define NLISTENER_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
+#ifndef NLISTENER_H
+#define NLISTENER_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+// Nano
 #include "NBroadcaster.h"
+#include "NMutex.h"
+
+// System
+#include <vector>
 
 
 
 
 
-//============================================================================
-//		Constants
-//----------------------------------------------------------------------------
-static NBroadcaster * const kBroadcasterAny							= NULL;
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		Types
-//----------------------------------------------------------------------------
-// Lists	
-typedef std::map<NBroadcaster*, uint8_t>							NBroadcasterMap;
-typedef NBroadcasterMap::iterator									NBroadcasterMapIterator;
-typedef NBroadcasterMap::const_iterator								NBroadcasterMapConstIterator;
+//-----------------------------------------------------------------------------
+// Forward declaratiosn
+class NString;
+
+// Containers
+using NVectorBroadcaster = std::vector<NBroadcaster*>;
 
 
 
 
 
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NListener {
-friend class NBroadcaster;
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NListener
+{
 public:
-										NListener(const NListener &theListener);
+										NListener() = default;
+	virtual                            ~NListener();
 
-										NListener(void);
-	virtual							   ~NListener(void);
+										NListener(const NListener& otherListener) = delete;
+	NListener&                          operator=(const NListener& otherListener) = delete;
 
-
-	// Get/set the listening state
-	bool								IsListening(void) const;
-	void								SetListening(bool isListening);
-
-
-	// Are we listening to a broadcaster/anyone?
-	bool								IsListeningTo(const NBroadcaster *theBroadcaster=kBroadcasterAny) const;
-	
-
-	// Remove all broadcasters
-	void								RemoveFromBroadcasters(void);
+										NListener(NListener&& otherListener) = delete;
+	NListener&                          operator=(NListener&& otherListener) = delete;
 
 
-	// Operators
-	const NListener						&operator = (const NListener &theListener);
-
-
-protected:
-	// Handle messages
-	virtual void						DoMessage(NBroadcastMsg theMsg, const void *msgData) = 0;
-
-
-	// Add/remove a broadcaster
+	// Start / stop listening for a message
 	//
-	// Private methods invoked by NBroadcaster
-	void								AddBroadcaster(   NBroadcaster *theBroadcaster);
-	void								RemoveBroadcaster(NBroadcaster *theBroadcaster);
+	// Each listener may register one function with a broadcaster for a given message.
+	void                                StartListening(NBroadcaster*            theBroadcaster,
+													   const NString&           theMsg,
+													   const NFunctionListenID& theFunctor);
+
+	void                                StartListening(NBroadcaster*              theBroadcaster,
+													   const NString&             theMsg,
+													   const NFunctionListenVoid& theFunctor);
+
+	void                                StopListening(NBroadcaster* theBroadcaster, const NString& theMsg);
 
 
 private:
-	void								CloneListener(const NListener &theListener);
+	void                                StopListening();
 
 
 private:
-	bool								mIsListening;
-	NBroadcasterMap						mBroadcasters;
+	NMutex                              mLock;
+	NVectorBroadcaster                  mBroadcasters;
 };
 
 
 
-
-
-#endif // NLISTENER_HDR
-
-
+#endif // NLISTENER_H
