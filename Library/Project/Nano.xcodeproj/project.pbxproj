@@ -370,6 +370,12 @@
 		ABF58C3E2676C2F600327252 /* NBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155110F9B4DD5009FFEAF /* NBroadcaster.cpp */; };
 		ABF58C3F2676C2F600327252 /* NListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155130F9B4DD5009FFEAF /* NListener.cpp */; };
 		ABF58C402676C2F600327252 /* NBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155110F9B4DD5009FFEAF /* NBroadcaster.cpp */; };
+		ABF58CC9267932C200327252 /* NUndoSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A789F103234BE00DFBA38 /* NUndoSource.cpp */; };
+		ABF58CCA267932C200327252 /* NUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A78A0103234BE00DFBA38 /* NUndoManager.cpp */; };
+		ABF58CCB267932C200327252 /* NUndoSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A789F103234BE00DFBA38 /* NUndoSource.cpp */; };
+		ABF58CCC267932C200327252 /* NUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A78A0103234BE00DFBA38 /* NUndoManager.cpp */; };
+		ABF58CCD267932C300327252 /* NUndoSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A789F103234BE00DFBA38 /* NUndoSource.cpp */; };
+		ABF58CCE267932C300327252 /* NUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A78A0103234BE00DFBA38 /* NUndoManager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -2099,11 +2105,13 @@
 				ABCC4AD125A5360500394AFE /* NArray.cpp in Sources */,
 				AB84536A2581A09D00B78BF7 /* WjCryptLib_Sha1.c in Sources */,
 				ABDCE8AC241C2A550054A16E /* NPOSIX.cpp in Sources */,
+				ABF58CCD267932C300327252 /* NUndoSource.cpp in Sources */,
 				AB62326D242AF51300651349 /* NLogOutput.cpp in Sources */,
 				AB230A342581AB8600919EBD /* adler32.c in Sources */,
 				ABDCE8A3241C22AD0054A16E /* NClock.cpp in Sources */,
 				AB3A4989258194580065B4DA /* sqlite3.34.0.c in Sources */,
 				AB230A282581AB8600919EBD /* gzwrite.c in Sources */,
+				ABF58CCE267932C300327252 /* NUndoManager.cpp in Sources */,
 				ABF58C2E267572F300327252 /* NDataCompressor.cpp in Sources */,
 				AB081C6525BCD5E50058D397 /* NRandom.cpp in Sources */,
 				ABDCE8B7241C59570054A16E /* NFileHandle.cpp in Sources */,
@@ -2227,11 +2235,13 @@
 				ABCC4AD925A5360600394AFE /* NArray.cpp in Sources */,
 				AB8453682581A09D00B78BF7 /* WjCryptLib_Sha1.c in Sources */,
 				ABA4791725B7B91300F3C3C9 /* iOSNMachine.cpp in Sources */,
+				ABF58CC9267932C200327252 /* NUndoSource.cpp in Sources */,
 				ABDCE8A1241C22AD0054A16E /* NClock.cpp in Sources */,
 				AB62326B242AF51300651349 /* NLogOutput.cpp in Sources */,
 				AB230A322581AB8600919EBD /* adler32.c in Sources */,
 				ABDCE8B5241C59570054A16E /* NFileHandle.cpp in Sources */,
 				AB3A4987258194580065B4DA /* sqlite3.34.0.c in Sources */,
+				ABF58CCA267932C200327252 /* NUndoManager.cpp in Sources */,
 				ABF58C2C267572F300327252 /* NDataCompressor.cpp in Sources */,
 				AB230A262581AB8600919EBD /* gzwrite.c in Sources */,
 				AB081C6325BCD5E50058D397 /* NRandom.cpp in Sources */,
@@ -2355,11 +2365,13 @@
 				AB2A304624524C9100F21BF6 /* NDebugger.cpp in Sources */,
 				ABCC4AD525A5360500394AFE /* NArray.cpp in Sources */,
 				AB8453692581A09D00B78BF7 /* WjCryptLib_Sha1.c in Sources */,
+				ABF58CCB267932C200327252 /* NUndoSource.cpp in Sources */,
 				ABDCE8E1241C61960054A16E /* macOSNSemaphore.cpp in Sources */,
 				ABDCE8B9241C59570054A16E /* NFileInfo.cpp in Sources */,
 				ABC646872581666F009B82AD /* xmlparse.c in Sources */,
 				AB1981092597C0E2002C5591 /* macOSNThread.cpp in Sources */,
 				ABDCE8AB241C2A550054A16E /* NPOSIX.cpp in Sources */,
+				ABF58CCC267932C200327252 /* NUndoManager.cpp in Sources */,
 				ABF58C2D267572F300327252 /* NDataCompressor.cpp in Sources */,
 				AB230A332581AB8600919EBD /* adler32.c in Sources */,
 				AB081C6425BCD5E50058D397 /* NRandom.cpp in Sources */,

@@ -53,6 +53,8 @@ nano_project_sources(
 	PRIVATE
 		"${NN_SOURCE_DIR}/../../Library/Source/Nanites/Catch/NTestFixture.cpp"
 		"${NN_SOURCE_DIR}/Nano/Application/TCommandLine.cpp"
+		"${NN_SOURCE_DIR}/Nano/Application/TUndoManager.cpp"
+		"${NN_SOURCE_DIR}/Nano/Application/TUndoSource.cpp"
 		"${NN_SOURCE_DIR}/Nano/Data/TData.cpp"
 		"${NN_SOURCE_DIR}/Nano/Data/TDataCipher.cpp"
 		"${NN_SOURCE_DIR}/Nano/Data/TDataCompressor.cpp"

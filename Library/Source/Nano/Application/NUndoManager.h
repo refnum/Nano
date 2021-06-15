@@ -5,95 +5,124 @@
 		Undo manager.
 
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NUNDOMANAGER_HDR
-#define NUNDOMANAGER_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
+#ifndef NUNDO_MANAGER_H
+#define NUNDO_MANAGER_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+// Nano
 #include "NBroadcaster.h"
-#include "NFunctor.h"
 #include "NString.h"
 
+// System
+#include <vector>
 
 
 
 
-//============================================================================
+
+//=============================================================================
 //		Constants
-//----------------------------------------------------------------------------
-// Messages
-static const NBroadcastMsg kMsgNUndoManagerUpdated					= 0x756E646F;	// 'undo'
+//-----------------------------------------------------------------------------
+inline constexpr const char* kNUndoManagerUpdated           = "NUndoManager.Updated";
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		Types
-//----------------------------------------------------------------------------
-// Undo group
-typedef struct {
-	NString				theName;
-	NFunctorList		theActions;
-} NUndoGroup;
+//-----------------------------------------------------------------------------
+// Undo Action
+using NFunctionUndoAction                                   = std::function<void()>;
+using NVectorUndoAction                                     = std::vector<NFunctionUndoAction>;
 
 
-// Lists
-typedef std::list<NUndoGroup>										NUndoGroupList;
-typedef NUndoGroupList::iterator									NUndoGroupListIterator;
-typedef NUndoGroupList::const_iterator								NUndoGroupListConstIterator;
+// Undo Group
+struct NUndoGroup
+{
+	NString           theName;
+	NVectorUndoAction theActions;
+};
+
+using NVectorUndoGroup = std::vector<NUndoGroup>;
 
 
 
 
 
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NUndoManager : public NBroadcaster {
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NUndoManager : public NBroadcaster
+{
 public:
-										NUndoManager(void);
-	virtual							   ~NUndoManager(void);
+										NUndoManager();
 
 
 	// Clear the undo state
-	void								Clear(void);
+	void                                Clear();
 
 
 	// Can an undo be performed?
-	bool								CanUndo(void) const;
-	bool								CanRedo(void) const;
+	bool                                CanUndo() const;
+	bool                                CanRedo() const;
 
 
 	// Perform an undo
-	void								PerformUndo(void);
-	void								PerformRedo(void);
+	void                                PerformUndo();
+	void                                PerformRedo();
 
 
 	// Is an undo being performed?
-	bool								IsUndoing(void) const;
-	bool								IsRedoing(void) const;
+	bool                                IsUndoing() const;
+	bool                                IsRedoing() const;
 
 
 	// Enable/disable undo recording
 	//
 	// Calls to RecordUndo will have no effect when recording is disabled.
-	bool								IsRecording(void) const;
-	void								SetRecording(bool canRecord);
+	bool                                IsRecording() const;
+	void                                SetRecording(bool canRecord);
 
 
 	// Get/set the undo limit
 	//
 	// The undo limit controls the maximum number of groups that will be saved
 	// to the undo/redo stacks. A limit of 0 removes the limit entirely.
-	NIndex								GetUndoLimit(void) const;
-	void								SetUndoLimit(NIndex theLimit);
+	size_t                              GetUndoLimit() const;
+	void                                SetUndoLimit(size_t theLimit);
 
 
 	// Get the current undo/redo name
@@ -121,8 +150,8 @@ public:
 	//
 	// In this fictional language an undo command is written as 'verb noun', but
 	// a redo command is written as 'noun verb'.
-	NString								GetUndoName(void) const;
-	NString								GetRedoName(void) const;
+	NString                             GetUndoName() const;
+	NString                             GetRedoName() const;
 
 
 	// Begin/end an undo group
@@ -140,8 +169,8 @@ public:
 	// This can be used to consolidate mouse-driven undo, where a large number of
 	// undo actions are recorded but only the first action needs to be retained
 	// to perform an undo.
-	void								BeginGroup(void);
-	void								EndGroup(bool flushGroup=false);
+	void                                BeginGroup();
+	void                                EndGroup(bool flushGroup = false);
 
 
 	// Set the group name
@@ -151,7 +180,7 @@ public:
 	//
 	// When a group is closed, the current value is used to name the group before
 	// the value is cleared for future groups.
-	void								SetGroupName(const NString &theName);
+	void                                SetGroupName(const NString& theName);
 
 
 	// Record an undo action
@@ -177,32 +206,30 @@ public:
 	//
 	// Note that since actions are arbitrary functors, any non-static method can
 	// be captured as the action. When the action is executed, the method will be
-	// invoked on the object that was bound into the functor. 
+	// invoked on the object that was bound into the functor.
 	//
 	// If no group is open when an action is recorded, a new group will be opened
 	// closed around the action automatically.
-	void								RecordAction(const NFunctor &theAction);
+	void                                RecordAction(const NFunctionUndoAction& theAction);
 
 
 private:
-	void								UpdatedStacks(void);
+	void                                UpdatedStacks();
 
 
 private:
-	bool								mIsUndoing;
-	bool								mIsRedoing;
-	bool								mIsRecording;
-	
-	bool								mGroupOpen;
-	NIndex								mUndoLimit;
-	NUndoGroup							mCurrentGroup;
-	
-	NUndoGroupList						mStackUndo;
-	NUndoGroupList						mStackRedo;
+	bool                                mIsUndoing;
+	bool                                mIsRedoing;
+	bool                                mIsRecording;
+
+	bool                                mGroupOpen;
+	size_t                              mUndoLimit;
+	NUndoGroup                          mCurrentGroup;
+
+	NVectorUndoGroup                    mStackUndo;
+	NVectorUndoGroup                    mStackRedo;
 };
 
 
 
-
-
-#endif // NUNDOMANAGER_HDR
+#endif // NUNDO_MANAGER_H

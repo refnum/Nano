@@ -229,6 +229,12 @@
 		ABF58C442676C2FC00327252 /* TBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D711034184B00E5A6AD /* TBroadcaster.cpp */; };
 		ABF58C452676C2FD00327252 /* TListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D731034184B00E5A6AD /* TListener.cpp */; };
 		ABF58C462676C2FD00327252 /* TBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D711034184B00E5A6AD /* TBroadcaster.cpp */; };
+		ABF58CCF267932CA00327252 /* TUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D641034184B00E5A6AD /* TUndoManager.cpp */; };
+		ABF58CD0267932CA00327252 /* TUndoSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D661034184B00E5A6AD /* TUndoSource.cpp */; };
+		ABF58CD1267932CB00327252 /* TUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D641034184B00E5A6AD /* TUndoManager.cpp */; };
+		ABF58CD2267932CB00327252 /* TUndoSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D661034184B00E5A6AD /* TUndoSource.cpp */; };
+		ABF58CD3267932CB00327252 /* TUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D641034184B00E5A6AD /* TUndoManager.cpp */; };
+		ABF58CD4267932CB00327252 /* TUndoSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D661034184B00E5A6AD /* TUndoSource.cpp */; };
 		ABFD46FF25C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470025C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470125C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
@@ -1004,6 +1010,7 @@
 				ABD3684725D81DF600C825B6 /* TFileMap.cpp in Sources */,
 				ABDCE8C1241C59680054A16E /* TFileHandle.cpp in Sources */,
 				ABA478CD25B7B7FE00F3C3C9 /* TSystem.cpp in Sources */,
+				ABF58CD1267932CB00327252 /* TUndoManager.cpp in Sources */,
 				ABF5130E2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABF58C1A267572E100327252 /* TData.cpp in Sources */,
 				ABA7247423F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */,
@@ -1029,6 +1036,7 @@
 				AB5E179825F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
 				AB371ABA25CB932600DEC50B /* TBitVector.cpp in Sources */,
 				ABE7C0D925D0B06500914618 /* TVector.cpp in Sources */,
+				ABF58CD2267932CB00327252 /* TUndoSource.cpp in Sources */,
 				AB4AF5542422FEE700E665D4 /* TFileScanner.cpp in Sources */,
 				AB54F9B223EF14CF005207BC /* TStringComparator.cpp in Sources */,
 				ABE7C0C825D0AD8D00914618 /* TPoint.cpp in Sources */,
@@ -1086,6 +1094,7 @@
 				ABD3684325D81DF600C825B6 /* TFileMap.cpp in Sources */,
 				ABDCE8C0241C59680054A16E /* TFileHandle.cpp in Sources */,
 				ABA478CC25B7B7FE00F3C3C9 /* TSystem.cpp in Sources */,
+				ABF58CD3267932CB00327252 /* TUndoManager.cpp in Sources */,
 				ABF5130D2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABF58C19267572E100327252 /* TData.cpp in Sources */,
 				ABA7247323F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */,
@@ -1111,6 +1120,7 @@
 				AB5E179725F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
 				AB371ABE25CB932600DEC50B /* TBitVector.cpp in Sources */,
 				ABE7C0DD25D0B06500914618 /* TVector.cpp in Sources */,
+				ABF58CD4267932CB00327252 /* TUndoSource.cpp in Sources */,
 				AB4AF5532422FEE700E665D4 /* TFileScanner.cpp in Sources */,
 				AB54F9B123EF14CF005207BC /* TStringComparator.cpp in Sources */,
 				ABE7C0CB25D0AD8D00914618 /* TPoint.cpp in Sources */,
@@ -1168,6 +1178,7 @@
 				ABD3683F25D81DF500C825B6 /* TFileMap.cpp in Sources */,
 				ABDCE8C2241C59680054A16E /* TFileHandle.cpp in Sources */,
 				ABA478CE25B7B7FE00F3C3C9 /* TSystem.cpp in Sources */,
+				ABF58CCF267932CA00327252 /* TUndoManager.cpp in Sources */,
 				ABF5130F2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABF58C1B267572E100327252 /* TData.cpp in Sources */,
 				ABA7247523F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */,
@@ -1193,6 +1204,7 @@
 				AB5E179925F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
 				AB371AB625CB932500DEC50B /* TBitVector.cpp in Sources */,
 				ABE7C0D225D0B06400914618 /* TVector.cpp in Sources */,
+				ABF58CD0267932CA00327252 /* TUndoSource.cpp in Sources */,
 				AB4AF5552422FEE700E665D4 /* TFileScanner.cpp in Sources */,
 				AB54F9B323EF14CF005207BC /* TStringComparator.cpp in Sources */,
 				ABE7C0C225D0AD8C00914618 /* TPoint.cpp in Sources */,

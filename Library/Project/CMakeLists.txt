@@ -55,6 +55,10 @@ nano_project_sources(
 	PRIVATE
 		"${NN_SOURCE_DIR}/Nano/Application/NCommandLine.cpp"
 		"${NN_SOURCE_DIR}/Nano/Application/NCommandLine.h"
+		"${NN_SOURCE_DIR}/Nano/Application/NUndoManager.cpp"
+		"${NN_SOURCE_DIR}/Nano/Application/NUndoManager.h"
+		"${NN_SOURCE_DIR}/Nano/Application/NUndoSource.cpp"
+		"${NN_SOURCE_DIR}/Nano/Application/NUndoSource.h"
 		"${NN_SOURCE_DIR}/Nano/Core/NanoConstants.h"
 		"${NN_SOURCE_DIR}/Nano/Core/NanoMacros.h"
 		"${NN_SOURCE_DIR}/Nano/Core/NanoTargets.h"
