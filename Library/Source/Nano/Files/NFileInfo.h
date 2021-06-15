@@ -86,7 +86,7 @@ struct NFileInfoState
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NFileInfo final
+class NFileInfo
 {
 public:
 										NFileInfo(const NFilePath& thePath);

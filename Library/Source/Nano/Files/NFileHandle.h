@@ -137,7 +137,7 @@ using NFileHandleRef = void*;
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NFileHandle final
+class NFileHandle
 {
 public:
 										NFileHandle();

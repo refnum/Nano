@@ -66,7 +66,7 @@ enum class NCipher
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NDataCipher final
+class NDataCipher
 {
 public:
 	// Get/set the key

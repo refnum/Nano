@@ -76,7 +76,7 @@ class NData;
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NDataCompressor final
+class NDataCompressor
 {
 public:
 	// Compress/decompress data

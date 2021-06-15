@@ -107,7 +107,7 @@ using NFileMappingTable = std::unordered_map<const uint8_t*, NFileMapping>;
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NFileMap final
+class NFileMap
 {
 public:
 										NFileMap();

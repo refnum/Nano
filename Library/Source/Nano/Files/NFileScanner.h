@@ -88,7 +88,7 @@ using NVectorFileScannerRoot = std::vector<NFileScannerRoot>;
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NFileScanner final
+class NFileScanner
 {
 public:
 										NFileScanner(const NFile& theFile);
