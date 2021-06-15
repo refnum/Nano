@@ -1907,18 +1907,18 @@
 		ABF58C1F267572F300327252 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				ABF58C20267572F300327252 /* NDataCompressor.cpp */,
 				ABF58C21267572F300327252 /* NData.cpp */,
-				ABF58C22267572F300327252 /* NDataCipher.cpp */,
 				ABF58C23267572F300327252 /* NData.h */,
-				ABF58C24267572F300327252 /* NDataCompressor.h */,
-				ABF58C25267572F300327252 /* NDataDigest.inl */,
 				ABF58C26267572F300327252 /* NData.inl */,
+				ABF58C22267572F300327252 /* NDataCipher.cpp */,
 				ABF58C27267572F300327252 /* NDataCipher.h */,
+				ABF58C20267572F300327252 /* NDataCompressor.cpp */,
+				ABF58C24267572F300327252 /* NDataCompressor.h */,
+				ABF58C2B267572F300327252 /* NDataDigest.cpp */,
+				ABF58C2A267572F300327252 /* NDataDigest.h */,
+				ABF58C25267572F300327252 /* NDataDigest.inl */,
 				ABF58C28267572F300327252 /* NDataEncoder.cpp */,
 				ABF58C29267572F300327252 /* NDataEncoder.h */,
-				ABF58C2A267572F300327252 /* NDataDigest.h */,
-				ABF58C2B267572F300327252 /* NDataDigest.cpp */,
 			);
 			path = Data;
 			sourceTree = "<group>";
