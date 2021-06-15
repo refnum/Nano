@@ -5,132 +5,149 @@
 		Mix-in class for objects that emit progress.
 
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NPROGRESSABLE_HDR
-#define NPROGRESSABLE_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NFunctor.h"
+#ifndef NPROGRESSABLE_H
+#define NPROGRESSABLE_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+// Nano
+#include "NTime.h"
+#include "NanoConstants.h"
+
+// System
+#include <functional>
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		Constants
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // Progress values
-static const float kNProgressNone									=  0.0f;
-static const float kNProgressDone									=  1.0f;
-static const float kNProgressUnknown								= -1.0f;
+inline constexpr float kNProgressNone                       = 0.0f;
+inline constexpr float kNProgressDone                       = 1.0f;
+inline constexpr float kNProgressUnknown                    = -1.0f;
 
 
 // Progress state
-//
-// Progress functors take both a state and a value, to ensure that the
-// begin/end points are invoked exactly once for each operation.
-//
-// The continuation value may be invoked zero or more times, depending
-// on the time taken by the operation.
-typedef enum {
-	kNProgressBegin,
-	kNProgressContinue,
-	kNProgressEnd
-} NProgressState;
-
-
-
-
-
-//============================================================================
-//		Types
-//----------------------------------------------------------------------------
-typedef nfunctor<NStatus (NProgressState theState, float theValue)>	NProgressFunctor;
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NProgressable {
-public:
-										NProgressable(void);
-	virtual							   ~NProgressable(void);
-
-
-	// Is a progress operation active?
-	bool								IsProgressActive(void) const;
-
-
-	// Get/set the progress functor
-	//
-	// The operations that emit progress are determined by the derived class.
-	NProgressFunctor					GetProgress(void) const;
-	void								SetProgress(const NProgressFunctor &theFunctor);
-
-
-	// Get/set the progress range
-	//
-	// Progress values range from 0.0 to 1.0 by default.
-	//
-	// To support multiple tasks within a single operation, progress values can be
-	// offset and scaled to some range before being passed to the progress functor.
-	void								GetProgressRange(float &theOffset, float &theScale) const;
-	void								SetProgressRange(float  theOffset, float  theScale);
-
-
-	// Get/set the update time
-	//
-	// Progress updates are throttled to occur at most once per update time,
-	// and may never be dispatched if the operation completes quickly enough.
-	//
-	// Begin/end updates, and updates that change to/from indeterminate progress,
-	// are always dispatched.
-	NTime								GetProgressTime(void) const;
-	void								SetProgressTime(NTime theTime);
-
-
-	// Begin/end a progress operation
-	//
-	// All progress operations must be bracketed with a begin/end pair.
-	NStatus								BeginProgress(float theValue=kNProgressNone);
-	NStatus								EndProgress(  float theValue=kNProgressDone);
-
-
-	// Continue a progress operation
-	//
-	// Progress updates are throttled to a sensible interval for UI updates,
-	// and may never be dispatched if the operation completes quickly enough.
-	NStatus								ContinueProgress(float  theValue);
-	NStatus								ContinueProgress(NIndex theValue, NIndex maxValue);
-
-
-private:
-	NStatus								UpdateProgress(NProgressState theState, float theValue);
-
-
-private:
-	bool								mIsActive;
-	NProgressFunctor					mProgress;
-	NTime								mUpdateTime;
-
-	NTime								mLastTime;
-	float								mLastValue;
-	float								mRangeOffset;
-	float								mRangeScale;
+enum class NProgress
+{
+	Begin,
+	Update,
+	End
 };
 
 
 
 
 
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Progress function
+//
+// A progress operation reports the begin and end states once per operation,
+// and the update state zero or more times.
+//
+// Progress values range from 0.0 to 1.0 inclusive, or -1.0 if the value is
+// currently indeterminate.
+using NFunctionProgress                                     = std::function<NStatus(NProgress theState, float theValue)>;
 
-#endif // NCOMPARABLE_HDR
+
+
+
+
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NProgressable
+{
+public:
+										NProgressable();
+
+
+	// Get/set the progress function
+	NFunctionProgress                   GetProgressFunction() const;
+	void                                SetProgressFunction(  const NFunctionProgress& theFunction);
+
+
+	// Get/set the update interval
+	//
+	// Progress updates will occur at most once per interval.
+	//
+	// The begin/end update, or updates that change to/from indeterminate
+	// progress, will always be dispatched.
+	NInterval                           GetProgressInterval() const;
+	void                                SetProgressInterval(NInterval theInterval);
+
+
+	// Get/set the current task
+	//
+	// A progress operation defaults to a single task.
+	//
+	// An operation that is composed of multiple tasks can set the current
+	// and total number of tasks contained within the operation.
+	//
+	// Each sub-task should report progress through the Begin/End/Update API
+	// as normal, however the progress function will receive progress for the
+	// overall operation as if it was a single task.
+	void                                GetProgressTasks(size_t& taskIndex, size_t& numTasks) const;
+	void                                SetProgressTasks(size_t  taskIndex, size_t  numTasks);
+
+
+	// Report progress
+	NStatus                             BeginProgress( float theValue = kNProgressNone);
+	NStatus                             EndProgress(   float theValue = kNProgressDone);
+	NStatus                             UpdateProgress(float theValue);
+
+
+private:
+	NStatus                             ContinueProgress(NProgress theState, float theValue);
+
+
+private:
+	bool                                mIsActive;
+	NFunctionProgress                   mFunction;
+	NInterval                           mInterval;
+	float                               mTaskIndex;
+	float                               mTaskCount;
+
+	NTime                               mLastTime;
+	float                               mLastValue;
+};
+
+
+
+#endif // NPROGRESSABLE_H

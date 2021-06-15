@@ -70,5 +70,131 @@ NANO_TEST(TProgressable, "Default")
 
 
 	// Perform the test
+	size_t taskIndex = 99999;
+	size_t numTasks  = 99999;
+
+	REQUIRE(theProgress.GetProgressFunction() == nullptr);
+	REQUIRE(theProgress.GetProgressInterval() > 0.0);
+	REQUIRE(theProgress.GetProgressInterval() < 1.0);
+
+	theProgress.GetProgressTasks(taskIndex, numTasks);
+	REQUIRE(taskIndex == 0);
+	REQUIRE(numTasks == 1);
 }
 
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TProgressable, "GetProgressFunction")
+{
+
+
+	// Perform the test
+	theProgress.SetProgressFunction(
+		[](NProgress, float)
+		{
+			return NStatus::OK;
+		});
+
+	REQUIRE(theProgress.GetProgressFunction() != nullptr);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TProgressable, "GetProgressInterval")
+{
+
+
+	// Perform the test
+	theProgress.SetProgressInterval(100.0);
+	REQUIRE(theProgress.GetProgressInterval() == 100.0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TProgressable, "GetProgressTasks")
+{
+
+
+	// Perform the test
+	constexpr size_t kNumTasks = 20;
+
+	for (size_t n = 0; n < kNumTasks; n++)
+	{
+		size_t taskIndex = 9999;
+		size_t numTasks  = 9999;
+
+		theProgress.SetProgressTasks(n, kNumTasks);
+		theProgress.GetProgressTasks(taskIndex, numTasks);
+
+		REQUIRE(taskIndex == n);
+		REQUIRE(numTasks == kNumTasks);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TProgressable, "UpdateProgress")
+{
+
+
+	// Get the state we need
+	size_t numBegin  = 0;
+	size_t numUpdate = 0;
+	size_t numEnd    = 0;
+
+	theProgress.SetProgressFunction(
+		[&](NProgress theState, float)
+		{
+			switch (theState)
+			{
+				case NProgress::Begin:
+					numBegin++;
+					break;
+				case NProgress::Update:
+					numUpdate++;
+					break;
+				case NProgress::End:
+					numEnd++;
+					break;
+			}
+
+			return NStatus::OK;
+		});
+
+
+
+	// Perform the test
+	theProgress.SetProgressInterval(0.0);
+	theProgress.BeginProgress();
+
+	for (float n = 0.0f; n < 1.0f; n += 0.1f)
+	{
+		theProgress.UpdateProgress(n);
+	}
+
+	theProgress.EndProgress();
+
+	REQUIRE(numBegin == 1);
+	REQUIRE(numUpdate == 10);
+	REQUIRE(numEnd == 1);
+}

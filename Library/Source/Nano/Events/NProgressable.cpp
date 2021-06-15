@@ -5,48 +5,61 @@
 		Mix-in class for objects that emit progress.
 
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NTimeUtilities.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NProgressable.h"
 
+// Nano
+#include "NDebug.h"
+#include "NTimeUtils.h"
 
 
 
 
-//============================================================================
+
+//=============================================================================
 //		NProgressable::NProgressable : Constructor.
-//----------------------------------------------------------------------------
-NProgressable::NProgressable(void)
-{
-
-
-	// Initialise ourselves
-	mIsActive   = false;
-	mUpdateTime = 0.2;
-	
-	mLastTime  = 0.0;
-	mLastValue = 0.0;
-	
-	mRangeOffset = 0.0f;
-	mRangeScale  = 1.0f;
-}
-
-
-
-
-
-//============================================================================
-//		NProgressable::~NProgressable : Destructor.
-//----------------------------------------------------------------------------
-NProgressable::~NProgressable(void)
+//-----------------------------------------------------------------------------
+NProgressable::NProgressable()
+	: mIsActive(false)
+	, mFunction()
+	, mInterval(0.3)
+	, mTaskIndex(0.0f)
+	, mTaskCount(1.0f)
+	, mLastTime(0.0)
+	, mLastValue(kNProgressNone)
 {
 }
 
@@ -54,190 +67,168 @@ NProgressable::~NProgressable(void)
 
 
 
-//============================================================================
-//		NProgressable::IsProgressActive : Is a progress operation active?
-//----------------------------------------------------------------------------
-bool NProgressable::IsProgressActive(void) const
+//=============================================================================
+//		NProgressable::GetProgressFunction : Get the progress function.
+//-----------------------------------------------------------------------------
+NFunctionProgress NProgressable::GetProgressFunction() const
 {
 
 
-	// Get the state
-	return(mIsActive);
+	// Get the function
+	return mFunction;
 }
 
 
 
 
 
-//============================================================================
-//		NProgressable::GetProgress : Get the progress functor.
-//----------------------------------------------------------------------------
-NProgressFunctor NProgressable::GetProgress(void) const
+//=============================================================================
+//		NProgressable::SetProgressFunction : Set the progress function.
+//-----------------------------------------------------------------------------
+void NProgressable::SetProgressFunction(const NFunctionProgress& theFunction)
 {
 
 
-	// Get the functor
-	return(mProgress);
+	// Set the function
+	mFunction = theFunction;
 }
 
 
 
 
 
-//============================================================================
-//		NProgressable::SetProgress : Set the progress functor.
-//----------------------------------------------------------------------------
-void NProgressable::SetProgress(const NProgressFunctor &theFunctor)
+//=============================================================================
+//		NProgressable::GetProgressInterval : Get the update interval.
+//-----------------------------------------------------------------------------
+NInterval NProgressable::GetProgressInterval() const
 {
 
 
-	// Set the functor
-	mProgress = theFunctor;
+	// Get the interval
+	return mInterval;
 }
 
 
 
 
 
-//============================================================================
-//		NProgressable::GetProgressRange : Get the progress range.
-//----------------------------------------------------------------------------
-void NProgressable::GetProgressRange(float &theOffset, float &theScale) const
-{
-
-
-	// Get the range
-	theOffset = mRangeOffset;
-	theScale  = mRangeScale;
-}
-
-
-
-
-
-//============================================================================
-//		NProgressable::SetProgressRange : Set the progress range.
-//----------------------------------------------------------------------------
-void NProgressable::SetProgressRange(float theOffset, float theScale)
-{
-
-
-	// Set the range
-	mRangeOffset = theOffset;
-	mRangeScale  = theScale;
-}
-
-
-
-
-
-//============================================================================
-//		NProgressable::GetProgressTime : Get the update time.
-//----------------------------------------------------------------------------
-NTime NProgressable::GetProgressTime(void) const
-{
-
-
-	// Get the time
-	return(mUpdateTime);
-}
-
-
-
-
-
-//============================================================================
-//		NProgressable::SetProgressTime : Set the update time.
-//----------------------------------------------------------------------------
-void NProgressable::SetProgressTime(NTime theTime)
+//=============================================================================
+//		NProgressable::SetProgressInteval : Set the update interval.
+//-----------------------------------------------------------------------------
+void NProgressable::SetProgressInterval(NInterval theInterval)
 {
 
 
 	// Validate our parameters
-	NN_ASSERT(theTime >= 0.0);
+	NN_REQUIRE(theInterval >= 0.0);
 
 
 
-	// Set the time
-	mUpdateTime = theTime;
+	// Set the interval
+	mInterval = theInterval;
 }
 
 
 
 
 
-//============================================================================
-//		NProgressable::BeginProgress : Begin the progress.
-//----------------------------------------------------------------------------
-NStatus NProgressable::BeginProgress(float theValue)
-{	NStatus		theErr;
+//=============================================================================
+//		NProgressable::GetProgressTasks : Get the progress tasks.
+//-----------------------------------------------------------------------------
+void NProgressable::GetProgressTasks(size_t& taskIndex, size_t& numTasks) const
+{
 
+
+	// Get the tasks
+	taskIndex = size_t(mTaskIndex);
+	numTasks  = size_t(mTaskCount);
+}
+
+
+
+
+
+//=============================================================================
+//		NProgressable::SetProgressTasks : Set the progress tasks.
+//-----------------------------------------------------------------------------
+void NProgressable::SetProgressTasks(size_t taskIndex, size_t numTasks)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(taskIndex < numTasks);
+
+
+
+	// Set the range
+	mTaskIndex = float(taskIndex);
+	mTaskCount = float(numTasks);
+}
+
+
+
+
+
+//=============================================================================
+//		NProgressable::BeginProgress : Begin the progress.
+//-----------------------------------------------------------------------------
+NStatus NProgressable::BeginProgress(float theValue)
+{
 
 
 	// Validate our state
-	NN_ASSERT(!mIsActive);
+	NN_REQUIRE(!mIsActive);
 
 
 
 	// Begin the progress
-	mIsActive = true;
-	theErr    = UpdateProgress(kNProgressBegin, theValue);
-	
-	return(theErr);
+	mIsActive      = true;
+	NStatus theErr = ContinueProgress(NProgress::Begin, theValue);
+
+	return theErr;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NProgressable::EndProgress : End the progress.
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 NStatus NProgressable::EndProgress(float theValue)
-{	NStatus		theErr;
-
+{
 
 
 	// Validate our state
-	NN_ASSERT(mIsActive);
+	NN_REQUIRE(mIsActive);
 
 
 
 	// End the progress
-	theErr    = UpdateProgress(kNProgressEnd, theValue);
-	mIsActive = false;
-	
-	return(theErr);
+	NStatus theErr = ContinueProgress(NProgress::End, theValue);
+	mIsActive      = true;
+
+	return theErr;
 }
 
 
 
 
 
-//============================================================================
-//		NProgressable::ContinueProgress : Continue the progress.
-//----------------------------------------------------------------------------
-NStatus NProgressable::ContinueProgress(float theValue)
+//=============================================================================
+//		NProgressable::UpdateProgress : Update the progress.
+//-----------------------------------------------------------------------------
+NStatus NProgressable::UpdateProgress(float theValue)
 {
 
 
-	// Continue the progress
-	return(UpdateProgress(kNProgressContinue, theValue));
-}
+	// Validate our state
+	NN_REQUIRE(mIsActive);
 
 
 
-
-
-//============================================================================
-//		NProgressable::ContinueProgress : Continue the progress.
-//----------------------------------------------------------------------------
-NStatus NProgressable::ContinueProgress(NIndex theValue, NIndex maxValue)
-{
-
-
-	// Continue the progress
-	return(UpdateProgress(kNProgressContinue, ((float) theValue) / ((float) maxValue)));
+	// Update the progress
+	return ContinueProgress(NProgress::Update, theValue);
 }
 
 
@@ -245,38 +236,32 @@ NStatus NProgressable::ContinueProgress(NIndex theValue, NIndex maxValue)
 
 
 #pragma mark private
-//============================================================================
-//		NProgressable::UpdateProgress : Update the progress.
-//----------------------------------------------------------------------------
-NStatus NProgressable::UpdateProgress(NProgressState theState, float theValue)
-{	bool		isSentinel, didExpire, didChange;
-	NTime		timeNow;
-	NStatus		theErr;
-
+//=============================================================================
+//		NProgressable::ContinueProgress : Continue the progress.
+//-----------------------------------------------------------------------------
+NStatus NProgressable::ContinueProgress(NProgress theState, float theValue)
+{
 
 
 	// Validate our state
-	NN_ASSERT(mIsActive);
+	NN_REQUIRE(mIsActive);
 
 
 
 	// Get the state we need
-	timeNow = NTimeUtilities::GetTime();
-	theErr  = kNoErr;
-	
-	isSentinel = (theState != kNProgressContinue);
-	didExpire  = ((timeNow - mLastTime) >= mUpdateTime);
-	didChange  = (mLastValue <  0.0f && theValue >= 0.0f) ||
-				 (mLastValue >= 0.0f && theValue <  0.0f);
+	NTime   timeNow = NTimeUtils::GetTime();
+	NStatus theErr  = NStatus::OK;
+
+	bool isSentinel = (theState != NProgress::Update);
+	bool didExpire  = ((timeNow - mLastTime) >= mInterval);
+	bool didSwitch =
+		(mLastValue < 0.0f && theValue >= 0.0f) || (mLastValue >= 0.0f && theValue < 0.0f);
 
 
 
 	// Update the progress
-	//
-	// We throttle progress to avoid over-updating any UI attached to the progress,
-	// but must force an update if we've changed between determinate/indeterminate.
-	if (isSentinel || didExpire || didChange)
-		{
+	if (isSentinel || didExpire || didSwitch)
+	{
 		// Update our state
 		mLastTime  = timeNow;
 		mLastValue = theValue;
@@ -285,19 +270,18 @@ NStatus NProgressable::UpdateProgress(NProgressState theState, float theValue)
 
 		// Update the progress
 		//
-		// Indeterminate progress doesn't need to be offset and scaled.
-		if (mProgress != NULL)
-			{
+		// Indeterminate progress doesn't participate in sub-task progress.
+		if (mFunction != nullptr)
+		{
 			if (theValue >= 0.0f)
-				theValue = mRangeOffset + (mRangeScale * theValue);
-			
-			theErr = mProgress(theState, theValue);
+			{
+				float taskStep = 1.0f / mTaskCount;
+				theValue       = (mTaskIndex + (theValue * taskStep)) / mTaskCount;
 			}
+
+			theErr = mFunction(theState, theValue);
 		}
-	
-	return(theErr);
+	}
+
+	return theErr;
 }
-
-
-
-
