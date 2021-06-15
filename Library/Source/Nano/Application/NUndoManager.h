@@ -190,9 +190,9 @@ public:
 	//
 	// For example, one-line undo can be achieved with:
 	//
-	//		void CMyClass::SetPosition(const HIPoint &thePosition)
+	//		void MyClass::SetPosition(const HIPoint &thePosition)
 	//		{
-	//			mUndoManager.RecordAction(BindSelf(CMyClass::SetPosition, mPosition));
+	//			mUndoManager.RecordAction(NBindSelf(MyClass::SetPosition, mPosition));
 	//			mPosition = thePosition;
 	//		}
 	//

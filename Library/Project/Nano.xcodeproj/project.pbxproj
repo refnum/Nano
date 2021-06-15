@@ -939,6 +939,7 @@
 		ABF58C2B267572F300327252 /* NDataDigest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDataDigest.cpp; sourceTree = "<group>"; };
 		ABF58CD526793B7100327252 /* NProgressable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NProgressable.cpp; sourceTree = "<group>"; };
 		ABF58CD626793B7100327252 /* NProgressable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NProgressable.h; sourceTree = "<group>"; };
+		ABF58CE626795A4800327252 /* NFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFunction.h; sourceTree = "<group>"; };
 		ABFD46FC25C4FCFB00CE9358 /* NRandomGenerator.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NRandomGenerator.inl; sourceTree = "<group>"; };
 		ABFD46FD25C4FCFB00CE9358 /* NRandomGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRandomGenerator.h; sourceTree = "<group>"; };
 		ABFD973F1663958F00EE07B7 /* NSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSocket.cpp; sourceTree = "<group>"; };
@@ -1669,6 +1670,7 @@
 				AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */,
 				AB91554D0F9B4DD6009FFEAF /* NDictionary.h */,
 				ABB38CB025A7CC830050D506 /* NDictionary.inl */,
+				ABF58CE626795A4800327252 /* NFunction.h */,
 				ABA7247023F8412800CF6EC2 /* NMixinAppendable.h */,
 				ABA7247123F8412800CF6EC2 /* NMixinAppendable.inl */,
 				ABF5130A2397AF7F001F9F8B /* NMixinAttributes.h */,
