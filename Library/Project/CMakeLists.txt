@@ -92,6 +92,8 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Events/NBroadcaster.h"
 		"${NN_SOURCE_DIR}/Nano/Events/NListener.cpp"
 		"${NN_SOURCE_DIR}/Nano/Events/NListener.h"
+		"${NN_SOURCE_DIR}/Nano/Events/NProgressable.cpp"
+		"${NN_SOURCE_DIR}/Nano/Events/NProgressable.h"
 		"${NN_SOURCE_DIR}/Nano/Files/NFile.cpp"
 		"${NN_SOURCE_DIR}/Nano/Files/NFile.h"
 		"${NN_SOURCE_DIR}/Nano/Files/NFileHandle.cpp"

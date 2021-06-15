@@ -235,6 +235,9 @@
 		ABF58CD2267932CB00327252 /* TUndoSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D661034184B00E5A6AD /* TUndoSource.cpp */; };
 		ABF58CD3267932CB00327252 /* TUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D641034184B00E5A6AD /* TUndoManager.cpp */; };
 		ABF58CD4267932CB00327252 /* TUndoSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D661034184B00E5A6AD /* TUndoSource.cpp */; };
+		ABF58CDB26793B9000327252 /* TProgressable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CDA26793B9000327252 /* TProgressable.cpp */; };
+		ABF58CDC26793B9000327252 /* TProgressable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CDA26793B9000327252 /* TProgressable.cpp */; };
+		ABF58CDD26793B9000327252 /* TProgressable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CDA26793B9000327252 /* TProgressable.cpp */; };
 		ABFD46FF25C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470025C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470125C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
@@ -429,6 +432,7 @@
 		ABF58C0D267572E100327252 /* TDataEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDataEncoder.cpp; sourceTree = "<group>"; };
 		ABF58C0E267572E100327252 /* TData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TData.cpp; sourceTree = "<group>"; };
 		ABF58C0F267572E100327252 /* TDataCipher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDataCipher.cpp; sourceTree = "<group>"; };
+		ABF58CDA26793B9000327252 /* TProgressable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TProgressable.cpp; sourceTree = "<group>"; };
 		ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TRandomGenerator.cpp; sourceTree = "<group>"; };
 		ABFD973C1663951500EE07B7 /* TSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSocket.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -659,6 +663,7 @@
 			children = (
 				AB514D711034184B00E5A6AD /* TBroadcaster.cpp */,
 				AB514D731034184B00E5A6AD /* TListener.cpp */,
+				ABF58CDA26793B9000327252 /* TProgressable.cpp */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -1051,6 +1056,7 @@
 				AB1980DF2596C509002C5591 /* TThread.cpp in Sources */,
 				ABF58C1D267572E100327252 /* TDataCipher.cpp in Sources */,
 				ABBB2B75238092C800EB2840 /* TRange.cpp in Sources */,
+				ABF58CDC26793B9000327252 /* TProgressable.cpp in Sources */,
 				AB53BBDD2421239C009960AA /* TFileUtils.cpp in Sources */,
 				AB56393723C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				ABBE8C8624460960009E9B53 /* TUsageLog.cpp in Sources */,
@@ -1135,6 +1141,7 @@
 				AB1980E32596C509002C5591 /* TThread.cpp in Sources */,
 				ABF58C1C267572E100327252 /* TDataCipher.cpp in Sources */,
 				ABBB2B76238092C800EB2840 /* TRange.cpp in Sources */,
+				ABF58CDB26793B9000327252 /* TProgressable.cpp in Sources */,
 				AB53BBDC2421239C009960AA /* TFileUtils.cpp in Sources */,
 				AB56393623C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				ABBE8C8524460960009E9B53 /* TUsageLog.cpp in Sources */,
@@ -1219,6 +1226,7 @@
 				AB1980DB2596C508002C5591 /* TThread.cpp in Sources */,
 				ABF58C1E267572E100327252 /* TDataCipher.cpp in Sources */,
 				ABBB2B74238092C700EB2840 /* TRange.cpp in Sources */,
+				ABF58CDD26793B9000327252 /* TProgressable.cpp in Sources */,
 				AB53BBDE2421239C009960AA /* TFileUtils.cpp in Sources */,
 				AB56393823C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				ABBE8C8724460960009E9B53 /* TUsageLog.cpp in Sources */,
