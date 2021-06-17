@@ -46,6 +46,7 @@
 #include "NFileUtils.h"
 #include "NMixinComparable.h"
 #include "NString.h"
+#include "NUTI.h"
 
 // System
 #include <vector>
@@ -163,6 +164,12 @@ public:
 	//
 	// Only a valid directory has children.
 	NVectorFile                         GetChildren() const;
+
+
+	// Get the UTI of a file.
+	//
+	// Only a valid file has a UTI.
+	NUTI                                GetUTI() const;
 
 
 	// Create an empty file / directory

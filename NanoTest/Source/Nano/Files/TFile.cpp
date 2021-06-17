@@ -432,6 +432,31 @@ NANO_TEST(TFile, "GetChildren")
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
+NANO_TEST(TFile, "GetUTI")
+{
+
+
+	// Perform the test
+	NFile tmpFileA(kPathTmpFileA);
+	NFile tmpFileB(kPathTmpFileB);
+
+	tmpFileA.SetExtension("jpg");
+	tmpFileB.SetExtension("png");
+
+	NUTI utiA = tmpFileA.GetUTI();
+	NUTI utiB = tmpFileB.GetUTI();
+
+	REQUIRE(utiA == kNUTTypeJPEG);
+	REQUIRE(utiB == kNUTTypePNG);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
 NANO_TEST(TFile, "CreateFile")
 {
 

@@ -505,6 +505,44 @@ NVectorFile NFile::GetChildren() const
 
 
 //=============================================================================
+//		NFile::GetUTI : Get the UTI of a file.
+//-----------------------------------------------------------------------------
+NUTI NFile::GetUTI() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Get the UTI
+	//
+	// UTIs are currently determined by file extension. This could use
+	// a target-specific approach on platforms that natively support UTIs.
+	NUTI theUTI;
+
+	if (IsDirectory())
+	{
+		theUTI = kNUTTypeDirectory;
+	}
+	else
+	{
+		NString theExtension = GetExtension();
+		if (!theExtension.IsEmpty())
+		{
+			theUTI = NUTI(NUTITag::Extension, theExtension);
+		}
+	}
+
+	return theUTI;
+}
+
+
+
+
+
+//=============================================================================
 //		NFile::CreateFile : Create a file.
 //-----------------------------------------------------------------------------
 NStatus NFile::CreateFile()
