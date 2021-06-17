@@ -379,6 +379,12 @@
 		ABF58CD726793B7100327252 /* NProgressable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CD526793B7100327252 /* NProgressable.cpp */; };
 		ABF58CD826793B7100327252 /* NProgressable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CD526793B7100327252 /* NProgressable.cpp */; };
 		ABF58CD926793B7100327252 /* NProgressable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CD526793B7100327252 /* NProgressable.cpp */; };
+		ABF58CED2679725A00327252 /* NUTI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CEC2679725A00327252 /* NUTI.cpp */; };
+		ABF58CEE2679725A00327252 /* NUTI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CEC2679725A00327252 /* NUTI.cpp */; };
+		ABF58CEF2679725A00327252 /* NUTI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CEC2679725A00327252 /* NUTI.cpp */; };
+		ABF58CFA267973FB00327252 /* NUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CF9267973FB00327252 /* NUTIRegistry.cpp */; };
+		ABF58CFB267973FB00327252 /* NUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CF9267973FB00327252 /* NUTIRegistry.cpp */; };
+		ABF58CFC267973FB00327252 /* NUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CF9267973FB00327252 /* NUTIRegistry.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -524,12 +530,8 @@
 		AB2A304F24524F5F00F21BF6 /* macOSNDebugger.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = macOSNDebugger.cpp; sourceTree = "<group>"; };
 		AB2A305024524F5F00F21BF6 /* tvOSNDebugger.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tvOSNDebugger.cpp; sourceTree = "<group>"; };
 		AB2A305124524F5F00F21BF6 /* WindowsNDebugger.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WindowsNDebugger.cpp; sourceTree = "<group>"; };
-		AB2AAC621035B621007BC4E6 /* NUTI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUTI.cpp; sourceTree = "<group>"; };
-		AB2AAC631035B621007BC4E6 /* NUTI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUTI.h; sourceTree = "<group>"; };
 		AB2AAD69103962E4007BC4E6 /* NLocale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLocale.h; sourceTree = "<group>"; };
 		AB2AAD6A103962E4007BC4E6 /* NLocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NLocale.cpp; sourceTree = "<group>"; };
-		AB2AADB41039793F007BC4E6 /* NUTIRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUTIRegistry.cpp; sourceTree = "<group>"; };
-		AB2AADB51039793F007BC4E6 /* NUTIRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUTIRegistry.h; sourceTree = "<group>"; };
 		AB2E01C7239878AF00224E11 /* NScopedLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NScopedLock.h; sourceTree = "<group>"; };
 		AB2F38AE10CFD91700885DAE /* NWindows.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NWindows.cpp; sourceTree = "<group>"; };
 		AB2F38AF10CFD91700885DAE /* NWindows.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NWindows.h; sourceTree = "<group>"; };
@@ -940,6 +942,10 @@
 		ABF58CD526793B7100327252 /* NProgressable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NProgressable.cpp; sourceTree = "<group>"; };
 		ABF58CD626793B7100327252 /* NProgressable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NProgressable.h; sourceTree = "<group>"; };
 		ABF58CE626795A4800327252 /* NFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFunction.h; sourceTree = "<group>"; };
+		ABF58CEB2679725A00327252 /* NUTI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUTI.h; sourceTree = "<group>"; };
+		ABF58CEC2679725A00327252 /* NUTI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUTI.cpp; sourceTree = "<group>"; };
+		ABF58CF8267973FB00327252 /* NUTIRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUTIRegistry.h; sourceTree = "<group>"; };
+		ABF58CF9267973FB00327252 /* NUTIRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUTIRegistry.cpp; sourceTree = "<group>"; };
 		ABFD46FC25C4FCFB00CE9358 /* NRandomGenerator.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NRandomGenerator.inl; sourceTree = "<group>"; };
 		ABFD46FD25C4FCFB00CE9358 /* NRandomGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRandomGenerator.h; sourceTree = "<group>"; };
 		ABFD973F1663958F00EE07B7 /* NSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSocket.cpp; sourceTree = "<group>"; };
@@ -1536,8 +1542,6 @@
 				AB53A405109B237800817E89 /* NTask.h */,
 				AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */,
 				AB91551B0F9B4DD5009FFEAF /* NUnicodeParser.h */,
-				AB2AADB41039793F007BC4E6 /* NUTIRegistry.cpp */,
-				AB2AADB51039793F007BC4E6 /* NUTIRegistry.h */,
 				AB371A2F25CAF80D00DEC50B /* NVersion.cpp */,
 				AB371A3025CAF80D00DEC50B /* NVersion.h */,
 				AB371A2E25CAF80D00DEC50B /* NVersion.inl */,
@@ -1690,8 +1694,6 @@
 				AB4E383423C8D9D50089B916 /* NRange.inl */,
 				AB481C4012A5327B0052C55F /* NURL.cpp */,
 				AB481C4112A5327B0052C55F /* NURL.h */,
-				AB2AAC621035B621007BC4E6 /* NUTI.cpp */,
-				AB2AAC631035B621007BC4E6 /* NUTI.h */,
 				ABCC4ABD25A4F4C100394AFE /* NVariant.h */,
 				ABCC4ABC25A4F4C100394AFE /* NVariant.inl */,
 			);
@@ -1763,6 +1765,10 @@
 				AB53BBE0242123AB009960AA /* NFileUtils.h */,
 				ABB145CA0FF36A34006F178C /* NPropertyList.cpp */,
 				ABB145C90FF36A34006F178C /* NPropertyList.h */,
+				ABF58CEC2679725A00327252 /* NUTI.cpp */,
+				ABF58CEB2679725A00327252 /* NUTI.h */,
+				ABF58CF9267973FB00327252 /* NUTIRegistry.cpp */,
+				ABF58CF8267973FB00327252 /* NUTIRegistry.h */,
 			);
 			path = Files;
 			sourceTree = "<group>";
@@ -2073,6 +2079,7 @@
 				ABF58C3F2676C2F600327252 /* NListener.cpp in Sources */,
 				ABC6471625818466009B82AD /* pcre2_chartables.c in Sources */,
 				ABC6473425818466009B82AD /* pcre2_find_bracket.c in Sources */,
+				ABF58CEF2679725A00327252 /* NUTI.cpp in Sources */,
 				ABC6473125818466009B82AD /* pcre2_ucd.c in Sources */,
 				ABA4791F25B7B91300F3C3C9 /* tvOSNMachine.cpp in Sources */,
 				AB53BBE3242123AB009960AA /* NFileUtils.cpp in Sources */,
@@ -2112,6 +2119,7 @@
 				ABDCE8AC241C2A550054A16E /* NPOSIX.cpp in Sources */,
 				ABF58CCD267932C300327252 /* NUndoSource.cpp in Sources */,
 				AB62326D242AF51300651349 /* NLogOutput.cpp in Sources */,
+				ABF58CFC267973FB00327252 /* NUTIRegistry.cpp in Sources */,
 				AB230A342581AB8600919EBD /* adler32.c in Sources */,
 				ABDCE8A3241C22AD0054A16E /* NClock.cpp in Sources */,
 				AB3A4989258194580065B4DA /* sqlite3.34.0.c in Sources */,
@@ -2204,6 +2212,7 @@
 				ABF58C3B2676C2F500327252 /* NListener.cpp in Sources */,
 				ABC6472F25818466009B82AD /* pcre2_ucd.c in Sources */,
 				ABA4791A25B7B91300F3C3C9 /* iOSNProcess.cpp in Sources */,
+				ABF58CED2679725A00327252 /* NUTI.cpp in Sources */,
 				AB56392523C69CCF00675F68 /* NByteSwap.cpp in Sources */,
 				ABBE8C8F2446096C009E9B53 /* NUsageLog.cpp in Sources */,
 				ABBE8C9724460A11009E9B53 /* NUsageBucket.cpp in Sources */,
@@ -2243,6 +2252,7 @@
 				ABA4791725B7B91300F3C3C9 /* iOSNMachine.cpp in Sources */,
 				ABF58CC9267932C200327252 /* NUndoSource.cpp in Sources */,
 				ABDCE8A1241C22AD0054A16E /* NClock.cpp in Sources */,
+				ABF58CFA267973FB00327252 /* NUTIRegistry.cpp in Sources */,
 				AB62326B242AF51300651349 /* NLogOutput.cpp in Sources */,
 				AB230A322581AB8600919EBD /* adler32.c in Sources */,
 				ABDCE8B5241C59570054A16E /* NFileHandle.cpp in Sources */,
@@ -2335,6 +2345,7 @@
 				ABF58C3D2676C2F600327252 /* NListener.cpp in Sources */,
 				ABDCE8DF241C61960054A16E /* macOSNFileHandle.cpp in Sources */,
 				ABDCE8E2241C61960054A16E /* macOSNTimeUtils.cpp in Sources */,
+				ABF58CEE2679725A00327252 /* NUTI.cpp in Sources */,
 				ABBE8C902446096C009E9B53 /* NUsageLog.cpp in Sources */,
 				ABC6474225818466009B82AD /* pcre2_match_data.c in Sources */,
 				AB230A182581AB8600919EBD /* infback.c in Sources */,
@@ -2374,6 +2385,7 @@
 				AB8453692581A09D00B78BF7 /* WjCryptLib_Sha1.c in Sources */,
 				ABF58CCB267932C200327252 /* NUndoSource.cpp in Sources */,
 				ABDCE8E1241C61960054A16E /* macOSNSemaphore.cpp in Sources */,
+				ABF58CFB267973FB00327252 /* NUTIRegistry.cpp in Sources */,
 				ABDCE8B9241C59570054A16E /* NFileInfo.cpp in Sources */,
 				ABC646872581666F009B82AD /* xmlparse.c in Sources */,
 				AB1981092597C0E2002C5591 /* macOSNThread.cpp in Sources */,

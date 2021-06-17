@@ -218,6 +218,17 @@ def getMemberFloat(sbValue, theName):
 
 
 #==============================================================================
+#		getMemberString : Get a member as a string.
+#------------------------------------------------------------------------------
+def getMemberString(sbValue, theName):
+
+	return str(sbValue.GetChildMemberWithName(theName).GetSummary().strip('"'))
+
+
+
+
+
+#==============================================================================
 #		getExpressionPathSBValue : Get an expression path as an SBValue.
 #------------------------------------------------------------------------------
 def getExpressionPathSBValue(sbValue, thePath):
@@ -893,6 +904,19 @@ def NUInt128_Summary(theValue, theInfo):
 
 
 #==============================================================================
+#		NUTI_Summary : NUTI summary.
+#------------------------------------------------------------------------------
+def NUTI_Summary(theValue, theInfo):
+
+	theInfo = getMemberString(theValue, "mType")
+
+	return theInfo
+
+
+
+
+
+#==============================================================================
 #		NVariant_Summary : NVariant summary.
 #------------------------------------------------------------------------------
 def NVariant_Summary(theVariant, theInfo):
@@ -955,6 +979,7 @@ def loadNano(theDebugger):
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NThreadID_Summary      NThreadID")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NTime_Summary          NTime")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NUInt128_Summary       NUInt128")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NUTI_Summary           NUTI")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NVariant_Summary   -x 'NVariant<.*>'")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NVector_Summary        NVector")
 	theDebugger.HandleCommand("type category enable Nano")

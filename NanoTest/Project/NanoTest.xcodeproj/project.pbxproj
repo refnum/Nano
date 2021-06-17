@@ -241,6 +241,12 @@
 		ABF58CE826795A5900327252 /* TFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CE726795A5800327252 /* TFunction.cpp */; };
 		ABF58CE926795A5900327252 /* TFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CE726795A5800327252 /* TFunction.cpp */; };
 		ABF58CEA26795A5900327252 /* TFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CE726795A5800327252 /* TFunction.cpp */; };
+		ABF58CF12679727500327252 /* TUTI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CF02679727500327252 /* TUTI.cpp */; };
+		ABF58CF22679727500327252 /* TUTI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CF02679727500327252 /* TUTI.cpp */; };
+		ABF58CF32679727500327252 /* TUTI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CF02679727500327252 /* TUTI.cpp */; };
+		ABF58CF5267973BA00327252 /* TUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CF4267973BA00327252 /* TUTIRegistry.cpp */; };
+		ABF58CF6267973BA00327252 /* TUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CF4267973BA00327252 /* TUTIRegistry.cpp */; };
+		ABF58CF7267973BA00327252 /* TUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CF4267973BA00327252 /* TUTIRegistry.cpp */; };
 		ABFD46FF25C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470025C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470125C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
@@ -309,9 +315,7 @@
 		AB20329225D73E1F0050DB00 /* TStdMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdMath.cpp; sourceTree = "<group>"; };
 		AB269E0525BBAEA7007EAEF8 /* TStdUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdUtility.cpp; sourceTree = "<group>"; };
 		AB2A304824524CD700F21BF6 /* TDebugger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDebugger.cpp; sourceTree = "<group>"; };
-		AB2AAC761035B65D007BC4E6 /* TUTI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTI.cpp; sourceTree = "<group>"; };
 		AB2AAD7D10396310007BC4E6 /* TLocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLocale.cpp; sourceTree = "<group>"; };
-		AB2AADC81039797F007BC4E6 /* TUTIRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTIRegistry.cpp; sourceTree = "<group>"; };
 		AB328C8517612CBF00782F40 /* StdAfx.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StdAfx.cpp; sourceTree = "<group>"; };
 		AB328C8617612CBF00782F40 /* StdAfx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StdAfx.h; sourceTree = "<group>"; };
 		AB3326D11046C9B100C8DF0A /* TShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TShape.cpp; sourceTree = "<group>"; };
@@ -437,6 +441,8 @@
 		ABF58C0F267572E100327252 /* TDataCipher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDataCipher.cpp; sourceTree = "<group>"; };
 		ABF58CDA26793B9000327252 /* TProgressable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TProgressable.cpp; sourceTree = "<group>"; };
 		ABF58CE726795A5800327252 /* TFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFunction.cpp; sourceTree = "<group>"; };
+		ABF58CF02679727500327252 /* TUTI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTI.cpp; sourceTree = "<group>"; };
+		ABF58CF4267973BA00327252 /* TUTIRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTIRegistry.cpp; sourceTree = "<group>"; };
 		ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TRandomGenerator.cpp; sourceTree = "<group>"; };
 		ABFD973C1663951500EE07B7 /* TSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSocket.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -684,6 +690,8 @@
 				AB4EB4BA2430EDBB00D36016 /* TFilePath.cpp */,
 				AB53BBDB2421239C009960AA /* TFileUtils.cpp */,
 				AB514D7E1034184B00E5A6AD /* TPropertyList.cpp */,
+				ABF58CF02679727500327252 /* TUTI.cpp */,
+				ABF58CF4267973BA00327252 /* TUTIRegistry.cpp */,
 			);
 			path = Files;
 			sourceTree = "<group>";
@@ -703,7 +711,6 @@
 				ABA478C525B7B7FE00F3C3C9 /* TSystem.cpp */,
 				ABC66E7B17411D52005B9357 /* TTask.cpp */,
 				AB514D891034184B00E5A6AD /* TUnicodeParser.cpp */,
-				AB2AADC81039797F007BC4E6 /* TUTIRegistry.cpp */,
 				AB371A2725CAF7EF00DEC50B /* TVersion.cpp */,
 				AB514D8B1034184B00E5A6AD /* TXMLEncoder.cpp */,
 				AB514D8D1034184B00E5A6AD /* TXMLNode.cpp */,
@@ -746,7 +753,6 @@
 				AB514F7A1035788600E5A6AD /* TPropertyStore.cpp */,
 				AB514DB51034184B00E5A6AD /* TRange.cpp */,
 				AB481C7B12A539830052C55F /* TURL.cpp */,
-				AB2AAC761035B65D007BC4E6 /* TUTI.cpp */,
 				ABCC4ABE25A4F4E600394AFE /* TVariant.cpp */,
 			);
 			path = Types;
@@ -1047,6 +1053,7 @@
 				AB5E179825F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
 				AB371ABA25CB932600DEC50B /* TBitVector.cpp in Sources */,
 				ABE7C0D925D0B06500914618 /* TVector.cpp in Sources */,
+				ABF58CF22679727500327252 /* TUTI.cpp in Sources */,
 				ABF58CD2267932CB00327252 /* TUndoSource.cpp in Sources */,
 				AB4AF5542422FEE700E665D4 /* TFileScanner.cpp in Sources */,
 				AB54F9B223EF14CF005207BC /* TStringComparator.cpp in Sources */,
@@ -1056,6 +1063,7 @@
 				AB081C5825BCD5D40058D397 /* TRandom.cpp in Sources */,
 				ABF513172397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF5131A2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
+				ABF58CF6267973BA00327252 /* TUTIRegistry.cpp in Sources */,
 				ABF58C14267572E100327252 /* TDataDigest.cpp in Sources */,
 				ABDCE89D241BDAD50054A16E /* TTime.cpp in Sources */,
 				ABE7C0C925D0AD8D00914618 /* TRectangle.cpp in Sources */,
@@ -1133,6 +1141,7 @@
 				AB5E179725F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
 				AB371ABE25CB932600DEC50B /* TBitVector.cpp in Sources */,
 				ABE7C0DD25D0B06500914618 /* TVector.cpp in Sources */,
+				ABF58CF12679727500327252 /* TUTI.cpp in Sources */,
 				ABF58CD4267932CB00327252 /* TUndoSource.cpp in Sources */,
 				AB4AF5532422FEE700E665D4 /* TFileScanner.cpp in Sources */,
 				AB54F9B123EF14CF005207BC /* TStringComparator.cpp in Sources */,
@@ -1142,6 +1151,7 @@
 				AB081C5725BCD5D40058D397 /* TRandom.cpp in Sources */,
 				ABF513162397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF513192397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
+				ABF58CF5267973BA00327252 /* TUTIRegistry.cpp in Sources */,
 				ABF58C13267572E100327252 /* TDataDigest.cpp in Sources */,
 				ABDCE89C241BDAD50054A16E /* TTime.cpp in Sources */,
 				ABE7C0CC25D0AD8D00914618 /* TRectangle.cpp in Sources */,
@@ -1219,6 +1229,7 @@
 				AB5E179925F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
 				AB371AB625CB932500DEC50B /* TBitVector.cpp in Sources */,
 				ABE7C0D225D0B06400914618 /* TVector.cpp in Sources */,
+				ABF58CF32679727500327252 /* TUTI.cpp in Sources */,
 				ABF58CD0267932CA00327252 /* TUndoSource.cpp in Sources */,
 				AB4AF5552422FEE700E665D4 /* TFileScanner.cpp in Sources */,
 				AB54F9B323EF14CF005207BC /* TStringComparator.cpp in Sources */,
@@ -1228,6 +1239,7 @@
 				AB081C5925BCD5D40058D397 /* TRandom.cpp in Sources */,
 				ABF513182397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF5131B2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
+				ABF58CF7267973BA00327252 /* TUTIRegistry.cpp in Sources */,
 				ABF58C15267572E100327252 /* TDataDigest.cpp in Sources */,
 				ABDCE89E241BDAD50054A16E /* TTime.cpp in Sources */,
 				ABE7C0C325D0AD8C00914618 /* TRectangle.cpp in Sources */,
