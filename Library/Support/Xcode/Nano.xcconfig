@@ -170,11 +170,22 @@ OTHER_CPLUSPLUSFLAGS					= $(Nano_Warnings) $(Nano_Configuration)
 
 
 
+//============================================================================
+//		Linker - Frameworks
+//----------------------------------------------------------------------------
+Nano_Frameworks =
+Nano_Frameworks = $(inherited) -framework CoreFoundation
+Nano_Frameworks = $(inherited) -framework CoreGraphics
+Nano_Frameworks = $(inherited) -framework CoreServices
+Nano_Frameworks = $(inherited) -framework Foundation
+Nano_Frameworks = $(inherited) -framework ImageIO
+Nano_Frameworks = $(inherited) -framework Security
+
 
 //=============================================================================
 //		Linker
 //-----------------------------------------------------------------------------
-Nano_LinkFlags							= -framework CoreFoundation -framework Foundation -framework Security -lNano_$(NANO_PLATFORM)
+Nano_LinkFlags							= $(Nano_Frameworks) -lNano_$(NANO_PLATFORM)
 
 PRODUCT_NAME							= Nano_$(NANO_PLATFORM)
 
