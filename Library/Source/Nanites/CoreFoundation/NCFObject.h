@@ -3,93 +3,118 @@
 
 	DESCRIPTION:
 		CFTypeRef wrapper.
-	
+
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NCFOBJECT_HDR
-#define NCFOBJECT_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
+#ifndef NCFOBJECT_H
+#define NCFOBJECT_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+// System
+#include <CoreFoundation/CFBase.h>
 
 
 
 
 
-//============================================================================
-//		Constants
-//----------------------------------------------------------------------------
-// Default allocator
-#ifndef kCFAllocatorNano
-#define kCFAllocatorNano									kCFAllocatorDefault
-#endif
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		Macros
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // Retain a CFTypeRef
 #ifndef CFSafeRetain
-#define CFSafeRetain(_object)												\
-	do																		\
-		{																	\
-		if ((_object) != NULL)												\
-			CFRetain((CFTypeRef) (_object));								\
-		}																	\
-	while (false)
+	#define CFSafeRetain(_object)                           \
+		do                                                  \
+		{                                                   \
+			if ((_object) != nullptr)                       \
+			{                                               \
+				CFRetain(CFTypeRef(_object));               \
+			}                                               \
+		} while (false)
 #endif // CFSafeRetain
 
 
 // Release a CFTypeRef
 #ifndef CFSafeRelease
-#define CFSafeRelease(_object)												\
-	do																		\
-		{																	\
-		if ((_object) != NULL)												\
-			{																\
-			CFRelease((CFTypeRef) (_object));								\
-			(_object) = NULL;												\
-			}																\
-		}																	\
-	while (false)
+	#define CFSafeRelease(_object)                          \
+		do                                                  \
+		{                                                   \
+			if ((_object) != nullptr)                       \
+			{                                               \
+				CFRelease(CFTypeRef(_object));              \
+				(_object) = nullptr;                        \
+			}                                               \
+		} while (false)
 #endif // CFSafeRelease
 
 
 // Declare an Obj-C class
 #ifdef __OBJC__
-	#define NN_DECLARE_OBCJ_CLASS(_name)	@class							_name
+	#define NN_DECLARE_OBCJ_CLASS(_name)                    @class _name
 #else
-	#define NN_DECLARE_OBCJ_CLASS(_name)	typedef struct ptr ## _name		*_name
+	#define NN_DECLARE_OBCJ_CLASS(_name)                    typedef struct ptr##_name* _name
 #endif
 
 
-// Declare a constructor/cast operator
-#define NCFOBJECT_OPERATOR(_type)											\
-	inline NCFObject(_type cfObject)										\
-	{																		\
-		InitializeSelf(cfObject, false);									\
-	}																		\
-																			\
-	inline operator _type(void) const										\
-	{																		\
-		return((_type) mObject);											\
-	}
+
+
+
+//=============================================================================
+//		Constants
+//-----------------------------------------------------------------------------
+// CF source
+//
+// Some CF classes support data sharing:
+//
+//		NCFSource::Copy			Copy the data
+//
+//		NCFSource::View			Create a view onto external data
+//
+// The underlying data for a View must persist beyond the lifetime of any
+// objects viewing that data.
+enum class NCFSource
+{
+	Copy,
+	View
+};
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		Types
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 NN_DECLARE_OBCJ_CLASS(NSArray);
 NN_DECLARE_OBCJ_CLASS(NSAutoreleasePool);
 NN_DECLARE_OBCJ_CLASS(NSData);
@@ -108,106 +133,49 @@ NN_DECLARE_OBCJ_CLASS(NSURL);
 
 
 
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NCFObject {
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+template<typename T>
+class NCFObject
+{
 public:
-										NCFObject(CFTypeRef cfObject, bool takeOwnership);
-										NCFObject(const NCFObject &otherObject);
+										NCFObject();
+	virtual                            ~NCFObject();
 
-										NCFObject(void);
-	virtual							   ~NCFObject(void);
+										NCFObject(const NCFObject<T>& otherObject);
+	NCFObject<T>&                       operator=(const NCFObject<T>& otherObject);
+
+										NCFObject(NCFObject<T>&& otherObject);
+	NCFObject<T>&                       operator=(NCFObject<T>&& otherObject);
 
 
 	// Is the object valid?
-	bool								IsValid(void) const;
+	bool                                IsValid() const;
 
 
 	// Set the object
-	bool								SetObject(CFTypeRef cfObject, bool takeOwnership=true);
+	//
+	// Transfers ownership of the CF object to this object.
+	bool                                Set(CFTypeRef cfData, bool overload = true);
+	bool                                Set(T         cfData);
 
 
 	// Operators
-	const NCFObject&					operator = (const NCFObject &theObject);
-
-	NCFOBJECT_OPERATOR(CFArrayRef)
-	NCFOBJECT_OPERATOR(CFAttributedStringRef)
-	NCFOBJECT_OPERATOR(CFBitVectorRef)
-	NCFOBJECT_OPERATOR(CFBooleanRef)
-	NCFOBJECT_OPERATOR(CFBundleRef)
-	NCFOBJECT_OPERATOR(CFDataRef)
-	NCFOBJECT_OPERATOR(CFDateFormatterRef)
-	NCFOBJECT_OPERATOR(CFDateRef)
-	NCFOBJECT_OPERATOR(CFDictionaryRef)
-	NCFOBJECT_OPERATOR(CFLocaleRef)
-	NCFOBJECT_OPERATOR(CFMachPortRef)
-	NCFOBJECT_OPERATOR(CFMutableArrayRef)
-	NCFOBJECT_OPERATOR(CFMutableBitVectorRef)
-	NCFOBJECT_OPERATOR(CFMutableDataRef)
-	NCFOBJECT_OPERATOR(CFMutableDictionaryRef)
-	NCFOBJECT_OPERATOR(CFMutableSetRef)
-	NCFOBJECT_OPERATOR(CFMutableStringRef)
-	NCFOBJECT_OPERATOR(CFNumberFormatterRef)
-	NCFOBJECT_OPERATOR(CFNumberRef)
-	NCFOBJECT_OPERATOR(CFReadStreamRef)
-	NCFOBJECT_OPERATOR(CFRunLoopSourceRef)
-	NCFOBJECT_OPERATOR(CFSetRef)
-	NCFOBJECT_OPERATOR(CFSocketRef)
-	NCFOBJECT_OPERATOR(CFStringRef)
-	NCFOBJECT_OPERATOR(CFTimeZoneRef)
-	NCFOBJECT_OPERATOR(CFTypeRef)
-	NCFOBJECT_OPERATOR(CFURLRef)
-	NCFOBJECT_OPERATOR(CFUUIDRef)
-	NCFOBJECT_OPERATOR(CFWriteStreamRef)
-	NCFOBJECT_OPERATOR(CGColorRef)
-	NCFOBJECT_OPERATOR(CGColorSpaceRef)
-	NCFOBJECT_OPERATOR(CGContextRef)
-	NCFOBJECT_OPERATOR(CGDataProviderRef)
-	NCFOBJECT_OPERATOR(CGFontRef)
-	NCFOBJECT_OPERATOR(CGFunctionRef)
-	NCFOBJECT_OPERATOR(CGGradientRef)
-	NCFOBJECT_OPERATOR(CGImageRef)
-	NCFOBJECT_OPERATOR(CGPDFDocumentRef)
-	NCFOBJECT_OPERATOR(CGPDFPageRef)
-	NCFOBJECT_OPERATOR(CGShadingRef)
-	NCFOBJECT_OPERATOR(CTFontRef)
-	NCFOBJECT_OPERATOR(CTLineRef)
-	NCFOBJECT_OPERATOR(NSArray*)
-	NCFOBJECT_OPERATOR(NSData*)
-	NCFOBJECT_OPERATOR(NSDate*)
-	NCFOBJECT_OPERATOR(NSDictionary*)
-	NCFOBJECT_OPERATOR(NSNumber*)
-	NCFOBJECT_OPERATOR(NSString*)
-
-
-	// Mac-specific CF operators
-#if NN_TARGET_MACOS
-	NCFOBJECT_OPERATOR(CFHTTPMessageRef)
-	NCFOBJECT_OPERATOR(CFXMLNodeRef)
-	NCFOBJECT_OPERATOR(CFXMLTreeRef)
-	NCFOBJECT_OPERATOR(CGImageDestinationRef)
-	NCFOBJECT_OPERATOR(CGImageSourceRef)
-    NCFOBJECT_OPERATOR(FSFileOperationRef)
-	NCFOBJECT_OPERATOR(HIMutableShapeRef)
-	NCFOBJECT_OPERATOR(HIShapeRef)
-	NCFOBJECT_OPERATOR(PasteboardRef)
-    NCFOBJECT_OPERATOR(SKIndexRef)
-    NCFOBJECT_OPERATOR(SKSearchRef)
-#endif // NN_TARGET_MACOS
-
+										operator T() const;
 
 private:
-	void								InitializeSelf(CFTypeRef cfObject, bool takeOwnership);
-
-
-private:
-	CFTypeRef							mObject;
+	T                                   mObject;
 };
 
 
 
 
-#endif // NCFOBJECT_HDR
+
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NCFObject.inl"
 
 
+#endif // NCFOBJECT_H

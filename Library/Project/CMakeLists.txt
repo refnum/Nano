@@ -436,6 +436,10 @@ endif()
 if (NN_TARGET_IOS)
 	nano_project_sources(
 		PRIVATE
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFData.h"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFData.inl"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFObject.h"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFObject.inl"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/iOS/iOSNDebugger.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/iOS/iOSNFileHandle.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/iOS/iOSNFileInfo.cpp"
@@ -506,6 +510,10 @@ endif()
 if (NN_TARGET_MACOS)
 	nano_project_sources(
 		PRIVATE
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFData.h"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFData.inl"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFObject.h"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFObject.inl"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/macOS/macOSNDebugger.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/macOS/macOSNFileHandle.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/macOS/macOSNFileInfo.cpp"
@@ -541,6 +549,10 @@ endif()
 if (NN_TARGET_TVOS)
 	nano_project_sources(
 		PRIVATE
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFData.h"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFData.inl"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFObject.h"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFObject.inl"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedDarwin.h"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedDarwin.mm"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedPOSIX.cpp"

@@ -679,13 +679,10 @@
 		AB9155540F9B4DD6009FFEAF /* NNumber.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNumber.cpp; sourceTree = "<group>"; };
 		AB9155550F9B4DD6009FFEAF /* NNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNumber.h; sourceTree = "<group>"; };
 		AB9155590F9B4DD6009FFEAF /* NRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRange.h; sourceTree = "<group>"; };
-		AB9156770F9B5328009FFEAF /* NCFObject.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCFObject.cpp; sourceTree = "<group>"; };
 		AB9156780F9B5328009FFEAF /* NCFObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFObject.h; sourceTree = "<group>"; };
 		AB9156790F9B5328009FFEAF /* NCFString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFString.h; sourceTree = "<group>"; };
 		AB91567A0F9B5328009FFEAF /* NCFString.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCFString.cpp; sourceTree = "<group>"; };
 		AB944D732580260300529AE5 /* Nano.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = Nano.py; sourceTree = "<group>"; };
-		AB9DA5D8102AF78F0062E311 /* NCFData.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCFData.cpp; sourceTree = "<group>"; };
-		AB9DA5D9102AF78F0062E311 /* NCFData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFData.h; sourceTree = "<group>"; };
 		AB9DA5DA102AF78F0062E311 /* NCFDictionary.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCFDictionary.cpp; sourceTree = "<group>"; };
 		AB9DA5DB102AF78F0062E311 /* NCFDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFDictionary.h; sourceTree = "<group>"; };
 		AB9DA5DC102AF78F0062E311 /* NCFNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFNumber.h; sourceTree = "<group>"; };
@@ -946,6 +943,9 @@
 		ABF58CEC2679725A00327252 /* NUTI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUTI.cpp; sourceTree = "<group>"; };
 		ABF58CF8267973FB00327252 /* NUTIRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUTIRegistry.h; sourceTree = "<group>"; };
 		ABF58CF9267973FB00327252 /* NUTIRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUTIRegistry.cpp; sourceTree = "<group>"; };
+		ABF58D94267C204A00327252 /* NCFObject.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NCFObject.inl; sourceTree = "<group>"; };
+		ABF58D95267C948900327252 /* NCFData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFData.h; sourceTree = "<group>"; };
+		ABF58D96267C948900327252 /* NCFData.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NCFData.inl; sourceTree = "<group>"; };
 		ABFD46FC25C4FCFB00CE9358 /* NRandomGenerator.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NRandomGenerator.inl; sourceTree = "<group>"; };
 		ABFD46FD25C4FCFB00CE9358 /* NRandomGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRandomGenerator.h; sourceTree = "<group>"; };
 		ABFD973F1663958F00EE07B7 /* NSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSocket.cpp; sourceTree = "<group>"; };
@@ -1412,16 +1412,16 @@
 			children = (
 				AB9DA5DD102AF78F0062E311 /* NCFArray.cpp */,
 				AB9DA5E0102AF78F0062E311 /* NCFArray.h */,
-				AB9DA5D8102AF78F0062E311 /* NCFData.cpp */,
-				AB9DA5D9102AF78F0062E311 /* NCFData.h */,
+				ABF58D95267C948900327252 /* NCFData.h */,
+				ABF58D96267C948900327252 /* NCFData.inl */,
 				AB9DA5DE102AF78F0062E311 /* NCFDate.cpp */,
 				AB9DA5E1102AF78F0062E311 /* NCFDate.h */,
 				AB9DA5DA102AF78F0062E311 /* NCFDictionary.cpp */,
 				AB9DA5DB102AF78F0062E311 /* NCFDictionary.h */,
 				AB9DA5DF102AF78F0062E311 /* NCFNumber.cpp */,
 				AB9DA5DC102AF78F0062E311 /* NCFNumber.h */,
-				AB9156770F9B5328009FFEAF /* NCFObject.cpp */,
 				AB9156780F9B5328009FFEAF /* NCFObject.h */,
+				ABF58D94267C204A00327252 /* NCFObject.inl */,
 				AB91567A0F9B5328009FFEAF /* NCFString.cpp */,
 				AB9156790F9B5328009FFEAF /* NCFString.h */,
 				ABB6781712AE55AA0077D64E /* NCFURL.cpp */,

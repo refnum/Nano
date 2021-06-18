@@ -154,6 +154,15 @@ nano_project_libraries(
 #		macOS
 #------------------------------------------------------------------------------
 if (NN_TARGET_MACOS)
+	nano_project_sources(
+		PRIVATE
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/TCFData.cpp"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/TCFObject.cpp"
+			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/TCGColor.cpp"
+			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/TCGImage.cpp"
+			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/TCoreGraphics.cpp"
+	)
+
 	nano_project_libraries(
 		PRIVATE
 			"-framework CoreFoundation"

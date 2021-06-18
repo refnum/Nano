@@ -1,5 +1,5 @@
 /*	NAME:
-		NCFData.h
+		NCFData.inl
 
 	DESCRIPTION:
 		CFDataRef wrapper.
@@ -36,65 +36,134 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NCFDATA_H
-#define NCFDATA_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-// Nano
-#include "NCFObject.h"
-#include "NData.h"
-
-// System
-#include <CoreFoundation/CFData.h>
 
 
 
 
 
 //=============================================================================
-//		Class Declaration
+//		NCFData::NCFData : Constructor.
 //-----------------------------------------------------------------------------
-class NCFData : public NCFObject<CFDataRef>
+inline NCFData::NCFData(const NData& theData)
 {
-public:
-										NCFData(const NData& theData);
-										NCFData() = default;
 
 
-	// Get / set the data
-	NData                               GetData(NCFSource theSource = NCFSource::Copy) const;
-	bool                                SetData(const NData& theData, NCFSource theSource = NCFSource::Copy);
-};
+	// Initialise ourselves
+	SetData(theData);
+}
 
 
 
 
 
 //=============================================================================
-//		Class Declaration
+//		NCFData::GetData : Get the data.
 //-----------------------------------------------------------------------------
-class NCFMutableData : public NCFObject<CFMutableDataRef>
+inline NData NCFData::GetData(NCFSource theSource) const
 {
-public:
-										NCFMutableData(const NData& theData);
-										NCFMutableData() = default;
 
 
-	// Get / set the data
-	NData                               GetData(NCFSource theSource = NCFSource::Copy) const;
-	bool                                SetData(const NData& theData);
-};
+	// Get the data
+	CFDataRef cfData = *this;
+
+	size_t      theSize = size_t(CFDataGetLength(cfData));
+	const void* thePtr  = CFDataGetBytePtr(cfData);
+
+	if (theSource == NCFSource::Copy)
+	{
+		return NData(theSize, thePtr, NDataSource::Copy);
+	}
+	else
+	{
+		return NData(theSize, thePtr, NDataSource::View);
+	}
+}
 
 
 
 
 
 //=============================================================================
-//		Includes
+//		NCFData::SetData : Set the data.
 //-----------------------------------------------------------------------------
-#include "NCFData.inl"
+inline bool NCFData::SetData(const NData& theData, NCFSource theSource)
+{
+
+
+	// Set the data
+	CFIndex      theSize = CFIndex(theData.GetSize());
+	const UInt8* thePtr  = theData.GetData();
+	bool         wasOK   = false;
+
+	if (theSource == NCFSource::Copy)
+	{
+		wasOK = Set(CFDataCreate(kCFAllocatorDefault, thePtr, theSize));
+	}
+	else
+	{
+		wasOK = Set(
+			CFDataCreateWithBytesNoCopy(kCFAllocatorDefault, thePtr, theSize, kCFAllocatorNull));
+	}
+
+	return wasOK;
+}
 
 
 
-#endif // NCFDATA_H
+
+
+#pragma mark NCFMutableData
+//=============================================================================
+//		NCFMutableData::NCFMutableData : Constructor.
+//-----------------------------------------------------------------------------
+inline NCFMutableData::NCFMutableData(const NData& theData)
+{
+
+
+	// Initialise ourselves
+	SetData(theData);
+}
+
+
+
+
+
+//=============================================================================
+//		NCFMutableData::GetData : Get the data.
+//-----------------------------------------------------------------------------
+inline NData NCFMutableData::GetData(NCFSource theSource) const
+{
+
+
+	// Get the data
+	//
+	// A CFMutableDataRef can always be cast to a CFDataRef.
+	NCFData cfData;
+
+	cfData.Set(CFDataRef(CFRetain(*this)));
+	NN_REQUIRE(IsValid() == cfData.IsValid());
+
+	return cfData.GetData(theSource);
+}
+
+
+
+
+
+//=============================================================================
+//		NCFMutableData::SetData : Set the data.
+//-----------------------------------------------------------------------------
+inline bool NCFMutableData::SetData(const NData& theData)
+{
+
+
+	// Set the data
+	NCFData cfData;
+
+	cfData.SetData(theData, NCFSource::View);
+
+	return Set(CFDataCreateMutableCopy(kCFAllocatorDefault, 0, cfData));
+}

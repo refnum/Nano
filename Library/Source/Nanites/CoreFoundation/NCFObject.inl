@@ -1,8 +1,8 @@
 /*	NAME:
-		TCFData.cpp
+		NCFObject.inl
 
 	DESCRIPTION:
-		NCFData tests.
+		CFTypeRef wrapper.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -39,46 +39,20 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NCFData.h"
-#include "NTestFixture.h"
+// System
+#include <algorithm>
 
 
 
 
 
 //=============================================================================
-//		Internal Constants
+//		NCFObject::NCFObject : Constructor.
 //-----------------------------------------------------------------------------
-static const uint8_t kTestBytes[]                           = {1, 2, 3, 4};
-
-static const NData kTestData(sizeof(kTestBytes), kTestBytes);
-
-
-
-
-
-//=============================================================================
-//		Test Fixture
-//-----------------------------------------------------------------------------
-NANO_FIXTURE(TCFData){};
-
-NANO_FIXTURE(TCFMutableData){};
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TCFData, "Default")
+template<typename T>
+inline NCFObject<T>::NCFObject()
+	: mObject(nullptr)
 {
-
-
-	// Perform the test
-	NCFData cfData;
-
-	REQUIRE(!cfData.IsValid());
 }
 
 
@@ -86,16 +60,15 @@ NANO_TEST(TCFData, "Default")
 
 
 //=============================================================================
-//		Test Case
+//		NCFObject::~NCFObject : Destructor.
 //-----------------------------------------------------------------------------
-NANO_TEST(TCFData, "Constructor")
+template<typename T>
+inline NCFObject<T>::~NCFObject()
 {
 
 
-	// Perform the test
-	NCFData cfData(kTestData);
-
-	REQUIRE(cfData.IsValid());
+	// Clean up
+	CFSafeRelease(mObject);
 }
 
 
@@ -103,17 +76,16 @@ NANO_TEST(TCFData, "Constructor")
 
 
 //=============================================================================
-//		Test Case
+//		NCFObject::NCFObject : Constructor.
 //-----------------------------------------------------------------------------
-NANO_TEST(TCFData, "GetData/Copy")
+template<typename T>
+inline NCFObject<T>::NCFObject(const NCFObject<T>& otherObject)
+	: mObject(otherObject.mObject)
 {
 
 
-	// Perform the test
-	NCFData cfData(kTestData);
-
-	NData theData = cfData.GetData(NCFSource::Copy);
-	REQUIRE(theData.GetData() != CFDataGetBytePtr(cfData));
+	// Initialise ourselves
+	CFSafeRetain(mObject);
 }
 
 
@@ -121,17 +93,24 @@ NANO_TEST(TCFData, "GetData/Copy")
 
 
 //=============================================================================
-//		Test Case
+//		NCFObject::operator= : Assignment operator.
 //-----------------------------------------------------------------------------
-NANO_TEST(TCFData, "GetData/View")
+template<typename T>
+inline NCFObject<T>& NCFObject<T>::operator=(const NCFObject<T>& otherObject)
 {
 
 
-	// Perform the test
-	NCFData cfData(kTestData);
+	// Assign the string
+	if (this != &otherObject)
+	{
+		CFSafeRelease(mObject);
 
-	NData theData = cfData.GetData(NCFSource::View);
-	REQUIRE(theData.GetData() == CFDataGetBytePtr(cfData));
+		mObject = otherObject.mObject;
+
+		CFSafeRetain(mObject);
+	}
+
+	return *this;
 }
 
 
@@ -139,18 +118,16 @@ NANO_TEST(TCFData, "GetData/View")
 
 
 //=============================================================================
-//		Test Case
+//		NCFObject::NCFObject : Constructor.
 //-----------------------------------------------------------------------------
-NANO_TEST(TCFData, "SetData/Copy")
+template<typename T>
+inline NCFObject<T>::NCFObject(NCFObject<T>&& otherObject)
+	: mObject{nullptr}
 {
 
 
-	// Perform the test
-	NCFData cfData;
-
-	bool wasOK = cfData.SetData(kTestData, NCFSource::Copy);
-	REQUIRE(wasOK);
-	REQUIRE(kTestData.GetData() != CFDataGetBytePtr(cfData));
+	// Initialise ourselves
+	std::swap(mObject, otherObject.mObject);
 }
 
 
@@ -158,36 +135,21 @@ NANO_TEST(TCFData, "SetData/Copy")
 
 
 //=============================================================================
-//		Test Case
+//		NCFObject::operator= : Assignment operator.
 //-----------------------------------------------------------------------------
-NANO_TEST(TCFData, "SetData/View")
+template<typename T>
+inline NCFObject<T>& NCFObject<T>::operator=(NCFObject<T>&& otherObject)
 {
 
 
-	// Perform the test
-	NCFData cfData;
+	// Move the string
+	if (this != &otherObject)
+	{
+		std::swap(mObject, otherObject.mObject);
+		CFSafeRelease(otherObject.mObject);
+	}
 
-	bool wasOK = cfData.SetData(kTestData, NCFSource::View);
-	REQUIRE(wasOK);
-	REQUIRE(kTestData.GetData() == CFDataGetBytePtr(cfData));
-}
-
-
-
-
-
-#pragma mark TCFMutableData
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TCFMutableData, "Default")
-{
-
-
-	// Perform the test
-	NCFMutableData cfMutableData;
-
-	REQUIRE(!cfMutableData.IsValid());
+	return *this;
 }
 
 
@@ -195,16 +157,15 @@ NANO_TEST(TCFMutableData, "Default")
 
 
 //=============================================================================
-//		Test Case
+//		NCFObject::IsValid : Is the object valid?
 //-----------------------------------------------------------------------------
-NANO_TEST(TCFMutableData, "Constructor")
+template<typename T>
+inline bool NCFObject<T>::IsValid() const
 {
 
 
-	// Perform the test
-	NCFMutableData cfMutableData(kTestData);
-
-	REQUIRE(cfMutableData.IsValid());
+	// Check our state
+	return mObject != nullptr;
 }
 
 
@@ -212,17 +173,18 @@ NANO_TEST(TCFMutableData, "Constructor")
 
 
 //=============================================================================
-//		Test Case
+//		NCFObject::Set : Set the object.
 //-----------------------------------------------------------------------------
-NANO_TEST(TCFMutableData, "GetData/Copy")
+template<typename T>
+inline bool NCFObject<T>::Set(CFTypeRef cfObject, bool)
 {
 
 
-	// Perform the test
-	NCFMutableData cfMutableData(kTestData);
+	// Set the object
+	CFSafeRelease(mObject);
+	mObject = T(cfObject);
 
-	NData theData = cfMutableData.GetData(NCFSource::Copy);
-	REQUIRE(theData.GetData() != CFDataGetBytePtr(cfMutableData));
+	return mObject != nullptr;
 }
 
 
@@ -230,17 +192,18 @@ NANO_TEST(TCFMutableData, "GetData/Copy")
 
 
 //=============================================================================
-//		Test Case
+//		NCFObject::Set : Set the object.
 //-----------------------------------------------------------------------------
-NANO_TEST(TCFMutableData, "GetData/View")
+template<typename T>
+inline bool NCFObject<T>::Set(T cfObject)
 {
 
 
-	// Perform the test
-	NCFMutableData cfMutableData(kTestData);
+	// Set the object
+	CFSafeRelease(mObject);
+	mObject = cfObject;
 
-	NData theData = cfMutableData.GetData(NCFSource::View);
-	REQUIRE(theData.GetData() == CFDataGetBytePtr(cfMutableData));
+	return mObject != nullptr;
 }
 
 
@@ -248,16 +211,13 @@ NANO_TEST(TCFMutableData, "GetData/View")
 
 
 //=============================================================================
-//		Test Case
+//		NCFObject::operator T : Cast operator.
 //-----------------------------------------------------------------------------
-NANO_TEST(TCFMutableData, "SetData")
+template<typename T>
+inline NCFObject<T>::operator T() const
 {
 
 
-	// Perform the test
-	NCFMutableData cfMutableData;
-
-	bool wasOK = cfMutableData.SetData(kTestData);
-	REQUIRE(wasOK);
-	REQUIRE(kTestData.GetData() != CFDataGetBytePtr(cfMutableData));
+	// Get the object
+	return mObject;
 }

@@ -247,6 +247,12 @@
 		ABF58CF5267973BA00327252 /* TUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CF4267973BA00327252 /* TUTIRegistry.cpp */; };
 		ABF58CF6267973BA00327252 /* TUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CF4267973BA00327252 /* TUTIRegistry.cpp */; };
 		ABF58CF7267973BA00327252 /* TUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CF4267973BA00327252 /* TUTIRegistry.cpp */; };
+		ABF58D8F267C193F00327252 /* TCFObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DE11034184B00E5A6AD /* TCFObject.cpp */; };
+		ABF58D91267C194000327252 /* TCFObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DE11034184B00E5A6AD /* TCFObject.cpp */; };
+		ABF58D93267C194000327252 /* TCFObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DE11034184B00E5A6AD /* TCFObject.cpp */; };
+		ABF58D97267C94DA00327252 /* TCFData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DD91034184B00E5A6AD /* TCFData.cpp */; };
+		ABF58D99267C94DC00327252 /* TCFData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DD91034184B00E5A6AD /* TCFData.cpp */; };
+		ABF58D9A267C94DC00327252 /* TCFData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DD91034184B00E5A6AD /* TCFData.cpp */; };
 		ABFD46FF25C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470025C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470125C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
@@ -1064,6 +1070,7 @@
 				ABF513172397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF5131A2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABF58CF6267973BA00327252 /* TUTIRegistry.cpp in Sources */,
+				ABF58D9A267C94DC00327252 /* TCFData.cpp in Sources */,
 				ABF58C14267572E100327252 /* TDataDigest.cpp in Sources */,
 				ABDCE89D241BDAD50054A16E /* TTime.cpp in Sources */,
 				ABE7C0C925D0AD8D00914618 /* TRectangle.cpp in Sources */,
@@ -1076,6 +1083,7 @@
 				ABBE8C8624460960009E9B53 /* TUsageLog.cpp in Sources */,
 				AB2A304A24524CD700F21BF6 /* TDebugger.cpp in Sources */,
 				AB20329425D73E1F0050DB00 /* TStdMath.cpp in Sources */,
+				ABF58D91267C194000327252 /* TCFObject.cpp in Sources */,
 				AB1A1AFF25BF88930064DD1C /* TUInt128.cpp in Sources */,
 				AB56392323C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7823999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
@@ -1152,6 +1160,7 @@
 				ABF513162397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF513192397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABF58CF5267973BA00327252 /* TUTIRegistry.cpp in Sources */,
+				ABF58D97267C94DA00327252 /* TCFData.cpp in Sources */,
 				ABF58C13267572E100327252 /* TDataDigest.cpp in Sources */,
 				ABDCE89C241BDAD50054A16E /* TTime.cpp in Sources */,
 				ABE7C0CC25D0AD8D00914618 /* TRectangle.cpp in Sources */,
@@ -1164,6 +1173,7 @@
 				ABBE8C8524460960009E9B53 /* TUsageLog.cpp in Sources */,
 				AB2A304924524CD700F21BF6 /* TDebugger.cpp in Sources */,
 				AB20329325D73E1F0050DB00 /* TStdMath.cpp in Sources */,
+				ABF58D8F267C193F00327252 /* TCFObject.cpp in Sources */,
 				AB1A1AFE25BF88930064DD1C /* TUInt128.cpp in Sources */,
 				AB56392223C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7723999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
@@ -1240,6 +1250,7 @@
 				ABF513182397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF5131B2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABF58CF7267973BA00327252 /* TUTIRegistry.cpp in Sources */,
+				ABF58D99267C94DC00327252 /* TCFData.cpp in Sources */,
 				ABF58C15267572E100327252 /* TDataDigest.cpp in Sources */,
 				ABDCE89E241BDAD50054A16E /* TTime.cpp in Sources */,
 				ABE7C0C325D0AD8C00914618 /* TRectangle.cpp in Sources */,
@@ -1252,6 +1263,7 @@
 				ABBE8C8724460960009E9B53 /* TUsageLog.cpp in Sources */,
 				AB2A304B24524CD700F21BF6 /* TDebugger.cpp in Sources */,
 				AB20329525D73E1F0050DB00 /* TStdMath.cpp in Sources */,
+				ABF58D93267C194000327252 /* TCFObject.cpp in Sources */,
 				AB1A1B0025BF88930064DD1C /* TUInt128.cpp in Sources */,
 				AB56392423C2A54C00675F68 /* TStringEncoder.cpp in Sources */,
 				AB0DBE7923999C1800F6AD43 /* TTimeUtils.cpp in Sources */,
