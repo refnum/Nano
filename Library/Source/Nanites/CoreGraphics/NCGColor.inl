@@ -1,8 +1,8 @@
 /*	NAME:
-		NCoreGraphics.h
+		NCGColor.inl
 
 	DESCRIPTION:
-		CoreGraphics support.
+		CoreGraphics color.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -36,74 +36,115 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NCORE_GRAPHICS_H
-#define NCORE_GRAPHICS_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-// Nano
-#include "NCFObject.h"
-#include "NPoint.h"
-#include "NRectangle.h"
-#include "NSize.h"
-
-
-// CoreGraphics
-#include <CoreGraphics/CoreGraphics.h>
 
 
 
 
 
 //=============================================================================
-//		Types
+//		NCGColor::NCGColor : Constructor.
 //-----------------------------------------------------------------------------
-// NCFObject helpers
-using NCGContext                                            = NCFObject<CGContextRef>;
-using NCGDataProvider                                       = NCFObject<CGDataProviderRef>;
+inline NCGColor::NCGColor(const NColor& theColor)
+{
+
+
+	// Initialise ourselves
+	SetColor(theColor);
+}
 
 
 
 
 
 //=============================================================================
-//		Public Functions
+//		NCGColor::GetColor : Get the color.
 //-----------------------------------------------------------------------------
-// Nano to CoreGraphics
-CGPoint ToCG(const NPoint& thePoint);
-CGSize  ToCG(const NSize& theSize);
-CGRect  ToCG(const NRectangle& theRect);
+inline NColor NCGColor::GetColor() const
+{
 
 
-// CoreGraphics to Nano
-NPoint     ToNN(const CGPoint& thePoint);
-NSize      ToNN(const CGSize& theSize);
-NRectangle ToNN(const CGRect& theRect);
+	// Get the color
+	//
+	// For now we can only convert to/from the RGB color space.
+	CGColorRef cgColor = *this;
 
+	bool isValid = (CGColorGetNumberOfComponents(cgColor) == 4);
+	NN_EXPECT(isValid);
 
-// Operators
-bool operator==(const CGPoint& value1, const CGPoint& value2);
-bool operator==(const CGSize& value1, const CGSize& value2);
-bool operator==(const CGRect& value1, const CGRect& value2);
+	NColor theColor;
 
-bool operator!=(const CGPoint& value1, const CGPoint& value2);
-bool operator!=(const CGSize& value1, const CGSize& value2);
-bool operator!=(const CGRect& value1, const CGRect& value2);
+	if (isValid)
+	{
+		const CGFloat* theComponents = CGColorGetComponents(cgColor);
 
+		theColor.SetColor(float32_t(theComponents[0]),
+						  float32_t(theComponents[1]),
+						  float32_t(theComponents[2]),
+						  float32_t(theComponents[3]));
+	}
 
-// CoreGraphics
-CGRect CGRectMake(const CGSize& theSize);
-CGRect CGRectMake(CGFloat theWidth, CGFloat theHeight);
+	return theColor;
+}
 
 
 
 
 
 //=============================================================================
-//		Includes
+//		NCGColor::SetColor : Set the color.
 //-----------------------------------------------------------------------------
-#include "NCoreGraphics.inl"
+inline bool NCGColor::SetColor(const NColor& theColor)
+{
+
+
+	// Set the color
+	float32_t theComponents[4]{};
+
+	theColor.GetColor(theComponents[0], theComponents[1], theComponents[2], theComponents[3]);
+
+	return Set(CGColorCreateGenericRGB(CGFloat(theComponents[0]),
+									   CGFloat(theComponents[1]),
+									   CGFloat(theComponents[2]),
+									   CGFloat(theComponents[3])));
+}
 
 
 
-#endif // NCORE_GRAPHICS_H
+
+
+//=============================================================================
+//		NCGColor::GetDeviceGray : Get the gray color space.
+//-----------------------------------------------------------------------------
+inline NCGColorSpace NCGColor::GetDeviceGray()
+{
+
+
+	// Get the color space
+	NCGColorSpace cgColorSpace;
+
+	cgColorSpace.Set(CGColorSpaceCreateDeviceGray());
+
+	return cgColorSpace;
+}
+
+
+
+
+
+//=============================================================================
+//		NCGColor::GetDeviceRGB : Get the RGB color space.
+//-----------------------------------------------------------------------------
+inline NCGColorSpace NCGColor::GetDeviceRGB()
+{
+
+
+	// Get the color space
+	NCGColorSpace cgColorSpace;
+
+	cgColorSpace.Set(CGColorSpaceCreateDeviceRGB());
+
+	return cgColorSpace;
+}

@@ -247,12 +247,21 @@
 		ABF58CF5267973BA00327252 /* TUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CF4267973BA00327252 /* TUTIRegistry.cpp */; };
 		ABF58CF6267973BA00327252 /* TUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CF4267973BA00327252 /* TUTIRegistry.cpp */; };
 		ABF58CF7267973BA00327252 /* TUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CF4267973BA00327252 /* TUTIRegistry.cpp */; };
+		ABF58D8E267C193F00327252 /* TCGImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3971773A09C0054EEA3 /* TCGImage.cpp */; };
 		ABF58D8F267C193F00327252 /* TCFObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DE11034184B00E5A6AD /* TCFObject.cpp */; };
+		ABF58D90267C194000327252 /* TCGImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3971773A09C0054EEA3 /* TCGImage.cpp */; };
 		ABF58D91267C194000327252 /* TCFObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DE11034184B00E5A6AD /* TCFObject.cpp */; };
+		ABF58D92267C194000327252 /* TCGImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3971773A09C0054EEA3 /* TCGImage.cpp */; };
 		ABF58D93267C194000327252 /* TCFObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DE11034184B00E5A6AD /* TCFObject.cpp */; };
 		ABF58D97267C94DA00327252 /* TCFData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DD91034184B00E5A6AD /* TCFData.cpp */; };
 		ABF58D99267C94DC00327252 /* TCFData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DD91034184B00E5A6AD /* TCFData.cpp */; };
 		ABF58D9A267C94DC00327252 /* TCFData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DD91034184B00E5A6AD /* TCFData.cpp */; };
+		ABF58D9B267CABC300327252 /* TCoreGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3991773A09C0054EEA3 /* TCoreGraphics.cpp */; };
+		ABF58D9C267CABC500327252 /* TCoreGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3991773A09C0054EEA3 /* TCoreGraphics.cpp */; };
+		ABF58D9D267CABC600327252 /* TCoreGraphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3991773A09C0054EEA3 /* TCoreGraphics.cpp */; };
+		ABF58DA3267CB26D00327252 /* TCGColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3951773A09C0054EEA3 /* TCGColor.cpp */; };
+		ABF58DA4267CB26E00327252 /* TCGColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3951773A09C0054EEA3 /* TCGColor.cpp */; };
+		ABF58DA5267CB26E00327252 /* TCGColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3951773A09C0054EEA3 /* TCGColor.cpp */; };
 		ABFD46FF25C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470025C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470125C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
@@ -1019,8 +1028,10 @@
 				AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */,
 				ABF58C17267572E100327252 /* TDataEncoder.cpp in Sources */,
 				ABF58C11267572E100327252 /* TDataCompressor.cpp in Sources */,
+				ABF58D90267C194000327252 /* TCGImage.cpp in Sources */,
 				AB56391923C2A3F600675F68 /* TString.cpp in Sources */,
 				ABB3379A23A04E09000B81B0 /* TMutex.cpp in Sources */,
+				ABF58DA4267CB26E00327252 /* TCGColor.cpp in Sources */,
 				ABBB2B6523801DBB00EB2840 /* TDebug.cpp in Sources */,
 				ABD3681425D74D0E00C825B6 /* TStdMemory.cpp in Sources */,
 				ABE7C0CA25D0AD8D00914618 /* TSize.cpp in Sources */,
@@ -1028,6 +1039,7 @@
 				ABF58C462676C2FD00327252 /* TBroadcaster.cpp in Sources */,
 				ABA478CA25B7B7FE00F3C3C9 /* TProcess.cpp in Sources */,
 				ABCC4ACC25A535F500394AFE /* TArray.cpp in Sources */,
+				ABF58D9B267CABC300327252 /* TCoreGraphics.cpp in Sources */,
 				ABD3683125D7502600C825B6 /* TCommandLine.cpp in Sources */,
 				ABF58CE926795A5900327252 /* TFunction.cpp in Sources */,
 				ABD3684725D81DF600C825B6 /* TFileMap.cpp in Sources */,
@@ -1109,8 +1121,10 @@
 				ABBB2B6423801DBB00EB2840 /* TDebug.cpp in Sources */,
 				ABF58C16267572E100327252 /* TDataEncoder.cpp in Sources */,
 				ABF58C10267572E100327252 /* TDataCompressor.cpp in Sources */,
+				ABF58D8E267C193F00327252 /* TCGImage.cpp in Sources */,
 				AB56391823C2A3F600675F68 /* TString.cpp in Sources */,
 				ABB3379B23A04E0A000B81B0 /* TMutex.cpp in Sources */,
+				ABF58DA3267CB26D00327252 /* TCGColor.cpp in Sources */,
 				ABBB2B6123801DBB00EB2840 /* TLogOutput.cpp in Sources */,
 				ABD3681325D74D0E00C825B6 /* TStdMemory.cpp in Sources */,
 				ABE7C0CD25D0AD8D00914618 /* TSize.cpp in Sources */,
@@ -1118,6 +1132,7 @@
 				ABF58C422676C2FB00327252 /* TBroadcaster.cpp in Sources */,
 				ABA478C925B7B7FE00F3C3C9 /* TProcess.cpp in Sources */,
 				ABCC4ACD25A535F500394AFE /* TArray.cpp in Sources */,
+				ABF58D9D267CABC600327252 /* TCoreGraphics.cpp in Sources */,
 				ABD3683525D7502700C825B6 /* TCommandLine.cpp in Sources */,
 				ABF58CE826795A5900327252 /* TFunction.cpp in Sources */,
 				ABD3684325D81DF600C825B6 /* TFileMap.cpp in Sources */,
@@ -1199,8 +1214,10 @@
 				ABBB2B6623801DBB00EB2840 /* TDebug.cpp in Sources */,
 				ABF58C18267572E100327252 /* TDataEncoder.cpp in Sources */,
 				ABF58C12267572E100327252 /* TDataCompressor.cpp in Sources */,
+				ABF58D92267C194000327252 /* TCGImage.cpp in Sources */,
 				AB56391A23C2A3F600675F68 /* TString.cpp in Sources */,
 				ABB3379C23A04E0A000B81B0 /* TMutex.cpp in Sources */,
+				ABF58DA5267CB26E00327252 /* TCGColor.cpp in Sources */,
 				ABBB2B6323801DBB00EB2840 /* TLogOutput.cpp in Sources */,
 				ABD3681525D74D0E00C825B6 /* TStdMemory.cpp in Sources */,
 				ABE7C0C425D0AD8C00914618 /* TSize.cpp in Sources */,
@@ -1208,6 +1225,7 @@
 				ABF58C442676C2FC00327252 /* TBroadcaster.cpp in Sources */,
 				ABA478CB25B7B7FE00F3C3C9 /* TProcess.cpp in Sources */,
 				ABCC4AC825A535F500394AFE /* TArray.cpp in Sources */,
+				ABF58D9C267CABC500327252 /* TCoreGraphics.cpp in Sources */,
 				ABD3683025D7502600C825B6 /* TCommandLine.cpp in Sources */,
 				ABF58CEA26795A5900327252 /* TFunction.cpp in Sources */,
 				ABD3683F25D81DF500C825B6 /* TFileMap.cpp in Sources */,

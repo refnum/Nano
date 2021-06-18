@@ -385,6 +385,9 @@
 		ABF58CFA267973FB00327252 /* NUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CF9267973FB00327252 /* NUTIRegistry.cpp */; };
 		ABF58CFB267973FB00327252 /* NUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CF9267973FB00327252 /* NUTIRegistry.cpp */; };
 		ABF58CFC267973FB00327252 /* NUTIRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CF9267973FB00327252 /* NUTIRegistry.cpp */; };
+		ABF58D8B267C180A00327252 /* NCGImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB601771A4D800F3364C /* NCGImage.cpp */; };
+		ABF58D8C267C180B00327252 /* NCGImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB601771A4D800F3364C /* NCGImage.cpp */; };
+		ABF58D8D267C180B00327252 /* NCGImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB601771A4D800F3364C /* NCGImage.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -400,7 +403,6 @@
 		AB0040171096FE97006029F9 /* NSkia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSkia.h; sourceTree = "<group>"; };
 		AB0040181096FEB0006029F9 /* NCoreFoundation.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NCoreFoundation.cpp; sourceTree = "<group>"; };
 		AB0040191096FEB0006029F9 /* NCoreFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCoreFoundation.h; sourceTree = "<group>"; };
-		AB00402A109700AD006029F9 /* NCoreGraphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCoreGraphics.cpp; sourceTree = "<group>"; };
 		AB00402B109700AD006029F9 /* NCoreGraphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCoreGraphics.h; sourceTree = "<group>"; };
 		AB03E590237A0C3200FACADF /* Nano_tvOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano_tvOS.xcconfig; sourceTree = "<group>"; };
 		AB03E642237A0C5F00FACADF /* libNano_tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano_tvOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -476,8 +478,6 @@
 		AB1BA2901050168900BB002B /* NGeometryUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGeometryUtilities.h; sourceTree = "<group>"; };
 		AB1BCB57177196B500F3364C /* NCGContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCGContext.cpp; sourceTree = "<group>"; };
 		AB1BCB58177196B500F3364C /* NCGContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCGContext.h; sourceTree = "<group>"; };
-		AB1BCB5C1771A02A00F3364C /* NCGColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCGColor.cpp; sourceTree = "<group>"; };
-		AB1BCB5D1771A02A00F3364C /* NCGColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCGColor.h; sourceTree = "<group>"; };
 		AB1BCB601771A4D800F3364C /* NCGImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCGImage.cpp; sourceTree = "<group>"; };
 		AB1BCB611771A4D800F3364C /* NCGImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCGImage.h; sourceTree = "<group>"; };
 		AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLEncoder.h; sourceTree = "<group>"; };
@@ -946,6 +946,9 @@
 		ABF58D94267C204A00327252 /* NCFObject.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NCFObject.inl; sourceTree = "<group>"; };
 		ABF58D95267C948900327252 /* NCFData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFData.h; sourceTree = "<group>"; };
 		ABF58D96267C948900327252 /* NCFData.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NCFData.inl; sourceTree = "<group>"; };
+		ABF58D9E267CABD600327252 /* NCoreGraphics.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NCoreGraphics.inl; sourceTree = "<group>"; };
+		ABF58DA1267CB25C00327252 /* NCGColor.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NCGColor.inl; sourceTree = "<group>"; };
+		ABF58DA2267CB25C00327252 /* NCGColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCGColor.h; sourceTree = "<group>"; };
 		ABFD46FC25C4FCFB00CE9358 /* NRandomGenerator.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NRandomGenerator.inl; sourceTree = "<group>"; };
 		ABFD46FD25C4FCFB00CE9358 /* NRandomGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRandomGenerator.h; sourceTree = "<group>"; };
 		ABFD973F1663958F00EE07B7 /* NSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSocket.cpp; sourceTree = "<group>"; };
@@ -986,16 +989,16 @@
 		AB004029109700AD006029F9 /* CoreGraphics */ = {
 			isa = PBXGroup;
 			children = (
-				AB1BCB5C1771A02A00F3364C /* NCGColor.cpp */,
-				AB1BCB5D1771A02A00F3364C /* NCGColor.h */,
+				ABF58DA2267CB25C00327252 /* NCGColor.h */,
+				ABF58DA1267CB25C00327252 /* NCGColor.inl */,
 				AB1BCB57177196B500F3364C /* NCGContext.cpp */,
 				AB1BCB58177196B500F3364C /* NCGContext.h */,
 				AB1BCB601771A4D800F3364C /* NCGImage.cpp */,
 				AB1BCB611771A4D800F3364C /* NCGImage.h */,
 				ABCFE38F1773A0100054EEA3 /* NCGShading.cpp */,
 				ABCFE3901773A0100054EEA3 /* NCGShading.h */,
-				AB00402A109700AD006029F9 /* NCoreGraphics.cpp */,
 				AB00402B109700AD006029F9 /* NCoreGraphics.h */,
+				ABF58D9E267CABD600327252 /* NCoreGraphics.inl */,
 			);
 			path = CoreGraphics;
 			sourceTree = "<group>";
@@ -2078,6 +2081,7 @@
 				AB230A132581AB8600919EBD /* gzread.c in Sources */,
 				ABF58C3F2676C2F600327252 /* NListener.cpp in Sources */,
 				ABC6471625818466009B82AD /* pcre2_chartables.c in Sources */,
+				ABF58D8B267C180A00327252 /* NCGImage.cpp in Sources */,
 				ABC6473425818466009B82AD /* pcre2_find_bracket.c in Sources */,
 				ABF58CEF2679725A00327252 /* NUTI.cpp in Sources */,
 				ABC6473125818466009B82AD /* pcre2_ucd.c in Sources */,
@@ -2211,6 +2215,7 @@
 				ABC6473225818466009B82AD /* pcre2_find_bracket.c in Sources */,
 				ABF58C3B2676C2F500327252 /* NListener.cpp in Sources */,
 				ABC6472F25818466009B82AD /* pcre2_ucd.c in Sources */,
+				ABF58D8D267C180B00327252 /* NCGImage.cpp in Sources */,
 				ABA4791A25B7B91300F3C3C9 /* iOSNProcess.cpp in Sources */,
 				ABF58CED2679725A00327252 /* NUTI.cpp in Sources */,
 				AB56392523C69CCF00675F68 /* NByteSwap.cpp in Sources */,
@@ -2344,6 +2349,7 @@
 				ABC6473025818466009B82AD /* pcre2_ucd.c in Sources */,
 				ABF58C3D2676C2F600327252 /* NListener.cpp in Sources */,
 				ABDCE8DF241C61960054A16E /* macOSNFileHandle.cpp in Sources */,
+				ABF58D8C267C180B00327252 /* NCGImage.cpp in Sources */,
 				ABDCE8E2241C61960054A16E /* macOSNTimeUtils.cpp in Sources */,
 				ABF58CEE2679725A00327252 /* NUTI.cpp in Sources */,
 				ABBE8C902446096C009E9B53 /* NUsageLog.cpp in Sources */,

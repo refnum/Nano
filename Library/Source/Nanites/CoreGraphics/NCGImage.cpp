@@ -3,255 +3,262 @@
 
 	DESCRIPTION:
 		CoreGraphics image.
-	
-	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+	COPYRIGHT:
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
+
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NCoreGraphics.h"
-#include "NCFData.h"
-#include "NCGColor.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NCGImage.h"
 
+// Nano
+#include "NCFData.h"
+#include "NCGColor.h"
+#include "NCoreGraphics.h"
 
 
 
 
-//============================================================================
+
+//=============================================================================
 //		NCGImage::NCGImage : Constructor.
-//----------------------------------------------------------------------------
-NCGImage::NCGImage(const NImage &theImage)
-			: NImage(theImage)
+//-----------------------------------------------------------------------------
+NCGImage::NCGImage(const NImage& theImage)
 {
+
+
+	// Initialise ourselves
+	SetImage(theImage);
 }
 
 
 
 
 
-//============================================================================
-//		NCGImage::NCGImage : Constructor.
-//----------------------------------------------------------------------------
-NCGImage::NCGImage(CGImageRef cfObject, bool takeOwnership)
+//=============================================================================
+//		NCGImage::GetImage : Get the image.
+//-----------------------------------------------------------------------------
+NImage NCGImage::GetImage() const
 {
-
-
-	// Initialize ourselves
-	SetObject(cfObject, takeOwnership);
-}
-
-
-
-
-
-//============================================================================
-//		NCGImage::NCGImage : Constructor.
-//----------------------------------------------------------------------------
-NCGImage::NCGImage(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NCGImage::~NCGImage : Destructor.
-//----------------------------------------------------------------------------
-NCGImage::~NCGImage(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NCGImage::GetObject : Get the object.
-//----------------------------------------------------------------------------
-NCFObject NCGImage::GetObject(bool cloneData) const
-{	NCFObject			cgDataProvider, theObject;
-	CGBitmapInfo		bitmapInfo;
-	NCFData				theData;
-
 
 
 	// Get the state we need
-	bitmapInfo = GetBitmapInfo(GetFormat());
-	theData    = GetData();
+	CGImageRef cgImage = *this;
 
-
-
-	// Prepare the data
-	if (cloneData)
-		cgDataProvider.SetObject(CGDataProviderCreateWithCFData(theData.GetObject()));
-	else
-		cgDataProvider.SetObject(CGDataProviderCreateWithData(NULL, theData.GetData(), theData.GetSize(), NULL));
-
-	if (!cgDataProvider.IsValid())
-		return(theObject);
-
-
-
-	// Get the object
-	theObject.SetObject(CGImageCreate(	GetWidth(),
-										GetHeight(),
-										GetBitsPerComponent(),
-										GetBitsPerPixel(),
-										GetBytesPerRow(),
-										NCGColor::GetDeviceRGB(),
-										bitmapInfo, cgDataProvider,
-										NULL, false, kCGRenderingIntentDefault));
-
-	return(theObject);
-}
-
-
-
-
-
-//============================================================================
-//		NCGImage::SetObject : Set the object.
-//----------------------------------------------------------------------------
-bool NCGImage::SetObject(CGImageRef cfObject, bool takeOwnership)
-{	size_t				theWidth, theHeight, bitsPerPixel, bitsPerComponent;
-	NCFObject			theObject(cfObject, takeOwnership);
-	NCFObject			cgColorSpace, cgContext;
-	CGBitmapInfo		bitmapInfo;
-	NImageFormat		theFormat;
-	NImage				theImage;
-	bool				isValid;
-
-
-
-	// Get the state we need
-	theWidth         = CGImageGetWidth(           cfObject);
-	theHeight        = CGImageGetHeight(          cfObject);
-	bitsPerPixel     = CGImageGetBitsPerPixel(    cfObject);
-	bitsPerComponent = CGImageGetBitsPerComponent(cfObject);
+	size_t theWidth         = CGImageGetWidth(cgImage);
+	size_t theHeight        = CGImageGetHeight(cgImage);
+	size_t bitsPerPixel     = CGImageGetBitsPerPixel(cgImage);
+	size_t bitsPerComponent = CGImageGetBitsPerComponent(cgImage);
 
 
 
 	// Select the image format
+
+	NImageFormat theFormat  = NImageFormat::None;
+	CGBitmapInfo bitmapInfo = kCGImageAlphaNone;
+
 	if (bitsPerPixel == 8 && bitsPerComponent == 8)
-		{
+	{
 		// Convert indexed images to 32bpp without alpha
-		theFormat    = kNImageFormat_RGBX_8888;
-		bitmapInfo   = kCGBitmapByteOrder32Big | kCGImageAlphaNoneSkipLast;
-		cgColorSpace = NCGColor::GetDeviceRGB();
-		}
+		theFormat = NImageFormat::R8_G8_B8_X8;
+		bitmapInfo =
+			CGBitmapInfo(kCGBitmapByteOrder32Big) | CGBitmapInfo(kCGImageAlphaNoneSkipLast);
+	}
 
 	else if (bitsPerPixel == 24 && bitsPerComponent == 8)
-		{
+	{
 		// Convert 24bpp images to 32bpp without alpha
-		theFormat    = kNImageFormat_RGBX_8888;
-		bitmapInfo   = kCGBitmapByteOrder32Big | kCGImageAlphaNoneSkipLast;
-		cgColorSpace = NCGColor::GetDeviceRGB();
-		}
+		theFormat = NImageFormat::R8_G8_B8_X8;
+		bitmapInfo =
+			CGBitmapInfo(kCGBitmapByteOrder32Big) | CGBitmapInfo(kCGImageAlphaNoneSkipLast);
+	}
 
 	else if (bitsPerPixel == 32 && bitsPerComponent == 8)
-		{
+	{
 		// Convert 32bpp images to 32bpp with alpha
-		theFormat    = kNImageFormat_RGBA_8888;
-		bitmapInfo   = kCGBitmapByteOrder32Big | kCGImageAlphaPremultipliedLast;
-		cgColorSpace = NCGColor::GetDeviceRGB();
-		}
+		theFormat = NImageFormat::R8_G8_B8_A8;
+		bitmapInfo =
+			CGBitmapInfo(kCGBitmapByteOrder32Big) | CGBitmapInfo(kCGImageAlphaPremultipliedLast);
+	}
 
 	else
+	{
+		NN_LOG_ERROR("Unknown image format:{}/{}", bitsPerPixel, bitsPerComponent);
+	}
+
+
+
+	// Draw the image
+	if (theFormat != NImageFormat::None)
+	{
+		NImage     theImage(NSize(theWidth, theHeight), theFormat);
+		NCGContext cgContext;
+
+		if (cgContext.Set(CGBitmapContextCreate(theImage.GetMutablePixels(),
+												theWidth,
+												theHeight,
+												bitsPerComponent,
+												theImage.GetBytesPerRow(),
+												NCGColor::GetDeviceRGB(),
+												bitmapInfo)))
 		{
-		NN_LOG("Unknown image format: %d/%d", bitsPerPixel, bitsPerComponent);
-		theFormat  = kNImageFormatNone;
-		bitmapInfo = kCGImageAlphaNone;
+			CGContextDrawImage(cgContext, ToCG(theImage.GetBounds()), cgImage);
+			return theImage;
 		}
+	}
 
-	if (!cgColorSpace.IsValid())
-		return(false);
-
-
-
-	// Set the object
-	theImage = NImage(NSize(theWidth, theHeight), theFormat);
-	isValid  = cgContext.SetObject(CGBitmapContextCreate(	theImage.GetPixels(),
-															theWidth,
-															theHeight,
-															bitsPerComponent,
-															theImage.GetBytesPerRow(),
-															cgColorSpace,
-															bitmapInfo));
-
-	if (isValid)
-		{
-		CGContextDrawImage(cgContext, ToCG(theImage.GetBounds()), cfObject);
-		*this = theImage;
-		}
-
-	return(isValid);
+	return NImage();
 }
 
 
 
 
 
-//============================================================================
-//		NCGImage::GetBitmapInfo : Get a CGBitmapInfo.
-//----------------------------------------------------------------------------
-CGBitmapInfo NCGImage::GetBitmapInfo(NImageFormat theFormat)
-{	CGBitmapInfo	bitmapInfo;
+//=============================================================================
+//		NCGImage::SetImage : Set the image.
+//-----------------------------------------------------------------------------
+bool NCGImage::SetImage(const NImage& theImage, NCFSource theSource)
+{
 
+
+	// Get the state we need
+	CGBitmapInfo bitmapInfo = GetBitmapInfo(theImage.GetFormat());
+	NData        theData(theImage.GetData());
+
+
+
+	// Get the image
+	NCGDataProvider cgDataProvider;
+	bool            wasOK = false;
+
+	if (theSource == NCFSource::Copy)
+	{
+		wasOK = cgDataProvider.Set(CGDataProviderCreateWithCFData(NCFData(theData)));
+	}
+	else
+	{
+		wasOK = cgDataProvider.Set(
+			CGDataProviderCreateWithData(nullptr, theData.GetData(), theData.GetSize(), nullptr));
+	}
+
+	if (wasOK)
+	{
+		wasOK = Set(CGImageCreate(theImage.GetWidth(),
+								  theImage.GetHeight(),
+								  theImage.GetBitsPerComponent(),
+								  theImage.GetBitsPerPixel(),
+								  theImage.GetBytesPerRow(),
+								  NCGColor::GetDeviceRGB(),
+								  bitmapInfo,
+								  cgDataProvider,
+								  nullptr,
+								  false,
+								  kCGRenderingIntentDefault));
+	}
+
+	return wasOK;
+}
+
+
+
+
+
+#pragma mark private
+//=============================================================================
+//		NCGImage::GetBitmapInfo : Get a CGBitmapInfo.
+//-----------------------------------------------------------------------------
+CGBitmapInfo NCGImage::GetBitmapInfo(NImageFormat theFormat) const
+{
 
 
 	// Get the bitmap info
-	bitmapInfo = 0;
-	
-	switch (theFormat) {
-		case kNImageFormat_RGB_888:
-			bitmapInfo = kCGBitmapByteOrder32Big	| kCGImageAlphaNone;
+	CGBitmapInfo bitmapInfo = 0;
+
+	switch (theFormat)
+	{
+		case NImageFormat::None:
+		case NImageFormat::A8:
+			NN_LOG_UNIMPLEMENTED();
 			break;
 
-		case kNImageFormat_BGR_888:
-			bitmapInfo = kCGBitmapByteOrder32Little	| kCGImageAlphaNone;
+		case NImageFormat::R8_G8_B8:
+			bitmapInfo = CGBitmapInfo(kCGBitmapByteOrder32Big) | CGBitmapInfo(kCGImageAlphaNone);
 			break;
 
-		case kNImageFormat_RGBX_8888:
-			bitmapInfo = kCGBitmapByteOrder32Big	| kCGImageAlphaNoneSkipLast;
+		case NImageFormat::B8_G8_R8:
+			bitmapInfo = CGBitmapInfo(kCGBitmapByteOrder32Little) | CGBitmapInfo(kCGImageAlphaNone);
 			break;
 
-		case kNImageFormat_RGBA_8888:
-			bitmapInfo = kCGBitmapByteOrder32Big	| kCGImageAlphaPremultipliedLast;
+		case NImageFormat::R8_G8_B8_X8:
+			bitmapInfo =
+				CGBitmapInfo(kCGBitmapByteOrder32Big) | CGBitmapInfo(kCGImageAlphaNoneSkipLast);
 			break;
 
-		case kNImageFormat_XRGB_8888:
-			bitmapInfo = kCGBitmapByteOrder32Big	| kCGImageAlphaNoneSkipFirst;
+		case NImageFormat::B8_G8_R8_X8:
+			bitmapInfo =
+				CGBitmapInfo(kCGBitmapByteOrder32Little) | CGBitmapInfo(kCGImageAlphaNoneSkipFirst);
 			break;
 
-		case kNImageFormat_ARGB_8888:
-			bitmapInfo = kCGBitmapByteOrder32Big	| kCGImageAlphaPremultipliedFirst;
+		case NImageFormat::X8_R8_G8_B8:
+			bitmapInfo =
+				CGBitmapInfo(kCGBitmapByteOrder32Big) | CGBitmapInfo(kCGImageAlphaNoneSkipFirst);
 			break;
 
-		case kNImageFormat_BGRX_8888:
-			bitmapInfo = kCGBitmapByteOrder32Little	| kCGImageAlphaNoneSkipFirst;
+		case NImageFormat::X8_B8_G8_R8:
+			bitmapInfo =
+				CGBitmapInfo(kCGBitmapByteOrder32Little) | CGBitmapInfo(kCGImageAlphaNoneSkipLast);
 			break;
 
-		case kNImageFormat_BGRA_8888:
-			bitmapInfo = kCGBitmapByteOrder32Little	| kCGImageAlphaPremultipliedFirst;
+		case NImageFormat::R8_G8_B8_A8:
+			bitmapInfo = CGBitmapInfo(kCGBitmapByteOrder32Big) |
+						 CGBitmapInfo(kCGImageAlphaPremultipliedLast);
 			break;
 
-		default:
-			NN_LOG("Unknown image format: %d", theFormat);
-			bitmapInfo = 0;
+		case NImageFormat::B8_G8_R8_A8:
+			bitmapInfo = CGBitmapInfo(kCGBitmapByteOrder32Little) |
+						 CGBitmapInfo(kCGImageAlphaPremultipliedFirst);
 			break;
-		}
-	
-	return(bitmapInfo);
+
+		case NImageFormat::A8_R8_G8_B8:
+			bitmapInfo = CGBitmapInfo(kCGBitmapByteOrder32Big) |
+						 CGBitmapInfo(kCGImageAlphaPremultipliedFirst);
+			break;
+
+		case NImageFormat::A8_B8_G8_R8:
+			bitmapInfo = CGBitmapInfo(kCGBitmapByteOrder32Little) |
+						 CGBitmapInfo(kCGImageAlphaPremultipliedLast);
+			break;
+	}
+
+	return bitmapInfo;
 }
-
-
-
-
-
