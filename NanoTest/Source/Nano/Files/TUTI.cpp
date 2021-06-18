@@ -40,6 +40,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NFile.h"
+#include "NFormat.h"
 #include "NTestFixture.h"
 #include "NUTI.h"
 
@@ -260,4 +261,19 @@ NANO_TEST(TUTI, "CompareOrder")
 	REQUIRE(utiB <= utiB);
 	REQUIRE(utiA < utiB);
 	REQUIRE(utiB > utiA);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TUTI, "Format")
+{
+
+
+	// Perform the test
+	REQUIRE(NFormat("{}", kNUTTypeJPEG) == "public.jpeg");
 }

@@ -59,6 +59,7 @@
 #include "NRectangle.h"
 #include "NSize.h"
 #include "NTimeUtils.h"
+#include "NUTI.h"
 #include "NVector.h"
 #include "NanoMacros.h"
 
@@ -435,6 +436,25 @@ public:
 						 timeLocal.tm_hour,
 						 timeLocal.tm_min,
 						 timeLocal.tm_sec);
+	}
+};
+
+
+
+
+
+#pragma mark NUTI
+//=============================================================================
+//		NUTI formatter
+//-----------------------------------------------------------------------------
+template<>
+class fmt::formatter<NUTI> : public NSimpleFormatter
+{
+public:
+	template<typename FormatContext>
+	auto format(const NUTI& theParam, FormatContext& theContext)
+	{
+		return format_to(theContext.out(), "{}", theParam.GetType().GetUTF8());
 	}
 };
 
