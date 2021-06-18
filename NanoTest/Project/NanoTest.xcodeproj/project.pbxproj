@@ -238,6 +238,9 @@
 		ABF58CDB26793B9000327252 /* TProgressable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CDA26793B9000327252 /* TProgressable.cpp */; };
 		ABF58CDC26793B9000327252 /* TProgressable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CDA26793B9000327252 /* TProgressable.cpp */; };
 		ABF58CDD26793B9000327252 /* TProgressable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CDA26793B9000327252 /* TProgressable.cpp */; };
+		ABF58CDE26794BFA00327252 /* TImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB4E03F1767BA6800892A75 /* TImage.cpp */; };
+		ABF58CDF26794BFB00327252 /* TImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB4E03F1767BA6800892A75 /* TImage.cpp */; };
+		ABF58CE026794BFB00327252 /* TImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB4E03F1767BA6800892A75 /* TImage.cpp */; };
 		ABF58CE826795A5900327252 /* TFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CE726795A5800327252 /* TFunction.cpp */; };
 		ABF58CE926795A5900327252 /* TFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CE726795A5800327252 /* TFunction.cpp */; };
 		ABF58CEA26795A5900327252 /* TFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58CE726795A5800327252 /* TFunction.cpp */; };
@@ -1024,6 +1027,7 @@
 				ABDCE8BE241C59680054A16E /* TFileInfo.cpp in Sources */,
 				AB081C4725BC78530058D397 /* TMathUtils.cpp in Sources */,
 				ABBB2B5F23801DBB00EB2840 /* TLog.cpp in Sources */,
+				ABF58CDF26794BFB00327252 /* TImage.cpp in Sources */,
 				ABBB2B6223801DBB00EB2840 /* TLogOutput.cpp in Sources */,
 				AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */,
 				ABF58C17267572E100327252 /* TDataEncoder.cpp in Sources */,
@@ -1117,6 +1121,7 @@
 				ABDCE8BD241C59680054A16E /* TFileInfo.cpp in Sources */,
 				AB081C4625BC78530058D397 /* TMathUtils.cpp in Sources */,
 				AB439B8123800C0100DBB6B2 /* NanoTest.cpp in Sources */,
+				ABF58CE026794BFB00327252 /* TImage.cpp in Sources */,
 				ABBB2B5E23801DBB00EB2840 /* TLog.cpp in Sources */,
 				ABBB2B6423801DBB00EB2840 /* TDebug.cpp in Sources */,
 				ABF58C16267572E100327252 /* TDataEncoder.cpp in Sources */,
@@ -1210,6 +1215,7 @@
 				ABDCE8BF241C59680054A16E /* TFileInfo.cpp in Sources */,
 				AB081C4825BC78530058D397 /* TMathUtils.cpp in Sources */,
 				AB439BF123800C0600DBB6B2 /* NanoTest.cpp in Sources */,
+				ABF58CDE26794BFA00327252 /* TImage.cpp in Sources */,
 				ABBB2B6023801DBB00EB2840 /* TLog.cpp in Sources */,
 				ABBB2B6623801DBB00EB2840 /* TDebug.cpp in Sources */,
 				ABF58C18267572E100327252 /* TDataEncoder.cpp in Sources */,

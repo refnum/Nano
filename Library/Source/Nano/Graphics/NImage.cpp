@@ -3,141 +3,159 @@
 
 	DESCRIPTION:
 		Image buffer.
-	
-	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+	COPYRIGHT:
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
+
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NFileUtilities.h"
-#include "NSTLUtilities.h"
-#include "NTargetSystem.h"
-#include "NTargetMath.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NImage.h"
 
-
-
-
-
-//============================================================================
-//		Internal macros
-//----------------------------------------------------------------------------
-#define SELECT														nvector<NIndex>
+// Nano
+#include "NFileHandle.h"
+#include "NFunction.h"
 
 
 
 
 
-//============================================================================
+//=============================================================================
+//		Internal Macros
+//-----------------------------------------------------------------------------
+#define TAKE(...)                                           \
+	NVectorSize                                             \
+	{                                                       \
+		__VA_ARGS__                                         \
+	}
+
+
+
+
+
+//=============================================================================
 //		NImage::NImage : Constructor.
-//----------------------------------------------------------------------------
-NImage::NImage(const NData &theData)
-{	NStatus		theErr;
-
-
-
-	// Initialize ourselves
-	Clear();
-
-
-
-	// Decode the image
-	theErr = Decode(theData);
-	NN_ASSERT_NOERR(theErr);
-}
-
-
-
-
-
-//============================================================================
-//		NImage::NImage : Constructor.
-//----------------------------------------------------------------------------
-NImage::NImage(const NFile &theFile)
-{	NStatus		theErr;
-
-
-
-	// Initialize ourselves
-	Clear();
-
-
-
-	// Load the image
-	theErr = Load(theFile);
-	NN_ASSERT_NOERR(theErr);
-}
-
-
-
-
-
-//============================================================================
-//		NImage::NImage : Constructor.
-//----------------------------------------------------------------------------
-NImage::NImage(const NSize &theSize, NImageFormat theFormat, const NData &theData, NIndex rowBytes)
-{	NIndex		packedRow;
-
+//-----------------------------------------------------------------------------
+NImage::NImage(const NSize& theSize, NImageFormat theFormat, const NData& theData, size_t rowBytes)
+	: mSize()
+	, mData()
+	, mFormat(NImageFormat::None)
+	, mRowBytes(0)
+{
 
 
 	// Validate our parameters
-	NN_ASSERT(!theSize.IsEmpty());
+	NN_REQUIRE(!theSize.IsEmpty());
+	NN_REQUIRE(theSize.GetIntegral() == theSize);
+	NN_REQUIRE(theSize.width >= 0);
+	NN_REQUIRE(theSize.height >= 0);
 
 
 
 	// Initialize ourselves
-	Clear();
-
-	mSize   = theSize;
-	mFormat = theFormat;
+	mSize     = theSize;
+	mData     = theData;
+	mFormat   = theFormat;
+	mRowBytes = rowBytes;
 
 
 
 	// Create the image
-	packedRow = (NIndex) (mSize.width * GetBytesPerPixel());
+	if (theData.IsEmpty() || mRowBytes == 0)
+	{
+		mRowBytes = GetWidth() * GetBytesPerPixel();
+	}
 
-	if (theData.IsEmpty())
-		{
-		mData.SetSize((NIndex) (mSize.height * packedRow));
-		mRowBytes = packedRow;
-		}
-	else
-		{
-		mData     = theData;
-		mRowBytes = (rowBytes != 0) ? rowBytes : packedRow;
-		}
+	if (mData.IsEmpty())
+	{
+		mData.SetSize(GetHeight() * GetBytesPerRow());
+	}
 
-	NN_ASSERT(!mData.IsEmpty());
+	NN_REQUIRE(mData.GetSize() >= (GetHeight() * GetBytesPerRow()));
+	NN_REQUIRE(GetBytesPerRow() >= (GetWidth() * GetBytesPerPixel()));
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NImage::NImage : Constructor.
-//----------------------------------------------------------------------------
-NImage::NImage(void)
+//-----------------------------------------------------------------------------
+NImage::NImage(const NData& theData)
+	: mSize()
+	, mData()
+	, mFormat(NImageFormat::None)
+	, mRowBytes(0)
 {
 
 
-	// Initialize ourselves
-	Clear();
+	// Decode the image
+	NStatus theErr = Decode(theData);
+	NN_REQUIRE_NOT_ERR(theErr);
 }
 
 
 
 
 
-//============================================================================
-//		NImage::~NImage : Destructor.
-//----------------------------------------------------------------------------
-NImage::~NImage(void)
+//=============================================================================
+//		NImage::NImage : Constructor.
+//-----------------------------------------------------------------------------
+NImage::NImage(const NFile& theFile)
+	: mSize()
+	, mData()
+	, mFormat(NImageFormat::None)
+	, mRowBytes(0)
+{
+
+
+	// Load the image
+	NStatus theErr = Load(theFile);
+	NN_REQUIRE_NOT_ERR(theErr);
+}
+
+
+
+
+
+//=============================================================================
+//		NImage::NImage : Constructor.
+//-----------------------------------------------------------------------------
+NImage::NImage()
+	: mSize()
+	, mData()
+	, mFormat(NImageFormat::None)
+	, mRowBytes(0)
 {
 }
 
@@ -145,25 +163,25 @@ NImage::~NImage(void)
 
 
 
-//============================================================================
+//=============================================================================
 //		NImage::IsValid : Is the image valid?
-//----------------------------------------------------------------------------
-bool NImage::IsValid(void) const
+//-----------------------------------------------------------------------------
+bool NImage::IsValid() const
 {
 
 
 	// Check our state
-	return(mFormat != kNImageFormatNone && !mSize.IsEmpty());
+	return mFormat != NImageFormat::None && !mSize.IsEmpty();
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NImage::Clear : Clear the image.
-//----------------------------------------------------------------------------
-void NImage::Clear(void)
+//-----------------------------------------------------------------------------
+void NImage::Clear()
 {
 
 
@@ -171,7 +189,7 @@ void NImage::Clear(void)
 	mSize.Clear();
 	mData.Clear();
 
-	mFormat   = kNImageFormatNone;
+	mFormat   = NImageFormat::None;
 	mRowBytes = 0;
 }
 
@@ -179,789 +197,881 @@ void NImage::Clear(void)
 
 
 
-//============================================================================
-//		NImage::ForEachPixel : Process each pixel.
-//----------------------------------------------------------------------------
-void NImage::ForEachPixel(const NImageForEachImmutablePixelFunctor &theFunctor) const
-{
-
-
-	// Process each pixel
-	ForEachRow(BindSelf(NImage::ForEachPixelInImmutableRow, kNArg1, kNArg2, GetBytesPerPixel(), theFunctor, kNArg3));
-}
-
-
-
-
-
-//============================================================================
-//		NImage::ForEachPixel : Process each pixel.
-//----------------------------------------------------------------------------
-void NImage::ForEachPixel(const NImageForEachMutablePixelFunctor &theFunctor)
-{
-
-
-	// Process each pixel
-	ForEachRow(BindSelf(NImage::ForEachPixelInMutableRow, kNArg1, kNArg2, GetBytesPerPixel(), theFunctor, kNArg3));
-}
-
-
-
-
-
-//============================================================================
-//		NImage::ForEachRow : Process each row.
-//----------------------------------------------------------------------------
-void NImage::ForEachRow(const NImageForEachImmutableRowFunctor &theFunctor) const
-{	NIndex			y, theWidth, theHeight, rowBytes;
-	const uint8_t	*rowPtr;
-
-
-
-	// Get the state we need
-	theWidth   = GetWidth();
-	theHeight  = GetHeight();
-	rowPtr     = GetPixels();
-	rowBytes   = GetBytesPerRow();
-
-
-
-	// Process the rows
-	for (y = 0; y < theHeight; y++)
-		{
-		if (!theFunctor(y, theWidth, rowPtr))
-			return;
-
-		rowPtr += rowBytes;
-		}
-}
-
-
-
-
-
-//============================================================================
-//		NImage::ForEachRow : Process each row.
-//----------------------------------------------------------------------------
-void NImage::ForEachRow(const NImageForEachMutableRowFunctor &theFunctor)
-{	NIndex			y, theWidth, theHeight, rowBytes;
-	uint8_t			*rowPtr;
-
-
-
-	// Get the state we need
-	theWidth   = GetWidth();
-	theHeight  = GetHeight();
-	rowPtr     = GetPixels();
-	rowBytes   = GetBytesPerRow();
-
-
-
-	// Process the rows
-	for (y = 0; y < theHeight; y++)
-		{
-		if (!theFunctor(y, theWidth, rowPtr))
-			return;
-
-		rowPtr += rowBytes;
-		}
-}
-
-
-
-
-
-//============================================================================
-//		NImage::GetWidth : Get the width.
-//----------------------------------------------------------------------------
-NIndex NImage::GetWidth(void) const
-{
-
-
-	// Get the width
-	return((NIndex) mSize.width);
-}
-
-
-
-
-
-//============================================================================
-//		NImage::GetHeight : Get the height.
-//----------------------------------------------------------------------------
-NIndex NImage::GetHeight(void) const
-{
-
-
-	// Get the height
-	return((NIndex) mSize.height);
-}
-
-
-
-
-
-//============================================================================
-//		NImage::GetSize : Get the size.
-//----------------------------------------------------------------------------
-NSize NImage::GetSize(void) const
-{
-
-
-	// Get the size
-	return(mSize);
-}
-
-
-
-
-
-//============================================================================
-//		NImage::GetBounds : Get the bounds.
-//----------------------------------------------------------------------------
-NRectangle NImage::GetBounds(void) const
-{
-
-
-	// Get the bounds
-	return(NRectangle(mSize));
-}
-
-
-
-
-
-//============================================================================
-//		NImage::GetFormat : Get the format.
-//----------------------------------------------------------------------------
-NImageFormat NImage::GetFormat(void) const
-{
-
-
-	// Get the format
-	return(mFormat);
-}
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NImage::SetFormat : Set the format.
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 void NImage::SetFormat(NImageFormat theFormat)
 {
 
 
-	// Convert the image
-	switch (mFormat) {
-		case kNImageFormat_RGB_888:
-			Convert_RGB_888(theFormat);
-			break;
+	// Check our state
+	if (mFormat == theFormat)
+	{
+		return;
+	}
 
-		case kNImageFormat_BGR_888:
-			Convert_BGR_888(theFormat);
-			break;
 
-		case kNImageFormat_RGBX_8888:
-		case kNImageFormat_RGBA_8888:
-			Convert_RGBA_8888(theFormat);
-			break;
-
-		case kNImageFormat_XRGB_8888:
-		case kNImageFormat_ARGB_8888:
-			Convert_ARGB_8888(theFormat);
-			break;
-
-		case kNImageFormat_BGRX_8888:
-		case kNImageFormat_BGRA_8888:
-			Convert_BGRA_8888(theFormat);
-			break;
-
-		default:
-			NN_LOG("Unknown image format: %ld", theFormat);
+	// Set the format
+	switch (mFormat)
+	{
+		case NImageFormat::None:
+			NN_LOG_ERROR("Invalid format!");
 			return;
+
+		case NImageFormat::A8:
+			Convert_A8(theFormat);
 			break;
-		}
 
+		case NImageFormat::R8_G8_B8:
+			Convert_R8_G8_B8(theFormat);
+			break;
 
+		case NImageFormat::B8_G8_R8:
+			Convert_B8_G8_R8(theFormat);
+			break;
 
-	// Update our state
+		case NImageFormat::R8_G8_B8_A8:
+		case NImageFormat::R8_G8_B8_X8:
+			Convert_R8_G8_B8_A8(theFormat);
+			break;
+
+		case NImageFormat::B8_G8_R8_A8:
+		case NImageFormat::B8_G8_R8_X8:
+			Convert_B8_G8_R8_A8(theFormat);
+			break;
+
+		case NImageFormat::A8_R8_G8_B8:
+		case NImageFormat::X8_R8_G8_B8:
+			Convert_A8_R8_G8_B8(theFormat);
+			break;
+
+		case NImageFormat::A8_B8_G8_R8:
+		case NImageFormat::X8_B8_G8_R8:
+			Convert_A8_B8_G8_R8(theFormat);
+			break;
+	}
+
 	mFormat = theFormat;
+
+
+
+	// Repack the image
+	//
+	// As the format may have shrunk we repack to reduce space.
+	PackRows();
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NImage::GetBitsPerPixel : Get the bits-per-pixel.
-//----------------------------------------------------------------------------
-NIndex NImage::GetBitsPerPixel(void) const
-{	NIndex		theValue;
+//-----------------------------------------------------------------------------
+size_t NImage::GetBitsPerPixel() const
+{
 
 
-
-	// Get the value
-	switch (mFormat) {
-		case kNImageFormat_RGB_888:
-		case kNImageFormat_BGR_888:
-			theValue = 24;
+	// Get the bits per pixel
+	switch (mFormat)
+	{
+		case NImageFormat::None:
+			return 0;
 			break;
 
-		case kNImageFormat_RGBX_8888:
-		case kNImageFormat_RGBA_8888:
-		case kNImageFormat_XRGB_8888:
-		case kNImageFormat_ARGB_8888:
-		case kNImageFormat_BGRX_8888:
-		case kNImageFormat_BGRA_8888:
-			theValue = 32;
+		case NImageFormat::A8:
+			return 8;
 			break;
-		
-		default:
-			NN_LOG("Invalid image format: %ld", mFormat);
-			theValue = 0;
+
+		case NImageFormat::R8_G8_B8:
+		case NImageFormat::B8_G8_R8:
+			return 24;
 			break;
-		}
-	
-	return(theValue);
+
+		case NImageFormat::R8_G8_B8_A8:
+		case NImageFormat::R8_G8_B8_X8:
+		case NImageFormat::B8_G8_R8_A8:
+		case NImageFormat::B8_G8_R8_X8:
+		case NImageFormat::A8_R8_G8_B8:
+		case NImageFormat::X8_R8_G8_B8:
+		case NImageFormat::A8_B8_G8_R8:
+		case NImageFormat::X8_B8_G8_R8:
+			return 32;
+			break;
+	}
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NImage::GetBitsPerComponent : Get the bits-per-component.
-//----------------------------------------------------------------------------
-NIndex NImage::GetBitsPerComponent(void) const
-{	NIndex		theValue;
-
-
-
-	// Get the value
-	switch (mFormat) {
-		case kNImageFormat_RGB_888:
-		case kNImageFormat_BGR_888:
-			theValue = 8;
-			break;
-
-		case kNImageFormat_RGBX_8888:
-		case kNImageFormat_RGBA_8888:
-		case kNImageFormat_XRGB_8888:
-		case kNImageFormat_ARGB_8888:
-		case kNImageFormat_BGRX_8888:
-		case kNImageFormat_BGRA_8888:
-			theValue = 8;
-			break;
-
-		default:
-			NN_LOG("Invalid image format: %ld", mFormat);
-			theValue = 0;
-			break;
-		}
-	
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NImage::GetBytesPerPixel : Get the bytes-per-pixel.
-//----------------------------------------------------------------------------
-NIndex NImage::GetBytesPerPixel(void) const
-{	NIndex	theValue;
-
-
-
-	// Get the value
-	theValue = (GetBitsPerPixel() / 8);
-	NN_ASSERT((theValue * 8) == GetBitsPerPixel());
-	
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NImage::GetBytesPerRow : Get the bytes-per-row.
-//----------------------------------------------------------------------------
-NIndex NImage::GetBytesPerRow(void) const
+//-----------------------------------------------------------------------------
+size_t NImage::GetBitsPerComponent() const
 {
 
 
-	// Get the value
-	return(mRowBytes);
+	// Get the bits per component
+	switch (mFormat)
+	{
+		case NImageFormat::None:
+			return 0;
+			break;
+
+		case NImageFormat::A8:
+		case NImageFormat::R8_G8_B8:
+		case NImageFormat::B8_G8_R8:
+		case NImageFormat::R8_G8_B8_A8:
+		case NImageFormat::R8_G8_B8_X8:
+		case NImageFormat::B8_G8_R8_A8:
+		case NImageFormat::B8_G8_R8_X8:
+		case NImageFormat::A8_R8_G8_B8:
+		case NImageFormat::X8_R8_G8_B8:
+		case NImageFormat::A8_B8_G8_R8:
+		case NImageFormat::X8_B8_G8_R8:
+			return 8;
+			break;
+	}
 }
 
 
 
 
 
-//============================================================================
-//		NImage::GetPixels : Get the pixels.
-//----------------------------------------------------------------------------
-const uint8_t *NImage::GetPixels(NIndex x, NIndex y) const
-{	NIndex			theOffset;
-	const uint8_t	*thePtr;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(x >= 0 && x <= (NIndex) mSize.width);
-	NN_ASSERT(y >= 0 && y <= (NIndex) mSize.height);
-
-
-
-	// Get the pixels
-	theOffset = (y * GetBytesPerRow()) + (x * GetBytesPerPixel());
-	thePtr    = mData.GetData(theOffset);
-
-	return(thePtr);
-}
-
-
-
-
-
-//============================================================================
-//		NImage::GetPixels : Get the pixels.
-//----------------------------------------------------------------------------
-uint8_t *NImage::GetPixels(NIndex x, NIndex y)
-{	NIndex		theOffset;
-	uint8_t		*thePtr;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(x >= 0 && x <= (NIndex) mSize.width);
-	NN_ASSERT(y >= 0 && y <= (NIndex) mSize.height);
-
-
-
-	// Get the pixels
-	theOffset = (y * GetBytesPerRow()) + (x * GetBytesPerPixel());
-	thePtr    = mData.GetData(theOffset);
-
-	return(thePtr);
-}
-
-
-
-
-
-//============================================================================
-//		NImage::GetData : Get the data.
-//----------------------------------------------------------------------------
-NData NImage::GetData(void) const
+//=============================================================================
+//		NImage::PackRows : Pack the rows.
+//-----------------------------------------------------------------------------
+void NImage::PackRows(size_t bytesPerRow)
 {
-
-
-	// Get the data
-	return(mData);
-}
-
-
-
-
-
-//============================================================================
-//		NImage::Load : Load an image.
-//----------------------------------------------------------------------------
-NStatus NImage::Load(const NFile &theFile, NImageFormat theFormat)
-{	NData		theData;
-	NStatus		theErr;
-
-
-
-	// Load the image
-	theData = NFileUtilities::GetFileData(theFile);
-	theErr  = Decode(theData, theFormat);
-	
-	return(theErr);
-}
-
-
-
-
-
-//============================================================================
-//		NImage::Save : Save an image.
-//----------------------------------------------------------------------------
-NStatus NImage::Save(const NFile &theFile, const NUTI &theType) const
-{	NUTI		imageType;
-	NData		theData;
-	NStatus		theErr;
-
 
 
 	// Get the state we need
-	imageType = theType;
+	size_t widthInBytes = GetWidth() * GetBytesPerPixel();
 
-	if (!imageType.IsValid())
-		imageType = theFile.GetUTI();
+	if (bytesPerRow == 0)
+	{
+		bytesPerRow = widthInBytes;
+	}
 
-	if (!imageType.IsValid())
-		imageType = kNUTTypePNG;
+	NN_REQUIRE(bytesPerRow <= widthInBytes);
+
+
+
+	// Pack the rows
+	if (bytesPerRow != GetBytesPerRow())
+	{
+		NData newData(bytesPerRow * GetWidth(), nullptr, NDataSource::None);
+
+		const uint8_t* srcRow = mData.GetData();
+		uint8_t*       dstRow = newData.GetMutableData();
+
+		for (size_t y = 0; y < GetHeight(); y++)
+		{
+			memcpy(dstRow, srcRow, widthInBytes);
+
+			srcRow += mRowBytes;
+			dstRow += widthInBytes;
+		}
+
+		mData     = newData;
+		mRowBytes = widthInBytes;
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NImage::ForEachPixel : Process each pixel.
+//-----------------------------------------------------------------------------
+void NImage::ForEachPixel(const NFunctionEachImmutablePixel& theFunction) const
+{
+
+
+	// Process each pixel
+	size_t bytesPerPixel = GetBytesPerPixel();
+
+	ForEachRow(
+		[&](size_t y, size_t theWidth, const uint8_t* rowPtr)
+		{
+			for (size_t x = 0; x < theWidth; x++)
+			{
+				if (!theFunction(x, y, rowPtr))
+				{
+					return false;
+				}
+
+				rowPtr += bytesPerPixel;
+			}
+
+			return true;
+		});
+}
+
+
+
+
+
+//=============================================================================
+//		NImage::ForEachPixel : Process each pixel.
+//-----------------------------------------------------------------------------
+void NImage::ForEachPixel(const NFunctionEachMutablePixel& theFunction)
+{
+
+
+	// Process each pixel
+	size_t pixelBytes = GetBytesPerPixel();
+
+	ForEachRow(
+		[&](size_t y, size_t theWidth, uint8_t* rowPtr)
+		{
+			for (size_t x = 0; x < theWidth; x++)
+			{
+				if (!theFunction(x, y, rowPtr))
+				{
+					return false;
+				}
+
+				rowPtr += pixelBytes;
+			}
+
+			return true;
+		});
+}
+
+
+
+
+
+//=============================================================================
+//		NImage::ForEachRow : Process each row.
+//-----------------------------------------------------------------------------
+void NImage::ForEachRow(const NFunctionEachImmutableRow& theFunction) const
+{
+
+
+	// Get the state we need
+	size_t         theWidth  = GetWidth();
+	size_t         theHeight = GetHeight();
+	size_t         rowBytes  = GetBytesPerRow();
+	const uint8_t* rowPtr    = GetPixels();
+
+
+
+	// Process the rows
+	for (size_t y = 0; y < theHeight; y++)
+	{
+		if (!theFunction(y, theWidth, rowPtr))
+		{
+			return;
+		}
+
+		rowPtr += rowBytes;
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NImage::ForEachRow : Process each row.
+//-----------------------------------------------------------------------------
+void NImage::ForEachRow(const NFunctionEachMutableRow& theFunction)
+{
+
+
+	// Get the state we need
+	size_t   theWidth  = GetWidth();
+	size_t   theHeight = GetHeight();
+	size_t   rowBytes  = GetBytesPerRow();
+	uint8_t* rowPtr    = GetMutablePixels();
+
+
+
+	// Process the rows
+	for (size_t y = 0; y < theHeight; y++)
+	{
+		if (!theFunction(y, theWidth, rowPtr))
+		{
+			return;
+		}
+
+		rowPtr += rowBytes;
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NImage::Load : Load an image.
+//-----------------------------------------------------------------------------
+NStatus NImage::Load(const NFile& theFile, NImageFormat theFormat)
+{
+
+
+	// Load the image
+	return Decode(NFileHandle::ReadData(theFile), theFormat);
+}
+
+
+
+
+
+//=============================================================================
+//		NImage::Save : Save an image.
+//-----------------------------------------------------------------------------
+NStatus NImage::Save(const NFile& theFile, const NUTI& theType) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theFile.IsValid());
+
+
+	// Get the state we need
+	NUTI finalType = theType;
+
+	if (!finalType.IsValid())
+	{
+		finalType = theFile.GetUTI();
+	}
+
+	if (!finalType.IsValid())
+	{
+		finalType = kNUTTypePNG;
+	}
 
 
 
 	// Save the image
-	theData = Encode(imageType);
-	theErr  = kNErrExhaustedSrc;
+	NData   theData = Encode(finalType);
+	NStatus theErr  = NStatus::ExhaustedSrc;
 
 	if (!theData.IsEmpty())
-		theErr = NFileUtilities::SetFileData(theFile, theData);
-	
-	return(theErr);
+	{
+		theErr = NFileHandle::WriteData(theFile, theData);
+	}
+
+	return theErr;
 }
 
 
 
 
 
-//============================================================================
-//		NImage::Encode : Encode an image.
-//----------------------------------------------------------------------------
-NData NImage::Encode(const NUTI &theType) const
+//=============================================================================
+//		NImage::Decode : Decode an image.
+//-----------------------------------------------------------------------------
+NStatus NImage::Decode(const NData& theData, NImageFormat theFormat)
 {
 
 
-	// Encode the image
-	return(NTargetSystem::ImageEncode(*this, theType));
-}
-
-
-
-
-
-//============================================================================
-//		NImage::Decode : Decode an image.
-//----------------------------------------------------------------------------
-NStatus NImage::Decode(const NData &theData, NImageFormat theFormat)
-{	NImage		theImage;
+	// Validate our parameters
+	NN_REQUIRE(!theData.IsEmpty());
 
 
 
 	// Decode the image
-	theImage = NTargetSystem::ImageDecode(theData);
-	if (!theImage.IsValid())
-		return(kNErrMalformed);
+	NStatus theErr = ImageDecode(theData);
+	NN_EXPECT_NOT_ERR(theErr);
 
+	if (theErr == NStatus::OK)
+	{
+		if (theFormat != NImageFormat::None && theFormat != mFormat)
+		{
+			SetFormat(theFormat);
+		}
+	}
 
-
-	// Update our state
-	*this = theImage;
-
-	if (theFormat != kNImageFormatNone)
-		SetFormat(theFormat);
-	
-	return(kNoErr);
+	return theErr;
 }
+
+
+
+
+
+//=============================================================================
+//		NImage::Encode : Encode an image.
+//-----------------------------------------------------------------------------
+NData NImage::Encode(const NUTI& theType) const
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theType.IsValid());
+
+
+
+	// Encode the image
+	return ImageEncode(theType);
+}
+
 
 
 
 
 #pragma mark private
-//============================================================================
-//		NImage::ForEachPixelInImmutableRow : Process each pixel in a row.
-//----------------------------------------------------------------------------
-bool NImage::ForEachPixelInImmutableRow(NIndex y, NIndex theWidth, NIndex pixelBytes, const NImageForEachImmutablePixelFunctor &theFunctor, const uint8_t *rowPtr) const
-{	NIndex		x;
-
-
-
-	// Process the row
-	for (x = 0; x < theWidth; x++)
-		{
-		if (!theFunctor(x, y, rowPtr))
-			return(false);
-
-		rowPtr += pixelBytes;
-		}
-
-	return(true);
-}
-
-
-
-
-
-//============================================================================
-//		NImage::ForEachPixelInMutableRow : Process each pixel in a row.
-//----------------------------------------------------------------------------
-bool NImage::ForEachPixelInMutableRow(NIndex y, NIndex theWidth, NIndex pixelBytes,  const NImageForEachMutablePixelFunctor &theFunctor, uint8_t *rowPtr)
-{	NIndex		x;
-
-
-
-	// Process the row
-	for (x = 0; x < theWidth; x++)
-		{
-		if (!theFunctor(x, y, rowPtr))
-			return(false);
-
-		rowPtr += pixelBytes;
-		}
-
-	return(true);
-}
-
-
-
-
-
-//============================================================================
-//		NImage::Convert_RGB_888 : Convert an RGB_888 image.
-//----------------------------------------------------------------------------
-void NImage::Convert_RGB_888(NImageFormat theFormat)
-{	NImage		tmpImage;
-
-
-
-	// Convert the image
-	switch (theFormat) {
-		case kNImageFormat_RGB_888:
-			// No-op
-			break;
-
-		case kNImageFormat_BGR_888:
-			ForEachRow(BindSelf(NImage::RowSwizzle24,		kNArg2, kNArg3, SELECT(2, 1, 0)));
-			break;
-
-		case kNImageFormat_RGBX_8888:
-		case kNImageFormat_RGBA_8888:
-			tmpImage = NImage(GetSize(), kNImageFormat_RGBA_8888);
-			ForEachRow(BindSelf(NImage::RowExpand24To32,	kNArg2, kNArg3, SELECT(0, 1, 2, 3), &tmpImage, kNArg1));
-			*this = tmpImage;
-			break;
-
-		case kNImageFormat_XRGB_8888:
-		case kNImageFormat_ARGB_8888:
-			tmpImage = NImage(GetSize(), kNImageFormat_ARGB_8888);
-			ForEachRow(BindSelf(NImage::RowExpand24To32,	kNArg2, kNArg3, SELECT(3, 0, 1, 2), &tmpImage, kNArg1));
-			*this = tmpImage;
-			break;
-
-		case kNImageFormat_BGRX_8888:
-		case kNImageFormat_BGRA_8888:
-			tmpImage = NImage(GetSize(), kNImageFormat_BGRA_8888);
-			ForEachRow(BindSelf(NImage::RowExpand24To32,	kNArg2, kNArg3, SELECT(2, 1, 0, 3), &tmpImage, kNArg1));
-			*this = tmpImage;
-			break;
-
-		default:
-			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
-			break;
-		}
-}
-
-
-
-
-
-//============================================================================
-//		NImage::Convert_BGR_888 : Convert a BGR_888 image.
-//----------------------------------------------------------------------------
-void NImage::Convert_BGR_888(NImageFormat theFormat)
-{	NImage		tmpImage;
-
-
-
-	// Convert the image
-	switch (theFormat) {
-		case kNImageFormat_RGB_888:
-			ForEachRow(BindSelf(NImage::RowSwizzle24,		kNArg2, kNArg3, SELECT(2, 1, 0)));
-			break;
-
-		case kNImageFormat_BGR_888:
-			// No-op
-			break;
-
-		case kNImageFormat_RGBX_8888:
-		case kNImageFormat_RGBA_8888:
-			tmpImage = NImage(GetSize(), kNImageFormat_RGBA_8888);
-			ForEachRow(BindSelf(NImage::RowExpand24To32,	kNArg2, kNArg3, SELECT(2, 1, 0, 3), &tmpImage, kNArg1));
-			*this = tmpImage;
-			break;
-
-		case kNImageFormat_XRGB_8888:
-		case kNImageFormat_ARGB_8888:
-			tmpImage = NImage(GetSize(), kNImageFormat_ARGB_8888);
-			ForEachRow(BindSelf(NImage::RowExpand24To32,	kNArg2, kNArg3, SELECT(3, 2, 1, 0), &tmpImage, kNArg1));
-			*this = tmpImage;
-			break;
-
-		case kNImageFormat_BGRX_8888:
-		case kNImageFormat_BGRA_8888:
-			tmpImage = NImage(GetSize(), kNImageFormat_BGRA_8888);
-			ForEachRow(BindSelf(NImage::RowExpand24To32,	kNArg2, kNArg3, SELECT(0, 1, 2, 3), &tmpImage, kNArg1));
-			*this = tmpImage;
-			break;
-
-		default:
-			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
-			break;
-		}
-}
-
-
-
-
-
-//============================================================================
-//		NImage::Convert_RGBA_8888 : Convert an RGBA_8888 image.
-//----------------------------------------------------------------------------
-void NImage::Convert_RGBA_8888(NImageFormat theFormat)
+//=============================================================================
+//		NImage::Convert_A8 : Convert an A8 image.
+//-----------------------------------------------------------------------------
+void NImage::Convert_A8(NImageFormat theFormat)
 {
 
 
 	// Convert the image
-	switch (theFormat) {
-		case kNImageFormat_RGB_888:
-			ForEachRow(BindSelf(NImage::RowReduce32To24,	kNArg2, kNArg3, SELECT(0, 1, 2)));
+	NImage tmpImage;
+
+	switch (theFormat)
+	{
+		case NImageFormat::None:
+			NN_LOG_ERROR("Unable to convert image!");
 			break;
 
-		case kNImageFormat_BGR_888:
-			ForEachRow(BindSelf(NImage::RowReduce32To24,	kNArg2, kNArg3, SELECT(2, 1, 0)));
-			break;
 
-		case kNImageFormat_RGBX_8888:
-		case kNImageFormat_RGBA_8888:
+		case NImageFormat::A8:
 			// No-op
 			break;
 
-		case kNImageFormat_XRGB_8888:
-		case kNImageFormat_ARGB_8888:
-			ForEachRow(BindSelf(NImage::RowSwizzle32,		kNArg2, kNArg3, SELECT(3, 0, 1, 2)));
+		case NImageFormat::R8_G8_B8:
+		case NImageFormat::B8_G8_R8:
+		case NImageFormat::R8_G8_B8_X8:
+		case NImageFormat::B8_G8_R8_X8:
+		case NImageFormat::X8_R8_G8_B8:
+		case NImageFormat::X8_B8_G8_R8:
+			tmpImage = NImage(GetSize(), theFormat);
+			*this    = tmpImage;
 			break;
 
-		case kNImageFormat_BGRX_8888:
-		case kNImageFormat_BGRA_8888:
-			ForEachRow(BindSelf(NImage::RowSwizzle32,		kNArg2, kNArg3, SELECT(2, 1, 0, 3)));
+		case NImageFormat::R8_G8_B8_A8:
+		case NImageFormat::B8_G8_R8_A8:
+			tmpImage = NImage(GetSize(), NImageFormat::R8_G8_B8_A8);
+			ForEachRow(NBindSelf(NImage::RowExpand8To32, kNArg2, kNArg3, 3, &tmpImage, kNArg1));
+			*this = tmpImage;
 			break;
 
-		default:
-			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
+		case NImageFormat::A8_R8_G8_B8:
+		case NImageFormat::A8_B8_G8_R8:
+			tmpImage = NImage(GetSize(), NImageFormat::R8_G8_B8_A8);
+			ForEachRow(NBindSelf(NImage::RowExpand8To32, kNArg2, kNArg3, 0, &tmpImage, kNArg1));
+			*this = tmpImage;
 			break;
-		}	
+	}
 }
 
 
 
 
 
-//============================================================================
-//		NImage::Convert_ARGB_8888 : Convert an ARGB_8888 image.
-//----------------------------------------------------------------------------
-void NImage::Convert_ARGB_8888(NImageFormat theFormat)
+//=============================================================================
+//		NImage::Convert_R8_G8_B8 : Convert an R8_G8_B8 image.
+//-----------------------------------------------------------------------------
+void NImage::Convert_R8_G8_B8(NImageFormat theFormat)
 {
 
 
 	// Convert the image
-	switch (theFormat) {
-		case kNImageFormat_RGB_888:
-			ForEachRow(BindSelf(NImage::RowReduce32To24,	kNArg2, kNArg3, SELECT(1, 2, 3)));
+	NImage tmpImage;
+
+	switch (theFormat)
+	{
+		case NImageFormat::None:
+			NN_LOG_ERROR("Unable to convert image!");
 			break;
 
-		case kNImageFormat_BGR_888:
-			ForEachRow(BindSelf(NImage::RowReduce32To24,	kNArg2, kNArg3, SELECT(3, 2, 1)));
+		case NImageFormat::A8:
+			tmpImage = NImage(GetSize(), NImageFormat::A8);
+			memset(tmpImage.GetMutablePixels(),
+				   0xFF,
+				   tmpImage.GetHeight() * tmpImage.GetBytesPerRow());
+			*this = tmpImage;
 			break;
 
-		case kNImageFormat_RGBX_8888:
-		case kNImageFormat_RGBA_8888:
-			ForEachRow(BindSelf(NImage::RowSwizzle32,		kNArg2, kNArg3, SELECT(1, 2, 3, 0)));
-			break;
-
-		case kNImageFormat_XRGB_8888:
-		case kNImageFormat_ARGB_8888:
+		case NImageFormat::R8_G8_B8:
 			// No-op
 			break;
 
-		case kNImageFormat_BGRX_8888:
-		case kNImageFormat_BGRA_8888:
-			ForEachRow(BindSelf(NImage::RowSwizzle32,		kNArg2, kNArg3, SELECT(3, 2, 1, 0)));
+		case NImageFormat::B8_G8_R8:
+			ForEachRow(NBindSelf(NImage::RowSwizzle24, kNArg2, kNArg3, TAKE(2, 1, 0)));
 			break;
 
-		default:
-			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
+		case NImageFormat::R8_G8_B8_A8:
+		case NImageFormat::R8_G8_B8_X8:
+			tmpImage = NImage(GetSize(), NImageFormat::R8_G8_B8_A8);
+			ForEachRow(NBindSelf(NImage::RowExpand24To32,
+								 kNArg2,
+								 kNArg3,
+								 TAKE(0, 1, 2, 3),
+								 &tmpImage,
+								 kNArg1));
+			*this = tmpImage;
 			break;
-		}
+
+		case NImageFormat::B8_G8_R8_A8:
+		case NImageFormat::B8_G8_R8_X8:
+			tmpImage = NImage(GetSize(), NImageFormat::B8_G8_R8_A8);
+			ForEachRow(NBindSelf(NImage::RowExpand24To32,
+								 kNArg2,
+								 kNArg3,
+								 TAKE(2, 1, 0, 3),
+								 &tmpImage,
+								 kNArg1));
+			*this = tmpImage;
+			break;
+
+		case NImageFormat::A8_R8_G8_B8:
+		case NImageFormat::X8_R8_G8_B8:
+			tmpImage = NImage(GetSize(), NImageFormat::A8_R8_G8_B8);
+			ForEachRow(NBindSelf(NImage::RowExpand24To32,
+								 kNArg2,
+								 kNArg3,
+								 TAKE(3, 0, 1, 2),
+								 &tmpImage,
+								 kNArg1));
+			*this = tmpImage;
+			break;
+
+
+		case NImageFormat::A8_B8_G8_R8:
+		case NImageFormat::X8_B8_G8_R8:
+			tmpImage = NImage(GetSize(), NImageFormat::A8_B8_G8_R8);
+			ForEachRow(NBindSelf(NImage::RowExpand24To32,
+								 kNArg2,
+								 kNArg3,
+								 TAKE(3, 2, 1, 0),
+								 &tmpImage,
+								 kNArg1));
+			*this = tmpImage;
+			break;
+	}
 }
 
 
 
 
 
-//============================================================================
-//		NImage::Convert_BGRA_8888 : Convert a BGRA_8888 image.
-//----------------------------------------------------------------------------
-void NImage::Convert_BGRA_8888(NImageFormat theFormat)
+//=============================================================================
+//		NImage::Convert_B8_G8_R8 : Convert a B8_G8_R8 image.
+//-----------------------------------------------------------------------------
+void NImage::Convert_B8_G8_R8(NImageFormat theFormat)
 {
 
 
 	// Convert the image
-	switch (theFormat) {
-		case kNImageFormat_RGB_888:
-			ForEachRow(BindSelf(NImage::RowReduce32To24,	kNArg2, kNArg3, SELECT(2, 1, 0)));
+	NImage tmpImage;
+
+	switch (theFormat)
+	{
+		case NImageFormat::None:
+			NN_LOG_ERROR("Unable to convert image!");
 			break;
 
-		case kNImageFormat_BGR_888:
-			ForEachRow(BindSelf(NImage::RowReduce32To24,	kNArg2, kNArg3, SELECT(0, 1, 2)));
+		case NImageFormat::A8:
+			tmpImage = NImage(GetSize(), NImageFormat::A8);
+			memset(tmpImage.GetMutablePixels(),
+				   0xFF,
+				   tmpImage.GetHeight() * tmpImage.GetBytesPerRow());
+			*this = tmpImage;
 			break;
 
-		case kNImageFormat_RGBX_8888:
-		case kNImageFormat_RGBA_8888:
-			ForEachRow(BindSelf(NImage::RowSwizzle32,		kNArg2, kNArg3, SELECT(2, 1, 0, 3)));
+		case NImageFormat::R8_G8_B8:
+			ForEachRow(NBindSelf(NImage::RowSwizzle24, kNArg2, kNArg3, TAKE(2, 1, 0)));
 			break;
 
-		case kNImageFormat_XRGB_8888:
-		case kNImageFormat_ARGB_8888:
-			ForEachRow(BindSelf(NImage::RowSwizzle32,		kNArg2, kNArg3, SELECT(3, 2, 1, 0)));
-			break;
-
-		case kNImageFormat_BGRX_8888:
-		case kNImageFormat_BGRA_8888:
+		case NImageFormat::B8_G8_R8:
 			// No-op
 			break;
 
-		default:
-			NN_LOG("Unable to convert image from %ld to %ld", mFormat, theFormat);
+		case NImageFormat::R8_G8_B8_A8:
+		case NImageFormat::R8_G8_B8_X8:
+			tmpImage = NImage(GetSize(), NImageFormat::R8_G8_B8_A8);
+			ForEachRow(NBindSelf(NImage::RowExpand24To32,
+								 kNArg2,
+								 kNArg3,
+								 TAKE(2, 1, 0, 3),
+								 &tmpImage,
+								 kNArg1));
+			*this = tmpImage;
 			break;
-		}
+
+		case NImageFormat::B8_G8_R8_A8:
+		case NImageFormat::B8_G8_R8_X8:
+			tmpImage = NImage(GetSize(), NImageFormat::B8_G8_R8_A8);
+			ForEachRow(NBindSelf(NImage::RowExpand24To32,
+								 kNArg2,
+								 kNArg3,
+								 TAKE(0, 1, 2, 3),
+								 &tmpImage,
+								 kNArg1));
+			*this = tmpImage;
+			break;
+
+		case NImageFormat::A8_R8_G8_B8:
+		case NImageFormat::X8_R8_G8_B8:
+			tmpImage = NImage(GetSize(), NImageFormat::A8_R8_G8_B8);
+			ForEachRow(NBindSelf(NImage::RowExpand24To32,
+								 kNArg2,
+								 kNArg3,
+								 TAKE(3, 2, 1, 0),
+								 &tmpImage,
+								 kNArg1));
+			*this = tmpImage;
+			break;
+
+
+		case NImageFormat::A8_B8_G8_R8:
+		case NImageFormat::X8_B8_G8_R8:
+			tmpImage = NImage(GetSize(), NImageFormat::A8_B8_G8_R8);
+			ForEachRow(NBindSelf(NImage::RowExpand24To32,
+								 kNArg2,
+								 kNArg3,
+								 TAKE(3, 0, 1, 2),
+								 &tmpImage,
+								 kNArg1));
+			*this = tmpImage;
+			break;
+	}
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
+//		NImage::Convert_R8_G8_B8_A8 : Convert an R8_G8_B8_A8 image.
+//-----------------------------------------------------------------------------
+void NImage::Convert_R8_G8_B8_A8(NImageFormat theFormat)
+{
+
+
+	// Convert the image
+	switch (theFormat)
+	{
+		case NImageFormat::None:
+			NN_LOG_ERROR("Unable to convert image!");
+			break;
+
+		case NImageFormat::A8:
+			ForEachRow(NBindSelf(NImage::RowReduce32To8, kNArg2, kNArg3, 3));
+			break;
+
+		case NImageFormat::R8_G8_B8:
+			ForEachRow(NBindSelf(NImage::RowReduce32To24, kNArg2, kNArg3, TAKE(0, 1, 2)));
+			break;
+
+		case NImageFormat::B8_G8_R8:
+			ForEachRow(NBindSelf(NImage::RowReduce32To24, kNArg2, kNArg3, TAKE(2, 1, 0)));
+			break;
+
+		case NImageFormat::R8_G8_B8_A8:
+		case NImageFormat::R8_G8_B8_X8:
+			// No-op
+			break;
+
+		case NImageFormat::B8_G8_R8_A8:
+		case NImageFormat::B8_G8_R8_X8:
+			ForEachRow(NBindSelf(NImage::RowSwizzle32, kNArg2, kNArg3, TAKE(2, 1, 0, 3)));
+			break;
+
+		case NImageFormat::A8_R8_G8_B8:
+		case NImageFormat::X8_R8_G8_B8:
+			ForEachRow(NBindSelf(NImage::RowSwizzle32, kNArg2, kNArg3, TAKE(3, 0, 1, 2)));
+			break;
+
+
+		case NImageFormat::A8_B8_G8_R8:
+		case NImageFormat::X8_B8_G8_R8:
+			ForEachRow(NBindSelf(NImage::RowSwizzle32, kNArg2, kNArg3, TAKE(3, 2, 1, 0)));
+			break;
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NImage::Convert_B8_G8_R8_A8 : Convert a B8_G8_R8_A8 image.
+//-----------------------------------------------------------------------------
+void NImage::Convert_B8_G8_R8_A8(NImageFormat theFormat)
+{
+
+
+	// Convert the image
+	switch (theFormat)
+	{
+		case NImageFormat::None:
+			NN_LOG_ERROR("Unable to convert image!");
+			break;
+
+		case NImageFormat::A8:
+			ForEachRow(NBindSelf(NImage::RowReduce32To8, kNArg2, kNArg3, 3));
+			break;
+
+		case NImageFormat::R8_G8_B8:
+			ForEachRow(NBindSelf(NImage::RowReduce32To24, kNArg2, kNArg3, TAKE(2, 1, 0)));
+			break;
+
+		case NImageFormat::B8_G8_R8:
+			ForEachRow(NBindSelf(NImage::RowReduce32To24, kNArg2, kNArg3, TAKE(0, 1, 2)));
+			break;
+
+		case NImageFormat::R8_G8_B8_A8:
+		case NImageFormat::R8_G8_B8_X8:
+			ForEachRow(NBindSelf(NImage::RowSwizzle32, kNArg2, kNArg3, TAKE(2, 1, 0, 3)));
+			break;
+
+		case NImageFormat::B8_G8_R8_A8:
+		case NImageFormat::B8_G8_R8_X8:
+			// No-op
+			break;
+
+		case NImageFormat::A8_R8_G8_B8:
+		case NImageFormat::X8_R8_G8_B8:
+			ForEachRow(NBindSelf(NImage::RowSwizzle32, kNArg2, kNArg3, TAKE(3, 2, 1, 0)));
+			break;
+
+		case NImageFormat::A8_B8_G8_R8:
+		case NImageFormat::X8_B8_G8_R8:
+			ForEachRow(NBindSelf(NImage::RowSwizzle32, kNArg2, kNArg3, TAKE(3, 0, 1, 2)));
+			break;
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NImage::Convert_A8_R8_G8_B8 : Convert an A8_R8_G8_B8 image.
+//-----------------------------------------------------------------------------
+void NImage::Convert_A8_R8_G8_B8(NImageFormat theFormat)
+{
+
+
+	// Convert the image
+	switch (theFormat)
+	{
+		case NImageFormat::None:
+			NN_LOG_ERROR("Unable to convert image!");
+			break;
+
+		case NImageFormat::A8:
+			ForEachRow(NBindSelf(NImage::RowReduce32To8, kNArg2, kNArg3, 0));
+			break;
+
+		case NImageFormat::R8_G8_B8:
+			ForEachRow(NBindSelf(NImage::RowReduce32To24, kNArg2, kNArg3, TAKE(1, 2, 3)));
+			break;
+
+		case NImageFormat::B8_G8_R8:
+			ForEachRow(NBindSelf(NImage::RowReduce32To24, kNArg2, kNArg3, TAKE(3, 2, 1)));
+			break;
+
+		case NImageFormat::R8_G8_B8_A8:
+		case NImageFormat::R8_G8_B8_X8:
+			ForEachRow(NBindSelf(NImage::RowSwizzle32, kNArg2, kNArg3, TAKE(1, 2, 3, 0)));
+			break;
+
+		case NImageFormat::B8_G8_R8_A8:
+		case NImageFormat::B8_G8_R8_X8:
+			ForEachRow(NBindSelf(NImage::RowSwizzle32, kNArg2, kNArg3, TAKE(3, 2, 1, 0)));
+			break;
+
+		case NImageFormat::A8_R8_G8_B8:
+		case NImageFormat::X8_R8_G8_B8:
+			// No-op
+			break;
+
+		case NImageFormat::A8_B8_G8_R8:
+		case NImageFormat::X8_B8_G8_R8:
+			ForEachRow(NBindSelf(NImage::RowSwizzle32, kNArg2, kNArg3, TAKE(0, 3, 2, 1)));
+			break;
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NImage::Convert_A8_B8_G8_R8 : Convert an A8_B8_G8_R8 image.
+//-----------------------------------------------------------------------------
+void NImage::Convert_A8_B8_G8_R8(NImageFormat theFormat)
+{
+
+
+	// Convert the image
+	switch (theFormat)
+	{
+		case NImageFormat::None:
+			NN_LOG_ERROR("Unable to convert image!");
+			break;
+
+		case NImageFormat::A8:
+			ForEachRow(NBindSelf(NImage::RowReduce32To8, kNArg2, kNArg3, 0));
+			break;
+
+		case NImageFormat::R8_G8_B8:
+			ForEachRow(NBindSelf(NImage::RowReduce32To24, kNArg2, kNArg3, TAKE(3, 2, 1)));
+			break;
+
+		case NImageFormat::B8_G8_R8:
+			ForEachRow(NBindSelf(NImage::RowReduce32To24, kNArg2, kNArg3, TAKE(1, 2, 3)));
+			break;
+
+		case NImageFormat::R8_G8_B8_A8:
+		case NImageFormat::R8_G8_B8_X8:
+			ForEachRow(NBindSelf(NImage::RowSwizzle32, kNArg2, kNArg3, TAKE(3, 2, 1, 0)));
+			break;
+
+		case NImageFormat::B8_G8_R8_A8:
+		case NImageFormat::B8_G8_R8_X8:
+			ForEachRow(NBindSelf(NImage::RowSwizzle32, kNArg2, kNArg3, TAKE(1, 2, 3, 0)));
+			break;
+
+		case NImageFormat::A8_R8_G8_B8:
+		case NImageFormat::X8_R8_G8_B8:
+			ForEachRow(NBindSelf(NImage::RowSwizzle32, kNArg2, kNArg3, TAKE(0, 3, 2, 1)));
+			break;
+
+		case NImageFormat::A8_B8_G8_R8:
+		case NImageFormat::X8_B8_G8_R8:
+			// No-op
+			break;
+	}
+}
+
+
+
+
+
+//=============================================================================
 //		NImage::RowSwizzle24 : Swizzle a row of 24-bpp pixels.
-//----------------------------------------------------------------------------
-bool NImage::RowSwizzle24(NIndex theWidth, uint8_t *rowPtr, const NIndexList &newOrder)
-{	uint8_t		tmpPixel[3];
-	uint8_t		*pixelPtr;
-	NIndex		x;
-
+//-----------------------------------------------------------------------------
+bool NImage::RowSwizzle24(size_t theWidth, uint8_t* rowPtr, const NVectorSize& newOrder)
+{
 
 
 	// Validate our parameters
-	NN_ASSERT(newOrder.size() == 3);
+	NN_REQUIRE(newOrder.size() == 3);
 
 
 
 	// Get the state we need
-	pixelPtr = rowPtr;
+	uint8_t* pixelPtr = rowPtr;
 
 
 
 	// Process the row
-	for (x = 0; x < theWidth; x++)
-		{
+	for (size_t x = 0; x < theWidth; x++)
+	{
+		uint8_t tmpPixel[3];
+
 		tmpPixel[0] = pixelPtr[0];
 		tmpPixel[1] = pixelPtr[1];
 		tmpPixel[2] = pixelPtr[2];
@@ -971,39 +1081,38 @@ bool NImage::RowSwizzle24(NIndex theWidth, uint8_t *rowPtr, const NIndexList &ne
 		pixelPtr[2] = tmpPixel[newOrder[2]];
 
 		pixelPtr += 3;
-		}
+	}
 
-	return(true);
+	return true;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NImage::RowSwizzle32 : Swizzle a row of 32-bpp pixels.
-//----------------------------------------------------------------------------
-bool NImage::RowSwizzle32(NIndex theWidth, uint8_t *rowPtr, const NIndexList &newOrder)
-{	uint8_t		tmpPixel[4];
-	uint8_t		*pixelPtr;
-	NIndex		x;
-
+//-----------------------------------------------------------------------------
+bool NImage::RowSwizzle32(size_t theWidth, uint8_t* rowPtr, const NVectorSize& newOrder)
+{
 
 
 	// Validate our parameters
-	NN_ASSERT(newOrder.size() == 4);
+	NN_REQUIRE(newOrder.size() == 4);
 
 
 
 	// Get the state we need
+	uint8_t* pixelPtr;
 	pixelPtr = rowPtr;
 
 
 
 	// Process the row
-	for (x = 0; x < theWidth; x++)
-		{
-		*((uint32_t *) &tmpPixel[0]) = *((uint32_t *) pixelPtr);
+	for (size_t x = 0; x < theWidth; x++)
+	{
+		uint8_t tmpPixel[4];
+		memcpy(&tmpPixel, pixelPtr, 4);
 
 		pixelPtr[0] = tmpPixel[newOrder[0]];
 		pixelPtr[1] = tmpPixel[newOrder[1]];
@@ -1011,82 +1120,38 @@ bool NImage::RowSwizzle32(NIndex theWidth, uint8_t *rowPtr, const NIndexList &ne
 		pixelPtr[3] = tmpPixel[newOrder[3]];
 
 		pixelPtr += 4;
-		}
+	}
 
-	return(true);
-}
-
-
-
-
-//============================================================================
-//		NImage::RowExpand24To32 : Expand a 24bpp row into 32bpp.
-//----------------------------------------------------------------------------
-bool NImage::RowExpand24To32(NIndex theWidth, const uint8_t *rowPtr, const NIndexList &dstOrder, NImage *dstImage, NIndex y)
-{	const uint8_t	*srcPixel;
-	uint8_t			*dstPixel;
-	NIndex			x;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(dstOrder.size()              == 4);
-	NN_ASSERT(dstImage->GetBytesPerPixel() == 4);
-	NN_ASSERT(dstImage->GetWidth()         == theWidth);
-
-
-
-	// Get the state we need
-	srcPixel = rowPtr;
-	dstPixel = dstImage->GetPixels(0, y);
-
-
-
-	// Process the row
-	for (x = 0; x < theWidth; x++)
-		{
-		dstPixel[dstOrder[0]] = srcPixel[0];
-		dstPixel[dstOrder[1]] = srcPixel[1];
-		dstPixel[dstOrder[2]] = srcPixel[2];
-		dstPixel[dstOrder[3]] = 0xFF;
-
-		srcPixel += 3;
-		dstPixel += 4;
-		}
-
-	return(true);
+	return true;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NImage::RowReduce32To24 : Reduce a 32bpp row to 24bpp.
-//----------------------------------------------------------------------------
-bool NImage::RowReduce32To24(NIndex theWidth, uint8_t *rowPtr, const NIndexList &srcOrder)
-{	uint8_t			tmpPixel[4];
-	const uint8_t	*srcPixel;
-	uint8_t			*dstPixel;
-	NIndex			x;
-
+//-----------------------------------------------------------------------------
+bool NImage::RowReduce32To24(size_t theWidth, uint8_t* rowPtr, const NVectorSize& srcOrder)
+{
 
 
 	// Validate our parameters
-	NN_ASSERT(srcOrder.size() == 3);
+	NN_REQUIRE(srcOrder.size() == 3);
 
 
 
 	// Get the state we need
-	srcPixel = rowPtr;
-	dstPixel = rowPtr;
+	const uint8_t* srcPixel = rowPtr;
+	uint8_t*       dstPixel = rowPtr;
 
 
 
 	// Process the row
-	for (x = 0; x < theWidth; x++)
-		{
-		*((uint32_t *) &tmpPixel[0]) = *((uint32_t *) srcPixel);
+	for (size_t x = 0; x < theWidth; x++)
+	{
+		uint8_t tmpPixel[4];
+		memcpy(&tmpPixel, srcPixel, 4);
 
 		dstPixel[0] = tmpPixel[srcOrder[0]];
 		dstPixel[1] = tmpPixel[srcOrder[1]];
@@ -1094,8 +1159,123 @@ bool NImage::RowReduce32To24(NIndex theWidth, uint8_t *rowPtr, const NIndexList 
 
 		srcPixel += 4;
 		dstPixel += 3;
-		}
+	}
 
-	return(true);
+	return true;
 }
 
+
+
+
+
+//=============================================================================
+//		NImage::RowReduce32To8 : Reduce a 32bpp row to 8bpp.
+//-----------------------------------------------------------------------------
+bool NImage::RowReduce32To8(size_t theWidth, uint8_t* rowPtr, size_t srcIndex)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(srcIndex <= 3);
+
+
+
+	// Get the state we need
+	const uint8_t* srcPixel = rowPtr;
+	uint8_t*       dstPixel = rowPtr;
+
+
+
+	// Process the row
+	for (size_t x = 0; x < theWidth; x++)
+	{
+		dstPixel[0] = srcPixel[srcIndex];
+
+		srcPixel += 4;
+		dstPixel += 1;
+	}
+
+	return true;
+}
+
+
+
+
+
+//=============================================================================
+//		NImage::RowExpand24To32 : Expand a 24bpp row into 32bpp.
+//-----------------------------------------------------------------------------
+bool NImage::RowExpand24To32(size_t             theWidth,
+							 const uint8_t*     rowPtr,
+							 const NVectorSize& dstOrder,
+							 NImage*            dstImage,
+							 size_t             y)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(dstOrder.size() == 4);
+	NN_REQUIRE(dstImage->GetBytesPerPixel() == 4);
+	NN_REQUIRE(dstImage->GetWidth() == theWidth);
+
+
+
+	// Get the state we need
+	const uint8_t* srcPixel = rowPtr;
+	uint8_t*       dstPixel = dstImage->GetMutablePixels(0, y);
+
+
+
+	// Process the row
+	for (size_t x = 0; x < theWidth; x++)
+	{
+		dstPixel[dstOrder[0]] = srcPixel[0];
+		dstPixel[dstOrder[1]] = srcPixel[1];
+		dstPixel[dstOrder[2]] = srcPixel[2];
+		dstPixel[dstOrder[3]] = 0xFF;
+
+		srcPixel += 3;
+		dstPixel += 4;
+	}
+
+	return true;
+}
+
+
+
+
+
+//=============================================================================
+//		NImage::RowExpand8To32 : Expand an 8bpp row into 32bpp.
+//-----------------------------------------------------------------------------
+bool NImage::RowExpand8To32(size_t         theWidth,
+							const uint8_t* rowPtr,
+							size_t         dstIndex,
+							NImage*        dstImage,
+							size_t         y)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(dstImage->GetBytesPerPixel() == 4);
+	NN_REQUIRE(dstImage->GetWidth() == theWidth);
+
+
+
+	// Get the state we need
+	const uint8_t* srcPixel = rowPtr;
+	uint8_t*       dstPixel = dstImage->GetMutablePixels(0, y);
+
+
+
+	// Process the row
+	for (size_t x = 0; x < theWidth; x++)
+	{
+		dstPixel[dstIndex] = srcPixel[0];
+
+		srcPixel += 1;
+		dstPixel += 4;
+	}
+
+	return true;
+}

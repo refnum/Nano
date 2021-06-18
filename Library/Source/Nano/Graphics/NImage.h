@@ -3,187 +3,246 @@
 
 	DESCRIPTION:
 		Image buffer.
-	
-	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+	COPYRIGHT:
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
+
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NIMAGE_HDR
-#define NIMAGE_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
+#ifndef NIMAGE_H
+#define NIMAGE_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NData.h"
 #include "NFile.h"
 #include "NRectangle.h"
 #include "NUTI.h"
 
+// System
+#include <functional>
 
 
 
 
-//============================================================================
+
+//=============================================================================
 //		Constants
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // Image formats
 //
-// Each format defines the size, and order, of components within an image.
-typedef enum {
-	// Meta
-	kNImageFormatNone,
+// A format defines the component byte order, the component size in bits,
+// and the overall pixel size in bits.
+enum class NImageFormat
+{
+	None,
+	A8,
 
+	R8_G8_B8,
+	B8_G8_R8,
 
-	// 24bpp
-	kNImageFormat_RGB_888,
-	kNImageFormat_BGR_888,
+	R8_G8_B8_A8,
+	R8_G8_B8_X8,
 
+	B8_G8_R8_A8,
+	B8_G8_R8_X8,
 
-	// 32bpp
-	kNImageFormat_RGBX_8888,
-	kNImageFormat_RGBA_8888,
+	A8_R8_G8_B8,
+	X8_R8_G8_B8,
 
-	kNImageFormat_XRGB_8888,
-	kNImageFormat_ARGB_8888,
-
-	kNImageFormat_BGRX_8888,
-	kNImageFormat_BGRA_8888
-} NImageFormat;
-
-
-
-
-
-//============================================================================
-//		Types
-//----------------------------------------------------------------------------
-// Functors
-typedef nfunctor<bool (NIndex x, NIndex y, const uint8_t *pixelPtr)>		NImageForEachImmutablePixelFunctor;
-typedef nfunctor<bool (NIndex x, NIndex y,       uint8_t *pixelPtr)>		NImageForEachMutablePixelFunctor;
-
-typedef nfunctor<bool (NIndex y, NIndex theWidth, const uint8_t *rowPtr)>	NImageForEachImmutableRowFunctor;
-typedef nfunctor<bool (NIndex y, NIndex theWidth,       uint8_t *rowPtr)>	NImageForEachMutableRowFunctor;
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NImage {
-public:
-										NImage(const NData &theData);
-										NImage(const NFile &theFile);
-
-										NImage(	const NSize	   &theSize,
-												NImageFormat	theFormat = kNImageFormat_RGBA_8888,
-												const NData	   &theData   = NData(),
-												NIndex			rowBytes  = 0);
-
-										NImage(void);
-	virtual							   ~NImage(void);
-
-
-	// Is the image valid?
-	bool								IsValid(void) const;
-
-
-	// Clear the image
-	void								Clear(void);
-
-
-	// Process each pixel
-	void								ForEachPixel(const NImageForEachImmutablePixelFunctor &theFunctor) const;
-	void								ForEachPixel(const NImageForEachMutablePixelFunctor   &theFunctor);
-
-
-	// Process each row
-	void								ForEachRow(const NImageForEachImmutableRowFunctor &theFunctor) const;
-	void								ForEachRow(const NImageForEachMutableRowFunctor   &theFunctor);
-
-
-	// Get the dimensions
-	NIndex								GetWidth( void) const;
-	NIndex								GetHeight(void) const;
-
-	NSize								GetSize(  void) const;
-	NRectangle							GetBounds(void) const;
-
-
-	// Get/set the format
-	NImageFormat						GetFormat(void) const;
-	void								SetFormat(NImageFormat theFormat);
-
-
-	// Get the structure
-	NIndex								GetBitsPerPixel(    void) const;
-	NIndex								GetBitsPerComponent(void) const;
-	NIndex								GetBytesPerPixel(   void) const;
-	NIndex								GetBytesPerRow(     void) const;
-
-
-	// Get the pixels
-	//
-	// Const access is preferred, to avoid duplicating the underlying image data.
-	const uint8_t					   *GetPixels(NIndex x=0, NIndex y=0) const;
-	uint8_t							   *GetPixels(NIndex x=0, NIndex y=0);
-
-
-	// Get the data
-	NData								GetData(void) const;
-
-
-	// Load/save the image
-	//
-	// Images are loaded in their existing format, and can be converted
-	// to a specific format after loading.
-	//
-	// Images are saved to the UTI of their file ("foo.jpg" will produce
-	// a JPEG), and can also be saved to a specific type.
-	NStatus								Load(const NFile &theFile, NImageFormat	theFormat=kNImageFormatNone);
-	NStatus								Save(const NFile &theFile, const NUTI &theType=NUTI()) const;
-
-
-	// Encode/decode the image
-	//
-	// Images are decoded to their existing format, and can be converted
-	// to a specific format after decoding.
-	NData								Encode(const NUTI  &theType=kNUTTypePNG) const;
-	NStatus								Decode(const NData &theData, NImageFormat theFormat=kNImageFormatNone);
-
-
-private:
-	bool								ForEachPixelInImmutableRow(NIndex y, NIndex theWidth, NIndex pixelBytes, const NImageForEachImmutablePixelFunctor &theFunctor, const uint8_t *rowPtr) const;
-	bool								ForEachPixelInMutableRow(  NIndex y, NIndex theWidth, NIndex pixelBytes, const NImageForEachMutablePixelFunctor   &theFunctor,       uint8_t *rowPtr);
-
-	void								Convert_RGB_888(  NImageFormat theFormat);
-	void								Convert_BGR_888(  NImageFormat theFormat);
-	void								Convert_RGBA_8888(NImageFormat theFormat);
-	void								Convert_ARGB_8888(NImageFormat theFormat);
-	void								Convert_BGRA_8888(NImageFormat theFormat);
-
-	bool								RowSwizzle24(   NIndex theWidth,       uint8_t *rowPtr, const NIndexList &newOrder);
-	bool								RowSwizzle32(   NIndex theWidth,       uint8_t *rowPtr, const NIndexList &newOrder);
-	bool								RowExpand24To32(NIndex theWidth, const uint8_t *rowPtr, const NIndexList &dstOrder, NImage *dstImage, NIndex y);
-	bool								RowReduce32To24(NIndex theWidth,       uint8_t *rowPtr, const NIndexList &srcOrder);
-
-
-private:
-	NSize								mSize;
-	NData								mData;
-	NImageFormat						mFormat;
-	NIndex								mRowBytes;
+	A8_B8_G8_R8,
+	X8_B8_G8_R8
 };
 
 
 
 
 
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Functions
+using NFunctionEachImmutablePixel =
+	std::function<bool(size_t x, size_t y, const uint8_t* pixelPtr)>;
+
+using NFunctionEachMutablePixel                             = std::function<bool(size_t x, size_t y, uint8_t* pixelPtr)>;
+
+using NFunctionEachImmutableRow =
+	std::function<bool(size_t y, size_t theWidth, const uint8_t* rowPtr)>;
+
+using NFunctionEachMutableRow                               = std::function<bool(size_t y, size_t theWidth, uint8_t* rowPtr)>;
 
 
-#endif // NCOLOR_HDR
 
 
+
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NImage
+{
+public:
+										NImage(const NSize& theSize,
+											   NImageFormat theFormat = NImageFormat::R8_G8_B8_A8,
+											   const NData& theData   = NData(),
+		   size_t       rowBytes  = 0);
+
+										NImage(const NData& theData);
+										NImage(const NFile& theFile);
+
+										NImage();
+
+
+	// Is the image valid?
+	bool                                IsValid() const;
+
+
+	// Clear the image
+	void                                Clear();
+
+
+	// Get the dimensions
+	size_t                              GetWidth()  const;
+	size_t                              GetHeight() const;
+
+	NSize                               GetSize()   const;
+	NRectangle                          GetBounds() const;
+
+
+	// Get/set the format
+	NImageFormat                        GetFormat() const;
+	void                                SetFormat(NImageFormat theFormat);
+
+
+	// Get the structure
+	size_t                              GetBitsPerPixel()     const;
+	size_t                              GetBitsPerComponent() const;
+	size_t                              GetBytesPerPixel()    const;
+	size_t                              GetBytesPerRow()      const;
+
+
+	// Get the pixels
+	//
+	// A request for mutable access may need to copy the data.
+	const uint8_t*                      GetPixels(       size_t x = 0, size_t y = 0) const;
+	uint8_t*                            GetMutablePixels(size_t x = 0, size_t y = 0);
+
+
+	// Get the data
+	NData                               GetData() const;
+
+
+	// Pack the rows
+	//
+	// Packs the data to the specified bytes per row, or the minimum
+	// required width if no width is specified.
+	void                                PackRows(size_t bytesPerRow = 0);
+
+
+	// Process each pixel
+	void                                ForEachPixel(const NFunctionEachImmutablePixel& theFunction) const;
+	void                                ForEachPixel(const NFunctionEachMutablePixel&   theFunction);
+
+
+	// Process each row
+	void                                ForEachRow(const NFunctionEachImmutableRow& theFunction) const;
+	void                                ForEachRow(const NFunctionEachMutableRow&   theFunction);
+
+
+	// Load/save the image
+	//
+	// Images are loaded in the requested format, or their existing format
+	// if no format is specified.
+	//
+	// Images are saved to the UTI of their file ("foo.jpg" will produce
+	// a JPEG) and can also be saved to a specific type.
+	NStatus                             Load(const NFile& theFile, NImageFormat theFormat = NImageFormat::None);
+	NStatus                             Save(const NFile& theFile, const NUTI& theType = NUTI()) const;
+
+
+	// Encode/decode the image
+	//
+	// Images are decoded to the requested format, or their existing format
+	// if no format is specified.
+	NStatus                             Decode(const NData& theData, NImageFormat theFormat = NImageFormat::None);
+	NData                               Encode(const NUTI& theType = kNUTTypePNG) const;
+
+
+private:
+	NStatus                             ImageDecode(const NData& theData);
+	NData                               ImageEncode(const NUTI& theType) const;
+
+	void                                Convert_A8(         NImageFormat theFormat);
+	void                                Convert_R8_G8_B8(   NImageFormat theFormat);
+	void                                Convert_B8_G8_R8(   NImageFormat theFormat);
+	void                                Convert_R8_G8_B8_A8(NImageFormat theFormat);
+	void                                Convert_B8_G8_R8_A8(NImageFormat theFormat);
+	void                                Convert_A8_R8_G8_B8(NImageFormat theFormat);
+	void                                Convert_A8_B8_G8_R8(NImageFormat theFormat);
+
+	void                                RepackRows();
+
+	bool                                RowSwizzle24(   size_t theWidth, uint8_t* rowPtr, const NVectorSize& newOrder);
+	bool                                RowSwizzle32(   size_t theWidth, uint8_t* rowPtr, const NVectorSize& newOrder);
+	bool                                RowReduce32To24(size_t theWidth, uint8_t* rowPtr, const NVectorSize& srcOrder);
+	bool                                RowReduce32To8( size_t theWidth, uint8_t* rowPtr, size_t srcIndex);
+
+	bool                                RowExpand24To32(size_t             theWidth,
+														const uint8_t*     rowPtr,
+														const NVectorSize& dstOrder,
+														NImage*            dstImage,
+														size_t             y);
+	bool                                RowExpand8To32(size_t         theWidth,
+													   const uint8_t* rowPtr,
+													   size_t         dstIndex,
+													   NImage*        dstImage,
+													   size_t         y);
+
+
+
+private:
+	NSize                               mSize;
+	NData                               mData;
+	NImageFormat                        mFormat;
+	size_t                              mRowBytes;
+};
+
+
+
+
+
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NImage.inl"
+
+
+
+#endif // NIMAGE_H
