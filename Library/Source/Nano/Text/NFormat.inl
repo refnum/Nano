@@ -232,7 +232,7 @@ public:
 	template<typename FormatContext>
 	auto format(const NFile& theParam, FormatContext& theContext)
 	{
-		return format_to(theContext.out(), theParam.GetPath().GetUTF8());
+		return format_to(theContext.out(), "{}", theParam.GetPath().GetUTF8());
 	}
 };
 
@@ -251,7 +251,7 @@ public:
 	template<typename FormatContext>
 	auto format(const NFileInfo& theParam, FormatContext& theContext)
 	{
-		return format_to(theContext.out(), theParam.GetPath().GetUTF8());
+		return format_to(theContext.out(), "{}", theParam.GetPath().GetUTF8());
 	}
 };
 
@@ -270,7 +270,7 @@ public:
 	template<typename FormatContext>
 	auto format(const NFilePath& theParam, FormatContext& theContext)
 	{
-		return format_to(theContext.out(), theParam.GetUTF8());
+		return format_to(theContext.out(), "{}", theParam.GetUTF8());
 	}
 };
 
@@ -406,7 +406,7 @@ public:
 	template<typename FormatContext>
 	auto format(const NString& theParam, FormatContext& theContext)
 	{
-		return format_to(theContext.out(), theParam.GetUTF8());
+		return format_to(theContext.out(), "{}", theParam.GetUTF8());
 	}
 };
 
