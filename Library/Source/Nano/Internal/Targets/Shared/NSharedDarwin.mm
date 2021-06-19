@@ -44,9 +44,12 @@
 // Nano
 #include "NData.h"
 #include "NDebug.h"
+#include "NFilePath.h"
 #include "NFormat.h"
+#include "NSemaphore.h"
 #include "NSharedPOSIX.h"
 #include "NString.h"
+#include "NTime.h"
 #include "NTimeUtils.h"
 #include "NVersion.h"
 

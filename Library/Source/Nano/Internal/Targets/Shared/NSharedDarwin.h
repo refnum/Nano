@@ -43,16 +43,27 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NFileInfo.h"
-#include "NFilePath.h"
 #include "NFileUtils.h"
 #include "NMachine.h"
 #include "NProcess.h"
 #include "NRunLoop.h"
-#include "NSemaphore.h"
-#include "NString.h"
 #include "NSystem.h"
-#include "NTime.h"
-#include "NVersion.h"
+
+
+
+
+
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Forward declarations
+class NFilePath;
+class NImage;
+class NSemaphore;
+class NString;
+class NTime;
+class NUTI;
+class NVersion;
 
 
 
