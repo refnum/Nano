@@ -51,7 +51,7 @@
 //		Constants
 //-----------------------------------------------------------------------------
 // CPU core type
-enum NCoreType
+enum class NCoreType
 {
 	Logical,
 	Physical
