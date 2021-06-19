@@ -42,6 +42,8 @@
 #include "NSharedDarwin.h"
 
 // Nano
+#include "NCFData.h"
+#include "NCGImage.h"
 #include "NData.h"
 #include "NDebug.h"
 #include "NFilePath.h"
@@ -51,11 +53,14 @@
 #include "NString.h"
 #include "NTime.h"
 #include "NTimeUtils.h"
+#include "NUTI.h"
 #include "NVersion.h"
 
 // System
 #include <CoreFoundation/CoreFoundation.h>
+#include <CoreServices/CoreServices.h>
 #include <Foundation/Foundation.h>
+#include <ImageIO/ImageIO.h>
 #include <cxxabi.h>
 #include <dispatch/semaphore.h>
 #include <execinfo.h>
@@ -115,6 +120,11 @@ struct NDarwinRunLoop
 	CFRunLoopRef      cfRunLoop;
 	CFRunLoopTimerRef cfStopTimer;
 };
+
+
+// NCFObject helpers
+using NCGImageSource      = NCFObject<CGImageSourceRef>;
+using NCGImageDestination = NCFObject<CGImageDestinationRef>;
 
 
 
@@ -686,6 +696,112 @@ NFilePath NSharedDarwin::PathLocation(NFileLocation theLocation)
 	}
 
 	return thePath;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::ImageDecode : Decode image data.
+//-----------------------------------------------------------------------------
+NStatus NSharedDarwin::ImageDecode(NImage& theImage, const NData& theData)
+{
+
+
+	// Get the state we need
+	NCGImageSource cgImageSource;
+	NCFData        cfData;
+
+	if (!cfData.Set(CFDataCreateWithBytesNoCopy(kCFAllocatorDefault,
+												theData.GetData(),
+												CFIndex(theData.GetSize()),
+												kCFAllocatorNull)))
+	{
+		return NStatus::Memory;
+	}
+
+	if (!cgImageSource.Set(CGImageSourceCreateWithData(cfData, nullptr)))
+	{
+		return NStatus::Memory;
+	}
+
+
+
+	// Decode the image
+	NCGImage cgImage;
+
+	if (cgImage.Set(CGImageSourceCreateImageAtIndex(cgImageSource, 0, nullptr)))
+	{
+		theImage = cgImage.GetImage();
+		return NStatus::OK;
+	}
+
+	return NStatus::NotSupported;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::ImageEncode : Encode image data.
+//-----------------------------------------------------------------------------
+NData NSharedDarwin::ImageEncode(const NImage& theImage, const NUTI& theType)
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(theImage.IsValid());
+	NN_REQUIRE(theType.IsValid());
+
+
+
+	// Get the state we need
+	CFStringRef dstFormat = nullptr;
+
+	if (theType == kNUTTypePNG)
+	{
+		dstFormat = kUTTypePNG;
+	}
+	else if (theType == kNUTTypeJPEG)
+	{
+		dstFormat = kUTTypeJPEG;
+	}
+	else if (theType == kNUTTypeTIFF)
+	{
+		dstFormat = kUTTypeTIFF;
+	}
+	else if (theType == kNUTTypeGIF)
+	{
+		dstFormat = kUTTypeGIF;
+	}
+	else
+	{
+		NN_LOG_ERROR("Unsupported format: {}", theType);
+		return NData();
+	}
+
+
+
+	// Encode the image
+	NCGImageDestination cgImageDst;
+	NCGImage            cgImage;
+	NCFMutableData      cfData;
+
+	if (cfData.Set(CFDataCreateMutable(kCFAllocatorDefault, 0)) &&
+		cgImageDst.Set(CGImageDestinationCreateWithData(cfData, dstFormat, 1, nullptr)) &&
+		cgImage.SetImage(theImage))
+	{
+		CGImageDestinationAddImage(cgImageDst, cgImage, nullptr);
+
+		if (CGImageDestinationFinalize(cgImageDst))
+		{
+			return cfData.GetData();
+		}
+	}
+
+	return NData();
 }
 
 

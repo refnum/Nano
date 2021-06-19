@@ -100,6 +100,11 @@ public:
 	static NFilePath                    PathLocation(NFileLocation theLocation);
 
 
+	// Images
+	static NStatus                      ImageDecode(      NImage& theImage, const NData& theData);
+	static NData                        ImageEncode(const NImage& theImage, const NUTI& theType);
+
+
 	// Threads
 	static bool                         ThreadIsMain();
 	static size_t                       ThreadStackSize();

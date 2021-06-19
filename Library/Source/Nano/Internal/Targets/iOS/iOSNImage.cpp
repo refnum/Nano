@@ -41,6 +41,9 @@
 //-----------------------------------------------------------------------------
 #include "NImage.h"
 
+// Nano
+#include "NSharedDarwin.h"
+
 
 
 
@@ -52,10 +55,8 @@ NStatus NImage::ImageDecode(const NData& theData)
 {
 
 
-	// Decode the image
-	NN_LOG_UNIMPLEMENTED();
-
-	return NStatus::NotSupported;
+	// Deocde the image
+	return NSharedDarwin::ImageDecode(*this, theData);
 }
 
 
@@ -69,8 +70,6 @@ NData NImage::ImageEncode(const NUTI& theType) const
 {
 
 
-	// Decode the image
-	NN_LOG_UNIMPLEMENTED();
-
-	return NData();
+	// Encode the image
+	return NSharedDarwin::ImageEncode(*this, theType);
 }
