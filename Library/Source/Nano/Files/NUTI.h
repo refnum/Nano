@@ -65,45 +65,45 @@ enum class NUTITag
 // UTIs
 //
 // Abstract base types
-inline constexpr const char* kNUTTypeNone                   = "";
-inline constexpr const char* kNUTTypeItem                   = "public.item";
-inline constexpr const char* kNUTTypeContent                = "public.content";
-inline constexpr const char* kNUTTypeDiskImage              = "public.disk-image";
+inline constexpr const utf8_t* kNUTTypeNone                 = "";
+inline constexpr const utf8_t* kNUTTypeItem                 = "public.item";
+inline constexpr const utf8_t* kNUTTypeContent              = "public.content";
+inline constexpr const utf8_t* kNUTTypeDiskImage            = "public.disk-image";
 
 
 // Concrete base types
-inline constexpr const char* kNUTTypeData                   = "public.data";
-inline constexpr const char* kNUTTypeDirectory              = "public.directory";
+inline constexpr const utf8_t* kNUTTypeData                 = "public.data";
+inline constexpr const utf8_t* kNUTTypeDirectory            = "public.directory";
 
 
 // Text types
-inline constexpr const char* kNUTTypeText                   = "public.text";
-inline constexpr const char* kNUTTypeDelimitedText          = "public.delimited-values-text";
-inline constexpr const char* kNUTTypeCSV                    = "public.comma-separated-values-text";
+inline constexpr const utf8_t* kNUTTypeText                 = "public.text";
+inline constexpr const utf8_t* kNUTTypeDelimitedText        = "public.delimited-values-text";
+inline constexpr const utf8_t* kNUTTypeCSV                  = "public.comma-separated-values-text";
 
 
 // XML types
-inline constexpr const char* kNUTTypeXML                    = "public.xml";
-inline constexpr const char* kNUTTypeGPX                    = "public.gpx";
-inline constexpr const char* kNUTTypeKML                    = "public.kml";
+inline constexpr const utf8_t* kNUTTypeXML                  = "public.xml";
+inline constexpr const utf8_t* kNUTTypeGPX                  = "public.gpx";
+inline constexpr const utf8_t* kNUTTypeKML                  = "public.kml";
 
 
 // Image types
-inline constexpr const char* kNUTTypeImage                  = "public.image";
-inline constexpr const char* kNUTTypeGIF                    = "com.compuserve.gif";
-inline constexpr const char* kNUTTypeJPEG                   = "public.jpeg";
-inline constexpr const char* kNUTTypePNG                    = "public.png";
-inline constexpr const char* kNUTTypeSVG                    = "public.svg-image";
-inline constexpr const char* kNUTTypeTIFF                   = "public.tiff";
+inline constexpr const utf8_t* kNUTTypeImage                = "public.image";
+inline constexpr const utf8_t* kNUTTypeGIF                  = "com.compuserve.gif";
+inline constexpr const utf8_t* kNUTTypeJPEG                 = "public.jpeg";
+inline constexpr const utf8_t* kNUTTypePNG                  = "public.png";
+inline constexpr const utf8_t* kNUTTypeSVG                  = "public.svg-image";
+inline constexpr const utf8_t* kNUTTypeTIFF                 = "public.tiff";
 
 
 // Disk images
-inline constexpr const char* kNUTTypeDMG                    = "com.apple.disk-image-udif";
-inline constexpr const char* kNUTTypeISO                    = "public.iso-image";
+inline constexpr const utf8_t* kNUTTypeDMG                  = "com.apple.disk-image-udif";
+inline constexpr const utf8_t* kNUTTypeISO                  = "public.iso-image";
 
 
 // Application types
-inline constexpr const char* kNUTTypeKMZ                    = "public.kmz";
+inline constexpr const utf8_t* kNUTTypeKMZ                  = "public.kmz";
 
 
 
@@ -115,7 +115,7 @@ inline constexpr const char* kNUTTypeKMZ                    = "public.kmz";
 class NN_EMPTY_BASE NUTI final : public NMixinComparable<NUTI>
 {
 public:
-										NUTI(const char* typeUTF8);
+										NUTI(const utf8_t*  theType);
 										NUTI(const NString& theType);
 										NUTI(NUTITag theTag, const NString& theValue);
 

@@ -53,8 +53,8 @@
 //=============================================================================
 //		NUTI::NUTI : Constructor.
 //-----------------------------------------------------------------------------
-NUTI::NUTI(const char* typeUTF8)
-	: mType(typeUTF8)
+NUTI::NUTI(const utf8_t* theType)
+	: mType(theType)
 {
 
 
