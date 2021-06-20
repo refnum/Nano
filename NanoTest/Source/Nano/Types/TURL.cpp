@@ -50,13 +50,11 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static const NURL kTestURL1                                 = "http://www.apple.com/path/to/file.txt";
-static const NURL kTestURL2                                 = "http://www.apple.com:80/path/to/file.txt";
-
-static const NString kTestScheme                            = "http";
-static const NString kTestHost                              = "www.apple.com";
-static const NIndex  kTestPort                              = 80;
-static const NString kTestPath                              = "/path/to/file.txt";
+static const NString  kTestURL                              = "http://www.aaaaa.com:80/path/to/file.txt";
+static const NString  kTestScheme                           = "http";
+static const NString  kTestHost                             = "www.aaaaa.com";
+static const uint16_t kTestPort                             = 80;
+static const NString  kTestPath                             = "/path/to/file.txt";
 
 
 
@@ -65,9 +63,15 @@ static const NString kTestPath                              = "/path/to/file.txt
 //=============================================================================
 //		Test Fixture
 //-----------------------------------------------------------------------------
-#define TEST_NURL(...)                                      TEST_NANO(TURL, ##__VA_ARGS__)
+NANO_FIXTURE(TURL)
+{
+	NURL theURL;
 
-FIXTURE_NANO(TURL){};
+	SETUP
+	{
+		theURL = kTestURL;
+	}
+};
 
 
 
@@ -76,20 +80,184 @@ FIXTURE_NANO(TURL){};
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-TEST_NURL("Components")
+NANO_TEST(TURL, "Constructor")
 {
 
 
 	// Perform the test
-	REQUIRE(kTestURL1.GetScheme() == kTestScheme);
-	REQUIRE(kTestURL1.GetHost() == kTestHost);
-	REQUIRE(kTestURL1.GetPort() == kTestPort);
-	REQUIRE(kTestURL1.GetPath() == kTestPath);
+	NURL urlText("http://www.apple.com/");
+	NURL urlString(NString("http://www.apple.com/"));
+}
 
-	REQUIRE(kTestURL2.GetScheme() == kTestScheme);
-	REQUIRE(kTestURL2.GetHost() == kTestHost);
-	REQUIRE(kTestURL2.GetPort() == kTestPort);
-	REQUIRE(kTestURL2.GetPath() == kTestPath);
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TURL, "IsValid")
+{
+
+
+	// Perform the test
+	theURL = NURL();
+	REQUIRE(!theURL.IsValid());
+
+	theURL = kTestURL;
+	REQUIRE(theURL.IsValid());
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TURL, "Clear")
+{
+
+
+	// Perform the test
+	REQUIRE(theURL.IsValid());
+
+	theURL.Clear();
+	REQUIRE(!theURL.IsValid());
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TURL, "GetURL")
+{
+
+
+	// Perform the test
+	REQUIRE(theURL.GetURL() == kTestURL);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TURL, "SetURL")
+{
+
+
+	// Perform the test
+	REQUIRE(theURL.GetURL() != "http://www.bbbbb.com/");
+
+	theURL.SetURL("http://www.bbbbb.com/");
+	REQUIRE(theURL.GetURL() == "http://www.bbbbb.com/");
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TURL, "GetScheme")
+{
+
+
+	// Perform the test
+	REQUIRE(theURL.GetScheme() == kTestScheme);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TURL, "GetHost")
+{
+
+
+	// Perform the test
+	REQUIRE(theURL.GetHost() == kTestHost);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TURL, "GetPort")
+{
+
+
+	// Perform the test
+	REQUIRE(theURL.GetPort() == kTestPort);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TURL, "GetPath")
+{
+
+
+	// Perform the test
+	REQUIRE(theURL.GetPath() == kTestPath);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TURL, "CompareEqual")
+{
+
+
+	// Perform the test
+	NURL urlA("http://www.aaaaa.com/");
+	NURL urlB("http://www.bbbbb.com/");
+
+	REQUIRE(urlA == urlA);
+	REQUIRE(urlB == urlB);
+	REQUIRE(urlA != urlB);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TURL, "CompareOrder")
+{
+
+
+	// Perform the test
+	NURL urlA("http://www.aaaaa.com/");
+	NURL urlB("http://www.bbbbb.com/");
+
+	REQUIRE(urlA <= urlA);
+	REQUIRE(urlB <= urlB);
+	REQUIRE(urlA < urlB);
+	REQUIRE(urlB > urlA);
 }
 
 
@@ -104,5 +272,5 @@ NANO_TEST(TURL, "Format")
 
 
 	// Perform the test
-	REQUIRE(NFormat("{}", kTestURL1) == kTestURL1);
+	REQUIRE(NFormat("{}", theURL) == kTestURL);
 }

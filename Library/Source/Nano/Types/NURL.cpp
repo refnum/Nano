@@ -41,6 +41,9 @@
 //-----------------------------------------------------------------------------
 #include "NURL.h"
 
+// Nano
+#include "NNumber.h"
+
 
 
 
@@ -56,9 +59,14 @@ uint16_t NURL::GetPort() const
 	NString  theValue = GetToken("^\\w+://.*?:(\\d+)/");
 	uint16_t thePort  = 0;
 
-	if (!theValue.IsEmpty() && theNumber.SetValue(theValue))
+	if (!theValue.IsEmpty())
 	{
-		thePort = theNumber.GetUInt16();
+		NNumber theNumber;
+
+		if (theNumber.SetValue(theValue))
+		{
+			thePort = theNumber.GetUInt16();
+		}
 	}
 
 	return thePort;
@@ -77,5 +85,5 @@ NString NURL::GetToken(const NString& thePattern) const
 
 
 	// Get the token
-	return mValue.GetMatch(thePattern, kNStringPattern);
+	return mURL.GetMatch(thePattern);
 }
