@@ -1,8 +1,8 @@
 /*	NAME:
-		NCFArray.inl
+		NCFDate.cpp
 
 	DESCRIPTION:
-		CFArrayRef wrapper.
+		CFDateRef wrapper.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -39,18 +39,51 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NCFDate.h"
+
+// Nano
+#include "NCoreFoundation.h"
 
 
 
 
 
 //=============================================================================
-//		NCFArray::NCFArray : Constructor.
+//		NCFDate::GetDate : Get the date.
 //-----------------------------------------------------------------------------
-inline NCFArray::NCFArray(const NArray& theArray)
+NDate NCFDate::GetDate() const
 {
 
 
-	// Initialise ourselves
-	SetArray(theArray);
+	// Get the date
+	CFDateRef cfDate = *this;
+	NDate     theDate;
+
+	if (cfDate != nullptr)
+	{
+		CFAbsoluteTime cfTime = CFDateGetAbsoluteTime(cfDate);
+		theDate               = NDate(2001, 1, 1);
+
+		theDate.AddDays(size_t(cfTime / kNTimeDay));
+	}
+
+	return theDate;
+}
+
+
+
+
+
+//=============================================================================
+//		NCFDate::SetDate : Set the date.
+//-----------------------------------------------------------------------------
+bool NCFDate::SetDate(const NDate& theDate)
+{
+
+
+	// Set the date
+	size_t    numDays = theDate.GetDaysBetween(NDate(2001, 1, 1));
+	NInterval theTime = NInterval(numDays) * kNTimeDay;
+
+	return Set(CFDateCreate(kCFAllocatorDefault, theTime));
 }

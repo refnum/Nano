@@ -394,6 +394,12 @@
 		ABF58D8B267C180A00327252 /* NCGImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB601771A4D800F3364C /* NCGImage.cpp */; };
 		ABF58D8C267C180B00327252 /* NCGImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB601771A4D800F3364C /* NCGImage.cpp */; };
 		ABF58D8D267C180B00327252 /* NCGImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB601771A4D800F3364C /* NCGImage.cpp */; };
+		ABF58DB1267F4EBC00327252 /* NCFArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58DB0267F4EBC00327252 /* NCFArray.cpp */; };
+		ABF58DB2267F4EBC00327252 /* NCFArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58DB0267F4EBC00327252 /* NCFArray.cpp */; };
+		ABF58DB3267F4EBC00327252 /* NCFArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58DB0267F4EBC00327252 /* NCFArray.cpp */; };
+		ABF58DB5267F4F5900327252 /* NCFDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58DB4267F4F5900327252 /* NCFDate.cpp */; };
+		ABF58DB6267F4F5900327252 /* NCFDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58DB4267F4F5900327252 /* NCFDate.cpp */; };
+		ABF58DB7267F4F5900327252 /* NCFDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58DB4267F4F5900327252 /* NCFDate.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -962,6 +968,8 @@
 		ABF58DAD267EB91D00327252 /* NCoreFoundation.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NCoreFoundation.inl; sourceTree = "<group>"; };
 		ABF58DAE267EBECA00327252 /* NCFArray.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NCFArray.inl; sourceTree = "<group>"; };
 		ABF58DAF267EC7F200327252 /* NCFDate.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NCFDate.inl; sourceTree = "<group>"; };
+		ABF58DB0267F4EBC00327252 /* NCFArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCFArray.cpp; sourceTree = "<group>"; };
+		ABF58DB4267F4F5900327252 /* NCFDate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCFDate.cpp; sourceTree = "<group>"; };
 		ABFD46FC25C4FCFB00CE9358 /* NRandomGenerator.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NRandomGenerator.inl; sourceTree = "<group>"; };
 		ABFD46FD25C4FCFB00CE9358 /* NRandomGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRandomGenerator.h; sourceTree = "<group>"; };
 		ABFD973F1663958F00EE07B7 /* NSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSocket.cpp; sourceTree = "<group>"; };
@@ -1430,10 +1438,12 @@
 		AB9154E00F9B4DD5009FFEAF /* CoreFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				ABF58DB0267F4EBC00327252 /* NCFArray.cpp */,
 				AB9DA5E0102AF78F0062E311 /* NCFArray.h */,
 				ABF58DAE267EBECA00327252 /* NCFArray.inl */,
 				ABF58D95267C948900327252 /* NCFData.h */,
 				ABF58D96267C948900327252 /* NCFData.inl */,
+				ABF58DB4267F4F5900327252 /* NCFDate.cpp */,
 				AB9DA5E1102AF78F0062E311 /* NCFDate.h */,
 				ABF58DAF267EC7F200327252 /* NCFDate.inl */,
 				AB9DA5DA102AF78F0062E311 /* NCFDictionary.cpp */,
@@ -2081,6 +2091,7 @@
 				ABB38CBD25A7F1700050D506 /* NDictionary.cpp in Sources */,
 				ABA4790A25B7B91300F3C3C9 /* tvOSNSystem.cpp in Sources */,
 				ABCD3CBB25D6BF9900276B30 /* NColor.cpp in Sources */,
+				ABF58DB3267F4EBC00327252 /* NCFArray.cpp in Sources */,
 				AB84536D2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */,
 				ABF58C3A267572F300327252 /* NDataDigest.cpp in Sources */,
 				ABC6473A25818466009B82AD /* pcre2_study.c in Sources */,
@@ -2151,6 +2162,7 @@
 				AB3A4989258194580065B4DA /* sqlite3.34.0.c in Sources */,
 				AB230A282581AB8600919EBD /* gzwrite.c in Sources */,
 				ABF58CCE267932C300327252 /* NUndoManager.cpp in Sources */,
+				ABF58DB7267F4F5900327252 /* NCFDate.cpp in Sources */,
 				ABF58C2E267572F300327252 /* NDataCompressor.cpp in Sources */,
 				AB081C6525BCD5E50058D397 /* NRandom.cpp in Sources */,
 				ABDCE8B7241C59570054A16E /* NFileHandle.cpp in Sources */,
@@ -2217,6 +2229,7 @@
 				ABC6473825818466009B82AD /* pcre2_study.c in Sources */,
 				ABDCE8E5241F8ACD0054A16E /* NFile.cpp in Sources */,
 				ABCD3CB925D6BF9900276B30 /* NColor.cpp in Sources */,
+				ABF58DB1267F4EBC00327252 /* NCFArray.cpp in Sources */,
 				AB56393B23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
 				ABF58C38267572F300327252 /* NDataDigest.cpp in Sources */,
 				ABC6471D25818466009B82AD /* pcre2_substring.c in Sources */,
@@ -2287,6 +2300,7 @@
 				ABDCE8B5241C59570054A16E /* NFileHandle.cpp in Sources */,
 				AB3A4987258194580065B4DA /* sqlite3.34.0.c in Sources */,
 				ABF58CCA267932C200327252 /* NUndoManager.cpp in Sources */,
+				ABF58DB5267F4F5900327252 /* NCFDate.cpp in Sources */,
 				ABF58C2C267572F300327252 /* NDataCompressor.cpp in Sources */,
 				AB230A262581AB8600919EBD /* gzwrite.c in Sources */,
 				AB081C6325BCD5E50058D397 /* NRandom.cpp in Sources */,
@@ -2353,6 +2367,7 @@
 				ABF58CE326794C0C00327252 /* NImage.cpp in Sources */,
 				ABCD3CBA25D6BF9900276B30 /* NColor.cpp in Sources */,
 				ABB38CC125A7F1700050D506 /* NDictionary.cpp in Sources */,
+				ABF58DB2267F4EBC00327252 /* NCFArray.cpp in Sources */,
 				ABF58C39267572F300327252 /* NDataDigest.cpp in Sources */,
 				ABC6473925818466009B82AD /* pcre2_study.c in Sources */,
 				ABDCE8E6241F8ACD0054A16E /* NFile.cpp in Sources */,
@@ -2423,6 +2438,7 @@
 				AB1981092597C0E2002C5591 /* macOSNThread.cpp in Sources */,
 				ABDCE8AB241C2A550054A16E /* NPOSIX.cpp in Sources */,
 				ABF58CCC267932C200327252 /* NUndoManager.cpp in Sources */,
+				ABF58DB6267F4F5900327252 /* NCFDate.cpp in Sources */,
 				ABF58C2D267572F300327252 /* NDataCompressor.cpp in Sources */,
 				AB230A332581AB8600919EBD /* adler32.c in Sources */,
 				AB081C6425BCD5E50058D397 /* NRandom.cpp in Sources */,

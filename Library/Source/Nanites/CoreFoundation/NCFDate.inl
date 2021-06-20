@@ -39,7 +39,6 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NCoreFoundation.h"
 
 
 
@@ -54,48 +53,4 @@ inline NCFDate::NCFDate(const NDate& theDate)
 
 	// Initialise ourselves
 	SetDate(theDate);
-}
-
-
-
-
-
-//=============================================================================
-//		NCFDate::GetDate : Get the date.
-//-----------------------------------------------------------------------------
-inline NDate NCFDate::GetDate() const
-{
-
-
-	// Get the date
-	CFDateRef cfDate = *this;
-	NDate     theDate;
-
-	if (cfDate != nullptr)
-	{
-		CFAbsoluteTime cfTime = CFDateGetAbsoluteTime(cfDate);
-		theDate               = NDate(2001, 1, 1);
-
-		theDate.AddDays(size_t(cfTime / kNTimeDay));
-	}
-
-	return theDate;
-}
-
-
-
-
-
-//=============================================================================
-//		NCFDate::SetDate : Set the date.
-//-----------------------------------------------------------------------------
-bool NCFDate::SetDate(const NDate& theDate)
-{
-
-
-	// Set the date
-	size_t    numDays = theDate.GetDaysBetween(NDate(2001, 1, 1));
-	NInterval theTime = NInterval(numDays) * kNTimeDay;
-
-	return Set(CFDateCreate(kCFAllocatorDefault, theTime));
 }

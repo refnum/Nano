@@ -1,5 +1,5 @@
 /*	NAME:
-		NCFArray.inl
+		NCFArray.cpp
 
 	DESCRIPTION:
 		CFArrayRef wrapper.
@@ -39,18 +39,63 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NCFArray.h"
+
+// Nano
+#include "NCoreFoundation.h"
 
 
 
 
 
 //=============================================================================
-//		NCFArray::NCFArray : Constructor.
+//		NCFArray::GetArray : Get the array.
 //-----------------------------------------------------------------------------
-inline NCFArray::NCFArray(const NArray& theArray)
+NArray NCFArray::GetArray() const
 {
 
 
-	// Initialise ourselves
-	SetArray(theArray);
+	// Get the array
+	CFArrayRef cfArray = *this;
+	NArray     theArray;
+
+	if (cfArray != nullptr)
+	{
+		CFIndex numItems = CFArrayGetCount(cfArray);
+
+		for (CFIndex n = 0; n < numItems; n++)
+		{
+			theArray.push_back(ToNN(CFTypeRef(CFArrayGetValueAtIndex(cfArray, n))));
+		}
+	}
+
+	return theArray;
+}
+
+
+
+
+
+//=============================================================================
+//		NCFArray::SetArray : Set the array.
+//-----------------------------------------------------------------------------
+bool NCFArray::SetArray(const NArray& theArray)
+{
+
+
+	// Set the array
+	CFIndex numItems = CFIndex(theArray.size());
+	bool wasOK = Set(CFArrayCreateMutable(kCFAllocatorDefault, numItems, &kCFTypeArrayCallBacks));
+
+	if (wasOK)
+	{
+		CFArrayRef cfArray = *this;
+
+		for (const auto& theItem : theArray)
+		{
+			CFArrayAppendValue(cfArray, CFTypeRef(ToCF(theItem)));
+		}
+	}
+
+	return wasOK;
 }
