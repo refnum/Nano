@@ -150,61 +150,6 @@ inline CFStringRef ToCF(const NString& theString)
 
 
 //=============================================================================
-//		ToCF : Convert a Nano object to a CF object.
-//-----------------------------------------------------------------------------
-NCFType ToCF(const NAny& theValue)
-{
-
-
-	// Convert the object
-	NNumber theNumber;
-	NCFType cfObject;
-
-	if (theValue.HasBool())
-	{
-		cfObject.Set(theValue.GetBool() ? kCFBooleanTrue : kCFBooleanFalse);
-	}
-	else if (theValue.HasData())
-	{
-		cfObject.Set(ToCF(theValue.GetData()));
-	}
-	else if (theValue.HasString())
-	{
-		cfObject.Set(ToCF(theValue.GetString()));
-	}
-	else if (theNumber.SetValue(theValue))
-	{
-		cfObject.Set(ToCF(theNumber));
-	}
-	else if (theValue.Has<NArray>())
-	{
-		cfObject.Set(ToCF(theValue.Get<NArray>()));
-	}
-	else if (theValue.Has<NDate>())
-	{
-		cfObject.Set(ToCF(theValue.Get<NDate>()));
-	}
-	else if (theValue.Has<NDictionary>())
-	{
-		cfObject.Set(ToCF(theValue.Get<NDictionary>()));
-	}
-	else if (theValue.Has<NURL>())
-	{
-		cfObject.Set(ToCF(theValue.Get<NURL>()));
-	}
-	else
-	{
-		NN_LOG_ERROR("Unable to convert Nano object to CF!");
-	}
-
-	return cfObject;
-}
-
-
-
-
-
-//=============================================================================
 //		ToCF : Convert NURL to CFURLRef.
 //-----------------------------------------------------------------------------
 //		Note :	As CF objects are toll-free bridged to NS objects, converting
@@ -213,65 +158,6 @@ NCFType ToCF(const NAny& theValue)
 inline CFURLRef ToCF(const NURL& theURL)
 {
 	return CFURLRef(ToNS(theURL));
-}
-
-
-
-
-
-//=============================================================================
-//		ToCF : Convert a CF object to a Nano object.
-//-----------------------------------------------------------------------------
-NAny ToNN(CFTypeRef cfObject)
-{
-
-
-	// Convert the object
-	NAny theObject;
-
-	if (cfObject != nullptr)
-	{
-		CFTypeID cfType = CFGetTypeID(cfOnject);
-
-		if (cfType == CFBooleanGetTypeID())
-		{
-			theObject = CFBooleanGetValue(cfObject) ? true : false;
-		}
-		else if (cfType == CFNumberGetTypeID())
-		{
-			theObject = NCFNumber(CFNumberRef(cfObject)).GetNumber();
-		}
-		else if (cfType == CFStringGetTypeID())
-		{
-			theObject = NCFString(CFStringRef(cfObject)).GetString();
-		}
-		else if (cfType == CFDataGetTypeID())
-		{
-			theObject = NCFData(CFDataRef(cfObject)).GetData();
-		}
-		else if (cfType == CFDateGetTypeID())
-		{
-			theObject = NCFDate(CFDateRef(cfObject)).GetDate();
-		}
-		else if (cfType == CFArrayGetTypeID())
-		{
-			theObject = NCFArray(CFArrayRef(cfObject)).GetArray();
-		}
-		else if (cfType == CFDictionaryGetTypeID())
-		{
-			theObject = NCFDictionary(CFDictionaryRef(cfObject)).GetDictionary();
-		}
-		else if (cfType == CFURLGetTypeID())
-		{
-			theObject = NCFURL(CFURLRef(cfObject)).GetURL();
-		}
-		else
-		{
-			NN_LOG_ERROR("Unable to convert CF object to Nano!");
-		}
-	}
-
-	return theObject;
 }
 
 
