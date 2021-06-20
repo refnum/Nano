@@ -175,7 +175,10 @@ if (NN_TARGET_MACOS)
 	nano_project_libraries(
 		PRIVATE
 			"-framework CoreFoundation"
+			"-framework CoreGraphics"
+			"-framework CoreServices"
 			"-framework Foundation"
+			"-framework ImageIO"
 			"-framework Security"
 	)
 endif()
