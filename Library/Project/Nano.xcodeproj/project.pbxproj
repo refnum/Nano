@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB00E509267FDABD0023F244 /* NCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91567A0F9B5328009FFEAF /* NCFString.cpp */; };
+		AB00E50B267FDABE0023F244 /* NCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91567A0F9B5328009FFEAF /* NCFString.cpp */; };
+		AB00E50C267FDABF0023F244 /* NCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91567A0F9B5328009FFEAF /* NCFString.cpp */; };
+		AB00E50D267FDAC70023F244 /* NURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C4012A5327B0052C55F /* NURL.cpp */; };
+		AB00E50E267FDAC70023F244 /* NURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C4012A5327B0052C55F /* NURL.cpp */; };
+		AB00E50F267FDAC70023F244 /* NURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C4012A5327B0052C55F /* NURL.cpp */; };
+		AB00E511267FDB9C0023F244 /* NCFURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00E510267FDB9C0023F244 /* NCFURL.cpp */; };
+		AB00E512267FDB9C0023F244 /* NCFURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00E510267FDB9C0023F244 /* NCFURL.cpp */; };
+		AB00E513267FDB9C0023F244 /* NCFURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00E510267FDB9C0023F244 /* NCFURL.cpp */; };
+		AB00E515267FDC2D0023F244 /* NCFData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00E514267FDC2D0023F244 /* NCFData.cpp */; };
+		AB00E516267FDC2D0023F244 /* NCFData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00E514267FDC2D0023F244 /* NCFData.cpp */; };
+		AB00E517267FDC2D0023F244 /* NCFData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00E514267FDC2D0023F244 /* NCFData.cpp */; };
 		AB07EA272399D3D000E0AC49 /* iOSNTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA262399D3D000E0AC49 /* iOSNTimeUtils.cpp */; };
 		AB07EA3E239A522E00E0AC49 /* iOSNSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA3B239A521F00E0AC49 /* iOSNSemaphore.cpp */; };
 		AB07EA44239A567400E0AC49 /* NSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */; };
@@ -418,6 +430,8 @@
 		AB0040171096FE97006029F9 /* NSkia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSkia.h; sourceTree = "<group>"; };
 		AB0040191096FEB0006029F9 /* NCoreFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCoreFoundation.h; sourceTree = "<group>"; };
 		AB00402B109700AD006029F9 /* NCoreGraphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCoreGraphics.h; sourceTree = "<group>"; };
+		AB00E510267FDB9C0023F244 /* NCFURL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCFURL.cpp; sourceTree = "<group>"; };
+		AB00E514267FDC2D0023F244 /* NCFData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCFData.cpp; sourceTree = "<group>"; };
 		AB03E590237A0C3200FACADF /* Nano_tvOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano_tvOS.xcconfig; sourceTree = "<group>"; };
 		AB03E642237A0C5F00FACADF /* libNano_tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano_tvOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB078D2711D4A988006C9347 /* NUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUIKit.h; sourceTree = "<group>"; };
@@ -1449,6 +1463,7 @@
 				ABF58DB0267F4EBC00327252 /* NCFArray.cpp */,
 				AB9DA5E0102AF78F0062E311 /* NCFArray.h */,
 				ABF58DAE267EBECA00327252 /* NCFArray.inl */,
+				AB00E514267FDC2D0023F244 /* NCFData.cpp */,
 				ABF58D95267C948900327252 /* NCFData.h */,
 				ABF58D96267C948900327252 /* NCFData.inl */,
 				ABF58DB4267F4F5900327252 /* NCFDate.cpp */,
@@ -1465,6 +1480,7 @@
 				AB91567A0F9B5328009FFEAF /* NCFString.cpp */,
 				AB9156790F9B5328009FFEAF /* NCFString.h */,
 				ABF58DCC267F5BC900327252 /* NCFString.inl */,
+				AB00E510267FDB9C0023F244 /* NCFURL.cpp */,
 				ABB6781812AE55AA0077D64E /* NCFURL.h */,
 				ABF58DD4267F792300327252 /* NCFURL.inl */,
 				ABF58DC4267F572100327252 /* NCoreFoundation.cpp */,
@@ -2116,11 +2132,13 @@
 				AB62326A242AF51300651349 /* NLog.cpp in Sources */,
 				ABC6474F25818466009B82AD /* pcre2_newline.c in Sources */,
 				AB230A222581AB8600919EBD /* inftrees.c in Sources */,
+				AB00E517267FDC2D0023F244 /* NCFData.cpp in Sources */,
 				ABC6471025818466009B82AD /* pcre2_pattern_info.c in Sources */,
 				ABC6472525818466009B82AD /* pcre2_jit_compile.c in Sources */,
 				AB2A305424524F7900F21BF6 /* tvOSNDebugger.cpp in Sources */,
 				ABC6470D25818466009B82AD /* pcre2_string_utils.c in Sources */,
 				AB623270242AF51300651349 /* NDebug.cpp in Sources */,
+				AB00E50B267FDABE0023F244 /* NCFString.cpp in Sources */,
 				ABC6475525818466009B82AD /* pcre2_serialize.c in Sources */,
 				AB56392723C69CD000675F68 /* NByteSwap.cpp in Sources */,
 				ABD3682C25D7502100C825B6 /* NCommandLine.cpp in Sources */,
@@ -2140,12 +2158,14 @@
 				ABD3684B25D81E0500C825B6 /* NFileMap.cpp in Sources */,
 				AB230A192581AB8600919EBD /* infback.c in Sources */,
 				ABC6473725818466009B82AD /* pcre2_substitute.c in Sources */,
+				AB00E513267FDB9C0023F244 /* NCFURL.cpp in Sources */,
 				AB53BBE6242123F4009960AA /* tvOSNFileUtils.cpp in Sources */,
 				ABDCE8D5241C61880054A16E /* tvOSNSemaphore.cpp in Sources */,
 				ABAFD6FB24092DB900CAE9ED /* NTextUtils.cpp in Sources */,
 				ABC6470125818466009B82AD /* pcre2_convert.c in Sources */,
 				AB3A4997258199E70065B4DA /* json.c in Sources */,
 				ABC6472225818466009B82AD /* pcre2_compile.c in Sources */,
+				AB00E50F267FDAC70023F244 /* NURL.cpp in Sources */,
 				ABDCE8D3241C61880054A16E /* tvOSNFileHandle.cpp in Sources */,
 				AB1B4DA823F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
 				ABC6472825818466009B82AD /* pcre2_ord2utf.c in Sources */,
@@ -2255,11 +2275,13 @@
 				ABC6470E25818466009B82AD /* pcre2_pattern_info.c in Sources */,
 				ABA4791125B7B91300F3C3C9 /* iOSNSystem.cpp in Sources */,
 				ABC6472325818466009B82AD /* pcre2_jit_compile.c in Sources */,
+				AB00E515267FDC2D0023F244 /* NCFData.cpp in Sources */,
 				AB623268242AF51300651349 /* NLog.cpp in Sources */,
 				ABC6470B25818466009B82AD /* pcre2_string_utils.c in Sources */,
 				AB62326E242AF51300651349 /* NDebug.cpp in Sources */,
 				ABC6475325818466009B82AD /* pcre2_serialize.c in Sources */,
 				AB56391D23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
+				AB00E509267FDABD0023F244 /* NCFString.cpp in Sources */,
 				AB230A112581AB8600919EBD /* gzread.c in Sources */,
 				ABC6471425818466009B82AD /* pcre2_chartables.c in Sources */,
 				ABF58D85267C0F0A00327252 /* iOSNImage.cpp in Sources */,
@@ -2279,12 +2301,14 @@
 				ABD3685325D81E0600C825B6 /* NFileMap.cpp in Sources */,
 				AB53BBE1242123AB009960AA /* NFileUtils.cpp in Sources */,
 				AB1981052597C0D2002C5591 /* iOSNThread.cpp in Sources */,
+				AB00E511267FDB9C0023F244 /* NCFURL.cpp in Sources */,
 				ABAFD6F924092DB900CAE9ED /* NTextUtils.cpp in Sources */,
 				ABC646FF25818466009B82AD /* pcre2_convert.c in Sources */,
 				AB3A4995258199E70065B4DA /* json.c in Sources */,
 				ABC6472025818466009B82AD /* pcre2_compile.c in Sources */,
 				AB1B4DA623F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
 				AB2A305224524F6200F21BF6 /* iOSNDebugger.cpp in Sources */,
+				AB00E50D267FDAC70023F244 /* NURL.cpp in Sources */,
 				ABC6472625818466009B82AD /* pcre2_ord2utf.c in Sources */,
 				AB56390E23C2A3A900675F68 /* NString.cpp in Sources */,
 				ABC6474725818466009B82AD /* pcre2_config.c in Sources */,
@@ -2394,11 +2418,13 @@
 				AB230A212581AB8600919EBD /* inftrees.c in Sources */,
 				ABC6470F25818466009B82AD /* pcre2_pattern_info.c in Sources */,
 				ABC6472425818466009B82AD /* pcre2_jit_compile.c in Sources */,
+				AB00E516267FDC2D0023F244 /* NCFData.cpp in Sources */,
 				AB623269242AF51300651349 /* NLog.cpp in Sources */,
 				ABC6470C25818466009B82AD /* pcre2_string_utils.c in Sources */,
 				AB62326F242AF51300651349 /* NDebug.cpp in Sources */,
 				ABC6475425818466009B82AD /* pcre2_serialize.c in Sources */,
 				AB56392623C69CD000675F68 /* NByteSwap.cpp in Sources */,
+				AB00E50C267FDABF0023F244 /* NCFString.cpp in Sources */,
 				AB230A122581AB8600919EBD /* gzread.c in Sources */,
 				ABD3682425D7502100C825B6 /* NCommandLine.cpp in Sources */,
 				ABC6471525818466009B82AD /* pcre2_chartables.c in Sources */,
@@ -2418,12 +2444,14 @@
 				AB54F9AE23EF14A7005207BC /* NStringComparator.cpp in Sources */,
 				AB82610625C39ED4008A5630 /* macOSNRandom.cpp in Sources */,
 				AB53BBE2242123AB009960AA /* NFileUtils.cpp in Sources */,
+				AB00E512267FDB9C0023F244 /* NCFURL.cpp in Sources */,
 				AB1B4DA723F2F90800B304D3 /* NStringTransformer.cpp in Sources */,
 				ABDCE8E0241C61960054A16E /* macOSNFileInfo.cpp in Sources */,
 				AB19813C25995538002C5591 /* macOSNRunLoop.cpp in Sources */,
 				ABBB2B6923806E6200EB2840 /* NTestFixture.cpp in Sources */,
 				ABC6470025818466009B82AD /* pcre2_convert.c in Sources */,
 				AB3A4996258199E70065B4DA /* json.c in Sources */,
+				AB00E50E267FDAC70023F244 /* NURL.cpp in Sources */,
 				ABC6472125818466009B82AD /* pcre2_compile.c in Sources */,
 				AB56391E23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
 				ABC6472725818466009B82AD /* pcre2_ord2utf.c in Sources */,
