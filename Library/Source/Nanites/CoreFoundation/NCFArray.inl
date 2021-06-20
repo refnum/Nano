@@ -1,8 +1,8 @@
 /*	NAME:
-		NCFDate.h
+		NCFArray.inl
 
 	DESCRIPTION:
-		CFDateRef wrapper.
+		CFArrayRef wrapper.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -36,46 +36,78 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NCFDATE_H
-#define NCFDATE_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-// Nano
-#include "NCFObject.h"
-#include "NDate.h"
-
-// System
-#include <CoreFoundation/CFDate.h>
+#include "NCoreFoundation.h"
 
 
 
 
 
 //=============================================================================
-//		Class Declaration
+//		NCFArray::NCFArray : Constructor.
 //-----------------------------------------------------------------------------
-class NCFDate : public NCFObject<CFDateRef>
+inline NCFArray::NCFArray(const NArray& theArray)
 {
-public:
-										NCFDate(const NDate& theDate);
-										NCFDate() = default;
 
 
-	// Get / set the date
-	NDate                               GetDate() const;
-	bool                                SetDate(  const NDate& theDate);
-};
+	// Initialise ourselves
+	SetArray(theArray);
+}
 
 
 
 
 
 //=============================================================================
-//		Includes
+//		NCFArray::GetArray : Get the array.
 //-----------------------------------------------------------------------------
-#include "NCFDate.inl"
+inline NArray NCFArray::GetArray() const
+{
+
+
+	// Get the array
+	CFArrayRef cfArray = *this;
+	NArray     theArray;
+
+	if (cfArray != nullptr)
+	{
+		CFIndex numItems = CFArrayGetCount(cfArray);
+
+		for (CFIndex n = 0; n < numItems; n++)
+		{
+			theArray.push_back(ToNN(CFTypeRef(CFArrayGetValueAtIndex(cfArray, n))));
+		}
+	}
+
+	return theArray;
+}
 
 
 
-#endif // NCFDATE_H
+
+
+//=============================================================================
+//		NCFArray::SetArray : Set the array.
+//-----------------------------------------------------------------------------
+bool NCFArray::SetArray(const NArray& theArray)
+{
+
+
+	// Set the array
+	CFIndex numItems = CFIndex(theArray.size());
+	bool wasOK = Set(CFArrayCreateMutable(kCFAllocatorDefault, numItems, &kCFTypeArrayCallBacks));
+
+	if (wasOK)
+	{
+		CFArrayRef cfArray = *this;
+
+		for (const auto& theItem : theArray)
+		{
+			CFArrayAppendValue(cfArray, CFTypeRef(ToCF(theItem)));
+		}
+	}
+
+	return wasOK;
+}

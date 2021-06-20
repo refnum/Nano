@@ -150,6 +150,61 @@ inline CFStringRef ToCF(const NString& theString)
 
 
 //=============================================================================
+//		ToCF : Convert a Nano object to a CF object.
+//-----------------------------------------------------------------------------
+NCFType ToCF(const NAny& theValue)
+{
+
+
+	// Convert the object
+	NNumber theNumber;
+	NCFType cfObject;
+
+	if (theValue.HasBool())
+	{
+		cfObject.Set(theValue.GetBool() ? kCFBooleanTrue : kCFBooleanFalse);
+	}
+	else if (theValue.HasData())
+	{
+		cfObject.Set(ToCF(theValue.GetData()));
+	}
+	else if (theValue.HasString())
+	{
+		cfObject.Set(ToCF(theValue.GetString()));
+	}
+	else if (theNumber.SetValue(theValue))
+	{
+		cfObject.Set(ToCF(theNumber));
+	}
+	else if (theValue.Has<NArray>())
+	{
+		cfObject.Set(ToCF(theValue.Get<NArray>()));
+	}
+	else if (theValue.Has<NDate>())
+	{
+		cfObject.Set(ToCF(theValue.Get<NDate>()));
+	}
+	else if (theValue.Has<NDictionary>())
+	{
+		cfObject.Set(ToCF(theValue.Get<NDictionary>()));
+	}
+	else if (theValue.Has<NURL>())
+	{
+		cfObject.Set(ToCF(theValue.Get<NURL>()));
+	}
+	else
+	{
+		NN_LOG_ERROR("Unable to convert Nano object to CF!");
+	}
+
+	return cfObject;
+}
+
+
+
+
+
+//=============================================================================
 //		ToCF : Convert NURL to CFURLRef.
 //-----------------------------------------------------------------------------
 //		Note :	As CF objects are toll-free bridged to NS objects, converting
@@ -165,7 +220,66 @@ inline CFURLRef ToCF(const NURL& theURL)
 
 
 //=============================================================================
-//		ToCF : Convert CFArrayRef to NArray.
+//		ToCF : Convert a CF object to a Nano object.
+//-----------------------------------------------------------------------------
+NAny ToNN(CFTypeRef cfObject)
+{
+
+
+	// Convert the object
+	NAny theObject;
+
+	if (cfObject != nullptr)
+	{
+		CFTypeID cfType = CFGetTypeID(cfOnject);
+
+		if (cfType == CFBooleanGetTypeID())
+		{
+			theObject = CFBooleanGetValue(cfObject) ? true : false;
+		}
+		else if (cfType == CFNumberGetTypeID())
+		{
+			theObject = NCFNumber(CFNumberRef(cfObject)).GetNumber();
+		}
+		else if (cfType == CFStringGetTypeID())
+		{
+			theObject = NCFString(CFStringRef(cfObject)).GetString();
+		}
+		else if (cfType == CFDataGetTypeID())
+		{
+			theObject = NCFData(CFDataRef(cfObject)).GetData();
+		}
+		else if (cfType == CFDateGetTypeID())
+		{
+			theObject = NCFDate(CFDateRef(cfObject)).GetDate();
+		}
+		else if (cfType == CFArrayGetTypeID())
+		{
+			theObject = NCFArray(CFArrayRef(cfObject)).GetArray();
+		}
+		else if (cfType == CFDictionaryGetTypeID())
+		{
+			theObject = NCFDictionary(CFDictionaryRef(cfObject)).GetDictionary();
+		}
+		else if (cfType == CFURLGetTypeID())
+		{
+			theObject = NCFURL(CFURLRef(cfObject)).GetURL();
+		}
+		else
+		{
+			NN_LOG_ERROR("Unable to convert CF object to Nano!");
+		}
+	}
+
+	return theObject;
+}
+
+
+
+
+
+//=============================================================================
+//		ToNN : Convert CFArrayRef to NArray.
 //-----------------------------------------------------------------------------
 inline NArray ToNN(CFArrayRef cfArray)
 {
@@ -182,7 +296,7 @@ inline NArray ToNN(CFArrayRef cfArray)
 
 
 //=============================================================================
-//		ToCF : Convert CFMutableArrayRef to NArray.
+//		ToNN : Convert CFMutableArrayRef to NArray.
 //-----------------------------------------------------------------------------
 inline NArray ToNN(CFMutableArrayRef cfArray)
 {
@@ -194,7 +308,7 @@ inline NArray ToNN(CFMutableArrayRef cfArray)
 
 
 //=============================================================================
-//		ToCF : Convert CFDataRef to NData.
+//		ToNN : Convert CFDataRef to NData.
 //-----------------------------------------------------------------------------
 inline NData ToNN(CFDataRef cfData)
 {
@@ -211,7 +325,7 @@ inline NData ToNN(CFDataRef cfData)
 
 
 //=============================================================================
-//		ToCF : Convert CFMutableDataRef to NData.
+//		ToNN : Convert CFMutableDataRef to NData.
 //-----------------------------------------------------------------------------
 inline NData ToNN(CFMutableDataRef cfData)
 {
@@ -223,7 +337,7 @@ inline NData ToNN(CFMutableDataRef cfData)
 
 
 //=============================================================================
-//		ToCF : Convert CFDateRef to NDate.
+//		ToNN : Convert CFDateRef to NDate.
 //-----------------------------------------------------------------------------
 inline NDate ToNN(CFDateRef cfDate)
 {
@@ -240,7 +354,7 @@ inline NDate ToNN(CFDateRef cfDate)
 
 
 //=============================================================================
-//		ToCF : Convert CFDictionaryRef to NDictionary.
+//		ToNN : Convert CFDictionaryRef to NDictionary.
 //-----------------------------------------------------------------------------
 inline NDictionary ToNN(CFDictionaryRef cfDictionary)
 {
@@ -257,7 +371,7 @@ inline NDictionary ToNN(CFDictionaryRef cfDictionary)
 
 
 //=============================================================================
-//		ToCF : Convert CFMutableDictionaryRef to NDictionary.
+//		ToNN : Convert CFMutableDictionaryRef to NDictionary.
 //-----------------------------------------------------------------------------
 inline NDictionary ToNN(CFMutableDictionaryRef cfDictionary)
 {
@@ -269,7 +383,7 @@ inline NDictionary ToNN(CFMutableDictionaryRef cfDictionary)
 
 
 //=============================================================================
-//		ToCF : Convert CFNumberRef to NNumber.
+//		ToNN : Convert CFNumberRef to NNumber.
 //-----------------------------------------------------------------------------
 inline NNumber ToNN(CFNumberRef cfNumber)
 {
@@ -286,7 +400,7 @@ inline NNumber ToNN(CFNumberRef cfNumber)
 
 
 //=============================================================================
-//		ToCF : Convert CFRange to NRange.
+//		ToNN : Convert CFRange to NRange.
 //-----------------------------------------------------------------------------
 inline NRange ToNN(const CFRange& cfRange)
 {
@@ -298,7 +412,7 @@ inline NRange ToNN(const CFRange& cfRange)
 
 
 //=============================================================================
-//		ToCF : Convert CFStringRef to NString.
+//		ToNN : Convert CFStringRef to NString.
 //-----------------------------------------------------------------------------
 inline NString ToNN(CFStringRef cfString)
 {
@@ -315,7 +429,7 @@ inline NString ToNN(CFStringRef cfString)
 
 
 //=============================================================================
-//		ToCF : Convert CFMutableStringRef to NString.
+//		ToNN : Convert CFMutableStringRef to NString.
 //-----------------------------------------------------------------------------
 inline NString ToNN(CFMutableStringRef cfString)
 {
@@ -327,7 +441,7 @@ inline NString ToNN(CFMutableStringRef cfString)
 
 
 //=============================================================================
-//		ToCF : Convert CFURLRef to NURL.
+//		ToNN : Convert CFURLRef to NURL.
 //-----------------------------------------------------------------------------
 inline NURL ToNN(CFURLRef cfURL)
 {

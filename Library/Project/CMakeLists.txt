@@ -440,8 +440,12 @@ endif()
 if (NN_TARGET_IOS)
 	nano_project_sources(
 		PRIVATE
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFArray.h"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFArray.inl"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFData.h"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFData.inl"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFDate.h"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFDate.inl"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFObject.h"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFObject.inl"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCoreFoundation.h"
@@ -524,8 +528,12 @@ endif()
 if (NN_TARGET_MACOS)
 	nano_project_sources(
 		PRIVATE
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFArray.h"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFArray.inl"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFData.h"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFData.inl"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFDate.h"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFDate.inl"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFObject.h"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFObject.inl"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCoreFoundation.h"
@@ -572,8 +580,12 @@ endif()
 if (NN_TARGET_TVOS)
 	nano_project_sources(
 		PRIVATE
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFArray.h"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFArray.inl"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFData.h"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFData.inl"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFDate.h"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFDate.inl"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFObject.h"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFObject.inl"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCoreFoundation.h"

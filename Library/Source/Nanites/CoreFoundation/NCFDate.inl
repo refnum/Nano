@@ -1,5 +1,5 @@
 /*	NAME:
-		NCFDate.h
+		NCFDate.inl
 
 	DESCRIPTION:
 		CFDateRef wrapper.
@@ -36,46 +36,66 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NCFDATE_H
-#define NCFDATE_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-// Nano
-#include "NCFObject.h"
-#include "NDate.h"
-
-// System
-#include <CoreFoundation/CFDate.h>
+#include "NCoreFoundation.h"
 
 
 
 
 
 //=============================================================================
-//		Class Declaration
+//		NCFDate::NCFDate : Constructor.
 //-----------------------------------------------------------------------------
-class NCFDate : public NCFObject<CFDateRef>
+inline NCFDate::NCFDate(const NDate& theDate)
 {
-public:
-										NCFDate(const NDate& theDate);
-										NCFDate() = default;
 
 
-	// Get / set the date
-	NDate                               GetDate() const;
-	bool                                SetDate(  const NDate& theDate);
-};
+	// Initialise ourselves
+	SetDate(theDate);
+}
 
 
 
 
 
 //=============================================================================
-//		Includes
+//		NCFDate::GetDate : Get the date.
 //-----------------------------------------------------------------------------
-#include "NCFDate.inl"
+inline NDate NCFDate::GetDate() const
+{
+
+
+	// Get the date
+	CFDateRef cfDate = *this;
+	NDate     theDate;
+
+	if (cfDate != nullptr)
+	{
+		CFAbsoluteTime cfTime = CFDateGetAbsoluteTime(cfDate);
+		theDate               = NDate(2001, 1, 1);
+
+		theDate.AddDays(size_t(cfTime / kNTimeDay));
+	}
+
+	return theDate;
+}
 
 
 
-#endif // NCFDATE_H
+
+
+//=============================================================================
+//		NCFDate::SetDate : Set the date.
+//-----------------------------------------------------------------------------
+bool NCFDate::SetDate(const NDate& theDate)
+{
+
+
+	// Set the date
+	size_t    numDays = theDate.GetDaysBetween(NDate(2001, 1, 1));
+	NInterval theTime = NInterval(numDays) * kNTimeDay;
+
+	return Set(CFDateCreate(kCFAllocatorDefault, theTime));
+}

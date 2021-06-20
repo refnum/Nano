@@ -41,11 +41,13 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NAny.h"
 #include "NCFArray.h"
 #include "NCFData.h"
 #include "NCFDate.h"
 #include "NCFDictionary.h"
 #include "NCFNumber.h"
+#include "NCFObject.h"
 #include "NCFString.h"
 #include "NCFURL.h"
 #include "NRange.h"
@@ -55,9 +57,20 @@
 
 
 //=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+using NCFType                                               = NCFObject<NCFTypeRef>;
+
+
+
+
+
+//=============================================================================
 //		Inline functions
 //-----------------------------------------------------------------------------
 // Nano to CoreFoundation
+//
+// Reference-counted objects are returned as an auto-released object.
 CFArrayRef      ToCF(const NArray& theArray);
 CFDataRef       ToCF(const NData& theData);
 CFDateRef       ToCF(const NDate& theDate);
@@ -65,11 +78,13 @@ CFDictionaryRef ToCF(const NDictionary& theDictionary);
 CFNumberRef     ToCF(const NNumber& theNumber);
 CFRange         ToCF(const NRange& theRange);
 CFStringRef     ToCF(const NString& theString);
+NCFType         ToCF(const NAny& theValue);
 CFURLRef        ToCF(const NURL& theURL);
 
 
 
 // CoreFoundation to Nano
+NAny        ToNN(CFTypeRef cfObject);
 NArray      ToNN(CFArrayRef cfArray);
 NArray      ToNN(CFMutableArrayRef cfArray);
 NData       ToNN(CFDataRef cfData);
