@@ -176,25 +176,6 @@ inline bool NCFObject<T>::IsValid() const
 //		NCFObject::Set : Set the object.
 //-----------------------------------------------------------------------------
 template<typename T>
-inline bool NCFObject<T>::Set(CFTypeRef cfObject, bool)
-{
-
-
-	// Set the object
-	CFSafeRelease(mObject);
-	mObject = T(cfObject);
-
-	return mObject != nullptr;
-}
-
-
-
-
-
-//=============================================================================
-//		NCFObject::Set : Set the object.
-//-----------------------------------------------------------------------------
-template<typename T>
 inline bool NCFObject<T>::Set(T cfObject)
 {
 

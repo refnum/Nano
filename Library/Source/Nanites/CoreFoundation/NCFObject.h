@@ -157,8 +157,7 @@ public:
 	// Set the object
 	//
 	// Transfers ownership of the CF object to this object.
-	bool                                Set(CFTypeRef cfData, bool overload = true);
-	bool                                Set(T         cfData);
+	bool                                Set(T cfObject);
 
 
 	// Operators
