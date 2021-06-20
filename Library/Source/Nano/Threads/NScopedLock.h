@@ -59,7 +59,7 @@ public:
 										NScopedLock(const T& otherLock) = delete;
 	T&                                  operator=(  const T& otherLock) = delete;
 
-										NScopedLock(T&& otherLock);
+										NScopedLock(T&& otherLock) = delete;
 	T&                                  operator=(  T&& otherLock) = delete;
 
 

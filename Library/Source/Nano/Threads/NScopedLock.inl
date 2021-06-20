@@ -73,20 +73,6 @@ NScopedLock<T>::NScopedLock(T& theLock)
 
 
 //=============================================================================
-//		NScopedLock::NScopedLock : Constructor.
-//-----------------------------------------------------------------------------
-template<typename T>
-NScopedLock<T>::NScopedLock(T&& theLock)
-	: mLock(std::move(theLock))
-{
-	mLock.Lock();
-}
-
-
-
-
-
-//=============================================================================
 //		NScopedLock::~NScopedLock : Destructor.
 //-----------------------------------------------------------------------------
 template<typename T>
