@@ -268,6 +268,9 @@
 		ABF58DA8267EB40900327252 /* TCoreFoundation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58DA7267EB40900327252 /* TCoreFoundation.cpp */; };
 		ABF58DA9267EB40900327252 /* TCoreFoundation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58DA7267EB40900327252 /* TCoreFoundation.cpp */; };
 		ABF58DAA267EB40900327252 /* TCoreFoundation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58DA7267EB40900327252 /* TCoreFoundation.cpp */; };
+		ABF58DB9267F508700327252 /* TCFDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDD1034184B00E5A6AD /* TCFDictionary.cpp */; };
+		ABF58DBA267F508700327252 /* TCFDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDD1034184B00E5A6AD /* TCFDictionary.cpp */; };
+		ABF58DBB267F508700327252 /* TCFDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDD1034184B00E5A6AD /* TCFDictionary.cpp */; };
 		ABFD46FF25C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470025C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470125C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
@@ -1088,6 +1091,7 @@
 				AB07EA42239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7D2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
 				AB5E179825F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
+				ABF58DBA267F508700327252 /* TCFDictionary.cpp in Sources */,
 				AB371ABA25CB932600DEC50B /* TBitVector.cpp in Sources */,
 				ABE7C0D925D0B06500914618 /* TVector.cpp in Sources */,
 				ABF58CF22679727500327252 /* TUTI.cpp in Sources */,
@@ -1183,6 +1187,7 @@
 				AB07EA43239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7E2399A15000F6AD43 /* TSpinLock.cpp in Sources */,
 				AB5E179725F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
+				ABF58DBB267F508700327252 /* TCFDictionary.cpp in Sources */,
 				AB371ABE25CB932600DEC50B /* TBitVector.cpp in Sources */,
 				ABE7C0DD25D0B06500914618 /* TVector.cpp in Sources */,
 				ABF58CF12679727500327252 /* TUTI.cpp in Sources */,
@@ -1278,6 +1283,7 @@
 				AB07EA41239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7C2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
 				AB5E179925F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
+				ABF58DB9267F508700327252 /* TCFDictionary.cpp in Sources */,
 				AB371AB625CB932500DEC50B /* TBitVector.cpp in Sources */,
 				ABE7C0D225D0B06400914618 /* TVector.cpp in Sources */,
 				ABF58CF32679727500327252 /* TUTI.cpp in Sources */,

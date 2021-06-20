@@ -1,5 +1,5 @@
 /*	NAME:
-		NCFDictionary.h
+		NCFDictionary.inl
 
 	DESCRIPTION:
 		CFDictionaryRef wrapper.
@@ -36,46 +36,21 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NCFDICTIONARY_H
-#define NCFDICTIONARY_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-// Nano
-#include "NArray.h"
-#include "NCFObject.h"
-
-// System
-#include <CoreFoundation/CFArray.h>
 
 
 
 
 
 //=============================================================================
-//		Class Declaration
+//		NCFDictionary::NCFDictionary : Constructor.
 //-----------------------------------------------------------------------------
-class NCFDictionary : public NCFObject<CFDictionaryRef>
+inline NCFDictionary::NCFDictionary(const NDictionary& theDictionary)
 {
-public:
-										NCFDictionary(const NDictionary& theDictionary);
-										NCFDictionary() = default;
 
 
-	// Get / set the Dictionary
-	NDictionary                         GetDictionary() const;
-	bool                                SetDictionary(  const NDictionary& theDictionary);
-};
-
-
-
-
-
-//=============================================================================
-//		Includes
-//-----------------------------------------------------------------------------
-#include "NCFDictionary.inl"
-
-
-
-#endif // NCFDICTIONARY_H
+	// Initialise ourselves
+	SetDictionary(theDictionary);
+}

@@ -3,165 +3,137 @@
 
 	DESCRIPTION:
 		CFDictionaryRef wrapper.
-	
-	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+	COPYRIGHT:
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
+
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NMacTarget.h"
-#include "NCFString.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NCFDictionary.h"
 
+// Nano
+#include "NCoreFoundation.h"
 
 
 
 
-//============================================================================
-//		NCFDictionary::NCFDictionary : Constructor.
+
+//=============================================================================
+//		Internal Functions
+//-----------------------------------------------------------------------------
+//		InsertValue : Insert a value.
 //----------------------------------------------------------------------------
-NCFDictionary::NCFDictionary(const NDictionary &theDictionary)
-			: NDictionary(theDictionary)
+static void InsertValue(const void* keyPtr, const void* valuePtr, void* userData)
 {
-}
-
-
-
-
-
-//============================================================================
-//		NCFDictionary::NCFDictionary : Constructor.
-//----------------------------------------------------------------------------
-NCFDictionary::NCFDictionary(CFDictionaryRef cfObject, bool takeOwnership)
-{
-
-
-	// Initialize ourselves
-	SetObject(cfObject, takeOwnership);
-}
-
-
-
-
-
-//============================================================================
-//		NCFDictionary::NCFDictionary : Constructor.
-//----------------------------------------------------------------------------
-NCFDictionary::NCFDictionary(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NCFDictionary::~NCFDictionary : Destructor.
-//----------------------------------------------------------------------------
-NCFDictionary::~NCFDictionary(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NCFDictionary::GetObject : Get the object.
-//----------------------------------------------------------------------------
-NCFObject NCFDictionary::GetObject(void) const
-{	NCFObject						theObject, keyObject, theValue;
-	CFTypeRef						cfKey, cfValue;
-	NStringList						theKeys;
-	NStringListConstIterator		theIter;
-	NCFString						theKey;
-
 
 
 	// Get the state we need
-	theKeys = GetKeys();
-	
-	if (!theObject.SetObject(CFDictionaryCreateMutable(
-										kCFAllocatorNano,
-										(CFIndex) theKeys.size(),
-										&kCFTypeDictionaryKeyCallBacks,
-										&kCFTypeDictionaryValueCallBacks)))
-		return(theObject);
-
-
-
-	// Get the object
-	for (theIter = theKeys.begin(); theIter != theKeys.end(); theIter++)
-		{
-		theKey   = *theIter;
-		theValue = NMacTarget::ConvertObjectToCF(GetValue(theKey));
-		if (theValue.IsValid())
-			{
-			keyObject = theKey.GetObject();
-			cfKey     = (CFTypeRef) keyObject;
-			cfValue   = (CFTypeRef) theValue;
-			
-			CFDictionarySetValue(theObject, cfKey, cfValue);
-			}
-		}
-
-	return(theObject);
-}
-
-
-
-
-
-//============================================================================
-//		NCFDictionary::SetObject : Set the object.
-//----------------------------------------------------------------------------
-bool NCFDictionary::SetObject(CFDictionaryRef cfObject, bool takeOwnership)
-{	NCFObject		theObject(cfObject, takeOwnership);
-	bool			isValid;
-
-
-
-	// Get the state we need
-	isValid = (cfObject != NULL);
-	Clear();
-
-
-
-	// Set the object
-	if (isValid)
-		CFDictionaryApplyFunction(cfObject, InsertValue, this);
-
-	return(isValid);
-}
-
-
-
-
-
-#pragma mark private
-//============================================================================
-//		NCFDictionary::InsertValue : Insert a value.
-//----------------------------------------------------------------------------
-void NCFDictionary::InsertValue(const void *keyPtr, const void *valuePtr, void *userData)
-{	NCFDictionary		*thisPtr = (NCFDictionary *) userData;
-	CFTypeRef			cfValue  = (CFTypeRef)       valuePtr;
-	CFStringRef			cfKey    = (CFStringRef)     keyPtr;
-	NVariant			theValue;
-	NCFString			theKey;
+	NCFDictionary* thisPtr = reinterpret_cast<NCFDictionary*>(userData);
+	CFTypeRef      cfValue = reinterpret_cast<CFTypeRef>(valuePtr);
+	CFStringRef    cfKey   = reinterpret_cast<CFStringRef>(keyPtr);
 
 
 
 	// Insert the value
-	theKey   = NCFString(cfKey, false);
-	theValue = NMacTarget::ConvertCFToObject(NCFObject(cfValue, false));
 
-	thisPtr->SetValue(theKey, theValue);
+
+	NVariant  theValue;
+	NCFString theKey;
+
+
+
+	// Insert the value
+	NString theKey   = ToNN(cfKey);
+	NAny    theValue = ToNN(cfValue);
+
+	thisPtr->insert({theKey, theValue});
 }
 
 
 
+
+
+//=============================================================================
+//		NCFDictionary::GetDictionary : Get the dictionary.
+//-----------------------------------------------------------------------------
+NDictionary NCFDictionary::GetDictionary() const
+{
+
+
+	// Get the dictionary
+	CFDictionaryRef cfDictionary = *this;
+	NDictionary     theDictionary;
+
+	if (cfDictionary != nullptr)
+	{
+		CFDictionaryApplyFunction(cfDictionary, InsertValue, &theDictionary);
+
+		NN_REQUIRE(size_t(CFDictionaryGetCount(cfDictionary)) == theDictionary.size());
+	}
+
+	return theDictionary;
+}
+
+
+
+
+
+//=============================================================================
+//		NCFDictionary::SetDictionary : Set the dictionary.
+//-----------------------------------------------------------------------------
+bool NCFDictionary::SetDictionary(const NDictionary& theDictionary)
+{
+
+
+	// Set the dictionary
+	CFIndex numItems = CFIndex(theDictionary.size());
+	bool    wasOK    = Set(CFDictionaryCreateMutable(kCFAllocatorDefault,
+											   numItems,
+											   &kCFTypeDictionaryKeyCallBacks,
+											   &kCFTypeDictionaryValueCallBacks));
+
+	if (wasOK)
+	{
+		CFDictionaryRef cfDictionary = *this;
+
+		for (const auto& keyValue : theDictionary)
+		{
+			CFStringRef cfKey   = ToCF(keyValue->first);
+			NCFType     cfValue = ToCF(keyValue->second);
+
+			CFDictionarySetValue(cfDictionary, cfKey, cfValue);
+		}
+	}
+
+	return wasOK;
+}

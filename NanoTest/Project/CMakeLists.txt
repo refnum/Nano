@@ -158,6 +158,7 @@ if (NN_TARGET_MACOS)
 	nano_project_sources(
 		PRIVATE
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/TCFData.cpp"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/TCFDictionary.cpp"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/TCFObject.cpp"
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/TCoreFoundation.cpp"
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/TCGColor.cpp"
