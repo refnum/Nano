@@ -271,6 +271,12 @@
 		ABF58DB9267F508700327252 /* TCFDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDD1034184B00E5A6AD /* TCFDictionary.cpp */; };
 		ABF58DBA267F508700327252 /* TCFDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDD1034184B00E5A6AD /* TCFDictionary.cpp */; };
 		ABF58DBB267F508700327252 /* TCFDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDD1034184B00E5A6AD /* TCFDictionary.cpp */; };
+		ABF58DBC267F508A00327252 /* TCFDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDB1034184B00E5A6AD /* TCFDate.cpp */; };
+		ABF58DBD267F508A00327252 /* TCFDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDB1034184B00E5A6AD /* TCFDate.cpp */; };
+		ABF58DBE267F508A00327252 /* TCFDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDB1034184B00E5A6AD /* TCFDate.cpp */; };
+		ABF58DBF267F509100327252 /* TCFArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DD71034184B00E5A6AD /* TCFArray.cpp */; };
+		ABF58DC2267F509300327252 /* TCFArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DD71034184B00E5A6AD /* TCFArray.cpp */; };
+		ABF58DC3267F509300327252 /* TCFArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DD71034184B00E5A6AD /* TCFArray.cpp */; };
 		ABFD46FF25C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470025C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470125C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
@@ -1081,6 +1087,7 @@
 				AB19811E259953C8002C5591 /* TRunLoop.cpp in Sources */,
 				AB371AA125CB884000DEC50B /* TScopedLock.cpp in Sources */,
 				ABA478C725B7B7FE00F3C3C9 /* TMachine.cpp in Sources */,
+				ABF58DC3267F509300327252 /* TCFArray.cpp in Sources */,
 				AB4EB4C52430F34E00D36016 /* TFormat.cpp in Sources */,
 				AB1B4DAB23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9A923EE4503005207BC /* TTextUtils.cpp in Sources */,
@@ -1103,6 +1110,7 @@
 				ABDCE8A6241C22BB0054A16E /* TClock.cpp in Sources */,
 				AB081C5825BCD5D40058D397 /* TRandom.cpp in Sources */,
 				ABF513172397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
+				ABF58DBD267F508A00327252 /* TCFDate.cpp in Sources */,
 				ABF5131A2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABF58CF6267973BA00327252 /* TUTIRegistry.cpp in Sources */,
 				ABF58D9A267C94DC00327252 /* TCFData.cpp in Sources */,
@@ -1177,6 +1185,7 @@
 				AB19811D259953C8002C5591 /* TRunLoop.cpp in Sources */,
 				AB371AA025CB884000DEC50B /* TScopedLock.cpp in Sources */,
 				ABA478C625B7B7FE00F3C3C9 /* TMachine.cpp in Sources */,
+				ABF58DC2267F509300327252 /* TCFArray.cpp in Sources */,
 				AB4EB4C42430F34E00D36016 /* TFormat.cpp in Sources */,
 				AB1B4DAA23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9A823EE4503005207BC /* TTextUtils.cpp in Sources */,
@@ -1199,6 +1208,7 @@
 				ABDCE8A5241C22BB0054A16E /* TClock.cpp in Sources */,
 				AB081C5725BCD5D40058D397 /* TRandom.cpp in Sources */,
 				ABF513162397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
+				ABF58DBE267F508A00327252 /* TCFDate.cpp in Sources */,
 				ABF513192397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABF58CF5267973BA00327252 /* TUTIRegistry.cpp in Sources */,
 				ABF58D97267C94DA00327252 /* TCFData.cpp in Sources */,
@@ -1273,6 +1283,7 @@
 				AB19811F259953C8002C5591 /* TRunLoop.cpp in Sources */,
 				AB371AA225CB884000DEC50B /* TScopedLock.cpp in Sources */,
 				ABA478C825B7B7FE00F3C3C9 /* TMachine.cpp in Sources */,
+				ABF58DBF267F509100327252 /* TCFArray.cpp in Sources */,
 				AB4EB4C62430F34E00D36016 /* TFormat.cpp in Sources */,
 				AB1B4DAC23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9AA23EE4503005207BC /* TTextUtils.cpp in Sources */,
@@ -1295,6 +1306,7 @@
 				ABDCE8A7241C22BB0054A16E /* TClock.cpp in Sources */,
 				AB081C5925BCD5D40058D397 /* TRandom.cpp in Sources */,
 				ABF513182397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
+				ABF58DBC267F508A00327252 /* TCFDate.cpp in Sources */,
 				ABF5131B2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
 				ABF58CF7267973BA00327252 /* TUTIRegistry.cpp in Sources */,
 				ABF58D99267C94DC00327252 /* TCFData.cpp in Sources */,
