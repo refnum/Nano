@@ -53,7 +53,7 @@
 //		Note :	As CF objects are toll-free bridged to NS objects, converting
 //				to NS then casting ensures the CF object is auto-released.
 //----------------------------------------------------------------------------
-CFArrayRef ToCF(const NArray& theArray)
+inline CFArrayRef ToCF(const NArray& theArray)
 {
 	return CFArrayRef(ToNS(theArray));
 }
@@ -68,7 +68,7 @@ CFArrayRef ToCF(const NArray& theArray)
 //		Note :	As CF objects are toll-free bridged to NS objects, converting
 //				to NS then casting ensures the CF object is auto-released.
 //----------------------------------------------------------------------------
-CFDataRef ToCF(const NData& theData)
+inline CFDataRef ToCF(const NData& theData)
 {
 	return CFDataRef(ToNS(theData));
 }
@@ -83,7 +83,7 @@ CFDataRef ToCF(const NData& theData)
 //		Note :	As CF objects are toll-free bridged to NS objects, converting
 //				to NS then casting ensures the CF object is auto-released.
 //----------------------------------------------------------------------------
-CFDateRef ToCF(const NDate& theDate)
+inline CFDateRef ToCF(const NDate& theDate)
 {
 	return CFDateRef(ToNS(theDate));
 }
@@ -98,7 +98,7 @@ CFDateRef ToCF(const NDate& theDate)
 //		Note :	As CF objects are toll-free bridged to NS objects, converting
 //				to NS then casting ensures the CF object is auto-released.
 //----------------------------------------------------------------------------
-CFDictionaryRef ToCF(const NDictionary& theDictionary)
+inline CFDictionaryRef ToCF(const NDictionary& theDictionary)
 {
 	return CFDictionaryRef(ToNS(theDictionary));
 }
@@ -113,7 +113,7 @@ CFDictionaryRef ToCF(const NDictionary& theDictionary)
 //		Note :	As CF objects are toll-free bridged to NS objects, converting
 //				to NS then casting ensures the CF object is auto-released.
 //----------------------------------------------------------------------------
-CFNumberRef ToCF(const NNumber& theNumber)
+inline CFNumberRef ToCF(const NNumber& theNumber)
 {
 	return CFNumberRef(ToNS(theNumber));
 }
@@ -140,7 +140,7 @@ inline CFRange ToCF(const NRange& theRange)
 //		Note :	As CF objects are toll-free bridged to NS objects, converting
 //				to NS then casting ensures the CF object is auto-released.
 //----------------------------------------------------------------------------
-CFStringRef ToCF(const NString& theString)
+inline CFStringRef ToCF(const NString& theString)
 {
 	return CFStringRef(ToNS(theString));
 }
@@ -155,7 +155,7 @@ CFStringRef ToCF(const NString& theString)
 //		Note :	As CF objects are toll-free bridged to NS objects, converting
 //				to NS then casting ensures the CF object is auto-released.
 //----------------------------------------------------------------------------
-CFURLRef ToCF(const NURL& theURL)
+inline CFURLRef ToCF(const NURL& theURL)
 {
 	return CFURLRef(ToNS(theURL));
 }
