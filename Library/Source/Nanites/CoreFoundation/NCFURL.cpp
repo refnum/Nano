@@ -1,8 +1,8 @@
 /*	NAME:
-		NCFData.inl
+		NCFURL.cpp
 
 	DESCRIPTION:
-		CFDataRef wrapper.
+		CFURLRef wrapper.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -39,34 +39,50 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NCFURL.h"
+
+// Nano
+#include "NCFString.h"
 
 
 
 
 
 //=============================================================================
-//		NCFData::NCFData : Constructor.
+//		NCFURL::GetURL : Get the URL.
 //-----------------------------------------------------------------------------
-inline NCFData::NCFData(const NData& theData)
+NURL NCFURL::GetURL() const
 {
 
 
-	// Initialise ourselves
-	SetData(theData);
+	// Get the URL
+	CFURLRef cfURL = *this;
+	NURL     theURL;
+
+	if (cfURL != nullptr)
+	{
+		NCFString cfString;
+
+		if (cfString.Set(CFURLGetString(cfURL)))
+		{
+			theURL.SetURL(cfString.GetString());
+		}
+	}
+
+	return theURL;
 }
 
 
 
 
 
-#pragma mark NCFMutableData
 //=============================================================================
-//		NCFMutableData::NCFMutableData : Constructor.
+//		NCFURL::SetURL : Set the URL.
 //-----------------------------------------------------------------------------
-inline NCFMutableData::NCFMutableData(const NData& theData)
+bool NCFURL::SetURL(const NURL& theURL)
 {
 
 
-	// Initialise ourselves
-	SetData(theData);
+	// Set the URL
+	return Set(CFURLCreateWithString(kCFAllocatorDefault, NCFString(theURL.GetURL()), nullptr));
 }

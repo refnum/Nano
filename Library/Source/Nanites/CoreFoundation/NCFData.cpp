@@ -1,5 +1,5 @@
 /*	NAME:
-		NCFData.inl
+		NCFData.cpp
 
 	DESCRIPTION:
 		CFDataRef wrapper.
@@ -39,34 +39,105 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NCFData.h"
 
 
 
 
 
 //=============================================================================
-//		NCFData::NCFData : Constructor.
+//		NCFData::GetData : Get the data.
 //-----------------------------------------------------------------------------
-inline NCFData::NCFData(const NData& theData)
+NData NCFData::GetData(NCFSource theSource) const
 {
 
 
-	// Initialise ourselves
-	SetData(theData);
+	// Get the data
+	CFDataRef cfData = *this;
+
+	size_t      theSize = size_t(CFDataGetLength(cfData));
+	const void* thePtr  = CFDataGetBytePtr(cfData);
+
+	if (theSource == NCFSource::Copy)
+	{
+		return NData(theSize, thePtr, NDataSource::Copy);
+	}
+	else
+	{
+		return NData(theSize, thePtr, NDataSource::View);
+	}
 }
 
 
 
 
 
-#pragma mark NCFMutableData
 //=============================================================================
-//		NCFMutableData::NCFMutableData : Constructor.
+//		NCFData::SetData : Set the data.
 //-----------------------------------------------------------------------------
-inline NCFMutableData::NCFMutableData(const NData& theData)
+bool NCFData::SetData(const NData& theData, NCFSource theSource)
 {
 
 
-	// Initialise ourselves
-	SetData(theData);
+	// Set the data
+	CFIndex      theSize = CFIndex(theData.GetSize());
+	const UInt8* thePtr  = theData.GetData();
+	bool         wasOK   = false;
+
+	if (theSource == NCFSource::Copy)
+	{
+		wasOK = Set(CFDataCreate(kCFAllocatorDefault, thePtr, theSize));
+	}
+	else
+	{
+		wasOK = Set(
+			CFDataCreateWithBytesNoCopy(kCFAllocatorDefault, thePtr, theSize, kCFAllocatorNull));
+	}
+
+	return wasOK;
+}
+
+
+
+#pragma mark NCFMutableData
+
+
+
+
+
+//=============================================================================
+//		NCFMutableData::GetData : Get the data.
+//-----------------------------------------------------------------------------
+NData NCFMutableData::GetData(NCFSource theSource) const
+{
+
+
+	// Get the data
+	//
+	// A CFMutableDataRef can always be cast to a CFDataRef.
+	NCFData cfData;
+
+	cfData.Set(CFDataRef(CFRetain(*this)));
+	NN_REQUIRE(IsValid() == cfData.IsValid());
+
+	return cfData.GetData(theSource);
+}
+
+
+
+
+
+//=============================================================================
+//		NCFMutableData::SetData : Set the data.
+//-----------------------------------------------------------------------------
+bool NCFMutableData::SetData(const NData& theData)
+{
+
+
+	// Set the data
+	NCFData cfData;
+
+	cfData.SetData(theData, NCFSource::View);
+
+	return Set(CFDataCreateMutableCopy(kCFAllocatorDefault, 0, cfData));
 }

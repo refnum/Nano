@@ -39,7 +39,6 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NCFString.h"
 
 
 
@@ -54,47 +53,4 @@ inline NCFURL::NCFURL(const NURL& theURL)
 
 	// Initialise ourselves
 	SetURL(theURL);
-}
-
-
-
-
-
-//=============================================================================
-//		NCFURL::GetURL : Get the URL.
-//-----------------------------------------------------------------------------
-NURL NCFURL::GetURL() const
-{
-
-
-	// Get the URL
-	CFURLRef cfURL = *this;
-	NURL     theURL;
-
-	if (cfURL != nullptr)
-	{
-		NCFString cfString;
-
-		if (cfString.Set(CFURLGetString(cfURL)))
-		{
-			theURL.SetURL(cfString.GetString());
-		}
-	}
-
-	return theURL;
-}
-
-
-
-
-
-//=============================================================================
-//		NCFURL::SetURL : Set the URL.
-//-----------------------------------------------------------------------------
-bool NCFURL::SetURL(const NURL& theURL)
-{
-
-
-	// Set the URL
-	return Set(CFURLCreateWithString(kCFAllocatorDefault, NCFString(theURL.GetURL()), nullptr));
 }
