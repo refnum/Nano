@@ -363,6 +363,7 @@ nano_project_include_paths(
 		"${NN_SOURCE_DIR}/Nano/Core"
 		"${NN_SOURCE_DIR}/Nano/Data"
 		"${NN_SOURCE_DIR}/Nano/Debugging"
+		"${NN_SOURCE_DIR}/Nano/Events"
 		"${NN_SOURCE_DIR}/Nano/Files"
 		"${NN_SOURCE_DIR}/Nano/Graphics"
 		"${NN_SOURCE_DIR}/Nano/Internal/Components/fmt-7.1.3"
@@ -496,6 +497,9 @@ if (NN_TARGET_IOS)
 	)
 
 	nano_project_include_paths(
+		PUBLIC
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation"
+			"${NN_SOURCE_DIR}/Nanites/CoreGraphics"
 		PRIVATE
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/iOS"
 	)
@@ -600,6 +604,9 @@ if (NN_TARGET_MACOS)
 	)
 
 	nano_project_include_paths(
+		PUBLIC
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation"
+			"${NN_SOURCE_DIR}/Nanites/CoreGraphics"
 		PRIVATE
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/macOS"
 	)
@@ -668,6 +675,9 @@ if (NN_TARGET_TVOS)
 		)
 
 	nano_project_include_paths(
+		PUBLIC
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation"
+			"${NN_SOURCE_DIR}/Nanites/CoreGraphics"
 		PRIVATE
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/tvOS"
 		)
