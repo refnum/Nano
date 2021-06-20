@@ -39,6 +39,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
 #include "NCFDictionary.h"
 #include "NTestFixture.h"
 
@@ -49,9 +50,7 @@
 //=============================================================================
 //		Test Fixture
 //-----------------------------------------------------------------------------
-#define TEST_NCFDICTIONARY(...)                             TEST_NANO(TCFDictionary, ##__VA_ARGS__)
-
-FIXTURE_NANO(TCFDictionary){};
+NANO_FIXTURE(TCFDictionary){};
 
 
 
@@ -60,9 +59,27 @@ FIXTURE_NANO(TCFDictionary){};
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-TEST_NCFDICTIONARY("Default", "[cf]")
+NANO_TEST(TCFDictionary, "Default")
 {
 
 
 	// Perform the test
+	NCFDictionary cfDictionary;
+
+	REQUIRE(!cfDictionary.IsValid());
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCFDictionary, "TODO")
+{
+
+
+	// Perform the test
+	NN_LOG_UNIMPLEMENTED();
 }

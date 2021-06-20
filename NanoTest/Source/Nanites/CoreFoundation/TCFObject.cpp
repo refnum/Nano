@@ -86,7 +86,7 @@ NANO_TEST(TCFObject, "Set")
 	// Perform the test
 	NCFObject<CFBooleanRef> cfBool;
 
-	bool wasOK = cfBool.Set(CFRetain(kCFBooleanTrue));
+	bool wasOK = cfBool.Set(CFBooleanRef(CFRetain(kCFBooleanTrue)));
 	REQUIRE(wasOK);
 	REQUIRE(cfBool.IsValid());
 }
@@ -105,7 +105,7 @@ NANO_TEST(TCFObject, "Cast")
 	// Perform the test
 	NCFObject<CFBooleanRef> cfBool;
 
-	bool wasOK = cfBool.Set(CFRetain(kCFBooleanTrue));
+	bool wasOK = cfBool.Set(CFBooleanRef(CFRetain(kCFBooleanTrue)));
 	REQUIRE(wasOK);
 	REQUIRE(CFBooleanGetValue(cfBool) == CFBooleanGetValue(kCFBooleanTrue));
 }

@@ -39,6 +39,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
 #include "NCFString.h"
 #include "NTestFixture.h"
 
@@ -47,25 +48,9 @@
 
 
 //=============================================================================
-//		Internal Constants
-//-----------------------------------------------------------------------------
-static const NString     kTestNString                       = "Hello World";
-static const CFStringRef kTestCFString                      = CFSTR("Hello World");
-
-
-
-
-
-//=============================================================================
 //		Test Fixture
 //-----------------------------------------------------------------------------
-#define TEST_NCFSTRING(...)                                 TEST_NANO(TCFString, ##__VA_ARGS__)
-
-FIXTURE_NANO(TCFString)
-{
-	NCFString theString;
-	NCFObject cfString;
-};
+NANO_FIXTURE(TCFString){};
 
 
 
@@ -74,21 +59,27 @@ FIXTURE_NANO(TCFString)
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-TEST_NCFSTRING("Assign", "[cf]")
+NANO_TEST(TCFString, "Default")
 {
 
 
 	// Perform the test
-	theString = kTestNString;
-	cfString  = theString.GetObject();
-	REQUIRE(CFStringCompare(cfString, kTestCFString, 0) == (CFComparisonResult) kCFCompareEqualTo);
+	NCFString cfString;
 
-	theString = NCFString(kTestCFString, false);
-	REQUIRE(theString == kTestNString);
+	REQUIRE(!cfString.IsValid());
+}
 
-	theString.SetObject(kTestCFString, false);
-	REQUIRE(theString == kTestNString);
 
-	theString.SetObject(CFStringCreateCopy(kCFAllocatorDefault, kTestCFString), true);
-	REQUIRE(theString == kTestNString);
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCFString, "TODO")
+{
+
+
+	// Perform the test
+	NN_LOG_UNIMPLEMENTED();
 }
