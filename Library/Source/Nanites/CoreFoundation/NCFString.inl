@@ -1,5 +1,5 @@
 /*	NAME:
-		NCFString.h
+		NCFString.inl
 
 	DESCRIPTION:
 		CFStringRef wrapper.
@@ -36,46 +36,21 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NCFSTRING_H
-#define NCFSTRING_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-// Nano
-#include "NCFObject.h"
-#include "NString.h"
-
-// System
-#include <CoreFoundation/CFString.h>
 
 
 
 
 
 //=============================================================================
-//		Class Declaration
+//		NCFString::NCFString : Constructor.
 //-----------------------------------------------------------------------------
-class NCFString : public NCFObject<CFStringRef>
+inline NCFString::NCFString(const NString& theString)
 {
-public:
-										NCFString(const NString& theString);
-										NCFString() = default;
 
 
-	// Get / set the string
-	NString                             GetString() const;
-	bool                                SetString(  const NString& theString);
-};
-
-
-
-
-
-//=============================================================================
-//		Includes
-//-----------------------------------------------------------------------------
-#include "NCFString.inl"
-
-
-
-#endif // NCFSTRING_H
+	// Initialise ourselves
+	SetString(theString);
+}

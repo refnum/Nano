@@ -95,11 +95,11 @@ void NUndoSource::RecordUndo(const NFunctionUndoAction& theAction,
 	// dair, TODO
 	NN_UNUSED(stringsAreKeys);
 	/*
-	if (stringsAreKeys && !theName.IsEmpty())
-	{
-		theValue = NBundleString(theName, theName);
-	}
- */
+	 if (stringsAreKeys && !theName.IsEmpty())
+	 {
+	  theValue = NBundleString(theName, theName);
+	 }
+   */
 
 
 	// Record the action

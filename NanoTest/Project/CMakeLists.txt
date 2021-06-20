@@ -163,6 +163,7 @@ if (NN_TARGET_MACOS)
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/TCFDictionary.cpp"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/TCFNumber.cpp"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/TCFObject.cpp"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/TCFString.cpp"
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/TCoreFoundation.cpp"
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/TCGColor.cpp"
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/TCGImage.cpp"

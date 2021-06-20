@@ -280,6 +280,9 @@
 		ABF58DC9267F585E00327252 /* TCFNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDF1034184B00E5A6AD /* TCFNumber.cpp */; };
 		ABF58DCA267F585F00327252 /* TCFNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDF1034184B00E5A6AD /* TCFNumber.cpp */; };
 		ABF58DCB267F585F00327252 /* TCFNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDF1034184B00E5A6AD /* TCFNumber.cpp */; };
+		ABF58DCD267F5BCD00327252 /* TCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DE31034184B00E5A6AD /* TCFString.cpp */; };
+		ABF58DCE267F5BCD00327252 /* TCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DE31034184B00E5A6AD /* TCFString.cpp */; };
+		ABF58DCF267F5BCD00327252 /* TCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DE31034184B00E5A6AD /* TCFString.cpp */; };
 		ABFD46FF25C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470025C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470125C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
@@ -1110,6 +1113,7 @@
 				AB4AF5542422FEE700E665D4 /* TFileScanner.cpp in Sources */,
 				AB54F9B223EF14CF005207BC /* TStringComparator.cpp in Sources */,
 				ABE7C0C825D0AD8D00914618 /* TPoint.cpp in Sources */,
+				ABF58DCE267F5BCD00327252 /* TCFString.cpp in Sources */,
 				ABFD470025C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */,
 				ABDCE8A6241C22BB0054A16E /* TClock.cpp in Sources */,
 				AB081C5825BCD5D40058D397 /* TRandom.cpp in Sources */,
@@ -1209,6 +1213,7 @@
 				AB4AF5532422FEE700E665D4 /* TFileScanner.cpp in Sources */,
 				AB54F9B123EF14CF005207BC /* TStringComparator.cpp in Sources */,
 				ABE7C0CB25D0AD8D00914618 /* TPoint.cpp in Sources */,
+				ABF58DCD267F5BCD00327252 /* TCFString.cpp in Sources */,
 				ABFD46FF25C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */,
 				ABDCE8A5241C22BB0054A16E /* TClock.cpp in Sources */,
 				AB081C5725BCD5D40058D397 /* TRandom.cpp in Sources */,
@@ -1308,6 +1313,7 @@
 				AB4AF5552422FEE700E665D4 /* TFileScanner.cpp in Sources */,
 				AB54F9B323EF14CF005207BC /* TStringComparator.cpp in Sources */,
 				ABE7C0C225D0AD8C00914618 /* TPoint.cpp in Sources */,
+				ABF58DCF267F5BCD00327252 /* TCFString.cpp in Sources */,
 				ABFD470125C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */,
 				ABDCE8A7241C22BB0054A16E /* TClock.cpp in Sources */,
 				AB081C5925BCD5D40058D397 /* TRandom.cpp in Sources */,
