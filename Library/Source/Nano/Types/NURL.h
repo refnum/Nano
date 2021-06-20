@@ -5,84 +5,105 @@
 		Uniform Resource Locator.
 
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NURL_HDR
-#define NURL_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NComparable.h"
-#include "NEncodable.h"
+#ifndef NURL_H
+#define NURL_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NMixinComparable.h"
 #include "NString.h"
 
 
 
 
 
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NURL :	public NEncodable,
-				public NComparable<NURL> {
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NN_EMPTY_BASE NURL final : public NMixinComparable<NURL>
+{
 public:
-										NENCODABLE_DECLARE(NURL);
+										NURL(const utf8_t*  theURL);
+										NURL(const NString& theURL);
 
-										NURL(const NString &theURL);
-										NURL(const char    *theURL);
-
-										NURL(void);
-	virtual							   ~NURL(void);
+										NURL() = default;
 
 
 	// Is the URL valid?
-	bool								IsValid(void) const;
+	bool                                IsValid() const;
 
 
 	// Clear the value
-	void								Clear(void);
+	void                                Clear();
 
 
-	// Compare the value
-	NComparison							Compare(const NURL &theValue) const;
-
-
-	// Get/set the value
-	NString								GetValue(void) const;
-	void								SetValue(const NString &theValue);
+	// Get/set the URL
+	NString                             GetURL() const;
+	void                                SetURL(  const NString& theURL);
 
 
 	// Get the components
-	NString								GetScheme(void) const;
-	NString								GetHost(  void) const;
-	NIndex								GetPort(  void) const;
-	NString								GetPath(  void) const;
+	NString                             GetScheme() const;
+	NString                             GetHost()   const;
+	uint16_t                            GetPort()   const;
+	NString                             GetPath()   const;
 
 
-	// Operators
-										operator NFormatArgument(void) const;
 
-
-protected:
-	// Encode/decode the object
-	void								EncodeSelf(      NEncoder &theEncoder) const;
-	void								DecodeSelf(const NEncoder &theEncoder);
+public:
+	// NMixinComparable
+	bool                                CompareEqual(const NURL& theURL) const;
+	NComparison                         CompareOrder(const NURL& theURL) const;
 
 
 private:
-	NString								GetToken(const NString &thePattern) const;
+	NString                             GetToken(const NString& thePattern) const;
 
 
 private:
-	NString								mValue;
+	NString                             mURL;
 };
 
 
 
 
 
-#endif // NURL_HDR
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NURL.inl"
+
+
+
+#endif // NURL_H

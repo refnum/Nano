@@ -917,6 +917,19 @@ def NUTI_Summary(theValue, theInfo):
 
 
 #==============================================================================
+#		NURL_Summary : NURL summary.
+#------------------------------------------------------------------------------
+def NURL_Summary(theValue, theInfo):
+
+	theInfo = getMemberString(theValue, "mURL")
+
+	return theInfo
+
+
+
+
+
+#==============================================================================
 #		NVariant_Summary : NVariant summary.
 #------------------------------------------------------------------------------
 def NVariant_Summary(theVariant, theInfo):
@@ -980,6 +993,7 @@ def loadNano(theDebugger):
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NTime_Summary          NTime")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NUInt128_Summary       NUInt128")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NUTI_Summary           NUTI")
+	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NURL_Summary           NURL")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NVariant_Summary   -x 'NVariant<.*>'")
 	theDebugger.HandleCommand("type summary   add -w Nano -F Nano.NVector_Summary        NVector")
 	theDebugger.HandleCommand("type category enable Nano")

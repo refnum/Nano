@@ -350,6 +350,9 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Types/NNumber.inl"
 		"${NN_SOURCE_DIR}/Nano/Types/NRange.h"
 		"${NN_SOURCE_DIR}/Nano/Types/NRange.inl"
+		"${NN_SOURCE_DIR}/Nano/Types/NURL.cpp"
+		"${NN_SOURCE_DIR}/Nano/Types/NURL.h"
+		"${NN_SOURCE_DIR}/Nano/Types/NURL.inl"
 		"${NN_SOURCE_DIR}/Nano/Types/NVariant.h"
 		"${NN_SOURCE_DIR}/Nano/Types/NVariant.inl"
 )

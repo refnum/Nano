@@ -59,6 +59,7 @@
 #include "NRectangle.h"
 #include "NSize.h"
 #include "NTimeUtils.h"
+#include "NURL.h"
 #include "NUTI.h"
 #include "NVector.h"
 #include "NanoMacros.h"
@@ -455,6 +456,25 @@ public:
 	auto format(const NUTI& theParam, FormatContext& theContext)
 	{
 		return format_to(theContext.out(), "{}", theParam.GetType().GetUTF8());
+	}
+};
+
+
+
+
+
+#pragma mark NURL
+//=============================================================================
+//		NURL formatter
+//-----------------------------------------------------------------------------
+template<>
+class fmt::formatter<NURL> : public NSimpleFormatter
+{
+public:
+	template<typename FormatContext>
+	auto format(const NURL& theParam, FormatContext& theContext)
+	{
+		return format_to(theContext.out(), "{}", theParam.GetURL().GetUTF8());
 	}
 };
 

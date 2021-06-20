@@ -283,6 +283,9 @@
 		ABF58DCD267F5BCD00327252 /* TCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DE31034184B00E5A6AD /* TCFString.cpp */; };
 		ABF58DCE267F5BCD00327252 /* TCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DE31034184B00E5A6AD /* TCFString.cpp */; };
 		ABF58DCF267F5BCD00327252 /* TCFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DE31034184B00E5A6AD /* TCFString.cpp */; };
+		ABF58DD1267F74A800327252 /* TURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C7B12A539830052C55F /* TURL.cpp */; };
+		ABF58DD2267F74A800327252 /* TURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C7B12A539830052C55F /* TURL.cpp */; };
+		ABF58DD3267F74A800327252 /* TURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C7B12A539830052C55F /* TURL.cpp */; };
 		ABFD46FF25C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470025C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470125C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
@@ -1088,6 +1091,7 @@
 				ABF513142397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				ABF58C452676C2FD00327252 /* TListener.cpp in Sources */,
 				AB269E0725BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */,
+				ABF58DD2267F74A800327252 /* TURL.cpp in Sources */,
 				ABCC4AAA25A4D5A600394AFE /* TAny.cpp in Sources */,
 				AB56392A23C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				ABCC4AC025A4F4E600394AFE /* TVariant.cpp in Sources */,
@@ -1188,6 +1192,7 @@
 				ABF513132397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				ABF58C412676C2FB00327252 /* TListener.cpp in Sources */,
 				AB269E0625BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */,
+				ABF58DD3267F74A800327252 /* TURL.cpp in Sources */,
 				ABCC4AA925A4D5A600394AFE /* TAny.cpp in Sources */,
 				AB56392B23C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				ABCC4ABF25A4F4E600394AFE /* TVariant.cpp in Sources */,
@@ -1288,6 +1293,7 @@
 				ABF513152397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				ABF58C432676C2FC00327252 /* TListener.cpp in Sources */,
 				AB269E0825BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */,
+				ABF58DD1267F74A800327252 /* TURL.cpp in Sources */,
 				ABCC4AAB25A4D5A600394AFE /* TAny.cpp in Sources */,
 				AB56392923C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				ABCC4AC125A4F4E600394AFE /* TVariant.cpp in Sources */,

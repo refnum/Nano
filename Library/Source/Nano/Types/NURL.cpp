@@ -5,293 +5,63 @@
 		Uniform Resource Locator.
 
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NEncoder.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NURL.h"
 
 
 
 
 
-//============================================================================
-//		Implementation
-//----------------------------------------------------------------------------
-NENCODABLE_DEFINE(NURL);
-
-
-
-
-
-//============================================================================
-//		NURL::NURL : Constructor.
-//----------------------------------------------------------------------------
-NURL::NURL(const NString &theURL)
-{
-
-
-	// Initialize ourselves
-	mValue = theURL;
-}
-
-
-
-
-
-//============================================================================
-//		NURL::NURL : Constructor.
-//----------------------------------------------------------------------------
-NURL::NURL(const char *theURL)
-{
-
-
-	// Initialize ourselves
-	mValue = NString(theURL);
-}
-
-
-
-
-
-//============================================================================
-//		NURL::NURL : Constructor.
-//----------------------------------------------------------------------------
-NURL::NURL(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NURL::~NURL : Destructor.
-//----------------------------------------------------------------------------
-NURL::~NURL(void)
-{
-}
-
-
-
-
-
-//============================================================================
-//		NURL::IsValid : Is the UTI valid?
-//----------------------------------------------------------------------------
-bool NURL::IsValid(void) const
-{
-
-
-	// Check our state
-	return(!mValue.IsEmpty());
-}
-
-
-
-
-
-//============================================================================
-//		NURL::Clear : Clear the URL.
-//----------------------------------------------------------------------------
-void NURL::Clear(void)
-{
-
-
-	// Reset our state
-	mValue.Clear();
-}
-
-
-
-
-
-//============================================================================
-//		NURL::Compare : Compare the value.
-//----------------------------------------------------------------------------
-NComparison NURL::Compare(const NURL &theValue) const
-{
-
-
-	// Compare the value
-	return(mValue.Compare(theValue.mValue));
-}
-
-
-
-
-
-//============================================================================
-//		NURL::GetValue : Get the value.
-//----------------------------------------------------------------------------
-NString NURL::GetValue(void) const
-{
-
-
-	// Get the value
-	return(mValue);
-}
-
-
-
-
-
-//============================================================================
-//		NURL::SetValue : Set the value.
-//----------------------------------------------------------------------------
-void NURL::SetValue(const NString &theValue)
-{
-
-
-	// Set the value
-	mValue = theValue;
-}
-
-
-
-
-
-//============================================================================
-//		NURL::GetScheme : Get the scheme.
-//----------------------------------------------------------------------------
-NString NURL::GetScheme(void) const
-{	NString		theResult;
-
-
-
-	// Get the scheme
-	theResult = GetToken("^(\\w+)://");
-	
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NURL::GetHost : Get the host.
-//----------------------------------------------------------------------------
-NString NURL::GetHost(void) const
-{	NString		theResult;
-
-
-
-	// Get the scheme
-	theResult = GetToken("^\\w+://(.*?)[:/]");
-	
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NURL::GetPort : Get the port.
-//----------------------------------------------------------------------------
-NIndex NURL::GetPort(void) const
-{	NString		theValue, theScheme;
-	NNumber		theNumber;
-	NIndex		theResult;
-
+//-----------------------------------------------------------------------------
+uint16_t NURL::GetPort() const
+{
 
 
 	// Get the port
-	theValue  = GetToken("^\\w+://.*?:(\\d+)/");
-	theResult = kNIndexNone;
+	NString  theValue = GetToken("^\\w+://.*?:(\\d+)/");
+	uint16_t thePort  = 0;
 
 	if (!theValue.IsEmpty() && theNumber.SetValue(theValue))
-		theResult = theNumber.GetInt32();
+	{
+		thePort = theNumber.GetUInt16();
+	}
 
-
-
-	// Provide some defaults
-	if (theResult == kNIndexNone)
-		{
-		theScheme = GetScheme();
-		
-		if (theScheme == "http")
-			theResult = 80;
-
-		else if (theScheme == "https")
-			theResult = 443;
-
-		else if (theScheme == "ssh")
-			theResult = 22;
-		}
-
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NURL::GetPath : Get the path.
-//----------------------------------------------------------------------------
-NString NURL::GetPath(void) const
-{	NString		theResult;
-
-
-
-	// Get the scheme
-	theResult = GetToken("\\w+://.*?(/.*)");
-	
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NURL::NFormatArgument : NFormatArgument operator.
-//----------------------------------------------------------------------------
-NURL::operator NFormatArgument(void) const
-{
-
-
-	// Get the value
-	return(mValue);
-}
-
-
-
-
-
-#pragma mark protected
-//============================================================================
-//      NURL::EncodeSelf : Encode the object.
-//----------------------------------------------------------------------------
-void NURL::EncodeSelf(NEncoder &theEncoder) const
-{
-
-
-	// Encode the object
-	theEncoder.EncodeString(kNEncoderValueKey, mValue);
-}
-
-
-
-
-
-//============================================================================
-//      NURL::DecodeSelf : Decode the object.
-//----------------------------------------------------------------------------
-void NURL::DecodeSelf(const NEncoder &theEncoder)
-{
-
-
-	// Decode the object
-	mValue = theEncoder.DecodeString(kNEncoderValueKey);
+	return thePort;
 }
 
 
@@ -299,25 +69,13 @@ void NURL::DecodeSelf(const NEncoder &theEncoder)
 
 
 #pragma mark private
-//============================================================================
+//=============================================================================
 //		NURL::GetToken : Get a token.
-//----------------------------------------------------------------------------
-NString NURL::GetToken(const NString &thePattern) const
-{	NString			theResult;
-	NRangeList		theRanges;
-
+//-----------------------------------------------------------------------------
+NString NURL::GetToken(const NString& thePattern) const
+{
 
 
 	// Get the token
-	theRanges = mValue.FindAll(thePattern, kNStringPattern);
-
-	if (theRanges.size() == 2)
-		theResult = mValue.GetString(theRanges[1]);
-
-	return(theResult);
+	return mValue.GetMatch(thePattern, kNStringPattern);
 }
-
-
-
-
-

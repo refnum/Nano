@@ -132,6 +132,7 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Types/TMixinHashable.cpp"
 		"${NN_SOURCE_DIR}/Nano/Types/TNumber.cpp"
 		"${NN_SOURCE_DIR}/Nano/Types/TRange.cpp"
+		"${NN_SOURCE_DIR}/Nano/Types/TURL.cpp"
 		"${NN_SOURCE_DIR}/Nano/Types/TVariant.cpp"
 		"${NN_SOURCE_DIR}/NanoTest.cpp"
 )
