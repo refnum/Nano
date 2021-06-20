@@ -48,18 +48,6 @@
 //=============================================================================
 //		Public Functions
 //-----------------------------------------------------------------------------
-//		ToCF : Convert NRange to CFRange.
-//----------------------------------------------------------------------------
-inline CFRange ToCF(const NRange& theRange)
-{
-	return CFRangeMake(theRange.GetLocation(), theRange.GetSize());
-}
-
-
-
-
-
-//=============================================================================
 //		ToCF : Convert NArray to CFArrayRef.
 //-----------------------------------------------------------------------------
 //		Note :	As CF objects are toll-free bridged to NS objects, converting
@@ -135,6 +123,18 @@ CFNumberRef ToCF(const NNumber& theNumber)
 
 
 //=============================================================================
+//		ToCF : Convert NRange to CFRange.
+//-----------------------------------------------------------------------------
+inline CFRange ToCF(const NRange& theRange)
+{
+	return CFRangeMake(theRange.GetLocation(), theRange.GetSize());
+}
+
+
+
+
+
+//=============================================================================
 //		ToCF : Convert NString to CFStringRef.
 //-----------------------------------------------------------------------------
 //		Note :	As CF objects are toll-free bridged to NS objects, converting
@@ -165,95 +165,16 @@ CFURLRef ToCF(const NURL& theURL)
 
 
 //=============================================================================
-//		ToCF : Convert CFRange to NRange.
-//-----------------------------------------------------------------------------
-inline NRange ToNN(const CFRange& theRange)
-{
-	return NRange(size_t(theRange.location), size_t(theRange.length));
-}
-
-
-
-
-
-//=============================================================================
 //		ToCF : Convert CFArrayRef to NArray.
 //-----------------------------------------------------------------------------
-inline NArray ToNN(CFArrayRef theArray)
+inline NArray ToNN(CFArrayRef cfArray)
 {
-	return NCFArray(theArray, false);
-}
+	NCFArray theArray;
 
+	bool wasOK = theArray.SetObject(cfArray);
+	NN_REQUIRE(wasOK);
 
-
-
-
-//=============================================================================
-//		ToCF : Convert CFDataRef to NData.
-//-----------------------------------------------------------------------------
-inline NData ToNN(CFDataRef theData)
-{
-	return NCFData(theData, false);
-}
-
-
-
-
-
-//=============================================================================
-//		ToCF : Convert CFDateRef to NDate.
-//-----------------------------------------------------------------------------
-inline NDate ToNN(CFDateRef theDate)
-{
-	return NCFDate(theDate, false);
-}
-
-
-
-
-
-//=============================================================================
-//		ToCF : Convert CFDictionaryRef to NDictionary.
-//-----------------------------------------------------------------------------
-inline NDictionary ToNN(CFDictionaryRef theDictionary)
-{
-	return NCFDictionary(theDictionary, false);
-}
-
-
-
-
-
-//=============================================================================
-//		ToCF : Convert CFNumberRef to NNumber.
-//-----------------------------------------------------------------------------
-inline NNumber ToNN(CFNumberRef theNumber)
-{
-	return NCFNumber(theNumber, false);
-}
-
-
-
-
-
-//=============================================================================
-//		ToCF : Convert CFStringRef to NString.
-//-----------------------------------------------------------------------------
-inline NString ToNN(CFStringRef theString)
-{
-	return NCFString(theString, false);
-}
-
-
-
-
-
-//=============================================================================
-//		ToCF : Convert CFURLRef to NURL.
-//-----------------------------------------------------------------------------
-inline NURL ToNN(CFURLRef theURL)
-{
-	return NCFURL(theURL, false);
+	return theArray.GetArray();
 }
 
 
@@ -263,9 +184,26 @@ inline NURL ToNN(CFURLRef theURL)
 //=============================================================================
 //		ToCF : Convert CFMutableArrayRef to NArray.
 //-----------------------------------------------------------------------------
-inline NArray ToNN(CFMutableArrayRef theArray)
+inline NArray ToNN(CFMutableArrayRef cfArray)
 {
-	return NCFArray(theArray, false);
+	return ToNN(CFArrayRef(cfData));
+}
+
+
+
+
+
+//=============================================================================
+//		ToCF : Convert CFDataRef to NData.
+//-----------------------------------------------------------------------------
+inline NData ToNN(CFDataRef cfData)
+{
+	NCFData theData;
+
+	bool wasOK = theData.SetObject(cfData);
+	NN_REQUIRE(wasOK);
+
+	return theData.GetData();
 }
 
 
@@ -275,9 +213,43 @@ inline NArray ToNN(CFMutableArrayRef theArray)
 //=============================================================================
 //		ToCF : Convert CFMutableDataRef to NData.
 //-----------------------------------------------------------------------------
-inline NData ToNN(CFMutableDataRef theData)
+inline NData ToNN(CFMutableDataRef cfData)
 {
-	return NCFData(theData, false);
+	return ToNN(CFDataRef(cfData));
+}
+
+
+
+
+
+//=============================================================================
+//		ToCF : Convert CFDateRef to NDate.
+//-----------------------------------------------------------------------------
+inline NDate ToNN(CFDateRef cfDate)
+{
+	NCFDate theDate;
+
+	bool wasOK = theDate.SetObject(cfDate);
+	NN_REQUIRE(wasOK);
+
+	return theDate.GetDate();
+}
+
+
+
+
+
+//=============================================================================
+//		ToCF : Convert CFDictionaryRef to NDictionary.
+//-----------------------------------------------------------------------------
+inline NDictionary ToNN(CFDictionaryRef cfDictionary)
+{
+	NCFDictionary theDictionary;
+
+	bool wasOK = theDictionary.SetObject(cfDictionary);
+	NN_REQUIRE(wasOK);
+
+	return theDictionary.GetDictionary();
 }
 
 
@@ -287,9 +259,55 @@ inline NData ToNN(CFMutableDataRef theData)
 //=============================================================================
 //		ToCF : Convert CFMutableDictionaryRef to NDictionary.
 //-----------------------------------------------------------------------------
-inline NDictionary ToNN(CFMutableDictionaryRef theDictionary)
+inline NDictionary ToNN(CFMutableDictionaryRef cfDictionary)
 {
-	return NCFDictionary(theDictionary, false);
+	return ToNN(CFDictionaryRef(cfData));
+}
+
+
+
+
+
+//=============================================================================
+//		ToCF : Convert CFNumberRef to NNumber.
+//-----------------------------------------------------------------------------
+inline NNumber ToNN(CFNumberRef cfNumber)
+{
+	NCFNumber theNumber;
+
+	bool wasOK = theNumber.SetObject(cfNumber);
+	NN_REQUIRE(wasOK);
+
+	return theNumber.GetNumber();
+}
+
+
+
+
+
+//=============================================================================
+//		ToCF : Convert CFRange to NRange.
+//-----------------------------------------------------------------------------
+inline NRange ToNN(const CFRange& cfRange)
+{
+	return NRange(size_t(cfRange.location), size_t(cfRange.length));
+}
+
+
+
+
+
+//=============================================================================
+//		ToCF : Convert CFStringRef to NString.
+//-----------------------------------------------------------------------------
+inline NString ToNN(CFStringRef cfString)
+{
+	NCFString theString;
+
+	bool wasOK = theString.SetObject(cfString);
+	NN_REQUIRE(wasOK);
+
+	return theString.GetString();
 }
 
 
@@ -299,7 +317,24 @@ inline NDictionary ToNN(CFMutableDictionaryRef theDictionary)
 //=============================================================================
 //		ToCF : Convert CFMutableStringRef to NString.
 //-----------------------------------------------------------------------------
-inline NString ToNN(CFMutableStringRef theString)
+inline NString ToNN(CFMutableStringRef cfString)
 {
-	return NCFString(theString, false);
+	return ToNN(CFStringRef(cfData));
+}
+
+
+
+
+
+//=============================================================================
+//		ToCF : Convert CFURLRef to NURL.
+//-----------------------------------------------------------------------------
+inline NURL ToNN(CFURLRef cfURL)
+{
+	NCFURL theURL;
+
+	bool wasOK = theURL.SetObject(cfURL);
+	NN_REQUIRE(wasOK);
+
+	return theURL.GetURL();
 }

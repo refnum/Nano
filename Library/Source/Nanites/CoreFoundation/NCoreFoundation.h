@@ -58,30 +58,30 @@
 //		Inline functions
 //-----------------------------------------------------------------------------
 // Nano to CoreFoundation
-CFRange         ToCF(const NRange& theRange);
 CFArrayRef      ToCF(const NArray& theArray);
 CFDataRef       ToCF(const NData& theData);
 CFDateRef       ToCF(const NDate& theDate);
 CFDictionaryRef ToCF(const NDictionary& theDictionary);
 CFNumberRef     ToCF(const NNumber& theNumber);
+CFRange         ToCF(const NRange& theRange);
 CFStringRef     ToCF(const NString& theString);
 CFURLRef        ToCF(const NURL& theURL);
 
 
 
 // CoreFoundation to Nano
-NRange      ToNN(const CFRange& theRange);
-NArray      ToNN(CFArrayRef theArray);
-NData       ToNN(CFDataRef theData);
-NDate       ToNN(CFDateRef theDate);
-NDictionary ToNN(CFDictionaryRef theDictionary);
-NNumber     ToNN(CFNumberRef theNumber);
-NString     ToNN(CFStringRef theString);
-NURL        ToNN(CFURLRef theURL);
-NArray      ToNN(CFMutableArrayRef theArray);
-NData       ToNN(CFMutableDataRef theData);
-NDictionary ToNN(CFMutableDictionaryRef theDictionary);
-NString     ToNN(CFMutableStringRef theString);
+NArray      ToNN(CFArrayRef cfArray);
+NArray      ToNN(CFMutableArrayRef cfArray);
+NData       ToNN(CFDataRef cfData);
+NData       ToNN(CFMutableDataRef cfData);
+NDate       ToNN(CFDateRef cfDate);
+NDictionary ToNN(CFDictionaryRef cfDictionary);
+NDictionary ToNN(CFMutableDictionaryRef cfDictionary);
+NNumber     ToNN(CFNumberRef cfNumber);
+NRange      ToNN(const CFRange& cfRange);
+NString     ToNN(CFMutableStringRef cfString);
+NString     ToNN(CFStringRef cfString);
+NURL        ToNN(CFURLRef cfURL);
 
 
 
