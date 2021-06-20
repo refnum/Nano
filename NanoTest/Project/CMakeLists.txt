@@ -159,6 +159,7 @@ if (NN_TARGET_MACOS)
 		PRIVATE
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/TCFData.cpp"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/TCFObject.cpp"
+			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/TCoreFoundation.cpp"
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/TCGColor.cpp"
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/TCGImage.cpp"
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/TCoreGraphics.cpp"
@@ -183,6 +184,7 @@ if (NN_TARGET_WINDOWS)
 	nano_project_sources(
 		PRIVATE
 			"${NN_SOURCE_DIR}/../../Library/Support/Visual Studio/Nano.natvis"
+			"${NN_SOURCE_DIR}/Nanites/Windows/TWindows.cpp"
 	)
 endif()
 

@@ -265,6 +265,9 @@
 		ABF58DA3267CB26D00327252 /* TCGColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3951773A09C0054EEA3 /* TCGColor.cpp */; };
 		ABF58DA4267CB26E00327252 /* TCGColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3951773A09C0054EEA3 /* TCGColor.cpp */; };
 		ABF58DA5267CB26E00327252 /* TCGColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3951773A09C0054EEA3 /* TCGColor.cpp */; };
+		ABF58DA8267EB40900327252 /* TCoreFoundation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58DA7267EB40900327252 /* TCoreFoundation.cpp */; };
+		ABF58DA9267EB40900327252 /* TCoreFoundation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58DA7267EB40900327252 /* TCoreFoundation.cpp */; };
+		ABF58DAA267EB40900327252 /* TCoreFoundation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58DA7267EB40900327252 /* TCoreFoundation.cpp */; };
 		ABFD46FF25C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470025C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470125C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
@@ -461,6 +464,8 @@
 		ABF58CE726795A5800327252 /* TFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFunction.cpp; sourceTree = "<group>"; };
 		ABF58CF02679727500327252 /* TUTI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTI.cpp; sourceTree = "<group>"; };
 		ABF58CF4267973BA00327252 /* TUTIRegistry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUTIRegistry.cpp; sourceTree = "<group>"; };
+		ABF58DA7267EB40900327252 /* TCoreFoundation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCoreFoundation.cpp; sourceTree = "<group>"; };
+		ABF58DAC267EB41E00327252 /* TWindows.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TWindows.cpp; sourceTree = "<group>"; };
 		ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TRandomGenerator.cpp; sourceTree = "<group>"; };
 		ABFD973C1663951500EE07B7 /* TSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSocket.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -791,6 +796,7 @@
 				AB514DD31034184B00E5A6AD /* Cocoa */,
 				AB514DD61034184B00E5A6AD /* CoreFoundation */,
 				ABCFE3941773A09C0054EEA3 /* CoreGraphics */,
+				ABF58DAB267EB41E00327252 /* Windows */,
 			);
 			path = Nanites;
 			sourceTree = "<group>";
@@ -815,6 +821,7 @@
 				AB514DE11034184B00E5A6AD /* TCFObject.cpp */,
 				AB514DE31034184B00E5A6AD /* TCFString.cpp */,
 				ABB6782E12AE56EF0077D64E /* TCFURL.cpp */,
+				ABF58DA7267EB40900327252 /* TCoreFoundation.cpp */,
 			);
 			path = CoreFoundation;
 			sourceTree = "<group>";
@@ -895,6 +902,14 @@
 				ABF58C0F267572E100327252 /* TDataCipher.cpp */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		ABF58DAB267EB41E00327252 /* Windows */ = {
+			isa = PBXGroup;
+			children = (
+				ABF58DAC267EB41E00327252 /* TWindows.cpp */,
+			);
+			path = Windows;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1098,6 +1113,7 @@
 				AB56393723C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				ABBE8C8624460960009E9B53 /* TUsageLog.cpp in Sources */,
 				AB2A304A24524CD700F21BF6 /* TDebugger.cpp in Sources */,
+				ABF58DA9267EB40900327252 /* TCoreFoundation.cpp in Sources */,
 				AB20329425D73E1F0050DB00 /* TStdMath.cpp in Sources */,
 				ABF58D91267C194000327252 /* TCFObject.cpp in Sources */,
 				AB1A1AFF25BF88930064DD1C /* TUInt128.cpp in Sources */,
@@ -1192,6 +1208,7 @@
 				AB56393623C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				ABBE8C8524460960009E9B53 /* TUsageLog.cpp in Sources */,
 				AB2A304924524CD700F21BF6 /* TDebugger.cpp in Sources */,
+				ABF58DA8267EB40900327252 /* TCoreFoundation.cpp in Sources */,
 				AB20329325D73E1F0050DB00 /* TStdMath.cpp in Sources */,
 				ABF58D8F267C193F00327252 /* TCFObject.cpp in Sources */,
 				AB1A1AFE25BF88930064DD1C /* TUInt128.cpp in Sources */,
@@ -1286,6 +1303,7 @@
 				AB56393823C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				ABBE8C8724460960009E9B53 /* TUsageLog.cpp in Sources */,
 				AB2A304B24524CD700F21BF6 /* TDebugger.cpp in Sources */,
+				ABF58DAA267EB40900327252 /* TCoreFoundation.cpp in Sources */,
 				AB20329525D73E1F0050DB00 /* TStdMath.cpp in Sources */,
 				ABF58D93267C194000327252 /* TCFObject.cpp in Sources */,
 				AB1A1B0025BF88930064DD1C /* TUInt128.cpp in Sources */,
