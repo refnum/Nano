@@ -39,7 +39,6 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NCocoa.h"
 
 
 
@@ -50,12 +49,9 @@
 //-----------------------------------------------------------------------------
 //		ToCF : Convert NArray to CFArrayRef.
 //-----------------------------------------------------------------------------
-//		Note :	As CF objects are toll-free bridged to NS objects, converting
-//				to NS then casting ensures the CF object is auto-released.
-//----------------------------------------------------------------------------
-inline CFArrayRef ToCF(const NArray& theArray)
+inline NCFArray ToCF(const NArray& theArray)
 {
-	return CFArrayRef(ToNS(theArray));
+	return NCFArray(theArray);
 }
 
 
@@ -65,12 +61,9 @@ inline CFArrayRef ToCF(const NArray& theArray)
 //=============================================================================
 //		ToCF : Convert NData to CFDataRef.
 //-----------------------------------------------------------------------------
-//		Note :	As CF objects are toll-free bridged to NS objects, converting
-//				to NS then casting ensures the CF object is auto-released.
-//----------------------------------------------------------------------------
-inline CFDataRef ToCF(const NData& theData)
+inline NCFData ToCF(const NData& theData)
 {
-	return CFDataRef(ToNS(theData));
+	return NCFData(theData);
 }
 
 
@@ -80,12 +73,9 @@ inline CFDataRef ToCF(const NData& theData)
 //=============================================================================
 //		ToCF : Convert NDate to CFDateRef.
 //-----------------------------------------------------------------------------
-//		Note :	As CF objects are toll-free bridged to NS objects, converting
-//				to NS then casting ensures the CF object is auto-released.
-//----------------------------------------------------------------------------
-inline CFDateRef ToCF(const NDate& theDate)
+inline NCFDate ToCF(const NDate& theDate)
 {
-	return CFDateRef(ToNS(theDate));
+	return NCFDate(theDate);
 }
 
 
@@ -95,12 +85,9 @@ inline CFDateRef ToCF(const NDate& theDate)
 //=============================================================================
 //		ToCF : Convert NDictionary to CFDictionaryRef.
 //-----------------------------------------------------------------------------
-//		Note :	As CF objects are toll-free bridged to NS objects, converting
-//				to NS then casting ensures the CF object is auto-released.
-//----------------------------------------------------------------------------
-inline CFDictionaryRef ToCF(const NDictionary& theDictionary)
+inline NCFDictionary ToCF(const NDictionary& theDictionary)
 {
-	return CFDictionaryRef(ToNS(theDictionary));
+	return NCFDictionary(theDictionary);
 }
 
 
@@ -110,12 +97,9 @@ inline CFDictionaryRef ToCF(const NDictionary& theDictionary)
 //=============================================================================
 //		ToCF : Convert NNumber to CFNumberRef.
 //-----------------------------------------------------------------------------
-//		Note :	As CF objects are toll-free bridged to NS objects, converting
-//				to NS then casting ensures the CF object is auto-released.
-//----------------------------------------------------------------------------
-inline CFNumberRef ToCF(const NNumber& theNumber)
+inline NCFNumber ToCF(const NNumber& theNumber)
 {
-	return CFNumberRef(ToNS(theNumber));
+	return NCFNumber(theNumber);
 }
 
 
@@ -127,7 +111,7 @@ inline CFNumberRef ToCF(const NNumber& theNumber)
 //-----------------------------------------------------------------------------
 inline CFRange ToCF(const NRange& theRange)
 {
-	return CFRangeMake(theRange.GetLocation(), theRange.GetSize());
+	return CFRangeMake(CFIndex(theRange.GetLocation()), CFIndex(theRange.GetSize()));
 }
 
 
@@ -137,12 +121,9 @@ inline CFRange ToCF(const NRange& theRange)
 //=============================================================================
 //		ToCF : Convert NString to CFStringRef.
 //-----------------------------------------------------------------------------
-//		Note :	As CF objects are toll-free bridged to NS objects, converting
-//				to NS then casting ensures the CF object is auto-released.
-//----------------------------------------------------------------------------
-inline CFStringRef ToCF(const NString& theString)
+inline NCFString ToCF(const NString& theString)
 {
-	return CFStringRef(ToNS(theString));
+	return NCFString(theString);
 }
 
 
@@ -153,11 +134,9 @@ inline CFStringRef ToCF(const NString& theString)
 //		ToCF : Convert NURL to CFURLRef.
 //-----------------------------------------------------------------------------
 //		Note :	As CF objects are toll-free bridged to NS objects, converting
-//				to NS then casting ensures the CF object is auto-released.
-//----------------------------------------------------------------------------
-inline CFURLRef ToCF(const NURL& theURL)
+inline NCFURL ToCF(const NURL& theURL)
 {
-	return CFURLRef(ToNS(theURL));
+	return NCFURL(theURL);
 }
 
 

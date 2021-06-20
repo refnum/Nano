@@ -69,17 +69,15 @@ using NCFType                                               = NCFObject<CFTypeRe
 //		Inline functions
 //-----------------------------------------------------------------------------
 // Nano to CoreFoundation
-//
-// Reference-counted objects are returned as an auto-released object.
-CFArrayRef      ToCF(const NArray& theArray);
-CFDataRef       ToCF(const NData& theData);
-CFDateRef       ToCF(const NDate& theDate);
-CFDictionaryRef ToCF(const NDictionary& theDictionary);
-CFNumberRef     ToCF(const NNumber& theNumber);
-CFRange         ToCF(const NRange& theRange);
-CFStringRef     ToCF(const NString& theString);
-NCFType         ToCF(const NAny& theValue);
-CFURLRef        ToCF(const NURL& theURL);
+NCFArray      ToCF(const NArray& theArray);
+NCFData       ToCF(const NData& theData);
+NCFDate       ToCF(const NDate& theDate);
+NCFDictionary ToCF(const NDictionary& theDictionary);
+NCFNumber     ToCF(const NNumber& theNumber);
+CFRange       ToCF(const NRange& theRange);
+NCFString     ToCF(const NString& theString);
+NCFType       ToCF(const NAny& theValue);
+NCFURL        ToCF(const NURL& theURL);
 
 
 
