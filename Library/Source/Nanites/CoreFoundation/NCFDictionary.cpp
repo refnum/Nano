@@ -58,17 +58,9 @@ static void InsertValue(const void* keyPtr, const void* valuePtr, void* userData
 
 
 	// Get the state we need
-	NCFDictionary* thisPtr = reinterpret_cast<NCFDictionary*>(userData);
-	CFTypeRef      cfValue = reinterpret_cast<CFTypeRef>(valuePtr);
-	CFStringRef    cfKey   = reinterpret_cast<CFStringRef>(keyPtr);
-
-
-
-	// Insert the value
-
-
-	NVariant  theValue;
-	NCFString theKey;
+	NDictionary* thisPtr = reinterpret_cast<NDictionary*>(userData);
+	CFTypeRef    cfValue = reinterpret_cast<CFTypeRef>(valuePtr);
+	CFStringRef  cfKey   = reinterpret_cast<CFStringRef>(keyPtr);
 
 
 
@@ -124,14 +116,16 @@ bool NCFDictionary::SetDictionary(const NDictionary& theDictionary)
 
 	if (wasOK)
 	{
-		CFDictionaryRef cfDictionary = *this;
+		CFDictionaryRef        cfDictionary = *this;
+		CFMutableDictionaryRef cfMutableDictionary =
+			const_cast<CFMutableDictionaryRef>(cfDictionary);
 
 		for (const auto& keyValue : theDictionary)
 		{
-			CFStringRef cfKey   = ToCF(keyValue->first);
-			NCFType     cfValue = ToCF(keyValue->second);
+			CFStringRef cfKey   = ToCF(keyValue.first);
+			NCFType     cfValue = ToCF(keyValue.second);
 
-			CFDictionarySetValue(cfDictionary, cfKey, cfValue);
+			CFDictionarySetValue(cfMutableDictionary, cfKey, cfValue);
 		}
 	}
 

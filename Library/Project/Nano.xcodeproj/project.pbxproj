@@ -19,6 +19,12 @@
 		AB00E515267FDC2D0023F244 /* NCFData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00E514267FDC2D0023F244 /* NCFData.cpp */; };
 		AB00E516267FDC2D0023F244 /* NCFData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00E514267FDC2D0023F244 /* NCFData.cpp */; };
 		AB00E517267FDC2D0023F244 /* NCFData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB00E514267FDC2D0023F244 /* NCFData.cpp */; };
+		AB00E518267FE2A30023F244 /* NCFDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DA102AF78F0062E311 /* NCFDictionary.cpp */; };
+		AB00E519267FE2A40023F244 /* NCFDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DA102AF78F0062E311 /* NCFDictionary.cpp */; };
+		AB00E51A267FE2A40023F244 /* NCFDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DA102AF78F0062E311 /* NCFDictionary.cpp */; };
+		AB00E51B267FE2A70023F244 /* NCFNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DF102AF78F0062E311 /* NCFNumber.cpp */; };
+		AB00E51C267FE2A80023F244 /* NCFNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DF102AF78F0062E311 /* NCFNumber.cpp */; };
+		AB00E51D267FE2A80023F244 /* NCFNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9DA5DF102AF78F0062E311 /* NCFNumber.cpp */; };
 		AB07EA272399D3D000E0AC49 /* iOSNTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA262399D3D000E0AC49 /* iOSNTimeUtils.cpp */; };
 		AB07EA3E239A522E00E0AC49 /* iOSNSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA3B239A521F00E0AC49 /* iOSNSemaphore.cpp */; };
 		AB07EA44239A567400E0AC49 /* NSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */; };
@@ -2109,6 +2115,7 @@
 				AB56391F23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
 				ABC6471F25818466009B82AD /* pcre2_substring.c in Sources */,
 				ABC6472E25818466009B82AD /* pcre2_maketables.c in Sources */,
+				AB00E51D267FE2A80023F244 /* NCFNumber.cpp in Sources */,
 				AB62326A242AF51300651349 /* NLog.cpp in Sources */,
 				ABC6474F25818466009B82AD /* pcre2_newline.c in Sources */,
 				AB230A222581AB8600919EBD /* inftrees.c in Sources */,
@@ -2134,6 +2141,7 @@
 				AB53BBE3242123AB009960AA /* NFileUtils.cpp in Sources */,
 				ABBE8C912446096C009E9B53 /* NUsageLog.cpp in Sources */,
 				ABBE8C9924460A11009E9B53 /* NUsageBucket.cpp in Sources */,
+				AB00E51A267FE2A40023F244 /* NCFDictionary.cpp in Sources */,
 				ABC6474325818466009B82AD /* pcre2_match_data.c in Sources */,
 				ABD3684B25D81E0500C825B6 /* NFileMap.cpp in Sources */,
 				AB230A192581AB8600919EBD /* infback.c in Sources */,
@@ -2252,6 +2260,7 @@
 				ABDCE8CF241C60540054A16E /* iOSNFileHandle.cpp in Sources */,
 				ABC6474D25818466009B82AD /* pcre2_newline.c in Sources */,
 				AB230A202581AB8600919EBD /* inftrees.c in Sources */,
+				AB00E51B267FE2A70023F244 /* NCFNumber.cpp in Sources */,
 				ABC6470E25818466009B82AD /* pcre2_pattern_info.c in Sources */,
 				ABA4791125B7B91300F3C3C9 /* iOSNSystem.cpp in Sources */,
 				ABC6472325818466009B82AD /* pcre2_jit_compile.c in Sources */,
@@ -2277,6 +2286,7 @@
 				ABBE8C9724460A11009E9B53 /* NUsageBucket.cpp in Sources */,
 				ABC6474125818466009B82AD /* pcre2_match_data.c in Sources */,
 				AB230A172581AB8600919EBD /* infback.c in Sources */,
+				AB00E518267FE2A30023F244 /* NCFDictionary.cpp in Sources */,
 				ABC6473525818466009B82AD /* pcre2_substitute.c in Sources */,
 				ABD3685325D81E0600C825B6 /* NFileMap.cpp in Sources */,
 				AB53BBE1242123AB009960AA /* NFileUtils.cpp in Sources */,
@@ -2395,6 +2405,7 @@
 				ABC6472D25818466009B82AD /* pcre2_maketables.c in Sources */,
 				AB0DBE7023999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
 				ABC6474E25818466009B82AD /* pcre2_newline.c in Sources */,
+				AB00E51C267FE2A80023F244 /* NCFNumber.cpp in Sources */,
 				AB230A212581AB8600919EBD /* inftrees.c in Sources */,
 				ABC6470F25818466009B82AD /* pcre2_pattern_info.c in Sources */,
 				ABC6472425818466009B82AD /* pcre2_jit_compile.c in Sources */,
@@ -2420,6 +2431,7 @@
 				AB230A182581AB8600919EBD /* infback.c in Sources */,
 				ABC6473625818466009B82AD /* pcre2_substitute.c in Sources */,
 				ABD3684F25D81E0500C825B6 /* NFileMap.cpp in Sources */,
+				AB00E519267FE2A40023F244 /* NCFDictionary.cpp in Sources */,
 				ABBE8C9824460A11009E9B53 /* NUsageBucket.cpp in Sources */,
 				AB54F9AE23EF14A7005207BC /* NStringComparator.cpp in Sources */,
 				AB82610625C39ED4008A5630 /* macOSNRandom.cpp in Sources */,

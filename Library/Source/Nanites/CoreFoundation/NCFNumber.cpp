@@ -65,7 +65,7 @@ NNumber NCFNumber::GetNumber() const
 			bool wasOK = CFNumberGetValue(cfNumber, kCFNumberFloat64Type, &valueFloat64);
 			NN_REQUIRE(wasOK);
 
-			SetFloat64(valueFloat64);
+			theNumber.SetValue(valueFloat64);
 		}
 		else
 		{
