@@ -418,12 +418,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AB003FDB1096FC56006029F9 /* NNSAutoReleasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNSAutoReleasePool.h; sourceTree = "<group>"; };
-		AB003FDC1096FC56006029F9 /* NNSAutoReleasePool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NNSAutoReleasePool.mm; sourceTree = "<group>"; };
-		AB003FDD1096FC56006029F9 /* NNSSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNSSingleton.h; sourceTree = "<group>"; };
-		AB003FDE1096FC56006029F9 /* NNSSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NNSSingleton.mm; sourceTree = "<group>"; };
-		AB00400D1096FCFD006029F9 /* NCocoa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCocoa.h; sourceTree = "<group>"; };
-		AB00400E1096FCFD006029F9 /* NCocoa.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NCocoa.mm; sourceTree = "<group>"; };
 		AB0040131096FE82006029F9 /* NQt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NQt.cpp; sourceTree = "<group>"; };
 		AB0040141096FE82006029F9 /* NQt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NQt.h; sourceTree = "<group>"; };
 		AB0040161096FE97006029F9 /* NSkia.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSkia.cpp; sourceTree = "<group>"; };
@@ -1132,19 +1126,6 @@
 			path = Time;
 			sourceTree = "<group>";
 		};
-		AB1A786A1031842C00DFBA38 /* Cocoa */ = {
-			isa = PBXGroup;
-			children = (
-				AB00400E1096FCFD006029F9 /* NCocoa.mm */,
-				AB00400D1096FCFD006029F9 /* NCocoa.h */,
-				AB003FDC1096FC56006029F9 /* NNSAutoReleasePool.mm */,
-				AB003FDB1096FC56006029F9 /* NNSAutoReleasePool.h */,
-				AB003FDE1096FC56006029F9 /* NNSSingleton.mm */,
-				AB003FDD1096FC56006029F9 /* NNSSingleton.h */,
-			);
-			path = Cocoa;
-			sourceTree = "<group>";
-		};
 		AB2309EB2581AB8600919EBD /* zlib-1.2.11 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1446,7 +1427,6 @@
 			isa = PBXGroup;
 			children = (
 				AB328C8917612D8400782F40 /* Catch */,
-				AB1A786A1031842C00DFBA38 /* Cocoa */,
 				AB9154E00F9B4DD5009FFEAF /* CoreFoundation */,
 				AB004029109700AD006029F9 /* CoreGraphics */,
 				ABAA123F0FE4F959000BDCDC /* Qt */,

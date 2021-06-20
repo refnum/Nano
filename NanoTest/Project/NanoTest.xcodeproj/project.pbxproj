@@ -405,7 +405,6 @@
 		AB514DB11034184B00E5A6AD /* TNumber.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNumber.cpp; sourceTree = "<group>"; };
 		AB514DB51034184B00E5A6AD /* TRange.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TRange.cpp; sourceTree = "<group>"; };
 		AB514DCC1034184B00E5A6AD /* TTextUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTextUtilities.cpp; sourceTree = "<group>"; };
-		AB514DD51034184B00E5A6AD /* TNSSingleton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TNSSingleton.mm; sourceTree = "<group>"; };
 		AB514DD71034184B00E5A6AD /* TCFArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCFArray.cpp; sourceTree = "<group>"; };
 		AB514DD91034184B00E5A6AD /* TCFData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCFData.cpp; sourceTree = "<group>"; };
 		AB514DDB1034184B00E5A6AD /* TCFDate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCFDate.cpp; sourceTree = "<group>"; };
@@ -465,7 +464,6 @@
 		ABDCE8BC241C59680054A16E /* TFileHandle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileHandle.cpp; sourceTree = "<group>"; };
 		ABDCE8E8241F8AEA0054A16E /* TFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFile.cpp; sourceTree = "<group>"; };
 		ABE8150D25E47E5E002FA8CD /* TDate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDate.cpp; sourceTree = "<group>"; };
-		ABE96256103B00A300029708 /* TNSAutoReleasePool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TNSAutoReleasePool.mm; sourceTree = "<group>"; };
 		ABEB0BFE16760C8A00B74B71 /* TMessageServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMessageServer.cpp; sourceTree = "<group>"; };
 		ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestListener.cpp; sourceTree = "<group>"; };
 		ABEC885C0FC73DD7003B7166 /* CTestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTestListener.h; sourceTree = "<group>"; };
@@ -814,21 +812,11 @@
 		AB514DD21034184B00E5A6AD /* Nanites */ = {
 			isa = PBXGroup;
 			children = (
-				AB514DD31034184B00E5A6AD /* Cocoa */,
 				AB514DD61034184B00E5A6AD /* CoreFoundation */,
 				ABCFE3941773A09C0054EEA3 /* CoreGraphics */,
 				ABF58DAB267EB41E00327252 /* Windows */,
 			);
 			path = Nanites;
-			sourceTree = "<group>";
-		};
-		AB514DD31034184B00E5A6AD /* Cocoa */ = {
-			isa = PBXGroup;
-			children = (
-				ABE96256103B00A300029708 /* TNSAutoReleasePool.mm */,
-				AB514DD51034184B00E5A6AD /* TNSSingleton.mm */,
-			);
-			path = Cocoa;
 			sourceTree = "<group>";
 		};
 		AB514DD61034184B00E5A6AD /* CoreFoundation */ = {
