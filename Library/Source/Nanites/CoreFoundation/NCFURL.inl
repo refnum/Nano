@@ -1,8 +1,8 @@
 /*	NAME:
-		TCFURL.cpp
+		NCFURL.inl
 
 	DESCRIPTION:
-		NCFURL tests.
+		CFURLRef wrapper.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -39,30 +39,62 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NCFURL.h"
-#include "NTestFixture.h"
+#include "NCFString.h"
 
 
 
 
 
 //=============================================================================
-//		Test Fixture
+//		NCFURL::NCFURL : Constructor.
 //-----------------------------------------------------------------------------
-#define TEST_NCFURL(...)                                    TEST_NANO(TCFURL, ##__VA_ARGS__)
-
-FIXTURE_NANO(TCFURL){};
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-TEST_NCFURL("Default", "[cf]")
+inline NCFURL::NCFURL(const NURL& theURL)
 {
 
 
-	// Perform the test
+	// Initialise ourselves
+	SetURL(theURL);
+}
+
+
+
+
+
+//=============================================================================
+//		NCFURL::GetURL : Get the URL.
+//-----------------------------------------------------------------------------
+NURL NCFURL::GetURL() const
+{
+
+
+	// Get the URL
+	CFURLRef cfURL = *this;
+	NURL     theURL;
+
+	if (cfURL != nullptr)
+	{
+		NCFString cfString;
+
+		if (cfString.Set(CFURLGetString(cfURL)))
+		{
+			theURL.SetURL(cfString.GetString());
+		}
+	}
+
+	return theURL;
+}
+
+
+
+
+
+//=============================================================================
+//		NCFURL::SetURL : Set the URL.
+//-----------------------------------------------------------------------------
+bool NCFURL::SetURL(const NURL& theURL)
+{
+
+
+	// Set the URL
+	return Set(CFURLCreateWithString(kCFAllocatorDefault, NCFString(theURL.GetURL()), nullptr));
 }

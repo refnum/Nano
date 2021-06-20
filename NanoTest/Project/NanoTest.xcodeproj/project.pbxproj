@@ -286,6 +286,9 @@
 		ABF58DD1267F74A800327252 /* TURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C7B12A539830052C55F /* TURL.cpp */; };
 		ABF58DD2267F74A800327252 /* TURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C7B12A539830052C55F /* TURL.cpp */; };
 		ABF58DD3267F74A800327252 /* TURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB481C7B12A539830052C55F /* TURL.cpp */; };
+		ABF58DD5267F792900327252 /* TCFURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB6782E12AE56EF0077D64E /* TCFURL.cpp */; };
+		ABF58DD6267F792900327252 /* TCFURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB6782E12AE56EF0077D64E /* TCFURL.cpp */; };
+		ABF58DD7267F792A00327252 /* TCFURL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB6782E12AE56EF0077D64E /* TCFURL.cpp */; };
 		ABFD46FF25C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470025C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470125C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
@@ -1082,6 +1085,7 @@
 				ABF58CE926795A5900327252 /* TFunction.cpp in Sources */,
 				ABD3684725D81DF600C825B6 /* TFileMap.cpp in Sources */,
 				ABDCE8C1241C59680054A16E /* TFileHandle.cpp in Sources */,
+				ABF58DD6267F792900327252 /* TCFURL.cpp in Sources */,
 				ABA478CD25B7B7FE00F3C3C9 /* TSystem.cpp in Sources */,
 				ABF58CD1267932CB00327252 /* TUndoManager.cpp in Sources */,
 				ABF5130E2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
@@ -1183,6 +1187,7 @@
 				ABF58CE826795A5900327252 /* TFunction.cpp in Sources */,
 				ABD3684325D81DF600C825B6 /* TFileMap.cpp in Sources */,
 				ABDCE8C0241C59680054A16E /* TFileHandle.cpp in Sources */,
+				ABF58DD7267F792A00327252 /* TCFURL.cpp in Sources */,
 				ABA478CC25B7B7FE00F3C3C9 /* TSystem.cpp in Sources */,
 				ABF58CD3267932CB00327252 /* TUndoManager.cpp in Sources */,
 				ABF5130D2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
@@ -1284,6 +1289,7 @@
 				ABF58CEA26795A5900327252 /* TFunction.cpp in Sources */,
 				ABD3683F25D81DF500C825B6 /* TFileMap.cpp in Sources */,
 				ABDCE8C2241C59680054A16E /* TFileHandle.cpp in Sources */,
+				ABF58DD5267F792900327252 /* TCFURL.cpp in Sources */,
 				ABA478CE25B7B7FE00F3C3C9 /* TSystem.cpp in Sources */,
 				ABF58CCF267932CA00327252 /* TUndoManager.cpp in Sources */,
 				ABF5130F2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
