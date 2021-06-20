@@ -46,7 +46,7 @@
 #include "NCFObject.h"
 
 // System
-#include <CoreFoundation/CFArray.h>
+#include <CoreFoundation/CFDictionary.h>
 
 
 
