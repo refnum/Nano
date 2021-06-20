@@ -42,8 +42,8 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
-#include "NArray.h"
 #include "NCFObject.h"
+#include "NDictionary.h"
 
 // System
 #include <CoreFoundation/CFDictionary.h>

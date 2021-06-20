@@ -58,36 +58,44 @@ NCFType ToCF(const NAny& theValue)
 
 	if (theValue.HasBool())
 	{
-		cfObject.Set(theValue.GetBool() ? kCFBooleanTrue : kCFBooleanFalse);
+		cfObject.Set(CFRetain(theValue.GetBool() ? kCFBooleanTrue : kCFBooleanFalse));
 	}
-	else if (theValue.HasData())
-	{
-		cfObject.Set(ToCF(theValue.GetData()));
-	}
-	else if (theValue.HasString())
-	{
-		cfObject.Set(ToCF(theValue.GetString()));
-	}
-	else if (theNumber.SetValue(theValue))
-	{
-		cfObject.Set(ToCF(theNumber));
-	}
+
 	else if (theValue.Has<NArray>())
 	{
 		cfObject.Set(ToCF(theValue.Get<NArray>()));
 	}
+
+	else if (theValue.Has<NData>())
+	{
+		cfObject.Set(ToCF(theValue.Get<NData>()));
+	}
+
 	else if (theValue.Has<NDate>())
 	{
 		cfObject.Set(ToCF(theValue.Get<NDate>()));
 	}
+
 	else if (theValue.Has<NDictionary>())
 	{
 		cfObject.Set(ToCF(theValue.Get<NDictionary>()));
 	}
+
+	else if (theValue.HasString())
+	{
+		cfObject.Set(ToCF(theValue.GetString()));
+	}
+
 	else if (theValue.Has<NURL>())
 	{
 		cfObject.Set(ToCF(theValue.Get<NURL>()));
 	}
+
+	else if (theNumber.SetValue(theValue))
+	{
+		cfObject.Set(ToCF(theNumber));
+	}
+
 	else
 	{
 		NN_LOG_ERROR("Unable to convert Nano object to CF!");
@@ -112,39 +120,67 @@ NAny ToNN(CFTypeRef cfObject)
 
 	if (cfObject != nullptr)
 	{
-		CFTypeID cfType = CFGetTypeID(cfOnject);
+		CFTypeID cfType = CFGetTypeID(cfObject);
 
 		if (cfType == CFBooleanGetTypeID())
 		{
-			theObject = CFBooleanGetValue(cfObject) ? true : false;
+			theObject = CFBooleanGetValue(CFBooleanRef(cfObject)) ? true : false;
 		}
-		else if (cfType == CFNumberGetTypeID())
-		{
-			theObject = NCFNumber(CFNumberRef(cfObject)).GetNumber();
-		}
-		else if (cfType == CFStringGetTypeID())
-		{
-			theObject = NCFString(CFStringRef(cfObject)).GetString();
-		}
-		else if (cfType == CFDataGetTypeID())
-		{
-			theObject = NCFData(CFDataRef(cfObject)).GetData();
-		}
-		else if (cfType == CFDateGetTypeID())
-		{
-			theObject = NCFDate(CFDateRef(cfObject)).GetDate();
-		}
+
 		else if (cfType == CFArrayGetTypeID())
 		{
-			theObject = NCFArray(CFArrayRef(cfObject)).GetArray();
+			NCFArray cfArray;
+
+			cfArray.Set(CFArrayRef(cfObject));
+			theObject = cfArray.GetArray();
 		}
+
+		else if (cfType == CFDataGetTypeID())
+		{
+			NCFData cfData;
+
+			cfData.Set(CFDataRef(cfObject));
+			theObject = cfData.GetData();
+		}
+
+		else if (cfType == CFDateGetTypeID())
+		{
+			NCFDate cfDate;
+
+			cfDate.Set(CFDateRef(cfObject));
+			theObject = cfDate.GetDate();
+		}
+
 		else if (cfType == CFDictionaryGetTypeID())
 		{
-			theObject = NCFDictionary(CFDictionaryRef(cfObject)).GetDictionary();
+			NCFDictionary cfDictionary;
+
+			cfDictionary.Set(CFDictionaryRef(cfObject));
+			theObject = cfDictionary.GetDictionary();
 		}
+
+		else if (cfType == CFNumberGetTypeID())
+		{
+			NCFNumber cfNumber;
+
+			cfNumber.Set(CFNumberRef(cfObject));
+			theObject = cfNumber.GetNumber();
+		}
+
+		else if (cfType == CFStringGetTypeID())
+		{
+			NCFString cfString;
+
+			cfString.Set(CFStringRef(cfObject));
+			theObject = cfString.GetString();
+		}
+
 		else if (cfType == CFURLGetTypeID())
 		{
-			theObject = NCFURL(CFURLRef(cfObject)).GetURL();
+			NCFURL cfURL;
+
+			cfURL.Set(CFURLRef(cfObject));
+			theObject = cfURL.GetURL();
 		}
 		else
 		{

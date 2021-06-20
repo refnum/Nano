@@ -89,11 +89,12 @@ bool NCFArray::SetArray(const NArray& theArray)
 
 	if (wasOK)
 	{
-		CFArrayRef cfArray = *this;
+		CFArrayRef        cfArray        = *this;
+		CFMutableArrayRef cfMutableArray = const_cast<CFMutableArrayRef>(cfArray);
 
 		for (const auto& theItem : theArray)
 		{
-			CFArrayAppendValue(cfArray, CFTypeRef(ToCF(theItem)));
+			CFArrayAppendValue(cfMutableArray, CFTypeRef(ToCF(theItem)));
 		}
 	}
 

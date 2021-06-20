@@ -133,7 +133,6 @@ inline NCFString ToCF(const NString& theString)
 //=============================================================================
 //		ToCF : Convert NURL to CFURLRef.
 //-----------------------------------------------------------------------------
-//		Note :	As CF objects are toll-free bridged to NS objects, converting
 inline NCFURL ToCF(const NURL& theURL)
 {
 	return NCFURL(theURL);
@@ -150,7 +149,7 @@ inline NArray ToNN(CFArrayRef cfArray)
 {
 	NCFArray theArray;
 
-	bool wasOK = theArray.SetObject(cfArray);
+	bool wasOK = theArray.Set(cfArray);
 	NN_REQUIRE(wasOK);
 
 	return theArray.GetArray();
@@ -165,7 +164,7 @@ inline NArray ToNN(CFArrayRef cfArray)
 //-----------------------------------------------------------------------------
 inline NArray ToNN(CFMutableArrayRef cfArray)
 {
-	return ToNN(CFArrayRef(cfData));
+	return ToNN(CFArrayRef(cfArray));
 }
 
 
@@ -179,7 +178,7 @@ inline NData ToNN(CFDataRef cfData)
 {
 	NCFData theData;
 
-	bool wasOK = theData.SetObject(cfData);
+	bool wasOK = theData.Set(cfData);
 	NN_REQUIRE(wasOK);
 
 	return theData.GetData();
@@ -208,7 +207,7 @@ inline NDate ToNN(CFDateRef cfDate)
 {
 	NCFDate theDate;
 
-	bool wasOK = theDate.SetObject(cfDate);
+	bool wasOK = theDate.Set(cfDate);
 	NN_REQUIRE(wasOK);
 
 	return theDate.GetDate();
@@ -225,7 +224,7 @@ inline NDictionary ToNN(CFDictionaryRef cfDictionary)
 {
 	NCFDictionary theDictionary;
 
-	bool wasOK = theDictionary.SetObject(cfDictionary);
+	bool wasOK = theDictionary.Set(cfDictionary);
 	NN_REQUIRE(wasOK);
 
 	return theDictionary.GetDictionary();
@@ -240,7 +239,7 @@ inline NDictionary ToNN(CFDictionaryRef cfDictionary)
 //-----------------------------------------------------------------------------
 inline NDictionary ToNN(CFMutableDictionaryRef cfDictionary)
 {
-	return ToNN(CFDictionaryRef(cfData));
+	return ToNN(CFDictionaryRef(cfDictionary));
 }
 
 
@@ -254,7 +253,7 @@ inline NNumber ToNN(CFNumberRef cfNumber)
 {
 	NCFNumber theNumber;
 
-	bool wasOK = theNumber.SetObject(cfNumber);
+	bool wasOK = theNumber.Set(cfNumber);
 	NN_REQUIRE(wasOK);
 
 	return theNumber.GetNumber();
@@ -283,7 +282,7 @@ inline NString ToNN(CFStringRef cfString)
 {
 	NCFString theString;
 
-	bool wasOK = theString.SetObject(cfString);
+	bool wasOK = theString.Set(cfString);
 	NN_REQUIRE(wasOK);
 
 	return theString.GetString();
@@ -298,7 +297,7 @@ inline NString ToNN(CFStringRef cfString)
 //-----------------------------------------------------------------------------
 inline NString ToNN(CFMutableStringRef cfString)
 {
-	return ToNN(CFStringRef(cfData));
+	return ToNN(CFStringRef(cfString));
 }
 
 
@@ -312,7 +311,7 @@ inline NURL ToNN(CFURLRef cfURL)
 {
 	NCFURL theURL;
 
-	bool wasOK = theURL.SetObject(cfURL);
+	bool wasOK = theURL.Set(cfURL);
 	NN_REQUIRE(wasOK);
 
 	return theURL.GetURL();
