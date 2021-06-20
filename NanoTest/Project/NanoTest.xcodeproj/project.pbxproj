@@ -277,6 +277,9 @@
 		ABF58DBF267F509100327252 /* TCFArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DD71034184B00E5A6AD /* TCFArray.cpp */; };
 		ABF58DC2267F509300327252 /* TCFArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DD71034184B00E5A6AD /* TCFArray.cpp */; };
 		ABF58DC3267F509300327252 /* TCFArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DD71034184B00E5A6AD /* TCFArray.cpp */; };
+		ABF58DC9267F585E00327252 /* TCFNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDF1034184B00E5A6AD /* TCFNumber.cpp */; };
+		ABF58DCA267F585F00327252 /* TCFNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDF1034184B00E5A6AD /* TCFNumber.cpp */; };
+		ABF58DCB267F585F00327252 /* TCFNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DDF1034184B00E5A6AD /* TCFNumber.cpp */; };
 		ABFD46FF25C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470025C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470125C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
@@ -1062,6 +1065,7 @@
 				ABF58DA4267CB26E00327252 /* TCGColor.cpp in Sources */,
 				ABBB2B6523801DBB00EB2840 /* TDebug.cpp in Sources */,
 				ABD3681425D74D0E00C825B6 /* TStdMemory.cpp in Sources */,
+				ABF58DCA267F585F00327252 /* TCFNumber.cpp in Sources */,
 				ABE7C0CA25D0AD8D00914618 /* TSize.cpp in Sources */,
 				AB20328B25D72B6D0050DB00 /* TColor.cpp in Sources */,
 				ABF58C462676C2FD00327252 /* TBroadcaster.cpp in Sources */,
@@ -1160,6 +1164,7 @@
 				ABF58DA3267CB26D00327252 /* TCGColor.cpp in Sources */,
 				ABBB2B6123801DBB00EB2840 /* TLogOutput.cpp in Sources */,
 				ABD3681325D74D0E00C825B6 /* TStdMemory.cpp in Sources */,
+				ABF58DC9267F585E00327252 /* TCFNumber.cpp in Sources */,
 				ABE7C0CD25D0AD8D00914618 /* TSize.cpp in Sources */,
 				AB20328C25D72B6E0050DB00 /* TColor.cpp in Sources */,
 				ABF58C422676C2FB00327252 /* TBroadcaster.cpp in Sources */,
@@ -1258,6 +1263,7 @@
 				ABF58DA5267CB26E00327252 /* TCGColor.cpp in Sources */,
 				ABBB2B6323801DBB00EB2840 /* TLogOutput.cpp in Sources */,
 				ABD3681525D74D0E00C825B6 /* TStdMemory.cpp in Sources */,
+				ABF58DCB267F585F00327252 /* TCFNumber.cpp in Sources */,
 				ABE7C0C425D0AD8C00914618 /* TSize.cpp in Sources */,
 				AB20328725D72B6D0050DB00 /* TColor.cpp in Sources */,
 				ABF58C442676C2FC00327252 /* TBroadcaster.cpp in Sources */,

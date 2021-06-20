@@ -3,53 +3,79 @@
 
 	DESCRIPTION:
 		CFNumberRef wrapper.
-	
-	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+	COPYRIGHT:
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
+
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NCFNUMBER_HDR
-#define NCFNUMBER_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
+#ifndef NCFNUMBER_H
+#define NCFNUMBER_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+// Nano
+#include "NCFObject.h"
 #include "NNumber.h"
 
-#include "NCFObject.h"
+// System
+#include <CoreFoundation/CFNumber.h>
 
 
 
 
 
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NCFNumber : public NNumber {
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NCFNumber : public NCFObject<CFNumberRef>
+{
 public:
-										NCFNumber(const NVariant &theValue);
-										NCFNumber(const NNumber  &theNumber);
-										NCFNumber(CFNumberRef cfObject, bool takeOwnership);
-										
-										NCFNumber(void);
-	virtual							   ~NCFNumber(void);
+										NCFNumber(const NNumber& theNumber);
+										NCFNumber() = default;
 
 
-	// Get/set the object
-	NCFObject							GetObject(void) const;
-	bool								SetObject(CFNumberRef cfObject, bool takeOwnership=true);
-
-
-private:
-
-
+	// Get / set the Number
+	NNumber                             GetNumber() const;
+	bool                                SetNumber(  const NNumber& theNumber);
 };
 
 
 
 
-#endif // NCFNUMBER_HDR
+
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NCFNumber.inl"
 
 
+
+#endif // NCFNUMBER_H

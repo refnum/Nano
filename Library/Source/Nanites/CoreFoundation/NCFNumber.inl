@@ -1,5 +1,5 @@
 /*	NAME:
-		NCFNumber.cpp
+		NCFNumber.inl
 
 	DESCRIPTION:
 		CFNumberRef wrapper.
@@ -39,72 +39,18 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NCFNumber.h"
 
 
 
 
 
 //=============================================================================
-//		NCFNumber::GetNumber : Get the number.
+//		NCFNumber::NCFNumber : Constructor.
 //-----------------------------------------------------------------------------
-NNumber NCFNumber::GetNumber() const
+inline NCFNumber::NCFNumber(const NNumber& theNumber)
 {
 
 
-	// Get the number
-	CFNumberRef cfNumber = *this;
-	NNumber     theNumber;
-
-	if (cfNumber != nullptr)
-	{
-		if (CFNumberIsFloatType(cfNumber))
-		{
-			float64_t valueFloat64 = 0;
-
-			bool wasOK = CFNumberGetValue(cfNumber, kCFNumberFloat64Type, &valueFloat64);
-			NN_REQUIRE(wasOK);
-
-			SetFloat64(valueFloat64);
-		}
-		else
-		{
-			int64_t valueInt64 = 0;
-
-			bool wasOK = CFNumberGetValue(cfNumber, kCFNumberSInt64Type, &valueInt64);
-			NN_REQUIRE(wasOK);
-
-			theNumber.SetValue(valueInt64);
-		}
-	}
-
-	return theNumber;
-}
-
-
-
-
-
-//=============================================================================
-//		NCFNumber::SetNumber : Set the number.
-//-----------------------------------------------------------------------------
-bool NCFNumber::SetNumber(const NNumber& theNumber)
-{
-
-
-	// Set the number
-	bool wasOK = false;
-
-	if (theNumber.IsReal())
-	{
-		float64_t valueFloat64 = theNumber.GetFloat64();
-		wasOK = Set(CFNumberCreate(kCFAllocatorDefault, kCFNumberFloat64Type, &valueFloat64));
-	}
-	else
-	{
-		int64_t valueInt64 = theNumber.GetInt64();
-		wasOK = Set(CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt64Type, &valueInt64));
-	}
-
-	return wasOK;
+	// Initialise ourselves
+	SetNumber(theNumber);
 }
