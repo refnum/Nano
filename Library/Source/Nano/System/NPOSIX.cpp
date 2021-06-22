@@ -124,11 +124,19 @@ NFilePath NPOSIX::getcwd()
 	// Get the directory
 #if NN_TARGET_WINDOWS
 	utf16_t thePath[_MAX_PATH]{};
-	(void) _wgetcwd(reinterpret_cast<wchar_t*>(thePath), _MAX_PATH);
+	void*   thePtr = _wgetcwd(reinterpret_cast<wchar_t*>(thePath), _MAX_PATH);
 #else
-	char thePath[MAXPATHLEN]{};
-	(void) ::getcwd(thePath, MAXPATHLEN);
+	char  thePath[MAXPATHLEN]{};
+	void* thePtr = ::getcwd(thePath, MAXPATHLEN);
 #endif
+
+
+
+	// Handle failure
+	if (thePtr == nullptr)
+	{
+		thePath[0] = 0x00;
+	}
 
 	return NString(thePath);
 }
@@ -149,7 +157,7 @@ void NPOSIX::chdir(const NFilePath& thePath)
 	int sysErr = _wchdir(reinterpret_cast<const wchar_t*>(thePath.GetUTF16()));
 	NN_EXPECT_NOT_ERR(sysErr);
 #else
-	int sysErr = ::chdir(thePath.GetUTF8());
+	int   sysErr = ::chdir(thePath.GetUTF8());
 	NN_EXPECT_NOT_ERR(sysErr);
 #endif
 }
