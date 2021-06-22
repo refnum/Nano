@@ -44,6 +44,7 @@
 // Nano
 #include "NSharedDarwin.h"
 #include "NSharedPOSIX.h"
+#include "NVersion.h"
 
 
 
