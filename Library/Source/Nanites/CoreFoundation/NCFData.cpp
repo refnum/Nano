@@ -54,18 +54,24 @@ NData NCFData::GetData(NCFSource theSource) const
 
 	// Get the data
 	CFDataRef cfData = *this;
+	NData     theData;
 
-	size_t      theSize = size_t(CFDataGetLength(cfData));
-	const void* thePtr  = CFDataGetBytePtr(cfData);
+	if (cfData != nullptr)
+	{
+		size_t      theSize = size_t(CFDataGetLength(cfData));
+		const void* thePtr  = CFDataGetBytePtr(cfData);
 
-	if (theSource == NCFSource::Copy)
-	{
-		return NData(theSize, thePtr, NDataSource::Copy);
+		if (theSource == NCFSource::Copy)
+		{
+			theData.SetData(theSize, thePtr, NDataSource::Copy);
+		}
+		else
+		{
+			theData.SetData(theSize, thePtr, NDataSource::View);
+		}
 	}
-	else
-	{
-		return NData(theSize, thePtr, NDataSource::View);
-	}
+
+	return theData;
 }
 
 
