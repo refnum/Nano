@@ -14,7 +14,7 @@ For details, see http://sourceforge.net/projects/libb64
 #ifndef HAVE_SIZE_T
   #ifdef _WIN32
     #include <crtdefs.h>
-  #elseif defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
+  #elif defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
     #include <stdlib.h>
   #else
     typedef unsigned long size_t;
