@@ -129,7 +129,6 @@ elseif (NN_COMPILER_MSVC)
 	list(APPEND NN_COMPILER_WARNINGS_MAXIMUM
 		/Wall
 		/WX								# Warnings as errors
-
 		/wd4061							# Enumerator in switch of enum is not explicitly handled by a case label
 		/wd4068							# Unknown pragma
 		/wd4371							# Class layout may vary previous version of the compiler
