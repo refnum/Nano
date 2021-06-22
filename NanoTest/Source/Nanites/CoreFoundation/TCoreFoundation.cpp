@@ -58,10 +58,369 @@ NANO_FIXTURE(TCoreFoundation){};
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-NANO_TEST(TCoreFoundation, "TODO")
+NANO_TEST(TCoreFoundation, "ToCF/NAny")
 {
 
 
 	// Perform the test
 	NN_LOG_UNIMPLEMENTED();
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToCF/NArray")
+{
+
+
+	// Perform the test
+	NN_LOG_UNIMPLEMENTED();
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToCF/NData")
+{
+
+
+	// Perform the test
+	NN_LOG_UNIMPLEMENTED();
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToCF/NDate")
+{
+
+
+	// Perform the test
+	NN_LOG_UNIMPLEMENTED();
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToCF/NDictionary")
+{
+
+
+	// Perform the test
+	NN_LOG_UNIMPLEMENTED();
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToCF/NNumber")
+{
+
+
+	// Perform the test
+	NN_LOG_UNIMPLEMENTED();
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToCF/NRange")
+{
+
+
+	// Perform the test
+	REQUIRE(ToCF(NRange(0, 0)) == CFRange{0, 0});
+	REQUIRE(ToCF(NRange(0, 1)) == CFRange{0, 1});
+	REQUIRE(ToCF(NRange(1, 0)) == CFRange{1, 0});
+	REQUIRE(ToCF(NRange(1, 1)) == CFRange{1, 1});
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToCF/NString")
+{
+
+
+	// Perform the test
+	NN_LOG_UNIMPLEMENTED();
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToCF/NURL")
+{
+
+
+	// Perform the test
+	NN_LOG_UNIMPLEMENTED();
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToNN/CFTypeRef")
+{
+
+
+	// Perform the test
+	NN_LOG_UNIMPLEMENTED();
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToNN/CFArrayRef")
+{
+
+
+	// Perform the test
+	REQUIRE(ToNN(CFArrayRef(nullptr)).IsEmpty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToNN/CFMutableArrayRef")
+{
+
+
+	// Perform the test
+	REQUIRE(ToNN(CFMutableArrayRef(nullptr)).IsEmpty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToNN/CFDataRef")
+{
+
+
+	// Perform the test
+	REQUIRE(ToNN(CFDataRef(nullptr)).IsEmpty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToNN/CFMutableDataRef")
+{
+
+
+	// Perform the test
+	REQUIRE(ToNN(CFMutableDataRef(nullptr)).IsEmpty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToNN/CFDateRef")
+{
+
+
+	// Perform the test
+	REQUIRE(!ToNN(CFDateRef(nullptr)).IsValid());
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToNN/CFDictionaryRef")
+{
+
+
+	// Perform the test
+	REQUIRE(ToNN(CFDictionaryRef(nullptr)).IsEmpty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToNN/CFMutableDictionaryRef")
+{
+
+
+	// Perform the test
+	REQUIRE(ToNN(CFMutableDictionaryRef(nullptr)).IsEmpty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToNN/CFNumberRef")
+{
+
+
+	// Perform the test
+	REQUIRE(ToNN(CFNumberRef(nullptr)).GetUInt8() == 0);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToNN/CFRange")
+{
+
+
+	// Perform the test
+	REQUIRE(ToNN(CFRange{0, 0}) == NRange(0, 0));
+	REQUIRE(ToNN(CFRange{0, 1}) == NRange(0, 1));
+	REQUIRE(ToNN(CFRange{1, 0}) == NRange(1, 0));
+	REQUIRE(ToNN(CFRange{1, 1}) == NRange(1, 1));
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToNN/CFStringRef")
+{
+
+
+	// Perform the test
+	REQUIRE(ToNN(CFStringRef(nullptr)).IsEmpty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToNN/CFMutableStringRef")
+{
+
+
+	// Perform the test
+	REQUIRE(ToNN(CFMutableStringRef(nullptr)).IsEmpty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "ToNN/CFURLRef")
+{
+
+
+	// Perform the test
+	REQUIRE(!ToNN(CFURLRef(nullptr)).IsValid());
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "Equality")
+{
+
+
+	// Perform the test
+	CFRange rangeA{10, 20};
+	CFRange rangeB{20, 30};
+
+	REQUIRE(rangeA == rangeA);
+	REQUIRE(rangeB == rangeB);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCoreFoundation, "Inqquality")
+{
+
+
+	// Perform the test
+	CFRange rangeA{10, 20};
+	CFRange rangeB{20, 30};
+
+	REQUIRE(rangeA != rangeB);
+	REQUIRE(rangeB != rangeA);
 }
