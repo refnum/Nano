@@ -99,6 +99,8 @@ NString NDataEncoder::Encode(NDataEncoding theEncoding, const NData& theValue)
 			return B64_Encode(theValue);
 			break;
 	}
+
+	NN_UNREACHABLE();
 }
 
 
@@ -123,6 +125,8 @@ NData NDataEncoder::Decode(NDataEncoding theEncoding, const NString& theValue)
 			return B64_Decode(theValue);
 			break;
 	}
+
+	NN_UNREACHABLE();
 }
 
 

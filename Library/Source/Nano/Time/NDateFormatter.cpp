@@ -390,6 +390,8 @@ NString NDateFormatter::GetTextQuarter(size_t theIndex, NDateWidth theWidth) con
 			return kNLabelQuarterWide[theIndex];
 			break;
 	}
+
+	NN_UNREACHABLE();
 }
 
 
@@ -423,6 +425,8 @@ NString NDateFormatter::GetTextMonth(size_t theIndex, NDateWidth theWidth) const
 			return kNLabelMonthWide[theIndex];
 			break;
 	}
+
+	NN_UNREACHABLE();
 }
 
 

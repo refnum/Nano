@@ -299,6 +299,8 @@ size_t NImage::GetBitsPerPixel() const
 			return 32;
 			break;
 	}
+
+	NN_UNREACHABLE();
 }
 
 
@@ -333,6 +335,8 @@ size_t NImage::GetBitsPerComponent() const
 			return 8;
 			break;
 	}
+
+	NN_UNREACHABLE();
 }
 
 

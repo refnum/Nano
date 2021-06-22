@@ -212,6 +212,8 @@ constexpr size_t NMathUtils::CountBits(T theValue)
 
 	return T(theValue * kMagic01010101) >> kShiftDown;
 #endif
+
+	NN_UNREACHABLE();
 }
 
 

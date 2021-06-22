@@ -373,6 +373,39 @@
 	} while (false)
 
 
+
+// Mark as unreachable
+//
+// Marks code as unreachable, avoiding an unnecessary gcc -Wreturn-type
+// warning when switching over a class enum.
+//
+// Example:
+//
+//	enum class Foo { A, B };
+//
+//	int Function(Foo f)
+//	{
+//		switch (f)
+//		{
+//			case Foo::A:
+//				return 1;
+//			case Foo::B:
+//				return 2;
+//		}
+//
+//		NN_UNREACHABLE();
+//	}
+//
+#if NN_COMPILER_CLANG || NN_COMPILER_GCC
+	#define NN_UNREACHABLE()                                __builtin_unreachable()
+#elif NN_COMPILER_MSVC
+	#define NN_UNREACHABLE()                                __assume(0)
+#else
+	#error "Unable to implement NN_UNREACHABLE!"
+#endif
+
+
+
 // Format validation
 //
 // Example:

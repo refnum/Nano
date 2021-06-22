@@ -72,6 +72,8 @@ static constexpr DWORD GetFileAccess(NFileAccess theAccess)
 			return FILE_GENERIC_WRITE;
 			break;
 	}
+
+	NN_UNREACHABLE();
 }
 
 
@@ -97,6 +99,8 @@ static constexpr DWORD GetFileCreation(NFileAccess theAccess)
 			return OPEN_EXISTING;
 			break;
 	}
+
+	NN_UNREACHABLE();
 }
 
 

@@ -81,6 +81,8 @@ DWORD GetMappingFlag(NMapAccess theAccess, bool forPage)
 			return DWORD(forPage ? FILE_MAP_COPY : PAGE_WRITECOPY);
 			break;
 	}
+
+	NN_UNREACHABLE();
 }
 
 

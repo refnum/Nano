@@ -67,6 +67,8 @@ NData NDataCompressor::Compress(NCompression theCompression, const NData& theDat
 			return ZLib_Compress(theData);
 			break;
 	}
+
+	NN_UNREACHABLE();
 }
 
 
@@ -91,6 +93,8 @@ NData NDataCompressor::Decompress(NCompression theCompression, const NData& theD
 			return ZLib_Decompress(theData);
 			break;
 	}
+
+	NN_UNREACHABLE();
 }
 
 
