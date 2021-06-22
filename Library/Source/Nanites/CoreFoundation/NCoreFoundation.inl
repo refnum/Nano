@@ -316,3 +316,27 @@ inline NURL ToNN(CFURLRef cfURL)
 
 	return theURL.GetURL();
 }
+
+
+
+
+
+//=============================================================================
+//		operator== : CFRange equality.
+//-----------------------------------------------------------------------------
+inline bool operator==(const CFRange& value1, const CFRange& value2)
+{
+	return value1.location == value2.location && value1.length == value2.length;
+}
+
+
+
+
+
+//=============================================================================
+//		operator!= : CGPoint inequality.
+//-----------------------------------------------------------------------------
+inline bool operator!=(const CFRange& value1, const CFRange& value2)
+{
+	return value1.location != value2.location || value1.length != value2.length;
+}

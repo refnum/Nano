@@ -97,6 +97,11 @@ NString     ToNN(CFStringRef cfString);
 NURL        ToNN(CFURLRef cfURL);
 
 
+// Operators
+bool operator==(const CFRange& value1, const CFRange& value2);
+bool operator!=(const CFRange& value1, const CFRange& value2);
+
+
 
 
 
