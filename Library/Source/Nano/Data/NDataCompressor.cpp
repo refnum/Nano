@@ -45,6 +45,9 @@
 #include "NData.h"
 #include "Nano_zlib.h"
 
+// System
+#include <limits>
+
 
 
 
@@ -178,18 +181,18 @@ NData NDataCompressor::ZLib_Compress(const NData& theData)
 {
 
 
-	// Validate our state
-	static_assert(sizeof(uLongf) == sizeof(size_t));
+	// Validate our parameters
+	NN_REQUIRE(theData.GetSize() <= std::numeric_limits<uLongf>::max());
 
 
 
 	// Get the state we need
 	const Bytef* srcBytes = reinterpret_cast<const Bytef*>(theData.GetData());
-	uLongf       srcSize  = theData.GetSize();
+	uLongf       srcSize  = uLongf(theData.GetSize());
 
 	NData  dstData(ZLib_MaxSize(srcSize), nullptr, NDataSource::None);
 	Bytef* dstBytes = reinterpret_cast<Bytef*>(dstData.GetMutableData());
-	uLongf dstSize  = dstData.GetSize();
+	uLongf dstSize  = uLongf(dstData.GetSize());
 
 
 
@@ -277,8 +280,8 @@ size_t NDataCompressor::ZLib_MaxSize(size_t theSize)
 {
 
 
-	// Validate our state
-	static_assert(sizeof(uLongf) == sizeof(size_t));
+	// Validate our parameters
+	NN_REQUIRE(theSize <= std::numeric_limits<uLongf>::max());
 
 
 
