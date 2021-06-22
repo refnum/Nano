@@ -715,6 +715,8 @@ if (NN_TARGET_WINDOWS)
 	)
 
 	nano_project_include_paths(
+		PUBLIC
+			"${NN_SOURCE_DIR}/Nanites/Windows"
 		PRIVATE
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Windows"
 	)
