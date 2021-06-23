@@ -1,9 +1,9 @@
 #==============================================================================
 #	NAME:
-#		NanoConfigurations.cmake
+#		NanoEnvironment.cmake
 #
 #	DESCRIPTION:
-#		Nano configuration definitions.
+#		Nano environment definitions.
 #
 #	COPYRIGHT:
 #		Copyright (c) 2006-2021, refNum Software
@@ -57,5 +57,11 @@ endif()
 
 
 
+
+
+#==============================================================================
+#		Languages
+#------------------------------------------------------------------------------
+enable_language(OBJCXX)
 
 

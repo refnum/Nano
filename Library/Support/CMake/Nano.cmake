@@ -41,7 +41,7 @@
 # Configuration
 include(Functions/nano_log)
 include(Configuration/NanoTargets)
-include(Configuration/NanoConfiguration)
+include(Configuration/NanoEnvironment)
 include(Configuration/NanoCompilers)
 
 
