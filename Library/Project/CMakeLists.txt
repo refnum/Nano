@@ -389,7 +389,8 @@ nano_project_include_paths(
 
 nano_project_warnings(
 	NONE
-		"Internal/Components")
+		"${NN_SOURCE_DIR}/Nano/Internal/Components/"
+)
 
 
 
