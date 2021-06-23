@@ -3,7 +3,7 @@
 #		NanoCompilers.cmake
 #
 #	DESCRIPTION:
-#		Nano compilers.
+#		Nano compiler definitions.
 #
 #	COPYRIGHT:
 #		Copyright (c) 2006-2021, refNum Software
@@ -102,6 +102,10 @@ if (NN_COMPILER_CLANG)
 		-Wno-weak-vtables
 	)
 
+	list(APPEND NN_COMPILER_WARNINGS_MINIMUM
+		-Wall
+	)
+
 	list(APPEND NN_COMPILER_WARNINGS_NONE
 		-w
 	)
@@ -116,6 +120,10 @@ elseif (NN_COMPILER_GCC)
 		-Wextra
 
 		-Wno-unknown-pragmas
+	)
+
+	list(APPEND NN_COMPILER_WARNINGS_MINIMUM
+		-Wall
 	)
 
 	list(APPEND NN_COMPILER_WARNINGS_NONE
@@ -149,6 +157,10 @@ elseif (NN_COMPILER_MSVC)
 		/wd5045							# Spectre mitigation suggested
 		/wd5105							# Macro expansion producing 'defined' has undefined behavior
 		-D_CRT_SECURE_NO_WARNINGS
+	)
+
+	list(APPEND NN_COMPILER_WARNINGS_MINIMUM
+		/W2
 	)
 
 	list(APPEND NN_COMPILER_WARNINGS_NONE
@@ -201,22 +213,22 @@ endif()
 
 
 #==============================================================================
-#		Compiler Flags
+#		Compiler Options
 #------------------------------------------------------------------------------
 if (NN_COMPILER_CLANG)
 
-	list(APPEND NN_COMPILER_FLAGS
+	list(APPEND NN_COMPILER_OPTIONS
 		-fconstant-cfstrings
 		-fno-common
 	)
 
-	list(APPEND NN_COMPILER_FLAGS_Debug
+	list(APPEND NN_COMPILER_OPTIONS_Debug
 		-fstack-protector-all
 		-O0
 		-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2
 	)
 
-	list(APPEND NN_COMPILER_FLAGS_Release
+	list(APPEND NN_COMPILER_OPTIONS_Release
 		-fno-stack-protector
 		-O3
 	)
@@ -225,14 +237,14 @@ if (NN_COMPILER_CLANG)
 #------------------------------------------------------------------------------
 elseif (NN_COMPILER_GCC)
 
-	list(APPEND NN_COMPILER_FLAGS
+	list(APPEND NN_COMPILER_OPTIONS
 	)
 
-	list(APPEND NN_COMPILER_FLAGS_Debug
+	list(APPEND NN_COMPILER_OPTIONS_Debug
 		-Og
 	)
 
-	list(APPEND NN_COMPILER_FLAGS_Release
+	list(APPEND NN_COMPILER_OPTIONS_Release
 		-O3
 	)
 
@@ -240,18 +252,18 @@ elseif (NN_COMPILER_GCC)
 #------------------------------------------------------------------------------
 elseif (NN_COMPILER_MSVC)
 
-	list(APPEND NN_COMPILER_FLAGS
+	list(APPEND NN_COMPILER_OPTIONS
 		/DNOMINMAX
 		/DUNICODE
 		/DVC_EXTRALEAN
 		/DWIN32_LEAN_AND_MEAN
 	)
 
-	list(APPEND NN_COMPILER_FLAGS_Debug
+	list(APPEND NN_COMPILER_OPTIONS_Debug
 		/Od
 	)
 
-	list(APPEND NN_COMPILER_FLAGS_Release
+	list(APPEND NN_COMPILER_OPTIONS_Release
 		/O2i
 	)
 
@@ -261,8 +273,8 @@ else()
 	nn_log_error("Unknown compiler!")
 endif()
 
-list(APPEND NN_COMPILER_FLAGS $<$<CONFIG:Debug>:${NN_COMPILER_FLAGS_Debug}>)
-list(APPEND NN_COMPILER_FLAGS $<$<CONFIG:Release>:${NN_COMPILER_FLAGS_Release}>)
+list(APPEND NN_COMPILER_OPTIONS $<$<CONFIG:Debug>:${NN_COMPILER_OPTIONS_Debug}>)
+list(APPEND NN_COMPILER_OPTIONS $<$<CONFIG:Release>:${NN_COMPILER_OPTIONS_Release}>)
 
 
 

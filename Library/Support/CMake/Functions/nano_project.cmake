@@ -1,9 +1,9 @@
 #==============================================================================
 #	NAME:
-#		nano_target_compile.cmake
+#		nano_project.cmake
 #
 #	DESCRIPTION:
-#		target_compile functions.
+#		Define the structure of a project.
 #
 #	COPYRIGHT:
 #		Copyright (c) 2006-2021, refNum Software
@@ -36,28 +36,13 @@
 #		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 #		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #==============================================================================
-#		Interanl functions
-#------------------------------------------------------------------------------
-#		_nano_project_add_compile_flags : Append to a file's COMPILE_FLAGS.
-#------------------------------------------------------------------------------
-function(_nano_project_add_compile_flags FILE_PATH FLAGS)
-
-	set_property(SOURCE "${FILE_PATH}" APPEND_STRING PROPERTY COMPILE_FLAGS " ${FLAGS}")
-
-endfunction()
-
-
-
-
-
-#==============================================================================
 #		Public Functions
 #------------------------------------------------------------------------------
-#		nano_project : Set the project type.
+#		nano_project : Create the project.
 #------------------------------------------------------------------------------
 function(nano_project PROJECT_TYPE)
 
-	# Add the project
+	# Create the project
 	if (PROJECT_TYPE STREQUAL "STATIC")
 		add_library("${PROJECT_NAME}" STATIC)
 
@@ -69,7 +54,7 @@ function(nano_project PROJECT_TYPE)
 
 	elseif (PROJECT_TYPE STREQUAL "APP")
 		add_executable("${PROJECT_NAME}")
-	
+
 	else()
 		nano_log_error("Unknown project type '${PROJECT_TYPE}'")
 	endif()
@@ -81,7 +66,6 @@ function(nano_project PROJECT_TYPE)
 
 	if (EXISTS "${PROJECT_SOURCE_DIR}/../Source")
 		set(NN_SOURCE_DIR "${PROJECT_SOURCE_DIR}/../Source" PARENT_SCOPE)
-
 	else()
 		set(NN_SOURCE_DIR "${PROJECT_SOURCE_DIR}" PARENT_SCOPE)
 	endif()
@@ -97,11 +81,7 @@ endfunction()
 #------------------------------------------------------------------------------
 function(nano_project_prefix PREFIX)
 
-	if (NN_COMPILER_MSVC)
-		target_compile_options("${PROJECT_NAME}" PRIVATE       /FI"${PREFIX}")
-	else()
-		target_compile_options("${PROJECT_NAME}" PRIVATE -include "${PREFIX}")
-	endif()
+	target_precompile_headers("${PROJECT_NAME}" PRIVATE "${PREFIX}")
 
 endfunction()
 
@@ -115,6 +95,111 @@ endfunction()
 function(nano_project_sources)
 	
 	target_sources("${PROJECT_NAME}" ${ARGV})
+
+endfunction()
+
+
+
+
+
+#==============================================================================
+#		nano_project_warnings : Set the source warning level.
+#------------------------------------------------------------------------------
+#		The source warning level can be set to MAXIMUM, MINIMUM, or NONE.
+#
+#		The level may be set multiple times, for different items.
+#
+#		If no items are provided for a level then the level becomes the
+#		project default.
+#
+#		If paths to files are provided for a level then the level is applied
+#		to those files.
+#
+#		If paths to directories are provided for a level then the level is
+#		applied to all files under that directory path.
+#
+#		Usage:
+#
+#			nano_project_warnings(   <MAXIMUM|MINIMUM|NONE> [items1...]
+#									[<MAXIMUM|MINIMUM|NONE> [items2...]
+#									[<MAXIMUM|MINIMUM|NONE> [items...] )
+#------------------------------------------------------------------------------
+function(nano_project_warnings)
+
+	cmake_parse_arguments(
+		PARSE_ARGV
+		0
+        ARGUMENT
+        ""
+        ""
+        "MAXIMUM;MINIMUM;NONE"
+    )
+
+
+
+	# Update the warnings
+	set_property(TARGET "${PROJECT_NAME}" APPEND PROPERTY NN_WARNINGS_MAXIMUM ${ARGUMENT_MAXIMUM})
+	set_property(TARGET "${PROJECT_NAME}" APPEND PROPERTY NN_WARNINGS_MINIMUM ${ARGUMENT_MINIMUM})
+	set_property(TARGET "${PROJECT_NAME}" APPEND PROPERTY NN_WARNINGS_NONE    ${ARGUMENT_NONE})
+
+	if ("MAXIMUM" IN_LIST ARGV AND NOT DEFINED ARGUMENT_MAXIMUM)
+		set_property(TARGET "${PROJECT_NAME}" PROPERTY NN_WARNINGS_DEFAULT "MAXIMUM")
+
+	elseif ("MINIMUM" IN_LIST ARGV AND NOT DEFINED ARGUMENT_MINIMUM)
+		set_property(TARGET "${PROJECT_NAME}" PROPERTY NN_WARNINGS_DEFAULT "MINIMUM")
+
+	elseif ("NONE" IN_LIST ARGV AND NOT DEFINED ARGUMENT_NONE)
+		set_property(TARGET "${PROJECT_NAME}" PROPERTY NN_WARNINGS_DEFAULT "NONE")
+	endif()
+
+endfunction()
+
+
+
+
+
+#==============================================================================
+#		nano_project_language : Set the source language.
+#------------------------------------------------------------------------------
+#		The language for source files can be set to C, CPP, or OBJCPP.
+#
+#		The default language is determined by the file extension.
+#
+#		Usage:
+#
+#			nano_project_language(	  <C|CPP|OBJCPP> items1...
+#									[[<C|CPP|OBJCPP> items2...] ...])
+#------------------------------------------------------------------------------
+function(nano_project_language)
+
+	cmake_parse_arguments(
+		PARSE_ARGV
+		0
+        ARGUMENT
+        ""
+        ""
+        "C;CPP;OBJCPP"
+    )
+
+
+
+	# Update the languages
+	set_property(TARGET "${PROJECT_NAME}" APPEND PROPERTY NN_LANGUAGE_C      ${ARGUMENT_C})
+	set_property(TARGET "${PROJECT_NAME}" APPEND PROPERTY NN_LANGUAGE_CPP    ${ARGUMENT_CPP})
+	set_property(TARGET "${PROJECT_NAME}" APPEND PROPERTY NN_LANGUAGE_OBJCPP ${ARGUMENT_OBJCPP})
+
+endfunction()
+
+
+
+
+
+#==============================================================================
+#		nano_project_definitions : Set the source definitions.
+#------------------------------------------------------------------------------
+function(nano_project_definitions)
+
+	target_compile_definitions("${PROJECT_NAME}" PRIVATE "${ARGV}")
 
 endfunction()
 
@@ -148,100 +233,4 @@ endfunction()
 
 
 
-#==============================================================================
-#		nano_project_warnings : Set the source warning level.
-#------------------------------------------------------------------------------
-#		Usage:
-#			nano_project_warnings([MAXMIMUM] [NONE items1...])
-#------------------------------------------------------------------------------
-function(nano_project_warnings)
 
-	cmake_parse_arguments(
-		PARSE_ARGV
-		0
-        ARGUMENT
-        "MAXIMUM"
-        ""
-        "NONE"
-    )
-
-
-
-	# Set the warning level
-	if (ARGUMENT_MAXIMUM)
-		set_property(TARGET "${PROJECT_NAME}" PROPERTY NN_COMPILER_WARNINGS ${NN_COMPILER_WARNINGS_MAXIMUM})
-
-	elseif(NOT ARGUMENT_NONE)
-		nano_log_error("Unknown warning level '${ARGV}'")
-	endif()
-
-
-
-	# Suppress warnings
-	if (ARGUMENT_NONE)
-		get_target_property(PROJECT_SOURCES "${PROJECT_NAME}" SOURCES)
-
-		foreach (FILE_PATH ${PROJECT_SOURCES})
-			if ("${FILE_PATH}" IN_LIST ARGUMENT_NONE)
-				_nano_project_add_compile_flags("${FILE_PATH}" "${NN_COMPILER_WARNINGS_NONE}")
-			endif()
-		endforeach()
-	endif()
-
-endfunction()
-
-
-
-
-
-#==============================================================================
-#		nano_project_language : Set the source language.
-#------------------------------------------------------------------------------
-#		Usage:
-#			nano_project_language(	  <C|CPP|OBJCPP> items1...
-#									[[<C|CPP|OBJCPP> items2...] ...])
-#------------------------------------------------------------------------------
-function(nano_project_language)
-
-	cmake_parse_arguments(
-		PARSE_ARGV
-		0
-        ARGUMENT
-        ""
-        ""
-        "C;CPP;OBJCPP"
-    )
-
-
-
-	# Set the language
-	foreach (FILE_PATH ${ARGUMENT_C})
-		_nano_project_add_compile_flags("${FILE_PATH}" "${NN_COMPILER_LANGUAGE_C}")
-	endforeach()
-
-	foreach (FILE_PATH ${ARGUMENT_CPP})
-		_nano_project_add_compile_flags("${FILE_PATH}" "${NN_COMPILER_LANGUAGE_CPP}")
-	endforeach()
-
-	foreach (FILE_PATH ${ARGUMENT_OBJCPP})
-		_nano_project_add_compile_flags("${FILE_PATH}" "${NN_COMPILER_LANGUAGE_OBJCPP}")
-	endforeach()
-
-endfunction()
-
-
-
-
-
-#==============================================================================
-#		nano_project_definitions : Set the source definitions.
-#------------------------------------------------------------------------------
-#		Usage:
-#			nano_project_definitions(	  <INTERFACE|PUBLIC|PRIVATE> items1...
-#										[[<INTERFACE|PUBLIC|PRIVATE> items2...] ...])
-#------------------------------------------------------------------------------
-function(nano_project_definitions)
-
-	target_compile_definitions("${PROJECT_NAME}" PRIVATE "${ARGV}")
-
-endfunction()
