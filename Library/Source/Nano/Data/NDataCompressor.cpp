@@ -122,6 +122,8 @@ size_t NDataCompressor::GetMaxSize(NCompression theCompression, size_t theSize)
 			return ZLib_MaxSize(theSize);
 			break;
 	}
+
+	NN_UNREACHABLE();
 }
 
 

@@ -460,6 +460,8 @@ NString NDateFormatter::GetTextDay(size_t theIndex, NDateWidth theWidth) const
 			return kNLabelDayWide[theIndex];
 			break;
 	}
+
+	NN_UNREACHABLE();
 }
 
 
