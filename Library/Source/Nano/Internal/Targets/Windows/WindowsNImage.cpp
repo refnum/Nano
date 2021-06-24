@@ -42,7 +42,13 @@
 #include "NImage.h"
 
 // Nano
+#include "NFormat.h"
 #include "NWindows.h"
+
+// System
+#include <tchar.h>
+#include <wincodec.h>
+#include <wincodecsdk.h>
 
 
 
@@ -70,20 +76,19 @@ static IStream* CreateMemoryStream(const NData& theData = NData())
 
 
 	// Load the function
-	static SHCreateMemStreamProc sCreateMemStream =
-		[]()
+	static SHCreateMemStreamProc sCreateMemStream = []()
 	{
-		SHCreateMemStreamProc* createMemStream = nullptr;
-		HMODULE                hLibrary        = LoadLibrary(_T("shlwapi.dll"));
+		SHCreateMemStreamProc createMemStream = nullptr;
+		HMODULE               hLibrary        = LoadLibrary(TEXT("shlwapi.dll"));
 
 		if (hLibrary != nullptr)
 		{
-			createMemStream =
-				SHCreateMemStreamProc(GetProcAddress(hLibrary, INDEX_SHCreateMemStream));
+			createMemStream = reinterpret_cast<SHCreateMemStreamProc>(
+				reinterpret_cast<void*>(GetProcAddress(hLibrary, INDEX_SHCreateMemStream)));
 		}
 
 		return createMemStream;
-	}
+	}();
 
 
 
@@ -92,7 +97,8 @@ static IStream* CreateMemoryStream(const NData& theData = NData())
 
 	if (sCreateMemStream != nullptr)
 	{
-		theStream = sCreateMemStream(theData.GetData(), theData.GetSize());
+		NN_REQUIRE(theData.GetSize() <= size_t(UINT_MAX));
+		theStream = sCreateMemStream(theData.GetData(), UINT(theData.GetSize()));
 	}
 
 	return theStream;
@@ -203,14 +209,15 @@ NStatus NImage::ImageDecode(const NData& theData)
 
 	// Decode the image
 	IWICBitmapSource* icBitmap = nullptr;
-	size_t            rowBytes = 0;
+	UINT              rowBytes = 0;
 	NImage            theImage;
 	NStatus           theErr = NStatus::NotSupported;
 
 	if (SUCCEEDED(winErr))
 	{
+		NN_REQUIRE(theImage.GetBytesPerRow() <= size_t(UINT_MAX));
 		theImage = NImage(NSize(float32_t(theWidth), float32_t(theHeight)), dstFormat);
-		rowBytes = theImage.GetBytesPerRow();
+		rowBytes = UINT(theImage.GetBytesPerRow());
 	}
 
 	if (SUCCEEDED(winErr))
@@ -220,8 +227,10 @@ NStatus NImage::ImageDecode(const NData& theData)
 
 	if (SUCCEEDED(winErr))
 	{
-		winErr =
-			icBitmap->CopyPixels(nullptr, rowBytes, rowBytes * theHeight, theImage.GetPixels());
+		winErr = icBitmap->CopyPixels(nullptr,
+									  rowBytes,
+									  rowBytes * theHeight,
+									  theImage.GetMutablePixels());
 	}
 
 	NN_EXPECT_SUCCESS(winErr);
@@ -278,30 +287,30 @@ NData NImage::ImageEncode(const NUTI& theType) const
 	//
 	// Ideally we can use the image as-is, however if its format isn't one
 	// that WIC supports we'll need to convert it before we can encode.
-	GUID   srcPixels;
+	GUID   srcFormat;
 	NImage srcImage(*this);
 
 	switch (srcImage.GetFormat())
 	{
 		case NImageFormat::R8_G8_B8:
-			srcPixels = GUID_WICPixelFormat24bppRGB;
+			srcFormat = GUID_WICPixelFormat24bppRGB;
 			break;
 
 		case NImageFormat::B8_G8_R8:
-			srcPixels = GUID_WICPixelFormat24bppBGR;
+			srcFormat = GUID_WICPixelFormat24bppBGR;
 			break;
 
 		case NImageFormat::B8_G8_R8_X8:
-			srcPixels = GUID_WICPixelFormat32bppBGR;
+			srcFormat = GUID_WICPixelFormat32bppBGR;
 			break;
 
 		case NImageFormat::B8_G8_R8_A8:
-			srcPixels = GUID_WICPixelFormat32bppBGRA;
+			srcFormat = GUID_WICPixelFormat32bppBGRA;
 			break;
 
 		default:
 			srcImage.SetFormat(NImageFormat::B8_G8_R8_A8);
-			srcPixels = GUID_WICPixelFormat32bppBGRA;
+			srcFormat = GUID_WICPixelFormat32bppBGRA;
 			break;
 	}
 
@@ -355,9 +364,13 @@ NData NImage::ImageEncode(const NUTI& theType) const
 	IWICBitmap*          icBitmap    = nullptr;
 	IWICFormatConverter* icConverter = nullptr;
 
-	size_t  theWidth  = srcImage.GetWidth();
-	size_t  theHeight = srcImage.GetHeight();
-	size_t  rowBytes  = srcImage.GetBytesPerRow();
+	NN_REQUIRE(srcImage.GetWidth() <= size_t(UINT_MAX));
+	NN_REQUIRE(srcImage.GetHeight() <= size_t(UINT_MAX));
+	NN_REQUIRE(srcImage.GetBytesPerRow() <= size_t(UINT_MAX));
+
+	UINT    theWidth  = UINT(srcImage.GetWidth());
+	UINT    theHeight = UINT(srcImage.GetHeight());
+	UINT    rowBytes  = UINT(srcImage.GetBytesPerRow());
 	HRESULT winErr    = ERROR_SUCCESS;
 
 	if (SUCCEEDED(winErr))
@@ -370,12 +383,13 @@ NData NImage::ImageEncode(const NUTI& theType) const
 
 	if (SUCCEEDED(winErr))
 	{
+		NN_REQUIRE(srcData.GetSize() <= size_t(UINT_MAX));
 		winErr = icFactory->CreateBitmapFromMemory(theWidth,
 												   theHeight,
-												   srcPixels,
+												   srcFormat,
 												   rowBytes,
-												   srcData.GetSize(),
-												   srcData.GetData(),
+												   UINT(srcData.GetSize()),
+												   const_cast<BYTE*>(srcData.GetData()),
 												   &icBitmap);
 	}
 
@@ -462,10 +476,7 @@ NData NImage::ImageEncode(const NUTI& theType) const
 
 	if (SUCCEEDED(winErr))
 	{
-		if (!dstData.SetSize(size_t(ToNN(streamInfo.cbSize))))
-		{
-			winErr = ERROR_NOT_ENOUGH_MEMORY;
-		}
+		dstData.SetSize(size_t(ToNN(streamInfo.cbSize)));
 	}
 
 	if (SUCCEEDED(winErr))
@@ -475,7 +486,8 @@ NData NImage::ImageEncode(const NUTI& theType) const
 
 	if (SUCCEEDED(winErr))
 	{
-		winErr = theStream->Read(dstData.GetMutableData(), dstData.GetSize(), nullptr);
+		NN_REQUIRE(dstData.GetSize() <= size_t(ULONG_MAX));
+		winErr = theStream->Read(dstData.GetMutableData(), ULONG(dstData.GetSize()), nullptr);
 	}
 
 	NN_EXPECT_SUCCESS(winErr);
