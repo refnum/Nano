@@ -207,17 +207,23 @@ void NDate::Add(size_t numYears, size_t numMonths, size_t numDays)
 
 
 	// Add the years
-	mYear += numYears;
+	NN_REQUIRE((int64_t(mYear) + int64_t(numYears)) <= kNInt16Max);
+	mYear += NYear(numYears);
 
 
 
 	// Add the months
-	mMonth += numMonths;
-
-	while (mMonth > 12)
+	while (numMonths != 0)
 	{
-		mYear += 1;
-		mMonth -= 12;
+		if (mMonth == 12)
+		{
+			NN_REQUIRE(mYear < kNInt16Max);
+			mMonth = 0;
+			mYear++;
+		}
+
+		mMonth++;
+		numMonths--;
 	}
 
 
@@ -233,9 +239,10 @@ void NDate::Add(size_t numYears, size_t numMonths, size_t numDays)
 		if (mDay > daysInMonth)
 		{
 			mDay = 1;
-			mMonth += 1;
+			mMonth++;
 			if (mMonth == 13)
 			{
+				NN_REQUIRE(mYear < kNInt16Max);
 				mMonth = 1;
 				mYear++;
 			}
@@ -276,7 +283,8 @@ void NDate::Subtract(size_t numYears, size_t numMonths, size_t numDays)
 
 
 	// Subtract the years
-	mYear -= numYears;
+	NN_REQUIRE((int64_t(mYear) - int64_t(numYears)) >= kNInt16Min);
+	mYear -= NYear(numYears);
 
 
 
@@ -285,6 +293,7 @@ void NDate::Subtract(size_t numYears, size_t numMonths, size_t numDays)
 	{
 		if (mMonth == 1)
 		{
+			NN_REQUIRE(mYear > kNInt16Min);
 			mMonth = 13;
 			mYear--;
 		}
@@ -302,6 +311,7 @@ void NDate::Subtract(size_t numYears, size_t numMonths, size_t numDays)
 		{
 			if (mMonth == 1)
 			{
+				NN_REQUIRE(mYear > kNInt16Min);
 				mMonth = 13;
 				mYear--;
 			}
