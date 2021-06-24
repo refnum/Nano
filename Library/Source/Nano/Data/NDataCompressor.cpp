@@ -45,9 +45,6 @@
 #include "NData.h"
 #include "Nano_zlib.h"
 
-// System
-#include <limits>
-
 
 
 
@@ -184,7 +181,7 @@ NData NDataCompressor::ZLib_Compress(const NData& theData)
 
 
 	// Validate our parameters
-	NN_REQUIRE(theData.GetSize() <= std::numeric_limits<uLongf>::max());
+	NN_REQUIRE(theData.GetSize() <= kNUInt32Max);
 
 
 
@@ -226,6 +223,11 @@ NData NDataCompressor::ZLib_Decompress(const NData& theData)
 {
 
 
+	// Validate our parameters
+	NN_REQUIRE(theData.GetSize() <= kNUInt32Max);
+
+
+
 	// Get the state we need
 	//
 	// The output buffer is initially sized for a 4:1 compression ratio,
@@ -233,7 +235,7 @@ NData NDataCompressor::ZLib_Decompress(const NData& theData)
 	constexpr size_t kZLibRatio = 4;
 
 	const Bytef* srcBytes = reinterpret_cast<const Bytef*>(theData.GetData());
-	uLongf       srcSize  = theData.GetSize();
+	uLongf       srcSize  = uLongf(theData.GetSize());
 
 	NData  dstData(srcSize * kZLibRatio, nullptr, NDataSource::None);
 	Bytef* dstBytes = nullptr;
@@ -249,7 +251,7 @@ NData NDataCompressor::ZLib_Decompress(const NData& theData)
 	do
 	{
 		dstBytes = reinterpret_cast<Bytef*>(dstData.GetMutableData());
-		dstSize  = dstData.GetSize();
+		dstSize  = uLongf(dstData.GetSize());
 
 		zErr = uncompress(dstBytes, &dstSize, srcBytes, srcSize);
 		if (zErr == Z_BUF_ERROR)
@@ -283,7 +285,7 @@ size_t NDataCompressor::ZLib_MaxSize(size_t theSize)
 
 
 	// Validate our parameters
-	NN_REQUIRE(theSize <= std::numeric_limits<uLongf>::max());
+	NN_REQUIRE(theSize <= kNUInt32Max);
 
 
 
