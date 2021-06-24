@@ -160,8 +160,8 @@ inline const uint8_t* NImage::GetPixels(size_t x, size_t y) const
 
 
 	// Validate our parameters
-	NN_REQUIRE(x >= 0 && x < GetWidth());
-	NN_REQUIRE(y >= 0 && y < GetHeight());
+	NN_REQUIRE(x < GetWidth());
+	NN_REQUIRE(y < GetHeight());
 
 
 
@@ -183,8 +183,8 @@ inline uint8_t* NImage::GetMutablePixels(size_t x, size_t y)
 
 
 	// Validate our parameters
-	NN_REQUIRE(x >= 0 && x < GetWidth());
-	NN_REQUIRE(y >= 0 && y < GetHeight());
+	NN_REQUIRE(x < GetWidth());
+	NN_REQUIRE(y < GetHeight());
 
 
 
