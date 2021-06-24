@@ -214,7 +214,7 @@ void NLog::FormatTagTime(NLogMessage& theMsg) const
 	// Format the time
 	snprintf(theMsg.tagDate,
 			 sizeof(theMsg.tagDate),
-			 "%04d-%02d-%02d ",
+			 "%04d-%02d-%02d",
 			 timeLocal.tm_year + 1900,
 			 timeLocal.tm_mon + 1,
 			 timeLocal.tm_mday);
