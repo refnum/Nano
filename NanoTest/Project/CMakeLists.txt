@@ -225,6 +225,12 @@ if (NN_TARGET_WINDOWS)
 			"${NN_SOURCE_DIR}/../../Library/Support/Visual Studio/Nano.natvis"
 			"${NN_SOURCE_DIR}/Nanites/Windows/TWindows.cpp"
 	)
+
+	nano_project_libraries(
+		PRIVATE
+			"Bcrypt"
+			"Windowscodecs"
+	)
 endif()
 
 
