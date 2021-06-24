@@ -81,7 +81,25 @@ endfunction()
 #------------------------------------------------------------------------------
 function(nano_project_prefix PREFIX)
 
-	target_precompile_headers("${PROJECT_NAME}" PRIVATE "${PREFIX}")
+	# Work around Xcode generator bug
+	#
+	# The Xcode generator implements precompiled headers by generating
+	# a set of language-specific headers that include the requested
+	# prefix header, then setting the Xcode project to use one of those
+	# headers as the precompiled prefix header.
+	#
+	# However this means that only one language has a precompiled prefix
+	# header, and any other languages are built with no prefix header.
+	#
+	# To avoid this we set the prefix header properties directly, and let
+	# Xcode generate its own language-specific precompiled prefix headers.
+	if (CMAKE_GENERATOR STREQUAL "Xcode")
+		set_target_properties("${PROJECT_NAME}" PROPERTIES
+			XCODE_ATTRIBUTE_GCC_PREFIX_HEADER				"${PREFIX}"
+			XCODE_ATTRIBUTE_GCC_PRECOMPILE_PREFIX_HEADER	"YES")
+	else()
+		target_precompile_headers("${PROJECT_NAME}" PRIVATE "${PREFIX}")
+	endif()
 
 endfunction()
 
