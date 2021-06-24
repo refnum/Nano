@@ -57,12 +57,13 @@
 //		Inline functions
 //-----------------------------------------------------------------------------
 // Nano to Windows
-POINT         ToWN(const NPoint& thePoint);
-SIZE          ToWN(const NSize& theSize);
-RECT          ToWN(const NRectangle& theRect);
-const TCHAR*  ToWN(const NString& theString);
-LARGE_INTEGER ToWN(const int64_t& theValue) ULARGE_INTEGER ToWN(const uint64_t& theValue);
-void          ToWN(uint64_t theValue, DWORD& valueHigh, DWORD& valueLow);
+POINT          ToWN(const NPoint& thePoint);
+SIZE           ToWN(const NSize& theSize);
+RECT           ToWN(const NRectangle& theRect);
+const TCHAR*   ToWN(const NString& theString);
+LARGE_INTEGER  ToWN(const int64_t& theValue);
+ULARGE_INTEGER ToWN(const uint64_t& theValue);
+void           ToWN(uint64_t theValue, DWORD& valueHigh, DWORD& valueLow);
 
 
 // Windows to Nano
