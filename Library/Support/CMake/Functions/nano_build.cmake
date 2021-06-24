@@ -68,7 +68,7 @@ function(_nano_build_generator_ide)
 
 
 	# Group files under the source root
-	foreach (FILE_PATH ${PROJECT_SOURCES})
+	foreach (FILE_PATH IN LISTS PROJECT_SOURCES)
 		get_filename_component(FILE_PATH "${FILE_PATH}" ABSOLUTE)
 
 		string(FIND "${FILE_PATH}" "${SOURCE_ROOT}" OFFSET_PREFIX)
@@ -223,15 +223,15 @@ function(_nano_build_compile_language)
 
 
 	# Apply the languages
-	foreach (FILE_PATH ${SOURCES_C})
+	foreach (FILE_PATH IN LISTS SOURCES_C)
 		_nano_build_add_compile_options("${FILE_PATH}" "${NN_COMPILER_LANGUAGE_C}")
 	endforeach()
 
-	foreach (FILE_PATH ${SOURCES_CPP})
+	foreach (FILE_PATH IN LISTS SOURCES_CPP)
 		_nano_build_add_compile_options("${FILE_PATH}" "${NN_COMPILER_LANGUAGE_CPP}")
 	endforeach()
 
-	foreach (FILE_PATH ${SOURCES_OBJCPP})
+	foreach (FILE_PATH IN LISTS SOURCES_OBJCPP)
 		_nano_build_add_compile_options("${FILE_PATH}" "${NN_COMPILER_LANGUAGE_OBJCPP}")
 	endforeach()
 
