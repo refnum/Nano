@@ -116,93 +116,107 @@ endfunction()
 
 
 #==============================================================================
+#		_nano_build_get_warnings : Get the files for a warning level.
+#------------------------------------------------------------------------------
+function(_nano_build_get_warnings WARNING_FILES WARNING_LEVEL)
+
+	get_target_property(FILE_PATHS "${PROJECT_NAME}" "${WARNING_LEVEL}")
+
+	if (NOT FILE_PATHS STREQUAL "FILE_PATHS-NOTFOUND")
+		foreach (FILE_PATH IN LISTS FILE_PATHS)
+			file(REAL_PATH "${FILE_PATH}" FILE_PATH)
+			list(APPEND REAL_FILE_PATHS "${FILE_PATH}")
+		endforeach() 
+	endif()
+
+	set(${WARNING_FILES} "${REAL_FILE_PATHS}" PARENT_SCOPE)
+
+endfunction()
+
+
+
+
+
+#==============================================================================
+#		_nano_build_apply_warnings : Apply warning flags to a source file.
+#------------------------------------------------------------------------------
+function(_nano_build_apply_warnings PATH_SOURCE WARNING_FILES WARNING_FLAGS)
+
+	foreach (PATH_WARNING IN LISTS WARNING_FILES)
+
+		string(FIND "${PATH_SOURCE}" "${PATH_WARNING}" FOUND_SOURCE)
+		if (FOUND_SOURCE EQUAL 0)
+			# Work around MSVC bug
+			#
+			# MSVC ignores the warning level set on an individual file in
+			# favour of the warning level set on the precompiled header.
+			#
+			# To work around this we disable precompiled headers for any
+			# files with a non-default warning level, and insert them as
+			# a force-included header instead.
+			if (NN_COMPILER_MSVC)
+				set_property(SOURCE "${PATH_SOURCE}" PROPERTY SKIP_PRECOMPILE_HEADERS ON)
+
+				get_target_property(PREFIX_HEADERS "${PROJECT_NAME}" PRECOMPILE_HEADERS)
+				foreach (PATH_PREFIX IN LISTS PREFIX_HEADERS)
+					_nano_build_add_compile_options("${PATH_SOURCE}" "/FI${PATH_PREFIX}")
+				endforeach()
+			endif()
+
+
+			# Set the warning
+			_nano_build_add_compile_options("${PATH_SOURCE}" "${WARNING_FLAGS}")
+			break()
+		endif()
+
+	endforeach()
+
+endfunction()
+
+
+
+
+
+#==============================================================================
 #		_nano_build_compile_warnings : Set the compiler warnings.
 #------------------------------------------------------------------------------
 function(_nano_build_compile_warnings)
 
-	# Get the state we need
-	get_target_property(PROJECT_SOURCES "${PROJECT_NAME}" SOURCES)
-
+	# Set the default warning level
 	get_target_property(WARNING_DEFAULT "${PROJECT_NAME}" NN_WARNINGS_DEFAULT)
-	if (WARNING_DEFAULT STREQUAL "WARNING_DEFAULT-NOTFOUND")
-		set(WARNING_DEFAULT "MAXIMUM")
+
+	if (WARNING_DEFAULT STREQUAL "MAXIMUM" OR WARNING_DEFAULT STREQUAL "WARNING_DEFAULT-NOTFOUND")
+		target_compile_options("${PROJECT_NAME}" PRIVATE "${NN_COMPILER_WARNINGS_MAXIMUM}")
+
+	elseif (WARNING_DEFAULT STREQUAL "MINIMUM")
+		target_compile_options("${PROJECT_NAME}" PRIVATE "${NN_COMPILER_WARNINGS_MINIMUM}")
+
+	elseif (WARNING_DEFAULT STREQUAL "NONE")
+		target_compile_options("${PROJECT_NAME}" PRIVATE "${NN_COMPILER_WARNINGS_NONE}")
+
+	else()
+		nano_log_error("Unknown default warning level '${WARNING_DEFAULT}'!")
 	endif()
 
-	get_target_property(SOURCES_MAXIMUM "${PROJECT_NAME}" NN_WARNINGS_MAXIMUM)
-	get_target_property(SOURCES_MINIMUM "${PROJECT_NAME}" NN_WARNINGS_MINIMUM)
-	get_target_property(SOURCES_NONE    "${PROJECT_NAME}" NN_WARNINGS_NONE)
 
 
+	# Set any per-file warning levels
+	_nano_build_get_warnings(SOURCES_MAXIMUM NN_WARNINGS_MAXIMUM)
+	_nano_build_get_warnings(SOURCES_MINIMUM NN_WARNINGS_MINIMUM)
+	_nano_build_get_warnings(SOURCES_NONE    NN_WARNINGS_NONE)
 
-	# Apply the warnings
-	foreach (RAW_PATH_SOURCE ${PROJECT_SOURCES})
-		file(REAL_PATH "${RAW_PATH_SOURCE}" PATH_SOURCE)
+	if (SOURCES_MAXIMUM OR SOURCES_MINIMUM OR SOURCES_NONE)
 
-		set(FOUND_SOURCE -1)
+		get_target_property(SOURCES_ALL "${PROJECT_NAME}" SOURCES)
 
+		foreach (PATH_SOURCE IN LISTS SOURCES_ALL)
+			file(REAL_PATH "${PATH_SOURCE}" PATH_SOURCE)
+			_nano_build_apply_warnings("${PATH_SOURCE}" "${SOURCES_MAXIMUM}" "${NN_COMPILER_WARNINGS_MAXIMUM}")
+			_nano_build_apply_warnings("${PATH_SOURCE}" "${SOURCES_MINIMUM}" "${NN_COMPILER_WARNINGS_MINIMUM}")
+			_nano_build_apply_warnings("${PATH_SOURCE}" "${SOURCES_NONE}"    "${NN_COMPILER_WARNINGS_NONE}")
+		endforeach()
 
-		# Maximum
-		if (FOUND_SOURCE EQUAL -1)
-			foreach (RAW_PATH_WARNING ${SOURCES_MAXIMUM})
-				file(REAL_PATH "${RAW_PATH_WARNING}" PATH_WARNING)
-
-				string(FIND "${PATH_SOURCE}" "${PATH_WARNING}" FOUND_SOURCE)
-				if (FOUND_SOURCE EQUAL 0)
-					_nano_build_add_compile_options("${PATH_SOURCE}" "${NN_COMPILER_WARNINGS_MAXIMUM}")
-					list(REMOVE_ITEM SOURCES_MAXIMUM "${PATH_WARNING}")
-					break()
-				endif()
-			endforeach()
-		endif()
-
-
-		# Minimum
-		if (FOUND_SOURCE EQUAL -1)
-			foreach (RAW_PATH_WARNING ${SOURCES_MINIMUM})
-				file(REAL_PATH "${RAW_PATH_WARNING}" PATH_WARNING)
-
-				string(FIND "${PATH_SOURCE}" "${PATH_WARNING}" FOUND_SOURCE)
-				if (FOUND_SOURCE EQUAL 0)
-					_nano_build_add_compile_options("${PATH_SOURCE}" "${NN_COMPILER_WARNINGS_MINIMUM}")
-					list(REMOVE_ITEM SOURCES_MINIMUM "${PATH_WARNING}")
-					break()
-				endif()
-			endforeach()
-		endif()
-
-
-		# None
-		if (FOUND_SOURCE EQUAL -1)
-			foreach (RAW_PATH_WARNING ${SOURCES_NONE})
-				file(REAL_PATH "${RAW_PATH_WARNING}" PATH_WARNING)
-
-				string(FIND "${PATH_SOURCE}" "${PATH_WARNING}" FOUND_SOURCE)
-				if (FOUND_SOURCE EQUAL 0)
-					_nano_build_add_compile_options("${PATH_SOURCE}" "${NN_COMPILER_WARNINGS_NONE}")
-					list(REMOVE_ITEM SOURCES_NONE "${PATH_WARNING}")
-					break()
-				endif()
-			endforeach()
-		endif()
-
-
-		# Default
-		if (FOUND_SOURCE EQUAL -1)
-			if (WARNING_DEFAULT STREQUAL "MAXIMUM")
-				_nano_build_add_compile_options("${PATH_SOURCE}" "${NN_COMPILER_WARNINGS_MAXIMUM}")
-
-			elseif (WARNING_DEFAULT STREQUAL "MINIMUM")
-				_nano_build_add_compile_options("${PATH_SOURCE}" "${NN_COMPILER_WARNINGS_MINIMUM}")
-
-			elseif (WARNING_DEFAULT STREQUAL "NONE")
-				_nano_build_add_compile_options("${PATH_SOURCE}" "${NN_COMPILER_WARNINGS_NONE}")
-
-			else()
-				nano_log_error("Unknown default warning level '${WARNING_DEFAULT}'!")
-			endif()
-		endif()
-
-	endforeach()
+	endif()
 
 endfunction()
 
