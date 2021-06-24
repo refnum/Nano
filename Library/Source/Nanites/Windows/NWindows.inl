@@ -104,7 +104,8 @@ inline RECT ToWN(const NRectangle& theRect)
 //-----------------------------------------------------------------------------
 inline const TCHAR* ToWN(const NString& theString)
 {
-	return theString.GetUTF16();
+	static_assert(sizeof(TCHAR) == sizeof(utf16_t));
+	return reinterpret_cast<const TCHAR*>(theString.GetUTF16());
 }
 
 
@@ -238,7 +239,7 @@ inline NRectangle ToNN(const RECTL& theRect)
 inline NString ToNN(const TCHAR* theString)
 {
 	static_assert(sizeof(TCHAR) == sizeof(utf16_t));
-	return NString(reinterpret_casst<const utf16_t*>(theString));
+	return NString(reinterpret_cast<const utf16_t*>(theString));
 }
 
 
