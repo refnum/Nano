@@ -284,7 +284,7 @@ inline uint64_t ToNN(DWORD valueHigh, DWORD valueLow)
 //=============================================================================
 //		NScopedCOM::NScopedCOM : Constructor.
 //-----------------------------------------------------------------------------
-NScopedCOM::NScopedCOM(DWORD coInit)
+inline NScopedCOM::NScopedCOM(DWORD coInit)
 {
 
 
@@ -300,7 +300,7 @@ NScopedCOM::NScopedCOM(DWORD coInit)
 //=============================================================================
 //		NScopedCOM::~NScopedCOM : Destructor.
 //-----------------------------------------------------------------------------
-NScopedCOM::~NScopedCOM()
+inline NScopedCOM::~NScopedCOM()
 {
 
 
