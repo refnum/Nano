@@ -44,63 +44,73 @@ if (NN_COMPILER_CLANG)
 		-Werror
 		-Weverything
 
-		-Wblock-capture-autoreleasing
-		-Wbool-conversion
-		-Wcomma
-		-Wconstant-conversion
-		-Wconversion
-		-Wempty-body
-		-Wenum-conversion
-		-Wexit-time-destructors
-		-Wfloat-conversion
-		-Wfour-char-constants
-		-Winfinite-recursion
-		-Wint-conversion
-		-Wmissing-braces
-		-Wmissing-field-initializers
-		-Wmissing-prototypes
-		-Wmove
-		-Wnewline-eof
-		-Wnon-literal-null-conversion
-		-Wnon-virtual-dtor
-		-Wobjc-literal-conversion
-		-Woverloaded-virtual
-		-Wrange-loop-analysis
-		-Wreturn-type
-		-Wsemicolon-before-method-body
-		-Wshadow
-		-Wshorten-64-to-32
-		-Wsign-conversion
-		-Wstrict-prototypes
-		-Wtrigraphs
-		-Wuninitialized
-		-Wunknown-pragmas
-		-Wunused-function
-		-Wunused-label
-		-Wunused-parameter
-		-Wunused-variable
-
 		-Wno-atomic-implicit-seq-cst
 		-Wno-c++2a-compat
-		-Wno-c++17-extensions
 		-Wno-c++98-compat
 		-Wno-c++98-compat-pedantic
-		-Wno-c99-extensions
+		-Wno-date-time
 		-Wno-documentation-unknown-command
+		-Wno-empty-translation-unit
 		-Wno-exit-time-destructors
 		-Wno-float-equal
-		-Wno-format-non-iso
-		-Wno-format-nonliteral
 		-Wno-global-constructors
 		-Wno-gnu-zero-variadic-macro-arguments
 		-Wno-nested-anon-types
-		-Wno-packed
 		-Wno-padded
-		-Wno-return-std-move-in-c++11
 		-Wno-switch-enum
 		-Wno-unreachable-code-break
+		-Wno-unused-command-line-argument				# Required for Android toolchain
 		-Wno-weak-vtables
 	)
+
+	if (CMAKE_GENERATOR STREQUAL "Xcode")
+		# Restore Xcode suppressions
+		#
+		# Xcode adds multiple -Wno-xxxx flags to clang's command line, placing
+		# them before any externally provided warning flags.
+		#
+		# However as clang evaluates -Weverything before other warning flags
+		# these -Wno-xxxx flags override any subsequent -Weverything flag.
+		#
+		# As such Xcode projects must manually re-enable these warnings.
+		list(APPEND NN_COMPILER_WARNINGS_MAXIMUM
+			-Wblock-capture-autoreleasing
+			-Wbool-conversion
+			-Wc++11-extensions
+			-Wcomma
+			-Wconstant-conversion
+			-Wconversion
+			-Wempty-body
+			-Wenum-conversion
+			-Wfloat-conversion
+			-Wfour-char-constants
+			-Winfinite-recursion
+			-Wint-conversion
+			-Wmissing-braces
+			-Wmissing-field-initializers
+			-Wmissing-prototypes
+			-Wmove
+			-Wnewline-eof
+			-Wnon-literal-null-conversion
+			-Wnon-virtual-dtor
+			-Wobjc-literal-conversion
+			-Woverloaded-virtual
+			-Wrange-loop-analysis
+			-Wreturn-type
+			-Wsemicolon-before-method-body
+			-Wshadow
+			-Wshorten-64-to-32
+			-Wsign-conversion
+			-Wstrict-prototypes
+			-Wtrigraphs
+			-Wuninitialized
+			-Wunknown-pragmas
+			-Wunused-function
+			-Wunused-label
+			-Wunused-parameter
+			-Wunused-variable
+		)
+	endif()
 
 	list(APPEND NN_COMPILER_WARNINGS_MINIMUM
 		-Wall
