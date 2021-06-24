@@ -80,13 +80,62 @@ NN_DIAGNOSTIC_POP();
 
 
 //=============================================================================
-//		Internal function prototypes
+//		Internal Prototypes
 //-----------------------------------------------------------------------------
 NString NFormatArgsToString(const fmt::basic_string_view<char>& formatStr,
 							fmt::format_args                    theArgs);
 
 NString NSprintfArgsToString(const fmt::basic_string_view<char>&         formatStr,
 							 fmt::basic_format_args<fmt::printf_context> theArgs);
+
+
+
+
+
+//=============================================================================
+//		Internal Macros
+//-----------------------------------------------------------------------------
+// Check printf arguments
+//
+// The test branch is never taken so never generate code, however it allows
+// us to validate the supplied arguments against printf.
+//
+// As std::format allows additional behaviour beyond printf we must suppress
+// some warnings that are accepted by std::format by rejected by printf.
+//
+// These include additional arguments, positional parameters, and non-POD
+// arguments.
+//
+// For GCC we currently skip this validation entirely due to a bug when
+// evaluating _Pragma within a macro:
+//
+//	https://gcc.gnu.org/bugzilla/show_bug.cgi?id=55578
+//
+#if NN_COMPILER_GCC
+	#define NN_FORMAT_CHECK_PRINTF(_format, ...)            \
+		do                                                  \
+		{                                                   \
+		} while (false)
+
+#else
+	#define NN_FORMAT_CHECK_PRINTF(_format, ...)                            \
+		do                                                                  \
+		{                                                                   \
+			if constexpr (false)                                            \
+			{                                                               \
+				NN_DIAGNOSTIC_PUSH();                                       \
+				NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-extra-args");          \
+				NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-non-iso");             \
+				NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");            \
+				NN_DIAGNOSTIC_IGNORE_MSVC(4474); /* Extra arguments     */  \
+				NN_DIAGNOSTIC_IGNORE_MSVC(4840); /* Non-POD argument    */  \
+				NN_DIAGNOSTIC_IGNORE_MSVC(4476); /* Positional argument */  \
+				printf(_format, ##__VA_ARGS__);                             \
+				NN_DIAGNOSTIC_POP();                                        \
+			}                                                               \
+		} while (false)
+
+#endif
 
 
 

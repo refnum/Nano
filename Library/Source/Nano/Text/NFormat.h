@@ -84,29 +84,7 @@
 		}                                                                   \
 		else                                                                \
 		{                                                                   \
-			/* Check the format                                        */   \
-			/*                                                         */   \
-			/* This branch is never taken, so is never evaluated       */   \
-			/* other than to validate the arguments against printf.    */   \
-			/*                                                         */   \
-			/* As std::format allows additional arguments we discard   */   \
-			/* this warning for consistency.                           */   \
-			/*                                                         */   \
-			/* For MSVC we must also discard some additional warnings  */   \
-			/* that would apply to a traditional printf, but do not    */   \
-			/* apply to the fmtlib implementation.   */                     \
-			if (false)                                                      \
-			{                                                               \
-				NN_DIAGNOSTIC_PUSH();                                       \
-				NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-extra-args");          \
-				NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");            \
-				NN_DIAGNOSTIC_IGNORE_MSVC(4474); /* Extra arguments     */  \
-				NN_DIAGNOSTIC_IGNORE_MSVC(4840); /* Non-POD argument    */  \
-				NN_DIAGNOSTIC_IGNORE_MSVC(4476); /* Positional argument */  \
-				printf(_format, ##__VA_ARGS__);                             \
-				NN_DIAGNOSTIC_POP();                                        \
-			}                                                               \
-																			\
+			NN_FORMAT_CHECK_PRINTF(_format, __VA_ARGS__);                   \
 			return NSprintfPackToString(_format_message, ##__VA_ARGS__);    \
 		}                                                                   \
 	}()
