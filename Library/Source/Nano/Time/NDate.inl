@@ -83,7 +83,7 @@ constexpr bool NDate::IsValid() const
 
 
 	// Check the range
-	return mDay >= 1 && mDay <= GetDaysInMonth();
+	return (mMonth >= 1 && mMonth <= 12) && (mDay >= 1 && mDay <= GetDaysInMonth());
 }
 
 
