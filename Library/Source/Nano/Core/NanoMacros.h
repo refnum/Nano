@@ -52,12 +52,25 @@
 //-----------------------------------------------------------------------------
 // Stringify a token
 //
+// NN_STRINGIFY_TOKEN replaces a token with a string.
+//
+// NN_STRINGIFY replaces a token with its expansion as a string.
+//
 // Example:
 //
-//		NN_STRINGIFY(test)
+//		#define kMaximum						1000
 //
-#define NN_STRINGIFY(_token)                                #_token
-
+//		NN_STRINGIFY_TOKEN(kMaximum)			"kMaximum"
+//		NN_STRINGIFY(      kMaximum)			"1000"
+//
+//		NN_STRINGIFY_TOKEN(one kMaximum)		"one kMaximum"
+//		NN_STRINGIFY(      one kMaximum)		"one 1000"
+//
+//		NN_STRINGIFY_TOKEN("Maximum")			"\"Maximum\""
+//		NN_STRINGIFY(      "Maximum")			"\"Maximum\""
+//
+#define NN_STRINGIFY_TOKEN(_token)                          #_token
+#define NN_STRINGIFY(_token)                                NN_STRINGIFY_TOKEN(_token)
 
 
 // Force inlining
@@ -132,20 +145,20 @@
 	#undef NN_DIAGNOSTIC_POP
 	#undef NN_DIAGNOSTIC_IGNORE_CLANG
 
-	#define NN_DIAGNOSTIC_PUSH()                            _Pragma(NN_STRINGIFY(clang diagnostic push)) static_assert(true)
-	#define NN_DIAGNOSTIC_POP()                             _Pragma(NN_STRINGIFY(clang diagnostic pop)) static_assert(true)
+	#define NN_DIAGNOSTIC_PUSH()                            _Pragma("clang diagnostic push") static_assert(true)
+	#define NN_DIAGNOSTIC_POP()                             _Pragma("clang diagnostic pop") static_assert(true)
 	#define NN_DIAGNOSTIC_IGNORE_CLANG(_warning)            \
-		_Pragma(NN_STRINGIFY(clang diagnostic ignored _warning)) static_assert(true)
+		_Pragma(NN_STRINGIFY_TOKEN(clang diagnostic ignored _warning)) static_assert(true)
 
 #elif NN_COMPILER_GCC
 	#undef NN_DIAGNOSTIC_PUSH
 	#undef NN_DIAGNOSTIC_POP
 	#undef NN_DIAGNOSTIC_IGNORE_GCC
 
-	#define NN_DIAGNOSTIC_PUSH()                            _Pragma(NN_STRINGIFY(GCC diagnostic push)) static_assert(true, "")
-	#define NN_DIAGNOSTIC_POP()                             _Pragma(NN_STRINGIFY(GCC diagnostic pop)) static_assert(true, "")
+	#define NN_DIAGNOSTIC_PUSH()                            _Pragma("GCC diagnostic push") static_assert(true, "")
+	#define NN_DIAGNOSTIC_POP()                             _Pragma("GCC diagnostic pop") static_assert(true, "")
 	#define NN_DIAGNOSTIC_IGNORE_GCC(_warning)              \
-		_Pragma(NN_STRINGIFY(GCC diagnostic ignored _warning)) static_assert(true, "")
+		_Pragma(NN_STRINGIFY_TOKEN(GCC diagnostic ignored _warning)) static_assert(true, "")
 
 #elif NN_COMPILER_MSVC
 	#undef NN_DIAGNOSTIC_PUSH
