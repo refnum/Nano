@@ -77,7 +77,7 @@
 
 
 //=============================================================================
-//		Function prototypes
+//		Function Prototypes
 //-----------------------------------------------------------------------------
 // mach/thread_policy.h
 extern "C" kern_return_t thread_policy_set(thread_t               thread,
