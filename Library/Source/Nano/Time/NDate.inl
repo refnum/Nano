@@ -306,20 +306,20 @@ constexpr NDay NDate::GetDaysInMonth() const
 		case kNAugust:
 		case kNOctober:
 		case kNDecember:
-			return 31;
+			return NDay(31);
 			break;
 
 		case kNApril:
 		case kNJune:
 		case kNSeptember:
 		case kNNovember:
-			return 30;
+			return NDay(30);
 			break;
 
 		case kNFebruary:
-			return IsLeapYear() ? 29 : 28;
+			return NDay(IsLeapYear() ? 29 : 28);
 			break;
 	}
 
-	return 0;
+	return NDay(0);
 }

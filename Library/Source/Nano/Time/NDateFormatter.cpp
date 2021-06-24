@@ -614,7 +614,7 @@ NString NDateFormatter::GetQuarter() const
 
 
 	// Get the text
-	size_t  theQuarter = mDate.GetMonth() / 4;
+	size_t  theQuarter = size_t(mDate.GetMonth()) / 4;
 	NString theValue;
 
 	switch (mTokenSize)
@@ -661,7 +661,7 @@ NString NDateFormatter::GetMonth() const
 
 
 	// Get the text
-	size_t  theMonth = mDate.GetMonth() - 1;
+	size_t  theMonth = size_t(mDate.GetMonth()) - 1;
 	NString theValue;
 
 	switch (mTokenSize)
@@ -782,7 +782,7 @@ NString NDateFormatter::GetWeekDay() const
 
 
 	// Get the text
-	size_t  dayOfWeek = mDate.GetDayOfWeek() - 1;
+	size_t  dayOfWeek = size_t(mDate.GetDayOfWeek()) - 1;
 	NString theValue;
 
 	switch (mTokenSize)
@@ -920,7 +920,7 @@ NString NDateFormatter::GetMinute() const
 
 	// Get the text
 	size_t    theHours   = size_t(mSeconds / kNTimeHour);
-	NInterval theMinutes = size_t((mSeconds - (theHours * kNTimeHour)) / kNTimeMinute);
+	NInterval theMinutes = NInterval(size_t((mSeconds - (theHours * kNTimeHour)) / kNTimeMinute));
 	NString   theValue;
 
 	theValue = NFormat("{:0{}}", theMinutes, mTokenSize);

@@ -153,8 +153,8 @@ NString NDataEncoder::Hex_Encode(const NData& theValue)
 	// Encode the bytes
 	for (size_t n = 0; n < srcSize; n++)
 	{
-		uint8_t nibbleHi = (srcBytes[n] >> 4) & 0x0F;
-		uint8_t nibbleLo = (srcBytes[n] >> 0) & 0x0F;
+		uint8_t nibbleHi = uint8_t((srcBytes[n] >> 4) & 0x0F);
+		uint8_t nibbleLo = uint8_t((srcBytes[n] >> 0) & 0x0F);
 
 		dstChars[(n * 2) + 0] = "0123456789ABCDEF"[nibbleHi];
 		dstChars[(n * 2) + 1] = "0123456789ABCDEF"[nibbleLo];

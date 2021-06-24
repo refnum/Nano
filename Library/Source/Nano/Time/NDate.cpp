@@ -79,7 +79,7 @@ NWeekday NDate::GetDayOfWeek() const
 	int32_t w = int32_t(mDay + floor((13 * (theMonth + 1)) / 5.0) + y + floor(y / 4.0) +
 						floor(c / 4.0) + (5 * c));
 
-	return (w % 7) - 1;
+	return NWeekday((w % 7) - 1);
 }
 
 
@@ -103,8 +103,8 @@ size_t NDate::GetDayOfYear() const
 		{0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334},
 		{0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335}};
 
-	size_t indexYear  = IsLeapYear() ? 1 : 0;
-	size_t indexMonth = mMonth - 1;
+	size_t indexYear  = size_t(IsLeapYear() ? 1 : 0);
+	size_t indexMonth = size_t(mMonth - 1);
 
 	return kYearDays[indexYear][indexMonth] + mDay;
 }
@@ -123,7 +123,7 @@ size_t NDate::GetWeekOfYear() const
 	// Get the week
 	size_t yearDay   = GetDayOfYear();
 	size_t theResult = ((yearDay - (7) % 7 + 7) / 7);
-	NN_REQUIRE(theResult <= (IsLeapYear() ? 52 : 53));
+	NN_REQUIRE(theResult <= size_t(IsLeapYear() ? 52 : 53));
 
 	return theResult;
 }
@@ -307,7 +307,7 @@ void NDate::Subtract(size_t numYears, size_t numMonths, size_t numDays)
 			}
 
 			mMonth--;
-			mDay = GetDaysInMonth() + 1;
+			mDay = NDay(GetDaysInMonth() + 1);
 		}
 
 		mDay--;
