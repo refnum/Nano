@@ -54,6 +54,7 @@ NStatus NImage::ImageDecode(const NData& theData)
 
 	// Decode the image
 	NN_LOG_UNIMPLEMENTED();
+	NN_UNUSED(theData);
 
 	return NStatus::NotSupported;
 }
@@ -71,6 +72,7 @@ NData NImage::ImageEncode(const NUTI& theType) const
 
 	// Decode the image
 	NN_LOG_UNIMPLEMENTED();
+	NN_UNUSED(theType);
 
 	return NData();
 }
