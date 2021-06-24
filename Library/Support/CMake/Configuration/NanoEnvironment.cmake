@@ -52,7 +52,6 @@ if (NN_TARGET_MACOS)
 
 elseif (NN_TARGET_IOS OR NN_TARGET_TVOS)
 	set(CMAKE_OSX_ARCHITECTURES arm64)
-
 endif()
 
 
@@ -62,6 +61,9 @@ endif()
 #==============================================================================
 #		Languages
 #------------------------------------------------------------------------------
-enable_language(OBJCXX)
+if (NN_TARGET_IOS OR NN_TARGET_MACOS OR NN_TARGET_TVOS)
+	enable_language(OBJCXX)
+endif()
+
 
 
