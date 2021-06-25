@@ -39,6 +39,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NFormat.h"
 #include "NImage.h"
 #include "NTestFixture.h"
 
@@ -689,27 +690,34 @@ void Fixture_TImage::EncodeDecode(const NUTI& theType)
 
 
 	// Perform the test
-	NData theData(sizeof(kTestImage), kTestImage);
-	REQUIRE(!theData.IsEmpty());
+	if (NN_TARGET_ANDROID || NN_TARGET_LINUX)
+	{
+		NN_LOG_UNIMPLEMENTED("for {}", theType);
+	}
+	else
+	{
+		NData theData(sizeof(kTestImage), kTestImage);
+		REQUIRE(!theData.IsEmpty());
 
-	NFile theFile = NFileUtils::GetTemporary("TImage");
-	REQUIRE(theFile.IsValid());
-
-
-	NStatus theErr = theImage.Decode(theData);
-	REQUIRE_NOT_ERR(theErr);
-	REQUIRE(theImage.GetSize() == kTestSize);
-
-	theData = theImage.Encode(theType);
-	REQUIRE(!theData.IsEmpty());
+		NFile theFile = NFileUtils::GetTemporary("TImage");
+		REQUIRE(theFile.IsValid());
 
 
-	theErr = theImage.Save(theFile, theType);
-	REQUIRE_NOT_ERR(theErr);
+		NStatus theErr = theImage.Decode(theData);
+		REQUIRE_NOT_ERR(theErr);
+		REQUIRE(theImage.GetSize() == kTestSize);
 
-	theErr = theImage.Load(theFile);
-	REQUIRE_NOT_ERR(theErr);
-	REQUIRE(theImage.GetSize() == kTestSize);
+		theData = theImage.Encode(theType);
+		REQUIRE(!theData.IsEmpty());
+
+
+		theErr = theImage.Save(theFile, theType);
+		REQUIRE_NOT_ERR(theErr);
+
+		theErr = theImage.Load(theFile);
+		REQUIRE_NOT_ERR(theErr);
+		REQUIRE(theImage.GetSize() == kTestSize);
+	}
 }
 
 
