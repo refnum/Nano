@@ -123,6 +123,7 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Time/TTimeUtils.cpp"
 		"${NN_SOURCE_DIR}/Nano/Types/TAny.cpp"
 		"${NN_SOURCE_DIR}/Nano/Types/TArray.cpp"
+		"${NN_SOURCE_DIR}/Nano/Types/TBitVector.cpp"
 		"${NN_SOURCE_DIR}/Nano/Types/TDictionary.cpp"
 		"${NN_SOURCE_DIR}/Nano/Types/TFunction.cpp"
 		"${NN_SOURCE_DIR}/Nano/Types/TMixinAppendable.cpp"
