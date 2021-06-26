@@ -135,6 +135,9 @@
 		AB53BBE3242123AB009960AA /* NFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBDF242123AB009960AA /* NFileUtils.cpp */; };
 		AB53BBE6242123F4009960AA /* tvOSNFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBE5242123F4009960AA /* tvOSNFileUtils.cpp */; };
 		AB53BBEB24212411009960AA /* iOSNFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBEA24212411009960AA /* iOSNFileUtils.cpp */; };
+		AB549AD9268684DE00B14417 /* NCGShading.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE38F1773A0100054EEA3 /* NCGShading.cpp */; };
+		AB549ADA268684DF00B14417 /* NCGShading.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE38F1773A0100054EEA3 /* NCGShading.cpp */; };
+		AB549ADB268684DF00B14417 /* NCGShading.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE38F1773A0100054EEA3 /* NCGShading.cpp */; };
 		AB54F9AD23EF14A7005207BC /* NStringComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */; };
 		AB54F9AE23EF14A7005207BC /* NStringComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */; };
 		AB54F9AF23EF14A7005207BC /* NStringComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */; };
@@ -620,6 +623,7 @@
 		AB53BBE92421240A009960AA /* LinuxNFileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LinuxNFileUtils.cpp; sourceTree = "<group>"; };
 		AB53BBEA24212411009960AA /* iOSNFileUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iOSNFileUtils.cpp; sourceTree = "<group>"; };
 		AB53BBEC24212418009960AA /* AndroidNFileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidNFileUtils.cpp; sourceTree = "<group>"; };
+		AB549AD826866AF900B14417 /* NCGShading.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NCGShading.inl; sourceTree = "<group>"; };
 		AB54F9A223EE44C9005207BC /* NTextUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTextUtils.h; sourceTree = "<group>"; };
 		AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NStringComparator.cpp; sourceTree = "<group>"; };
 		AB54F9AC23EF14A7005207BC /* NStringComparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStringComparator.h; sourceTree = "<group>"; };
@@ -1040,6 +1044,7 @@
 				AB1BCB611771A4D800F3364C /* NCGImage.h */,
 				ABCFE38F1773A0100054EEA3 /* NCGShading.cpp */,
 				ABCFE3901773A0100054EEA3 /* NCGShading.h */,
+				AB549AD826866AF900B14417 /* NCGShading.inl */,
 				AB00402B109700AD006029F9 /* NCoreGraphics.h */,
 				ABF58D9E267CABD600327252 /* NCoreGraphics.inl */,
 			);
@@ -2106,6 +2111,7 @@
 				ABF58DC7267F572100327252 /* NCoreFoundation.cpp in Sources */,
 				ABB38CBD25A7F1700050D506 /* NDictionary.cpp in Sources */,
 				ABA4790A25B7B91300F3C3C9 /* tvOSNSystem.cpp in Sources */,
+				AB549AD9268684DE00B14417 /* NCGShading.cpp in Sources */,
 				ABCD3CBB25D6BF9900276B30 /* NColor.cpp in Sources */,
 				ABF58DB3267F4EBC00327252 /* NCFArray.cpp in Sources */,
 				AB84536D2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */,
@@ -2251,6 +2257,7 @@
 				ABF58DC5267F572100327252 /* NCoreFoundation.cpp in Sources */,
 				ABC6473825818466009B82AD /* pcre2_study.c in Sources */,
 				ABDCE8E5241F8ACD0054A16E /* NFile.cpp in Sources */,
+				AB549ADB268684DF00B14417 /* NCGShading.cpp in Sources */,
 				ABCD3CB925D6BF9900276B30 /* NColor.cpp in Sources */,
 				ABF58DB1267F4EBC00327252 /* NCFArray.cpp in Sources */,
 				AB56393B23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
@@ -2396,6 +2403,7 @@
 				ABF58DC6267F572100327252 /* NCoreFoundation.cpp in Sources */,
 				ABF58CE326794C0C00327252 /* NImage.cpp in Sources */,
 				ABCD3CBA25D6BF9900276B30 /* NColor.cpp in Sources */,
+				AB549ADA268684DF00B14417 /* NCGShading.cpp in Sources */,
 				ABB38CC125A7F1700050D506 /* NDictionary.cpp in Sources */,
 				ABF58DB2267F4EBC00327252 /* NCFArray.cpp in Sources */,
 				ABF58C39267572F300327252 /* NDataDigest.cpp in Sources */,

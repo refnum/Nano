@@ -3,79 +3,87 @@
 
 	DESCRIPTION:
 		CoreGraphics shading object.
-	
+
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NGeometryUtilities.h"
-#include "NCoreGraphics.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NCGShading.h"
+
+// Nano
 #include "NCGColor.h"
+#include "NCoreGraphics.h"
 
 
 
 
 
-//============================================================================
-//		Public constants
-//----------------------------------------------------------------------------
-// Shadings
-const NShadingSample kShadingBlackWhite[] =					{ { 0.0f, NColor(0.0f, 0.0f, 0.0f) },
-															  { 1.0f, NColor(1.0f, 1.0f, 1.0f) } };
-
-const NShadingSample kShadingWhiteBlack[] =					{ { 0.0f, NColor(1.0f, 1.0f, 1.0f) },
-															  { 1.0f, NColor(0.0f, 0.0f, 0.0f) } };
-
-const NShadingSample kShadingFrontRow[] =					{ { 0.0f, NColor(0.000f, 0.000f, 0.000f) },
-															  { 0.5f, NColor(0.000f, 0.000f, 0.000f) },
-															  { 1.0f, NColor(0.298f, 0.298f, 0.298f) } };
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NCGShading::NCGShading : Constructor.
-//----------------------------------------------------------------------------
-NCGShading::NCGShading(const NCGShading &theShading)
+//-----------------------------------------------------------------------------
+NCGShading::NCGShading()
+	: mShading()
+	, mEvaluate()
+	, mMode(NShadingMode::None)
+	, mSamples()
+	, mStartPoint()
+	, mStartExtend(true)
+	, mStartRadius(0.0)
+	, mEndPoint()
+	, mEndExtend(true)
+	, mEndRadius(1.0)
 {
-
-
-	// Initialize ourselves
-	CopyShading(theShading);
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NCGShading::NCGShading : Constructor.
-//----------------------------------------------------------------------------
-NCGShading::NCGShading(NShadingMode theMode)
-{
-
-
-	// Initialize ourselves
-	InitializeSelf();
-	SetMode(theMode);
-}
-
-
-
-
-
-//============================================================================
-//		NCGShading::~NCGShading : Destructor.
-//----------------------------------------------------------------------------
-NCGShading::~NCGShading(void)
+//-----------------------------------------------------------------------------
+inline NCGShading::NCGShading(const NCGShading& otherShading)
+	: mShading()
+	, mEvaluate()
+	, mMode(otherShading.mMode)
+	, mSamples(otherShading.mSamples)
+	, mStartPoint(otherShading.mStartPoint)
+	, mStartExtend(otherShading.mStartExtend)
+	, mStartRadius(otherShading.mStartRadius)
+	, mEndPoint(otherShading.mEndPoint)
+	, mEndExtend(otherShading.mEndExtend)
+	, mEndRadius(otherShading.mEndRadius)
 {
 }
 
@@ -83,400 +91,335 @@ NCGShading::~NCGShading(void)
 
 
 
-//============================================================================
-//		NCGShading::GetMode : Get the shading mode.
-//----------------------------------------------------------------------------
-NShadingMode NCGShading::GetMode(void) const
+//=============================================================================
+//		NCGShading::operator= : Assignment operator.
+//-----------------------------------------------------------------------------
+inline NCGShading& NCGShading::operator=(const NCGShading& otherShading)
 {
 
 
-	// Get the mode
-	return(mMode);
+	// Assign the Shading
+	if (this != &otherShading)
+	{
+		mShading.Set(nullptr);
+		mEvaluate.Set(nullptr);
+
+		mMode        = otherShading.mMode;
+		mSamples     = otherShading.mSamples;
+		mStartPoint  = otherShading.mStartPoint;
+		mStartExtend = otherShading.mStartExtend;
+		mStartRadius = otherShading.mStartRadius;
+		mEndPoint    = otherShading.mEndPoint;
+		mEndExtend   = otherShading.mEndExtend;
+		mEndRadius   = otherShading.mEndRadius;
+	}
+
+	return *this;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
+//		NCGShading::NCGShading : Constructor.
+//-----------------------------------------------------------------------------
+inline NCGShading::NCGShading(NCGShading&& otherShading)
+	: mShading()
+	, mEvaluate()
+	, mMode(std::exchange(otherShading.mMode, NShadingMode::None))
+	, mSamples(std::exchange(otherShading.mSamples, {}))
+	, mStartPoint(std::exchange(otherShading.mStartPoint, {}))
+	, mStartExtend(std::exchange(otherShading.mStartExtend, false))
+	, mStartRadius(std::exchange(otherShading.mStartRadius, 0.0))
+	, mEndPoint(std::exchange(otherShading.mEndPoint, {}))
+	, mEndExtend(std::exchange(otherShading.mEndExtend, false))
+	, mEndRadius(std::exchange(otherShading.mEndRadius, 0.0))
+{
+
+
+	// Reset the other object
+	otherShading.mShading.Set(nullptr);
+	otherShading.mEvaluate.Set(nullptr);
+}
+
+
+
+
+
+//=============================================================================
+//		NCGShading::operator= : Assignment operator.
+//-----------------------------------------------------------------------------
+inline NCGShading& NCGShading::operator=(NCGShading&& otherShading)
+{
+
+
+	// Move the shading
+	if (this != &otherShading)
+	{
+		mShading.Set(nullptr);
+		mEvaluate.Set(nullptr);
+
+		mMode        = std::exchange(otherShading.mMode, NShadingMode::None);
+		mSamples     = std::exchange(otherShading.mSamples, {});
+		mStartPoint  = std::exchange(otherShading.mStartPoint, {});
+		mStartExtend = std::exchange(otherShading.mStartExtend, false);
+		mStartRadius = std::exchange(otherShading.mStartRadius, 0.0);
+		mEndPoint    = std::exchange(otherShading.mEndPoint, {});
+		mEndExtend   = std::exchange(otherShading.mEndExtend, false);
+		mEndRadius   = std::exchange(otherShading.mEndRadius, 0.0);
+
+		otherShading.mShading.Set(nullptr);
+		otherShading.mEvaluate.Set(nullptr);
+	}
+
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NCGShading::IsValid : Is the obejct valid?
+//-----------------------------------------------------------------------------
+bool NCGShading::IsValid() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE((mShading.IsValid() && mEvaluate.IsValid()) ||
+			   (!mShading.IsValid() && !mEvaluate.IsValid()));
+
+
+
+	// Check our state
+	return mShading.IsValid() && mEvaluate.IsValid();
+}
+
+
+
+
+
+//=============================================================================
 //		NCGShading::SetMode : Set the shading mode.
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 void NCGShading::SetMode(NShadingMode theMode)
 {
 
 
 	// Set the mode
 	if (theMode != mMode)
-		{
+	{
 		mMode = theMode;
-		ResetShading();
-		}
+		SetDirty();
+	}
 }
 
 
 
 
 
-//============================================================================
-//		NCGShading::GetSamples : Get the shading samples.
-//----------------------------------------------------------------------------
-NShadingSampleList NCGShading::GetSamples(void) const
+//=============================================================================
+//		NCGShading::SetSamples : Set the shading samples.
+//-----------------------------------------------------------------------------
+void NCGShading::SetSamples(const NVectorShadingSample& theSamples)
 {
 
 
-	// Get the samples
-	return(mSamples);
-}
+	// Check for a change
+	bool didChange = (mSamples.size() != theSamples.size());
 
-
-
-
-
-//============================================================================
-//		NCGShading::SetSamples : Set the shading samples.
-//----------------------------------------------------------------------------
-void NCGShading::SetSamples(const NShadingSampleList &theSamples)
-{	NIndex		n, numItems;
-	bool		didChange;
-
-
-
-	// Get the state we need
-	didChange = (mSamples.size() != theSamples.size());
-	
 	if (!didChange)
-		{
-		numItems = mSamples.size();
+	{
+		size_t numSamples = mSamples.size();
 
-		for (n = 0; n < numItems && !didChange; n++)
+		for (size_t n = 0; n < numSamples && !didChange; n++)
+		{
 			didChange = (mSamples[n] != theSamples[n]);
 		}
+	}
 
 
 
 	// Set the samples
 	if (didChange)
-		{
+	{
 		mSamples = theSamples;
-		ResetShading();
-		}
+		SetDirty();
+	}
 }
 
 
 
 
 
-//============================================================================
-//		NCGShading::SetSamples : Set the shading samples.
-//----------------------------------------------------------------------------
-void NCGShading::SetSamples(const NShadingSample *theSamples)
-{	NShadingSampleList		theList;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theSamples != NULL);
-
-
-
-	// Set the samples
-	while (true)
-		{
-		theList.push_back(*theSamples);
-		if (theSamples->theValue >= 1.0f)
-			break;
-
-		theSamples++;
-		}
-	
-	SetSamples(theList);
-}
-
-
-
-
-
-//============================================================================
-//		NCGShading::GetStartPoint : Get the start point.
-//----------------------------------------------------------------------------
-NPoint NCGShading::GetStartPoint(void) const
-{
-
-
-	// Get the start point
-	return(mStartPoint);
-}
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NCGShading::SetStartPoint : Set the start point.
-//----------------------------------------------------------------------------
-void NCGShading::SetStartPoint(const NPoint &thePoint)
+//-----------------------------------------------------------------------------
+void NCGShading::SetStartPoint(const NPoint& thePoint)
 {
 
 
 	// Set the start point
 	if (thePoint != mStartPoint)
-		{
+	{
 		mStartPoint = thePoint;
-		ResetShading();
-		}
+		SetDirty();
+	}
 }
 
 
 
 
 
-//============================================================================
-//		NCGShading::GetStartExtend : Get the start extend.
-//----------------------------------------------------------------------------
-bool NCGShading::GetStartExtend(void) const
-{
-
-
-	// Get the start extend
-	return(mStartExtend);
-}
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NCGShading::SetStartExtend : Set the start extend.
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 void NCGShading::SetStartExtend(bool theValue)
 {
 
 
 	// Set the start extend
 	if (theValue != mStartExtend)
-		{
+	{
 		mStartExtend = theValue;
-		ResetShading();
-		}
+		SetDirty();
+	}
 }
 
 
 
 
 
-//============================================================================
-//		NCGShading::GetStartRadius : Get the start radius.
-//----------------------------------------------------------------------------
-float NCGShading::GetStartRadius(void) const
-{
-
-
-	// Get the start radius
-	return(mStartRadius);
-}
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NCGShading::SetStartRadius : Set the start radius.
-//----------------------------------------------------------------------------
-void NCGShading::SetStartRadius(float theValue)
+//-----------------------------------------------------------------------------
+void NCGShading::SetStartRadius(CGFloat theValue)
 {
 
 
 	// Validate our state
-	NN_ASSERT(mMode == kShadingRadial);
-	
+	NN_REQUIRE(mMode == NShadingMode::Radial);
+
 
 
 	// Set the start radius
-	if (!NMathUtilities::AreEqual(theValue, mStartRadius))
-		{
+	if (theValue != mStartRadius)
+	{
 		mStartRadius = theValue;
-		ResetShading();
-		}
+		SetDirty();
+	}
 }
 
 
 
 
 
-//============================================================================
-//		NCGShading::GetEndPoint : Get the end point.
-//----------------------------------------------------------------------------
-NPoint NCGShading::GetEndPoint(void) const
-{
-
-
-	// Get the end point
-	return(mEndPoint);
-}
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NCGShading::SetEndPoint : Set the end point.
-//----------------------------------------------------------------------------
-void NCGShading::SetEndPoint(const NPoint &thePoint)
+//-----------------------------------------------------------------------------
+void NCGShading::SetEndPoint(const NPoint& thePoint)
 {
 
 
 	// Set the end point
 	if (thePoint != mEndPoint)
-		{
+	{
 		mEndPoint = thePoint;
-		ResetShading();
-		}
+		SetDirty();
+	}
 }
 
 
 
 
 
-//============================================================================
-//		NCGShading::GetEndExtend : Get the end extend.
-//----------------------------------------------------------------------------
-bool NCGShading::GetEndExtend(void) const
-{
-
-
-	// Get the end extend
-	return(mEndExtend);
-}
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NCGShading::SetEndExtend : Set the end extend.
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 void NCGShading::SetEndExtend(bool theValue)
 {
 
 
 	// Set the end extend
 	if (theValue != mEndExtend)
-		{
+	{
 		mEndExtend = theValue;
-		ResetShading();
-		}
+		SetDirty();
+	}
 }
 
 
 
 
 
-//============================================================================
-//		NCGShading::GetEndRadius : Get the end radius.
-//----------------------------------------------------------------------------
-float NCGShading::GetEndRadius(void) const
-{
-
-
-	// Get the end radius
-	return(mEndRadius);
-}
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NCGShading::SetEndRadius : Set the end radius.
-//----------------------------------------------------------------------------
-void NCGShading::SetEndRadius(float theValue)
+//-----------------------------------------------------------------------------
+void NCGShading::SetEndRadius(CGFloat theValue)
 {
 
 
 	// Validate our state
-	NN_ASSERT(mMode == kShadingRadial);
-	
+	NN_REQUIRE(mMode == NShadingMode::Radial);
+
 
 
 	// Set the end radius
-	if (!NMathUtilities::AreEqual(theValue, mEndRadius))
-		{
+	if (theValue != mStartRadius)
+	{
 		mEndRadius = theValue;
-		ResetShading();
-		}
+		SetDirty();
+	}
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NCGShading::SetStartEndPoints : Set the start/end points.
-//----------------------------------------------------------------------------
-void NCGShading::SetStartEndPoints(const NRectangle &theRect, NPosition startPos, NPosition endPos)
+//-----------------------------------------------------------------------------
+void NCGShading::SetStartEndPoints(const NRectangle& theRect, NPosition startPos, NPosition endPos)
 {
 
 
 	// Update our state
 	SetStartPoint(theRect.GetPoint(startPos));
-	SetEndPoint(  theRect.GetPoint(endPos));
+	SetEndPoint(theRect.GetPoint(endPos));
 }
 
 
 
 
 
-//============================================================================
-//		NCGShading::operator CGShadingRef : CGShadingRef-cast operator.
-//----------------------------------------------------------------------------
-NCGShading::operator CGShadingRef(void) const
+//=============================================================================
+//		NCGShading::operator CGShadingRef : Cast operator.
+//-----------------------------------------------------------------------------
+NCGShading::operator CGShadingRef() const
 {
-
-
-	// Update the shading
-	//
-	// Since multiple attributes may be modified before a shading is ready
-	// for use, we defer eveluating the shading until it's needed by CG.
-	if (!mShading.IsValid())
-		UpdateShading();
-
 
 
 	// Get the shading
-	return(mShading);
+	if (!mShading.IsValid())
+	{
+		CreateShading();
+	}
+
+	return mShading;
 }
 
 
 
 
 
-//============================================================================
-//		NCGShading::= : Assignment operator.
-//----------------------------------------------------------------------------
-const NCGShading& NCGShading::operator = (const NCGShading &theShading)
-{
-
-
-	// Assign the shading
-	if (this != &theShading)
-		CopyShading(theShading);
-
-	return(*this);
-}
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NCGShading::Evaluate : Evaluate the shading.
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 #pragma mark -
-NColor NCGShading::Evaluate(float theSample)
-{	NColor		theResult, colorOne, colorTwo;
-	float		theRange, theWeight;
-	NIndex		n, numSamples;
-
+NColor NCGShading::Evaluate(CGFloat theSample)
+{
 
 
 	// Evaluate the shading
@@ -487,219 +430,163 @@ NColor NCGShading::Evaluate(float theSample)
 	//
 	// We special case shadings of 1 or 2 colors, and ignore the sample
 	// values to perform a straight no/pair shading.
-	switch (mSamples.size()) {
-		case 0:
-			theResult = kNColorBlack;
-			break;
+	NColor theResult;
 
-		case 1:
-			theResult = mSamples[0].theColor;
-			break;
-		
-		case 2:
-			theResult = NColor::Interpolate(mSamples[0].theColor, mSamples[1].theColor, theSample);
-			break;
-		
-		default:
-			// Find the appropriate pair
-			numSamples = mSamples.size();
-			theResult  = mSamples[0].theColor;
-	
-			for (n = numSamples-1; n >= 0; n--)
+	if (mSamples.size() == 1)
+	{
+		theResult = mSamples[0].theColor;
+	}
+	else if (mSamples.size() == 2)
+	{
+		theResult =
+			NColor::Interpolate(mSamples[0].theColor, mSamples[1].theColor, float32_t(theSample));
+	}
+	else
+	{
+		// Find the appropriate pair
+		theResult = mSamples[0].theColor;
+		size_t n  = mSamples.size();
+
+		do
+		{
+			n--;
+
+			if (theSample >= mSamples[n].theValue)
+			{
+				// Use the last color
+				if (n == (mSamples.size() - 1))
 				{
-				if (theSample >= mSamples[n].theValue)
-					{
-					// Use the last color
-					if (n == (numSamples -1))
-						theResult = mSamples[n].theColor;
-				
-				
-					// Use the pair of colors
-					else
-						{
-						colorOne = mSamples[n + 0].theColor;
-						colorTwo = mSamples[n + 1].theColor;
-					
-						theRange  = mSamples[n+1].theValue - mSamples[n].theValue;
-						theWeight = (theSample - mSamples[n].theValue) / theRange;
-					
-						theResult = NColor::Interpolate(colorOne, colorTwo, theWeight);
-						}
-				
-					break;
-					}
+					theResult = mSamples[n].theColor;
 				}
-			break;
-		}
-	
-	return(theResult);
+
+
+				// Use the pair of colors
+				else
+				{
+					NColor colorOne = mSamples[n + 0].theColor;
+					NColor colorTwo = mSamples[n + 1].theColor;
+
+					CGFloat theRange  = mSamples[n + 1].theValue - mSamples[n].theValue;
+					CGFloat theWeight = (theSample - mSamples[n].theValue) / theRange;
+
+					theResult = NColor::Interpolate(colorOne, colorTwo, float32_t(theWeight));
+				}
+
+				break;
+			}
+		} while (n != 0);
+	}
+
+	return theResult;
 }
 
 
 
 
 
-//============================================================================
-//		NCGShading::InitializeSelf : Initialize ourselves.
-//----------------------------------------------------------------------------
-#pragma mark -
-void NCGShading::InitializeSelf(void)
+#pragma mark private
+//=============================================================================
+//		NCGShading::CreateShading : Create the shading.
+//-----------------------------------------------------------------------------
+void NCGShading::CreateShading() const
 {
-
-
-	// Initialize ourselves
-	mMode = kShadingNone;
-	
-	ResetShading();
-	
-	mStartExtend = true;
-	mStartRadius = 0.0f;
-
-	mEndExtend = true;
-	mEndRadius = 1.0f;
-}
-
-
-
-
-
-//============================================================================
-//		NCGShading::ResetShading : Reset the shading.
-//----------------------------------------------------------------------------
-void NCGShading::ResetShading(void) const
-{
-
-
-	// Work around rdar://5604593
-	//
-	// 10.5 incorrectly caches the results of shading evaluation callbacks:
-	//
-	//		<http://lists.apple.com/archives/quartz-dev/2007/Nov/msg00052.html>
-	//
-	// To fully reset the shading object, we must also re-create the evaluate
-	// callback to ensure the cached results will be discarded.
-	mShading.SetObject(NULL);
-	mEvaluate.SetObject(CreateEvaluateCallback());
-}
-
-
-
-
-
-//============================================================================
-//		NCGShading::UpdateShading : Update the shading.
-//----------------------------------------------------------------------------
-void NCGShading::UpdateShading(void) const
-{	CGColorSpaceRef		cgColorSpace;
-
 
 
 	// Validate our state
-	NN_ASSERT(!mShading.IsValid());
+	NN_REQUIRE(!mShading.IsValid() && !mEvaluate.IsValid());
 
 
 
-	// Create the new shading
-	cgColorSpace = NCGColor::GetDeviceRGB();
+	// Create the evaluate callback
+	static const CGFunctionCallbacks kNCallbackInfo    = {0, NCGShading::EvaluateCallback, nullptr};
+	static const CGFloat             kNCallbackRange[] = {0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0};
+	static const CGFloat             kNCallbackDomain[] = {0.0, 1.0};
 
-	switch (mMode) {
-		case kShadingNone:
-			ResetShading();
-			break;
+	void* userData = const_cast<void*>(reinterpret_cast<const void*>(this));
+	bool  wasOK    = mEvaluate.Set(
+		CGFunctionCreate(userData, 1, kNCallbackDomain, 4, kNCallbackRange, &kNCallbackInfo));
+	NN_EXPECT(wasOK);
 
-		case kShadingLinear:
-			mShading.SetObject(CGShadingCreateAxial( cgColorSpace, ToCG(mStartPoint), ToCG(mEndPoint), mEvaluate, mStartExtend, mEndExtend));
-			break;
 
-		case kShadingRadial:
-			mShading.SetObject(CGShadingCreateRadial(cgColorSpace, ToCG(mStartPoint), mStartRadius, ToCG(mEndPoint), mEndRadius, mEvaluate, mStartExtend, mEndExtend));
-			break;
 
-		default:
-			NN_LOG("Unknown shading mode: %d", mMode);
-			break;
+	// Create the shading
+	if (wasOK)
+	{
+		NCGColorSpace cgColorSpace = NCGColor::GetDeviceRGB();
+
+		switch (mMode)
+		{
+			case NShadingMode::None:
+				// Invalid shading
+				NN_LOG_ERROR("Unable to create NShadingMode::None shading!");
+				break;
+
+			case NShadingMode::Linear:
+				wasOK = mShading.Set(CGShadingCreateAxial(cgColorSpace,
+														  ToCG(mStartPoint),
+														  ToCG(mEndPoint),
+														  mEvaluate,
+														  mStartExtend,
+														  mEndExtend));
+				NN_EXPECT(wasOK);
+				break;
+
+			case NShadingMode::Radial:
+				wasOK = mShading.Set(CGShadingCreateRadial(cgColorSpace,
+														   ToCG(mStartPoint),
+														   mStartRadius,
+														   ToCG(mEndPoint),
+														   mEndRadius,
+														   mEvaluate,
+														   mStartExtend,
+														   mEndExtend));
+				NN_EXPECT(wasOK);
+				break;
 		}
+	}
 }
 
 
 
 
 
-//============================================================================
-//		NCGShading::CopyShading : Copy a shading.
-//----------------------------------------------------------------------------
-void NCGShading::CopyShading(const NCGShading &theShading)
+//=============================================================================
+//		NCGShading::SetDirty : Invalidate the shading.
+//-----------------------------------------------------------------------------
+void NCGShading::SetDirty()
 {
 
 
-	// Reset our state
-	//
-	// The shading object and evaluate callback are instance-specific, since
-	// the evaluate callback's user data is our this pointer.
-	//
-	// Those objects are never copied, and we initialize ourselves prior to
-	// copying to allow CopyShading to be used from our copy constructor.
-	InitializeSelf();
-
-
-
-	// Copy the shading
-	mMode = theShading.mMode;
-	mSamples = theShading.mSamples;
-	
-	mStartPoint  = theShading.mStartPoint;
-	mStartExtend = theShading.mStartExtend;
-	mStartRadius = theShading.mStartRadius;
-
-	mEndPoint  = theShading.mEndPoint;
-	mEndExtend = theShading.mEndExtend;
-	mEndRadius = theShading.mEndRadius;
+	// Invalidate the shading
+	mShading.Set(nullptr);
+	mEvaluate.Set(nullptr);
 }
 
 
 
 
 
-//============================================================================
-//		NCGShading::CreateEvaluateCallback : Create the evaluate callback.
-//----------------------------------------------------------------------------
-CGFunctionRef NCGShading::CreateEvaluateCallback(void) const
-{	static const CGFunctionCallbacks	kCallbackInfo     = { 0, NCGShading::EvaluateCallback, NULL };
-	static const CGFloat				kCallbackRange[]  = { 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f };
-	static const CGFloat				kCallbackDomain[] = { 0.0f, 1.0f };
-
-
-
-	// Create the callback
-	return(CGFunctionCreate((void *) this, 1, kCallbackDomain, 4, kCallbackRange, &kCallbackInfo));
-}
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NCGShading::EvaluateCallback : Evaluate callback.
-//----------------------------------------------------------------------------
-void NCGShading::EvaluateCallback(void *info, const CGFloat *in, CGFloat *out)
-{	float32_t		colRed, colGreen, colBlue, colAlpha;
-	NCGShading		*thisPtr = (NCGShading *) info;
-	NColor			theColor;
-
+//-----------------------------------------------------------------------------
+void NCGShading::EvaluateCallback(void* userData, const CGFloat* theSamples, CGFloat* theOutput)
+{
 
 
 	// Validate our parameters
-	NN_ASSERT(in[0] >= 0.0f && in[0] <= 1.0f);
+	NN_REQUIRE(userData != nullptr);
+	NN_REQUIRE(theSamples != nullptr);
+	NN_REQUIRE(theOutput != nullptr);
+	NN_REQUIRE(theSamples[0] >= 0.0 && theSamples[0] <= 1.0);
 
 
 
 	// Evaluate the shading
-	theColor = thisPtr->Evaluate(in[0]);
-	theColor.GetColor(colRed, colGreen, colBlue, colAlpha);
+	NCGShading* thisPtr  = reinterpret_cast<NCGShading*>(userData);
+	NColor      theColor = thisPtr->Evaluate(theSamples[0]);
 
-	out[0] = (CGFloat) colRed;
-	out[1] = (CGFloat) colGreen;
-	out[2] = (CGFloat) colBlue;
-	out[3] = (CGFloat) colAlpha;
+	theOutput[0] = CGFloat(theColor.GetRed());
+	theOutput[1] = CGFloat(theColor.GetGreen());
+	theOutput[2] = CGFloat(theColor.GetBlue());
+	theOutput[3] = CGFloat(theColor.GetAlpha());
 }
-

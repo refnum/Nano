@@ -3,84 +3,116 @@
 
 	DESCRIPTION:
 		CoreGraphics shading object.
-	
+
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NCGSHADING_HDR
-#define NCGSHADING_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NMathUtilities.h"
-
+#ifndef NCGSHADING_H
+#define NCGSHADING_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+// Nano
 #include "NCFObject.h"
-#include "NRectangle.h"
 #include "NColor.h"
+#include "NPoint.h"
+#include "NRectangle.h"
+
+// System
+#include <CoreGraphics/CGShading.h>
+#include <vector>
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		Types
-//----------------------------------------------------------------------------
-// Color sample
-typedef struct {
-	float	theValue;
-	NColor	theColor;
-} NShadingSample;
+//-----------------------------------------------------------------------------
+// Shading sample
+struct NShadingSample
+{
+	CGFloat theValue;
+	NColor  theColor;
+};
 
 
-// Lists
-typedef std::vector<NShadingSample>									NShadingSampleList;
-typedef NShadingSampleList::iterator								NShadingSampleListIterator;
-typedef NShadingSampleList::const_iterator							NShadingSampleListConstIterator;
-
-
+// Containers
+using NVectorShadingSample = std::vector<NShadingSample>;
 
 
 
-//============================================================================
+
+
+//=============================================================================
 //		Constants
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // Shading mode
-typedef enum {
-	kShadingNone,
-	kShadingLinear,
-	kShadingRadial
-} NShadingMode;
-
-
-// Shadings
-extern const NShadingSample kShadingBlackWhite[];
-extern const NShadingSample kShadingWhiteBlack[];
-extern const NShadingSample kShadingFrontRow[];
+enum class NShadingMode
+{
+	None,
+	Linear,
+	Radial
+};
 
 
 
 
 
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NCGShading {
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NCGShading : public NCFObject<CGShadingRef>
+{
 public:
-										NCGShading(const NCGShading &theShading);
+										NCGShading();
+	virtual                            ~NCGShading() override = default;
 
-										NCGShading(NShadingMode theMode=kShadingLinear);
-	virtual							   ~NCGShading(void);
+										NCGShading(const NCGShading& otherShading);
+	NCGShading&                         operator=( const NCGShading& otherShading);
+
+										NCGShading(NCGShading&& otherShading);
+	NCGShading&                         operator=( NCGShading&& otherShading);
+
+
+	// Is the object valid?
+	bool                                IsValid() const;
 
 
 	// Get/set the mode
-	NShadingMode						GetMode(void) const;
-	void								SetMode(NShadingMode theMode);
-	
-	
+	NShadingMode                        GetMode() const;
+	void                                SetMode(NShadingMode theMode);
+
+
 	// Get/set the samples
 	//
 	// Shading samples lie between 0.0 and 1.0, and should be sorted in increasing order.
@@ -89,115 +121,96 @@ public:
 	// colors, where the sample value indicates the location within the 0.0 to 1.0 sample
 	// space where that color forms 100% of the output.
 	//
-	// If the color sample list contains either 1 or 2 entries, the default Evaluate method
+	// If the color sample list contains either 1 or 2 entries the default Evaluate method
 	// ignores the sample values and displays a single colour or a linear interpolation.
-	//
-	// SetShadingSamples may be called with a pointer to an NShadingSample array, which
-	// must be terminated with a sample whose value is exactly 1.0.
-	NShadingSampleList					GetSamples(void) const;
-	void								SetSamples(const NShadingSampleList &theSamples);
-	void								SetSamples(const NShadingSample     *theSamples);
+	NVectorShadingSample                GetSamples() const;
+	void                                SetSamples(  const NVectorShadingSample& theSamples);
 
 
 	// Get/set the start point
-	NPoint								GetStartPoint(void) const;
-	void								SetStartPoint(const NPoint &thePoint);
+	NPoint                              GetStartPoint() const;
+	void                                SetStartPoint(  const NPoint& thePoint);
 
 
 	// Get/set the start extend
-	bool								GetStartExtend(void) const;
-	void								SetStartExtend(bool theValue);
+	bool                                GetStartExtend() const;
+	void                                SetStartExtend(bool theValue);
 
 
 	// Get/set the start radius
 	//
-	// Only used by radial shadings.
-	float								GetStartRadius(void) const;
-	void								SetStartRadius(float theValue);
+	// Only valid for radial shadings.
+	CGFloat                             GetStartRadius() const;
+	void                                SetStartRadius(CGFloat theValue);
 
 
 	// Get/set the end point
-	NPoint								GetEndPoint(void) const;
-	void								SetEndPoint(const NPoint &thePoint);
+	NPoint                              GetEndPoint() const;
+	void                                SetEndPoint(  const NPoint& thePoint);
 
 
 	// Get/set the end extend
-	bool								GetEndExtend(void) const;
-	void								SetEndExtend(bool theValue);
+	bool                                GetEndExtend() const;
+	void                                SetEndExtend(bool theValue);
 
 
 	// Get/set the end radius
 	//
-	// Only used by radial shadings.
-	float								GetEndRadius(void) const;
-	void								SetEndRadius(float theValue);
+	// Only valid for radial shadings.
+	CGFloat                             GetEndRadius() const;
+	void                                SetEndRadius(CGFloat theValue);
 
 
 	// Set the start/end points
 	//
 	// Adjusts the start and end points of the shading based on two points in a rectangle.
-	void								SetStartEndPoints(const NRectangle &theRect, NPosition startPos, NPosition endPos);
+	void                                SetStartEndPoints(const NRectangle& theRect, NPosition startPos, NPosition endPos);
 
 
 	// Operators
-	operator							CGShadingRef(void) const;
-	const NCGShading&					operator = (const NCGShading &theShading);
+										operator CGShadingRef() const;
 
 
 protected:
 	// Evaluate the shading
 	//
-	// Evaluates the shading at the specified sample, between 0.0 and 1.0.
-	virtual NColor						Evaluate(float theSample);
+	// Evaluates the shading at the specified sample between 0.0 and 1.0.
+	virtual NColor                      Evaluate(CGFloat theSample);
 
 
 private:
-	void								InitializeSelf(void);
-	
-	void								ResetShading( void) const;
-	void								UpdateShading(void) const;
-	void								CopyShading(const NCGShading &theShading);
+	void                                CreateShading() const;
+	void                                SetDirty();
 
-	CGFunctionRef						CreateEvaluateCallback(void) const;
+	static void                         EvaluateCallback(void* userData, const CGFloat* theSamples, CGFloat* theOutput);
 
-	static void							EvaluateCallback(void *info, const CGFloat *in, CGFloat *out);
 
 
 private:
-	NShadingMode						mMode;
-	NShadingSampleList					mSamples;
+	mutable NCFObject<CGShadingRef>     mShading;
+	mutable NCFObject<CGFunctionRef>    mEvaluate;
 
-	mutable NCFObject					mShading;
-	mutable NCFObject					mEvaluate;
-	
-	NPoint								mStartPoint;
-	bool								mStartExtend;
-	float								mStartRadius;
+	NShadingMode                        mMode;
+	NVectorShadingSample                mSamples;
 
-	NPoint								mEndPoint;
-	bool								mEndExtend;
-	float								mEndRadius;
+	NPoint                              mStartPoint;
+	bool                                mStartExtend;
+	CGFloat                             mStartRadius;
+
+	NPoint                              mEndPoint;
+	bool                                mEndExtend;
+	CGFloat                             mEndRadius;
 };
 
 
 
 
 
-//============================================================================
-//		Inline functions
-//----------------------------------------------------------------------------
-inline bool operator != (const NShadingSample &value1, const NShadingSample &value2)
-{
-	return(!NMathUtilities::AreEqual(value1.theValue, value2.theValue) || value1.theColor != value2.theColor);
-}
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NCGShading.inl"
 
 
 
-
-
-
-
-#endif // NCGSHADING_HDR
-
-
-
+#endif // NCGSHADING_H

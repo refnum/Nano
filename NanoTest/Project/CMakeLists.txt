@@ -198,6 +198,7 @@ if (NN_TARGET_MACOS)
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/TCoreFoundation.cpp"
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/TCGColor.cpp"
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/TCGImage.cpp"
+			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/TCGShading.cpp"
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/TCoreGraphics.cpp"
 	)
 
