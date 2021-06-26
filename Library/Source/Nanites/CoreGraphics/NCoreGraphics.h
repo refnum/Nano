@@ -47,9 +47,9 @@
 #include "NRectangle.h"
 #include "NSize.h"
 
-
-// CoreGraphics
+// System
 #include <CoreGraphics/CoreGraphics.h>
+#include <vector>
 
 
 
@@ -61,6 +61,11 @@
 // NCFObject helpers
 using NCGContext                                            = NCFObject<CGContextRef>;
 using NCGDataProvider                                       = NCFObject<CGDataProviderRef>;
+using NCGFont                                               = NCFObject<CGFontRef>;
+
+
+// Containers
+using NVectorCGFloat                                        = std::vector<CGFloat>;
 
 
 
