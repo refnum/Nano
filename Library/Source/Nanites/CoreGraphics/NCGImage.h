@@ -67,8 +67,8 @@ public:
 	bool                                SetImage(  const NImage& theImage, NCFSource theSource = NCFSource::Copy);
 
 
-private:
-	CGBitmapInfo                        GetBitmapInfo(NImageFormat theFormat) const;
+	// Convert an NImageFormat to a CGBitmapInfo
+	static CGBitmapInfo                 GetBitmapInfo(NImageFormat theFormat);
 };
 
 

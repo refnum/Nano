@@ -193,11 +193,10 @@ bool NCGImage::SetImage(const NImage& theImage, NCFSource theSource)
 
 
 
-#pragma mark private
 //=============================================================================
-//		NCGImage::GetBitmapInfo : Get a CGBitmapInfo.
+//		NCGImage::GetBitmapInfo : Convert an NImageFormat to a CGBitmapInfo.
 //-----------------------------------------------------------------------------
-CGBitmapInfo NCGImage::GetBitmapInfo(NImageFormat theFormat) const
+CGBitmapInfo NCGImage::GetBitmapInfo(NImageFormat theFormat)
 {
 
 
