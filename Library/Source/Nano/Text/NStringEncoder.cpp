@@ -908,7 +908,7 @@ void NStringEncoder::ConvertToLegacy(NUnicodeView&   srcView,
 
 
 	// Get the state we need
-	const NUTF32LegacyMap* srcTable = GetLegacyFromUTF32(dstEncoding);
+	const NMapUTF32Legacy* srcTable = GetLegacyFromUTF32(dstEncoding);
 
 	NVectorUInt8 theResult;
 
@@ -975,22 +975,22 @@ const utf32_t* NStringEncoder::GetLegacyToUTF32(NStringEncoding srcEncoding)
 //=============================================================================
 //		NStringEncoder::GetLegacyFromUTF32 : Get a UTF32 to legacy table.
 //-----------------------------------------------------------------------------
-const NUTF32LegacyMap* NStringEncoder::GetLegacyFromUTF32(NStringEncoding dstEncoding)
+const NMapUTF32Legacy* NStringEncoder::GetLegacyFromUTF32(NStringEncoding dstEncoding)
 {
-	static NUTF32LegacyMap sUTF32_to_ASCII = GetLegacyMap(kStringMaxASCII, kASCII_to_UTF32);
+	static NMapUTF32Legacy sUTF32_to_ASCII = GetLegacyMap(kStringMaxASCII, kASCII_to_UTF32);
 
-	static NUTF32LegacyMap sUTF32_to_MacRoman = GetLegacyMap(kStringMaxLegacy, kMacRoman_to_UTF32);
+	static NMapUTF32Legacy sUTF32_to_MacRoman = GetLegacyMap(kStringMaxLegacy, kMacRoman_to_UTF32);
 
-	static NUTF32LegacyMap sUTF32_to_ISOLatin1 =
+	static NMapUTF32Legacy sUTF32_to_ISOLatin1 =
 		GetLegacyMap(kStringMaxLegacy, kISOLatin1_to_UTF32);
 
-	static NUTF32LegacyMap sUTF32_to_WindowsLatin1 =
+	static NMapUTF32Legacy sUTF32_to_WindowsLatin1 =
 		GetLegacyMap(kStringMaxLegacy, kWindowsLatin1_to_UTF32);
 
 
 
 	// Get the table
-	const NUTF32LegacyMap* theTable = nullptr;
+	const NMapUTF32Legacy* theTable = nullptr;
 
 	switch (dstEncoding)
 	{
@@ -1025,12 +1025,12 @@ const NUTF32LegacyMap* NStringEncoder::GetLegacyFromUTF32(NStringEncoding dstEnc
 //=============================================================================
 //		NStringEncoder::GetLegacyMap : Get a UTF32->legacy map.
 //-----------------------------------------------------------------------------
-NUTF32LegacyMap NStringEncoder::GetLegacyMap(size_t maxChar, const utf32_t* toUTF32)
+NMapUTF32Legacy NStringEncoder::GetLegacyMap(size_t maxChar, const utf32_t* toUTF32)
 {
 
 
 	// Populate the table
-	NUTF32LegacyMap fromUTF32;
+	NMapUTF32Legacy fromUTF32;
 
 	for (size_t n = 0; n <= maxChar; n++)
 	{

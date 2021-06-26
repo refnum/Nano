@@ -98,7 +98,7 @@ using NFileMapRef = std::optional<uintptr_t>;
 
 
 // Containers
-using NFileMappingTable = std::unordered_map<const uint8_t*, NFileMapping>;
+using NMapFileMappings = std::unordered_map<const uint8_t*, NFileMapping>;
 
 
 
@@ -173,7 +173,7 @@ private:
 
 	NFilePath                           mPath;
 	NFileMapRef                         mHandle;
-	NFileMappingTable                   mMappings;
+	NMapFileMappings                    mMappings;
 	size_t                              mFileSize;
 };
 

@@ -97,7 +97,7 @@ class NUnicodeView;
 
 
 // Map
-using NUTF32LegacyMap = std::unordered_map<utf32_t, uint8_t>;
+using NMapUTF32Legacy = std::unordered_map<utf32_t, uint8_t>;
 
 
 
@@ -173,8 +173,8 @@ private:
 	static void                         ConvertToLegacy(NUnicodeView& srcView, NStringEncoding dstEncoding, NData& dstData);
 
 	static const utf32_t*               GetLegacyToUTF32(  NStringEncoding srcEncoding);
-	static const NUTF32LegacyMap*       GetLegacyFromUTF32(NStringEncoding dstEncoding);
-	static NUTF32LegacyMap              GetLegacyMap(size_t maxChar, const utf32_t* toUTF32);
+	static const NMapUTF32Legacy*       GetLegacyFromUTF32(NStringEncoding dstEncoding);
+	static NMapUTF32Legacy              GetLegacyMap(size_t maxChar, const utf32_t* toUTF32);
 };
 
 
