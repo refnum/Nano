@@ -111,16 +111,14 @@ inline NBitVector& NBitVector::operator=(const NBitVector& otherVector)
 //		NBitVector::NBitVector : Constructor.
 //-----------------------------------------------------------------------------
 inline NBitVector::NBitVector(NBitVector&& otherVector)
-	: mData{}
-	, mSize(0)
-	, mBytes(nullptr)
+	: mData(std::exchange(otherVector.mData, {}))
+	, mSize(std::exchange(otherVector.mSize, 0))
+	, mBytes(mData.GetMutableData())
 {
 
 
-	// Initialise ourselves
-	std::swap(mData, otherVector.mData);
-	std::swap(mSize, otherVector.mSize);
-	mBytes = mData.GetMutableData();
+	// Reset the other object
+	otherVector.mBytes = nullptr;
 }
 
 
@@ -137,12 +135,10 @@ inline NBitVector& NBitVector::operator=(NBitVector&& otherVector)
 	// Move the vector
 	if (this != &otherVector)
 	{
-		std::swap(mData, otherVector.mData);
-		std::swap(mSize, otherVector.mSize);
+		mData  = std::exchange(otherVector.mData, {});
+		mSize  = std::exchange(otherVector.mSize, 0);
 		mBytes = mData.GetMutableData();
 
-		otherVector.mData.Clear();
-		otherVector.mSize  = 0;
 		otherVector.mBytes = nullptr;
 	}
 

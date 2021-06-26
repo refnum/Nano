@@ -122,12 +122,8 @@ inline NCFObject<T>& NCFObject<T>::operator=(const NCFObject<T>& otherObject)
 //-----------------------------------------------------------------------------
 template<typename T>
 inline NCFObject<T>::NCFObject(NCFObject<T>&& otherObject)
-	: mObject{nullptr}
+	: mObject(std::exchange(otherObject.mObject, nullptr))
 {
-
-
-	// Initialise ourselves
-	std::swap(mObject, otherObject.mObject);
 }
 
 
@@ -145,8 +141,7 @@ inline NCFObject<T>& NCFObject<T>::operator=(NCFObject<T>&& otherObject)
 	// Move the string
 	if (this != &otherObject)
 	{
-		std::swap(mObject, otherObject.mObject);
-		CFSafeRelease(otherObject.mObject);
+		mObject = std::exchange(otherObject.mObject, nullptr);
 	}
 
 	return *this;

@@ -104,16 +104,17 @@ NThread::~NThread()
 //-----------------------------------------------------------------------------
 NThread::NThread(NThread&& otherThread)
 	: mLock()
-	, mID(otherThread.mID)
-	, mThread(otherThread.mThread)
-	, mRunLoop(otherThread.mRunLoop)
+	, mID(std::exchange(otherThread.mID, {}))
+	, mThread(std::exchange(otherThread.mThread, kNThreadNone))
+	, mRunLoop(std::exchange(otherThread.mRunLoop, nullptr))
 	, mIsComplete(otherThread.mIsComplete.load())
 	, mShouldStop(otherThread.mShouldStop.load())
 {
 
 
-	// Reset the other thread
-	otherThread.Clear();
+	// Reset the other object
+	otherThread.mIsComplete = false;
+	otherThread.mShouldStop = false;
 }
 
 
@@ -137,15 +138,14 @@ NThread& NThread::operator=(NThread&& otherThread)
 	if (this != &otherThread)
 	{
 		// Move the thread
-		mID         = otherThread.mID;
-		mThread     = otherThread.mThread;
-		mRunLoop    = otherThread.mRunLoop;
+		mID         = std::exchange(otherThread.mID, {});
+		mThread     = std::exchange(otherThread.mThread, kNThreadNone);
+		mRunLoop    = std::exchange(otherThread.mRunLoop, nullptr);
 		mIsComplete = otherThread.mIsComplete.load();
 		mShouldStop = otherThread.mShouldStop.load();
 
-
-		// Reset the other thread
-		otherThread.Clear();
+		otherThread.mIsComplete = false;
+		otherThread.mShouldStop = false;
 	}
 
 	return *this;

@@ -119,12 +119,8 @@ NData& NData::operator=(const NData& otherData)
 //		NData::NData : Constructor.
 //-----------------------------------------------------------------------------
 NData::NData(NData&& otherData)
-	: mData{}
+	: mData(std::exchange(otherData.mData, {}))
 {
-
-
-	// Initialise ourselves
-	std::swap(mData, otherData.mData);
 }
 
 
@@ -141,8 +137,7 @@ NData& NData::operator=(NData&& otherData)
 	// Move the data
 	if (this != &otherData)
 	{
-		std::swap(mData, otherData.mData);
-		otherData.Clear();
+		mData = std::exchange(otherData.mData, {});
 	}
 
 	return *this;

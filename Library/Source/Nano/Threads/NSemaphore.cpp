@@ -82,12 +82,8 @@ NSemaphore::~NSemaphore()
 //		NSemaphore::NSemaphore : Constructor.
 //-----------------------------------------------------------------------------
 NSemaphore::NSemaphore(NSemaphore&& theSemaphore)
-	: mSemaphore(kNSemaphoreNone)
+	: mSemaphore(std::exchange(theSemaphore.mSemaphore, kNSemaphoreNone))
 {
-
-
-	// Initialise ourselves
-	std::swap(mSemaphore, theSemaphore.mSemaphore);
 }
 
 
@@ -102,7 +98,7 @@ NSemaphore& NSemaphore::operator=(NSemaphore&& theSemaphore)
 
 
 	// Move the semaphore
-	std::swap(mSemaphore, theSemaphore.mSemaphore);
+	mSemaphore = std::exchange(theSemaphore.mSemaphore, kNSemaphoreNone);
 
 	return *this;
 }

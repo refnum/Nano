@@ -316,12 +316,8 @@ inline NString& NString::operator=(const NString& otherString)
 //		NString::NString : Constructor.
 //-----------------------------------------------------------------------------
 inline NString::NString(NString&& otherString)
-	: mString{}
+	: mString(std::exchange(otherString.mString, {}))
 {
-
-
-	// Initialise ourselves
-	std::swap(mString, otherString.mString);
 }
 
 
@@ -338,8 +334,7 @@ inline NString& NString::operator=(NString&& otherString)
 	// Move the string
 	if (this != &otherString)
 	{
-		std::swap(mString, otherString.mString);
-		otherString.Clear();
+		mString = std::exchange(otherString.mString, {});
 	}
 
 	return *this;
