@@ -390,7 +390,7 @@ inline void NColor::SetAlpha(float32_t theValue)
 //-----------------------------------------------------------------------------
 inline NColor NColor::Interpolate(const NColor& startColor,
 								  const NColor& endColor,
-								  float         theFraction)
+								  float32_t     theFraction)
 {
 
 

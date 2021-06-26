@@ -122,7 +122,9 @@ public:
 
 
 	// Interpolate between two colors
-	static NColor                       Interpolate(const NColor& startColor, const NColor& endColor, float theFraction);
+	static NColor                       Interpolate(const NColor& startColor,
+													const NColor& endColor,
+													float32_t     theFraction);
 
 
 public:
@@ -149,6 +151,11 @@ private:
 
 
 
+
+
+//=============================================================================
+//		Constants
+//-----------------------------------------------------------------------------
 // Colors
 inline constexpr NColor kNColorBlack     = NColor(0.00f, 0.00f, 0.00f, 1.0f);
 inline constexpr NColor kNColorBlue      = NColor(0.00f, 0.00f, 1.00f, 1.0f);
