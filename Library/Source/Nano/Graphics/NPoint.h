@@ -41,9 +41,14 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
 #include "NMixinComparable.h"
 #include "NanoMacros.h"
 #include "NanoTypes.h"
+
+
+// System
+#include <vector>
 
 
 
@@ -54,6 +59,11 @@
 //-----------------------------------------------------------------------------
 // Forward declarations
 class NVector;
+class NPoint;
+
+
+// Containers
+using NVectorPoint = std::vector<NPoint>;
 
 
 
