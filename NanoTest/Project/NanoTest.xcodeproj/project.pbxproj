@@ -81,6 +81,9 @@
 		AB53BBDC2421239C009960AA /* TFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBDB2421239C009960AA /* TFileUtils.cpp */; };
 		AB53BBDD2421239C009960AA /* TFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBDB2421239C009960AA /* TFileUtils.cpp */; };
 		AB53BBDE2421239C009960AA /* TFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBDB2421239C009960AA /* TFileUtils.cpp */; };
+		AB549AE026873A3500B14417 /* TCGContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3961773A09C0054EEA3 /* TCGContext.cpp */; };
+		AB549AE126873A3500B14417 /* TCGContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3961773A09C0054EEA3 /* TCGContext.cpp */; };
+		AB549AE226873A3500B14417 /* TCGContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3961773A09C0054EEA3 /* TCGContext.cpp */; };
 		AB54F9A823EE4503005207BC /* TTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9A723EE4503005207BC /* TTextUtils.cpp */; };
 		AB54F9A923EE4503005207BC /* TTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9A723EE4503005207BC /* TTextUtils.cpp */; };
 		AB54F9AA23EE4503005207BC /* TTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9A723EE4503005207BC /* TTextUtils.cpp */; };
@@ -1076,6 +1079,7 @@
 				ABF58DD6267F792900327252 /* TCFURL.cpp in Sources */,
 				ABA478CD25B7B7FE00F3C3C9 /* TSystem.cpp in Sources */,
 				ABF58CD1267932CB00327252 /* TUndoManager.cpp in Sources */,
+				AB549AE126873A3500B14417 /* TCGContext.cpp in Sources */,
 				ABF5130E2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABF58C1A267572E100327252 /* TData.cpp in Sources */,
 				ABA7247423F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */,
@@ -1178,6 +1182,7 @@
 				ABF58DD7267F792A00327252 /* TCFURL.cpp in Sources */,
 				ABA478CC25B7B7FE00F3C3C9 /* TSystem.cpp in Sources */,
 				ABF58CD3267932CB00327252 /* TUndoManager.cpp in Sources */,
+				AB549AE026873A3500B14417 /* TCGContext.cpp in Sources */,
 				ABF5130D2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABF58C19267572E100327252 /* TData.cpp in Sources */,
 				ABA7247323F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */,
@@ -1280,6 +1285,7 @@
 				ABF58DD5267F792900327252 /* TCFURL.cpp in Sources */,
 				ABA478CE25B7B7FE00F3C3C9 /* TSystem.cpp in Sources */,
 				ABF58CCF267932CA00327252 /* TUndoManager.cpp in Sources */,
+				AB549AE226873A3500B14417 /* TCGContext.cpp in Sources */,
 				ABF5130F2397B193001F9F8B /* TMixinAttributes.cpp in Sources */,
 				ABF58C1B267572E100327252 /* TData.cpp in Sources */,
 				ABA7247523F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */,

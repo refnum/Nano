@@ -59,7 +59,6 @@
 //		Types
 //-----------------------------------------------------------------------------
 // NCFObject helpers
-using NCGContext                                            = NCFObject<CGContextRef>;
 using NCGDataProvider                                       = NCFObject<CGDataProviderRef>;
 using NCGFont                                               = NCFObject<CGFontRef>;
 

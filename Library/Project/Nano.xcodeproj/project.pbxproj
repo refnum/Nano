@@ -138,6 +138,9 @@
 		AB549AD9268684DE00B14417 /* NCGShading.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE38F1773A0100054EEA3 /* NCGShading.cpp */; };
 		AB549ADA268684DF00B14417 /* NCGShading.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE38F1773A0100054EEA3 /* NCGShading.cpp */; };
 		AB549ADB268684DF00B14417 /* NCGShading.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE38F1773A0100054EEA3 /* NCGShading.cpp */; };
+		AB549ADD26873A2C00B14417 /* NCGContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB57177196B500F3364C /* NCGContext.cpp */; };
+		AB549ADE26873A2D00B14417 /* NCGContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB57177196B500F3364C /* NCGContext.cpp */; };
+		AB549ADF26873A2D00B14417 /* NCGContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB57177196B500F3364C /* NCGContext.cpp */; };
 		AB54F9AD23EF14A7005207BC /* NStringComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */; };
 		AB54F9AE23EF14A7005207BC /* NStringComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */; };
 		AB54F9AF23EF14A7005207BC /* NStringComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */; };
@@ -624,6 +627,7 @@
 		AB53BBEA24212411009960AA /* iOSNFileUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iOSNFileUtils.cpp; sourceTree = "<group>"; };
 		AB53BBEC24212418009960AA /* AndroidNFileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidNFileUtils.cpp; sourceTree = "<group>"; };
 		AB549AD826866AF900B14417 /* NCGShading.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NCGShading.inl; sourceTree = "<group>"; };
+		AB549ADC268739C300B14417 /* NCGContext.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NCGContext.inl; sourceTree = "<group>"; };
 		AB54F9A223EE44C9005207BC /* NTextUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTextUtils.h; sourceTree = "<group>"; };
 		AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NStringComparator.cpp; sourceTree = "<group>"; };
 		AB54F9AC23EF14A7005207BC /* NStringComparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStringComparator.h; sourceTree = "<group>"; };
@@ -1040,6 +1044,7 @@
 				ABF58DA1267CB25C00327252 /* NCGColor.inl */,
 				AB1BCB57177196B500F3364C /* NCGContext.cpp */,
 				AB1BCB58177196B500F3364C /* NCGContext.h */,
+				AB549ADC268739C300B14417 /* NCGContext.inl */,
 				AB1BCB601771A4D800F3364C /* NCGImage.cpp */,
 				AB1BCB611771A4D800F3364C /* NCGImage.h */,
 				ABCFE38F1773A0100054EEA3 /* NCGShading.cpp */,
@@ -2098,6 +2103,7 @@
 				AB230A1F2581AB8600919EBD /* gzlib.c in Sources */,
 				ABA4790725B7B91300F3C3C9 /* tvOSNProcess.cpp in Sources */,
 				ABA478B925B7B7A400F3C3C9 /* NProcess.cpp in Sources */,
+				AB549ADF26873A2D00B14417 /* NCGContext.cpp in Sources */,
 				ABC6470A25818466009B82AD /* pcre2_dfa_match.c in Sources */,
 				AB07EA44239A567400E0AC49 /* NSemaphore.cpp in Sources */,
 				ABC6470425818466009B82AD /* pcre2_fuzzsupport.c in Sources */,
@@ -2244,6 +2250,7 @@
 				ABC6470825818466009B82AD /* pcre2_dfa_match.c in Sources */,
 				ABA478B725B7B7A400F3C3C9 /* NProcess.cpp in Sources */,
 				ABC646802581666F009B82AD /* xmlrole.c in Sources */,
+				AB549ADD26873A2C00B14417 /* NCGContext.cpp in Sources */,
 				ABC6470225818466009B82AD /* pcre2_fuzzsupport.c in Sources */,
 				AB53BBEB24212411009960AA /* iOSNFileUtils.cpp in Sources */,
 				AB230A142581AB8600919EBD /* crc32.c in Sources */,
@@ -2390,6 +2397,7 @@
 				AB8E64A825A2A67800AF2CE9 /* NNumber.cpp in Sources */,
 				AB230A1E2581AB8600919EBD /* gzlib.c in Sources */,
 				ABD3686125D81E9400C825B6 /* macOSNFileMap.cpp in Sources */,
+				AB549ADE26873A2D00B14417 /* NCGContext.cpp in Sources */,
 				ABC6470925818466009B82AD /* pcre2_dfa_match.c in Sources */,
 				ABA478B825B7B7A400F3C3C9 /* NProcess.cpp in Sources */,
 				ABC6470325818466009B82AD /* pcre2_fuzzsupport.c in Sources */,

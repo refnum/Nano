@@ -44,6 +44,7 @@
 // Nano
 #include "NCFData.h"
 #include "NCGColor.h"
+#include "NCGContext.h"
 #include "NCoreGraphics.h"
 
 
