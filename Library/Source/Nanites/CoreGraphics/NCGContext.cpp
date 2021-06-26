@@ -42,14 +42,20 @@
 #include "NCGContext.h"
 
 // Nano
+#include "NCFString.h"
 #include "NCGColor.h"
 #include "NCGImage.h"
 #include "NCGShading.h"
+#include "NCache.h"
+#include "NCoreFoundation.h"
+#include "NDictionary.h"
 #include "NImage.h"
 #include "NMathUtils.h"
+#include "NMutex.h"
+#include "NScopedLock.h"
 
 // System
-#include <CoreText/CTLine.h>
+#include <CoreText/CTStringAttributes.h>
 
 
 
@@ -59,6 +65,64 @@
 //		Macros
 //-----------------------------------------------------------------------------
 #define NN_SHOW_TEXT_LAYOUT                                 0
+
+
+
+
+
+//=============================================================================
+//		Internal Types
+//-----------------------------------------------------------------------------
+// NCFObject helpers
+using NCTFont                                               = NCFObject<CTFontRef>;
+
+
+// Text cache key
+struct NCGTextCacheKey
+{
+	NString          theText;
+	CTFontUIFontType fontID;
+	CGFloat          fontSize;
+	bool             isFlipped;
+};
+
+
+// Text cache value
+struct NCGTextCacheValue
+{
+	NCTLine    ctLine;
+	NCGFont    cgFont;
+	NRectangle textRect;
+};
+
+
+
+
+
+//=============================================================================
+//		std specialisations
+//-----------------------------------------------------------------------------
+namespace std
+{
+template<>
+struct hash<NCGTextCacheKey>
+{
+	size_t operator()(const NCGTextCacheKey& theKey) const
+	{
+		return theKey.theText.GetHash();
+	}
+};
+
+template<>
+struct equal_to<NCGTextCacheKey>
+{
+	size_t operator()(const NCGTextCacheKey& keyA, const NCGTextCacheKey& keyB) const
+	{
+		return (keyA.theText == keyB.theText) && (keyA.fontID == keyB.fontID) &&
+			   (keyA.fontSize == keyB.fontSize) && (keyA.isFlipped == keyB.isFlipped);
+	}
+};
+}
 
 
 
@@ -453,11 +517,7 @@ void NCGContext::DrawText(const NString&    theText,
 	NScopedCGState saveState(*this);
 	NRectangle     textRect;
 
-	// dair, todo
-	NN_UNUSED(theText);
-	NN_UNUSED(fontID);
-	NN_UNUSED(fontSize);
-	//	NCFObject ctLine = PrepareTextLine(theText, fontID, fontSize, textRect);
+	NCTLine ctLine = PrepareTextLine(theText, fontID, fontSize, textRect);
 	textRect.SetPosition(alignTo, theRect);
 
 
@@ -482,8 +542,7 @@ void NCGContext::DrawText(const NString&    theText,
 
 	// Draw the text
 	CGContextSetTextPosition(*this, textRect.GetMinX(), textRect.GetMaxY());
-	// dair, todo
-	//	CTLineDraw(ctLine,       *this);
+	CTLineDraw(ctLine, *this);
 }
 
 
@@ -508,11 +567,136 @@ NRectangle NCGContext::GetTextBounds(const NString&   theText,
 	NScopedCGState saveState(*this);
 	NRectangle     textRect;
 
-	// dair, todo
-	NN_UNUSED(theText);
-	NN_UNUSED(fontID);
-	NN_UNUSED(fontSize);
-	//	PrepareTextLine(theText, fontID, fontSize, textRect);
+	PrepareTextLine(theText, fontID, fontSize, textRect);
 
 	return textRect;
+}
+
+
+
+
+
+#pragma mark private
+//=============================================================================
+//		NCGContext::PrepareTextLine : Prepare to draw/measure text.
+//-----------------------------------------------------------------------------
+NCTLine NCGContext::PrepareTextLine(const NString&   theText,
+									CTFontUIFontType fontID,
+									CGFloat          fontSize,
+									NRectangle&      textRect)
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Lock the cache
+	static NCache<NCGTextCacheKey, NCGTextCacheValue> sTextCache;
+	static NMutex                                     sTextLock;
+
+	NScopedLock acquireLock(sTextLock);
+
+
+
+	// Query the cache
+	NCTLine ctLine;
+	NCGFont cgFont;
+
+	NCGTextCacheKey cacheKey{theText, fontID, fontSize, IsFlipped()};
+	auto            cacheValue = sTextCache.GetValue(cacheKey);
+
+	if (cacheValue)
+	{
+		ctLine   = cacheValue->ctLine;
+		cgFont   = cacheValue->cgFont;
+		textRect = cacheValue->textRect;
+	}
+	else
+	{
+		ctLine = GetCTLine(theText);
+		cgFont = GetCGFont(fontID, fontSize);
+	}
+
+
+
+	// Prepare the context
+	//
+	// Our caller is responsible for saving/restoring the context state.
+	CGContextSetFont(*this, cgFont);
+
+	if (IsFlipped())
+	{
+		CGContextSetTextMatrix(*this, CGAffineTransformMakeScale(1.0, -1.0));
+	}
+	else
+	{
+		CGContextSetTextMatrix(*this, CGAffineTransformIdentity);
+	}
+
+
+
+	// Update the cache
+	if (!cacheValue)
+	{
+		textRect = ToNN(CTLineGetImageBounds(ctLine, *this));
+		sTextCache.SetValue(cacheKey, {ctLine, cgFont, textRect});
+	}
+
+	return ctLine;
+}
+
+
+
+
+
+//=============================================================================
+//		NCGContext::GetCTLine : Get a CTLine.
+//-----------------------------------------------------------------------------
+NCTLine NCGContext::GetCTLine(const NString& theText)
+{
+
+
+	// Get the state we need
+	NDictionary textAttributes;
+
+	textAttributes[ToNN(kCTForegroundColorFromContextAttributeName)] = true;
+
+
+
+	// Create the line
+	NCFObject<CFAttributedStringRef> cfString;
+	NCTLine                          ctLine;
+
+	if (cfString.Set(
+			CFAttributedStringCreate(kCFAllocatorDefault, ToCF(theText), ToCF(textAttributes))))
+	{
+		ctLine.Set(CTLineCreateWithAttributedString(cfString));
+	}
+
+	return ctLine;
+}
+
+
+
+
+
+//=============================================================================
+//		NCGContext::GetCGFont : Get a CGFont.
+//-----------------------------------------------------------------------------
+NCGFont NCGContext::GetCGFont(CTFontUIFontType fontID, CGFloat fontSize)
+{
+
+
+	// Get the font
+	NCTFont ctFont;
+	NCGFont cgFont;
+
+	if (ctFont.Set(CTFontCreateUIFontForLanguage(fontID, fontSize, nullptr)))
+	{
+		cgFont.Set(CTFontCopyGraphicsFont(ctFont, nullptr));
+	}
+
+	return cgFont;
 }

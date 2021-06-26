@@ -51,6 +51,7 @@
 // System
 #include <CoreGraphics/CGContext.h>
 #include <CoreText/CTFont.h>
+#include <CoreText/CTLine.h>
 
 
 
@@ -65,7 +66,11 @@ class NCGShading;
 class NString;
 
 
-// Shadows
+// NCFObject helpers
+using NCTLine = NCFObject<CTLineRef>;
+
+
+// Shadow info
 struct NShadowInfo
 {
 	NColor  color;
@@ -94,6 +99,7 @@ enum class NClipping
 	NonZero,
 	EvenOdd
 };
+
 
 // Shadows
 inline constexpr NShadowInfo kNShadowNone                   = {NColor(0.0f, 0.0f, 0.0f, 0.00f), 0.0, NPoint()};
@@ -267,6 +273,15 @@ public:
 													  CTFontUIFontType fontID   = kCTFontUIFontUser,
 													  CGFloat          fontSize = 0.0);
 
+
+private:
+	NCTLine                             PrepareTextLine(const NString&   theText,
+														CTFontUIFontType fontID,
+														CGFloat          fontSize,
+														NRectangle&      textRect);
+
+	NCTLine                             GetCTLine(const NString& theText);
+	NCGFont                             GetCGFont(CTFontUIFontType fontID, CGFloat fontSize);
 
 private:
 	bool                                mIsFlipped;
