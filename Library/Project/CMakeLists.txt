@@ -331,6 +331,8 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Types/NBitVector.cpp"
 		"${NN_SOURCE_DIR}/Nano/Types/NBitVector.h"
 		"${NN_SOURCE_DIR}/Nano/Types/NBitVector.inl"
+		"${NN_SOURCE_DIR}/Nano/Types/NCache.h"
+		"${NN_SOURCE_DIR}/Nano/Types/NCache.inl"
 		"${NN_SOURCE_DIR}/Nano/Types/NDictionary.cpp"
 		"${NN_SOURCE_DIR}/Nano/Types/NDictionary.h"
 		"${NN_SOURCE_DIR}/Nano/Types/NDictionary.inl"

@@ -628,6 +628,8 @@
 		AB53BBEC24212418009960AA /* AndroidNFileUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidNFileUtils.cpp; sourceTree = "<group>"; };
 		AB549AD826866AF900B14417 /* NCGShading.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NCGShading.inl; sourceTree = "<group>"; };
 		AB549ADC268739C300B14417 /* NCGContext.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NCGContext.inl; sourceTree = "<group>"; };
+		AB549AE82687BE1A00B14417 /* NCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCache.h; sourceTree = "<group>"; };
+		AB549AFE2687C21F00B14417 /* NCache.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NCache.inl; sourceTree = "<group>"; };
 		AB54F9A223EE44C9005207BC /* NTextUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTextUtils.h; sourceTree = "<group>"; };
 		AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NStringComparator.cpp; sourceTree = "<group>"; };
 		AB54F9AC23EF14A7005207BC /* NStringComparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStringComparator.h; sourceTree = "<group>"; };
@@ -948,12 +950,6 @@
 		ABEB0BF616760BDF00B74B71 /* NMessageServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMessageServer.h; sourceTree = "<group>"; };
 		ABEB0BF716760BDF00B74B71 /* NNetworkMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NNetworkMessage.cpp; sourceTree = "<group>"; };
 		ABEB0BF816760BDF00B74B71 /* NNetworkMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NNetworkMessage.h; sourceTree = "<group>"; };
-		ABED2ADC10BBD80D00EA8ECC /* NCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCache.cpp; sourceTree = "<group>"; };
-		ABED2ADD10BBD80D00EA8ECC /* NCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCache.h; sourceTree = "<group>"; };
-		ABED2ADE10BBD80D00EA8ECC /* NCacheKey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCacheKey.cpp; sourceTree = "<group>"; };
-		ABED2ADF10BBD80D00EA8ECC /* NCacheKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCacheKey.h; sourceTree = "<group>"; };
-		ABED2B7A10BFE28900EA8ECC /* NCacheValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NCacheValue.cpp; sourceTree = "<group>"; };
-		ABED2B7B10BFE28900EA8ECC /* NCacheValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCacheValue.h; sourceTree = "<group>"; };
 		ABF5130A2397AF7F001F9F8B /* NMixinAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NMixinAttributes.h; sourceTree = "<group>"; };
 		ABF5130B2397AF7F001F9F8B /* NMixinAttributes.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NMixinAttributes.inl; sourceTree = "<group>"; };
 		ABF58C20267572F300327252 /* NDataCompressor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NDataCompressor.cpp; sourceTree = "<group>"; };
@@ -1574,12 +1570,6 @@
 				AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */,
 				AB9155170F9B4DD5009FFEAF /* NByteSwap.h */,
 				AB56392C23C69DE900675F68 /* NByteSwap.inl */,
-				ABED2ADC10BBD80D00EA8ECC /* NCache.cpp */,
-				ABED2ADD10BBD80D00EA8ECC /* NCache.h */,
-				ABED2ADE10BBD80D00EA8ECC /* NCacheKey.cpp */,
-				ABED2ADF10BBD80D00EA8ECC /* NCacheKey.h */,
-				ABED2B7A10BFE28900EA8ECC /* NCacheValue.cpp */,
-				ABED2B7B10BFE28900EA8ECC /* NCacheValue.h */,
 				ABD68179167AB1FE00CB2E04 /* NJSONEncoder.cpp */,
 				ABD6817A167AB1FE00CB2E04 /* NJSONEncoder.h */,
 				AB2AAD6A103962E4007BC4E6 /* NLocale.cpp */,
@@ -1727,6 +1717,8 @@
 				AB9155400F9B4DD6009FFEAF /* NBitVector.cpp */,
 				AB9155410F9B4DD6009FFEAF /* NBitVector.h */,
 				AB371AA625CB92D800DEC50B /* NBitVector.inl */,
+				AB549AE82687BE1A00B14417 /* NCache.h */,
+				AB549AFE2687C21F00B14417 /* NCache.inl */,
 				AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */,
 				AB91554D0F9B4DD6009FFEAF /* NDictionary.h */,
 				ABB38CB025A7CC830050D506 /* NDictionary.inl */,

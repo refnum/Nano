@@ -84,6 +84,9 @@
 		AB549AE026873A3500B14417 /* TCGContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3961773A09C0054EEA3 /* TCGContext.cpp */; };
 		AB549AE126873A3500B14417 /* TCGContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3961773A09C0054EEA3 /* TCGContext.cpp */; };
 		AB549AE226873A3500B14417 /* TCGContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCFE3961773A09C0054EEA3 /* TCGContext.cpp */; };
+		AB549AFB2687BE3800B14417 /* TCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB549AF42687BE3800B14417 /* TCache.cpp */; };
+		AB549AFC2687BE3800B14417 /* TCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB549AF42687BE3800B14417 /* TCache.cpp */; };
+		AB549AFD2687BE3800B14417 /* TCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB549AF42687BE3800B14417 /* TCache.cpp */; };
 		AB54F9A823EE4503005207BC /* TTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9A723EE4503005207BC /* TTextUtils.cpp */; };
 		AB54F9A923EE4503005207BC /* TTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9A723EE4503005207BC /* TTextUtils.cpp */; };
 		AB54F9AA23EE4503005207BC /* TTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9A723EE4503005207BC /* TTextUtils.cpp */; };
@@ -421,6 +424,7 @@
 		AB514EBC1034654800E5A6AD /* TVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TVector.cpp; sourceTree = "<group>"; };
 		AB514F7A1035788600E5A6AD /* TPropertyStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPropertyStore.cpp; sourceTree = "<group>"; };
 		AB53BBDB2421239C009960AA /* TFileUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileUtils.cpp; sourceTree = "<group>"; };
+		AB549AF42687BE3800B14417 /* TCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCache.cpp; sourceTree = "<group>"; };
 		AB54F9A723EE4503005207BC /* TTextUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTextUtils.cpp; sourceTree = "<group>"; };
 		AB54F9B023EF14CE005207BC /* TStringComparator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringComparator.cpp; sourceTree = "<group>"; };
 		AB56391423C2A3F600675F68 /* TString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TString.cpp; sourceTree = "<group>"; };
@@ -470,9 +474,6 @@
 		ABEB0BFE16760C8A00B74B71 /* TMessageServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMessageServer.cpp; sourceTree = "<group>"; };
 		ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestListener.cpp; sourceTree = "<group>"; };
 		ABEC885C0FC73DD7003B7166 /* CTestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTestListener.h; sourceTree = "<group>"; };
-		ABED2AF910BBD88C00EA8ECC /* TCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCache.cpp; sourceTree = "<group>"; };
-		ABED2AFB10BBD88C00EA8ECC /* TCacheKey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCacheKey.cpp; sourceTree = "<group>"; };
-		ABED2B9110BFE2F000EA8ECC /* TCacheValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCacheValue.cpp; sourceTree = "<group>"; };
 		ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMixinAttributes.cpp; sourceTree = "<group>"; };
 		ABF513102397C3FB001F9F8B /* TMixinComparable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMixinComparable.cpp; sourceTree = "<group>"; };
 		ABF513112397C3FB001F9F8B /* TMixinContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMixinContainer.cpp; sourceTree = "<group>"; };
@@ -745,9 +746,6 @@
 			isa = PBXGroup;
 			children = (
 				AB514D831034184B00E5A6AD /* TByteSwap.cpp */,
-				ABED2AF910BBD88C00EA8ECC /* TCache.cpp */,
-				ABED2AFB10BBD88C00EA8ECC /* TCacheKey.cpp */,
-				ABED2B9110BFE2F000EA8ECC /* TCacheValue.cpp */,
 				ABD6817D167AB8AA00CB2E04 /* TJSONEncoder.cpp */,
 				AB2AAD7D10396310007BC4E6 /* TLocale.cpp */,
 				ABA478C325B7B7FE00F3C3C9 /* TMachine.cpp */,
@@ -787,6 +785,7 @@
 				ABCC4AA825A4D5A600394AFE /* TAny.cpp */,
 				AB514D9F1034184B00E5A6AD /* TArray.cpp */,
 				AB514DA11034184B00E5A6AD /* TBitVector.cpp */,
+				AB549AF42687BE3800B14417 /* TCache.cpp */,
 				AB514DAB1034184B00E5A6AD /* TDictionary.cpp */,
 				ABF58CE726795A5800327252 /* TFunction.cpp */,
 				ABA7247223F8415E00CF6EC2 /* TMixinAppendable.cpp */,
@@ -1073,6 +1072,7 @@
 				ABCC4ACC25A535F500394AFE /* TArray.cpp in Sources */,
 				ABF58D9B267CABC300327252 /* TCoreGraphics.cpp in Sources */,
 				ABD3683125D7502600C825B6 /* TCommandLine.cpp in Sources */,
+				AB549AFC2687BE3800B14417 /* TCache.cpp in Sources */,
 				ABF58CE926795A5900327252 /* TFunction.cpp in Sources */,
 				ABD3684725D81DF600C825B6 /* TFileMap.cpp in Sources */,
 				ABDCE8C1241C59680054A16E /* TFileHandle.cpp in Sources */,
@@ -1176,6 +1176,7 @@
 				ABCC4ACD25A535F500394AFE /* TArray.cpp in Sources */,
 				ABF58D9D267CABC600327252 /* TCoreGraphics.cpp in Sources */,
 				ABD3683525D7502700C825B6 /* TCommandLine.cpp in Sources */,
+				AB549AFB2687BE3800B14417 /* TCache.cpp in Sources */,
 				ABF58CE826795A5900327252 /* TFunction.cpp in Sources */,
 				ABD3684325D81DF600C825B6 /* TFileMap.cpp in Sources */,
 				ABDCE8C0241C59680054A16E /* TFileHandle.cpp in Sources */,
@@ -1279,6 +1280,7 @@
 				ABCC4AC825A535F500394AFE /* TArray.cpp in Sources */,
 				ABF58D9C267CABC500327252 /* TCoreGraphics.cpp in Sources */,
 				ABD3683025D7502600C825B6 /* TCommandLine.cpp in Sources */,
+				AB549AFD2687BE3800B14417 /* TCache.cpp in Sources */,
 				ABF58CEA26795A5900327252 /* TFunction.cpp in Sources */,
 				ABD3683F25D81DF500C825B6 /* TFileMap.cpp in Sources */,
 				ABDCE8C2241C59680054A16E /* TFileHandle.cpp in Sources */,
