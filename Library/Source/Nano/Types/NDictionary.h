@@ -76,7 +76,7 @@ class NN_EMPTY_BASE NDictionary final
 	, public NMixinContainer<NDictionary>
 {
 public:
-	// Clear the array
+	// Clear the dictionary
 	void                                Clear();
 
 
