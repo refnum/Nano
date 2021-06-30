@@ -42,7 +42,7 @@
 #------------------------------------------------------------------------------
 function(nano_project PROJECT_TYPE)
 
-	# Create the project
+	# Add the project
 	if (PROJECT_TYPE STREQUAL "STATIC")
 		add_library("${PROJECT_NAME}" STATIC)
 
@@ -89,7 +89,7 @@ function(nano_project_prefix PREFIX)
 	# headers as the precompiled prefix header.
 	#
 	# However this means that only one language has a precompiled prefix
-	# header, and any other languages are built with no prefix header.
+	# header and any other languages are built without a prefix header.
 	#
 	# To avoid this we set the prefix header properties directly, and let
 	# Xcode generate its own language-specific precompiled prefix headers.
