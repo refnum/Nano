@@ -63,16 +63,16 @@ if (NN_COMPILER_CLANG)
 		-Wno-weak-vtables
 	)
 
+	# Restore Xcode suppressions
+	#
+	# Xcode adds multiple -Wno-xxxx flags to clang's command line, placing
+	# them before any externally provided warning flags.
+	#
+	# As clang evaluates -Weverything before any other warning flags these
+	# -Wno-xxxx flags override any subsequent -Weverything flag.
+	#
+	# As such Xcode projects must manually re-enable these warnings.
 	if (CMAKE_GENERATOR STREQUAL "Xcode")
-		# Restore Xcode suppressions
-		#
-		# Xcode adds multiple -Wno-xxxx flags to clang's command line, placing
-		# them before any externally provided warning flags.
-		#
-		# However as clang evaluates -Weverything before other warning flags
-		# these -Wno-xxxx flags override any subsequent -Weverything flag.
-		#
-		# As such Xcode projects must manually re-enable these warnings.
 		list(APPEND NN_COMPILER_WARNINGS_MAXIMUM
 			-Wblock-capture-autoreleasing
 			-Wbool-conversion
@@ -194,25 +194,49 @@ endif()
 #------------------------------------------------------------------------------
 if (NN_COMPILER_CLANG)
 
-	set(NN_COMPILER_LANGUAGE_C			"-x c             -std=c11")
-	set(NN_COMPILER_LANGUAGE_CPP		"-x c++           -std=c++17")
-	set(NN_COMPILER_LANGUAGE_OBJCPP		"-x objective-c++ -std=c++17")
+	list(APPEND NN_COMPILER_LANGUAGE_C
+		-x c
+	)
+
+	list(APPEND NN_COMPILER_LANGUAGE_CPP
+		-x c++
+	)
+
+	list(APPEND NN_COMPILER_LANGUAGE_OBJCPP
+		-x objective-c++
+	)
 
 
 #------------------------------------------------------------------------------
 elseif (NN_COMPILER_GCC)
 
-	set(NN_COMPILER_LANGUAGE_C			"-x c")
-	set(NN_COMPILER_LANGUAGE_CPP		"-x c++")
-	set(NN_COMPILER_LANGUAGE_OBJCPP		"-x objective-c++")
+	list(APPEND NN_COMPILER_LANGUAGE_C
+		-x c
+	)
+
+	list(APPEND NN_COMPILER_LANGUAGE_CPP
+		-x c++
+	)
+
+	list(APPEND NN_COMPILER_LANGUAGE_OBJCPP
+		-x objective-c++
+	)
 
 
 #------------------------------------------------------------------------------
 elseif (NN_COMPILER_MSVC)
 
-	set(NN_COMPILER_LANGUAGE_C			"/Tc")
-	set(NN_COMPILER_LANGUAGE_CPP		"/Tp")
-	set(NN_COMPILER_LANGUAGE_OBJCPP		"NN_ERROR_OBJCPP_NOT_SUPPORTED")
+	list(APPEND NN_COMPILER_LANGUAGE_C
+		/Tc
+	)
+
+	list(APPEND NN_COMPILER_LANGUAGE_CPP
+		/Tp
+	)
+
+	list(APPEND NN_COMPILER_LANGUAGE_OBJCPP
+		NN_ERROR_OBJCPP_NOT_SUPPORTED
+	)
 
 
 #------------------------------------------------------------------------------
