@@ -116,9 +116,9 @@ endfunction()
 
 
 #==============================================================================
-#		_nano_build_get_warnings : Get the files for a warning level.
+#		_nano_build_get_file_warnings : Get the files with individual warning levels.
 #------------------------------------------------------------------------------
-function(_nano_build_get_warnings WARNING_FILES WARNING_LEVEL)
+function(_nano_build_get_file_warnings WARNING_FILES WARNING_LEVEL)
 
 	get_target_property(FILE_PATHS "${PROJECT_NAME}" "${WARNING_LEVEL}")
 
@@ -138,9 +138,9 @@ endfunction()
 
 
 #==============================================================================
-#		_nano_build_apply_warnings : Apply warning flags to a source file.
+#		_nano_build_apply_file_warnings : Apply the per-file warning flags.
 #------------------------------------------------------------------------------
-function(_nano_build_apply_warnings PATH_SOURCE WARNING_FILES WARNING_FLAGS)
+function(_nano_build_apply_file_warnings PATH_SOURCE WARNING_FILES WARNING_FLAGS)
 
 	foreach (PATH_WARNING IN LISTS WARNING_FILES)
 
@@ -201,9 +201,9 @@ function(_nano_build_compile_warnings)
 
 
 	# Set any per-file warning levels
-	_nano_build_get_warnings(SOURCES_MAXIMUM NN_WARNINGS_MAXIMUM)
-	_nano_build_get_warnings(SOURCES_MINIMUM NN_WARNINGS_MINIMUM)
-	_nano_build_get_warnings(SOURCES_NONE    NN_WARNINGS_NONE)
+	_nano_build_get_file_warnings(SOURCES_MAXIMUM NN_WARNINGS_MAXIMUM)
+	_nano_build_get_file_warnings(SOURCES_MINIMUM NN_WARNINGS_MINIMUM)
+	_nano_build_get_file_warnings(SOURCES_NONE    NN_WARNINGS_NONE)
 
 	if (SOURCES_MAXIMUM OR SOURCES_MINIMUM OR SOURCES_NONE)
 
@@ -211,9 +211,9 @@ function(_nano_build_compile_warnings)
 
 		foreach (PATH_SOURCE IN LISTS SOURCES_ALL)
 			file(REAL_PATH "${PATH_SOURCE}" PATH_SOURCE)
-			_nano_build_apply_warnings("${PATH_SOURCE}" "${SOURCES_MAXIMUM}" "${NN_COMPILER_WARNINGS_MAXIMUM}")
-			_nano_build_apply_warnings("${PATH_SOURCE}" "${SOURCES_MINIMUM}" "${NN_COMPILER_WARNINGS_MINIMUM}")
-			_nano_build_apply_warnings("${PATH_SOURCE}" "${SOURCES_NONE}"    "${NN_COMPILER_WARNINGS_NONE}")
+			_nano_build_apply_file_warnings("${PATH_SOURCE}" "${SOURCES_MAXIMUM}" "${NN_COMPILER_WARNINGS_MAXIMUM}")
+			_nano_build_apply_file_warnings("${PATH_SOURCE}" "${SOURCES_MINIMUM}" "${NN_COMPILER_WARNINGS_MINIMUM}")
+			_nano_build_apply_file_warnings("${PATH_SOURCE}" "${SOURCES_NONE}"    "${NN_COMPILER_WARNINGS_NONE}")
 		endforeach()
 
 	endif()
