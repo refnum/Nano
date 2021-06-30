@@ -293,15 +293,18 @@ list(APPEND NN_COMPILER_OPTIONS $<$<CONFIG:Release>:${NN_COMPILER_OPTIONS_Releas
 
 
 #==============================================================================
-#		Linker Flags
+#		Linker Options
 #------------------------------------------------------------------------------
 if (NN_COMPILER_CLANG)
+
+	list(APPEND NN_LINKER_OPTIONS
+	)
 
 
 #------------------------------------------------------------------------------
 elseif (NN_COMPILER_GCC)
 
-	list(APPEND NN_LINKER_FLAGS
+	list(APPEND NN_LINKER_OPTIONS
 		-rdynamic
 	)
 
@@ -309,7 +312,7 @@ elseif (NN_COMPILER_GCC)
 #------------------------------------------------------------------------------
 elseif (NN_COMPILER_MSVC)
 
-	list(APPEND NN_LINKER_FLAGS
+	list(APPEND NN_LINKER_OPTIONS
 		dbghelp.lib
 	)
 
