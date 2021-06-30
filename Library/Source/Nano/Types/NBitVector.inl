@@ -112,7 +112,7 @@ inline NBitVector& NBitVector::operator=(const NBitVector& otherVector)
 //-----------------------------------------------------------------------------
 inline NBitVector::NBitVector(NBitVector&& otherVector)
 	: mData(std::exchange(otherVector.mData, {}))
-	, mSize(std::exchange(otherVector.mSize, 0))
+	, mSize(std::exchange(otherVector.mSize, 0u))
 	, mBytes(mData.GetMutableData())
 {
 

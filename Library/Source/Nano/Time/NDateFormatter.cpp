@@ -158,7 +158,7 @@ void NDateFormatter::SetDate(NTime theTime)
 	//
 	// The Nano epoch starts at 00:00:00 on 2001/01/01.
 	mDate    = NDate(2001, 1, 1);
-	mSeconds = absTime - (numDays * kNTimeDay);
+	mSeconds = absTime - (NInterval(numDays) * kNTimeDay);
 
 	if (theTime >= 0.0)
 	{
@@ -920,7 +920,7 @@ NString NDateFormatter::GetMinute() const
 
 	// Get the text
 	size_t    theHours   = size_t(mSeconds / kNTimeHour);
-	NInterval theMinutes = NInterval(size_t((mSeconds - (theHours * kNTimeHour)) / kNTimeMinute));
+	NInterval theMinutes = NInterval(size_t((mSeconds - (NInterval(theHours) * kNTimeHour)) / kNTimeMinute));
 	NString   theValue;
 
 	theValue = NFormat("{:0{}}", theMinutes, mTokenSize);
@@ -941,10 +941,10 @@ NString NDateFormatter::GetSecond() const
 
 	// Get the text
 	size_t    theMinutes = size_t(mSeconds / kNTimeMinute);
-	NInterval theSeconds = mSeconds - (theMinutes * kNTimeMinute);
+	NInterval theSeconds = mSeconds - (NInterval(theMinutes) * kNTimeMinute);
 
 	size_t    secondInt  = size_t(theSeconds);
-	NInterval secondFrac = theSeconds - secondInt;
+	NInterval secondFrac = theSeconds - NInterval(secondInt);
 	NString   theValue;
 
 	switch (mTokenChar)
