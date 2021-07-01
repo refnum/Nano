@@ -79,27 +79,9 @@ endfunction()
 #==============================================================================
 #		nano_project_prefix : Set the project prefix header.
 #------------------------------------------------------------------------------
-function(nano_project_prefix PREFIX)
+function(nano_project_prefix PREFIX_PATH)
 
-	# Work around Xcode generator bug
-	#
-	# The Xcode generator implements precompiled headers by generating
-	# a set of language-specific headers that include the requested
-	# prefix header, then setting the Xcode project to use one of those
-	# headers as the precompiled prefix header.
-	#
-	# However this means that only one language has a precompiled prefix
-	# header and any other languages are built without a prefix header.
-	#
-	# To avoid this we set the prefix header properties directly, and let
-	# Xcode generate its own language-specific precompiled prefix headers.
-	if (CMAKE_GENERATOR STREQUAL "Xcode")
-		set_target_properties("${PROJECT_NAME}" PROPERTIES
-			XCODE_ATTRIBUTE_GCC_PREFIX_HEADER				"${PREFIX}"
-			XCODE_ATTRIBUTE_GCC_PRECOMPILE_PREFIX_HEADER	"YES")
-	else()
-		target_precompile_headers("${PROJECT_NAME}" PRIVATE "${PREFIX}")
-	endif()
+	target_precompile_headers("${PROJECT_NAME}" PRIVATE "${PREFIX_PATH}")
 
 endfunction()
 
@@ -123,18 +105,19 @@ endfunction()
 #==============================================================================
 #		nano_project_warnings : Set the source warning level.
 #------------------------------------------------------------------------------
-#		The source warning level can be set to MAXIMUM, MINIMUM, or NONE.
+#		The warning level can be set to MAXIMUM, MINIMUM, or NONE followed
+#		by zero or more paths.
 #
-#		The level may be set multiple times, for different items.
+#		If no paths are provided after a level then the level becomes the
+#		default level for source files.
 #
-#		If no items are provided for a level then the level becomes the
-#		project default.
-#
-#		If paths to files are provided for a level then the level is applied
+#		If paths to files are provided after a level then the level is applied
 #		to those files.
 #
-#		If paths to directories are provided for a level then the level is
+#		If paths to directories are provided after a level then the level is
 #		applied to all files under that directory path.
+#
+#		The default warning level is MAXIMUM.
 #
 #		Usage:
 #
@@ -156,18 +139,18 @@ function(nano_project_warnings)
 
 
 	# Update the warnings
-	set_property(TARGET "${PROJECT_NAME}" APPEND PROPERTY NN_WARNINGS_MAXIMUM ${ARGUMENT_MAXIMUM})
-	set_property(TARGET "${PROJECT_NAME}" APPEND PROPERTY NN_WARNINGS_MINIMUM ${ARGUMENT_MINIMUM})
-	set_property(TARGET "${PROJECT_NAME}" APPEND PROPERTY NN_WARNINGS_NONE    ${ARGUMENT_NONE})
+	set_property(TARGET "${PROJECT_NAME}" APPEND PROPERTY NN_SOURCE_WARNINGS_MAXIMUM ${ARGUMENT_MAXIMUM})
+	set_property(TARGET "${PROJECT_NAME}" APPEND PROPERTY NN_SOURCE_WARNINGS_MINIMUM ${ARGUMENT_MINIMUM})
+	set_property(TARGET "${PROJECT_NAME}" APPEND PROPERTY NN_SOURCE_WARNINGS_NONE    ${ARGUMENT_NONE})
 
 	if ("MAXIMUM" IN_LIST ARGV AND NOT DEFINED ARGUMENT_MAXIMUM)
-		set_property(TARGET "${PROJECT_NAME}" PROPERTY NN_WARNINGS_DEFAULT "MAXIMUM")
+		set_property(TARGET "${PROJECT_NAME}" PROPERTY NN_DEFAULT_WARNINGS "MAXIMUM")
 
 	elseif ("MINIMUM" IN_LIST ARGV AND NOT DEFINED ARGUMENT_MINIMUM)
-		set_property(TARGET "${PROJECT_NAME}" PROPERTY NN_WARNINGS_DEFAULT "MINIMUM")
+		set_property(TARGET "${PROJECT_NAME}" PROPERTY NN_DEFAULT_WARNINGS "MINIMUM")
 
 	elseif ("NONE" IN_LIST ARGV AND NOT DEFINED ARGUMENT_NONE)
-		set_property(TARGET "${PROJECT_NAME}" PROPERTY NN_WARNINGS_DEFAULT "NONE")
+		set_property(TARGET "${PROJECT_NAME}" PROPERTY NN_DEFAULT_WARNINGS "NONE")
 	endif()
 
 endfunction()
@@ -202,9 +185,9 @@ function(nano_project_language)
 
 
 	# Update the languages
-	set_property(TARGET "${PROJECT_NAME}" APPEND PROPERTY NN_LANGUAGE_C      ${ARGUMENT_C})
-	set_property(TARGET "${PROJECT_NAME}" APPEND PROPERTY NN_LANGUAGE_CPP    ${ARGUMENT_CPP})
-	set_property(TARGET "${PROJECT_NAME}" APPEND PROPERTY NN_LANGUAGE_OBJCPP ${ARGUMENT_OBJCPP})
+	set_property(TARGET "${PROJECT_NAME}" APPEND PROPERTY NN_SOURCE_LANGUAGE_C      ${ARGUMENT_C})
+	set_property(TARGET "${PROJECT_NAME}" APPEND PROPERTY NN_SOURCE_LANGUAGE_CPP    ${ARGUMENT_CPP})
+	set_property(TARGET "${PROJECT_NAME}" APPEND PROPERTY NN_SOURCE_LANGUAGE_OBJCPP ${ARGUMENT_OBJCPP})
 
 endfunction()
 
@@ -217,7 +200,7 @@ endfunction()
 #------------------------------------------------------------------------------
 function(nano_project_definitions)
 
-	target_compile_definitions("${PROJECT_NAME}" PRIVATE "${ARGV}")
+	target_compile_definitions("${PROJECT_NAME}" PRIVATE ${ARGV})
 
 endfunction()
 

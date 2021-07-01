@@ -190,65 +190,6 @@ endif()
 
 
 #==============================================================================
-#		Compiler Language
-#------------------------------------------------------------------------------
-if (NN_COMPILER_CLANG)
-
-	list(APPEND NN_COMPILER_LANGUAGE_C
-		-x c
-	)
-
-	list(APPEND NN_COMPILER_LANGUAGE_CPP
-		-x c++
-	)
-
-	list(APPEND NN_COMPILER_LANGUAGE_OBJCPP
-		-x objective-c++
-	)
-
-
-#------------------------------------------------------------------------------
-elseif (NN_COMPILER_GCC)
-
-	list(APPEND NN_COMPILER_LANGUAGE_C
-		-x c
-	)
-
-	list(APPEND NN_COMPILER_LANGUAGE_CPP
-		-x c++
-	)
-
-	list(APPEND NN_COMPILER_LANGUAGE_OBJCPP
-		-x objective-c++
-	)
-
-
-#------------------------------------------------------------------------------
-elseif (NN_COMPILER_MSVC)
-
-	list(APPEND NN_COMPILER_LANGUAGE_C
-		/Tc
-	)
-
-	list(APPEND NN_COMPILER_LANGUAGE_CPP
-		/Tp
-	)
-
-	list(APPEND NN_COMPILER_LANGUAGE_OBJCPP
-		NN_ERROR_OBJCPP_NOT_SUPPORTED
-	)
-
-
-#------------------------------------------------------------------------------
-else()
-	nn_log_error("Unknown compiler!")
-endif()
-
-
-
-
-
-#==============================================================================
 #		Compiler Options
 #------------------------------------------------------------------------------
 if (NN_COMPILER_CLANG)
