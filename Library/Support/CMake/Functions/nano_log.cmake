@@ -55,9 +55,9 @@ set(NN_LOG_YELLOW "${NN_LOG_ANSI}[33m")
 #------------------------------------------------------------------------------
 #		nano_log_info : Log an informational message.
 #------------------------------------------------------------------------------
-function(nano_log_info MESSAGE)
+function(nano_log_info MESSAGE_TEXT)
 
-	message(STATUS "${NN_LOG_GREEN}[Nano] ${MESSAGE}${NN_LOG_RESET}")
+	message(STATUS "${NN_LOG_GREEN}[Nano] ${MESSAGE_TEXT}${NN_LOG_RESET}")
 
 endfunction()
 
@@ -68,9 +68,9 @@ endfunction()
 #==============================================================================
 #		nano_log_warning : Log a warning message.
 #------------------------------------------------------------------------------
-function(nano_log_warning MESSAGE)
+function(nano_log_warning MESSAGE_TEXT)
 
-	message(STATUS "${NN_LOG_YELLOW}[Nano] ${MESSAGE}${NN_LOG_RESET}")
+	message(STATUS "${NN_LOG_YELLOW}[Nano] ${MESSAGE_TEXT}${NN_LOG_RESET}")
 
 endfunction()
 
@@ -81,9 +81,9 @@ endfunction()
 #==============================================================================
 #		nano_log_error : Log an error message.
 #------------------------------------------------------------------------------
-function(nano_log_error MESSAGE)
+function(nano_log_error MESSAGE_TEXT)
 
-	message(STATUS "${NN_LOG_RED}[Nano] ${MESSAGE}${NN_LOG_RESET}")
+	message(STATUS "${NN_LOG_RED}[Nano] ${MESSAGE_TEXT}${NN_LOG_RESET}")
 
 endfunction()
 
