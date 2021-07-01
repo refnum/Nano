@@ -93,3 +93,35 @@ endif()
 
 
 
+
+
+#==============================================================================
+#		Generator
+#------------------------------------------------------------------------------
+set(NN_GENERATOR_MAKE										0)
+set(NN_GENERATOR_MSVC										0)
+set(NN_GENERATOR_NINJA										0)
+set(NN_GENERATOR_XCODE										0)
+
+if (CMAKE_GENERATOR STREQUAL "Unix Makefiles")
+	set(NN_GENERATOR_MAKE									1)
+
+elseif (CMAKE_GENERATOR MATCHES "^Visual Studio [0-9]+")
+	set(NN_GENERATOR_MSVC									1)
+
+elseif (CMAKE_GENERATOR STREQUAL "Ninja")
+	set(NN_GENERATOR_NINJA									1)
+
+elseif (CMAKE_GENERATOR STREQUAL "Xcode")
+	set(NN_GENERATOR_XCODE									1)
+
+else()
+	nano_log_error("Unable to identify generator from '${CMAKE_GENERATOR}'")
+endif()
+
+
+
+
+
+
+

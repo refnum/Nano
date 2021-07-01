@@ -72,7 +72,7 @@ if (NN_COMPILER_CLANG)
 	# -Wno-xxxx flags override any subsequent -Weverything flag.
 	#
 	# As such Xcode projects must manually re-enable these warnings.
-	if (CMAKE_GENERATOR STREQUAL "Xcode")
+	if (NN_GENERATOR_XCODE)
 		list(APPEND NN_COMPILER_WARNINGS_MAXIMUM
 			-Wblock-capture-autoreleasing
 			-Wbool-conversion
