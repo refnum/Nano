@@ -919,9 +919,10 @@ NString NDateFormatter::GetMinute() const
 
 
 	// Get the text
-	size_t    theHours   = size_t(mSeconds / kNTimeHour);
-	NInterval theMinutes = NInterval(size_t((mSeconds - (NInterval(theHours) * kNTimeHour)) / kNTimeMinute));
-	NString   theValue;
+	size_t    theHours = size_t(mSeconds / kNTimeHour);
+	NInterval theMinutes =
+		NInterval(size_t((mSeconds - (NInterval(theHours) * kNTimeHour)) / kNTimeMinute));
+	NString theValue;
 
 	theValue = NFormat("{:0{}}", theMinutes, mTokenSize);
 
