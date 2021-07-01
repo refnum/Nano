@@ -80,15 +80,12 @@ set(NN_COMPILER_MSVC										0)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
 	set(NN_COMPILER_CLANG									1)
-	set(NN_COMPILER											"Clang")
 
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 	set(NN_COMPILER_GCC										1)
-	set(NN_COMPILER											"GCC")
 
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 	set(NN_COMPILER_MSVC									1)
-	set(NN_COMPILER											"MSVC")
 
 else()
 	nano_log_error("Unable to identify compiler from '${CMAKE_CXX_COMPILER_ID}'")
