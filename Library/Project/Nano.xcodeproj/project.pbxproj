@@ -141,6 +141,15 @@
 		AB549ADD26873A2C00B14417 /* NCGContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB57177196B500F3364C /* NCGContext.cpp */; };
 		AB549ADE26873A2D00B14417 /* NCGContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB57177196B500F3364C /* NCGContext.cpp */; };
 		AB549ADF26873A2D00B14417 /* NCGContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BCB57177196B500F3364C /* NCGContext.cpp */; };
+		AB549B72268FA71D00B14417 /* NXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145D70FF36B03006F178C /* NXMLParser.cpp */; };
+		AB549B73268FA71D00B14417 /* NXMLNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145D40FF36B03006F178C /* NXMLNode.cpp */; };
+		AB549B74268FA71D00B14417 /* NXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */; };
+		AB549B75268FA71D00B14417 /* NXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145D70FF36B03006F178C /* NXMLParser.cpp */; };
+		AB549B76268FA71D00B14417 /* NXMLNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145D40FF36B03006F178C /* NXMLNode.cpp */; };
+		AB549B77268FA71D00B14417 /* NXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */; };
+		AB549B78268FA71E00B14417 /* NXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145D70FF36B03006F178C /* NXMLParser.cpp */; };
+		AB549B79268FA71E00B14417 /* NXMLNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB145D40FF36B03006F178C /* NXMLNode.cpp */; };
+		AB549B7A268FA71E00B14417 /* NXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */; };
 		AB54F9AD23EF14A7005207BC /* NStringComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */; };
 		AB54F9AE23EF14A7005207BC /* NStringComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */; };
 		AB54F9AF23EF14A7005207BC /* NStringComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9AB23EF14A7005207BC /* NStringComparator.cpp */; };
@@ -2143,6 +2152,7 @@
 				ABC6473125818466009B82AD /* pcre2_ucd.c in Sources */,
 				ABA4791F25B7B91300F3C3C9 /* tvOSNMachine.cpp in Sources */,
 				AB53BBE3242123AB009960AA /* NFileUtils.cpp in Sources */,
+				AB549B73268FA71D00B14417 /* NXMLNode.cpp in Sources */,
 				ABBE8C912446096C009E9B53 /* NUsageLog.cpp in Sources */,
 				ABBE8C9924460A11009E9B53 /* NUsageBucket.cpp in Sources */,
 				AB00E51A267FE2A40023F244 /* NCFDictionary.cpp in Sources */,
@@ -2201,12 +2211,14 @@
 				ABBB2B6823806E6100EB2840 /* NTestFixture.cpp in Sources */,
 				AB230A2E2581AB8600919EBD /* gzclose.c in Sources */,
 				AB86FDF723999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */,
+				AB549B72268FA71D00B14417 /* NXMLParser.cpp in Sources */,
 				AB82610725C39ED7008A5630 /* tvOSNRandom.cpp in Sources */,
 				AB230A0D2581AB8600919EBD /* compress.c in Sources */,
 				ABC6474625818466009B82AD /* pcre2_error.c in Sources */,
 				ABF58CD926793B7100327252 /* NProgressable.cpp in Sources */,
 				ABC6471325818466009B82AD /* pcre2_extuni.c in Sources */,
 				AB8453702581A09D00B78BF7 /* WjCryptLib_Md5.c in Sources */,
+				AB549B74268FA71D00B14417 /* NXMLEncoder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2290,6 +2302,7 @@
 				AB56392523C69CCF00675F68 /* NByteSwap.cpp in Sources */,
 				ABBE8C8F2446096C009E9B53 /* NUsageLog.cpp in Sources */,
 				ABBE8C9724460A11009E9B53 /* NUsageBucket.cpp in Sources */,
+				AB549B79268FA71E00B14417 /* NXMLNode.cpp in Sources */,
 				ABC6474125818466009B82AD /* pcre2_match_data.c in Sources */,
 				AB230A172581AB8600919EBD /* infback.c in Sources */,
 				AB00E518267FE2A30023F244 /* NCFDictionary.cpp in Sources */,
@@ -2348,12 +2361,14 @@
 				AB230A232581AB8600919EBD /* uncompr.c in Sources */,
 				ABBB2B6A23806E6200EB2840 /* NTestFixture.cpp in Sources */,
 				AB230A2C2581AB8600919EBD /* gzclose.c in Sources */,
+				AB549B78268FA71E00B14417 /* NXMLParser.cpp in Sources */,
 				AB86FDF523999A4E0062CAA0 /* NSharedPOSIX.cpp in Sources */,
 				AB230A0B2581AB8600919EBD /* compress.c in Sources */,
 				ABC6474425818466009B82AD /* pcre2_error.c in Sources */,
 				ABF58CD726793B7100327252 /* NProgressable.cpp in Sources */,
 				ABC6471125818466009B82AD /* pcre2_extuni.c in Sources */,
 				AB84536E2581A09D00B78BF7 /* WjCryptLib_Md5.c in Sources */,
+				AB549B7A268FA71E00B14417 /* NXMLEncoder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2437,6 +2452,7 @@
 				ABBE8C902446096C009E9B53 /* NUsageLog.cpp in Sources */,
 				ABC6474225818466009B82AD /* pcre2_match_data.c in Sources */,
 				AB230A182581AB8600919EBD /* infback.c in Sources */,
+				AB549B76268FA71D00B14417 /* NXMLNode.cpp in Sources */,
 				ABC6473625818466009B82AD /* pcre2_substitute.c in Sources */,
 				ABD3684F25D81E0500C825B6 /* NFileMap.cpp in Sources */,
 				AB00E519267FE2A40023F244 /* NCFDictionary.cpp in Sources */,
@@ -2495,12 +2511,14 @@
 				AB230A302581AB8600919EBD /* inffast.c in Sources */,
 				AB230A242581AB8600919EBD /* uncompr.c in Sources */,
 				AB230A2D2581AB8600919EBD /* gzclose.c in Sources */,
+				AB549B75268FA71D00B14417 /* NXMLParser.cpp in Sources */,
 				AB2A305324524F7400F21BF6 /* macOSNDebugger.cpp in Sources */,
 				AB230A0C2581AB8600919EBD /* compress.c in Sources */,
 				ABC6474525818466009B82AD /* pcre2_error.c in Sources */,
 				ABF58CD826793B7100327252 /* NProgressable.cpp in Sources */,
 				ABC6471225818466009B82AD /* pcre2_extuni.c in Sources */,
 				AB84536F2581A09D00B78BF7 /* WjCryptLib_Md5.c in Sources */,
+				AB549B77268FA71D00B14417 /* NXMLEncoder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -87,6 +87,15 @@
 		AB549AFB2687BE3800B14417 /* TCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB549AF42687BE3800B14417 /* TCache.cpp */; };
 		AB549AFC2687BE3800B14417 /* TCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB549AF42687BE3800B14417 /* TCache.cpp */; };
 		AB549AFD2687BE3800B14417 /* TCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB549AF42687BE3800B14417 /* TCache.cpp */; };
+		AB549B7B268FA72800B14417 /* TXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D8F1034184B00E5A6AD /* TXMLParser.cpp */; };
+		AB549B7C268FA72800B14417 /* TXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D8B1034184B00E5A6AD /* TXMLEncoder.cpp */; };
+		AB549B7D268FA72800B14417 /* TXMLNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D8D1034184B00E5A6AD /* TXMLNode.cpp */; };
+		AB549B81268FA72900B14417 /* TXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D8F1034184B00E5A6AD /* TXMLParser.cpp */; };
+		AB549B82268FA72900B14417 /* TXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D8B1034184B00E5A6AD /* TXMLEncoder.cpp */; };
+		AB549B83268FA72900B14417 /* TXMLNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D8D1034184B00E5A6AD /* TXMLNode.cpp */; };
+		AB549B84268FA72900B14417 /* TXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D8F1034184B00E5A6AD /* TXMLParser.cpp */; };
+		AB549B85268FA72900B14417 /* TXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D8B1034184B00E5A6AD /* TXMLEncoder.cpp */; };
+		AB549B86268FA72900B14417 /* TXMLNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D8D1034184B00E5A6AD /* TXMLNode.cpp */; };
 		AB54F9A823EE4503005207BC /* TTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9A723EE4503005207BC /* TTextUtils.cpp */; };
 		AB54F9A923EE4503005207BC /* TTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9A723EE4503005207BC /* TTextUtils.cpp */; };
 		AB54F9AA23EE4503005207BC /* TTextUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB54F9A723EE4503005207BC /* TTextUtils.cpp */; };
@@ -1091,6 +1100,7 @@
 				ABCC4AAA25A4D5A600394AFE /* TAny.cpp in Sources */,
 				AB56392A23C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				ABCC4AC025A4F4E600394AFE /* TVariant.cpp in Sources */,
+				AB549B84268FA72900B14417 /* TXMLParser.cpp in Sources */,
 				AB19811E259953C8002C5591 /* TRunLoop.cpp in Sources */,
 				AB371AA125CB884000DEC50B /* TScopedLock.cpp in Sources */,
 				ABA478C725B7B7FE00F3C3C9 /* TMachine.cpp in Sources */,
@@ -1107,9 +1117,11 @@
 				AB5E179825F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
 				ABF58DBA267F508700327252 /* TCFDictionary.cpp in Sources */,
 				AB371ABA25CB932600DEC50B /* TBitVector.cpp in Sources */,
+				AB549B85268FA72900B14417 /* TXMLEncoder.cpp in Sources */,
 				ABE7C0D925D0B06500914618 /* TVector.cpp in Sources */,
 				ABF58CF22679727500327252 /* TUTI.cpp in Sources */,
 				ABF58CD2267932CB00327252 /* TUndoSource.cpp in Sources */,
+				AB549B86268FA72900B14417 /* TXMLNode.cpp in Sources */,
 				AB4AF5542422FEE700E665D4 /* TFileScanner.cpp in Sources */,
 				AB54F9B223EF14CF005207BC /* TStringComparator.cpp in Sources */,
 				ABE7C0C825D0AD8D00914618 /* TPoint.cpp in Sources */,
@@ -1195,6 +1207,7 @@
 				ABCC4AA925A4D5A600394AFE /* TAny.cpp in Sources */,
 				AB56392B23C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				ABCC4ABF25A4F4E600394AFE /* TVariant.cpp in Sources */,
+				AB549B81268FA72900B14417 /* TXMLParser.cpp in Sources */,
 				AB19811D259953C8002C5591 /* TRunLoop.cpp in Sources */,
 				AB371AA025CB884000DEC50B /* TScopedLock.cpp in Sources */,
 				ABA478C625B7B7FE00F3C3C9 /* TMachine.cpp in Sources */,
@@ -1211,9 +1224,11 @@
 				AB5E179725F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
 				ABF58DBB267F508700327252 /* TCFDictionary.cpp in Sources */,
 				AB371ABE25CB932600DEC50B /* TBitVector.cpp in Sources */,
+				AB549B82268FA72900B14417 /* TXMLEncoder.cpp in Sources */,
 				ABE7C0DD25D0B06500914618 /* TVector.cpp in Sources */,
 				ABF58CF12679727500327252 /* TUTI.cpp in Sources */,
 				ABF58CD4267932CB00327252 /* TUndoSource.cpp in Sources */,
+				AB549B83268FA72900B14417 /* TXMLNode.cpp in Sources */,
 				AB4AF5532422FEE700E665D4 /* TFileScanner.cpp in Sources */,
 				AB54F9B123EF14CF005207BC /* TStringComparator.cpp in Sources */,
 				ABE7C0CB25D0AD8D00914618 /* TPoint.cpp in Sources */,
@@ -1299,6 +1314,7 @@
 				ABCC4AAB25A4D5A600394AFE /* TAny.cpp in Sources */,
 				AB56392923C69CF800675F68 /* TByteSwap.cpp in Sources */,
 				ABCC4AC125A4F4E600394AFE /* TVariant.cpp in Sources */,
+				AB549B7B268FA72800B14417 /* TXMLParser.cpp in Sources */,
 				AB19811F259953C8002C5591 /* TRunLoop.cpp in Sources */,
 				AB371AA225CB884000DEC50B /* TScopedLock.cpp in Sources */,
 				ABA478C825B7B7FE00F3C3C9 /* TMachine.cpp in Sources */,
@@ -1315,9 +1331,11 @@
 				AB5E179925F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
 				ABF58DB9267F508700327252 /* TCFDictionary.cpp in Sources */,
 				AB371AB625CB932500DEC50B /* TBitVector.cpp in Sources */,
+				AB549B7C268FA72800B14417 /* TXMLEncoder.cpp in Sources */,
 				ABE7C0D225D0B06400914618 /* TVector.cpp in Sources */,
 				ABF58CF32679727500327252 /* TUTI.cpp in Sources */,
 				ABF58CD0267932CA00327252 /* TUndoSource.cpp in Sources */,
+				AB549B7D268FA72800B14417 /* TXMLNode.cpp in Sources */,
 				AB4AF5552422FEE700E665D4 /* TFileScanner.cpp in Sources */,
 				AB54F9B323EF14CF005207BC /* TStringComparator.cpp in Sources */,
 				ABE7C0C225D0AD8C00914618 /* TPoint.cpp in Sources */,

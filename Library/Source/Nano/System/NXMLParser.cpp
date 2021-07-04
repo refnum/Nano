@@ -3,64 +3,99 @@
 
 	DESCRIPTION:
 		XML parser.
-	
+
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "expat.h"
-
-#include "NFileUtilities.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NXMLParser.h"
 
-
-
-
-
-//============================================================================
-//		Internal constants
-//----------------------------------------------------------------------------
-static const NIndex kChunkSize									= 10 * kNKilobyte;
+// Nano
+#include "NData.h"
+#include "NDictionary.h"
+#include "NFileHandle.h"
+#include "NanoConstants.h"
+#include "expat.h"
 
 
 
 
 
-//============================================================================
+//=============================================================================
+//		Internal Macros
+//-----------------------------------------------------------------------------
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wdisabled-macro-expansion");
+
+
+
+
+
+//=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+static constexpr size_t kChunkSize                          = 10 * kNKilobyte;
+
+
+
+
+
+//=============================================================================
 //		NXMLParser::NXMLParser : Constructor.
-//----------------------------------------------------------------------------
-NXMLParser::NXMLParser(void)
+//-----------------------------------------------------------------------------
+NXMLParser::NXMLParser()
+	: mParser(nullptr)
+	, mOptions(kNXMLParserDefault)
+	, mInsideCData(false)
+	, mIsParsing(false)
+	, mParsedText()
+	, mFunctionDocumentType()
+	, mFunctionElementStart()
+	, mFunctionElementEnd()
+	, mFunctionComment()
+	, mFunctionText()
+
 {
-
-
-	// Initialise ourselves
-	mParser  = NULL;
-	mOptions = kNXMLParserDefault;
-	
-	mInsideCData = false;
-	mIsParsing   = false;
-
-	mProcessDocumentType = NULL;
-	mProcessElementStart = NULL;
-	mProcessElementEnd   = NULL;
-	mProcessComment      = NULL;
-	mProcessText         = NULL;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLParser::~NXMLParser : Destructor.
-//----------------------------------------------------------------------------
-NXMLParser::~NXMLParser(void)
+//-----------------------------------------------------------------------------
+NXMLParser::~NXMLParser()
 {
 
 
@@ -72,30 +107,32 @@ NXMLParser::~NXMLParser(void)
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLParser::Clear : Clear the parser.
-//----------------------------------------------------------------------------
-void NXMLParser::Clear(void)
+//-----------------------------------------------------------------------------
+void NXMLParser::Clear()
 {
 
 
 	// Check our state
-	if (mParser == NULL)
+	if (mParser == nullptr)
+	{
 		return;
+	}
 
 
 
 	// Reset the parser
-	XML_ParserReset(mParser, NULL);
+	XML_ParserReset(mParser, nullptr);
 
-	XML_SetUserData(                mParser, this);
-	XML_SetStartDoctypeDeclHandler( mParser, ParsedDocumentType);
-	XML_SetStartElementHandler(     mParser, ParsedElementStart);
-	XML_SetEndElementHandler(       mParser, ParsedElementEnd);
-	XML_SetCommentHandler(          mParser, ParsedComment);
-	XML_SetCharacterDataHandler(    mParser, ParsedText);
+	XML_SetUserData(mParser, this);
+	XML_SetStartDoctypeDeclHandler(mParser, ParsedDocumentType);
+	XML_SetStartElementHandler(mParser, ParsedElementStart);
+	XML_SetEndElementHandler(mParser, ParsedElementEnd);
+	XML_SetCommentHandler(mParser, ParsedComment);
+	XML_SetCharacterDataHandler(mParser, ParsedText);
 	XML_SetStartCdataSectionHandler(mParser, ParsedCDataStart);
-	XML_SetEndCdataSectionHandler(  mParser, ParsedCDataEnd);
+	XML_SetEndCdataSectionHandler(mParser, ParsedCDataEnd);
 
 
 
@@ -110,30 +147,30 @@ void NXMLParser::Clear(void)
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLParser::GetOptions : Get the options.
-//----------------------------------------------------------------------------
-NXMLParserOptions NXMLParser::GetOptions(void) const
+//-----------------------------------------------------------------------------
+NXMLParserOptions NXMLParser::GetOptions() const
 {
 
 
 	// Get the options
-	return(mOptions);
+	return mOptions;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLParser::SetOptions : Set the options.
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 void NXMLParser::SetOptions(NXMLParserOptions setThese, NXMLParserOptions clearThese)
 {
 
 
 	// Set the options
-	mOptions |=    setThese;
+	mOptions |= setThese;
 	mOptions &= ~clearThese;
 }
 
@@ -141,80 +178,77 @@ void NXMLParser::SetOptions(NXMLParserOptions setThese, NXMLParserOptions clearT
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLParser::Parse : Parse a document.
-//----------------------------------------------------------------------------
-NStatus NXMLParser::Parse(const NFile &theFile)
+//-----------------------------------------------------------------------------
+NStatus NXMLParser::Parse(const NFile& theFile)
 {
 
 
 	// Parse the document
-	return(Parse(NFileUtilities::GetFileData(theFile)));
+	return Parse(NFileHandle::ReadData(theFile));
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLParser::Parse : Parse a document.
-//----------------------------------------------------------------------------
-NStatus NXMLParser::Parse(const NString &theText)
+//-----------------------------------------------------------------------------
+NStatus NXMLParser::Parse(const NString& theText)
 {
 
 
 	// Parse the document
-	return(Parse(theText.GetData()));
+	return Parse(theText.GetData(NStringEncoding::UTF8));
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLParser::Parse : Parse a document.
-//----------------------------------------------------------------------------
-NStatus NXMLParser::Parse(const NData &theData)
+//-----------------------------------------------------------------------------
+NStatus NXMLParser::Parse(const NData& theData)
 {
 
 
 	// Parse the document
-	return(Parse(theData.GetSize(), theData.GetData(), true));
+	return Parse(theData.GetSize(), theData.GetData(), NXMLChunk::Last);
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLParser::Parse : Parse a fragment.
-//----------------------------------------------------------------------------
-NStatus NXMLParser::Parse(NIndex theSize, const void *thePtr, bool isFinal)
-{	NIndex			sizeLeft, sizeDone, chunkSize;
-	bool			finalChunk;
-	const char		*chunkPtr;
-	XML_Status		xmlErr;
-	NStatus			theErr;
-
+//-----------------------------------------------------------------------------
+NStatus NXMLParser::Parse(size_t theSize, const void* thePtr, NXMLChunk theChunk)
+{
 
 
 	// Get the state we need
-	chunkPtr   = (const char *) thePtr;
-	finalChunk = false;
+	const char* chunkPtr = reinterpret_cast<const char*>(thePtr);
+	bool        isFinal  = (theChunk == NXMLChunk::Last);
 
-	sizeDone = 0;
-	sizeLeft = theSize;
-	theErr   = kNoErr;
+	NStatus theErr   = NStatus::OK;
+	size_t  sizeLeft = theSize;
+	size_t  sizeDone = 0;
 
 
 
 	// Prepare to parse
-	if (mParser == NULL)
-		{
+	if (mParser == nullptr)
+	{
 		theErr = CreateParser();
-		if (theErr != kNoErr)
-			return(theErr);
+		if (theErr != NStatus::OK)
+		{
+			return theErr;
 		}
+	}
 
 
 
@@ -228,214 +262,138 @@ NStatus NXMLParser::Parse(NIndex theSize, const void *thePtr, bool isFinal)
 	// that case the percentage progress will be that of the final chunk, which
 	// will probably be quite small, but this is the best we can do).
 	if (!mIsParsing)
-		theErr = BeginProgress(isFinal ? kNProgressNone : kNProgressUnknown);
+	{
+		theErr = BeginProgress(theChunk == NXMLChunk::Last ? kNProgressNone : kNProgressUnknown);
+	}
 
 
 
 	// Parse the fragment
-	while (theErr == kNoErr && !finalChunk)
-		{
+	while (theErr == NStatus::OK)
+	{
 		// Parse the chunk
-		chunkSize  = std::min(kChunkSize, sizeLeft);
-		finalChunk = (isFinal && chunkSize == sizeLeft);
+		size_t chunkSize  = std::min(kChunkSize, sizeLeft);
+		bool   finalChunk = (isFinal && chunkSize == sizeLeft);
 
-		xmlErr = XML_Parse(mParser, chunkPtr, chunkSize, finalChunk);
-		theErr = ConvertXMLStatus(xmlErr);
-		
-		
+		XML_Status xmlErr = XML_Parse(mParser, chunkPtr, int(chunkSize), finalChunk);
+		theErr            = ConvertXMLStatus(xmlErr);
+
+
 
 		// Update our state
-		if (theErr == kNoErr)
-			{
-			sizeDone += chunkSize;
+		if (theErr == NStatus::OK)
+		{
 			sizeLeft -= chunkSize;
+			sizeDone += chunkSize;
 			chunkPtr += chunkSize;
 
 			if (isFinal)
-				theErr = ContinueProgress(sizeDone, theSize);
+			{
+				theErr = UpdateProgress(sizeDone, theSize);
+			}
 			else
-				theErr = ContinueProgress(kNProgressUnknown);
+			{
+				theErr = UpdateProgress(kNProgressUnknown);
 			}
 		}
+
+		if (finalChunk)
+		{
+			break;
+		}
+	}
 
 
 
 	// Update our state
 	mIsParsing = true;
 
-	if (isFinal)
+	if (theChunk == NXMLChunk::Last)
+	{
 		EndProgress();
+	}
 
-	if (theErr != kNoErr || isFinal)
+	if (theErr != NStatus::OK || isFinal)
+	{
 		Clear();
+	}
 
-	return(theErr);
+	return theErr;
 }
 
 
 
 
 
-//============================================================================
-//		NXMLParser::SetProcessDocumentType : Set the document type functor.
-//----------------------------------------------------------------------------
-void NXMLParser::SetProcessDocumentType(const NXMLProcessDocumentTypeFunctor &theFunctor)
+//=============================================================================
+//		NXMLParser::SetProcessDocumentType : Set the document type function.
+//-----------------------------------------------------------------------------
+void NXMLParser::SetProcessDocumentType(const NFunctionXMLDocumentType& theFunction)
 {
 
 
-	// Set the functor
-	mProcessDocumentType = theFunctor;
+	// Set the function
+	mFunctionDocumentType = theFunction;
 }
 
 
 
 
 
-//============================================================================
-//		NXMLParser::SetProcessElementStart : Set the element start functor.
-//----------------------------------------------------------------------------
-void NXMLParser::SetProcessElementStart(const NXMLProcessElementStartFunctor &theFunctor)
+//=============================================================================
+//		NXMLParser::SetProcessElementStart : Set the element start function.
+//-----------------------------------------------------------------------------
+void NXMLParser::SetProcessElementStart(const NFunctionXMLElementStart& theFunction)
 {
 
 
-	// Set the functor
-	mProcessElementStart = theFunctor;
+	// Set the function
+	mFunctionElementStart = theFunction;
 }
 
 
 
 
 
-//============================================================================
-//		NXMLParser::SetProcessElementEnd : Set the element end functor.
-//----------------------------------------------------------------------------
-void NXMLParser::SetProcessElementEnd(const NXMLProcessElementEndFunctor &theFunctor)
+//=============================================================================
+//		NXMLParser::SetProcessElementEnd : Set the element end function.
+//-----------------------------------------------------------------------------
+void NXMLParser::SetProcessElementEnd(const NFunctionXMLElementEnd& theFunction)
 {
 
 
-	// Set the functor
-	mProcessElementEnd = theFunctor;
+	// Set the function
+	mFunctionElementEnd = theFunction;
 }
 
 
 
 
 
-//============================================================================
-//		NXMLParser::SetProcessComment : Set the comment functor.
-//----------------------------------------------------------------------------
-void NXMLParser::SetProcessComment(const NXMLProcessCommentFunctor &theFunctor)
+//=============================================================================
+//		NXMLParser::SetProcessComment : Set the comment function.
+//-----------------------------------------------------------------------------
+void NXMLParser::SetProcessComment(const NFunctionXMLComment& theFunction)
 {
 
 
-	// Set the functor
-	mProcessComment = theFunctor;
+	// Set the function
+	mFunctionComment = theFunction;
 }
 
 
 
 
 
-//============================================================================
-//		NXMLParser::SetProcessText : Set the text functor.
-//----------------------------------------------------------------------------
-void NXMLParser::SetProcessText(const NXMLProcessTextFunctor &theFunctor)
+//=============================================================================
+//		NXMLParser::SetProcessText : Set the text function.
+//-----------------------------------------------------------------------------
+void NXMLParser::SetProcessText(const NFunctionXMLText& theFunction)
 {
 
 
-	// Set the functor
-	mProcessText = theFunctor;
-}
-
-
-
-
-
-#pragma mark protected
-//============================================================================
-//		NXMLParser::ProcessDocumentType : Process a document type.
-//----------------------------------------------------------------------------
-bool NXMLParser::ProcessDocumentType(const NString &theName, const NXMLDocumentTypeInfo &theInfo)
-{
-
-
-	// Process the item
-	if (mProcessDocumentType != NULL)
-		return(mProcessDocumentType(theName, theInfo));
-
-	return(true);
-}
-
-
-
-
-
-//============================================================================
-//		NXMLParser::ProcessElementStart : Process an element start.
-//----------------------------------------------------------------------------
-bool NXMLParser::ProcessElementStart(const NString &theName, const NDictionary &theAttributes)
-{
-
-
-	// Process the item
-	if (mProcessElementStart != NULL)
-		return(mProcessElementStart(theName, theAttributes));
-
-	return(true);
-}
-
-
-
-
-
-//============================================================================
-//		NXMLParser::ProcessElementEnd : Process an element end.
-//----------------------------------------------------------------------------
-bool NXMLParser::ProcessElementEnd(const NString &theName)
-{
-
-
-	// Process the item
-	if (mProcessElementEnd != NULL)
-		return(mProcessElementEnd(theName));
-
-	return(true);
-}
-
-
-
-
-
-//============================================================================
-//		NXMLParser::ProcessComment : Process a comment.
-//----------------------------------------------------------------------------
-bool NXMLParser::ProcessComment(const NString &theValue)
-{
-
-
-	// Process the item
-	if (mProcessComment != NULL)
-		return(mProcessComment(theValue));
-
-	return(true);
-}
-
-
-
-
-
-//============================================================================
-//		NXMLParser::ProcessText : Process text.
-//----------------------------------------------------------------------------
-bool NXMLParser::ProcessText(const NString &theValue, bool isCData)
-{
-
-
-	// Process the item
-	if (mProcessText != NULL)
-		return(mProcessText(theValue, isCData));
-
-	return(true);
+	// Set the function
+	mFunctionText = theFunction;
 }
 
 
@@ -443,103 +401,103 @@ bool NXMLParser::ProcessText(const NString &theValue, bool isCData)
 
 
 #pragma mark private
-//============================================================================
+//=============================================================================
 //		NXMLParser::CreateParser : Create the parser.
-//----------------------------------------------------------------------------
-NStatus NXMLParser::CreateParser(void)
+//-----------------------------------------------------------------------------
+NStatus NXMLParser::CreateParser()
 {
 
 
 	// Validate our state
-	NN_ASSERT(mParser == NULL);
-	
-	
-	
+	NN_REQUIRE(mParser == nullptr);
+
+
+
 	// Create the parser
-	mParser = XML_ParserCreate(NULL);
-	if (mParser == NULL)
-		return(kNErrMemory);
+	mParser = XML_ParserCreate(nullptr);
+	if (mParser == nullptr)
+	{
+		return NStatus::Memory;
+	}
 
 
 
 	// Configure the parser
 	Clear();
 
-	return(kNoErr);
+	return NStatus::OK;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLParser::DestroyParser : Destroy the parser.
-//----------------------------------------------------------------------------
-void NXMLParser::DestroyParser(void)
+//-----------------------------------------------------------------------------
+void NXMLParser::DestroyParser()
 {
 
 
 	// Destroy the parser
-	if (mParser != NULL)
-		{
+	if (mParser != nullptr)
+	{
 		XML_ParserFree(mParser);
-		mParser = NULL;
-		}
+		mParser = nullptr;
+	}
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLParser::ConvertXMLStatus : Convert an XML_Status.
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 NStatus NXMLParser::ConvertXMLStatus(int32_t xmlErr)
-{	NStatus		theErr;
-
+{
 
 
 	// Validate our state
-	NN_ASSERT(mParser != NULL);
+	NN_REQUIRE(mParser != nullptr);
 
 
 
 	// Convert the status
-	switch (xmlErr) {
+	switch (xmlErr)
+	{
 		case XML_STATUS_ERROR:
 		case XML_STATUS_SUSPENDED:
-			theErr = kNErrMalformed;
+			return NStatus::Malformed;
 			break;
-		
+
 		case XML_STATUS_OK:
-			theErr = kNoErr;
+			return NStatus::OK;
 			break;
-		
+
 		default:
-			NN_LOG("Unknown error: %d", xmlErr);
-			theErr = kNErrParam;
+			NN_LOG_ERROR("Unknown parsing error: {}", xmlErr);
+			return NStatus::Param;
 			break;
-		}
-	
-	return(theErr);
+	}
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLParser::FlushText : Flush any parsed text.
-//----------------------------------------------------------------------------
-bool NXMLParser::FlushText(void)
-{	bool		keepParsing;
-	NString		trimmedText;
-
+//-----------------------------------------------------------------------------
+bool NXMLParser::FlushText()
+{
 
 
 	// Check our state
 	if (mParsedText.IsEmpty())
-		return(true);
+	{
+		return true;
+	}
 
 
 
@@ -548,164 +506,280 @@ bool NXMLParser::FlushText(void)
 	// Whitespace within a CDATA is always preserved, as is any whitespace
 	// surrounding a non-whitespace text section.
 	if (!mInsideCData && (mOptions & kNXMLParserSkipWhitespace))
-		{
-		trimmedText = mParsedText;
+	{
+		NString trimmedText = mParsedText;
 		trimmedText.Trim();
 
 		if (trimmedText.IsEmpty())
-			{
+		{
 			mParsedText.Clear();
-			return(true);
-			}
+			return true;
 		}
+	}
 
 
 
 	// Flush the text
-	keepParsing = ProcessText(mParsedText, mInsideCData);
+	bool keepParsing = ProcessText(mParsedText, mInsideCData);
 	mParsedText.Clear();
 
-	return(keepParsing);
+	return keepParsing;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLParser::StopParsing : Stop the parser.
-//----------------------------------------------------------------------------
-void NXMLParser::StopParsing(void)
-{	XML_Status		xmlErr;
-
+//-----------------------------------------------------------------------------
+void NXMLParser::StopParsing()
+{
 
 
 	// Stop parsing
-	xmlErr = XML_StopParser(mParser, false);
-	NN_ASSERT(xmlErr == XML_STATUS_OK);
+	XML_Status xmlErr = XML_StopParser(mParser, false);
+	NN_REQUIRE(xmlErr == XML_STATUS_OK);
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
+//		NXMLParser::ProcessDocumentType : Process a document type.
+//-----------------------------------------------------------------------------
+bool NXMLParser::ProcessDocumentType(const NString& theName, const NXMLDocumentType& theInfo)
+{
+
+
+	// Process the item
+	if (mFunctionDocumentType)
+	{
+		return mFunctionDocumentType(theName, theInfo);
+	}
+
+	return true;
+}
+
+
+
+
+
+//=============================================================================
+//		NXMLParser::ProcessElementStart : Process an element start.
+//-----------------------------------------------------------------------------
+bool NXMLParser::ProcessElementStart(const NString& theName, const NDictionary& theAttributes)
+{
+
+
+	// Process the item
+	if (mFunctionElementStart)
+	{
+		return mFunctionElementStart(theName, theAttributes);
+	}
+
+	return true;
+}
+
+
+
+
+
+//=============================================================================
+//		NXMLParser::ProcessElementEnd : Process an element end.
+//-----------------------------------------------------------------------------
+bool NXMLParser::ProcessElementEnd(const NString& theName)
+{
+
+
+	// Process the item
+	if (mFunctionElementEnd)
+	{
+		return mFunctionElementEnd(theName);
+	}
+
+	return true;
+}
+
+
+
+
+
+//=============================================================================
+//		NXMLParser::ProcessComment : Process a comment.
+//-----------------------------------------------------------------------------
+bool NXMLParser::ProcessComment(const NString& theValue)
+{
+
+
+	// Process the item
+	if (mFunctionComment)
+	{
+		return mFunctionComment(theValue);
+	}
+
+	return true;
+}
+
+
+
+
+
+//=============================================================================
+//		NXMLParser::ProcessText : Process text.
+//-----------------------------------------------------------------------------
+bool NXMLParser::ProcessText(const NString& theValue, bool isCData)
+{
+
+
+	// Process the item
+	if (mFunctionText)
+	{
+		return mFunctionText(theValue, isCData);
+	}
+
+	return true;
+}
+
+
+
+
+
+//=============================================================================
 //		NXMLParser::ParsedDocumentType : Process a document type.
-//----------------------------------------------------------------------------
-void NXMLParser::ParsedDocumentType(void *userData, const XML_Char *itemName, const XML_Char *sysID, const XML_Char *pubID, int hasInternal)
-{	NXMLParser					*thisPtr = (NXMLParser *) userData;
-	NString						theName;
-	NXMLDocumentTypeInfo		theInfo;
-	
+//-----------------------------------------------------------------------------
+void NXMLParser::ParsedDocumentType(void*           userData,
+									const XML_Char* itemName,
+									const XML_Char* sysID,
+									const XML_Char* pubID,
+									int             hasInternal)
+{
 
 
 	// Get the state we need
-	theName             = NString(itemName, kNStringLength);
-	theInfo.systemID    = NString(sysID,    kNStringLength);
-	theInfo.publicID    = NString(pubID,    kNStringLength);
+	NXMLParser*      thisPtr = reinterpret_cast<NXMLParser*>(userData);
+	NString          theName(itemName);
+	NXMLDocumentType theInfo{};
+
 	theInfo.hasInternal = (hasInternal != 0);
+	theInfo.systemID    = NString(sysID);
+	theInfo.publicID    = NString(pubID);
 
 
 
 	// Process the item
 	if (!thisPtr->FlushText() || !thisPtr->ProcessDocumentType(theName, theInfo))
+	{
 		thisPtr->StopParsing();
+	}
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLParser::ParsedElementStart : Process an element start.
-//----------------------------------------------------------------------------
-void NXMLParser::ParsedElementStart(void *userData, const XML_Char *itemName, const XML_Char **attributeList)
-{	NXMLParser		*thisPtr = (NXMLParser *) userData;
-	NString			theName, theKey, theValue;
-	NDictionary		theAttributes;
-
+//-----------------------------------------------------------------------------
+void NXMLParser::ParsedElementStart(void*            userData,
+									const XML_Char*  itemName,
+									const XML_Char** attributeList)
+{
 
 
 	// Get the state we need
-	theName = NString(itemName, kNStringLength);
+	NXMLParser* thisPtr = reinterpret_cast<NXMLParser*>(userData);
+	NString     theName(itemName);
+	NDictionary theAttributes;
 
-	while (*attributeList != NULL)
-		{
-		theKey   = NString(*attributeList++, kNStringLength);
-		theValue = NString(*attributeList++, kNStringLength);
-		
-		NN_ASSERT(!theAttributes.HasKey(theKey));
-		theAttributes.SetValue(theKey, theValue);
-		}
+	while (*attributeList != nullptr)
+	{
+		NString theKey   = NString(*attributeList++);
+		NString theValue = NString(*attributeList++);
+
+		NN_REQUIRE(!theAttributes.HasKey(theKey));
+		theAttributes[theKey] = theValue;
+	}
 
 
 
 	// Process the item
 	if (!thisPtr->FlushText() || !thisPtr->ProcessElementStart(theName, theAttributes))
+	{
 		thisPtr->StopParsing();
+	}
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLParser::ParsedElementEnd : Process an element end.
-//----------------------------------------------------------------------------
-void NXMLParser::ParsedElementEnd(void *userData, const XML_Char *itemName)
-{	NXMLParser		*thisPtr = (NXMLParser *) userData;
-	NString			theName;
-
+//-----------------------------------------------------------------------------
+void NXMLParser::ParsedElementEnd(void* userData, const XML_Char* itemName)
+{
 
 
 	// Get the state we need
-	theName = NString(itemName, kNStringLength);
+	NXMLParser* thisPtr = reinterpret_cast<NXMLParser*>(userData);
+	NString     theName(itemName);
 
 
 
 	// Process the item
 	if (!thisPtr->FlushText() || !thisPtr->ProcessElementEnd(theName))
+	{
 		thisPtr->StopParsing();
+	}
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLParser::ParsedComment : Process a comment.
-//----------------------------------------------------------------------------
-void NXMLParser::ParsedComment(void *userData, const XML_Char *itemText)
-{	NXMLParser		*thisPtr = (NXMLParser *) userData;
-	NString			theText;
-	
-	
-	
+//-----------------------------------------------------------------------------
+void NXMLParser::ParsedComment(void* userData, const XML_Char* itemText)
+{
+
+
 	// Get the state we need
-	theText = NString(itemText, kNStringLength);
+	NXMLParser* thisPtr = reinterpret_cast<NXMLParser*>(userData);
+	NString     theText(itemText);
 
 
 
 	// Process the item
 	if (!thisPtr->FlushText() || !thisPtr->ProcessComment(theText))
+	{
 		thisPtr->StopParsing();
+	}
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLParser::ParsedText : Process text.
-//----------------------------------------------------------------------------
-void NXMLParser::ParsedText(void *userData, const XML_Char *itemText, int itemSize)
-{	NXMLParser		*thisPtr = (NXMLParser *) userData;
-	NString			theText;
-	
-	
-	
+//-----------------------------------------------------------------------------
+void NXMLParser::ParsedText(void* userData, const XML_Char* itemText, int itemSize)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(itemSize >= 0);
+
+
+
 	// Get the state we need
-	theText = NString(itemText, itemSize);
+	NXMLParser* thisPtr = reinterpret_cast<NXMLParser*>(userData);
+	NString     theText(NStringEncoding::UTF8, size_t(itemSize), itemText);
+
+	NN_UNUSED(itemSize);
 
 
 
@@ -717,22 +791,24 @@ void NXMLParser::ParsedText(void *userData, const XML_Char *itemText, int itemSi
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLParser::ParsedCDataStart : Process a CDATA start.
-//----------------------------------------------------------------------------
-void NXMLParser::ParsedCDataStart(void *userData)
-{	NXMLParser		*thisPtr = (NXMLParser *) userData;
+//-----------------------------------------------------------------------------
+void NXMLParser::ParsedCDataStart(void* userData)
+{
 
 
+	// Get the state we need
+	NXMLParser* thisPtr = reinterpret_cast<NXMLParser*>(userData);
+	NN_REQUIRE(!thisPtr->mInsideCData);
 
-	// Validate our state
-	NN_ASSERT(!thisPtr->mInsideCData);
-	
 
 
 	// Process the item
 	if (!thisPtr->FlushText())
+	{
 		thisPtr->StopParsing();
+	}
 
 	thisPtr->mInsideCData = true;
 }
@@ -741,25 +817,24 @@ void NXMLParser::ParsedCDataStart(void *userData)
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLParser::ParsedCDataEnd : Process a CDATA end.
-//----------------------------------------------------------------------------
-void NXMLParser::ParsedCDataEnd(void *userData)
-{	NXMLParser		*thisPtr = (NXMLParser *) userData;
+//-----------------------------------------------------------------------------
+void NXMLParser::ParsedCDataEnd(void* userData)
+{
 
 
-
-	// Validate our state
-	NN_ASSERT(thisPtr->mInsideCData);
+	// Get the state we need
+	NXMLParser* thisPtr = reinterpret_cast<NXMLParser*>(userData);
+	NN_REQUIRE(thisPtr->mInsideCData);
 
 
 
 	// Process the item
 	if (!thisPtr->FlushText())
+	{
 		thisPtr->StopParsing();
+	}
 
 	thisPtr->mInsideCData = false;
 }
-
-
-

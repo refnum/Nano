@@ -3,171 +3,207 @@
 
 	DESCRIPTION:
 		XML parser.
-	
+
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NXMLPARSER_HDR
-#define NXMLPARSER_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
+#ifndef NXMLPARSER_H
+#define NXMLPARSER_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NProgressable.h"
-#include "NUncopyable.h"
-#include "NDictionary.h"
-#include "NFile.h"
-#include "NData.h"
+#include "NString.h"
+
+// System
+#include <functional>
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		Constants
-//----------------------------------------------------------------------------
-// NXMLParser options
-//
-//		kNXMLParserSkipWhitespace
-//			Skips all-whitespace text sections found outside of a CDATA section.
-//
-//		kNXMLParserDefault
-//			Default options.
-//
-typedef NBitfield NXMLParserOptions;
+//-----------------------------------------------------------------------------
+// Parser options
+using NXMLParserOptions                                     = uint16_t;
 
-static const NXMLParserOptions kNXMLParserNone							= 0;
-static const NXMLParserOptions kNXMLParserAll							= 0xFFFFFFFF;
-
-static const NXMLParserOptions kNXMLParserSkipWhitespace				= (1 << 0);
-static const NXMLParserOptions kNXMLParserDefault						= kNXMLParserSkipWhitespace;
+inline constexpr NXMLParserOptions kNXMLParserNone              = 0;
+inline constexpr NXMLParserOptions kNXMLParserSkipWhitespace    = (1 << 0);
+inline constexpr NXMLParserOptions kNXMLParserDefault           = kNXMLParserSkipWhitespace;
 
 
-
-
-
-//============================================================================
-//		Types
-//----------------------------------------------------------------------------
-// Document info
-typedef struct {
-	NString			systemID;
-	NString			publicID;
-	bool			hasInternal;
-} NXMLDocumentTypeInfo;
-
-
-// Functors
-//
-// Processing functors should return true to continue processing.
-typedef nfunctor<bool (const NString &theName, const NXMLDocumentTypeInfo &theInfo)>	NXMLProcessDocumentTypeFunctor;
-typedef nfunctor<bool (const NString &theName, const NDictionary &theAttributes)>		NXMLProcessElementStartFunctor;
-typedef nfunctor<bool (const NString &theName)>											NXMLProcessElementEndFunctor;
-typedef nfunctor<bool (const NString &theValue)>										NXMLProcessCommentFunctor;
-typedef nfunctor<bool (const NString &theValue, bool isCData)>							NXMLProcessTextFunctor;
-
-
-// Internal
-typedef struct XML_ParserStruct		*XML_Parser;
-typedef char						XML_Char;
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NXMLParser :	public NProgressable,
-					public NUncopyable {
-public:
-										NXMLParser(void);
-	virtual							   ~NXMLParser(void);
-
-
-	// Clear the parser state
-	void								Clear(void);
-
-
-	// Get/set the options
-	NXMLParserOptions					GetOptions(void) const;
-	void								SetOptions(NXMLParserOptions setThese, NXMLParserOptions clearThese=kNXMLParserNone);
-
-
-	// Parse a document
-	NStatus								Parse(const NFile   &theFile);
-	NStatus								Parse(const NString &theText);
-	NStatus								Parse(const NData   &theData);
-
-
-	// Parse a fragment
-	//
-	// The final fragment is indicated by setting isFinal to true.
-	NStatus								Parse(NIndex theSize, const void *thePtr, bool isFinal);
-
-
-	// Set processing functors
-	//
-	// Documents can be parsed by sub-classing and overriding ProcessXXX, or by
-	// assigning processing functors. If set, these functors are invoked by the
-	// default implementation of ProcessXXX.
-	void								SetProcessDocumentType(const NXMLProcessDocumentTypeFunctor &theFunctor);
-	void								SetProcessElementStart(const NXMLProcessElementStartFunctor &theFunctor);
-	void								SetProcessElementEnd(  const NXMLProcessElementEndFunctor   &theFunctor);
-	void								SetProcessComment(     const NXMLProcessCommentFunctor      &theFunctor);
-	void								SetProcessText(        const NXMLProcessTextFunctor         &theFunctor);
-
-
-protected:
-	// Process the items
-	//
-	// Processing methods should return true to continue processing.
-	virtual bool						ProcessDocumentType(const NString &theName, const NXMLDocumentTypeInfo &theInfo);
-	virtual bool						ProcessElementStart(const NString &theName, const NDictionary          &theAttributes);
-	virtual bool						ProcessElementEnd(  const NString &theName);
-	virtual bool						ProcessComment(     const NString &theValue);
-	virtual bool						ProcessText(        const NString &theValue, bool isCData);
-
-
-private:
-	NStatus								CreateParser( void);
-	void								DestroyParser(void);
-
-	NStatus								ConvertXMLStatus(int32_t xmlErr);
-	
-	bool								FlushText(  void);
-	void								StopParsing(void);
-
-	static void							ParsedDocumentType(void *userData, const XML_Char *itemName, const XML_Char *sysID, const XML_Char *pubID, int hasInternal);
-	static void							ParsedElementStart(void *userData, const XML_Char *itemName, const XML_Char **attributeList);
-	static void							ParsedElementEnd(  void *userData, const XML_Char *itemName);
-	static void							ParsedComment(     void *userData, const XML_Char *itemText);
-	static void							ParsedText(        void *userData, const XML_Char *itemText, int itemSize);
-	static void							ParsedCDataStart(  void *userData);
-	static void							ParsedCDataEnd(    void *userData);
-	
-
-private:
-	XML_Parser							mParser;
-	NXMLParserOptions					mOptions;
-
-	bool								mInsideCData;
-	bool								mIsParsing;
-	NString								mParsedText;
-
-	NXMLProcessDocumentTypeFunctor		mProcessDocumentType;
-	NXMLProcessElementStartFunctor		mProcessElementStart;
-	NXMLProcessElementEndFunctor		mProcessElementEnd;
-	NXMLProcessCommentFunctor			mProcessComment;
-	NXMLProcessTextFunctor				mProcessText;
+// Parsing progress
+enum class NXMLChunk
+{
+	Next,
+	Last
 };
 
 
 
-#endif // NXMLPARSER_HDR
+
+
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Forward declarations
+class NFile;
+class NDictionary;
+class NData;
+
+
+// Document info
+struct NXMLDocumentType
+{
+	bool    hasInternal;
+	NString systemID;
+	NString publicID;
+};
+
+
+// Process functions
+//
+// Processing functions should return true to continue processing.
+using NFunctionProgress = std::function<NStatus(NProgress theState, float theValue)>;
+
+using NFunctionXMLDocumentType =
+	std::function<bool(const NString& theName, const NXMLDocumentType& theType)>;
+
+using NFunctionXMLElementStart =
+	std::function<bool(const NString& theName, const NDictionary& theAttributes)>;
+
+using NFunctionXMLElementEnd = std::function<bool(const NString& theName)>;
+
+using NFunctionXMLComment = std::function<bool(const NString& theValue)>;
+
+using NFunctionXMLText = std::function<bool(const NString& theValue, bool isCData)>;
 
 
 
+
+
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NXMLParser final : public NProgressable
+{
+public:
+										NXMLParser();
+									   ~NXMLParser();
+
+										NXMLParser(const NXMLParser& otherParser) = delete;
+	NXMLParser&                         operator=( const NXMLParser& otherParser) = delete;
+
+										NXMLParser(NXMLParser&& otherParser) = delete;
+	NXMLParser&                         operator=( NXMLParser&& otherParser) = delete;
+
+
+	// Clear the parser state
+	void                                Clear();
+
+
+	// Get/set the options
+	NXMLParserOptions                   GetOptions() const;
+	void                                SetOptions(NXMLParserOptions setThese, NXMLParserOptions clearThese = kNXMLParserNone);
+
+
+	// Parse a document
+	NStatus                             Parse(const NFile& theFile);
+	NStatus                             Parse(const NString& theText);
+	NStatus                             Parse(const NData& theData);
+
+
+	// Parse a chunk
+	//
+	// Parsing concludes when NXMLChunk::Last is submitted.
+	NStatus                             Parse(size_t theSize, const void* thePtr, NXMLChunk theChunk);
+
+
+	// Set the processing functions
+	void                                SetProcessDocumentType(const NFunctionXMLDocumentType& theFunction);
+	void                                SetProcessElementStart(const NFunctionXMLElementStart& theFunction);
+	void                                SetProcessElementEnd(  const NFunctionXMLElementEnd&   theFunction);
+	void                                SetProcessComment(     const NFunctionXMLComment&      theFunction);
+	void                                SetProcessText(        const NFunctionXMLText&         theFunction);
+
+
+private:
+	NStatus                             CreateParser();
+	void                                DestroyParser();
+
+	NStatus                             ConvertXMLStatus(int32_t xmlErr);
+
+	bool                                FlushText();
+	void                                StopParsing();
+
+	bool                                ProcessDocumentType(const NString& theName, const NXMLDocumentType& theType);
+	bool                                ProcessElementStart(const NString& theName, const NDictionary& theAttributes);
+	bool                                ProcessElementEnd(  const NString& theName);
+	bool                                ProcessComment(     const NString& theValue);
+	bool                                ProcessText(        const NString& theValue, bool isCData);
+
+	static void                         ParsedDocumentType(void*         userData,
+														   const utf8_t* itemName,
+														   const utf8_t* sysID,
+														   const utf8_t* pubID,
+														   int           hasInternal);
+
+	static void                         ParsedElementStart(void*          userData,
+														   const utf8_t*  itemName,
+														   const utf8_t** attributeList);
+
+	static void                         ParsedElementEnd(void* userData, const utf8_t* itemName);
+	static void                         ParsedComment(   void* userData, const utf8_t* itemText);
+	static void                         ParsedText(      void* userData, const utf8_t* itemText, int itemSize);
+	static void                         ParsedCDataStart(void* userData);
+	static void                         ParsedCDataEnd(  void* userData);
+
+
+private:
+	struct XML_ParserStruct*            mParser;
+	NXMLParserOptions                   mOptions;
+
+	bool                                mInsideCData;
+	bool                                mIsParsing;
+	NString                             mParsedText;
+
+	NFunctionXMLDocumentType            mFunctionDocumentType;
+	NFunctionXMLElementStart            mFunctionElementStart;
+	NFunctionXMLElementEnd              mFunctionElementEnd;
+	NFunctionXMLComment                 mFunctionComment;
+	NFunctionXMLText                    mFunctionText;
+};
+
+
+
+#endif // NXMLPARSER_H

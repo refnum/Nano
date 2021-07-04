@@ -3,57 +3,69 @@
 
 	DESCRIPTION:
 		XML encoder.
-	
-	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+	COPYRIGHT:
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
+
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NTextUtilities.h"
-#include "NXMLParser.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NXMLEncoder.h"
 
-
-
-
-
-//============================================================================
-//		Internal constants
-//----------------------------------------------------------------------------
-static const NString kEncodeIndent									= "\t";
-
-static const NString kXMLHeader										= "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-static const NString kXMLDocTypePublic								= "<!DOCTYPE %@ PUBLIC \"%@\" \"%@\">";
-static const NString kXMLDocTypeSystem								= "<!DOCTYPE %@ SYSTEM \"%@\">";
+// Nano
+#include "NFormat.h"
+#include "NFunction.h"
+#include "NStdAlgorithm.h"
 
 
 
 
 
-//============================================================================
+//=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+static constexpr const char* kXMLHeader                     = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+static constexpr const char* kEncodeIndent                  = "\t";
+
+
+
+
+
+//=============================================================================
 //		NXMLEncoder::NXMLEncoder : Constructor.
-//----------------------------------------------------------------------------
-NXMLEncoder::NXMLEncoder(void)
-{
-
-
-	// Initialise ourselves
-	mDecodeRoot = NULL;
-}
-
-
-
-
-
-//============================================================================
-//		NXMLEncoder::~NXMLEncoder : Destructor.
-//----------------------------------------------------------------------------
-NXMLEncoder::~NXMLEncoder(void)
+//-----------------------------------------------------------------------------
+NXMLEncoder::NXMLEncoder()
+	: mDecodeRoot()
+	, mDecodeElements()
 {
 }
 
@@ -61,87 +73,92 @@ NXMLEncoder::~NXMLEncoder(void)
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLEncoder::Encode : Encode a node to an XML document.
-//----------------------------------------------------------------------------
-NString NXMLEncoder::Encode(const NXMLNode *theNode, NStatus *parseErr)
-{	NString		theXML;
-
+//-----------------------------------------------------------------------------
+NString NXMLEncoder::Encode(const NSharedPtrXMLNode& theNode, NStatus* parseErr)
+{
 
 
 	// Validate our parameters
-	NN_ASSERT(theNode->IsType(kNXMLNodeDocument));
+	NN_REQUIRE(theNode->IsType(NXMLNodeType::Document));
 
 
 
 	// Encode the XML
-	theXML = EncodeNode(theNode, "");
-	
-	if (parseErr != NULL)
-		{
-		if (theNode != NULL && theXML.IsEmpty())
-			*parseErr = kNErrInternal;
-		else
-			*parseErr = kNoErr;
-		}
+	NString theXML = EncodeNode(theNode, "");
 
-	return(theXML);
+	if (parseErr != nullptr)
+	{
+		if (theNode != nullptr && theXML.IsEmpty())
+		{
+			*parseErr = NStatus::Internal;
+		}
+		else
+		{
+			*parseErr = NStatus::OK;
+		}
+	}
+
+	return theXML;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLEncoder::Decode : Decode an XML document to a node.
-//----------------------------------------------------------------------------
-NXMLNode *NXMLEncoder::Decode(const NString &theXML, NStatus *parseErr, const NProgressFunctor &theProgress)
-{	NXMLParser		theParser;
-	NXMLNode		*theNode;
-	NStatus			theErr;
-
+//-----------------------------------------------------------------------------
+NSharedPtrXMLNode NXMLEncoder::Decode(const NString&           theXML,
+									  NStatus*                 parseErr,
+									  const NFunctionProgress& theProgress)
+{
 
 
 	// Validate our state
-	NN_ASSERT(mDecodeRoot == NULL);
-	NN_ASSERT(mDecodeElements.empty());
+	NN_REQUIRE(mDecodeRoot == nullptr);
+	NN_REQUIRE(mDecodeElements.empty());
 
 
 
 	// Prepare the parser
-	theParser.SetProgress(theProgress);
-	theParser.SetProcessDocumentType(BindSelf(NXMLEncoder::DecodeDocType,      kNArg1, kNArg2));
-	theParser.SetProcessElementStart(BindSelf(NXMLEncoder::DecodeElementStart, kNArg1, kNArg2));
-	theParser.SetProcessElementEnd(  BindSelf(NXMLEncoder::DecodeElementEnd,   kNArg1));
-	theParser.SetProcessComment(     BindSelf(NXMLEncoder::DecodeComment,      kNArg1));
-	theParser.SetProcessText(        BindSelf(NXMLEncoder::DecodeText,         kNArg1, kNArg2));
+	NXMLParser theParser;
+
+	theParser.SetProgressFunction(theProgress);
+	theParser.SetProcessDocumentType(NBindSelf(NXMLEncoder::DecodeDocType, kNArg1, kNArg2));
+	theParser.SetProcessElementStart(NBindSelf(NXMLEncoder::DecodeElementStart, kNArg1, kNArg2));
+	theParser.SetProcessElementEnd(NBindSelf(NXMLEncoder::DecodeElementEnd, kNArg1));
+	theParser.SetProcessComment(NBindSelf(NXMLEncoder::DecodeComment, kNArg1));
+	theParser.SetProcessText(NBindSelf(NXMLEncoder::DecodeText, kNArg1, kNArg2));
 
 
 
 	// Create the root
-	mDecodeRoot = new NXMLNode(kNXMLNodeDocument, "");
-	theNode     = mDecodeRoot;
+	mDecodeRoot               = std::make_shared<NXMLNode>(NXMLNodeType::Document, "");
+	NSharedPtrXMLNode theNode = mDecodeRoot;
 
 
 
 	// Decode the XML
-	theErr = theParser.Parse(theXML);
-	if (theErr != kNoErr)
-		{
-		delete mDecodeRoot;
-		theNode = NULL;
-		}
+	NStatus theErr = theParser.Parse(theXML);
+	if (theErr != NStatus::OK)
+	{
+		theNode.reset();
+	}
 
 
 
 	// Clean up
-	mDecodeRoot = NULL;
+	mDecodeRoot.reset();
 	mDecodeElements.clear();
-	
-	if (parseErr != NULL)
+
+	if (parseErr != nullptr)
+	{
 		*parseErr = theErr;
-	
-	return(theNode);
+	}
+
+	return theNode;
 }
 
 
@@ -149,476 +166,446 @@ NXMLNode *NXMLEncoder::Decode(const NString &theXML, NStatus *parseErr, const NP
 
 
 #pragma mark private
-//============================================================================
+//=============================================================================
 //		NXMLEncoder::EncodeNode : Encode a node to XML.
-//----------------------------------------------------------------------------
-NString NXMLEncoder::EncodeNode(const NXMLNode *theNode, const NString &theIndent)
-{	NString			theText;
-
+//-----------------------------------------------------------------------------
+NString NXMLEncoder::EncodeNode(const NSharedPtrXMLNode& theNode, const NString& theIndent)
+{
 
 
 	// Encode the node
-	switch (theNode->GetType()) {
-		case kNXMLNodeDocument:
-			theText = EncodeDocument(theNode, theIndent);
+	switch (theNode->GetType())
+	{
+		case NXMLNodeType::Document:
+			return EncodeDocument(theNode, theIndent);
 			break;
-		
-		case kNXMLNodeDocType:
-			theText = EncodeDocType(theNode);
-			break;
-		
-		case kNXMLNodeElement:
-			theText = EncodeElement(theNode, theIndent);
-			break;
-		
-		case kNXMLNodeComment:
-			theText = EncodeComment(theNode);
-			break;
-		
-		case kNXMLNodeText:
-			theText = EncodeText(theNode);
-			break;
-		
-		case kNXMLNodeCData:
-			theText = EncodeCData(theNode);
-			break;
-		
-		default:
-			NN_LOG("Unknown node type: %d", theNode->GetType());
-			break;
-		}
 
-	return(theText);
+		case NXMLNodeType::DocType:
+			return EncodeDocType(theNode);
+			break;
+
+		case NXMLNodeType::Element:
+			return EncodeElement(theNode, theIndent);
+			break;
+
+		case NXMLNodeType::Comment:
+			return EncodeComment(theNode);
+			break;
+
+		case NXMLNodeType::Text:
+			return EncodeText(theNode);
+			break;
+
+		case NXMLNodeType::CData:
+			return EncodeCData(theNode);
+			break;
+	}
+
+	NN_UNREACHABLE();
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLEncoder::EncodeDocument : Encode a document node.
-//----------------------------------------------------------------------------
-NString NXMLEncoder::EncodeDocument(const NXMLNode *theNode, const NString &theIndent)
-{	const NXMLNodeList				*theChildren;
-	NXMLNodeListConstIterator		theIter;
-	NString							theText;
-
+//-----------------------------------------------------------------------------
+NString NXMLEncoder::EncodeDocument(const NSharedPtrXMLNode& theNode, const NString& theIndent)
+{
 
 
 	// Validate our parameters
-	NN_ASSERT(theNode->GetType() == kNXMLNodeDocument);
-
-
-
-	// Get the state we need
-	theChildren = theNode->GetChildren();
+	NN_REQUIRE(theNode->GetType() == NXMLNodeType::Document);
 
 
 
 	// Encode the node
-	theText = kXMLHeader;
-	
-	for (theIter = theChildren->begin(); theIter != theChildren->end(); theIter++)
-		{
-		theText += EncodeNode(*theIter, theIndent);
+	NString theText = kXMLHeader;
+
+	for (const auto& theChild : theNode->GetChildren())
+	{
+		theText += EncodeNode(theChild, theIndent);
 		theText += "\n";
-		}
+	}
 
-	return(theText);
+	return theText;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLEncoder::EncodeDocType : Encode a DOCTYPE node.
-//----------------------------------------------------------------------------
-NString NXMLEncoder::EncodeDocType(const NXMLNode *theNode)
-{	NString		theName, systemID, publicID;
-	NString		theText;
-
+//-----------------------------------------------------------------------------
+NString NXMLEncoder::EncodeDocType(const NSharedPtrXMLNode& theNode)
+{
 
 
 	// Validate our parameters
-	NN_ASSERT(theNode->GetType() == kNXMLNodeDocType);
+	NN_REQUIRE(theNode->GetType() == NXMLNodeType::DocType);
 
 
 
 	// Get the state we need
-	theName  = theNode->GetTextValue();
-	systemID = theNode->GetDocTypeSystemID();
-	publicID = theNode->GetDocTypePublicID();
+	NString theName  = theNode->GetTextValue();
+	NString systemID = theNode->GetDocTypeSystemID();
+	NString publicID = theNode->GetDocTypePublicID();
 
 
 
 	// Encode the node
-	if (!publicID.IsEmpty())
-		{
-		NN_ASSERT(!systemID.IsEmpty());
-		theText.Format(kXMLDocTypePublic, theName, publicID, systemID);
-		}
+	if (publicID.IsEmpty())
+	{
+		return NFormat("<!DOCTYPE {} SYSTEM \"{}\">", theName, systemID);
+	}
 	else
-		theText.Format(kXMLDocTypeSystem, theName, systemID);
-	
-	return(theText);
+	{
+		NN_REQUIRE(!systemID.IsEmpty());
+		return NFormat("<!DOCTYPE {} PUBLIC \"{}\" \"{}\">", theName, publicID, systemID);
+	}
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLEncoder::EncodeElement : Encode an element node.
-//----------------------------------------------------------------------------
-NString NXMLEncoder::EncodeElement(const NXMLNode *theNode, const NString &theIndent)
-{	NString							tagOpen, tagClose, theText, childIndent;
-	NString							textName, textAttributes;
-	bool							hasChildElements;
-	NDictionary						theAttributes;
-	const NXMLNodeList				*theChildren;
-	NXMLNode						*theChild;
-	NArray							theKeys;
-	NXMLNodeListConstIterator		theIter;
-
+//-----------------------------------------------------------------------------
+NString NXMLEncoder::EncodeElement(const NSharedPtrXMLNode& theNode, const NString& theIndent)
+{
 
 
 	// Validate our parameters
-	NN_ASSERT(theNode->GetType() == kNXMLNodeElement);
+	NN_REQUIRE(theNode->GetType() == NXMLNodeType::Element);
 
 
 
 	// Get the state we need
-	theChildren   = theNode->GetChildren();
-	theAttributes = theNode->GetElementAttributes();
-	textName      = theNode->GetTextValue();
-
-	hasChildElements = ContainsElements(theChildren);
-	childIndent      = theIndent + kEncodeIndent;
-	theKeys          = theAttributes.GetKeys(true);
+	NString textName       = theNode->GetTextValue();
+	NString textAttributes = EncodeAttributes(theNode);
 
 
 
-	// Collect the attributes
-	theKeys.ForEach(BindSelf(NXMLEncoder::EncodeElementAttribute, theAttributes, kNArg2, &textAttributes));
-	textAttributes.TrimRight();
+	// Encode the element
+	NString theText;
 
-
-
-	// Encode an unpaired element
 	if (theNode->IsElementUnpaired())
-		{
-		// Get the state we need
-		if (!textAttributes.IsEmpty())
-			textAttributes += " ";
-
-
-		// Encode the tag
-		tagOpen.Format("<%@%@/>", textName, textAttributes);
-		theText = theIndent + tagOpen;
-		}
-
-
-	// Encode a paired element
+	{
+		theText = theIndent + NFormat("<{}{}/>", textName, textAttributes);
+	}
 	else
-		{
+	{
 		// Encode the open tag
-		tagOpen.Format("<%@%@>", textName, textAttributes);
-		theText = theIndent + tagOpen;
+		theText = theIndent + NFormat("<{}{}>", textName, textAttributes);
 
 
 		// Encode the children
-		for (theIter = theChildren->begin(); theIter != theChildren->end(); theIter++)
-			{
-			theChild = *theIter;
-		
+		const NVectorSharedPtrXMLNode& theChildren      = theNode->GetChildren();
+		bool                           hasChildElements = ContainsElements(theChildren);
+		NString                        childIndent      = theIndent + kEncodeIndent;
+
+		for (const auto& theChild : theChildren)
+		{
 			if (hasChildElements)
-				{
+			{
 				theText += "\n";
 
-				if (!theChild->IsType(kNXMLNodeElement))
+				if (!theChild->IsType(NXMLNodeType::Element))
+				{
 					theText += childIndent;
 				}
-
-			theText += EncodeNode(theChild, childIndent);
 			}
 
+			theText += EncodeNode(theChild, childIndent);
+		}
+
 		if (hasChildElements)
-			theText += NString("\n") + theIndent;
+		{
+			theText += "\n" + theIndent;
+		}
 
 
 		// Encode the close tag
-		tagClose.Format("</%@>", textName);
-		theText += tagClose;
-		}
+		theText += NFormat("</{}>", textName);
+	}
 
-	return(theText);
+	return theText;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
+//		NXMLEncoder::EncodeAttributes : Encode an element's attributes.
+//-----------------------------------------------------------------------------
+NString NXMLEncoder::EncodeAttributes(const NSharedPtrXMLNode& theNode)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theNode->GetType() == NXMLNodeType::Element);
+
+
+
+	// Get the state we need
+	NDictionary   theAttributes = theNode->GetElementAttributes();
+	NVectorString theKeys       = theAttributes.GetKeys();
+
+	nstd::sort(theKeys);
+
+
+
+	// Encode the attributes
+	NString theText;
+
+	for (const auto& theKey : theKeys)
+	{
+		theText += NFormat(" {}=\"{}\"", theKey, theAttributes.GetString(theKey));
+	}
+
+	return theText;
+}
+
+
+
+
+
+//=============================================================================
 //		NXMLEncoder::EncodeComment : Encode a comment node.
-//----------------------------------------------------------------------------
-NString NXMLEncoder::EncodeComment(const NXMLNode *theNode)
-{	NString		theText;
-
+//-----------------------------------------------------------------------------
+NString NXMLEncoder::EncodeComment(const NSharedPtrXMLNode& theNode)
+{
 
 
 	// Validate our parameters
-	NN_ASSERT(theNode->GetType() == kNXMLNodeComment);
+	NN_REQUIRE(theNode->GetType() == NXMLNodeType::Comment);
 
 
 
 	// Encode the node
-	theText.Format("<!--%@-->", theNode->GetTextValue());
-	
-	return(theText);
+	return NFormat("<!--{}-->", theNode->GetTextValue());
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLEncoder::EncodeText : Encode a text node.
-//----------------------------------------------------------------------------
-NString NXMLEncoder::EncodeText(const NXMLNode *theNode)
-{	NString		theText;
-
+//-----------------------------------------------------------------------------
+NString NXMLEncoder::EncodeText(const NSharedPtrXMLNode& theNode)
+{
 
 
 	// Validate our parameters
-	NN_ASSERT(theNode->GetType() == kNXMLNodeText);
+	NN_REQUIRE(theNode->GetType() == NXMLNodeType::Text);
 
 
 
 	// Encode the node
-	theText = theNode->GetTextValue();
-	theText = NTextUtilities::EncodeEntities(theText);
+	//
+	// Ampersands are encoded first to avoid double-encoding the others.
+	NString theText = theNode->GetTextValue();
 
-	return(theText);
+	theText.ReplaceAll("&", "&amp;");
+
+	theText.ReplaceAll("\"", "&quot;");
+	theText.ReplaceAll("'", "&apos;");
+	theText.ReplaceAll("<", "&lt;");
+	theText.ReplaceAll(">", "&gt;");
+
+	return theText;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLEncoder::EncodeCData : Encode a CDATA node.
-//----------------------------------------------------------------------------
-NString NXMLEncoder::EncodeCData(const NXMLNode *theNode)
-{	NString		theText;
+//-----------------------------------------------------------------------------
+NString NXMLEncoder::EncodeCData(const NSharedPtrXMLNode& theNode)
+{
+	NString theText;
 
 
 
 	// Validate our parameters
-	NN_ASSERT(theNode->GetType() == kNXMLNodeCData);
+	NN_REQUIRE(theNode->GetType() == NXMLNodeType::CData);
 
 
 
 	// Encode the node
-	theText.Format("<![CDATA[%@]]>", theNode->GetTextValue());
-	
-	return(theText);
+	return NFormat("<![CDATA[{}]]>", theNode->GetTextValue());
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLEncoder::DecodeDocType : Decode a DOCTYPE.
-//----------------------------------------------------------------------------
-bool NXMLEncoder::DecodeDocType(const NString &theName, const NXMLDocumentTypeInfo &theInfo)
-{	NXMLNode		*theParent, *theNode;
-
+//-----------------------------------------------------------------------------
+bool NXMLEncoder::DecodeDocType(const NString& theName, const NXMLDocumentType& theInfo)
+{
 
 
 	// Decode the node
-	theParent = GetDecodeParent();
-	theNode   = new NXMLNode(kNXMLNodeDocType, theName);
-	
+	NSharedPtrXMLNode theParent = GetDecodeParent();
+	NSharedPtrXMLNode theNode   = std::make_shared<NXMLNode>(NXMLNodeType::DocType, theName);
+
 	if (!theInfo.systemID.IsEmpty())
+	{
 		theNode->SetDocTypeSystemID(theInfo.systemID);
+	}
 
 	if (!theInfo.publicID.IsEmpty())
+	{
 		theNode->SetDocTypePublicID(theInfo.publicID);
-	
+	}
+
 	theParent->AddChild(theNode);
 
-	return(true);
+	return true;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLEncoder::DecodeElementStart : Decode an element start.
-//----------------------------------------------------------------------------
-bool NXMLEncoder::DecodeElementStart(const NString &theName, const NDictionary &theAttributes)
-{	NXMLNode		*theParent, *theNode;
-
+//-----------------------------------------------------------------------------
+bool NXMLEncoder::DecodeElementStart(const NString& theName, const NDictionary& theAttributes)
+{
 
 
 	// Decode the node
-	theParent = GetDecodeParent();
-	theNode   = new NXMLNode(kNXMLNodeElement, theName);
+	NSharedPtrXMLNode theParent = GetDecodeParent();
+	NSharedPtrXMLNode theNode   = std::make_shared<NXMLNode>(NXMLNodeType::Element, theName);
+
 	theNode->SetElementAttributes(theAttributes);
 
 
 
 	// Update our state
-	mDecodeElements.push_back(theNode);
+	mDecodeElements.emplace_back(theNode);
 	theParent->AddChild(theNode);
-	
-	return(true);
+
+	return true;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLEncoder::DecodeElementEnd : Decode an element end.
-//----------------------------------------------------------------------------
-bool NXMLEncoder::DecodeElementEnd(const NString &theName)
+//-----------------------------------------------------------------------------
+bool NXMLEncoder::DecodeElementEnd(const NString& theName)
 {
 
 
 	// Validate our parameters and state
-	NN_ASSERT(!mDecodeElements.empty());
-	NN_ASSERT(mDecodeElements.back()->GetTextValue() == theName);
-	
+	NN_REQUIRE(!mDecodeElements.empty());
+	NN_REQUIRE(mDecodeElements.back()->GetTextValue() == theName);
+
 	NN_UNUSED(theName);
-	
-	
-	
+
+
+
 	// Update our state
 	mDecodeElements.pop_back();
 
-	return(true);
+	return true;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLEncoder::DecodeText : Decode text.
-//----------------------------------------------------------------------------
-bool NXMLEncoder::DecodeText(const NString &theValue, bool isCData)
-{	NXMLNode		*theParent, *theNode;
-
+//-----------------------------------------------------------------------------
+bool NXMLEncoder::DecodeText(const NString& theValue, bool isCData)
+{
 
 
 	// Decode the node
-	theParent = GetDecodeParent();
-	theNode   = new NXMLNode(isCData ? kNXMLNodeCData : kNXMLNodeText, theValue);
-	
+	NXMLNodeType      theType   = isCData ? NXMLNodeType::CData : NXMLNodeType::Text;
+	NSharedPtrXMLNode theParent = GetDecodeParent();
+	NSharedPtrXMLNode theNode   = std::make_shared<NXMLNode>(theType, theValue);
+
 	theParent->AddChild(theNode);
 
-	return(true);
+	return true;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLEncoder::DecodeComment : Decode a comment.
-//----------------------------------------------------------------------------
-bool NXMLEncoder::DecodeComment(const NString &theValue)
-{	NXMLNode		*theParent, *theNode;
-
+//-----------------------------------------------------------------------------
+bool NXMLEncoder::DecodeComment(const NString& theValue)
+{
 
 
 	// Decode the node
-	theParent = GetDecodeParent();
-	theNode   = new NXMLNode(kNXMLNodeComment, theValue);
-	
+	NSharedPtrXMLNode theParent = GetDecodeParent();
+	NSharedPtrXMLNode theNode   = std::make_shared<NXMLNode>(NXMLNodeType::Comment, theValue);
+
 	theParent->AddChild(theNode);
-	
-	return(true);
+
+	return true;
 }
 
 
 
 
 
-//============================================================================
-//		NXMLEncoder::EncodeElementAttribute : Encode an element attribute.
-//----------------------------------------------------------------------------
-void NXMLEncoder::EncodeElementAttribute(const NDictionary &theAttributes, const NVariant &attributeKey, NString *theResult)
-{	NString		theKey, theValue, theText;
-	bool		gotKey;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(attributeKey.IsType(theKey));
-
-
-
-	// Get the state we need
-	gotKey   = attributeKey.GetValue(theKey);
-	theValue = theAttributes.GetValueString(theKey);
-	
-	NN_ASSERT(gotKey);
-
-
-
-	// Encode the attribute
-	theText.Format(" %@=\"%@\"", theKey, theValue);
-	*theResult += theText;
-}
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NXMLEncoder::ContainsElements : Does a node list contain elements?
-//----------------------------------------------------------------------------
-bool NXMLEncoder::ContainsElements(const NXMLNodeList *theNodes)
-{	NXMLNodeListConstIterator		theIter;
-
+//-----------------------------------------------------------------------------
+bool NXMLEncoder::ContainsElements(const NVectorSharedPtrXMLNode& theNodes)
+{
 
 
 	// Check the nodes
-	for (theIter = theNodes->begin(); theIter != theNodes->end(); theIter++)
+	for (const auto& theNode : theNodes)
+	{
+		if (theNode->IsType(NXMLNodeType::Element))
 		{
-		if ((*theIter)->IsType(kNXMLNodeElement))
-			return(true);
+			return true;
 		}
-	
-	return(false);
+	}
+
+	return false;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NXMLEncoder::GetDecodeParent : Get the parent element.
-//----------------------------------------------------------------------------
-NXMLNode *NXMLEncoder::GetDecodeParent(void)
-{	NXMLNode	*theNode;
-
+//-----------------------------------------------------------------------------
+NSharedPtrXMLNode NXMLEncoder::GetDecodeParent()
+{
 
 
 	// Get the parent
 	if (mDecodeElements.empty())
-		theNode = mDecodeRoot;
+	{
+		return mDecodeRoot;
+	}
 	else
-		theNode = mDecodeElements.back();
-	
-	return(theNode);
+	{
+		return mDecodeElements.back();
+	}
 }
-
-
-
-
