@@ -60,7 +60,10 @@ static const CGFloat              kTestRadius(3.0);
 //=============================================================================
 //		Test Fixture
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(TCGShading){NCGShading cgShading};
+NANO_FIXTURE(TCGShading)
+{
+	NCGShading cgShading;
+};
 
 
 

@@ -1721,7 +1721,7 @@ void NSharedPOSIX::ThreadSetPriority(float thePriority)
 		// Adjust the policy
 		//
 		// On Darwin we can switch to SCHED_RR without additional privileges.
-		if (NN_PLATFORM_DARWIN)
+		if constexpr (NN_PLATFORM_DARWIN)
 		{
 			schedPolicy = SCHED_RR;
 		}

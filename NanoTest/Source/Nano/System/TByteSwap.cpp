@@ -104,7 +104,7 @@ NANO_TEST(TByteSwap, "Constants")
 
 
 	// Perform the test
-	if (NN_ENDIAN_BIG)
+	if constexpr (NN_ENDIAN_BIG)
 	{
 		REQUIRE(NEndian::Native == NEndian::Big);
 	}

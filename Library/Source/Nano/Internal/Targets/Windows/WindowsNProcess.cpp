@@ -93,7 +93,7 @@ static size_t GetAddressSpaceMax()
 	//
 	size_t theSize = 0;
 
-	if (NN_ARCH_64)
+	if constexpr (NN_ARCH_64)
 	{
 		theSize = isAppLargeAddress ? (128 * kNTebibyte) : (2 * kNGibibyte);
 	}

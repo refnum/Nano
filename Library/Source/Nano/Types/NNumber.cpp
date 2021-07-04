@@ -756,7 +756,7 @@ NComparison NNumber::CompareIntReal(const NNumber& theNumber) const
 			int64_t intB = (realB == float64_t(kNInt64Min) ? kNInt64Min : int64_t(realB));
 
 			theResult = NCompare(intA, intB);
-			if (NN_LOG_INEXACT_COMPARISON)
+			if constexpr (NN_LOG_INEXACT_COMPARISON)
 			{
 				NN_LOG_INFO("Int / real comparison outside safe zone, results may be misleading");
 			}
@@ -787,7 +787,7 @@ NComparison NNumber::CompareIntReal(const NNumber& theNumber) const
 			uint64_t uintB = (realB == float64_t(kNUInt64Max) ? kNUInt64Max : uint64_t(realB));
 
 			theResult = NCompare(uintA, uintB);
-			if (NN_LOG_INEXACT_COMPARISON)
+			if constexpr (NN_LOG_INEXACT_COMPARISON)
 			{
 				NN_LOG_INFO("Int / real comparison outside safe zone, results may be misleading");
 			}

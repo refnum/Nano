@@ -89,12 +89,12 @@ NString NMachine::GetCPUArchitecture()
 
 
 	// Get the architecture
-	if (NN_ARCH_ARM)
+	if constexpr (NN_ARCH_ARM)
 	{
 		return NN_ARCH_64 ? "arm64" : "arm";
 	}
 
-	else if (NN_ARCH_X86)
+	else if constexpr (NN_ARCH_X86)
 	{
 		return NN_ARCH_64 ? "x86_64" : "x86";
 	}

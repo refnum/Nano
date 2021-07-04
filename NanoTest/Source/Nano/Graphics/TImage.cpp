@@ -690,7 +690,7 @@ void Fixture_TImage::EncodeDecode(const NUTI& theType)
 
 
 	// Perform the test
-	if (NN_TARGET_ANDROID || NN_TARGET_LINUX)
+	if constexpr (NN_TARGET_ANDROID || NN_TARGET_LINUX)
 	{
 		NN_LOG_UNIMPLEMENTED("for {}", theType);
 	}

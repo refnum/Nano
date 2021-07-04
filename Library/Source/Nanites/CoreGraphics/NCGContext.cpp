@@ -523,7 +523,7 @@ void NCGContext::DrawText(const NString&    theText,
 
 
 	// Draw the layout
-	if (NN_SHOW_TEXT_LAYOUT)
+	if constexpr (NN_SHOW_TEXT_LAYOUT)
 	{
 		NScopedCGState saveDebugState(*this);
 

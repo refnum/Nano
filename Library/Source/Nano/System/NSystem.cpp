@@ -62,27 +62,27 @@ NString NSystem::GetName(NOSName theName)
 	switch (theName)
 	{
 		case NOSName::Platform:
-			if (NN_TARGET_ANDROID)
+			if constexpr (NN_TARGET_ANDROID)
 			{
 				theText = "Android";
 			}
-			else if (NN_TARGET_IOS)
+			else if constexpr (NN_TARGET_IOS)
 			{
 				theText = "iOS";
 			}
-			else if (NN_TARGET_LINUX)
+			else if constexpr (NN_TARGET_LINUX)
 			{
 				theText = "Linux";
 			}
-			else if (NN_TARGET_MACOS)
+			else if constexpr (NN_TARGET_MACOS)
 			{
 				theText = "macOS";
 			}
-			else if (NN_TARGET_TVOS)
+			else if constexpr (NN_TARGET_TVOS)
 			{
 				theText = "tvOS";
 			}
-			else if (NN_TARGET_WINDOWS)
+			else if constexpr (NN_TARGET_WINDOWS)
 			{
 				theText = "Windows";
 			}

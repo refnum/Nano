@@ -341,7 +341,7 @@ void NUTIRegistry::Add(const NString&       theUTI,
 	// Validate our parameters
 	NN_REQUIRE(!HasUTI(theUTI));
 
-	if (NN_ENABLE_ASSERTIONS)
+	if constexpr (NN_ENABLE_ASSERTIONS)
 	{
 		for (const auto& theTag : theTags)
 		{
