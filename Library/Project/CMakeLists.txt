@@ -109,6 +109,8 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Files/NFileScanner.inl"
 		"${NN_SOURCE_DIR}/Nano/Files/NFileUtils.cpp"
 		"${NN_SOURCE_DIR}/Nano/Files/NFileUtils.h"
+		"${NN_SOURCE_DIR}/Nano/Files/NPropertyList.cpp"
+		"${NN_SOURCE_DIR}/Nano/Files/NPropertyList.h"
 		"${NN_SOURCE_DIR}/Nano/Files/NUTI.cpp"
 		"${NN_SOURCE_DIR}/Nano/Files/NUTI.h"
 		"${NN_SOURCE_DIR}/Nano/Files/NUTIRegistry.cpp"

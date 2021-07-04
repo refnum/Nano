@@ -4,377 +4,342 @@
 	DESCRIPTION:
 		Property list file.
 
-		The Mac XML1 property list format is documented at:
-		
+		The Mac XML property list format is documented at:
+
 			http://www.apple.com/DTDs/PropertyList-1.0.dtd
 
-		The Mac Binary1 property list format is documented at:
-		
-			http://opensource.apple.com/source/CF/CF-550/CFBinaryPList.c
-	
-	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		The Mac Binary property list format is documented at:
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+			http://opensource.apple.com/source/CF/CF-550/CFBinaryPList.c.
+
+	COPYRIGHT:
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
+
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NTargetPOSIX.h"
-#include "NFileUtilities.h"
-#include "NMathUtilities.h"
-#include "NDataEncoder.h"
-#include "NJSONEncoder.h"
-#include "NXMLEncoder.h"
-#include "NEncoder.h"
-#include "NByteSwap.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NPropertyList.h"
 
+// Nano
+#include "NArray.h"
+#include "NByteSwap.h"
+#include "NData.h"
+#include "NDataEncoder.h"
+#include "NDateFormatter.h"
+#include "NFileHandle.h"
+#include "NFormat.h"
+#include "NStdAlgorithm.h"
+#include "NTimeUtils.h"
+#include "NXMLEncoder.h"
+#include "NXMLNode.h"
+#include "NanoTypes.h"
+
+// System
+#include <math.h>
 
 
 
 
-//============================================================================
-//		Internal constants
-//----------------------------------------------------------------------------
+
+//=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
 // Magic
-static const uint8_t kMagicMacXML1[]								= { 0x3C, 0x3F, 0x78, 0x6D, 0x6C, 0x20  };
-static const uint8_t kMagicMacBinary1[]								= { 0x62, 0x70, 0x6C, 0x69, 0x73, 0x74, 0x30, 0x30 };
+static constexpr uint8_t kNMagicXML[]                       = {0x3C, 0x3F, 0x78, 0x6D, 0x6C, 0x20};
+static constexpr uint8_t kNMagicBinary[]                    = {0x62, 0x70, 0x6C, 0x69, 0x73, 0x74, 0x30, 0x30};
 
 
-// Mac XML 1.0
-static const NString kTokenArray									= "array";
-static const NString kTokenData										= "data";
-static const NString kTokenDate										= "date";
-static const NString kTokenDictionary								= "dict";
-static const NString kTokenFalse									= "false";
-static const NString kTokenInteger									= "integer";
-static const NString kTokenPList									= "plist";
-static const NString kTokenReal										= "real";
-static const NString kTokenString									= "string";
-static const NString kTokenTrue										= "true";
+// XML
+static constexpr const char* kNPListSystemID1               = "http://www.apple.com/DTDs/PropertyList-1.0.dtd";
+static constexpr const char* kNPListPublicID1               = "-//Apple Computer//DTD PLIST 1.0//EN";
 
-static const NString kTokenKey										= "key";
-static const NString kTokenUnknown									= "unknown";
-static const NString kTokenVersion									= "version";
+static constexpr const char* kNXMLTokenArray                = "array";
+static constexpr const char* kNXMLTokenData                 = "data";
+static constexpr const char* kNXMLTokenTime                 = "date";
+static constexpr const char* kNXMLTokenDictionary           = "dict";
+static constexpr const char* kNXMLTokenFalse                = "false";
+static constexpr const char* kNXMLTokenInteger              = "integer";
+static constexpr const char* kNXMLTokenPList                = "plist";
+static constexpr const char* kNXMLTokenReal                 = "real";
+static constexpr const char* kNXMLTokenString               = "string";
+static constexpr const char* kNXMLTokenTrue                 = "true";
 
-static const NString kPListSystemID1								= "http://www.apple.com/DTDs/PropertyList-1.0.dtd";
-static const NString kPListPublicID1								= "-//Apple Computer//DTD PLIST 1.0//EN";
-static const NString kFormatISO8601									= "%04d-%02d-%02dT%02d:%02d:%02dZ";
+static constexpr const char* kNXMLTokenKey                  = "key";
+static constexpr const char* kNXMLTokenVersion              = "version";
 
 
-// Mac Binary 1.0
-static const uint8_t kBinary1_Token_Null							= 0x00;
-static const uint8_t kBinary1_Token_Integer							= 0x01;
-static const uint8_t kBinary1_Token_Real							= 0x02;
-static const uint8_t kBinary1_Token_Date							= 0x03;
-static const uint8_t kBinary1_Token_Data							= 0x04;
-static const uint8_t kBinary1_Token_StringASCII						= 0x05;
-static const uint8_t kBinary1_Token_StringUTF16						= 0x06;
-static const uint8_t kBinary1_Token_Array							= 0x0A;
-static const uint8_t kBinary1_Token_Dictionary						= 0x0D;
+// Binary
+static constexpr uint8_t kNBinaryTokenNull                  = 0x00;
+static constexpr uint8_t kNBinaryTokenInteger               = 0x01;
+static constexpr uint8_t kNBinaryTokenReal                  = 0x02;
+static constexpr uint8_t kNBinaryTokenTime                  = 0x03;
+static constexpr uint8_t kNBinaryTokenData                  = 0x04;
+static constexpr uint8_t kNBinaryTokenStringASCII           = 0x05;
+static constexpr uint8_t kNBinaryTokenStringUTF16           = 0x06;
+static constexpr uint8_t kNBinaryTokenArray                 = 0x0A;
+static constexpr uint8_t kNBinaryTokenDictionary            = 0x0D;
 
-static const uint8_t kBinary1_Value_Null							= 0x00;
-static const uint8_t kBinary1_Value_Fill							= 0x0F;
-static const uint8_t kBinary1_Value_False							= 0x08;
-static const uint8_t kBinary1_Value_True							= 0x09;
-static const uint8_t kBinary1_Value_SizeInteger						= 0x0F;
+static constexpr uint8_t kNBinaryValueNull                  = 0x00;
+static constexpr uint8_t kNBinaryValueFill                  = 0x0F;
+static constexpr uint8_t kNBinaryValueFalse                 = 0x08;
+static constexpr uint8_t kNBinaryValueTrue                  = 0x09;
+static constexpr uint8_t kNBinaryValueSizeInteger           = 0x0F;
 
-static const uint8_t kBinary1_Value_Int8							= 0x00;
-static const uint8_t kBinary1_Value_Int16							= 0x01;
-static const uint8_t kBinary1_Value_Int32							= 0x02;
-static const uint8_t kBinary1_Value_Int64							= 0x03;
+static constexpr uint8_t kNBinaryValueInt8                  = 0x00;
+static constexpr uint8_t kNBinaryValueInt16                 = 0x01;
+static constexpr uint8_t kNBinaryValueInt32                 = 0x02;
+static constexpr uint8_t kNBinaryValueInt64                 = 0x03;
 
-static const uint8_t kBinary1_Value_Float32							= 0x02;
-static const uint8_t kBinary1_Value_Float64							= 0x03;
+static constexpr uint8_t kNBinaryValueFloat32               = 0x02;
+static constexpr uint8_t kNBinaryValueFloat64               = 0x03;
 
 
 
 
 
-//============================================================================
-//		Internal types
-//----------------------------------------------------------------------------
-// Mac Binary 1.0
-typedef struct {
-	uint8_t		reserved[5];
-	uint8_t		sortVersion;
-	uint8_t		offsetsSize;
-	uint8_t		objectsSize;
-	uint64_t	numObjects;
-	uint64_t	rootObject;
-	uint64_t	offsetsTableOffset;
-} MacBinary1_Trailer;
+//=============================================================================
+//		Internal Types
+//-----------------------------------------------------------------------------
+// Binary types
+struct NPListBinaryTag
+{
+	uint8_t theToken;
+	uint8_t objectInfo;
+};
 
-NBYTESWAP_BEGIN(MacBinary1_Trailer)
-	NBYTESWAP_B_UInt8_Array		(reserved, 5)
-	NBYTESWAP_B_UInt8			(sortVersion)
-	NBYTESWAP_B_UInt8			(offsetsSize)
-	NBYTESWAP_B_UInt8			(objectsSize)
-	NBYTESWAP_B_UInt64			(numObjects)
-	NBYTESWAP_B_UInt64			(rootObject)
-	NBYTESWAP_B_UInt64			(offsetsTableOffset)
+struct NPListBinaryEncodeInfo
+{
+	NVectorUInt64 theOffsets;
+	NData         objectsTable;
+	uint8_t       objectsSize;
+};
+
+struct NPListBinaryDecodeInfo
+{
+	NVectorUInt64  theOffsets;
+	const uint8_t* objectsTable;
+	uint8_t        objectsSize;
+};
+
+NN_STRUCT_PACK_1(NPListBinaryTrailer
+				 {
+					 uint8_t  reserved[5];
+					 uint8_t  sortVersion;
+					 uint8_t  offsetsSize;
+					 uint8_t  objectsSize;
+					 uint64_t numObjects;
+					 uint64_t rootObject;
+					 uint64_t offsetsTableOffset;
+				 });
+
+NBYTESWAP_BEGIN(NPListBinaryTrailer)
+NBYTESWAP_B_UInt8_Array(reserved, 5)
+NBYTESWAP_B_UInt8(sortVersion)
+NBYTESWAP_B_UInt8(offsetsSize)
+NBYTESWAP_B_UInt8(objectsSize)
+NBYTESWAP_B_UInt64(numObjects)
+NBYTESWAP_B_UInt64(rootObject)
+NBYTESWAP_B_UInt64(offsetsTableOffset)
 NBYTESWAP_END
 
 
 
 
 
-//============================================================================
-//		NPropertyList::NPropertyList : Constructor.
-//----------------------------------------------------------------------------
-NPropertyList::NPropertyList(void)
+//=============================================================================
+//		NPropertyList::EncodeXML : Encode to XML.
+//-----------------------------------------------------------------------------
+NString NPropertyList::EncodeXML(const NDictionary& theState)
 {
+	// Encode to XML
+	NData theData = Encode(theState, NPropertyListFormat::XML);
+
+	return NString(NStringEncoding::UTF8, theData);
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::~NPropertyList : Destructor.
-//----------------------------------------------------------------------------
-NPropertyList::~NPropertyList(void)
+//=============================================================================
+//		NPropertyList::DecodeXML : Decode from XML.
+//-----------------------------------------------------------------------------
+NDictionary NPropertyList::DecodeXML(const NString& theXML)
 {
+
+
+	// Decode from XML
+	return Decode(theXML.GetData(NStringEncoding::UTF8));
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::GetFormat : Identify a property list format.
-//----------------------------------------------------------------------------
-NPropertyListFormat NPropertyList::GetFormat(const NData &theData)
-{	NPropertyListFormat		theFormat;
-	const uint8_t			*dataPtr;
-	NIndex					dataSize;
+//=============================================================================
+//		NPropertyList::Load : Load a property list.
+//-----------------------------------------------------------------------------
+NDictionary NPropertyList::Load(const NFile& theFile)
+{
 
 
-
-	// Get the state we need
-	theFormat = kNPropertyListInvalid;
-	dataSize  = theData.GetSize();
-	dataPtr   = theData.GetData();
-
-
-
-	// Identify the format
-	#define MATCH_FORMAT(_magic, _format)													\
-		do																					\
-			{																				\
-			if (theFormat == kNPropertyListInvalid && dataSize >= NN_ARRAY_SIZE(_magic))	\
-				{																			\
-				if (memcmp(dataPtr, _magic, NN_ARRAY_SIZE(_magic)) == 0)					\
-					theFormat = _format;													\
-				}																			\
-			}																				\
-		while (0)
-
-	MATCH_FORMAT(kMagicMacXML1,    kNPropertyListMacXML1);
-	MATCH_FORMAT(kMagicMacBinary1, kNPropertyListMacBinary1);
-	
-	#undef MATCH_FORMAT
-	
-	return(theFormat);
+	// Load the file
+	return Decode(NFileHandle::ReadData(theFile));
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
+//		NPropertyList::Save : Save a property list.
+//-----------------------------------------------------------------------------
+NStatus NPropertyList::Save(const NFile&        theFile,
+							const NDictionary&  theState,
+							NPropertyListFormat theFormat)
+{
+
+
+	// Save the file
+	NStatus theErr = NFileHandle::WriteData(theFile, Encode(theState, theFormat));
+	NN_REQUIRE_NOT_ERR(theErr);
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
 //		NPropertyList::Encode : Encode a property list.
-//----------------------------------------------------------------------------
-NData NPropertyList::Encode(const NDictionary &theState, NPropertyListFormat theFormat)
-{	NData		theData;
-
+//-----------------------------------------------------------------------------
+NData NPropertyList::Encode(const NDictionary& theState, NPropertyListFormat theFormat)
+{
 
 
 	// Encode the state
-	switch (theFormat) {
-		case kNPropertyListMacXML1:
-			theData = EncodeMacXML1(theState);
+	switch (theFormat)
+	{
+		case NPropertyListFormat::XML:
+			return EncodeToXML(theState);
 			break;
 
-		case kNPropertyListMacBinary1:
-			theData = EncodeMacBinary1(theState);
+		case NPropertyListFormat::Binary:
+			return EncodeToBinary(theState);
 			break;
 
-		case kNPropertyListJSON:
-			theData = EncodeJSON(theState).GetData();
+		case NPropertyListFormat::Unknown:
+			NN_LOG_ERROR("Unsupported format!");
 			break;
-		
-		default:
-			NN_LOG("Unknown property list format: %d", theFormat);
-			break;
-		}
-	
-	return(theData);
+	}
+
+	return {};
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NPropertyList::Decode : Decode a property list.
-//----------------------------------------------------------------------------
-NDictionary NPropertyList::Decode(const NData &theData)
-{	NPropertyListFormat		theFormat;
-	NDictionary				theState;
-
+//-----------------------------------------------------------------------------
+NDictionary NPropertyList::Decode(const NData& theData)
+{
 
 
 	// Get the state we need
-	theFormat = GetFormat(theData);
+	NPropertyListFormat theFormat = GetFormat(theData);
+	NDictionary         theState;
 
 
 
 	// Decode the state
-	switch (theFormat) {
-		case kNPropertyListMacXML1:
-			theState = DecodeMacXML1(theData);
+	switch (theFormat)
+	{
+		case NPropertyListFormat::XML:
+			theState = DecodeFromXML(theData);
 			break;
 
-		case kNPropertyListMacBinary1:
-			theState = DecodeMacBinary1(theData);
+		case NPropertyListFormat::Binary:
+			theState = DecodeFromBinary(theData);
 			break;
 
-		case kNPropertyListJSON:
-			theState = DecodeJSON(theData);
+		case NPropertyListFormat::Unknown:
+			NN_LOG_ERROR("Unsupported format!");
 			break;
-		
-		default:
-			NN_LOG("Unknown property list format: %d", theFormat);
-			break;
+	}
+
+	return theState;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::GetFormat : Identify a property list format.
+//-----------------------------------------------------------------------------
+NPropertyListFormat NPropertyList::GetFormat(const NData& theData)
+{
+
+
+	// Get the state we need
+	size_t         dataSize = theData.GetSize();
+	const uint8_t* dataPtr  = theData.GetData();
+
+
+
+	// Check for XML
+	if (dataSize >= sizeof(kNMagicXML))
+	{
+		if (memcmp(dataPtr, kNMagicXML, sizeof(kNMagicXML)) == 0)
+		{
+			return NPropertyListFormat::XML;
 		}
-	
-	return(theState);
-}
+	}
 
 
 
+	// Check for binary
+	if (dataSize >= sizeof(kNMagicBinary))
+	{
+		if (memcmp(dataPtr, kNMagicBinary, sizeof(kNMagicBinary)) == 0)
+		{
+			return NPropertyListFormat::Binary;
+		}
+	}
 
-
-//============================================================================
-//		NPropertyList::EncodeXML : Encode to XML.
-//----------------------------------------------------------------------------
-NString NPropertyList::EncodeXML(const NDictionary &theState)
-{	NData		theData;
-	NString		theXML;
-
-
-
-	// Encode to XML
-	theData = Encode(theState, kNPropertyListXML);
-	theXML.SetData(theData);
-	
-	return(theXML);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::DecodeXML : Decode from XML.
-//----------------------------------------------------------------------------
-NDictionary NPropertyList::DecodeXML(const NString &theXML)
-{	NDictionary		theState;
-	NData			theData;
-
-
-
-	// Decode from XML
-	theState = Decode(theXML.GetData());
-	
-	return(theState);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::EncodeJSON : Encode to JSON.
-//----------------------------------------------------------------------------
-NString NPropertyList::EncodeJSON(const NDictionary &theState)
-{	NJSONEncoder		theEncoder;
-	NString				theJSON;
-
-
-
-	// Encode to JSON
-	theJSON = theEncoder.Encode(theState);
-
-	return(theJSON);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::DecodeJSON : Decode from JSON.
-//----------------------------------------------------------------------------
-NDictionary NPropertyList::DecodeJSON(const NString &theJSON)
-{	NJSONEncoder		theEncoder;
-	NDictionary			theState;
-	NVariant			theValue;
-
-
-
-	// Decode from JSON
-	theValue = theEncoder.Decode(theJSON);
-	
-	if (!theValue.GetValue(theState))
-		NN_LOG("Unable to convert JSON to dictionary: [%@]", theJSON);
-
-	return(theState);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::Load : Load a property list.
-//----------------------------------------------------------------------------
-NDictionary NPropertyList::Load(const NFile &theFile)
-{	NDictionary		theState;
-	NData			theData;
-
-
-
-	// Load the file
-	theData  = NFileUtilities::GetFileData(theFile);
-	theState = Decode(theData);
-	
-	return(theState);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::Save : Save a property list.
-//----------------------------------------------------------------------------
-NStatus NPropertyList::Save(const NFile &theFile, const NDictionary &theState, NPropertyListFormat theFormat)
-{	NData		theData;
-	NStatus		theErr;
-
-
-
-	// Save the file
-	theData = Encode(theState, theFormat);
-	theErr  = NFileUtilities::SetFileData(theFile, theData);
-	NN_ASSERT_NOERR(theErr);
-	
-	return(theErr);
+	return NPropertyListFormat::Unknown;
 }
 
 
@@ -382,110 +347,719 @@ NStatus NPropertyList::Save(const NFile &theFile, const NDictionary &theState, N
 
 
 #pragma mark private
-//============================================================================
-//		NPropertyList::EncodeMacXML1 : Encode kNPropertyListMacXML1.
-//----------------------------------------------------------------------------
-NData NPropertyList::EncodeMacXML1(const NDictionary &theState)
-{	NXMLNode		*nodeDoc, *nodeDocType, *nodePList, *nodeDict;
-	NXMLEncoder		theEncoder;
-	NString			theXML;
-
+//=============================================================================
+//		NPropertyList::EncodeToXML : Encode to NPropertyListFormat::XML.
+//-----------------------------------------------------------------------------
+NData NPropertyList::EncodeToXML(const NDictionary& theState)
+{
 
 
 	// Create the nodes
-	nodeDict = EncodeMacXML1_Dictionary(theState);
+	NSharedPtrXMLNode nodeDict = EncodeXML_Dictionary(theState);
 
-	nodePList = new NXMLNode(kNXMLNodeElement, kTokenPList);
-	nodePList->SetElementAttribute(kTokenVersion, "1.0");
+	NSharedPtrXMLNode nodePList =
+		std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenPList);
+
+	NSharedPtrXMLNode nodeDocType =
+		std::make_shared<NXMLNode>(NXMLNodeType::DocType, kNXMLTokenPList);
+
+	NSharedPtrXMLNode nodeDoc = std::make_shared<NXMLNode>(NXMLNodeType::Document, "");
+
+	nodePList->SetElementAttribute(kNXMLTokenVersion, "1.0");
 	nodePList->AddChild(nodeDict);
 
-	nodeDocType = new NXMLNode(kNXMLNodeDocType, kTokenPList);
-	nodeDocType->SetDocTypeSystemID(kPListSystemID1);
-	nodeDocType->SetDocTypePublicID(kPListPublicID1);
+	nodeDocType->SetDocTypeSystemID(kNPListSystemID1);
+	nodeDocType->SetDocTypePublicID(kNPListPublicID1);
 
-	nodeDoc = new NXMLNode(kNXMLNodeDocument, "");
 	nodeDoc->AddChild(nodeDocType);
 	nodeDoc->AddChild(nodePList);
 
 
 
 	// Encode the XML
-	theXML = theEncoder.Encode(nodeDoc);
-	theXML.ReplaceAll("^\t", "", kNStringPattern);
+	NXMLEncoder theEncoder;
 
-	delete nodeDoc;
-	
-	return(theXML.GetData());
+	NString theXML = theEncoder.Encode(nodeDoc);
+	theXML.ReplaceAll("^\t", "", kNStringPattern | kNStringMultiLine);
+
+	return theXML.GetData(NStringEncoding::UTF8);
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::DecodeMacXML1 : Decode kNPropertyListMacXML1.
-//----------------------------------------------------------------------------
-NDictionary NPropertyList::DecodeMacXML1(const NData &theData)
-{	NXMLNode						*nodeDoc, *nodeDict;
-	const NXMLNodeList				*theChildren;
-	NXMLEncoder						theEncoder;
-	NDictionary						theState;
-	NXMLNodeListConstIterator		theIter;
+//=============================================================================
+//		NPropertyList::EncodeXML_Any : Encode an NAny.
+//-----------------------------------------------------------------------------
+NSharedPtrXMLNode NPropertyList::EncodeXML_Any(const NAny& theValue)
+{
 
+
+	// Encode the value
+	NSharedPtrXMLNode theNode;
+	NNumber           theNumber;
+
+	if (theValue.HasBool())
+	{
+		theNode = EncodeXML_Boolean(theValue.GetBool());
+	}
+
+	else if (theNumber.SetValue(theValue))
+	{
+		theNode = EncodeXML_Number(theNumber);
+	}
+
+	else if (theValue.HasString())
+	{
+		theNode = EncodeXML_String(theValue.GetString());
+	}
+
+	else if (theValue.HasData())
+	{
+		theNode = EncodeXML_Data(theValue.GetData());
+	}
+
+	else if (theValue.HasTime())
+	{
+		theNode = EncodeXML_Time(theValue.GetTime());
+	}
+
+	else if (theValue.Has<NArray>())
+	{
+		theNode = EncodeXML_Array(theValue.Get<NArray>());
+	}
+
+	else if (theValue.Has<NDictionary>())
+	{
+		theNode = EncodeXML_Dictionary(theValue.Get<NDictionary>());
+	}
+
+	else
+	{
+		NN_LOG_ERROR("Unknown property list value: {}", theValue.GetType().name());
+	}
+
+	return theNode;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::EncodeXML_Array : Encode an array.
+//-----------------------------------------------------------------------------
+NSharedPtrXMLNode NPropertyList::EncodeXML_Array(const NArray& theValue)
+{
 
 
 	// Get the state we need
-	nodeDoc  = theEncoder.Decode(theData);
-	nodeDict = NULL;
-	
-	if (nodeDoc != NULL)
+	NSharedPtrXMLNode theNode = std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenArray);
+
+
+	// Encode the values
+	for (const auto& theItem : theValue)
+	{
+		NSharedPtrXMLNode nodeItem = EncodeXML_Any(theItem);
+
+		if (nodeItem)
 		{
-		theChildren = nodeDoc->GetChildren();
-		for (theIter = theChildren->begin(); theIter != theChildren->end(); theIter++)
+			theNode->AddChild(nodeItem);
+		}
+	}
+
+	return theNode;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::EncodeXML_Boolean : Encode a bool.
+//-----------------------------------------------------------------------------
+NSharedPtrXMLNode NPropertyList::EncodeXML_Boolean(bool theValue)
+{
+
+
+	// Encode the value
+	NString           theToken = theValue ? kNXMLTokenTrue : kNXMLTokenFalse;
+	NSharedPtrXMLNode theNode  = std::make_shared<NXMLNode>(NXMLNodeType::Element, theToken);
+
+	theNode->SetElementUnpaired(true);
+
+	return theNode;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::EncodeXML_Data : Encode binary data.
+//-----------------------------------------------------------------------------
+NSharedPtrXMLNode NPropertyList::EncodeXML_Data(const NData& theValue)
+{
+
+
+	// Get the state we need
+	NString theText = NDataEncoder::Encode(NDataEncoding::Base64, theValue);
+
+
+
+	// Encode the value
+	NSharedPtrXMLNode theNode = std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenData);
+
+	theNode->SetElementContents(theText);
+
+	return theNode;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::EncodeXML_Dictionary : Encode a dictionary.
+//-----------------------------------------------------------------------------
+NSharedPtrXMLNode NPropertyList::EncodeXML_Dictionary(const NDictionary& theValue)
+{
+
+
+	// Get the state we need
+	NSharedPtrXMLNode theNode =
+		std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenDictionary);
+
+
+
+	// Get the keys
+	NVectorString theKeys = theValue.GetKeys();
+
+	nstd::sort(theKeys);
+
+
+
+	// Encode the values
+	for (const auto& theKey : theKeys)
+	{
+		const auto        iterItem = theValue.find(theKey);
+		NSharedPtrXMLNode nodeItem = EncodeXML_Any(iterItem->second);
+
+		if (nodeItem)
+		{
+			NSharedPtrXMLNode nodeKey =
+				std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenKey);
+
+			nodeKey->SetElementContents(theKey);
+
+			theNode->AddChild(nodeKey);
+			theNode->AddChild(nodeItem);
+		}
+	}
+
+	return theNode;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::EncodeXML_Number : Encode a number.
+//-----------------------------------------------------------------------------
+NSharedPtrXMLNode NPropertyList::EncodeXML_Number(const NNumber& theValue)
+{
+
+
+	// Get the state we need
+	//
+	// The XML property list format requires specific values for nan/info.
+	NString theToken, theText;
+
+	if (theValue.IsInteger())
+	{
+		theToken = kNXMLTokenInteger;
+		theText  = NFormat("{}", theValue);
+	}
+	else
+	{
+		theToken               = kNXMLTokenReal;
+		float64_t valueFloat64 = theValue.GetFloat64();
+
+		if (isinf(valueFloat64))
+		{
+			if (valueFloat64 < 0.0)
 			{
-			if ((*theIter)->IsElement(kTokenPList))
-				{
-				theChildren = (*theIter)->GetChildren();
-				nodeDict    = theChildren->at(0);
-				
-				NN_ASSERT(theChildren->size() == 1);
-				NN_ASSERT(nodeDict->IsElement(kTokenDictionary));
-				break;
-				}
+				theText = "-infinity";
+			}
+			else
+			{
+				theText = "+infinity";
 			}
 		}
+		else if (isnan(valueFloat64))
+		{
+			theText = "nan";
+		}
+		else
+		{
+			theText = NFormat("{}", valueFloat64);
+		}
+	}
+
+
+
+	// Encode the value
+	NSharedPtrXMLNode theNode = std::make_shared<NXMLNode>(NXMLNodeType::Element, theToken);
+
+	theNode->SetElementContents(theText);
+
+	return theNode;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::EncodeXML_String : Encode a string.
+//-----------------------------------------------------------------------------
+NSharedPtrXMLNode NPropertyList::EncodeXML_String(const NString& theValue)
+{
+
+
+	// Encode the value
+	NSharedPtrXMLNode theNode = std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenString);
+
+	theNode->SetElementContents(theValue);
+
+	return theNode;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::EncodeXML_Time : Encode a time.
+//-----------------------------------------------------------------------------
+NSharedPtrXMLNode NPropertyList::EncodeXML_Time(const NTime& theValue)
+{
+
+
+	// Get the state we ned
+	NDateFormatter theFormatter;
+
+	theFormatter.SetDate(theValue);
+	NString theText = theFormatter.Format("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+
+
+	// Encode the value
+	NSharedPtrXMLNode theNode = std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenTime);
+
+	theNode->SetElementContents(theText);
+
+	return theNode;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::DecodeFromXML : Decode from NPropertyListFormat::XML.
+//-----------------------------------------------------------------------------
+NDictionary NPropertyList::DecodeFromXML(const NData& theValue)
+{
+
+
+	// Decode the XML
+	NXMLEncoder theEncoder;
+
+	NString           theXML(NStringEncoding::UTF8, theValue);
+	NSharedPtrXMLNode nodeDoc = theEncoder.Decode(theXML);
+
+
+
+	// Locate the root dictionary
+	NSharedPtrXMLNode nodeDict;
+
+	if (nodeDoc)
+	{
+		for (const auto& theChild : nodeDoc->GetChildren())
+		{
+			if (theChild->IsElement(kNXMLTokenPList))
+			{
+				nodeDict = theChild->GetChild(0);
+
+				NN_REQUIRE(theChild->GetChildren().size() == 1);
+				NN_REQUIRE(nodeDict->IsElement(kNXMLTokenDictionary));
+				break;
+			}
+		}
+	}
 
 
 
 	// Decode the XML
-	if (nodeDict != NULL)
-		theState = DecodeMacXML1_Dictionary(nodeDict);
+	if (nodeDict)
+	{
+		return DecodeXML_Dictionary(nodeDict);
+	}
 
-	delete nodeDoc;
-
-	return(theState);
+	return {};
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::EncodeMacBinary1 : Encode kNPropertyListMacBinary1.
-//----------------------------------------------------------------------------
-NData NPropertyList::EncodeMacBinary1(const NDictionary &theState)
-{	uint32_t					numObjects, objectsTableSize, offsetsSize;
-	NData						theData, offsetTable;
-	uint64_t					rootObject;
-	MacBinary1_Trailer			theTrailer;
-	MacBinary1_EncodeInfo		theInfo;
+//=============================================================================
+//		NPropertyList::DecodeXML_Any : Decode a NAny.
+//-----------------------------------------------------------------------------
+NAny NPropertyList::DecodeXML_Any(const NSharedPtrXMLNode& theNode)
+{
 
+
+	// Decode the value
+	NAny theValue;
+
+	if (theNode->IsElement(kNXMLTokenTrue) || theNode->IsElement(kNXMLTokenFalse))
+	{
+		theValue = DecodeXML_Boolean(theNode);
+	}
+
+	else if (theNode->IsElement(kNXMLTokenInteger))
+	{
+		theValue = DecodeXML_Integer(theNode);
+	}
+
+	else if (theNode->IsElement(kNXMLTokenReal))
+	{
+		theValue = DecodeXML_Real(theNode);
+	}
+
+	else if (theNode->IsElement(kNXMLTokenString))
+	{
+		theValue = DecodeXML_String(theNode);
+	}
+
+	else if (theNode->IsElement(kNXMLTokenData))
+	{
+		theValue = DecodeXML_Data(theNode);
+	}
+
+	else if (theNode->IsElement(kNXMLTokenTime))
+	{
+		theValue = DecodeXML_Time(theNode);
+	}
+
+	else if (theNode->IsElement(kNXMLTokenArray))
+	{
+		theValue = DecodeXML_Array(theNode);
+	}
+
+	else if (theNode->IsElement(kNXMLTokenDictionary))
+	{
+		theValue = DecodeXML_Dictionary(theNode);
+	}
+
+	else
+	{
+		NN_LOG_ERROR("Unknown property list value: {}", theNode->GetTextValue());
+	}
+
+	return theValue;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::DecodeXML_Array : Decode an array.
+//-----------------------------------------------------------------------------
+NArray NPropertyList::DecodeXML_Array(const NSharedPtrXMLNode& theNode)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theNode->IsElement(kNXMLTokenArray));
+
+
+
+	// Decode the value
+	NArray theValue;
+
+	for (const auto& theChild : theNode->GetChildren())
+	{
+		NAny theItem = DecodeXML_Any(theChild);
+
+		if (!theItem.IsEmpty())
+		{
+			theValue.emplace_back(theItem);
+		}
+	}
+
+	return theValue;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::DecodeXML_Boolean : Decode a bool.
+//-----------------------------------------------------------------------------
+bool NPropertyList::DecodeXML_Boolean(const NSharedPtrXMLNode& theNode)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theNode->IsElement(kNXMLTokenTrue) || theNode->IsElement(kNXMLTokenFalse));
+
+
+
+	// Decode the value
+	return theNode->IsElement(kNXMLTokenTrue);
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::DecodeXML_Data : Decode binary data.
+//-----------------------------------------------------------------------------
+NData NPropertyList::DecodeXML_Data(const NSharedPtrXMLNode& theNode)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theNode->IsElement(kNXMLTokenData));
+
+
+
+	// Decode the value
+	return NDataEncoder::Decode(NDataEncoding::Base64, theNode->GetElementContents());
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::DecodeXML_Dictionary : Decode a dictionary.
+//-----------------------------------------------------------------------------
+NDictionary NPropertyList::DecodeXML_Dictionary(const NSharedPtrXMLNode& theNode)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theNode->IsElement(kNXMLTokenDictionary));
+
+
+
+	// Get the state we need
+	NVectorSharedPtrXMLNode theChildren = theNode->GetChildren();
+	NN_REQUIRE(NMathUtils::IsEven(theChildren.size()));
+
+
+
+	// Decode the value
+	NDictionary theValue;
+
+	for (auto theIter = theChildren.begin(); theIter != theChildren.end();)
+	{
+		// Get the key-value nodes
+		NSharedPtrXMLNode nodeKey   = *theIter++;
+		NSharedPtrXMLNode nodeValue = *theIter++;
+
+		NN_REQUIRE(nodeKey->IsElement(kNXMLTokenKey));
+
+
+
+		// Decode the key-value pair
+		NString itemKey   = nodeKey->GetElementContents();
+		NAny    itemValue = DecodeXML_Any(nodeValue);
+
+		NN_REQUIRE(!itemKey.IsEmpty());
+		NN_REQUIRE(!itemValue.IsEmpty());
+
+		theValue[itemKey] = itemValue;
+	}
+
+	return theValue;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::DecodeXML_Integer : Decode an integer.
+//-----------------------------------------------------------------------------
+int64_t NPropertyList::DecodeXML_Integer(const NSharedPtrXMLNode& theNode)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theNode->IsElement(kNXMLTokenInteger));
+
+
+
+	// Decode the value
+	int64_t theValue = 0;
+	NNumber theNumber;
+
+	if (theNumber.SetValue(theNode->GetElementContents()) && theNumber.IsInteger())
+	{
+		theValue = theNumber.GetInt64();
+	}
+	else
+	{
+		NN_LOG_WARNING("Unable to extract integer: [{}]", theNode->GetElementContents());
+	}
+
+	return theValue;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::DecodeXML_Real : Decode a floating point value.
+//-----------------------------------------------------------------------------
+float64_t NPropertyList::DecodeXML_Real(const NSharedPtrXMLNode& theNode)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theNode->IsElement(kNXMLTokenReal));
+
+
+
+	// Decode the value
+	float64_t theValue = 0.0;
+	NNumber   theNumber;
+
+	if (theNumber.SetValue(theNode->GetElementContents()))
+	{
+		theValue = theNumber.GetFloat64();
+	}
+	else
+	{
+		NN_LOG_WARNING("Unable to extract real: [{}]", theNode->GetElementContents());
+	}
+
+	return theValue;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::DecodeXML_String : Decode a string.
+//-----------------------------------------------------------------------------
+NString NPropertyList::DecodeXML_String(const NSharedPtrXMLNode& theNode)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theNode->IsElement(kNXMLTokenString));
+
+
+
+	// Decode the value
+	return theNode->GetElementContents();
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::DecodeXML_Time : Decode a time.
+//-----------------------------------------------------------------------------
+NTime NPropertyList::DecodeXML_Time(const NSharedPtrXMLNode& theNode)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theNode->IsElement(kNXMLTokenTime));
+
+
+
+	// Decode the value
+	int valueYear  = 0;
+	int valueMonth = 0;
+	int valueDay   = 0;
+
+	int valueHour   = 0;
+	int valueMinute = 0;
+	int valueSecond = 0;
+
+	NString theText = theNode->GetElementContents();
+
+	int numValues = sscanf(theText.GetUTF8(),
+						   "%04d-%02d-%02dT%02d:%02d:%02dZ",
+						   &valueYear,
+						   &valueMonth,
+						   &valueDay,
+						   &valueHour,
+						   &valueMinute,
+						   &valueSecond);
+
+	NN_EXPECT(numValues == 6);
+	NN_EXPECT(valueMonth >= 1 && valueMonth <= 12);
+	NN_EXPECT(valueDay >= 1 && valueDay <= 31);
+	NN_EXPECT(valueHour >= 0 && valueHour <= 23);
+	NN_EXPECT(valueMinute >= 0 && valueMinute <= 59);
+	NN_EXPECT(valueSecond >= 0 && valueSecond <= 59);
+
+
+
+	// Convert to time
+	NTime theValue = 0.0;
+
+	if (numValues == 6)
+	{
+		struct tm timeUTC
+		{
+		};
+
+		timeUTC.tm_year = valueYear - 1900;
+		timeUTC.tm_mon  = valueMonth - 1;
+		timeUTC.tm_mday = valueDay;
+		timeUTC.tm_hour = valueHour;
+		timeUTC.tm_min  = valueMinute;
+		timeUTC.tm_sec  = valueSecond;
+
+		theValue = NTimeUtils::ToTime(timeUTC);
+	}
+
+	return theValue;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::EncodeToBinary : Encode to NPropertyListFormat::Binary.
+//-----------------------------------------------------------------------------
+NData NPropertyList::EncodeToBinary(const NDictionary& theState)
+{
 
 
 	// Encode the object table
 	//
 	// Binary plists do not attempt to share references - two strings with the same
-	// underlying shared data pointer will be written out twice.
+	// underlying shared data will be written out twice.
 	//
 	// This could be improved by performing a first pass through the values to identify
 	// any objects that had the same value (ideally comparing by value, not the underlying
@@ -494,729 +1068,149 @@ NData NPropertyList::EncodeMacBinary1(const NDictionary &theState)
 	//
 	// Our current approach means that our pre-flight just has to count the number of
 	// objects we'll encode, as this gives us the size for encoding object references.
-	numObjects = 0;
-	EncodeMacBinary1_GetObjectCount(theState, &numObjects);
+	NPListBinaryEncodeInfo encodeInfo{};
 
-	theInfo.objectsSize = EncodeMacBinary1_GetIntegerSize(numObjects);
-	theInfo.objectsTable.AppendData(sizeof(kMagicMacBinary1), kMagicMacBinary1);
+	uint64_t numObjects = EncodeBinary_GetObjectCount(theState);
 
-	rootObject = EncodeMacBinary1_Value(theInfo, theState);
+	encodeInfo.objectsTable = NData(sizeof(kNMagicBinary), kNMagicBinary);
+	encodeInfo.objectsSize  = EncodeBinary_GetIntegerSize(numObjects);
+
+	uint64_t rootObject = EncodeBinary_Any(encodeInfo, theState);
 
 
 
 	// Encode the offset table
-	objectsTableSize = theInfo.objectsTable.GetSize();
-	offsetsSize      = EncodeMacBinary1_GetIntegerSize(objectsTableSize);
-	offsetTable      = EncodeMacBinary1_GetIntegerList(theInfo.theOffsets, offsetsSize);
+	uint64_t objectsTableSize = encodeInfo.objectsTable.GetSize();
+	uint8_t  offsetsSize      = EncodeBinary_GetIntegerSize(objectsTableSize);
+	NData    offsetTable      = EncodeBinary_GetIntegerList(encodeInfo.theOffsets, offsetsSize);
 
 
 
 	// Encode the trailer
-	memset(&theTrailer, 0x00, sizeof(theTrailer));
-	
-	theTrailer.offsetsSize        = (uint8_t) offsetsSize;
-	theTrailer.objectsSize        = (uint8_t) theInfo.objectsSize;
-	theTrailer.numObjects         = theInfo.theOffsets.size();
+	NPListBinaryTrailer theTrailer{};
+
+	theTrailer.offsetsSize        = offsetsSize;
+	theTrailer.objectsSize        = encodeInfo.objectsSize;
+	theTrailer.numObjects         = encodeInfo.theOffsets.size();
 	theTrailer.rootObject         = rootObject;
 	theTrailer.offsetsTableOffset = objectsTableSize;
 
-	NBYTESWAP_ENCODE(1, MacBinary1_Trailer, &theTrailer);
+	NBYTESWAP_ENCODE(1, NPListBinaryTrailer, &theTrailer);
 
 
 
 	// Construct the property list
-	theData.AppendData(theInfo.objectsTable);
-	theData.AppendData(offsetTable);
-	theData.AppendData(sizeof(theTrailer), &theTrailer);
+	NData theData;
 
-	return(theData);
+	theData.Append(encodeInfo.objectsTable);
+	theData.Append(offsetTable);
+	theData.Append(sizeof(theTrailer), &theTrailer);
+
+	return theData;
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::DecodeMacBinary1 : Decode kNPropertyListMacBinary1.
-//----------------------------------------------------------------------------
-NDictionary NPropertyList::DecodeMacBinary1(const NData &theData)
-{	const uint8_t				*offsetsTable;
-	MacBinary1_Trailer			theTrailer;
-	NVariant					rootObject;
-	uint64_t					rootOffset;
-	NDictionary					theState;
-	MacBinary1_DecodeInfo		theInfo;
-
-
-
-	// Validate our state
-	NN_ASSERT(sizeof(theTrailer) == 32);
-
-
-
-	// Decode the trailer
-	if (theData.GetSize() < (NIndex) sizeof(theTrailer))
-		return(theState);
-
-	memcpy(&theTrailer, theData.GetData(theData.GetSize() - sizeof(theTrailer)), sizeof(theTrailer));
-	NBYTESWAP_DECODE(1, MacBinary1_Trailer, &theTrailer);
-
-
-
-	// Prepare to decode
-	NN_ASSERT((NIndex) theTrailer.offsetsTableOffset < kNIndexMax);
-	offsetsTable = theData.GetData((NIndex) theTrailer.offsetsTableOffset);
-
-	theInfo.theOffsets   = DecodeMacBinary1_GetObjectOffsets(theTrailer.numObjects, theTrailer.offsetsSize, offsetsTable);
-	theInfo.objectsSize  = theTrailer.objectsSize;
-	theInfo.objectsTable = theData.GetData();
-
-
-
-	// Decode the top object
-	rootOffset = DecodeMacBinary1_GetObjectOffset(theInfo, theTrailer.rootObject);
-	rootObject = DecodeMacBinary1_Value(          theInfo, rootOffset);
-	
-	if (!rootObject.GetValue(theState))
-		NN_LOG("Unknown root object - not a dictionary");
-
-	return(theState);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::EncodeMacXML1_Boolean : Encode a bool.
-//----------------------------------------------------------------------------
-NXMLNode *NPropertyList::EncodeMacXML1_Boolean(bool theValue)
-{	NXMLNode	*theNode;
-
-
-
-	// Encode the value
-	theNode = new NXMLNode(kNXMLNodeElement, theValue ? kTokenTrue : kTokenFalse);
-	theNode->SetElementUnpaired(true);
-	
-	return(theNode);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::EncodeMacXML1_Number : Encode a number.
-//----------------------------------------------------------------------------
-NXMLNode *NPropertyList::EncodeMacXML1_Number(const NNumber &theValue)
-{	NString			textType, valueText;
-	NXMLNode		*theNode;
-
-
-
-	// Validate our state
-	//
-	// The XML property list format requires specific values for nan/info.
-	NN_ASSERT(kNStringInfinityNeg == "-infinity");
-	NN_ASSERT(kNStringInfinityPos == "+infinity");
-	NN_ASSERT(kNStringNaN         == "nan");
-
-
-
-	// Get the state we need
-	textType  = theValue.IsInteger() ? kTokenInteger : kTokenReal;
-	valueText = theValue.GetString();
-
-
-
-	// Encode the value
-	theNode = new NXMLNode(kNXMLNodeElement, textType);
-	theNode->SetElementContents(valueText);
-
-	return(theNode);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::EncodeMacXML1_String : Encode a string.
-//----------------------------------------------------------------------------
-NXMLNode *NPropertyList::EncodeMacXML1_String(const NString &theValue)
-{	NXMLNode	*theNode;
-
-
-
-	// Encode the value
-	theNode = new NXMLNode(kNXMLNodeElement, kTokenString);
-	theNode->SetElementContents(theValue);
-	
-	return(theNode);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::EncodeMacXML1_Data : Encode binary data.
-//----------------------------------------------------------------------------
-NXMLNode *NPropertyList::EncodeMacXML1_Data(const NData &theValue)
-{	NDataEncoder	theEncoder;
-	NString			valueText;
-	NXMLNode		*theNode;
-
-
-
-	// Get the state we need
-	valueText = theEncoder.Encode(theValue, kNDataEncodingB64);
-
-
-
-	// Encode the value
-	theNode = new NXMLNode(kNXMLNodeElement, kTokenData);
-	theNode->SetElementContents(valueText);
-
-	return(theNode);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::EncodeMacXML1_Date : Encode a date.
-//----------------------------------------------------------------------------
-NXMLNode *NPropertyList::EncodeMacXML1_Date(const NDate &theValue)
-{	NString				valueText;
-	NGregorianDate		gregDate;
-	NXMLNode			*theNode;
-
-
-
-	// Get the state we ned
-	gregDate = theValue.GetDate(kNTimeZoneUTC);
-
-	valueText.Format(kFormatISO8601, gregDate.year, gregDate.month,  gregDate.day,
-									 gregDate.hour, gregDate.minute, (uint32_t) gregDate.second);
-
-
-
-	// Encode the value
-	theNode = new NXMLNode(kNXMLNodeElement, kTokenDate);
-	theNode->SetElementContents(valueText);
-	
-	return(theNode);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::EncodeMacXML1_Array : Encode an array.
-//----------------------------------------------------------------------------
-NXMLNode *NPropertyList::EncodeMacXML1_Array(const NArray &theValue)
-{	NXMLNode		*theNode, *nodeValue;
-	NIndex			n, theSize;
-	NEncoder		theEncoder;
-	NData			theData;
-	NVariant		theItem;
-
-
-
-	// Get the state we need
-	theSize = theValue.GetSize();
-	theNode = new NXMLNode(kNXMLNodeElement, kTokenArray);
-
-
-
-	// Encode the value
-	for (n = 0; n < theSize; n++)
-		{
-		// Get the state we need
-		theItem = theValue.GetValue(n);
-
-
-
-		// Create the value
-		if (theItem.IsType(typeid(bool)))
-			nodeValue = EncodeMacXML1_Boolean(theValue.GetValueBoolean(n));
-
-		else if (theItem.IsNumeric())
-			nodeValue = EncodeMacXML1_Number(theValue.GetValue(n));
-
-		else if (theItem.IsType(typeid(NString)))
-			nodeValue = EncodeMacXML1_String(theValue.GetValueString(n));
-
-		else if (theItem.IsType(typeid(NData)))
-			nodeValue = EncodeMacXML1_Data(theValue.GetValueData(n));
-
-		else if (theItem.IsType(typeid(NDate)))
-			nodeValue = EncodeMacXML1_Date(theValue.GetValueDate(n));
-
-		else if (theItem.IsType(typeid(NArray)))
-			nodeValue = EncodeMacXML1_Array(theValue.GetValueArray(n));
-
-		else if (theItem.IsType(typeid(NDictionary)))
-			nodeValue = EncodeMacXML1_Dictionary(theValue.GetValueDictionary(n));
-
-		else
+//=============================================================================
+//		NPropertyList::EncodeBinary_GetIntegerList : Get an integer list.
+//-----------------------------------------------------------------------------
+NData NPropertyList::EncodeBinary_GetIntegerList(const NVectorUInt64& theObjects,
+												 uint8_t              integerSize)
+{
+
+
+	// Get the object references
+	NData theData;
+
+	theData.SetCapacity(theObjects.size() * sizeof(uint64_t));
+
+	switch (integerSize)
+	{
+		case 1:
+			for (uint64_t theObject : theObjects)
 			{
-			theData = theEncoder.Encode(theItem);
-			if (!theData.IsEmpty())
-				nodeValue = EncodeMacXML1_Data(theData);
-			else
-				{
-				NN_LOG("Unknown property list value!");
-				nodeValue = new NXMLNode(kNXMLNodeElement, kTokenUnknown);
-				}
+				NN_REQUIRE(theObject <= kNUInt8Max);
+				uint8_t value8 = uint8_t(theObject);
+				theData.Append(sizeof(value8), &value8);
 			}
+			break;
 
-
-
-		// Add the value
-		theNode->AddChild(nodeValue);
-		}
-	 
-	return(theNode);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::EncodeMacXML1_Dictionary : Encode a dictionary.
-//----------------------------------------------------------------------------
-NXMLNode *NPropertyList::EncodeMacXML1_Dictionary(const NDictionary &theValue)
-{	NXMLNode					*theNode, *nodeKey, *nodeValue;
-	NEncoder					theEncoder;
-	NVariant					theItem;
-	NStringList					theKeys;
-	NStringListConstIterator	theIter;
-	NData						theData;
-	NString						theKey;
-
-
-
-	// Get the state we need
-	theKeys = theValue.GetKeys(true);
-	theNode = new NXMLNode(kNXMLNodeElement, kTokenDictionary);
-
-
-
-	// Encode the value
-	for (theIter = theKeys.begin(); theIter != theKeys.end(); theIter++)
-		{
-		// Get the state we need
-		theKey  = *theIter;
-		theItem = theValue.GetValue(theKey);
-		
-		
-		
-		// Create the key-value pair
-		nodeKey = new NXMLNode(kNXMLNodeElement, kTokenKey);
-		nodeKey->SetElementContents(theKey);
-
-		if (theItem.IsType(typeid(bool)))
-			nodeValue = EncodeMacXML1_Boolean(theValue.GetValueBoolean(theKey));
-
-		else if (theItem.IsNumeric())
-			nodeValue = EncodeMacXML1_Number(theValue.GetValue(theKey));
-
-		else if (theItem.IsType(typeid(NString)))
-			nodeValue = EncodeMacXML1_String(theValue.GetValueString(theKey));
-
-		else if (theItem.IsType(typeid(NData)))
-			nodeValue = EncodeMacXML1_Data(theValue.GetValueData(theKey));
-
-		else if (theItem.IsType(typeid(NDate)))
-			nodeValue = EncodeMacXML1_Date(theValue.GetValueDate(theKey));
-
-		else if (theItem.IsType(typeid(NArray)))
-			nodeValue = EncodeMacXML1_Array(theValue.GetValueArray(theKey));
-
-		else if (theItem.IsType(typeid(NDictionary)))
-			nodeValue = EncodeMacXML1_Dictionary(theValue.GetValueDictionary(theKey));
-
-		else
+		case 2:
+			for (uint64_t theObject : theObjects)
 			{
-			theData = theEncoder.Encode(theItem);
-			if (!theData.IsEmpty())
-				nodeValue = EncodeMacXML1_Data(theData);
-			else
-				{
-				NN_LOG("Unknown property list value [%s]!", theItem.GetType().name());
-				nodeValue = new NXMLNode(kNXMLNodeElement, kTokenUnknown);
-				}
+				NN_REQUIRE(theObject <= kNUInt16Max);
+				uint16_t value16 = NByteSwap::SwapNtoB(uint16_t(theObject));
+				theData.Append(sizeof(value16), &value16);
 			}
+			break;
 
-
-
-		// Add the key-value pair
-		theNode->AddChild(nodeKey);
-		theNode->AddChild(nodeValue);
-		}
-	 
-	return(theNode);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::DecodeMacXML1_Boolean : Decode a bool.
-//----------------------------------------------------------------------------
-bool NPropertyList::DecodeMacXML1_Boolean(const NXMLNode *theNode)
-{	bool	theValue;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theNode->IsElement(kTokenTrue) || theNode->IsElement(kTokenFalse));
-
-
-
-	// Decode the value
-	theValue = theNode->IsElement(kTokenTrue);
-	
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::DecodeMacXML1_Integer : Decode an integer.
-//----------------------------------------------------------------------------
-int64_t NPropertyList::DecodeMacXML1_Integer(const NXMLNode *theNode)
-{	NNumber		rawValue;
-	int64_t		theValue;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theNode->IsElement(kTokenInteger));
-
-
-
-	// Decode the value
-	if (!rawValue.SetValue(theNode->GetElementContents()) || !rawValue.IsInteger())
-		NN_LOG("Unable to extract integer: [%@]", theNode->GetElementContents());
-	
-	theValue = rawValue.GetInt64();
-	
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::DecodeMacXML1_Real : Decode a floating point value.
-//----------------------------------------------------------------------------
-float64_t NPropertyList::DecodeMacXML1_Real(const NXMLNode *theNode)
-{	NNumber		rawValue;
-	float64_t	theValue;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theNode->IsElement(kTokenReal));
-
-
-
-	// Decode the value
-	if (!rawValue.SetValue(theNode->GetElementContents()))
-		NN_LOG("Unable to extract real: [%@]", theNode->GetElementContents());
-		
-	theValue = rawValue.GetFloat64();
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::DecodeMacXML1_String : Decode a string.
-//----------------------------------------------------------------------------
-NString NPropertyList::DecodeMacXML1_String(const NXMLNode *theNode)
-{	NString		theValue;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theNode->IsElement(kTokenString));
-
-
-
-	// Decode the value
-	theValue = theNode->GetElementContents();
-	
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::DecodeMacXML1_Data : Decode binary data.
-//----------------------------------------------------------------------------
-NData NPropertyList::DecodeMacXML1_Data(const NXMLNode *theNode)
-{	NDataEncoder	theEncoder;
-	NData			theValue;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theNode->IsElement(kTokenData));
-
-
-
-	// Decode the value
-	theValue = theEncoder.Decode(theNode->GetElementContents(), kNDataEncodingB64);
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::DecodeMacXML1_Date : Decode a date.
-//----------------------------------------------------------------------------
-NDate NPropertyList::DecodeMacXML1_Date(const NXMLNode *theNode)
-{	int					valMonth, valDay, valHour, valMinute;
-	int32_t				numSecs, numItems;
-	NString				valueText;
-	NGregorianDate		gregDate;
-	NDate				theValue;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theNode->IsElement(kTokenDate));
-
-
-
-	// Get the state we need
-	valueText = theNode->GetElementContents();
-	numItems  = sscanf(valueText.GetUTF8(), kFormatISO8601.GetUTF8(),
-							&gregDate.year, &valMonth,  &valDay,
-							&valHour, &valMinute, &numSecs);
-
-	NN_ASSERT(numItems  == 6);
-	NN_ASSERT(valMonth  <= kInt8Max);
-	NN_ASSERT(valDay    <= kInt8Max);
-	NN_ASSERT(valHour   <= kInt8Max);
-	NN_ASSERT(valMinute <= kInt8Max);
-
-	gregDate.month    = (int8_t) valMonth;
-	gregDate.day      = (int8_t) valDay;
-	gregDate.hour     = (int8_t) valHour;
-	gregDate.minute   = (int8_t) valMinute;
-	gregDate.timeZone = kNTimeZoneUTC;
-
-
-
-	// Decode the value
-	//
-	// Conversion from a gregorian date to an NTime can introduce rounding
-	// errors from the underlying platform (e.g., Windows gregorian conversion
-	// is only accurate to 100 nanoseconds).
-	//
-	// Since we know our seconds are integers, we round after conversion.
-	if (numItems == 6)
-		{
-		gregDate.second = numSecs;
-		theValue.SetDate(gregDate);
-		theValue.SetTime(NTargetPOSIX::rint(theValue.GetTime()));
-		}
-	else
-		theValue.SetTime(0.0);
-	
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::DecodeMacXML1_Array : Decode an array.
-//----------------------------------------------------------------------------
-NArray NPropertyList::DecodeMacXML1_Array(const NXMLNode *theNode)
-{	const NXMLNodeList				*theChildren;
-	const NXMLNode					*nodeValue;
-	NEncoder						theEncoder;
-	NVariant						theObject;
-	NArray							theValue;
-	NData							theData;
-	NXMLNodeListConstIterator		theIter;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theNode->IsElement(kTokenArray));
-
-
-
-	// Get the state we need
-	theChildren = theNode->GetChildren();
-
-
-
-	// Decode the value
-	for (theIter = theChildren->begin(); theIter != theChildren->end(); theIter++)
-		{
-		// Get the state we need
-		nodeValue = *theIter;
-		
-		
-		// Get the value
-		if (nodeValue->IsElement(kTokenTrue) || nodeValue->IsElement(kTokenFalse))
-			theValue.AppendValue(DecodeMacXML1_Boolean(nodeValue));
-
-		else if (nodeValue->IsElement(kTokenInteger))
-			theValue.AppendValue(DecodeMacXML1_Integer(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenReal))
-			theValue.AppendValue(DecodeMacXML1_Real(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenString))
-			theValue.AppendValue(DecodeMacXML1_String(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenData))
+		case 4:
+			for (uint64_t theObject : theObjects)
 			{
-			theData   = DecodeMacXML1_Data(nodeValue);
-			theObject = theEncoder.Decode(theData);
-
-			if (theObject.IsValid())
-				theValue.AppendValue(theObject);
-			else
-				theValue.AppendValue(theData);
+				NN_REQUIRE(theObject <= kNUInt32Max);
+				uint32_t value32 = NByteSwap::SwapNtoB(uint32_t(theObject));
+				theData.Append(sizeof(value32), &value32);
 			}
-		
-		else if (nodeValue->IsElement(kTokenDate))
-			theValue.AppendValue(DecodeMacXML1_Date(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenArray))
-			theValue.AppendValue(DecodeMacXML1_Array(nodeValue));
+			break;
 
-		else if (nodeValue->IsElement(kTokenDictionary))
-			theValue.AppendValue(DecodeMacXML1_Dictionary(nodeValue));
-		
-		else
-			NN_LOG("Unknown property list value [%@]!", nodeValue->GetTextValue());
-		}
-	
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::DecodeMacXML1_Dictionary : Decode a dictionary.
-//----------------------------------------------------------------------------
-NDictionary NPropertyList::DecodeMacXML1_Dictionary(const NXMLNode *theNode)
-{	const NXMLNode					*nodeKey, *nodeValue;
-	const NXMLNodeList				*theChildren;
-	NEncoder						theEncoder;
-	NVariant						theObject;
-	NDictionary						theValue;
-	NXMLNodeListConstIterator		theIter;
-	NData							theData;
-	NString							theKey;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theNode->IsElement(kTokenDictionary));
-
-
-
-	// Get the state we need
-	theChildren = theNode->GetChildren();
-	NN_ASSERT(NMathUtilities::IsEven(theChildren->size()));
-
-
-
-	// Decode the value
-	for (theIter = theChildren->begin(); theIter != theChildren->end(); )
-		{
-		// Get the state we need
-		nodeKey   = *theIter++;
-		nodeValue = *theIter++;
-
-
-		// Get the key
-		NN_ASSERT(nodeKey->IsElement(kTokenKey));
-		theKey = nodeKey->GetElementContents();
-		
-		
-		// Get the value
-		if (nodeValue->IsElement(kTokenTrue) || nodeValue->IsElement(kTokenFalse))
-			theValue.SetValue(theKey, DecodeMacXML1_Boolean(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenInteger))
-			theValue.SetValue(theKey, DecodeMacXML1_Integer(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenReal))
-			theValue.SetValue(theKey, DecodeMacXML1_Real(nodeValue));
-
-		else if (nodeValue->IsElement(kTokenString))
-			theValue.SetValue(theKey, DecodeMacXML1_String(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenData))
+		case 8:
+			for (uint64_t theObject : theObjects)
 			{
-			theData   = DecodeMacXML1_Data(nodeValue);
-			theObject = theEncoder.Decode(theData);
-
-			if (theObject.IsValid())
-				theValue.SetValue(theKey, theObject);
-			else
-				theValue.SetValue(theKey, theData);
+				uint64_t value64 = NByteSwap::SwapNtoB(uint64_t(theObject));
+				theData.Append(sizeof(value64), &value64);
 			}
-		
-		else if (nodeValue->IsElement(kTokenDate))
-			theValue.SetValue(theKey, DecodeMacXML1_Date(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenArray))
-			theValue.SetValue(theKey, DecodeMacXML1_Array(nodeValue));
-		
-		else if (nodeValue->IsElement(kTokenDictionary))
-			theValue.SetValue(theKey, DecodeMacXML1_Dictionary(nodeValue));
-		
-		else
-			NN_LOG("Unknown property list value [%@] [%@]!", theKey, nodeValue->GetTextValue());
-		}
+			break;
 
-	return(theValue);
+		default:
+			NN_LOG_ERROR("Unknown integer size {}", integerSize);
+			NN_UNREACHABLE();
+			break;
+	}
+
+	return theData;
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::EncodeMacBinary1_GetObjectCount : Count the objects.
-//----------------------------------------------------------------------------
-void NPropertyList::EncodeMacBinary1_GetObjectCount(const NVariant &theValue, uint32_t *numObjects)
-{	NDictionary		valueDictionary;
-	NArray			valueArray;
+//=============================================================================
+//		NPropertyList::EncodeBinary_GetIntegerSize : Get an integer's size.
+//-----------------------------------------------------------------------------
+uint8_t NPropertyList::EncodeBinary_GetIntegerSize(uint64_t maxValue)
+{
 
+
+	// Get the required size
+	if (maxValue <= kNUInt8Max)
+	{
+		return 1;
+	}
+
+	else if (maxValue <= kNUInt16Max)
+	{
+		return 2;
+	}
+
+	else if (maxValue <= kNUInt32Max)
+	{
+		return 4;
+	}
+
+	return 8;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::EncodeBinary_GetObjectCount : Count the objects.
+//-----------------------------------------------------------------------------
+uint64_t NPropertyList::EncodeBinary_GetObjectCount(const NAny& theValue)
+{
 
 
 	// Count the objects
@@ -1225,153 +1219,98 @@ void NPropertyList::EncodeMacBinary1_GetObjectCount(const NVariant &theValue, ui
 	//
 	// Arrays and dictionaries also generate an object for each of their values,
 	// with dictionaries also generating objects for each of their keys.
-	*numObjects += 1;
+	uint64_t numObjects = 1;
 
-	if (theValue.GetValue(valueArray))
-		valueArray.ForEach(     BindSelf(NPropertyList::EncodeMacBinary1_GetObjectCount, kNArg2, numObjects));
-
-	else if (theValue.GetValue(valueDictionary))
+	if (theValue.Has<NArray>())
+	{
+		for (const auto& childValue : theValue.Get<NArray>())
 		{
-		*numObjects += valueDictionary.GetSize();
-		valueDictionary.ForEach(BindSelf(NPropertyList::EncodeMacBinary1_GetObjectCount, kNArg2, numObjects));
+			numObjects += EncodeBinary_GetObjectCount(childValue);
 		}
+	}
+
+	else if (theValue.Has<NDictionary>())
+	{
+		for (const auto& keyValue : theValue.Get<NDictionary>())
+		{
+			numObjects += 1;
+			numObjects += EncodeBinary_GetObjectCount(keyValue.second);
+		}
+	}
+
+	return numObjects;
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::EncodeMacBinary1_GetIntegerSize : Get an integer's size.
-//----------------------------------------------------------------------------
-uint32_t NPropertyList::EncodeMacBinary1_GetIntegerSize(uint64_t theSize)
+//=============================================================================
+//		NPropertyList::EncodeBinary_WriteObject : Write an object.
+//-----------------------------------------------------------------------------
+void NPropertyList::EncodeBinary_WriteObject(NPListBinaryEncodeInfo& encodeInfo)
 {
-
-
-	// Get the required size
-	if (theSize <= kUInt8Max)
-		return(1);
-
-	else if (theSize <= kUInt16Max)
-		return(2);
-
-	else if (theSize <= kUInt32Max)
-		return(4);
-		
-	return(8);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::EncodeMacBinary1_GetIntegerList : Get an integer list.
-//----------------------------------------------------------------------------
-NData NPropertyList::EncodeMacBinary1_GetIntegerList(const UInt64List &theObjects, uint32_t objectsSize)
-{	uint64_t	theObject, value64;
-	NIndex		n, numObjects;
-	NData		theData;
-	uint32_t	value32;
-	uint16_t	value16;
-	uint8_t		value8;
-
-
-
-	// Get the state we need
-	numObjects = theObjects.size();
-
-	theData.Reserve(numObjects * sizeof(uint64_t));
-
-
-
-	// Get the object references
-	for (n = 0; n < numObjects; n++)
-		{
-		theObject = theObjects[n];
-		
-		switch (objectsSize) {
-			case 1:
-				NN_ASSERT(theObject <= kUInt8Max);
-				value8 = (uint8_t) theObject;
-				theData.AppendData(sizeof(value8), &value8);
-				break;
-
-			case 2:
-				NN_ASSERT(theObject <= kUInt16Max);
-				value16 = NSwapUInt16_NtoB((uint16_t) theObject);
-				theData.AppendData(sizeof(value16), &value16);
-				break;
-
-			case 4:
-				NN_ASSERT(theObject <= kUInt32Max);
-				value32 = NSwapUInt32_NtoB((uint32_t) theObject);
-				theData.AppendData(sizeof(value32), &value32);
-				break;
-
-			case 8:
-				NN_ASSERT(theObject <= kUInt64Max);
-				value64 = NSwapUInt64_NtoB((uint64_t) theObject);
-				theData.AppendData(sizeof(value64), &value64);
-				break;
-
-			default:
-				NN_LOG("Unknown object reference size: %ld", objectsSize);
-				break;
-			}
-		}
-	
-	return(theData);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::EncodeMacBinary1_WriteObject : Write an object.
-//----------------------------------------------------------------------------
-void NPropertyList::EncodeMacBinary1_WriteObject(MacBinary1_EncodeInfo &theInfo)
-{	uint64_t	theOffset;
-
 
 
 	// Add the object
 	//
 	// Object offsets are byte offsets, relative to the start of the object table.
-	theOffset = theInfo.objectsTable.GetSize();
+	uint64_t theOffset = encodeInfo.objectsTable.GetSize();
 
-	theInfo.theOffsets.push_back(theOffset);
+	encodeInfo.theOffsets.push_back(theOffset);
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::EncodeMacBinary1_WriteObjectTag : Write an object tag.
-//----------------------------------------------------------------------------
-void NPropertyList::EncodeMacBinary1_WriteObjectTag(MacBinary1_EncodeInfo &theInfo, uint8_t theToken, uint8_t objectInfo, uint64_t objectSize)
-{	uint8_t	theTag;
+//=============================================================================
+//		NPropertyList::EncodeBinary_WriteObjectData : Write object data.
+//-----------------------------------------------------------------------------
+void NPropertyList::EncodeBinary_WriteObjectData(NPListBinaryEncodeInfo& encodeInfo,
+												 size_t                  theSize,
+												 const void*             thePtr)
+{
 
+
+	// Add the data
+	encodeInfo.objectsTable.Append(theSize, thePtr);
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::EncodeBinary_WriteObjectTag : Write an object tag.
+//-----------------------------------------------------------------------------
+void NPropertyList::EncodeBinary_WriteObjectTag(NPListBinaryEncodeInfo& encodeInfo,
+												uint8_t                 theToken,
+												uint8_t                 objectInfo,
+												uint64_t                objectSize)
+{
 
 
 	// Validate our parameters
-	NN_ASSERT(theToken   <= 0x0F);
-	NN_ASSERT(objectInfo <= 0x0F);
+	NN_REQUIRE(theToken <= 0x0F);
+	NN_REQUIRE(objectInfo <= 0x0F);
 
 
 
 	// Get the state we need
 	if (objectSize != 0)
-		{
-		NN_ASSERT(objectInfo == 0);
+	{
+		NN_REQUIRE(objectInfo == 0);
 
-		if (objectSize >= kBinary1_Value_SizeInteger)
-			objectInfo =  kBinary1_Value_SizeInteger;
-		else
-			objectInfo = (uint8_t) objectSize;
+		if (objectSize >= kNBinaryValueSizeInteger)
+		{
+			objectInfo = kNBinaryValueSizeInteger;
 		}
+		else
+		{
+			objectInfo = uint8_t(objectSize);
+		}
+	}
 
 
 
@@ -1379,9 +1318,9 @@ void NPropertyList::EncodeMacBinary1_WriteObjectTag(MacBinary1_EncodeInfo &theIn
 	//
 	// Each object starts with a tag byte, which is divided into an identifying
 	// token (high nibble) and 4 bits of object-specific state (low nibble).
-	theTag = ((uint8_t) (theToken << 4)) | objectInfo;
+	uint8_t theTag = uint8_t((theToken << 4) | objectInfo);
 
-	theInfo.objectsTable.AppendData(sizeof(theTag), &theTag);
+	encodeInfo.objectsTable.Append(sizeof(theTag), &theTag);
 
 
 
@@ -1390,127 +1329,204 @@ void NPropertyList::EncodeMacBinary1_WriteObjectTag(MacBinary1_EncodeInfo &theIn
 	// If a size is provided then it will be stored in the object-specific state.
 	//
 	// if the size exceeds 4 bits then it is appended as an encoded integer.
-	if (objectSize != 0 && objectInfo == kBinary1_Value_SizeInteger)
-		EncodeMacBinary1_Integer(theInfo, (int64_t) objectSize, false);
+	if (objectSize != 0 && objectInfo == kNBinaryValueSizeInteger)
+	{
+		EncodeBinary_Integer(encodeInfo, objectSize, false);
+	}
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::EncodeMacBinary1_WriteObjectData : Write object data.
-//----------------------------------------------------------------------------
-void NPropertyList::EncodeMacBinary1_WriteObjectData(MacBinary1_EncodeInfo &theInfo, NIndex theSize, const void *thePtr)
+//=============================================================================
+//		NPropertyList::EncodeBinary_Any : Encode an NAny.
+//-----------------------------------------------------------------------------
+uint64_t NPropertyList::EncodeBinary_Any(NPListBinaryEncodeInfo& encodeInfo, const NAny& theValue)
 {
 
 
-	// Add the data
-	theInfo.objectsTable.AppendData(theSize, thePtr);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::EncodeMacBinary1_Value : Encode a value.
-//----------------------------------------------------------------------------
-uint64_t NPropertyList::EncodeMacBinary1_Value(MacBinary1_EncodeInfo &theInfo, const NVariant &theValue)
-{	NDictionary			valueDictionary;
-	bool				valueBoolean;
-	NNumber				valueNumber;
-	NString				valueString;
-	NArray				valueArray;
-	NEncoder			theEncoder;
-	NData				valueData;
-	uint64_t			objectRef;
-	NDate				valueDate;
-
-
-
 	// Encode the value
-	if (theValue.GetValue(valueBoolean))
-		EncodeMacBinary1_Boolean(theInfo, valueBoolean);
+	NNumber theNumber;
 
-	else if (theValue.IsNumeric() && valueNumber.SetValue(theValue))
+	if (theValue.HasBool())
+	{
+		EncodeBinary_Boolean(encodeInfo, theValue.GetBool());
+	}
+
+	else if (theNumber.SetValue(theValue))
+	{
+		if (theNumber.IsInteger())
 		{
-		if (valueNumber.IsInteger())
-			EncodeMacBinary1_Integer(theInfo, valueNumber);
-		else
-			EncodeMacBinary1_Real(   theInfo, valueNumber);
+			EncodeBinary_Integer(encodeInfo, theNumber);
 		}
+		else
+		{
+			EncodeBinary_Real(encodeInfo, theNumber);
+		}
+	}
 
-	else if (theValue.GetValue(valueString))
-		EncodeMacBinary1_String(theInfo, valueString);
+	else if (theValue.HasString())
+	{
+		EncodeBinary_String(encodeInfo, theValue.GetString());
+	}
 
-	else if (theValue.GetValue(valueData))
-		EncodeMacBinary1_Data(theInfo, valueData);
+	else if (theValue.HasData())
+	{
+		EncodeBinary_Data(encodeInfo, theValue.GetData());
+	}
 
-	else if (theValue.GetValue(valueDate))
-		EncodeMacBinary1_Date(theInfo, valueDate);
+	else if (theValue.HasTime())
+	{
+		EncodeBinary_Time(encodeInfo, theValue.GetTime());
+	}
 
-	else if (theValue.GetValue(valueArray))
-		EncodeMacBinary1_Array(theInfo, valueArray);
+	else if (theValue.Has<NArray>())
+	{
+		EncodeBinary_Array(encodeInfo, theValue.Get<NArray>());
+	}
 
-	else if (theValue.GetValue(valueDictionary))
-		EncodeMacBinary1_Dictionary(theInfo, valueDictionary);
-	
+	else if (theValue.Has<NDictionary>())
+	{
+		EncodeBinary_Dictionary(encodeInfo, theValue.Get<NDictionary>());
+	}
+
 	else
-		{
-		valueData = theEncoder.Encode(theValue);
-		if (!valueData.IsEmpty())
-			EncodeMacBinary1_Data(theInfo, valueData);
-		else
-			NN_LOG("Unknown object: %s", theValue.GetType().name());
-		}
+	{
+		NN_LOG_ERROR("Unknown property list value: {}", theValue.GetType().name());
+	}
 
 
 
 	// Get the object
-	objectRef = (uint64_t) (theInfo.theOffsets.size() - 1);
+	uint64_t objectRef = uint64_t(encodeInfo.theOffsets.size() - 1);
 
-	return(objectRef);
+	return objectRef;
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::EncodeMacBinary1_Boolean : Encode a boolean.
-//----------------------------------------------------------------------------
-void NPropertyList::EncodeMacBinary1_Boolean(MacBinary1_EncodeInfo &theInfo, bool theValue)
+//=============================================================================
+//		NPropertyList::EncodeBinary_Array : Encode an array.
+//-----------------------------------------------------------------------------
+void NPropertyList::EncodeBinary_Array(NPListBinaryEncodeInfo& encodeInfo, const NArray& theValue)
+{
+
+
+	// Encode the objects
+	NVectorUInt64 valueRefs;
+
+	for (const auto& theItem : theValue)
+	{
+		valueRefs.push_back(EncodeBinary_Any(encodeInfo, theItem));
+	}
+
+
+
+	// Encode the value
+	NData valueData = EncodeBinary_GetIntegerList(valueRefs, encodeInfo.objectsSize);
+
+	EncodeBinary_WriteObject(encodeInfo);
+	EncodeBinary_WriteObjectTag(encodeInfo, kNBinaryTokenArray, 0, theValue.size());
+	EncodeBinary_WriteObjectData(encodeInfo, valueData.GetSize(), valueData.GetData());
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::EncodeBinary_Boolean : Encode a boolean.
+//-----------------------------------------------------------------------------
+void NPropertyList::EncodeBinary_Boolean(NPListBinaryEncodeInfo& encodeInfo, bool theValue)
 {
 
 
 	// Encode the value
-	EncodeMacBinary1_WriteObject(theInfo);
+	EncodeBinary_WriteObject(encodeInfo);
 
 	if (theValue)
-		EncodeMacBinary1_WriteObjectTag(theInfo, kBinary1_Token_Null, kBinary1_Value_True);
+	{
+		EncodeBinary_WriteObjectTag(encodeInfo, kNBinaryTokenNull, kNBinaryValueTrue);
+	}
 	else
-		EncodeMacBinary1_WriteObjectTag(theInfo, kBinary1_Token_Null, kBinary1_Value_False);
+	{
+		EncodeBinary_WriteObjectTag(encodeInfo, kNBinaryTokenNull, kNBinaryValueFalse);
+	}
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::EncodeMacBinary1_Integer : Encode an integer.
-//----------------------------------------------------------------------------
-void NPropertyList::EncodeMacBinary1_Integer(MacBinary1_EncodeInfo &theInfo, const NNumber &theValue, bool addObject)
-{	int64_t		value64;
-	uint32_t	value32;
-	uint16_t	value16;
-	uint8_t		value8;
+//=============================================================================
+//		NPropertyList::EncodeBinary_Data : Encode data.
+//-----------------------------------------------------------------------------
+void NPropertyList::EncodeBinary_Data(NPListBinaryEncodeInfo& encodeInfo, const NData& theValue)
+{
+
+
+	// Encode the value
+	EncodeBinary_WriteObject(encodeInfo);
+	EncodeBinary_WriteObjectTag(encodeInfo, kNBinaryTokenData, 0, theValue.GetSize());
+	EncodeBinary_WriteObjectData(encodeInfo, theValue.GetSize(), theValue.GetData());
+}
 
 
 
-	// Get the state we need
-	value64 = theValue.GetInt64();
 
+
+//=============================================================================
+//		NPropertyList::EncodeBinary_Dictionary : Encode a dictionary.
+//-----------------------------------------------------------------------------
+void NPropertyList::EncodeBinary_Dictionary(NPListBinaryEncodeInfo& encodeInfo,
+											const NDictionary&      theValue)
+{
+
+
+	// Encode the objects
+	NVectorUInt64 keyRefs;
+	NVectorUInt64 valueRefs;
+
+	for (const auto& keyValue : theValue)
+	{
+		keyRefs.push_back(EncodeBinary_Any(encodeInfo, keyValue.first));
+	}
+
+	for (const auto& keyValue : theValue)
+	{
+		valueRefs.push_back(EncodeBinary_Any(encodeInfo, keyValue.second));
+	}
+
+
+
+	// Encode the value
+	NData keyData   = EncodeBinary_GetIntegerList(keyRefs, encodeInfo.objectsSize);
+	NData valueData = EncodeBinary_GetIntegerList(valueRefs, encodeInfo.objectsSize);
+
+	EncodeBinary_WriteObject(encodeInfo);
+	EncodeBinary_WriteObjectTag(encodeInfo, kNBinaryTokenDictionary, 0, theValue.size());
+	EncodeBinary_WriteObjectData(encodeInfo, keyData.GetSize(), keyData.GetData());
+	EncodeBinary_WriteObjectData(encodeInfo, valueData.GetSize(), valueData.GetData());
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::EncodeBinary_Integer : Encode an integer.
+//-----------------------------------------------------------------------------
+void NPropertyList::EncodeBinary_Integer(NPListBinaryEncodeInfo& encodeInfo,
+										 const NNumber&          theValue,
+										 bool                    addObject)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theValue.IsInteger());
 
 
 	// Add the object
@@ -1518,353 +1534,385 @@ void NPropertyList::EncodeMacBinary1_Integer(MacBinary1_EncodeInfo &theInfo, con
 	// Integers are used to store variable-sized sizes for other objects, so
 	// we may not need to start a new object.
 	if (addObject)
-		EncodeMacBinary1_WriteObject(theInfo);
+	{
+		EncodeBinary_WriteObject(encodeInfo);
+	}
 
 
 
 	// Encode the value
 	//
-	// Signed values are stored as 8 byte big-endian integers. Unsigned values
-	// are stored in the smallest big-endian integer that can hold their value.
-	if (value64 >= 0 && value64 <= kUInt8Max)
-		{
-		value8 = (uint8_t) value64;
+	// Signed values are stored as 8 byte big-endian integers.
+	//
+	// Unsigned values are stored in the smallest big-endian integer
+	// that can hold their value.
+	int64_t value64 = theValue.GetInt64();
 
-		EncodeMacBinary1_WriteObjectTag( theInfo, kBinary1_Token_Integer, kBinary1_Value_Int8);
-		EncodeMacBinary1_WriteObjectData(theInfo, sizeof(value8), &value8);
-		}
+	if (value64 >= 0 && value64 <= kNUInt8Max)
+	{
+		uint8_t value8 = uint8_t(value64);
 
-	else if (value64 >= 0 && value64 <= kUInt16Max)
-		{
-		value16 = NSwapUInt16_NtoB((uint16_t) value64);
+		EncodeBinary_WriteObjectTag(encodeInfo, kNBinaryTokenInteger, kNBinaryValueInt8);
+		EncodeBinary_WriteObjectData(encodeInfo, sizeof(value8), &value8);
+	}
 
-		EncodeMacBinary1_WriteObjectTag( theInfo, kBinary1_Token_Integer, kBinary1_Value_Int16);
-		EncodeMacBinary1_WriteObjectData(theInfo, sizeof(value16), &value16);
-		}
+	else if (value64 >= 0 && value64 <= kNUInt16Max)
+	{
+		uint16_t value16 = NByteSwap::SwapNtoB(uint16_t(value64));
 
-	else if (value64 >= 0 && value64 <= kUInt32Max)
-		{
-		value32 = NSwapUInt32_NtoB((uint32_t) value64);
+		EncodeBinary_WriteObjectTag(encodeInfo, kNBinaryTokenInteger, kNBinaryValueInt16);
+		EncodeBinary_WriteObjectData(encodeInfo, sizeof(value16), &value16);
+	}
 
-		EncodeMacBinary1_WriteObjectTag( theInfo, kBinary1_Token_Integer, kBinary1_Value_Int32);
-		EncodeMacBinary1_WriteObjectData(theInfo, sizeof(value32), &value32);
-		}
+	else if (value64 >= 0 && value64 <= kNUInt32Max)
+	{
+		uint32_t value32 = NByteSwap::SwapNtoB(uint32_t(value64));
+
+		EncodeBinary_WriteObjectTag(encodeInfo, kNBinaryTokenInteger, kNBinaryValueInt32);
+		EncodeBinary_WriteObjectData(encodeInfo, sizeof(value32), &value32);
+	}
 
 	else
-		{
-		value64 = NSwapInt64_NtoB(value64);
+	{
+		value64 = NByteSwap::SwapNtoB(value64);
 
-		EncodeMacBinary1_WriteObjectTag( theInfo, kBinary1_Token_Integer, kBinary1_Value_Int64);
-		EncodeMacBinary1_WriteObjectData(theInfo, sizeof(value64), &value64);
-		}
+		EncodeBinary_WriteObjectTag(encodeInfo, kNBinaryTokenInteger, kNBinaryValueInt64);
+		EncodeBinary_WriteObjectData(encodeInfo, sizeof(value64), &value64);
+	}
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::EncodeMacBinary1_Real : Encode a floating point value.
-//----------------------------------------------------------------------------
-void NPropertyList::EncodeMacBinary1_Real(MacBinary1_EncodeInfo &theInfo, const NNumber &theValue)
-{	float64_t		value64;
-	float32_t		value32;
+//=============================================================================
+//		NPropertyList::EncodeBinary_Real : Encode a floating point value.
+//-----------------------------------------------------------------------------
+void NPropertyList::EncodeBinary_Real(NPListBinaryEncodeInfo& encodeInfo, const NNumber& theValue)
+{
 
+
+	// Validate our parameters
+	NN_REQUIRE(theValue.IsReal());
 
 
 	// Encode the value
-	EncodeMacBinary1_WriteObject(theInfo);
-	
-	switch (theValue.GetPrecision()) {
-		case kNPrecisionFloat32:
-			value32 = theValue.GetFloat32();
-			NSwapFloat32_NtoB(&value32);
+	EncodeBinary_WriteObject(encodeInfo);
 
-			EncodeMacBinary1_WriteObjectTag( theInfo, kBinary1_Token_Real, kBinary1_Value_Float32);
-			EncodeMacBinary1_WriteObjectData(theInfo, sizeof(value32), &value32);
-			break;
+	float64_t value64 = theValue.GetFloat64();
+	NByteSwap::SwapNtoB(&value64);
 
-		case kNPrecisionFloat64:
-			value64 = theValue.GetFloat64();
-			NSwapFloat64_NtoB(&value64);
-
-			EncodeMacBinary1_WriteObjectTag( theInfo, kBinary1_Token_Real, kBinary1_Value_Float64);
-			EncodeMacBinary1_WriteObjectData(theInfo, sizeof(value64), &value64);
-			break;
-
-		default:
-			NN_LOG("Unknown real precision: %d (%@)", theValue.GetPrecision(), theValue.GetString());
-			break;
-		}
+	EncodeBinary_WriteObjectTag(encodeInfo, kNBinaryTokenReal, kNBinaryValueFloat64);
+	EncodeBinary_WriteObjectData(encodeInfo, sizeof(value64), &value64);
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::EncodeMacBinary1_String : Encode a string.
-//----------------------------------------------------------------------------
-void NPropertyList::EncodeMacBinary1_String(MacBinary1_EncodeInfo &theInfo, const NString &theValue)
-{	NIndex			n, theSize;
-	uint8_t			theToken;
-	NData			theData;
-	const uint8_t	*thePtr;
-
+//=============================================================================
+//		NPropertyList::EncodeBinary_String : Encode a string.
+//-----------------------------------------------------------------------------
+void NPropertyList::EncodeBinary_String(NPListBinaryEncodeInfo& encodeInfo, const NString& theValue)
+{
 
 
 	// Get the state we need
 	//
 	// Strings can be encoded as ASCII or as UTF16, depending on content.
-	theToken = kBinary1_Token_StringASCII;
-	theData  = theValue.GetData(kNStringEncodingUTF8, kNStringRenderNone);
-	theSize  = theData.GetSize();
-	thePtr   = theData.GetData();
+	uint8_t theToken = kNBinaryTokenStringASCII;
+	NData   theData  = theValue.GetData(NStringEncoding::UTF8);
 
-	for (n = 0; n < theSize; n++)
-		{
+	size_t         theSize = theData.GetSize();
+	const uint8_t* thePtr  = theData.GetData();
+
+	for (size_t n = 0; n < theSize; n++)
+	{
 		if (thePtr[n] >= 0x80)
-			{
-			theToken = kBinary1_Token_StringUTF16;
-			theData  = theValue.GetData(kNStringEncodingUTF16, kNStringRenderNone);
+		{
+			theToken = kNBinaryTokenStringUTF16;
+			theData  = theValue.GetData(NStringEncoding::UTF16);
 			theSize  = theData.GetSize() / sizeof(utf16_t);
-			
-			NSwapBlock_NtoB(theSize, sizeof(utf16_t), theData.GetData());
+
+			NByteSwap::Swap(theSize, sizeof(uint16_t), theData.GetMutableData());
 			break;
-			}
 		}
+	}
 
 
 
 	// Encode the value
-	EncodeMacBinary1_WriteObject(    theInfo);
-	EncodeMacBinary1_WriteObjectTag( theInfo, theToken, 0, theSize);
-	EncodeMacBinary1_WriteObjectData(theInfo, theData.GetSize(), theData.GetData());
+	EncodeBinary_WriteObject(encodeInfo);
+	EncodeBinary_WriteObjectTag(encodeInfo, theToken, 0, theSize);
+	EncodeBinary_WriteObjectData(encodeInfo, theData.GetSize(), theData.GetData());
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::EncodeMacBinary1_Data : Encode data.
-//----------------------------------------------------------------------------
-void NPropertyList::EncodeMacBinary1_Data(MacBinary1_EncodeInfo &theInfo, const NData &theValue)
+//=============================================================================
+//		NPropertyList::EncodeBinary_Time : Encode a time.
+//-----------------------------------------------------------------------------
+void NPropertyList::EncodeBinary_Time(NPListBinaryEncodeInfo& encodeInfo, const NTime& theValue)
 {
 
 
-	// Encode the value
-	EncodeMacBinary1_WriteObject(    theInfo);
-	EncodeMacBinary1_WriteObjectTag( theInfo, kBinary1_Token_Data, 0, theValue.GetSize());
-	EncodeMacBinary1_WriteObjectData(theInfo, theValue.GetSize(),     theValue.GetData());
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::EncodeMacBinary1_Date : Encode a date.
-//----------------------------------------------------------------------------
-void NPropertyList::EncodeMacBinary1_Date(MacBinary1_EncodeInfo &theInfo, const NDate &theValue)
-{	float64_t		value64;
-
-
-
 	// Get the state we need
-	value64 = theValue.GetTime();
-	NSwapFloat64_NtoB(&value64);
+	float64_t value64 = theValue;
+	NByteSwap::SwapNtoB(&value64);
 
 
 
 	// Encode the value
-	EncodeMacBinary1_WriteObject(    theInfo);
-	EncodeMacBinary1_WriteObjectTag( theInfo, kBinary1_Token_Date, kBinary1_Value_Float64);
-	EncodeMacBinary1_WriteObjectData(theInfo, sizeof(value64), &value64);
+	EncodeBinary_WriteObject(encodeInfo);
+	EncodeBinary_WriteObjectTag(encodeInfo, kNBinaryTokenTime, kNBinaryValueFloat64);
+	EncodeBinary_WriteObjectData(encodeInfo, sizeof(value64), &value64);
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::EncodeMacBinary1_Array : Encode an array.
-//----------------------------------------------------------------------------
-void NPropertyList::EncodeMacBinary1_Array(MacBinary1_EncodeInfo &theInfo, const NArray &theValue)
-{	NIndex			n, theSize;
-	UInt64List		valueRefs;
-	NData			valueData;
+//=============================================================================
+//		NPropertyList::DecodeFromBinary : Decode from NPropertyListFormat::Binary.
+//-----------------------------------------------------------------------------
+NDictionary NPropertyList::DecodeFromBinary(const NData& theData)
+{
+
+
+	// Validate our state
+	static_assert(sizeof(NPListBinaryTrailer) == 32);
 
 
 
-	// Encode the objects
-	theSize = theValue.GetSize();
+	// Decode the trailer
+	NPListBinaryTrailer theTrailer;
 
-	for (n = 0; n < theSize; n++)
-		valueRefs.push_back(EncodeMacBinary1_Value(theInfo, theValue.GetValue(n)));
+	if (theData.GetSize() < sizeof(theTrailer))
+	{
+		return {};
+	}
+
+	memcpy(&theTrailer,
+		   theData.GetData(theData.GetSize() - sizeof(theTrailer)),
+		   sizeof(theTrailer));
+	NBYTESWAP_DECODE(1, NPListBinaryTrailer, &theTrailer);
 
 
 
-	// Encode the value
-	valueData = EncodeMacBinary1_GetIntegerList(valueRefs, theInfo.objectsSize);
+	// Decode the object table
+	NPListBinaryDecodeInfo decodeInfo;
 
-	EncodeMacBinary1_WriteObject(    theInfo);
-	EncodeMacBinary1_WriteObjectTag( theInfo, kBinary1_Token_Array, 0, theSize);
-	EncodeMacBinary1_WriteObjectData(theInfo, valueData.GetSize(), valueData.GetData());
+	if constexpr (NN_ARCH_32)
+	{
+		static_assert(NN_ARCH_64 || sizeof(size_t) == sizeof(uint32_t));
+		NN_REQUIRE(theTrailer.offsetsTableOffset <= uint64_t(kNUInt32Max));
+	}
+
+	const uint8_t* offsetsTable = theData.GetData(size_t(theTrailer.offsetsTableOffset));
+
+	decodeInfo.theOffsets =
+		DecodeBinary_GetObjectOffsets(theTrailer.numObjects, theTrailer.offsetsSize, offsetsTable);
+	decodeInfo.objectsSize  = theTrailer.objectsSize;
+	decodeInfo.objectsTable = theData.GetData();
+
+
+
+	// Decode the root object
+	uint64_t rootOffset = DecodeBinary_GetObjectOffset(decodeInfo, theTrailer.rootObject);
+	NAny     rootObject = DecodeBinary_Any(decodeInfo, rootOffset);
+
+	NN_REQUIRE(rootObject.Has<NDictionary>());
+
+	return rootObject.Get<NDictionary>();
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::EncodeMacBinary1_Dictionary : Encode a dictionary.
-//----------------------------------------------------------------------------
-void NPropertyList::EncodeMacBinary1_Dictionary(MacBinary1_EncodeInfo &theInfo, const NDictionary &theValue)
-{	UInt64List		keyRefs, valueRefs;
-	NData			keyData, valueData;
-	NIndex			n, theSize;
-	NStringList		theKeys;
+//=============================================================================
+//		NPropertyList::DecodeBinary_GetObjectOffset : Get an object offset.
+//-----------------------------------------------------------------------------
+uint64_t NPropertyList::DecodeBinary_GetObjectOffset(const NPListBinaryDecodeInfo& decodeInfo,
+													 uint64_t                      objectRef)
+{
 
 
+	// Get the offset
+	uint64_t theOffset = 0;
 
-	// Encode the objects
-	theKeys = theValue.GetKeys();
-	theSize = theKeys.size();
+	if (objectRef < decodeInfo.theOffsets.size())
+	{
+		theOffset = decodeInfo.theOffsets[size_t(objectRef)];
+	}
+	else
+	{
+		NN_LOG_ERROR("Invalid object reference: {}", objectRef);
+	}
 
-	for (n = 0; n < theSize; n++)
-		keyRefs.push_back(EncodeMacBinary1_Value(theInfo, theKeys[n]));
-
-	for (n = 0; n < theSize; n++)
-		valueRefs.push_back(EncodeMacBinary1_Value(theInfo, theValue.GetValue(theKeys[n])));
-
-
-
-	// Encode the value
-	keyData   = EncodeMacBinary1_GetIntegerList(keyRefs,   theInfo.objectsSize);
-	valueData = EncodeMacBinary1_GetIntegerList(valueRefs, theInfo.objectsSize);
-
-	EncodeMacBinary1_WriteObject(    theInfo);
-	EncodeMacBinary1_WriteObjectTag( theInfo, kBinary1_Token_Dictionary, 0, theSize);
-	EncodeMacBinary1_WriteObjectData(theInfo,   keyData.GetSize(),   keyData.GetData());
-	EncodeMacBinary1_WriteObjectData(theInfo, valueData.GetSize(), valueData.GetData());
+	return theOffset;
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::DecodeMacBinary1_GetUIntX : Get an integer.
-//----------------------------------------------------------------------------
-uint64_t NPropertyList::DecodeMacBinary1_GetUIntX(uint32_t theSize, const uint8_t *thePtr)
-{	uint64_t		theValue;
+//=============================================================================
+//		NPropertyList::DecodeBinary_GetObjectOffsets : Get the object offsets.
+//-----------------------------------------------------------------------------
+NVectorUInt64 NPropertyList::DecodeBinary_GetObjectOffsets(uint64_t       numObjects,
+														   uint32_t       offsetsSize,
+														   const uint8_t* offsetsTable)
+{
 
 
-
-	// Read the value
-	theValue = 0;
-
-	switch (theSize) {
-		case 1:
-			theValue = thePtr[0];
-			break;
-			
-		case 2:
-			theValue = NSwapUInt16_BtoN( *((uint16_t *) thePtr) );
-			break;
-			
-		case 3:
-			theValue =	(((uint32_t) thePtr[0]) << 16) |
-						(((uint32_t) thePtr[1]) <<  8) |
-						(((uint32_t) thePtr[2]) <<  0);
-			break;
-			
-		case 4:
-			theValue = NSwapUInt32_BtoN( *((uint32_t *) thePtr) );
-			break;
-			
-		case 8:
-			theValue = NSwapUInt64_BtoN( *((uint64_t *) thePtr) );
-			break;
-			
-		default:
-			NN_LOG("Unknown size: %d", theSize);
-			break;
-		}
-	
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::DecodeMacBinary1_GetObjectOffsets : Get the object offsets.
-//----------------------------------------------------------------------------
-UInt64List NPropertyList::DecodeMacBinary1_GetObjectOffsets(uint64_t numObjects, uint32_t offsetsSize, const uint8_t *offsetsTable)
-{	uint64_t		n, theOffset;
-	UInt64List		theOffsets;
-
-
-
-	// Get the state we need
-	theOffsets.reserve((size_t) numObjects);
+	// Validate our parameters
+	if constexpr (NN_ARCH_32)
+	{
+		static_assert(NN_ARCH_64 || sizeof(size_t) == sizeof(uint32_t));
+		NN_REQUIRE(numObjects <= uint64_t(kNUInt32Max));
+	}
 
 
 
 	// Decode the object references table
-	for (n = 0; n < numObjects; n++)
-		{
-		theOffset     = DecodeMacBinary1_GetUIntX(offsetsSize, offsetsTable);
+	NVectorUInt64 theOffsets;
+
+	theOffsets.reserve(size_t(numObjects));
+
+	for (size_t n = 0; n < numObjects; n++)
+	{
+		theOffsets.push_back(DecodeBinary_GetUIntX(offsetsSize, offsetsTable));
 		offsetsTable += offsetsSize;
+	}
 
-		theOffsets.push_back(theOffset);
-		}
-
-	return(theOffsets);
+	return theOffsets;
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::DecodeMacBinary1_GetObjectOffset : Get an object offset.
-//----------------------------------------------------------------------------
-uint64_t NPropertyList::DecodeMacBinary1_GetObjectOffset(const MacBinary1_DecodeInfo &theInfo, uint64_t objectRef)
-{	uint64_t	theOffset;
+//=============================================================================
+//		NPropertyList::DecodeBinary_GetUIntX : Get an integer.
+//-----------------------------------------------------------------------------
+uint64_t NPropertyList::DecodeBinary_GetUIntX(uint32_t integerSize, const uint8_t* thePtr)
+{
 
 
+	// Read the value
+	uint16_t value16  = 0;
+	uint32_t value32  = 0;
+	uint64_t value64  = 0;
+	uint64_t theValue = 0;
 
-	// Get the offset
-	theOffset = 0;
+	switch (integerSize)
+	{
+		case 1:
+			theValue = thePtr[0];
+			break;
 
-	if (objectRef < theInfo.theOffsets.size())
-		theOffset = theInfo.theOffsets[(size_t) objectRef];
-	else
-		NN_LOG("Invalid object reference: %lld", objectRef);
-	
-	return(theOffset);
+		case 2:
+			memcpy(&value16, thePtr, sizeof(value16));
+			theValue = NByteSwap::SwapBtoN(value16);
+			break;
+
+		case 3:
+			theValue = (uint32_t(thePtr[0]) << 16) | (uint32_t(thePtr[1]) << 8) |
+					   (uint32_t(thePtr[2]) << 0);
+			break;
+
+		case 4:
+			memcpy(&value32, thePtr, sizeof(value32));
+			theValue = NByteSwap::SwapBtoN(value32);
+			break;
+
+		case 8:
+			memcpy(&value64, thePtr, sizeof(value64));
+			theValue = NByteSwap::SwapBtoN(value64);
+			break;
+
+		default:
+			NN_LOG_ERROR("Unknown integer size {}", integerSize);
+			NN_UNREACHABLE();
+			break;
+	}
+
+	return theValue;
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::DecodeMacBinary1_ReadObjectTag : Read an object tag.
-//----------------------------------------------------------------------------
-MacBinary1_Tag NPropertyList::DecodeMacBinary1_ReadObjectTag(const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset)
-{	const uint8_t		*thePtr;
-	uint8_t				theByte;
-	MacBinary1_Tag		theTag;
-
+//=============================================================================
+//		NPropertyList::DecodeBinary_ReadObjectRef : Read an object reference.
+//-----------------------------------------------------------------------------
+uint64_t NPropertyList::DecodeBinary_ReadObjectRef(const NPListBinaryDecodeInfo& decodeInfo,
+												   uint64_t&                     byteOffset)
+{
 
 
 	// Get the state we need
-	thePtr = theInfo.objectsTable + byteOffset;
+
+
+
+	// Get the value
+	const uint8_t* thePtr    = decodeInfo.objectsTable + byteOffset;
+	uint64_t       objectRef = DecodeBinary_GetUIntX(decodeInfo.objectsSize, thePtr);
+
+	byteOffset += decodeInfo.objectsSize;
+
+	return objectRef;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::DecodeBinary_ReadObjectSize : Read an object size.
+//-----------------------------------------------------------------------------
+uint64_t NPropertyList::DecodeBinary_ReadObjectSize(const NPListBinaryDecodeInfo& decodeInfo,
+													uint64_t&                     byteOffset,
+													const NPListBinaryTag&        theTag)
+{
+
+
+	// Get the size
+	//
+	// Variable-sized fields store their size in their objectInfo, which
+	// requires a subsequent integer if more than 4 bits are required.
+	uint64_t theSize = 0;
+
+	if (theTag.objectInfo == kNBinaryValueSizeInteger)
+	{
+		theSize = uint64_t(DecodeBinary_Integer(decodeInfo, byteOffset));
+	}
+	else
+	{
+		theSize = theTag.objectInfo;
+	}
+
+	return theSize;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::DecodeBinary_ReadObjectTag : Read an object tag.
+//-----------------------------------------------------------------------------
+NPListBinaryTag NPropertyList::DecodeBinary_ReadObjectTag(const NPListBinaryDecodeInfo& decodeInfo,
+														  uint64_t&                     byteOffset)
+{
+
+
+	// Get the state we need
+	const uint8_t* thePtr = decodeInfo.objectsTable + byteOffset;
 
 
 
@@ -1872,201 +1920,292 @@ MacBinary1_Tag NPropertyList::DecodeMacBinary1_ReadObjectTag(const MacBinary1_De
 	//
 	// Each object starts with a tag byte, which is divided into an identifying
 	// token (high nibble) and 4 bits of object-specific state (low nibble).
-	theByte     = thePtr[0];
+	NPListBinaryTag theTag{};
+
+	uint8_t theByte   = thePtr[0];
+	theTag.theToken   = uint8_t((theByte >> 4) & 0x0F);
+	theTag.objectInfo = uint8_t((theByte >> 0) & 0x0F);
+
 	byteOffset += 1;
 
-	theTag.theToken   = (theByte >> 4) & 0x0F;
-	theTag.objectInfo = (theByte >> 0) & 0x0F;
-
-	return(theTag);
+	return theTag;
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::DecodeMacBinary1_ReadObjectSize : Read an object size.
-//----------------------------------------------------------------------------
-uint64_t NPropertyList::DecodeMacBinary1_ReadObjectSize(const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset, const MacBinary1_Tag &theTag)
-{	uint64_t		theSize;
+//=============================================================================
+//		NPropertyList::DecodeBinary_Any : Decode an NAny.
+//-----------------------------------------------------------------------------
+NAny NPropertyList::DecodeBinary_Any(const NPListBinaryDecodeInfo& decodeInfo, uint64_t& byteOffset)
+{
 
 
-
-	// Get the size
-	//
-	// Variable-sized fields store their size in their objectInfo, which
-	// requires a subsequent integer if more than 4 bits are required.
-	if (theTag.objectInfo == kBinary1_Value_SizeInteger)
-		theSize = DecodeMacBinary1_Integer(theInfo, byteOffset);
-	else
-		theSize = theTag.objectInfo;
-
-	return(theSize);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::DecodeMacBinary1_ReadObjectRef : Read an object reference.
-//----------------------------------------------------------------------------
-uint64_t NPropertyList::DecodeMacBinary1_ReadObjectRef(const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset)
-{	uint64_t		objectRef;
-	const uint8_t	*thePtr;
-
-
-
-	// Get the state we need
-	thePtr = theInfo.objectsTable + byteOffset;
-
-
-
-	// Get the value
-	objectRef   = DecodeMacBinary1_GetUIntX(theInfo.objectsSize, thePtr);
-	byteOffset += theInfo.objectsSize;
-
-	return(objectRef);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::DecodeMacBinary1_Value : Decode a value.
-//----------------------------------------------------------------------------
-NVariant NPropertyList::DecodeMacBinary1_Value(const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset)
-{	NVariant			theValue;
-	MacBinary1_Tag		theTag;
-
-
-
-	// Get the state we need
-	theTag = DecodeMacBinary1_ReadObjectTag(theInfo, byteOffset);
+	// Read the tag
+	NPListBinaryTag theTag = DecodeBinary_ReadObjectTag(decodeInfo, byteOffset);
 	byteOffset--;
 
 
 
 	// Decode the value
-	switch (theTag.theToken) {
-		case kBinary1_Token_Null:
-			switch (theTag.objectInfo) {
-				case kBinary1_Value_Null:
-				case kBinary1_Value_Fill:
+	NAny theValue;
+
+	switch (theTag.theToken)
+	{
+		case kNBinaryTokenNull:
+			switch (theTag.objectInfo)
+			{
+				case kNBinaryValueNull:
+				case kNBinaryValueFill:
 					// Null object, ignore
 					byteOffset++;
 					break;
 
-				case kBinary1_Value_False:
-				case kBinary1_Value_True:
-					theValue = DecodeMacBinary1_Boolean(theInfo, byteOffset);
+				case kNBinaryValueFalse:
+				case kNBinaryValueTrue:
+					theValue = DecodeBinary_Boolean(decodeInfo, byteOffset);
 					break;
 
 				default:
-					NN_LOG("Unknown null token: %d", theTag.objectInfo);
+					NN_LOG_ERROR("Unknown null token: {}", theTag.objectInfo);
 					break;
-				}
+			}
 			break;
 
-		case kBinary1_Token_Integer:
-			theValue = DecodeMacBinary1_Integer(theInfo, byteOffset);
+		case kNBinaryTokenInteger:
+			theValue = DecodeBinary_Integer(decodeInfo, byteOffset);
 			break;
 
-		case kBinary1_Token_Real:
-			theValue = DecodeMacBinary1_Real(theInfo, byteOffset);
+		case kNBinaryTokenReal:
+			theValue = DecodeBinary_Real(decodeInfo, byteOffset);
 			break;
 
-		case kBinary1_Token_StringASCII:
-		case kBinary1_Token_StringUTF16:
-			theValue = DecodeMacBinary1_String(theInfo, byteOffset);
+		case kNBinaryTokenStringASCII:
+		case kNBinaryTokenStringUTF16:
+			theValue = DecodeBinary_String(decodeInfo, byteOffset);
 			break;
 
-		case kBinary1_Token_Data:
-			theValue = DecodeMacBinary1_Data(theInfo, byteOffset);
+		case kNBinaryTokenData:
+			theValue = DecodeBinary_Data(decodeInfo, byteOffset);
 			break;
 
-		case kBinary1_Token_Date:
-			theValue = DecodeMacBinary1_Date(theInfo, byteOffset);
+		case kNBinaryTokenTime:
+			theValue = DecodeBinary_Time(decodeInfo, byteOffset);
 			break;
 
-		case kBinary1_Token_Array:
-			theValue = DecodeMacBinary1_Array(theInfo, byteOffset);
+		case kNBinaryTokenArray:
+			theValue = DecodeBinary_Array(decodeInfo, byteOffset);
 			break;
 
-		case kBinary1_Token_Dictionary:
-			theValue = DecodeMacBinary1_Dictionary(theInfo, byteOffset);
+		case kNBinaryTokenDictionary:
+			theValue = DecodeBinary_Dictionary(decodeInfo, byteOffset);
 			break;
-		
+
 		default:
-			NN_LOG("Unknown token: %d", theTag.theToken);
+			NN_LOG_ERROR("Unknown token: {}", theTag.theToken);
 			break;
-		}
-	
-	return(theValue);
+	}
+
+	return theValue;
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::DecodeMacBinary1_Boolean : Decode a boolean.
-//----------------------------------------------------------------------------
-bool NPropertyList::DecodeMacBinary1_Boolean(const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset)
-{	bool				theValue;
-	MacBinary1_Tag		theTag;
-
+//=============================================================================
+//		NPropertyList::DecodeBinary_Array : Decode an array.
+//-----------------------------------------------------------------------------
+NArray NPropertyList::DecodeBinary_Array(const NPListBinaryDecodeInfo& decodeInfo,
+										 uint64_t&                     byteOffset)
+{
 
 
 	// Get the state we need
-	theTag = DecodeMacBinary1_ReadObjectTag(theInfo, byteOffset);
+	NPListBinaryTag theTag  = DecodeBinary_ReadObjectTag(decodeInfo, byteOffset);
+	uint64_t        theSize = DecodeBinary_ReadObjectSize(decodeInfo, byteOffset, theTag);
 
-	NN_ASSERT(theTag.theToken == kBinary1_Token_Null);
+	NN_REQUIRE(theTag.theToken == kNBinaryTokenArray);
+
+
+
+	// Read the references
+	NVectorUInt64 valueRefs;
+
+	for (uint64_t n = 0; n < theSize; n++)
+	{
+		valueRefs.push_back(DecodeBinary_ReadObjectRef(decodeInfo, byteOffset));
+	}
 
 
 
 	// Decode the value
-	switch (theTag.objectInfo) {
-		case kBinary1_Value_False:
-			theValue = false;
-			break;
-				
-		case kBinary1_Value_True:
-			theValue = true;
-			break;
-			
-		default:
-			NN_LOG("Unknown boolean value: %d", theTag.objectInfo);
-			theValue = false;
-			break;
-		}
-	
-	return(theValue);
+	NArray theValue;
+
+	for (uint64_t n = 0; n < theSize; n++)
+	{
+		uint64_t valueOffset = DecodeBinary_GetObjectOffset(decodeInfo, valueRefs[size_t(n)]);
+		NAny     valueObject = DecodeBinary_Any(decodeInfo, valueOffset);
+
+		theValue.push_back(valueObject);
+	}
+
+	return theValue;
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::DecodeMacBinary1_Integer : Decode an integer.
-//----------------------------------------------------------------------------
-int64_t NPropertyList::DecodeMacBinary1_Integer(const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset)
-{	int64_t				theValue;
-	const uint8_t		*thePtr;
-	NIndex				theSize;
-	MacBinary1_Tag		theTag;
-
+//=============================================================================
+//		NPropertyList::DecodeBinary_Boolean : Decode a boolean.
+//-----------------------------------------------------------------------------
+bool NPropertyList::DecodeBinary_Boolean(const NPListBinaryDecodeInfo& decodeInfo,
+										 uint64_t&                     byteOffset)
+{
 
 
 	// Get the state we need
-	theTag  = DecodeMacBinary1_ReadObjectTag(theInfo, byteOffset);
-	theSize = 1 << theTag.objectInfo;
-	thePtr  = theInfo.objectsTable + byteOffset;
+	NPListBinaryTag theTag = DecodeBinary_ReadObjectTag(decodeInfo, byteOffset);
 
-	NN_ASSERT(theTag.theToken == kBinary1_Token_Integer);
+	NN_REQUIRE(theTag.theToken == kNBinaryTokenNull);
+
+
+
+	// Decode the value
+	bool theValue = false;
+
+	switch (theTag.objectInfo)
+	{
+		case kNBinaryValueFalse:
+			theValue = false;
+			break;
+
+		case kNBinaryValueTrue:
+			theValue = true;
+			break;
+
+		default:
+			NN_LOG_ERROR("Unknown boolean value: {}", theTag.objectInfo);
+			break;
+	}
+
+	return theValue;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::DecodeBinary_Data : Decode binary data.
+//-----------------------------------------------------------------------------
+NData NPropertyList::DecodeBinary_Data(const NPListBinaryDecodeInfo& decodeInfo,
+									   uint64_t&                     byteOffset)
+{
+
+
+	// Get the state we need
+	NPListBinaryTag theTag  = DecodeBinary_ReadObjectTag(decodeInfo, byteOffset);
+	uint64_t        theSize = DecodeBinary_ReadObjectSize(decodeInfo, byteOffset, theTag);
+	const uint8_t*  thePtr  = decodeInfo.objectsTable + byteOffset;
+
+	NN_REQUIRE(theTag.theToken == kNBinaryTokenData);
+
+	if constexpr (NN_ARCH_32)
+	{
+		static_assert(NN_ARCH_64 || sizeof(size_t) == sizeof(uint32_t));
+		NN_REQUIRE(theSize <= uint64_t(kNUInt32Max));
+	}
+
+
+
+	// Decode the value
+	NData theValue = NData(size_t(theSize), thePtr);
+
+	byteOffset += theSize;
+
+	return theValue;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::DecodeBinary_Dictionary : Decode a dictionary.
+//-----------------------------------------------------------------------------
+NDictionary NPropertyList::DecodeBinary_Dictionary(const NPListBinaryDecodeInfo& decodeInfo,
+												   uint64_t&                     byteOffset)
+{
+
+
+	// Get the state we need
+	NPListBinaryTag theTag  = DecodeBinary_ReadObjectTag(decodeInfo, byteOffset);
+	uint64_t        theSize = DecodeBinary_ReadObjectSize(decodeInfo, byteOffset, theTag);
+
+	NN_REQUIRE(theTag.theToken == kNBinaryTokenDictionary);
+
+
+
+	// Read the references
+	NVectorUInt64 keyRefs, valueRefs;
+
+	for (uint64_t n = 0; n < theSize; n++)
+	{
+		keyRefs.push_back(DecodeBinary_ReadObjectRef(decodeInfo, byteOffset));
+	}
+
+	for (uint64_t n = 0; n < theSize; n++)
+	{
+		valueRefs.push_back(DecodeBinary_ReadObjectRef(decodeInfo, byteOffset));
+	}
+
+
+
+	// Decode the value
+	NDictionary theValue;
+
+	for (uint64_t n = 0; n < theSize; n++)
+	{
+		uint64_t keyOffset   = DecodeBinary_GetObjectOffset(decodeInfo, keyRefs[size_t(n)]);
+		uint64_t valueOffset = DecodeBinary_GetObjectOffset(decodeInfo, valueRefs[size_t(n)]);
+
+		NAny keyObject   = DecodeBinary_Any(decodeInfo, keyOffset);
+		NAny valueObject = DecodeBinary_Any(decodeInfo, valueOffset);
+
+		if (keyObject.HasString())
+		{
+			theValue[keyObject.GetString()] = valueObject;
+		}
+		else
+		{
+			NN_LOG_ERROR("Found non-string dictionary key!");
+		}
+	}
+
+	return theValue;
+}
+
+
+
+
+
+//=============================================================================
+//		NPropertyList::DecodeBinary_Integer : Decode an integer.
+//-----------------------------------------------------------------------------
+int64_t NPropertyList::DecodeBinary_Integer(const NPListBinaryDecodeInfo& decodeInfo,
+											uint64_t&                     byteOffset)
+{
+
+
+	// Get the state we need
+	NPListBinaryTag theTag  = DecodeBinary_ReadObjectTag(decodeInfo, byteOffset);
+	size_t          theSize = size_t(1) << theTag.objectInfo;
+	const uint8_t*  thePtr  = decodeInfo.objectsTable + byteOffset;
+
+	NN_REQUIRE(theTag.theToken == kNBinaryTokenInteger);
 
 
 
@@ -2074,308 +2213,167 @@ int64_t NPropertyList::DecodeMacBinary1_Integer(const MacBinary1_DecodeInfo &the
 	//
 	// Signed values are stored as 8 byte big-endian integers. Unsigned values
 	// are stored in the smallest big-endian integer that can hold their value.
-	theValue    = 0;
+	uint16_t value16  = 0;
+	uint32_t value32  = 0;
+	int64_t  value64  = 0;
+	int64_t  theValue = 0;
+
 	byteOffset += theSize;
 
-	switch (theSize) {
+	switch (theSize)
+	{
 		case 1:
-			theValue =                   *((const uint8_t  *) thePtr);
+			theValue = thePtr[0];
 			break;
 
 		case 2:
-			theValue = NSwapUInt16_BtoN( *((const uint16_t *) thePtr));
+			memcpy(&value16, thePtr, sizeof(value16));
+			theValue = NByteSwap::SwapBtoN(value16);
 			break;
 
 		case 4:
-			theValue = NSwapUInt32_BtoN( *((const uint32_t *) thePtr));
+			memcpy(&value32, thePtr, sizeof(value32));
+			theValue = NByteSwap::SwapBtoN(value32);
 			break;
 
 		case 8:
-			theValue = NSwapInt64_BtoN( *((const int64_t  *) thePtr));
-			break;
-
-		default:
-			NN_LOG("Unknown integer size: %d", theSize);
-			break;
-		}
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::DecodeMacBinary1_Real : Decode a floating point value.
-//----------------------------------------------------------------------------
-float64_t NPropertyList::DecodeMacBinary1_Real(const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset)
-{	float64_t			value64, theValue;
-	float32_t			value32;
-	const uint8_t		*thePtr;
-	MacBinary1_Tag		theTag;
-
-
-
-	// Get the state we need
-	theTag = DecodeMacBinary1_ReadObjectTag(theInfo, byteOffset);
-	thePtr = theInfo.objectsTable + byteOffset;
-
-	NN_ASSERT(theTag.theToken == kBinary1_Token_Real);
-
-
-
-	// Decode the value
-	theValue = 0.0;
-
-	switch (theTag.objectInfo) {
-		case kBinary1_Value_Float32:
-			memcpy(&value32, thePtr, sizeof(value32));
-			NSwapFloat32_BtoN(&value32);
-
-			theValue    = value32;
-			byteOffset += sizeof(value32);
-			break;
-
-		case kBinary1_Value_Float64:
 			memcpy(&value64, thePtr, sizeof(value64));
-			NSwapFloat64_BtoN(&value64);
-
-			theValue    = value64;
-			byteOffset += sizeof(value64);
+			theValue = NByteSwap::SwapBtoN(value64);
 			break;
 
 		default:
-			NN_LOG("Unknown real type: %d", theTag.objectInfo);
+			NN_LOG_ERROR("Unknown integer size: {}", theSize);
 			break;
-		}
-	
-	return(theValue);
+	}
+
+	return theValue;
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::DecodeMacBinary1_String : Decode a string.
-//----------------------------------------------------------------------------
-NString NPropertyList::DecodeMacBinary1_String(const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset)
-{	NString				theValue;
-	const uint8_t		*thePtr;
-	uint64_t			theSize;
-	MacBinary1_Tag		theTag;
-
+//=============================================================================
+//		NPropertyList::DecodeBinary_Real : Decode a floating point value.
+//-----------------------------------------------------------------------------
+float64_t NPropertyList::DecodeBinary_Real(const NPListBinaryDecodeInfo& decodeInfo,
+										   uint64_t&                     byteOffset)
+{
 
 
 	// Get the state we need
-	theTag  = DecodeMacBinary1_ReadObjectTag( theInfo, byteOffset);
-	theSize = DecodeMacBinary1_ReadObjectSize(theInfo, byteOffset, theTag);
-	thePtr  = theInfo.objectsTable + byteOffset;
+	NPListBinaryTag theTag = DecodeBinary_ReadObjectTag(decodeInfo, byteOffset);
+	const uint8_t*  thePtr = decodeInfo.objectsTable + byteOffset;
 
-	NN_ASSERT((theSize * sizeof(utf16_t)) <= (uint64_t) kNIndexMax);
+	NN_REQUIRE(theTag.theToken == kNBinaryTokenReal);
 
 
 
 	// Decode the value
-	switch (theTag.theToken) {
-		case kBinary1_Token_StringASCII:
-			theSize     = theSize * sizeof(utf8_t);
-			theValue    = NString(thePtr, (NIndex) theSize, kNStringEncodingASCII);
-			byteOffset += theSize;
+	float32_t value32  = 0.0f;
+	float64_t value64  = 0.0;
+	float64_t theValue = 0.0;
+
+	switch (theTag.objectInfo)
+	{
+		case kNBinaryValueFloat32:
+			memcpy(&value32, thePtr, sizeof(value32));
+			theValue = float64_t(NByteSwap::SwapBtoN(value32));
+			byteOffset += sizeof(float32_t);
 			break;
 
-		case kBinary1_Token_StringUTF16:
-			theSize     = theSize * sizeof(utf16_t);
-			theValue    = NString(thePtr, (NIndex) theSize, kNStringEncodingUTF16BE);
-			byteOffset += theSize;
+		case kNBinaryValueFloat64:
+			memcpy(&value64, thePtr, sizeof(value64));
+			theValue = float64_t(NByteSwap::SwapBtoN(value64));
+			byteOffset += sizeof(float64_t);
 			break;
-		
+
 		default:
-			NN_LOG("Unknown string type: %d", theTag.theToken);
+			NN_LOG_ERROR("Unknown real type: {}", theTag.objectInfo);
 			break;
-		}
+	}
 
-	return(theValue);
+	return theValue;
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::DecodeMacBinary1_Data : Decode binary data.
-//----------------------------------------------------------------------------
-NVariant NPropertyList::DecodeMacBinary1_Data(const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset)
-{	NEncoder			theEncoder;
-	NVariant			theValue;
-	NData				theData;
-	const uint8_t		*thePtr;
-	uint64_t			theSize;
-	MacBinary1_Tag		theTag;
-
+//=============================================================================
+//		NPropertyList::DecodeBinary_String : Decode a string.
+//-----------------------------------------------------------------------------
+NString NPropertyList::DecodeBinary_String(const NPListBinaryDecodeInfo& decodeInfo,
+										   uint64_t&                     byteOffset)
+{
 
 
 	// Get the state we need
-	theTag  = DecodeMacBinary1_ReadObjectTag( theInfo, byteOffset);
-	theSize = DecodeMacBinary1_ReadObjectSize(theInfo, byteOffset, theTag);
-	thePtr  = theInfo.objectsTable + byteOffset;
+	NPListBinaryTag theTag  = DecodeBinary_ReadObjectTag(decodeInfo, byteOffset);
+	uint64_t        theSize = DecodeBinary_ReadObjectSize(decodeInfo, byteOffset, theTag);
+	const uint8_t*  thePtr  = decodeInfo.objectsTable + byteOffset;
 
-	NN_ASSERT(theTag.theToken == kBinary1_Token_Data);
-	NN_ASSERT(theSize         <= (uint64_t) kNIndexMax);
-
-
-
-	// Decode the data
-	theData     = NData((NIndex) theSize, thePtr);
-	byteOffset += theSize;
+	if constexpr (NN_ARCH_32)
+	{
+		static_assert(NN_ARCH_64 || sizeof(size_t) == sizeof(uint32_t));
+		NN_REQUIRE((theSize * sizeof(utf16_t)) <= uint64_t(kNUInt32Max));
+	}
 
 
 
 	// Decode the value
-	//
-	// NEncoder objects are encoded to binary plists as raw data, so when decoding
-	// raw data we must push data through NEncoder (to see if we can reconstruct an
-	// object from it, or if it really is just raw data).
-	theValue = theEncoder.Decode(theData);
+	NString theValue;
 
-	if (!theValue.IsValid())
-		theValue = theData;
+	switch (theTag.theToken)
+	{
+		case kNBinaryTokenStringASCII:
+			theSize  = theSize * sizeof(utf8_t);
+			theValue = NString(NStringEncoding::ASCII, size_t(theSize), thePtr);
+			byteOffset += theSize;
+			break;
 
-	return(theValue);
+		case kNBinaryTokenStringUTF16:
+			theSize  = theSize * sizeof(utf16_t);
+			theValue = NString(NStringEncoding::UTF16BE, size_t(theSize), thePtr);
+			byteOffset += theSize;
+			break;
+
+		default:
+			NN_LOG_ERROR("Unknown string type: {}", theTag.theToken);
+			break;
+	}
+
+	return theValue;
 }
 
 
 
 
 
-//============================================================================
-//		NPropertyList::DecodeMacBinary1_Date : Decode a date.
-//----------------------------------------------------------------------------
-NDate NPropertyList::DecodeMacBinary1_Date(const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset)
-{	NDate				theValue;
-	float64_t			value64;
-	const uint8_t		*thePtr;
-	MacBinary1_Tag		theTag;
-
+//=============================================================================
+//		NPropertyList::DecodeBinary_Time : Decode a time.
+//-----------------------------------------------------------------------------
+NTime NPropertyList::DecodeBinary_Time(const NPListBinaryDecodeInfo& decodeInfo,
+									   uint64_t&                     byteOffset)
+{
 
 
 	// Get the state we need
-	theTag = DecodeMacBinary1_ReadObjectTag(theInfo, byteOffset);
-	thePtr = theInfo.objectsTable + byteOffset;
+	NPListBinaryTag theTag = DecodeBinary_ReadObjectTag(decodeInfo, byteOffset);
+	const uint8_t*  thePtr = decodeInfo.objectsTable + byteOffset;
 
-	NN_ASSERT(theTag.theToken   == kBinary1_Token_Date);
-	NN_ASSERT(theTag.objectInfo == kBinary1_Value_Float64);
-	
+	NN_REQUIRE(theTag.theToken == kNBinaryTokenTime);
+	NN_REQUIRE(theTag.objectInfo == kNBinaryValueFloat64);
+
 
 
 	// Decode the value
+	float64_t value64;
 	memcpy(&value64, thePtr, sizeof(value64));
-	NSwapFloat64_BtoN(&value64);
 
-	theValue    =  NDate(value64);
-	byteOffset += sizeof(value64);
+	NTime theValue = NByteSwap::SwapBtoN(value64);
 
-	return(theValue);
+	byteOffset += sizeof(float64_t);
+
+	return theValue;
 }
-
-
-
-
-
-//============================================================================
-//		NPropertyList::DecodeMacBinary1_Array : Decode an array.
-//----------------------------------------------------------------------------
-NArray NPropertyList::DecodeMacBinary1_Array(const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset)
-{	uint64_t			valueOffset;
-	NVariant			valueObject;
-	uint64_t			n, theSize;
-	UInt64List			valueRefs;
-	NArray				theValue;
-	MacBinary1_Tag		theTag;
-
-
-
-	// Get the state we need
-	theTag  = DecodeMacBinary1_ReadObjectTag( theInfo, byteOffset);
-	theSize = DecodeMacBinary1_ReadObjectSize(theInfo, byteOffset, theTag);
-
-	NN_ASSERT(theTag.theToken == kBinary1_Token_Array);
-
-
-
-	// Read the references
-	for (n = 0; n < theSize; n++)
-		valueRefs.push_back(DecodeMacBinary1_ReadObjectRef(theInfo, byteOffset));
-
-
-
-	// Decode the value
-	for (n = 0; n < theSize; n++)
-		{
-		valueOffset = DecodeMacBinary1_GetObjectOffset(theInfo, valueRefs[(size_t) n]);
-		valueObject = DecodeMacBinary1_Value(          theInfo, valueOffset);
-		
-		theValue.AppendValue(valueObject);
-		}
-
-	return(theValue);
-}
-
-
-
-
-
-//============================================================================
-//		NPropertyList::DecodeMacBinary1_Dictionary : Decode a dictionary.
-//----------------------------------------------------------------------------
-NDictionary NPropertyList::DecodeMacBinary1_Dictionary(const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset)
-{	uint64_t			keyOffset, valueOffset;
-	NVariant			keyObject, valueObject;
-	UInt64List			keyRefs, valueRefs;
-	uint64_t			n, theSize;
-	NDictionary			theValue;
-	NString				theKey;
-	MacBinary1_Tag		theTag;
-
-
-
-	// Get the state we need
-	theTag  = DecodeMacBinary1_ReadObjectTag( theInfo, byteOffset);
-	theSize = DecodeMacBinary1_ReadObjectSize(theInfo, byteOffset, theTag);
-
-	NN_ASSERT(theTag.theToken == kBinary1_Token_Dictionary);
-
-
-
-	// Read the references
-	for (n = 0; n < theSize; n++)
-		keyRefs.push_back(  DecodeMacBinary1_ReadObjectRef(theInfo, byteOffset));
-
-	for (n = 0; n < theSize; n++)
-		valueRefs.push_back(DecodeMacBinary1_ReadObjectRef(theInfo, byteOffset));
-
-
-
-	// Decode the value
-	for (n = 0; n < theSize; n++)
-		{
-		keyOffset   = DecodeMacBinary1_GetObjectOffset(theInfo,   keyRefs[(size_t) n]);
-		valueOffset = DecodeMacBinary1_GetObjectOffset(theInfo, valueRefs[(size_t) n]);
-
-		keyObject   = DecodeMacBinary1_Value(theInfo,   keyOffset);
-		valueObject = DecodeMacBinary1_Value(theInfo, valueOffset);
-		
-		if (keyObject.GetValue(theKey))
-			theValue.SetValue( theKey, valueObject);
-		else
-			NN_LOG("Found non-string dictionary key!");
-		}
-
-	return(theValue);
-}
-
-
-
-
-

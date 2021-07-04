@@ -3,182 +3,226 @@
 
 	DESCRIPTION:
 		Property list file.
-	
+
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NPROPERTYLIST_HDR
-#define NPROPERTYLIST_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NDictionary.h"
+#ifndef NPROPERTY_LIST_H
+#define NPROPERTY_LIST_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NXMLNode.h"
-#include "NFile.h"
+#include "NanoConstants.h"
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		Constants
-//----------------------------------------------------------------------------
-// Encoded formats
-typedef enum {
-	// Specific
-	kNPropertyListInvalid,
-	kNPropertyListMacXML1,
-	kNPropertyListMacBinary1,
-
-
-	// Generic
-	kNPropertyListXML		= kNPropertyListMacXML1,
-	kNPropertyListBinary	= kNPropertyListMacBinary1,
-	kNPropertyListJSON
-} NPropertyListFormat;
-
-
-
-
-
-//============================================================================
-//		Types
-//----------------------------------------------------------------------------
-// Mac Binary 1.0
-typedef struct {
-	uint8_t			theToken;
-	uint8_t			objectInfo;
-} MacBinary1_Tag;
-
-typedef struct {
-	UInt64List		theOffsets;
-	uint32_t		objectsSize;
-	NData			objectsTable;
-} MacBinary1_EncodeInfo;
-
-typedef struct {
-	UInt64List		theOffsets;
-	uint32_t		objectsSize;
-	const uint8_t	*objectsTable;
-} MacBinary1_DecodeInfo;
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NPropertyList {
-public:
-										NPropertyList(void);
-	virtual							   ~NPropertyList(void);
-
-
-	// Identify a property list format
-	NPropertyListFormat					GetFormat(const NData &theData);
-
-
-	// Encode/decode a property list
-	//
-	// The encoded form uses the kNPropertyListBinary format by default.
-	NData								Encode(const NDictionary &theState, NPropertyListFormat theFormat=kNPropertyListBinary);
-	NDictionary							Decode(const NData       &theData);
-
-
-	// Encode/decode a property list to XML
-	//
-	// The encoded form uses the kNPropertyListXML format.
-	NString								EncodeXML(const NDictionary &theState);
-	NDictionary							DecodeXML(const NString     &theXML);
-
-
-	// Encode/decode a property list to JSON
-	//
-	// The encoded form uses the kNPropertyListJSON format.
-	NString								EncodeJSON(const NDictionary &theState);
-	NDictionary							DecodeJSON(const NString     &theJSON);
-
-
-	// Load/save a property list
-	NDictionary							Load(const NFile &theFile);
-	NStatus								Save(const NFile &theFile, const NDictionary &theState, NPropertyListFormat theFormat=kNPropertyListBinary);
-
-
-private:
-	NData								EncodeMacXML1(const NDictionary &theState);
-	NDictionary							DecodeMacXML1(const NData       &theData);
-
-	NData								EncodeMacBinary1(const NDictionary &theState);
-	NDictionary							DecodeMacBinary1(const NData       &theData);
-
-	NXMLNode							*EncodeMacXML1_Boolean(         bool         theValue);
-	NXMLNode							*EncodeMacXML1_Number(    const NNumber     &theValue);
-	NXMLNode							*EncodeMacXML1_String(    const NString     &theValue);
-	NXMLNode							*EncodeMacXML1_Data(      const NData       &theValue);
-	NXMLNode							*EncodeMacXML1_Date(      const NDate       &theValue);
-	NXMLNode							*EncodeMacXML1_Array(     const NArray      &theValue);
-	NXMLNode							*EncodeMacXML1_Dictionary(const NDictionary &theValue);
-
-	bool								DecodeMacXML1_Boolean(   const NXMLNode *theNode);
-	int64_t								DecodeMacXML1_Integer(   const NXMLNode *theNode);
-	float64_t							DecodeMacXML1_Real(      const NXMLNode *theNode);
-	NString								DecodeMacXML1_String(    const NXMLNode *theNode);
-	NData								DecodeMacXML1_Data(      const NXMLNode *theNode);
-	NDate								DecodeMacXML1_Date(      const NXMLNode *theNode);
-	NArray								DecodeMacXML1_Array(     const NXMLNode *theNode);
-	NDictionary							DecodeMacXML1_Dictionary(const NXMLNode *theNode);
-
-	void								EncodeMacBinary1_GetObjectCount(const NVariant &theValue, uint32_t *numObjects);
-	uint32_t							EncodeMacBinary1_GetIntegerSize(uint64_t theSize);
-	NData								EncodeMacBinary1_GetIntegerList(const UInt64List &theValues, uint32_t byteSize);
-
-	void								EncodeMacBinary1_WriteObject(    MacBinary1_EncodeInfo &theInfo);
-	void								EncodeMacBinary1_WriteObjectTag( MacBinary1_EncodeInfo &theInfo, uint8_t theToken, uint8_t objectInfo, uint64_t objectSize=0);
-	void								EncodeMacBinary1_WriteObjectData(MacBinary1_EncodeInfo &theInfo, NIndex theSize, const void *thePtr);
-
-	uint64_t							EncodeMacBinary1_Value(     MacBinary1_EncodeInfo &theInfo, const NVariant    &theValue);
-	void								EncodeMacBinary1_Boolean(   MacBinary1_EncodeInfo &theInfo,       bool         theValue);
-	void								EncodeMacBinary1_Integer(   MacBinary1_EncodeInfo &theInfo, const NNumber     &theValue, bool addObject=true);
-	void								EncodeMacBinary1_Real(      MacBinary1_EncodeInfo &theInfo, const NNumber     &theValue);
-	void								EncodeMacBinary1_String(    MacBinary1_EncodeInfo &theInfo, const NString     &theValue);
-	void								EncodeMacBinary1_Data(      MacBinary1_EncodeInfo &theInfo, const NData       &theValue);
-	void								EncodeMacBinary1_Date(      MacBinary1_EncodeInfo &theInfo, const NDate       &theValue);
-	void								EncodeMacBinary1_Array(     MacBinary1_EncodeInfo &theInfo, const NArray      &theValue);
-	void								EncodeMacBinary1_Dictionary(MacBinary1_EncodeInfo &theInfo, const NDictionary &theValue);
-
-	uint64_t							DecodeMacBinary1_GetUIntX(uint32_t theSize, const uint8_t *thePtr);
-	UInt64List							DecodeMacBinary1_GetObjectOffsets(uint64_t numObjects, uint32_t offsetsSize, const uint8_t *offsetsTable);
-	uint64_t							DecodeMacBinary1_GetObjectOffset(const MacBinary1_DecodeInfo &theInfo, uint64_t objectRef);
-
-	MacBinary1_Tag						DecodeMacBinary1_ReadObjectTag( const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset);
-	uint64_t							DecodeMacBinary1_ReadObjectSize(const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset, const MacBinary1_Tag &theTag);
-	uint64_t							DecodeMacBinary1_ReadObjectRef( const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset);
-
-	NVariant							DecodeMacBinary1_Value(     const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset);
-	bool								DecodeMacBinary1_Boolean(   const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset);
-	int64_t								DecodeMacBinary1_Integer(   const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset);
-	float64_t							DecodeMacBinary1_Real(      const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset);
-	NString								DecodeMacBinary1_String(    const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset);
-	NVariant							DecodeMacBinary1_Data(      const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset);
-	NDate								DecodeMacBinary1_Date(      const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset);
-	NArray								DecodeMacBinary1_Array(     const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset);
-	NDictionary							DecodeMacBinary1_Dictionary(const MacBinary1_DecodeInfo &theInfo, uint64_t &byteOffset);
-
-
-private:
-
-
+//-----------------------------------------------------------------------------
+// Proeprty list format
+enum class NPropertyListFormat
+{
+	Unknown,
+	XML,
+	Binary
 };
 
 
 
 
-#endif // NPROPERTYLIST_HDR
+
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Forward declarations
+class NAny;
+class NArray;
+class NData;
+class NDictionary;
+class NFile;
+class NFile;
+class NNumber;
+class NString;
+class NTime;
+
+struct NPListBinaryTag;
+struct NPListBinaryEncodeInfo;
+struct NPListBinaryDecodeInfo;
 
 
 
+
+
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NPropertyList
+{
+public:
+	// Encode/decode a property list to XML
+	static NString                      EncodeXML(const NDictionary& theState);
+	static NDictionary                  DecodeXML(const NString& theXML);
+
+
+	// Load/save a property list from a file
+	static NDictionary                  Load(const NFile&        theFile);
+	static NStatus                      Save(const NFile&        theFile,
+											 const NDictionary&  theState,
+											 NPropertyListFormat theFormat = NPropertyListFormat::Binary);
+
+
+	// Encode/decode a property list
+	static NData                        Encode(const NDictionary&  theState,
+											   NPropertyListFormat theFormat = NPropertyListFormat::Binary);
+	static NDictionary                  Decode(const NData& theData);
+
+
+	// Identify a property list format
+	static NPropertyListFormat          GetFormat(const NData& theData);
+
+
+private:
+	static NData                        EncodeToXML(    const NDictionary& theState);
+	static NSharedPtrXMLNode            EncodeXML_Any(  const NAny&             theValue);
+	static NSharedPtrXMLNode            EncodeXML_Array(const NArray&           theValue);
+	static NSharedPtrXMLNode            EncodeXML_Boolean(bool                  theValue);
+	static NSharedPtrXMLNode            EncodeXML_Data(      const NData&       theValue);
+	static NSharedPtrXMLNode            EncodeXML_Dictionary(const NDictionary& theValue);
+	static NSharedPtrXMLNode            EncodeXML_Number(    const NNumber&     theValue);
+	static NSharedPtrXMLNode            EncodeXML_String(    const NString&     theValue);
+	static NSharedPtrXMLNode            EncodeXML_Time(      const NTime&       theValue);
+
+	static NDictionary                  DecodeFromXML(       const NData& theData);
+	static NAny                         DecodeXML_Any(       const NSharedPtrXMLNode& theNode);
+	static NArray                       DecodeXML_Array(     const NSharedPtrXMLNode& theNode);
+	static bool                         DecodeXML_Boolean(   const NSharedPtrXMLNode& theNode);
+	static NData                        DecodeXML_Data(      const NSharedPtrXMLNode& theNode);
+	static NDictionary                  DecodeXML_Dictionary(const NSharedPtrXMLNode& theNode);
+	static int64_t                      DecodeXML_Integer(   const NSharedPtrXMLNode& theNode);
+	static float64_t                    DecodeXML_Real(      const NSharedPtrXMLNode& theNode);
+	static NString                      DecodeXML_String(    const NSharedPtrXMLNode& theNode);
+	static NTime                        DecodeXML_Time(      const NSharedPtrXMLNode& theNode);
+
+
+	static NData                        EncodeToBinary(const NDictionary& theState);
+
+	static NData                        EncodeBinary_GetIntegerList(const NVectorUInt64& theObjects, uint8_t integerSize);
+
+	static uint8_t                      EncodeBinary_GetIntegerSize(uint64_t maxValue);
+
+	static uint64_t                     EncodeBinary_GetObjectCount(const NAny& theValue);
+
+	static void                         EncodeBinary_WriteObject(NPListBinaryEncodeInfo& encodeInfo);
+
+	static void                         EncodeBinary_WriteObjectData(NPListBinaryEncodeInfo& encodeInfo,
+																	 size_t                  theSize,
+																	 const void*             thePtr);
+
+	static void                         EncodeBinary_WriteObjectTag(NPListBinaryEncodeInfo& encodeInfo,
+																	uint8_t                 theToken,
+																	uint8_t                 objectInfo,
+																	uint64_t                objectSize = 0);
+
+	static uint64_t                     EncodeBinary_Any(NPListBinaryEncodeInfo& encodeInfo, const NAny& theValue);
+
+	static void                         EncodeBinary_Array(NPListBinaryEncodeInfo& encodeInfo, const NArray& theValue);
+
+	static void                         EncodeBinary_Boolean(NPListBinaryEncodeInfo& encodeInfo, bool theValue);
+
+	static void                         EncodeBinary_Data(NPListBinaryEncodeInfo& encodeInfo, const NData& theValue);
+
+	static void                         EncodeBinary_Dictionary(NPListBinaryEncodeInfo& encodeInfo,
+																const NDictionary&      theValue);
+
+	static void                         EncodeBinary_Integer(NPListBinaryEncodeInfo& encodeInfo,
+															 const NNumber&          theValue,
+															 bool                    addObject = true);
+
+	static void                         EncodeBinary_Real(NPListBinaryEncodeInfo& encodeInfo, const NNumber& theValue);
+
+	static void                         EncodeBinary_String(NPListBinaryEncodeInfo& encodeInfo, const NString& theValue);
+
+	static void                         EncodeBinary_Time(NPListBinaryEncodeInfo& encodeInfo, const NTime& theValue);
+
+
+	static NDictionary                  DecodeFromBinary(const NData& theData);
+
+	static uint64_t                     DecodeBinary_GetObjectOffset(const NPListBinaryDecodeInfo& decodeInfo,
+																	 uint64_t                      objectRef);
+
+	static NVectorUInt64                DecodeBinary_GetObjectOffsets(uint64_t       numObjects,
+																	  uint32_t       offsetsSize,
+																	  const uint8_t* offsetsTable);
+
+	static uint64_t                     DecodeBinary_GetUIntX(uint32_t integerSize, const uint8_t* thePtr);
+
+	static uint64_t                     DecodeBinary_ReadObjectRef(const NPListBinaryDecodeInfo& decodeInfo,
+																   uint64_t&                     byteOffset);
+
+	static uint64_t                     DecodeBinary_ReadObjectSize(const NPListBinaryDecodeInfo& decodeInfo,
+																	uint64_t&                     byteOffset,
+																	const NPListBinaryTag&        theTag);
+
+	static NPListBinaryTag              DecodeBinary_ReadObjectTag(const NPListBinaryDecodeInfo& decodeInfo,
+																   uint64_t&                     byteOffset);
+
+	static NAny                         DecodeBinary_Any(const NPListBinaryDecodeInfo& decodeInfo, uint64_t& byteOffset);
+
+	static NArray                       DecodeBinary_Array(const NPListBinaryDecodeInfo& decodeInfo,
+														   uint64_t&                     byteOffset);
+
+	static bool                         DecodeBinary_Boolean(const NPListBinaryDecodeInfo& decodeInfo,
+															 uint64_t&                     byteOffset);
+
+	static NData                        DecodeBinary_Data(const NPListBinaryDecodeInfo& decodeInfo, uint64_t& byteOffset);
+
+	static NDictionary                  DecodeBinary_Dictionary(const NPListBinaryDecodeInfo& decodeInfo,
+																uint64_t&                     byteOffset);
+
+	static int64_t                      DecodeBinary_Integer(const NPListBinaryDecodeInfo& decodeInfo,
+															 uint64_t&                     byteOffset);
+
+	static float64_t                    DecodeBinary_Real(const NPListBinaryDecodeInfo& decodeInfo,
+														  uint64_t&                     byteOffset);
+
+	static NString                      DecodeBinary_String(const NPListBinaryDecodeInfo& decodeInfo,
+															uint64_t&                     byteOffset);
+
+	static NTime                        DecodeBinary_Time(const NPListBinaryDecodeInfo& decodeInfo, uint64_t& byteOffset);
+};
+
+
+
+#endif // NPROPERTY_LIST_H
