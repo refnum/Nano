@@ -223,15 +223,11 @@ private:
 #define NBYTESWAP_BEGIN_NO_DECLARE(         _type)                                       \
 	void NByteSwap_##_type(size_t numItems, _type* firstItem, bool toNative)    \
 	{                                                                           \
-		uint8_t* currentField;                                                  \
-		_type*   currentItem;                                                   \
-		size_t   n;                                                             \
+		uint8_t* currentField = reinterpret_cast<uint8_t*>(firstItem);          \
+		_type*   currentItem  = reinterpret_cast<_type*>(currentField);         \
 																				\
-		currentField = (uint8_t*) firstItem;                                    \
-		for (n = 0; n < numItems; n++)                                          \
-		{                                                                       \
-			currentItem = (_type*) currentField;
-
+		for (size_t n = 0; n < numItems; n++)                                   \
+		{
 #define NBYTESWAP_BEGIN(_type)                              \
 										NBYTESWAP_DECLARE(         _type)                                \
 										NBYTESWAP_BEGIN_NO_DECLARE(_type)
@@ -247,10 +243,10 @@ private:
 
 // Encode/decode
 #define NBYTESWAP_ENCODE(_numItems, _type, _firstItem)      \
-	NByteSwap_##_type(_numItems, (  _type*) _firstItem, false)
+	NByteSwap_##_type(_numItems, reinterpret_cast<_type*>(_firstItem), false)
 
 #define NBYTESWAP_DECODE(_numItems, _type, _firstItem)      \
-	NByteSwap_##_type(_numItems, (  _type*) _firstItem, true)
+	NByteSwap_##_type(_numItems, reinterpret_cast<_type*>(_firstItem), true)
 
 
 
@@ -268,77 +264,77 @@ inline void NByteSwap_Field(size_t    numValues,
 	valuePtr += (numValues * valueSize);
 }
 
-#define NBYTESWAP_Offset()                                  (currentField - ((uint8_t*) currentItem))
+#define NBYTESWAP_Offset()                                  (currentField - reinterpret_cast<uint8_t*>(currentItem))
 #define NBYTESWAP_Skip(_numBytes)                           currentField += _numBytes;
 #define NBYTESWAP_Fetch(_swapWith, _fieldName)              \
 	(toNative ? currentItem->_fieldName : _swapWith(currentItem->_fieldName))
 
 
 // Arrays
-#define NBYTESWAP_Type_Array(_fieldName, _fieldType, _fieldCount)               \
-	NByteSwap_##_fieldType(_fieldCount, (_fieldType*) currentField, toNative);  \
+#define NBYTESWAP_Type_Array(_fieldName, _fieldType, _fieldCount)                               \
+	NByteSwap_##_fieldType(_fieldCount, reinterpret_cast<_fieldType*>(currentField), toNative); \
 	currentField += (_fieldCount * sizeof(_fieldType));
 
 #define NBYTESWAP_B_UInt8_Array(_fieldName, _fieldCount)    \
 	currentField += (_fieldCount * sizeof(uint8_t));
 
 #define NBYTESWAP_B_UInt16_Array(_fieldName, _fieldCount)   \
-	NByteSwap_Field(_fieldCount, currentField, sizeof(uint16_t), kNEndianBig);
+	NByteSwap_Field(_fieldCount, currentField, sizeof(uint16_t), NEndian::Big);
 
 #define NBYTESWAP_B_UInt32_Array(_fieldName, _fieldCount)   \
-	NByteSwap_Field(_fieldCount, currentField, sizeof(uint32_t), kNEndianBig);
+	NByteSwap_Field(_fieldCount, currentField, sizeof(uint32_t), NEndian::Big);
 
 #define NBYTESWAP_B_UInt64_Array(_fieldName, _fieldCount)   \
-	NByteSwap_Field(_fieldCount, currentField, sizeof(uint64_t), kNEndianBig);
+	NByteSwap_Field(_fieldCount, currentField, sizeof(uint64_t), NEndian::Big);
 
 #define NBYTESWAP_B_Int8_Array(_fieldName, _fieldCount)     \
 	currentField += (_fieldCount * sizeof(uint8_t));
 
 #define NBYTESWAP_B_Int16_Array(_fieldName, _fieldCount)    \
-	NByteSwap_Field(_fieldCount, currentField, sizeof(int16_t), kNEndianBig);
+	NByteSwap_Field(_fieldCount, currentField, sizeof(int16_t), NEndian::Big);
 
 #define NBYTESWAP_B_Int32_Array(_fieldName, _fieldCount)    \
-	NByteSwap_Field(_fieldCount, currentField, sizeof(int32_t), kNEndianBig);
+	NByteSwap_Field(_fieldCount, currentField, sizeof(int32_t), NEndian::Big);
 
 #define NBYTESWAP_B_Int64_Array(_fieldName, _fieldCount)    \
-	NByteSwap_Field(_fieldCount, currentField, sizeof(int64_t), kNEndianBig);
+	NByteSwap_Field(_fieldCount, currentField, sizeof(int64_t), NEndian::Big);
 
 #define NBYTESWAP_B_Float32_Array(_fieldName, _fieldCount)  \
-	NByteSwap_Field(_fieldCount, currentField, sizeof(float32_t), kNEndianBig);
+	NByteSwap_Field(_fieldCount, currentField, sizeof(float32_t), NEndian::Big);
 
 #define NBYTESWAP_B_Float64_Array(_fieldName, _fieldCount)  \
-	NByteSwap_Field(_fieldCount, currentField, sizeof(float64_t), kNEndianBig);
+	NByteSwap_Field(_fieldCount, currentField, sizeof(float64_t), NEndian::Big);
 
 
 #define NBYTESWAP_L_UInt8_Array(_fieldName, _fieldCount)    \
 	currentField += (_fieldCount * sizeof(uint8_t));
 
 #define NBYTESWAP_L_UInt16_Array(_fieldName, _fieldCount)   \
-	NByteSwap_Field(_fieldCount, currentField, sizeof(uint16_t), kNEndianLittle);
+	NByteSwap_Field(_fieldCount, currentField, sizeof(uint16_t), NEndian::Little);
 
 #define NBYTESWAP_L_UInt32_Array(_fieldName, _fieldCount)   \
-	NByteSwap_Field(_fieldCount, currentField, sizeof(uint32_t), kNEndianLittle);
+	NByteSwap_Field(_fieldCount, currentField, sizeof(uint32_t), NEndian::Little);
 
 #define NBYTESWAP_L_UInt64_Array(_fieldName, _fieldCount)   \
-	NByteSwap_Field(_fieldCount, currentField, sizeof(uint64_t), kNEndianLittle);
+	NByteSwap_Field(_fieldCount, currentField, sizeof(uint64_t), NEndian::Little);
 
 #define NBYTESWAP_L_Int8_Array(_fieldName, _fieldCount)     \
 	currentField += (_fieldCount * sizeof(uint8_t));
 
 #define NBYTESWAP_L_Int16_Array(_fieldName, _fieldCount)    \
-	NByteSwap_Field(_fieldCount, currentField, sizeof(int16_t), kNEndianLittle);
+	NByteSwap_Field(_fieldCount, currentField, sizeof(int16_t), NEndian::Little);
 
 #define NBYTESWAP_L_Int32_Array(_fieldName, _fieldCount)    \
-	NByteSwap_Field(_fieldCount, currentField, sizeof(int32_t), kNEndianLittle);
+	NByteSwap_Field(_fieldCount, currentField, sizeof(int32_t), NEndian::Little);
 
 #define NBYTESWAP_L_Int64_Array(_fieldName, _fieldCount)    \
-	NByteSwap_Field(_fieldCount, currentField, sizeof(int64_t), kNEndianLittle);
+	NByteSwap_Field(_fieldCount, currentField, sizeof(int64_t), NEndian::Little);
 
 #define NBYTESWAP_L_Float32_Array(_fieldName, _fieldCount)  \
-	NByteSwap_Field(_fieldCount, currentField, sizeof(float32_t), kNEndianLittle);
+	NByteSwap_Field(_fieldCount, currentField, sizeof(float32_t), NEndian::Little);
 
 #define NBYTESWAP_L_Float64_Array(_fieldName, _fieldCount)  \
-	NByteSwap_Field(_fieldCount, currentField, sizeof(float64_t), kNEndianLittle);
+	NByteSwap_Field(_fieldCount, currentField, sizeof(float64_t), NEndian::Little);
 
 
 // Fields
