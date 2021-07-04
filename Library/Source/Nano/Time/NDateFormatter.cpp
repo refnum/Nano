@@ -151,22 +151,31 @@ void NDateFormatter::SetDate(NTime theTime)
 	// Get the state we need
 	NInterval absTime = std::abs(theTime);
 	size_t    numDays = size_t(absTime / kNTimeDay);
+	NInterval numSecs = absTime - (NInterval(numDays) * kNTimeDay);
 
 
 
 	// Set the date
 	//
 	// The Nano epoch starts at 00:00:00 on 2001/01/01.
-	mDate    = NDate(2001, 1, 1);
-	mSeconds = absTime - (NInterval(numDays) * kNTimeDay);
+	//
+	// A positive time relative to this epoch is given by days and
+	// the remaining seconds.
+	//
+	// A negative time relative to this epoch needs to step back by
+	// one additional day, then turn the remaining seconds into a
+	// positive offset relative to that day.
+	mDate = NDate(2001, 1, 1);
 
 	if (theTime >= 0.0)
 	{
 		mDate.AddDays(numDays);
+		mSeconds = numSecs;
 	}
 	else
 	{
-		mDate.SubtractDays(numDays);
+		mDate.SubtractDays(numDays + 1);
+		mSeconds = kNTimeDay - numSecs;
 	}
 }
 
