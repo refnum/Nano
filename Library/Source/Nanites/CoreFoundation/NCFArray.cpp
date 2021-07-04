@@ -85,7 +85,8 @@ bool NCFArray::SetArray(const NArray& theArray)
 
 	// Set the array
 	CFIndex numItems = CFIndex(theArray.size());
-	bool wasOK = Set(CFArrayCreateMutable(kCFAllocatorDefault, numItems, &kCFTypeArrayCallBacks));
+	bool    wasOK =
+		Assign(CFArrayCreateMutable(kCFAllocatorDefault, numItems, &kCFTypeArrayCallBacks));
 
 	if (wasOK)
 	{

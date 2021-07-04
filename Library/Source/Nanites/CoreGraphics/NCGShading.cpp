@@ -101,8 +101,8 @@ inline NCGShading& NCGShading::operator=(const NCGShading& otherShading)
 	// Assign the Shading
 	if (this != &otherShading)
 	{
-		mShading.Set(nullptr);
-		mEvaluate.Set(nullptr);
+		mShading.Assign(nullptr);
+		mEvaluate.Assign(nullptr);
 
 		mMode        = otherShading.mMode;
 		mSamples     = otherShading.mSamples;
@@ -139,8 +139,8 @@ inline NCGShading::NCGShading(NCGShading&& otherShading)
 
 
 	// Reset the other object
-	otherShading.mShading.Set(nullptr);
-	otherShading.mEvaluate.Set(nullptr);
+	otherShading.mShading.Assign(nullptr);
+	otherShading.mEvaluate.Assign(nullptr);
 }
 
 
@@ -157,8 +157,8 @@ inline NCGShading& NCGShading::operator=(NCGShading&& otherShading)
 	// Move the shading
 	if (this != &otherShading)
 	{
-		mShading.Set(nullptr);
-		mEvaluate.Set(nullptr);
+		mShading.Assign(nullptr);
+		mEvaluate.Assign(nullptr);
 
 		mMode        = std::exchange(otherShading.mMode, NShadingMode::None);
 		mSamples     = std::exchange(otherShading.mSamples, {});
@@ -169,8 +169,8 @@ inline NCGShading& NCGShading::operator=(NCGShading&& otherShading)
 		mEndExtend   = std::exchange(otherShading.mEndExtend, false);
 		mEndRadius   = std::exchange(otherShading.mEndRadius, 0.0);
 
-		otherShading.mShading.Set(nullptr);
-		otherShading.mEvaluate.Set(nullptr);
+		otherShading.mShading.Assign(nullptr);
+		otherShading.mEvaluate.Assign(nullptr);
 	}
 
 	return *this;
@@ -503,7 +503,7 @@ void NCGShading::CreateShading() const
 	static const CGFloat             kNCallbackDomain[] = {0.0, 1.0};
 
 	void* userData = const_cast<void*>(reinterpret_cast<const void*>(this));
-	bool  wasOK    = mEvaluate.Set(
+	bool  wasOK    = mEvaluate.Assign(
 		CGFunctionCreate(userData, 1, kNCallbackDomain, 4, kNCallbackRange, &kNCallbackInfo));
 	NN_EXPECT(wasOK);
 
@@ -522,24 +522,24 @@ void NCGShading::CreateShading() const
 				break;
 
 			case NShadingMode::Linear:
-				wasOK = mShading.Set(CGShadingCreateAxial(cgColorSpace,
-														  ToCG(mStartPoint),
-														  ToCG(mEndPoint),
-														  mEvaluate,
-														  mStartExtend,
-														  mEndExtend));
+				wasOK = mShading.Assign(CGShadingCreateAxial(cgColorSpace,
+															 ToCG(mStartPoint),
+															 ToCG(mEndPoint),
+															 mEvaluate,
+															 mStartExtend,
+															 mEndExtend));
 				NN_EXPECT(wasOK);
 				break;
 
 			case NShadingMode::Radial:
-				wasOK = mShading.Set(CGShadingCreateRadial(cgColorSpace,
-														   ToCG(mStartPoint),
-														   mStartRadius,
-														   ToCG(mEndPoint),
-														   mEndRadius,
-														   mEvaluate,
-														   mStartExtend,
-														   mEndExtend));
+				wasOK = mShading.Assign(CGShadingCreateRadial(cgColorSpace,
+															  ToCG(mStartPoint),
+															  mStartRadius,
+															  ToCG(mEndPoint),
+															  mEndRadius,
+															  mEvaluate,
+															  mStartExtend,
+															  mEndExtend));
 				NN_EXPECT(wasOK);
 				break;
 		}
@@ -558,8 +558,8 @@ void NCGShading::SetDirty()
 
 
 	// Invalidate the shading
-	mShading.Set(nullptr);
-	mEvaluate.Set(nullptr);
+	mShading.Assign(nullptr);
+	mEvaluate.Assign(nullptr);
 }
 
 

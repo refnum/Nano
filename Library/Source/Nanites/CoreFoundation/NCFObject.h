@@ -156,8 +156,16 @@ public:
 
 	// Set the object
 	//
-	// Transfers ownership of the CF object to this object.
+	// Acquires a new reference to the CF object, releasing it when the
+	// NCFObject goes out of scope.
 	bool                                Set(T cfObject);
+
+
+	// Assign the object
+	//
+	// Assigns the CF object to the NCFObject without incrementing the
+	// reference count, releasing it when the NCFObject goes out of scope.
+	bool                                Assign(T cfObject);
 
 
 	// Operators

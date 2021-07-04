@@ -44,7 +44,9 @@
 #include "NTestFixture.h"
 
 // System
+#include <CoreFoundation/CFBundle.h>
 #include <CoreFoundation/CFNumber.h>
+#include <CoreFoundation/CFString.h>
 
 
 
@@ -84,11 +86,31 @@ NANO_TEST(TCFObject, "Set")
 
 
 	// Perform the test
-	NCFObject<CFBooleanRef> cfBool;
+	NCFObject<CFBundleRef> cfBundle;
 
-	bool wasOK = cfBool.Set(CFBooleanRef(CFRetain(kCFBooleanTrue)));
+	bool wasOK = cfBundle.Set(CFBundleGetMainBundle());
 	REQUIRE(wasOK);
-	REQUIRE(cfBool.IsValid());
+	REQUIRE(cfBundle.IsValid());
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TCFObject, "Assign")
+{
+
+
+	// Perform the test
+	NCFObject<CFStringRef> cfString;
+
+	bool wasOK = cfString.Assign(
+		CFStringCreateWithCString(kCFAllocatorDefault, "Testing", kCFStringEncodingUTF8));
+	REQUIRE(wasOK);
+	REQUIRE(cfString.IsValid());
 }
 
 
@@ -105,7 +127,7 @@ NANO_TEST(TCFObject, "Cast")
 	// Perform the test
 	NCFObject<CFBooleanRef> cfBool;
 
-	bool wasOK = cfBool.Set(CFBooleanRef(CFRetain(kCFBooleanTrue)));
+	bool wasOK = cfBool.Set(kCFBooleanTrue);
 	REQUIRE(wasOK);
 	REQUIRE(CFBooleanGetValue(cfBool) == CFBooleanGetValue(kCFBooleanTrue));
 }

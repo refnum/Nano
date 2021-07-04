@@ -125,13 +125,13 @@ NImage NCGImage::GetImage() const
 		NImage     theImage(NSize(theWidth, theHeight), theFormat);
 		NCGContext cgContext;
 
-		if (cgContext.Set(CGBitmapContextCreate(theImage.GetMutablePixels(),
-												theWidth,
-												theHeight,
-												bitsPerComponent,
-												theImage.GetBytesPerRow(),
-												NCGColor::GetDeviceRGB(),
-												bitmapInfo)))
+		if (cgContext.Assign(CGBitmapContextCreate(theImage.GetMutablePixels(),
+												   theWidth,
+												   theHeight,
+												   bitsPerComponent,
+												   theImage.GetBytesPerRow(),
+												   NCGColor::GetDeviceRGB(),
+												   bitmapInfo)))
 		{
 			CGContextDrawImage(cgContext, ToCG(theImage.GetBounds()), cgImage);
 			return theImage;
@@ -164,27 +164,27 @@ bool NCGImage::SetImage(const NImage& theImage, NCFSource theSource)
 
 	if (theSource == NCFSource::Copy)
 	{
-		wasOK = cgDataProvider.Set(CGDataProviderCreateWithCFData(NCFData(theData)));
+		wasOK = cgDataProvider.Assign(CGDataProviderCreateWithCFData(NCFData(theData)));
 	}
 	else
 	{
-		wasOK = cgDataProvider.Set(
+		wasOK = cgDataProvider.Assign(
 			CGDataProviderCreateWithData(nullptr, theData.GetData(), theData.GetSize(), nullptr));
 	}
 
 	if (wasOK)
 	{
-		wasOK = Set(CGImageCreate(theImage.GetWidth(),
-								  theImage.GetHeight(),
-								  theImage.GetBitsPerComponent(),
-								  theImage.GetBitsPerPixel(),
-								  theImage.GetBytesPerRow(),
-								  NCGColor::GetDeviceRGB(),
-								  bitmapInfo,
-								  cgDataProvider,
-								  nullptr,
-								  false,
-								  kCGRenderingIntentDefault));
+		wasOK = Assign(CGImageCreate(theImage.GetWidth(),
+									 theImage.GetHeight(),
+									 theImage.GetBitsPerComponent(),
+									 theImage.GetBitsPerPixel(),
+									 theImage.GetBytesPerRow(),
+									 NCGColor::GetDeviceRGB(),
+									 bitmapInfo,
+									 cgDataProvider,
+									 nullptr,
+									 false,
+									 kCGRenderingIntentDefault));
 	}
 
 	return wasOK;

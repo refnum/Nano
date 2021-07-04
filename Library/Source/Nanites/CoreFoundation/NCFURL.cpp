@@ -84,5 +84,5 @@ bool NCFURL::SetURL(const NURL& theURL)
 
 
 	// Set the URL
-	return Set(CFURLCreateWithString(kCFAllocatorDefault, NCFString(theURL.GetURL()), nullptr));
+	return Assign(CFURLCreateWithString(kCFAllocatorDefault, NCFString(theURL.GetURL()), nullptr));
 }

@@ -92,11 +92,11 @@ bool NCFData::SetData(const NData& theData, NCFSource theSource)
 
 	if (theSource == NCFSource::Copy)
 	{
-		wasOK = Set(CFDataCreate(kCFAllocatorDefault, thePtr, theSize));
+		wasOK = Assign(CFDataCreate(kCFAllocatorDefault, thePtr, theSize));
 	}
 	else
 	{
-		wasOK = Set(
+		wasOK = Assign(
 			CFDataCreateWithBytesNoCopy(kCFAllocatorDefault, thePtr, theSize, kCFAllocatorNull));
 	}
 
@@ -123,7 +123,7 @@ NData NCFMutableData::GetData(NCFSource theSource) const
 	// A CFMutableDataRef can always be cast to a CFDataRef.
 	NCFData cfData;
 
-	cfData.Set(CFDataRef(CFRetain(*this)));
+	cfData.Set(CFDataRef(*this));
 	NN_REQUIRE(IsValid() == cfData.IsValid());
 
 	return cfData.GetData(theSource);
@@ -145,5 +145,5 @@ bool NCFMutableData::SetData(const NData& theData)
 
 	cfData.SetData(theData, NCFSource::View);
 
-	return Set(CFDataCreateMutableCopy(kCFAllocatorDefault, 0, cfData));
+	return Assign(CFDataCreateMutableCopy(kCFAllocatorDefault, 0, cfData));
 }

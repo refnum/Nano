@@ -58,7 +58,7 @@ NCFType ToCF(const NAny& theValue)
 
 	if (theValue.HasBool())
 	{
-		cfObject.Set(CFRetain(theValue.GetBool() ? kCFBooleanTrue : kCFBooleanFalse));
+		cfObject.Set(theValue.GetBool() ? kCFBooleanTrue : kCFBooleanFalse);
 	}
 
 	else if (theValue.Has<NArray>())

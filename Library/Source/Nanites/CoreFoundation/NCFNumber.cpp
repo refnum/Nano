@@ -98,12 +98,12 @@ bool NCFNumber::SetNumber(const NNumber& theNumber)
 	if (theNumber.IsReal())
 	{
 		float64_t valueFloat64 = theNumber.GetFloat64();
-		wasOK = Set(CFNumberCreate(kCFAllocatorDefault, kCFNumberFloat64Type, &valueFloat64));
+		wasOK = Assign(CFNumberCreate(kCFAllocatorDefault, kCFNumberFloat64Type, &valueFloat64));
 	}
 	else
 	{
 		int64_t valueInt64 = theNumber.GetInt64();
-		wasOK = Set(CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt64Type, &valueInt64));
+		wasOK = Assign(CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt64Type, &valueInt64));
 	}
 
 	return wasOK;

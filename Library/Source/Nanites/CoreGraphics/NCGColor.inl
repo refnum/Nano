@@ -105,10 +105,10 @@ inline bool NCGColor::SetColor(const NColor& theColor)
 
 	theColor.GetColor(theComponents[0], theComponents[1], theComponents[2], theComponents[3]);
 
-	return Set(CGColorCreateGenericRGB(CGFloat(theComponents[0]),
-									   CGFloat(theComponents[1]),
-									   CGFloat(theComponents[2]),
-									   CGFloat(theComponents[3])));
+	return Assign(CGColorCreateGenericRGB(CGFloat(theComponents[0]),
+										  CGFloat(theComponents[1]),
+										  CGFloat(theComponents[2]),
+										  CGFloat(theComponents[3])));
 }
 
 
@@ -125,7 +125,7 @@ inline NCGColorSpace NCGColor::GetDeviceGray()
 	// Get the color space
 	NCGColorSpace cgColorSpace;
 
-	cgColorSpace.Set(CGColorSpaceCreateDeviceGray());
+	cgColorSpace.Assign(CGColorSpaceCreateDeviceGray());
 
 	return cgColorSpace;
 }
@@ -144,7 +144,7 @@ inline NCGColorSpace NCGColor::GetDeviceRGB()
 	// Get the color space
 	NCGColorSpace cgColorSpace;
 
-	cgColorSpace.Set(CGColorSpaceCreateDeviceRGB());
+	cgColorSpace.Assign(CGColorSpaceCreateDeviceRGB());
 
 	return cgColorSpace;
 }

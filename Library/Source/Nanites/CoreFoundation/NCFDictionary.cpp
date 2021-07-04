@@ -109,10 +109,10 @@ bool NCFDictionary::SetDictionary(const NDictionary& theDictionary)
 
 	// Set the dictionary
 	CFIndex numItems = CFIndex(theDictionary.size());
-	bool    wasOK    = Set(CFDictionaryCreateMutable(kCFAllocatorDefault,
-											   numItems,
-											   &kCFTypeDictionaryKeyCallBacks,
-											   &kCFTypeDictionaryValueCallBacks));
+	bool    wasOK    = Assign(CFDictionaryCreateMutable(kCFAllocatorDefault,
+												  numItems,
+												  &kCFTypeDictionaryKeyCallBacks,
+												  &kCFTypeDictionaryValueCallBacks));
 
 	if (wasOK)
 	{

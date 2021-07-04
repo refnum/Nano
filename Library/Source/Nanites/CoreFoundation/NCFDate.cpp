@@ -85,5 +85,5 @@ bool NCFDate::SetDate(const NDate& theDate)
 	size_t    numDays = theDate.GetDaysBetween(NDate(2001, 1, 1));
 	NInterval theTime = NInterval(numDays) * kNTimeDay;
 
-	return Set(CFDateCreate(kCFAllocatorDefault, theTime));
+	return Assign(CFDateCreate(kCFAllocatorDefault, theTime));
 }

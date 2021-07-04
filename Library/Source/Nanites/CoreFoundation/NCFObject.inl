@@ -176,6 +176,24 @@ inline bool NCFObject<T>::Set(T cfObject)
 
 
 	// Set the object
+	CFSafeRetain(cfObject);
+
+	return Assign(cfObject);
+}
+
+
+
+
+
+//=============================================================================
+//		NCFObject::Assign : Assign the object.
+//-----------------------------------------------------------------------------
+template<typename T>
+inline bool NCFObject<T>::Assign(T cfObject)
+{
+
+
+	// Assign the object
 	CFSafeRelease(mObject);
 	mObject = cfObject;
 

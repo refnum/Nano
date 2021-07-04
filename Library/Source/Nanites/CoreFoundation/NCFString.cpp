@@ -80,10 +80,10 @@ NString NCFString::GetString() const
 				NCFData cfData;
 
 				// Convert to UTF8 through a temporary buffer
-				if (cfData.Set(CFStringCreateExternalRepresentation(kCFAllocatorDefault,
-																	cfString,
-																	kCFStringEncodingUTF8,
-																	0)))
+				if (cfData.Assign(CFStringCreateExternalRepresentation(kCFAllocatorDefault,
+																	   cfString,
+																	   kCFStringEncodingUTF8,
+																	   0)))
 				{
 					theString.SetData(NStringEncoding::UTF8, cfData.GetData());
 				}
@@ -110,6 +110,6 @@ bool NCFString::SetString(const NString& theString)
 
 
 	// Set the string
-	return Set(
+	return Assign(
 		CFStringCreateWithCString(kCFAllocatorDefault, theString.GetUTF8(), kCFStringEncodingUTF8));
 }

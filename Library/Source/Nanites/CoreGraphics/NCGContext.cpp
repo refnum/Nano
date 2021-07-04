@@ -192,13 +192,13 @@ void NCGContext::SetOutput(NImage& theImage)
 	// Get the state we need
 	CGBitmapInfo bitmapInfo = NCGImage::GetBitmapInfo(theImage.GetFormat());
 
-	bool wasOK = Set(CGBitmapContextCreate(theImage.GetMutablePixels(),
-										   theImage.GetWidth(),
-										   theImage.GetHeight(),
-										   theImage.GetBitsPerComponent(),
-										   theImage.GetBytesPerRow(),
-										   NCGColor::GetDeviceRGB(),
-										   bitmapInfo));
+	bool wasOK = Assign(CGBitmapContextCreate(theImage.GetMutablePixels(),
+											  theImage.GetWidth(),
+											  theImage.GetHeight(),
+											  theImage.GetBitsPerComponent(),
+											  theImage.GetBytesPerRow(),
+											  NCGColor::GetDeviceRGB(),
+											  bitmapInfo));
 	NN_EXPECT(wasOK);
 
 	if (wasOK)
@@ -669,10 +669,10 @@ NCTLine NCGContext::GetCTLine(const NString& theText)
 	NCFObject<CFAttributedStringRef> cfString;
 	NCTLine                          ctLine;
 
-	if (cfString.Set(
+	if (cfString.Assign(
 			CFAttributedStringCreate(kCFAllocatorDefault, ToCF(theText), ToCF(textAttributes))))
 	{
-		ctLine.Set(CTLineCreateWithAttributedString(cfString));
+		ctLine.Assign(CTLineCreateWithAttributedString(cfString));
 	}
 
 	return ctLine;
@@ -693,9 +693,9 @@ NCGFont NCGContext::GetCGFont(CTFontUIFontType fontID, CGFloat fontSize)
 	NCTFont ctFont;
 	NCGFont cgFont;
 
-	if (ctFont.Set(CTFontCreateUIFontForLanguage(fontID, fontSize, nullptr)))
+	if (ctFont.Assign(CTFontCreateUIFontForLanguage(fontID, fontSize, nullptr)))
 	{
-		cgFont.Set(CTFontCopyGraphicsFont(ctFont, nullptr));
+		cgFont.Assign(CTFontCopyGraphicsFont(ctFont, nullptr));
 	}
 
 	return cgFont;
