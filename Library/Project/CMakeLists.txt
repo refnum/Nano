@@ -394,6 +394,17 @@ nano_project_warnings(
 		"${NN_SOURCE_DIR}/Nano/Internal/Components/"
 )
 
+nano_project_language(
+	C
+		"${NN_SOURCE_DIR}/Nano/Application/TestCPPasC.cpp"
+#		"${NN_SOURCE_DIR}/Nano/Application/TestObjCPPasC.mm"
+	CPP
+		"${NN_SOURCE_DIR}/Nano/Application/TestCasCPP.c"
+#		"${NN_SOURCE_DIR}/Nano/Application/TestObjCPPasCPP.mm"
+#	OBJCPP
+#		"${NN_SOURCE_DIR}/Nano/Application/TestCasObjC.c"
+#		"${NN_SOURCE_DIR}/Nano/Application/TestCPPasObjC.cpp"
+)
 
 
 
@@ -405,6 +416,7 @@ if (NN_TARGET_ANDROID)
 	nano_project_sources(
 		PRIVATE
 			"${ANDROID_NDK}/sources/android/cpufeatures/cpu-features.c"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Android/AndroidNBundle.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Android/AndroidNDebugger.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Android/AndroidNFileHandle.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Android/AndroidNFileInfo.cpp"
