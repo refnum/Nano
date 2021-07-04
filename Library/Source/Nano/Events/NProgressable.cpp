@@ -235,6 +235,26 @@ NStatus NProgressable::UpdateProgress(float theValue)
 
 
 
+//=============================================================================
+//		NProgressable::UpdateProgress : Update the progress.
+//-----------------------------------------------------------------------------
+NStatus NProgressable::UpdateProgress(size_t currentValue, size_t maxValue)
+{
+
+
+	// Validate our state
+	NN_REQUIRE(mIsActive);
+
+
+
+	// Update the progress
+	return UpdateProgress(float32_t(currentValue) / float32_t(maxValue));
+}
+
+
+
+
+
 #pragma mark private
 //=============================================================================
 //		NProgressable::ContinueProgress : Continue the progress.

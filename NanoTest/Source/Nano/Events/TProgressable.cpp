@@ -187,9 +187,14 @@ NANO_TEST(TProgressable, "UpdateProgress")
 	theProgress.SetProgressInterval(0.0);
 	theProgress.BeginProgress();
 
-	for (float n = 0.0f; n < 1.0f; n += 0.1f)
+	for (float n = 0.0f; n < 0.5f; n += 0.1f)
 	{
 		theProgress.UpdateProgress(n);
+	}
+
+	for (size_t n = 0; n < 5; n++)
+	{
+		theProgress.UpdateProgress(n, 5);
 	}
 
 	theProgress.EndProgress();

@@ -131,6 +131,7 @@ public:
 	NStatus                             BeginProgress( float theValue = kNProgressNone);
 	NStatus                             EndProgress(   float theValue = kNProgressDone);
 	NStatus                             UpdateProgress(float theValue);
+	NStatus                             UpdateProgress(size_t currentValue, size_t maxValue);
 
 
 private:
