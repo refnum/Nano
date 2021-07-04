@@ -136,7 +136,7 @@ inline NBitVector& NBitVector::operator=(NBitVector&& otherVector)
 	if (this != &otherVector)
 	{
 		mData  = std::exchange(otherVector.mData, {});
-		mSize  = std::exchange(otherVector.mSize, 0);
+		mSize  = std::exchange(otherVector.mSize, 0u);
 		mBytes = mData.GetMutableData();
 
 		otherVector.mBytes = nullptr;
