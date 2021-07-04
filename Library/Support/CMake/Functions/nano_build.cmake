@@ -528,7 +528,6 @@ endfunction()
 #------------------------------------------------------------------------------
 function(_nano_build_linker_options)
 
-	# Options
 	target_link_options("${PROJECT_NAME}" PRIVATE ${NN_LINKER_OPTIONS})
 
 endfunction()

@@ -62,6 +62,7 @@ endif()
 #		Languages
 #------------------------------------------------------------------------------
 if (NN_TARGET_IOS OR NN_TARGET_MACOS OR NN_TARGET_TVOS)
+	enable_language(OBJC)
 	enable_language(OBJCXX)
 endif()
 
