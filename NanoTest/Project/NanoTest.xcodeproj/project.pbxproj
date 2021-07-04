@@ -87,6 +87,9 @@
 		AB549AFB2687BE3800B14417 /* TCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB549AF42687BE3800B14417 /* TCache.cpp */; };
 		AB549AFC2687BE3800B14417 /* TCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB549AF42687BE3800B14417 /* TCache.cpp */; };
 		AB549AFD2687BE3800B14417 /* TCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB549AF42687BE3800B14417 /* TCache.cpp */; };
+		AB549B0B2689144500B14417 /* TBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D781034184B00E5A6AD /* TBundle.cpp */; };
+		AB549B0C2689144600B14417 /* TBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D781034184B00E5A6AD /* TBundle.cpp */; };
+		AB549B0D2689144600B14417 /* TBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D781034184B00E5A6AD /* TBundle.cpp */; };
 		AB549B7B268FA72800B14417 /* TXMLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D8F1034184B00E5A6AD /* TXMLParser.cpp */; };
 		AB549B7C268FA72800B14417 /* TXMLEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D8B1034184B00E5A6AD /* TXMLEncoder.cpp */; };
 		AB549B7D268FA72800B14417 /* TXMLNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D8D1034184B00E5A6AD /* TXMLNode.cpp */; };
@@ -1099,6 +1102,7 @@
 				ABF58C1A267572E100327252 /* TData.cpp in Sources */,
 				ABA7247423F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */,
 				ABDCE8EA241F8AEA0054A16E /* TFile.cpp in Sources */,
+				AB549B0C2689144600B14417 /* TBundle.cpp in Sources */,
 				ABF513142397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				ABF58C452676C2FD00327252 /* TListener.cpp in Sources */,
 				AB269E0725BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */,
@@ -1207,6 +1211,7 @@
 				ABF58C19267572E100327252 /* TData.cpp in Sources */,
 				ABA7247323F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */,
 				ABDCE8E9241F8AEA0054A16E /* TFile.cpp in Sources */,
+				AB549B0D2689144600B14417 /* TBundle.cpp in Sources */,
 				ABF513132397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				ABF58C412676C2FB00327252 /* TListener.cpp in Sources */,
 				AB269E0625BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */,
@@ -1315,6 +1320,7 @@
 				ABF58C1B267572E100327252 /* TData.cpp in Sources */,
 				ABA7247523F8415E00CF6EC2 /* TMixinAppendable.cpp in Sources */,
 				ABDCE8EB241F8AEA0054A16E /* TFile.cpp in Sources */,
+				AB549B0B2689144500B14417 /* TBundle.cpp in Sources */,
 				ABF513152397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
 				ABF58C432676C2FC00327252 /* TListener.cpp in Sources */,
 				AB269E0825BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */,

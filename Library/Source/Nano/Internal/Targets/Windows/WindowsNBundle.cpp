@@ -1,8 +1,8 @@
 /*	NAME:
-		TBundle.cpp
+		WindowsNBundle.cpp
 
 	DESCRIPTION:
-		NBundle tests.
+		Windows bundle support.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -40,62 +40,58 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NBundle.h"
-#include "NTestFixture.h"
+
+// Nano
+#include "NFormat.h"
+#include "NPropertyList.h"
+#include "NWindows.h"
 
 
 
 
 
 //=============================================================================
-//		Constants
+//		NBundle::GetBundle : Get the bundle for an ID.
 //-----------------------------------------------------------------------------
-// Paths
-#if NN_TARGET_MACOS
-static const NString kPathBundle                            = "/Applications/Safari.app";
-#else
-static const NString kPathBundle                            = "";
-#endif
-
-
-
-
-
-//=============================================================================
-//		Test Fixture
-//-----------------------------------------------------------------------------
-NANO_FIXTURE(TBundle)
+NFile NBundle::GetBundle(const NString& bundleID) const
 {
-	NBundle theBundle;
 
-	SETUP
+
+	// Locate the executable
+	NFile theFile;
+
+	if (bundleID.IsEmpty())
 	{
-		// Mac-specific setup
-		if (!kPathBundle.IsEmpty())
+		TCHAR theBuffer[MAX_PATH];
+
+		if (GetModuleFileName(nullptr, theBuffer, MAX_PATH))
 		{
-			theBundle = NBundle(NFile(kPathBundle));
+			theFile = NFile(ToNN(theBuffer));
 		}
 	}
-};
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TBundle, "Default")
-{
-
-
-	// Perform the test
-	REQUIRE(theBundle.IsValid());
-
-	NString theString = theBundle.GetIdentifier();
-	if (!kPathBundle.IsEmpty())
+	else
 	{
-		REQUIRE(!theString.IsEmpty());
+		NN_LOG_WARNING("Unable to locate bundle {}", bundleID);
 	}
+
+
+
+	// Locate the bundle
+	//
+	// If the executable is within a bundle then we return the root bundle
+	// folder, otherwise we return the directory containing the executable.
+	theFile = theFile.GetParent();
+
+	if (theFile.GetName() == "Windows")
+	{
+		NFile theParent = theFile.GetParent();
+		if (theParent.GetName() == "Contents")
+		{
+			theFile = theParent.GetParent();
+		}
+	}
+
+	return theFile;
 }
 
 
@@ -103,24 +99,14 @@ NANO_TEST(TBundle, "Default")
 
 
 //=============================================================================
-//		Test Case
+//		NBundle::GetResources : Get the resources directory for the bundle.
 //-----------------------------------------------------------------------------
-NANO_TEST(TBundle, "Files")
+NFile NBundle::GetResources(const NFile& theBundle) const
 {
 
 
-	// Perform the test
-	if (!kPathBundle.IsEmpty())
-	{
-		NFile theFile = theBundle.GetRoot();
-		REQUIRE(theFile.IsDirectory());
-
-		theFile = theBundle.GetResources();
-		REQUIRE(theFile.IsDirectory());
-
-		theFile = theBundle.GetExecutable();
-		REQUIRE(theFile.IsFile());
-	}
+	// Get the resources
+	return theBundle.GetChild("Contents\\Resources");
 }
 
 
@@ -128,16 +114,34 @@ NANO_TEST(TBundle, "Files")
 
 
 //=============================================================================
-//		Test Case
+//		NBundle::GetInfoDictionary : Get the Info.plist dictionary for a bundle.
 //-----------------------------------------------------------------------------
-NANO_TEST(TBundle, "Info.plist")
+NDictionary NBundle::GetInfoDictionary(const NFile& theBundle) const
 {
 
 
-	// Perform the test
-	if (!kPathBundle.IsEmpty())
+	// Get the info
+	NFile theFile = theBundle.GetChild("Contents\\Info.plist");
+
+	if (theFile.IsFile())
 	{
-		NDictionary theInfo = theBundle.GetInfoDictionary();
-		REQUIRE(!theInfo.IsEmpty());
+		return NPropertyList::Load(theFile);
 	}
+
+	return {};
+}
+
+
+
+
+
+//=============================================================================
+//		NBundle::GetExecutable : Get an executable from a bundle.
+//-----------------------------------------------------------------------------
+NFile NBundle::GetExecutable(const NFile& theBundle, const NString& theName) const
+{
+
+
+	// Get the executable
+	return theBundle.GetChild("Contents\\Windows").GetChild(theName);
 }

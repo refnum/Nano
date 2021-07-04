@@ -2,256 +2,318 @@
 		NBundle.cpp
 
 	DESCRIPTION:
-		Resource bundles come in two forms - traditional (Mac/Windows) or
-		flattened (iOS).
-		
-		NBundle hides these differences in structure, and provides a single
-		view onto the bundle contents.
+		macOS/iOS-style directory bundle.
 
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NTextUtilities.h"
-#include "NFileUtilities.h"
-#include "NPropertyList.h"
-#include "NTargetSystem.h"
-#include "NTargetFile.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NBundle.h"
 
+// Nano
+#include "NArray.h"
+#include "NFileHandle.h"
+#include "NFilePath.h"
+#include "NFormat.h"
+#include "NMutex.h"
+#include "NPropertyList.h"
+#include "NScopedLock.h"
+#include "NString.h"
 
 
 
 
-//============================================================================
-//		Internal constants
-//----------------------------------------------------------------------------
-static const NString kStringsExtension						= ".strings";
-static const NString kStringsDefaultLanguage				= "en.lproj";
-static const NString kStringsDefaultTable					= "Localizable";
+
+//=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+static const NString kStringsExtension                      = ".strings";
+static const NString kStringsDefaultLanguage                = "en.lproj";
+static const NString kStringsDefaultTable                   = "Localizable";
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NBundle::NBundle : Constructor.
-//----------------------------------------------------------------------------
-NBundle::NBundle(const NFile &theFile)
+//-----------------------------------------------------------------------------
+NBundle::NBundle(const NFile& theRoot)
+	: mRoot(theRoot)
+	, mInfo()
 {
 
 
 	// Validate our parameters
-	NN_ASSERT(theFile.IsDirectory());
-
-
-
-	// Initialize ourselves
-	mFile = theFile;
+	NN_REQUIRE(mRoot.IsDirectory());
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NBundle::NBundle : Constructor.
-//----------------------------------------------------------------------------
-NBundle::NBundle(const NString &bundleID)
+//-----------------------------------------------------------------------------
+NBundle::NBundle(const NString& bundleID)
+	: mRoot()
+	, mInfo()
 {
 
 
 	// Initialize ourselves
-	mFile = NTargetSystem::FindBundle(bundleID);
-	NN_ASSERT(mFile.IsDirectory());
+	mRoot = GetBundle(bundleID);
+	NN_REQUIRE(mRoot.IsDirectory());
 }
 
 
 
 
 
-//============================================================================
-//		NBundle::~NBundle : Destructor.
-//----------------------------------------------------------------------------
-NBundle::~NBundle(void)
-{
-}
-
-
-
-
-
-//============================================================================
+//=============================================================================
 //		NBundle::IsValid : Is the bundle valid?
-//----------------------------------------------------------------------------
-bool NBundle::IsValid(void) const
+//-----------------------------------------------------------------------------
+bool NBundle::IsValid() const
 {
 
 
 	// Check our state
-	return(mFile.IsDirectory());
+	return mRoot.IsDirectory();
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NBundle::GetIdentifier : Get the identifier.
-//----------------------------------------------------------------------------
-NString NBundle::GetIdentifier(void) const
+//-----------------------------------------------------------------------------
+NString NBundle::GetIdentifier() const
 {
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
 
 
 	// Get the identifier
-	return(GetInfoString(kNBundleIdentifierKey));
+	return GetInfoString(kNBundleIdentifierKey);
 }
 
 
 
 
 
-//============================================================================
-//		NBundle::GetFile : Get the bundle directory.
-//----------------------------------------------------------------------------
-NFile NBundle::GetFile(void) const
+//=============================================================================
+//		NBundle::GetRoot : Get the root directory.
+//-----------------------------------------------------------------------------
+NFile NBundle::GetRoot() const
 {
 
 
-	// Get the bundle
-	return(mFile);
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+	// Get the root
+	return mRoot;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NBundle::GetResources : Get the resources directory.
-//----------------------------------------------------------------------------
-NFile NBundle::GetResources(void) const
+//-----------------------------------------------------------------------------
+NFile NBundle::GetResources() const
 {
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
 
 
 	// Get the resources
-	if (!mResources.IsValid())
-		mResources = NTargetFile::BundleGetResources(mFile);
-	
-	return(mResources);
+	return GetResources(mRoot);
 }
 
 
 
 
 
-//============================================================================
-//      NBundle::GetInfoBoolean : Get an Info.plist boolean.
-//----------------------------------------------------------------------------
-bool NBundle::GetInfoBoolean(const NString &theKey) const
+//=============================================================================
+//		NBundle::GetInfoBool : Get an Info.plist boolean.
+//-----------------------------------------------------------------------------
+bool NBundle::GetInfoBool(const NString& theKey) const
 {
 
 
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
 	// Get the value
-	return(GetInfoDictionary().GetValueBoolean(theKey));
+	return GetInfoDictionary().GetBool(theKey);
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NBundle::GetInfoString : Get an Info.plist string.
-//----------------------------------------------------------------------------
-NString NBundle::GetInfoString(const NString &theKey) const
+//-----------------------------------------------------------------------------
+NString NBundle::GetInfoString(const NString& theKey) const
 {
 
 
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
 	// Get the value
-	return(GetInfoDictionary().GetValueString(theKey));
+	return GetInfoDictionary().GetString(theKey);
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NBundle::GetInfoArray : Get an Info.plist array.
-//----------------------------------------------------------------------------
-NArray NBundle::GetInfoArray(const NString &theKey) const
+//-----------------------------------------------------------------------------
+NArray NBundle::GetInfoArray(const NString& theKey) const
 {
 
 
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
 	// Get the value
-	return(GetInfoDictionary().GetValueArray(theKey));
+	return GetInfoDictionary().GetArray(theKey);
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NBundle::GetInfoDictionary : Get an Info.plist dictionary.
-//----------------------------------------------------------------------------
-NDictionary NBundle::GetInfoDictionary(const NString &theKey) const
-{	NDictionary		theValue;
+//-----------------------------------------------------------------------------
+NDictionary NBundle::GetInfoDictionary(const NString& theKey) const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
+
+
+
+	// Load the dictionary
+	if (mInfo.IsEmpty())
+	{
+		mInfo = GetInfoDictionary(mRoot);
+	}
 
 
 
 	// Get the value
-	theValue = GetBundleInfo();
-	
-	if (!theKey.IsEmpty())
-		theValue = theValue.GetValueDictionary(theKey);
-	
-	return(theValue);
+	if (theKey.IsEmpty())
+	{
+		return mInfo;
+	}
+	else
+	{
+		return mInfo.GetDictionary(theKey);
+	}
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NBundle::GetExecutable : Get an executable.
-//----------------------------------------------------------------------------
-NFile NBundle::GetExecutable(const NString &theName) const
-{	NString		exeName;
+//-----------------------------------------------------------------------------
+NFile NBundle::GetExecutable(const NString& theName) const
+{
 
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
 
 
 	// Get the state we need
-	if (theName.IsEmpty())
+	NString exeName = theName;
+
+	if (exeName.IsEmpty())
+	{
 		exeName = GetInfoString(kNBundleExecutableKey);
-	else
-		exeName = theName;
+	}
 
 
 
 	// Get the executable
-	return(NTargetFile::BundleGetExecutable(mFile, exeName));
+	return GetExecutable(mRoot, exeName);
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NBundle::GetResource : Get a resource from the bundle.
-//----------------------------------------------------------------------------
-NFile NBundle::GetResource(const NString &theName, const NString &theType, const NString &subDir) const
-{	NFile		theFile;
-	NString		thePath;
+//-----------------------------------------------------------------------------
+NFile NBundle::GetResource(const NString& theName,
+						   const NString& theType,
+						   const NString& subDir) const
+{
 
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
 
 
 	// Check our parameters
 	if (theName.IsEmpty())
-		return(theFile);
+	{
+		return {};
+	}
 
 
 
@@ -260,61 +322,89 @@ NFile NBundle::GetResource(const NString &theName, const NString &theType, const
 	// We allow bundle resources to be specified with an absolute path,
 	// as this allows us to reference 'resources' outside the bundle.
 	if (theName.StartsWith("/"))
-		theFile = NFile(theName);
+	{
+		return NFilePath(theName);
+	}
 
 
 
 	// Get an internal resource
 	//
-	// Otherwise, the path is relative to the bundle resources directory.
+	// Relative paths are relative to the bundle resources directory.
+	NFilePath thePath = GetResources().GetPath();
+
+	if (subDir.IsEmpty())
+	{
+		thePath = thePath.GetChild(theName);
+	}
 	else
-		{
-		thePath = GetResources().GetPath();
-		if (subDir.IsEmpty())
-			thePath.Format("%@" NN_DIR "%@", thePath, theName);
-		else
-			thePath.Format("%@" NN_DIR "%@" NN_DIR "%@", thePath, subDir, theName);
+	{
+		thePath = thePath.GetChild(subDir).GetChild(theName);
+	}
 
-		if (!theType.IsEmpty())
-			{
-			if (!theType.StartsWith("."))
-				thePath += ".";
+	if (!theType.IsEmpty())
+	{
+		thePath.SetExtension(theType);
+	}
 
-			thePath += theType;
-			}
-
-		theFile = NFile(thePath);
-		}
-
-	return(theFile);
+	return thePath;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NBundle::GetString : Get a string from the bundle.
-//----------------------------------------------------------------------------
-NString NBundle::GetString(const NString &theKey, const NString &defaultValue, const NString &tableName) const
-{	NString			theTable, theValue;
-	NDictionary		theStrings;
+//-----------------------------------------------------------------------------
+NString NBundle::GetString(const NString& theKey,
+						   const NString& defaultValue,
+						   const NString& tableName) const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsValid());
 
 
 
-	// Get the state we need
-	theTable = tableName.IsEmpty() ? kStringsDefaultTable : tableName;
-	theTable.Replace(kStringsExtension, "");
-	theStrings = GetBundleStrings(theTable);
+	NScopedLock   acquireLock(GetCacheLock());
+	NBundleCache& theCache = GetCache();
+
+
+	NString theTable = kStringsDefaultTable;
+	if (!tableName.IsEmpty())
+	{
+		theTable = tableName;
+		theTable.Replace(kStringsExtension, "");
+	}
 
 
 
-	// Get the value
-	theValue = theStrings.GetValueString(theKey);
+	NString tableID    = GetIdentifier() + "." + theTable;
+	auto    cacheEntry = theCache.GetValue(tableID);
+	NString theValue;
+
+	if (cacheEntry)
+	{
+		theValue = cacheEntry->GetString(theKey);
+	}
+	else
+	{
+		NDictionary theStrings = GetStringTable(tableName);
+		theValue               = theStrings.GetString(theKey);
+
+		theCache.SetValue(theKey, theStrings);
+	}
+
+
+
 	if (theValue.IsEmpty())
+	{
 		theValue = defaultValue;
-	
-	return(theValue);
+	}
+
+	return theValue;
 }
 
 
@@ -322,203 +412,99 @@ NString NBundle::GetString(const NString &theKey, const NString &defaultValue, c
 
 
 #pragma mark private
-//============================================================================
-//		NBundle::GetBundleInfo : Get a bundle's info dictionary.
-//----------------------------------------------------------------------------
-NDictionary NBundle::GetBundleInfo(void) const
-{	NBundleInfo			*bundleInfo;
-	NDictionary			theResult;
-
-
-
-	// Get the state we need
-	bundleInfo = AcquireInfo(mFile);
-	theResult  = bundleInfo->theInfo;
-
-
-
-	// Load the info
-	if (theResult.IsEmpty())
-		{
-		theResult           = NTargetFile::BundleGetInfo(mFile);
-		bundleInfo->theInfo = theResult;
-		}
-
-
-
-	// Clean up
-	ReleaseInfo();
-	
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NBundle::GetBundleStrings : Get a bundle's string table.
-//----------------------------------------------------------------------------
-NDictionary NBundle::GetBundleStrings(const NString &theTable) const
-{	NString							theText, theLine, theKey, theValue;
-	NPropertyList					propertyList;
-	NBundleInfo						*bundleInfo;
-	NDictionary						theResult;
-	NRangeList						theRanges;
-	NPropertyListFormat				theFormat;
-	NStringList						theLines;
-	NStringListConstIterator		theIter;
-	NData							theData;
-	NFile							theFile;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(!theTable.IsEmpty());
-
-
-
-	// Get the state we need
-	bundleInfo = AcquireInfo(mFile);
-	theResult  = bundleInfo->theStrings.GetValueDictionary(theTable);
-
-
-
-	// Load the strings
-	if (theResult.IsEmpty())
-		{
-		// Get the state we need
-		theFile   = GetResource(theTable, kStringsExtension, kStringsDefaultLanguage);
-		theData   = NFileUtilities::GetFileData(theFile);
-		theFormat = propertyList.GetFormat(theData);
-
-
-
-		// Parse the strings file
-		//
-		// Strings files are a text file, where each line defines a key/value pair.
-		//
-		// In traditional bundles these files are copied directly into the bundle,
-		// without changing their format.
-		//
-		// In flattened bundles these files are converted into a property list,
-		// although they retain theyir ".strings" extension.
-		if (theFormat != kNPropertyListInvalid)
-			theResult = propertyList.Decode(theData);
-		else
-			{
-			theText  = NFileUtilities::GetFileText(theFile);
-			theLines = theText.Split(kNLineEndingUnix);
-
-			for (theIter = theLines.begin(); theIter != theLines.end(); theIter++)
-				{
-				theLine   = *theIter;
-				theRanges = theLine.FindAll("(.*?)\\s*=\\s*\"(.*)\";", kNStringPattern);
-
-				if (theRanges.size() == 3)
-					{
-					theKey   = theLine.GetString(theRanges[1]);
-					theValue = theLine.GetString(theRanges[2]);
-
-					theValue.ReplaceAll("\\n",  "\n");		/* '\n' becomes \n */
-					theValue.ReplaceAll("\\\"", "\"");		/* '\"' becomes "  */
-					theValue.ReplaceAll("\\\\", "\\");		/* '\\' becomes \  */
-	
-					theResult.SetValue(theKey, theValue);
-					}
-				}
-			}
-
-
-
-		// Update the info
-		bundleInfo->theStrings.SetValue(theTable, theResult);
-		}
-	
-	
-	
-	// Clean up
-	ReleaseInfo();
-	
-	return(theResult);
-}
-
-
-
-
-
-//============================================================================
-//		NBundle::AcquireInfo : Acquire the info for a bundle.
-//----------------------------------------------------------------------------
-NBundleInfo *NBundle::AcquireInfo(const NFile &theFile)
-{	static NBundleInfoMap		sBundles;
-
-	NBundleInfo					theInfo;
-	NBundleInfoMapIterator		theIter;
-	NString						thePath;
-
-
-
-	// Validate our parameters
-	NN_ASSERT(theFile.IsDirectory());
-
-
-
-	// Acquire the lock
-	GetLock().Lock();
-
-
-
-	// Get the state we need
-	thePath = theFile.GetPath();
-	theIter = sBundles.find(theFile.GetPath());
-
-
-
-	// Populate the info
-	if (theIter == sBundles.end())
-		{
-		sBundles[thePath] = theInfo;
-		theIter           = sBundles.find(theFile.GetPath());
-		}
-	
-	
-	
-	// Get the info
-	return(&theIter->second);
-}
-
-
-
-
-
-//============================================================================
-//		NBundle::ReleaseInfo : Release the info for a bundle.
-//----------------------------------------------------------------------------
-void NBundle::ReleaseInfo(void)
+//=============================================================================
+//		NBundle::GetStringTable : Get a string table.
+//-----------------------------------------------------------------------------
+NDictionary NBundle::GetStringTable(const NString& theTable) const
 {
 
 
-	// Release the lock
-	GetLock().Unlock();
+	// Validate our parameters
+	NN_REQUIRE(!theTable.IsEmpty());
+
+
+
+	// Get the state we need
+	NFile theFile = GetResource(theTable, kStringsExtension, kStringsDefaultLanguage);
+	NData theData = NFileHandle::ReadData(theFile);
+
+
+
+	// Parse the strings file
+	//
+	// Strings files are a text file, where each line defines a key/value pair.
+	//
+	// In traditional bundles these files are copied directly into the bundle,
+	// without changing their format.
+	//
+	// In flattened bundles these files are converted into a property list,
+	// although they retain their ".strings" extension.
+	//
+	NPropertyListFormat theFormat = NPropertyList::GetFormat(theData);
+	NDictionary         theResult;
+
+	if (theFormat != NPropertyListFormat::Unknown)
+	{
+		theResult = NPropertyList::Decode(theData);
+	}
+	else
+	{
+		for (const auto& theLine : NFileHandle::ReadText(theFile).GetLines())
+		{
+			NVectorString theMatches = theLine.GetMatches("(.*?)\\s*=\\s*\"(.*)\";");
+
+			if (theMatches.size() == 2)
+			{
+				NString theKey   = theMatches[0];
+				NString theValue = theMatches[1];
+
+				theValue.ReplaceAll("\\n", "\n");
+				theValue.ReplaceAll("\\\"", "\"");
+				theValue.ReplaceAll("\\\\", "\\");
+
+				theResult[theKey] = theValue;
+			}
+		}
+	}
+
+	return theResult;
 }
 
 
 
 
 
-//============================================================================
-//		NBundle::GetLock : Get the lock.
-//----------------------------------------------------------------------------
-NMutex &NBundle::GetLock(void)
-{	static NMutex	sLock;
-
+//=============================================================================
+//		NBundle::GetCacheLock : Get the cache lock.
+//-----------------------------------------------------------------------------
+NMutex& NBundle::GetCacheLock()
+{
 
 
 	// Get the lock
-	return(sLock);
+	static NMutex sLock;
+
+	return sLock;
 }
 
 
 
 
+
+//=============================================================================
+//		NBundle::GetCache : Get the cache.
+//-----------------------------------------------------------------------------
+NBundleCache& NBundle::GetCache()
+{
+
+
+	// Validate our state
+	NN_REQUIRE(GetCacheLock().IsLocked());
+
+
+
+	// Get the cache
+	static NBundleCache sCache;
+
+	return sCache;
+}

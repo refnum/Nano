@@ -1,8 +1,8 @@
 /*	NAME:
-		TBundle.cpp
+		NBundle.inl
 
 	DESCRIPTION:
-		NBundle tests.
+		macOS/iOS-style directory bundle.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -39,63 +39,19 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NBundle.h"
-#include "NTestFixture.h"
 
 
 
 
 
 //=============================================================================
-//		Constants
+//		NBundleResource : Get a bundle resource.
 //-----------------------------------------------------------------------------
-// Paths
-#if NN_TARGET_MACOS
-static const NString kPathBundle                            = "/Applications/Safari.app";
-#else
-static const NString kPathBundle                            = "";
-#endif
-
-
-
-
-
-//=============================================================================
-//		Test Fixture
-//-----------------------------------------------------------------------------
-NANO_FIXTURE(TBundle)
+inline NFile NBundleResource(const NString& theName, const NString& theType, const NString& subDir)
 {
-	NBundle theBundle;
+	NBundle appBundle;
 
-	SETUP
-	{
-		// Mac-specific setup
-		if (!kPathBundle.IsEmpty())
-		{
-			theBundle = NBundle(NFile(kPathBundle));
-		}
-	}
-};
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TBundle, "Default")
-{
-
-
-	// Perform the test
-	REQUIRE(theBundle.IsValid());
-
-	NString theString = theBundle.GetIdentifier();
-	if (!kPathBundle.IsEmpty())
-	{
-		REQUIRE(!theString.IsEmpty());
-	}
+	return appBundle.GetResource(theName, theType, subDir);
 }
 
 
@@ -103,24 +59,13 @@ NANO_TEST(TBundle, "Default")
 
 
 //=============================================================================
-//		Test Case
+//		NBundleImage : Get a bundle image.
 //-----------------------------------------------------------------------------
-NANO_TEST(TBundle, "Files")
+inline NImage NBundleImage(const NString& theName, const NString& theType, const NString& subDir)
 {
+	NBundle appBundle;
 
-
-	// Perform the test
-	if (!kPathBundle.IsEmpty())
-	{
-		NFile theFile = theBundle.GetRoot();
-		REQUIRE(theFile.IsDirectory());
-
-		theFile = theBundle.GetResources();
-		REQUIRE(theFile.IsDirectory());
-
-		theFile = theBundle.GetExecutable();
-		REQUIRE(theFile.IsFile());
-	}
+	return NImage(appBundle.GetResource(theName, theType, subDir));
 }
 
 
@@ -128,16 +73,13 @@ NANO_TEST(TBundle, "Files")
 
 
 //=============================================================================
-//		Test Case
+//		NBundleString : Get a bundle string.
 //-----------------------------------------------------------------------------
-NANO_TEST(TBundle, "Info.plist")
+inline NString NBundleString(const NString& theKey,
+							 const NString& defaultValue,
+							 const NString& tableName)
 {
+	NBundle appBundle;
 
-
-	// Perform the test
-	if (!kPathBundle.IsEmpty())
-	{
-		NDictionary theInfo = theBundle.GetInfoDictionary();
-		REQUIRE(!theInfo.IsEmpty());
-	}
+	return appBundle.GetString(theKey, defaultValue, tableName);
 }

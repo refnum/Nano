@@ -69,6 +69,7 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Events/TBroadcaster.cpp"
 		"${NN_SOURCE_DIR}/Nano/Events/TListener.cpp"
 		"${NN_SOURCE_DIR}/Nano/Events/TProgressable.cpp"
+		"${NN_SOURCE_DIR}/Nano/Files/TBundle.cpp"
 		"${NN_SOURCE_DIR}/Nano/Files/TFile.cpp"
 		"${NN_SOURCE_DIR}/Nano/Files/TFileHandle.cpp"
 		"${NN_SOURCE_DIR}/Nano/Files/TFileInfo.cpp"

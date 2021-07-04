@@ -43,9 +43,13 @@
 
 // Nano
 #include "NDebug.h"
+#include "NDictionary.h"
+#include "NFormat.h"
 #include "NMachine.h"
 #include "NNumber.h"
+#include "NPropertyList.h"
 #include "NSharedPOSIX.h"
+#include "NSystem.h"
 #include "NTimeUtils.h"
 #include "NanoTargets.h"
 
@@ -97,11 +101,11 @@ constexpr NFileInfoFlags kNFileInfoMaskStatX                = kNFileInfoCreation
 // but on some distributions both headers cannot be included simultaneously.
 //
 // As AT_STATX_SYNC_AS_STAT is simply 0 we provide our own.
-#if !defined(AT_STATX_SYNC_AS_STAT)
+#if defined(AT_STATX_SYNC_AS_STAT)
+static_assert(AT_STATX_SYNC_AS_STAT == 0x0000);
+#else
 	#define AT_STATX_SYNC_AS_STAT                           0x0000
 #endif
-
-static_assert(AT_STATX_SYNC_AS_STAT == 0x0000);
 
 
 
@@ -122,6 +126,24 @@ static NTime ToTime(const struct statx_timestamp& timeStamp)
 	return NTime(timeSecs + timeFrac, kNanoEpochFrom1970);
 }
 #endif
+
+
+
+
+
+//=============================================================================
+//		GetBundlePlatform : Get the bundle platform name.
+//-----------------------------------------------------------------------------
+static NString GetBundlePlatform()
+{
+
+
+	// Get the name
+	NString theName = NSystem::GetName(NOSName::Platform);
+	NN_REQUIRE(theName == "Android" || theName == "Linux", "Unexpected system '{}'", theName);
+
+	return theName;
+}
 
 
 
@@ -274,6 +296,107 @@ static bool GetFileStateStatX(const NFilePath& thePath, NFileInfoState& theState
 
 
 #pragma mark NSharedLinux
+//=============================================================================
+//		NSharedLinux::BundleGet : Get the bundle for an ID.
+//-----------------------------------------------------------------------------
+NFile NSharedLinux::BundleGet(const NString& bundleID)
+{
+
+
+	// Locate the executable
+	NFile theFile;
+
+	if (bundleID.IsEmpty())
+	{
+		char    theBuffer[PATH_MAX];
+		ssize_t theLen = readlink("/proc/self/exe", theBuffer, sizeof(theBuffer) - 1);
+
+		if (theLen > 0)
+		{
+			theFile = NFile(NString(NStringEncoding::UTF8, size_t(theLen), theBuffer));
+		}
+	}
+	else
+	{
+		NN_LOG_WARNING("Unable to locate bundle {}", bundleID);
+	}
+
+
+
+	// Locate the bundle
+	//
+	// If the executable is within a bundle then we return the root bundle
+	// folder, otherwise we return the directory containing the executable.
+	theFile = theFile.GetParent();
+
+	if (theFile.GetName() == GetBundlePlatform())
+	{
+		NFile theParent = theFile.GetParent();
+		if (theParent.GetName() == "Contents")
+		{
+			theFile = theParent.GetParent();
+		}
+	}
+
+	return theFile;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::BundleGetResources : Get the resources directory for the bundle.
+//-----------------------------------------------------------------------------
+NFile NSharedLinux::BundleGetResources(const NFile& theBundle)
+{
+
+
+	// Get the resources
+	return theBundle.GetChild("Contents/Resources");
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::BundleGetInfoDictionary : Get the Info.plist dictionary for a bundle.
+//-----------------------------------------------------------------------------
+NDictionary NSharedLinux::BundleGetInfoDictionary(const NFile& theBundle)
+{
+
+
+	// Get the info
+	NFile theFile = theBundle.GetChild("Contents/Info.plist");
+
+	if (theFile.IsFile())
+	{
+		return NPropertyList::Load(theFile);
+	}
+
+	return {};
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::BundleGetExecutable : Get an executable from a bundle.
+//-----------------------------------------------------------------------------
+NFile NSharedLinux::BundleGetExecutable(const NFile& theBundle, const NString& theName)
+{
+
+
+	// Get the executable
+	return theBundle.GetChild("Contents/" + GetBundlePlatform()).GetChild(theName);
+}
+
+
+
+
+
 //=============================================================================
 //		NSharedLinux::GetClockTicks : Get the clock ticks.
 //-----------------------------------------------------------------------------

@@ -43,9 +43,14 @@
 
 // Nano
 #include "NCFData.h"
+#include "NCFString.h"
+#include "NCFURL.h"
 #include "NCGImage.h"
+#include "NCoreFoundation.h"
 #include "NData.h"
 #include "NDebug.h"
+#include "NDictionary.h"
+#include "NFile.h"
 #include "NFilePath.h"
 #include "NFormat.h"
 #include "NSemaphore.h"
@@ -123,6 +128,7 @@ struct NDarwinRunLoop
 
 
 // NCFObject helpers
+using NCFBundle           = NCFObject<CFBundleRef>;
 using NCGImageSource      = NCFObject<CGImageSourceRef>;
 using NCGImageDestination = NCFObject<CGImageDestinationRef>;
 
@@ -133,11 +139,47 @@ using NCGImageDestination = NCFObject<CGImageDestinationRef>;
 //=============================================================================
 //		Internal Functions
 //-----------------------------------------------------------------------------
+//      GetBundle : Get a bundle.
+//----------------------------------------------------------------------------
+static NCFBundle GetBundle(const NFile& theBundle)
+{
+	// Check our parameters
+	NCFBundle cfBundle;
+
+	if (!theBundle.IsDirectory())
+	{
+		return cfBundle;
+	}
+
+
+
+	// Get the bundle
+	NCFURL cfURL;
+
+	if (cfURL.Assign(CFURLCreateWithFileSystemPath(kCFAllocatorDefault,
+												   ToCF(theBundle.GetPath().GetPath()),
+												   kCFURLPOSIXPathStyle,
+												   true)))
+	{
+		cfBundle.Assign(CFBundleCreate(kCFAllocatorDefault, cfURL));
+		NN_EXPECT(cfBundle.IsValid());
+	}
+
+	return cfBundle;
+}
+
+
+
+
+
+//=============================================================================
 //		GetSysctl : Get a named sysctl value.
 //-----------------------------------------------------------------------------
 template<typename T>
 T GetSysctl(const char* theName)
 {
+
+
 	// Get the value
 	size_t theSize = sizeof(T);
 	T      theResult{};
@@ -344,6 +386,161 @@ static void StopRunLoop(CFRunLoopTimerRef /*cfTimer*/, void* /*userData*/)
 
 
 #pragma mark NSharedDarwin
+//=============================================================================
+//		NSharedDarwin::BundleGet : Get the bundle for an ID.
+//-----------------------------------------------------------------------------
+NFile NSharedDarwin::BundleGet(const NString& bundleID)
+{
+
+
+	// Get the bundle
+	NCFBundle cfBundle;
+	NFile     theFile;
+
+	if (bundleID.IsEmpty())
+	{
+		cfBundle.Set(CFBundleGetMainBundle());
+	}
+	else
+	{
+		cfBundle.Set(CFBundleGetBundleWithIdentifier(ToCF(bundleID)));
+	}
+
+
+
+	// Get the file
+	if (cfBundle.IsValid())
+	{
+		NCFURL cfURL;
+
+		if (cfURL.Assign(CFBundleCopyBundleURL(cfBundle)))
+		{
+			NCFString cfString;
+
+			if (cfString.Assign(CFURLCopyFileSystemPath(cfURL, kCFURLPOSIXPathStyle)))
+			{
+				theFile = NFile(cfString.GetString());
+			}
+		}
+	}
+
+	return theFile;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::BundleGetResources : Get the resources directory for the bundle.
+//-----------------------------------------------------------------------------
+NFile NSharedDarwin::BundleGetResources(const NFile& theBundle)
+{
+
+
+	// Get the state we need
+	NCFBundle cfBundle = GetBundle(theBundle);
+	NFile     theFile;
+
+	NN_EXPECT(cfBundle.IsValid());
+
+
+	// Get the resources
+	if (cfBundle.IsValid())
+	{
+		NCFURL cfURL;
+
+		if (cfURL.Assign(CFBundleCopyResourcesDirectoryURL(cfBundle)))
+		{
+			if (cfURL.Assign(CFURLCopyAbsoluteURL(cfURL)))
+			{
+				NCFString cfString;
+
+				if (cfString.Assign(CFURLCopyFileSystemPath(cfURL, kCFURLPOSIXPathStyle)))
+				{
+					theFile = NFile(cfString.GetString());
+				}
+			}
+		}
+	}
+
+	return theFile;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::BundleGetInfoDictionary : Get the Info.plist dictionary for a bundle.
+//-----------------------------------------------------------------------------
+NDictionary NSharedDarwin::BundleGetInfoDictionary(const NFile& theBundle)
+{
+
+
+	// Get the state we need
+	NCFBundle     cfBundle = GetBundle(theBundle);
+	NCFDictionary cfDictionary;
+
+	NN_EXPECT(cfBundle.IsValid());
+
+
+
+	// Get the info
+	if (cfBundle.IsValid())
+	{
+		cfDictionary.Set(CFBundleGetInfoDictionary(cfBundle));
+		NN_EXPECT(CFDictionaryGetCount(cfDictionary) != 0);
+	}
+
+	return cfDictionary.GetDictionary();
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::BundleGetExecutable : Get an executable from a bundle.
+//-----------------------------------------------------------------------------
+NFile NSharedDarwin::BundleGetExecutable(const NFile& theBundle, const NString& theName)
+{
+
+
+	// Get the state we need
+	NCFBundle cfBundle = GetBundle(theBundle);
+	NFile     theFile;
+
+	NN_EXPECT(cfBundle.IsValid());
+
+
+
+	// Get the executable
+	if (cfBundle.IsValid())
+	{
+		NCFURL cfURL;
+
+		if (cfURL.Assign(CFBundleCopyAuxiliaryExecutableURL(cfBundle, ToCF(theName))))
+		{
+			if (cfURL.Assign(CFURLCopyAbsoluteURL(cfURL)))
+			{
+				NCFString cfString;
+
+				if (cfString.Assign(CFURLCopyFileSystemPath(cfURL, kCFURLPOSIXPathStyle)))
+				{
+					theFile = NFile(cfString.GetString());
+				}
+			}
+		}
+	}
+
+	return theFile;
+}
+
+
+
+
+
 //=============================================================================
 //		NSharedDarwin::GetTime : Get the time.
 //-----------------------------------------------------------------------------
@@ -713,15 +910,15 @@ NStatus NSharedDarwin::ImageDecode(NImage& theImage, const NData& theData)
 	NCGImageSource cgImageSource;
 	NCFData        cfData;
 
-	if (!cfData.Set(CFDataCreateWithBytesNoCopy(kCFAllocatorDefault,
-												theData.GetData(),
-												CFIndex(theData.GetSize()),
-												kCFAllocatorNull)))
+	if (!cfData.Assign(CFDataCreateWithBytesNoCopy(kCFAllocatorDefault,
+												   theData.GetData(),
+												   CFIndex(theData.GetSize()),
+												   kCFAllocatorNull)))
 	{
 		return NStatus::Memory;
 	}
 
-	if (!cgImageSource.Set(CGImageSourceCreateWithData(cfData, nullptr)))
+	if (!cgImageSource.Assign(CGImageSourceCreateWithData(cfData, nullptr)))
 	{
 		return NStatus::Memory;
 	}
@@ -731,7 +928,7 @@ NStatus NSharedDarwin::ImageDecode(NImage& theImage, const NData& theData)
 	// Decode the image
 	NCGImage cgImage;
 
-	if (cgImage.Set(CGImageSourceCreateImageAtIndex(cgImageSource, 0, nullptr)))
+	if (cgImage.Assign(CGImageSourceCreateImageAtIndex(cgImageSource, 0, nullptr)))
 	{
 		theImage = cgImage.GetImage();
 		return NStatus::OK;
@@ -789,8 +986,8 @@ NData NSharedDarwin::ImageEncode(const NImage& theImage, const NUTI& theType)
 	NCGImage            cgImage;
 	NCFMutableData      cfData;
 
-	if (cfData.Set(CFDataCreateMutable(kCFAllocatorDefault, 0)) &&
-		cgImageDst.Set(CGImageDestinationCreateWithData(cfData, dstFormat, 1, nullptr)) &&
+	if (cfData.Assign(CFDataCreateMutable(kCFAllocatorDefault, 0)) &&
+		cgImageDst.Assign(CGImageDestinationCreateWithData(cfData, dstFormat, 1, nullptr)) &&
 		cgImage.SetImage(theImage))
 	{
 		CGImageDestinationAddImage(cgImageDst, cgImage, nullptr);
@@ -1281,11 +1478,11 @@ NVersion NSharedDarwin::SystemVersion()
 						uint8_t(osVersion.minorVersion),
 						uint8_t(osVersion.patchVersion));
 
-	if (NN_TARGET_IOS)
+	if constexpr (NN_TARGET_IOS)
 	{
 		theVersion.SetProduct(kNOSiOS);
 	}
-	else if (NN_TARGET_TVOS)
+	else if constexpr (NN_TARGET_TVOS)
 	{
 		theVersion.SetProduct(kNOStvOS);
 	}

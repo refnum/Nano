@@ -51,11 +51,29 @@
 
 
 //=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Forward declarations
+class NDictionary;
+class NFile;
+
+
+
+
+
+//=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
 class NSharedLinux
 {
 public:
+	// Bundles
+	static NFile                        BundleGet(              const NString& bundleID);
+	static NFile                        BundleGetResources(     const NFile& theBundle);
+	static NDictionary                  BundleGetInfoDictionary(const NFile& theBundle);
+	static NFile                        BundleGetExecutable(    const NFile& theBundle, const NString& theName);
+
+
 	// Time
 	static uint64_t                     GetClockTicks();
 	static uint64_t                     GetClockFrequency();

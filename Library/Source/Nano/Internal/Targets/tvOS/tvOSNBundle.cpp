@@ -1,8 +1,8 @@
 /*	NAME:
-		TBundle.cpp
+		tvOSNBundle.cpp
 
 	DESCRIPTION:
-		NBundle tests.
+		tvOS bundle support.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -40,62 +40,23 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NBundle.h"
-#include "NTestFixture.h"
+
+// Nano
+#include "NSharedDarwin.h"
 
 
 
 
 
 //=============================================================================
-//		Constants
+//		NBundle::GetBundle : Get the bundle for an ID.
 //-----------------------------------------------------------------------------
-// Paths
-#if NN_TARGET_MACOS
-static const NString kPathBundle                            = "/Applications/Safari.app";
-#else
-static const NString kPathBundle                            = "";
-#endif
-
-
-
-
-
-//=============================================================================
-//		Test Fixture
-//-----------------------------------------------------------------------------
-NANO_FIXTURE(TBundle)
-{
-	NBundle theBundle;
-
-	SETUP
-	{
-		// Mac-specific setup
-		if (!kPathBundle.IsEmpty())
-		{
-			theBundle = NBundle(NFile(kPathBundle));
-		}
-	}
-};
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TBundle, "Default")
+NFile NBundle::GetBundle(const NString& bundleID) const
 {
 
 
-	// Perform the test
-	REQUIRE(theBundle.IsValid());
-
-	NString theString = theBundle.GetIdentifier();
-	if (!kPathBundle.IsEmpty())
-	{
-		REQUIRE(!theString.IsEmpty());
-	}
+	// Get the bundle
+	return NSharedDarwin::BundleGet(bundleID);
 }
 
 
@@ -103,24 +64,14 @@ NANO_TEST(TBundle, "Default")
 
 
 //=============================================================================
-//		Test Case
+//		NBundle::GetResources : Get the resources directory for the bundle.
 //-----------------------------------------------------------------------------
-NANO_TEST(TBundle, "Files")
+NFile NBundle::GetResources(const NFile& theBundle) const
 {
 
 
-	// Perform the test
-	if (!kPathBundle.IsEmpty())
-	{
-		NFile theFile = theBundle.GetRoot();
-		REQUIRE(theFile.IsDirectory());
-
-		theFile = theBundle.GetResources();
-		REQUIRE(theFile.IsDirectory());
-
-		theFile = theBundle.GetExecutable();
-		REQUIRE(theFile.IsFile());
-	}
+	// Get the resources
+	return NSharedDarwin::BundleGetResources(theBundle);
 }
 
 
@@ -128,16 +79,27 @@ NANO_TEST(TBundle, "Files")
 
 
 //=============================================================================
-//		Test Case
+//		NBundle::GetInfoDictionary : Get the Info.plist dictionary for a bundle.
 //-----------------------------------------------------------------------------
-NANO_TEST(TBundle, "Info.plist")
+NDictionary NBundle::GetInfoDictionary(const NFile& theBundle) const
 {
 
 
-	// Perform the test
-	if (!kPathBundle.IsEmpty())
-	{
-		NDictionary theInfo = theBundle.GetInfoDictionary();
-		REQUIRE(!theInfo.IsEmpty());
-	}
+	// Get the dictionary
+	return NSharedDarwin::BundleGetInfoDictionary(theBundle);
+}
+
+
+
+
+
+//=============================================================================
+//		NBundle::GetExecutable : Get an executable from a bundle.
+//-----------------------------------------------------------------------------
+NFile NBundle::GetExecutable(const NFile& theBundle, const NString& theName) const
+{
+
+
+	// Get the executable
+	return NSharedDarwin::BundleGetExecutable(theBundle, theName);
 }

@@ -57,6 +57,8 @@
 //		Types
 //-----------------------------------------------------------------------------
 // Forward declarations
+class NDictionary;
+class NFile;
 class NFilePath;
 class NImage;
 class NSemaphore;
@@ -75,6 +77,13 @@ class NVersion;
 class NSharedDarwin
 {
 public:
+	// Bundles
+	static NFile                        BundleGet(              const NString& bundleID);
+	static NFile                        BundleGetResources(     const NFile& theBundle);
+	static NDictionary                  BundleGetInfoDictionary(const NFile& theBundle);
+	static NFile                        BundleGetExecutable(    const NFile& theBundle, const NString& theName);
+
+
 	// Time
 	static NTime                        GetTime();
 	static NInterval                    GetUpTime();

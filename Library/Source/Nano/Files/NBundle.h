@@ -2,160 +2,185 @@
 		NBundle.h
 
 	DESCRIPTION:
-		Resource bundle.
-	
+		macOS/iOS-style directory bundle.
+
 	COPYRIGHT:
-		Copyright (c) 2006-2013, refNum Software
-		<http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-		All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NBUNDLE_HDR
-#define NBUNDLE_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
+#ifndef NBUNDLE_H
+#define NBUNDLE_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NCache.h"
 #include "NDictionary.h"
-#include "NString.h"
-#include "NArray.h"
-#include "NMutex.h"
-#include "NImage.h"
 #include "NFile.h"
+#include "NImage.h"
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		Constants
-//----------------------------------------------------------------------------
-// Info.plist
-static const NString kNBundleExecutableKey							= "CFBundleExecutable";
-static const NString kNBundleIdentifierKey							= "CFBundleIdentifier";
-static const NString kNBundleVersionKey								= "CFBundleVersion";
-static const NString kNBundleNameKey								= "CFBundleName";
+//-----------------------------------------------------------------------------
+// Info.plist keys
+inline constexpr const utf8_t* kNBundleExecutableKey        = "CFBundleExecutable";
+inline constexpr const utf8_t* kNBundleIdentifierKey        = "CFBundleIdentifier";
+inline constexpr const utf8_t* kNBundleVersionKey           = "CFBundleVersion";
+inline constexpr const utf8_t* kNBundleNameKey              = "CFBundleName";
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		Types
-//----------------------------------------------------------------------------
-// Bundle info
-typedef struct {
-	NDictionary			theInfo;
-	NDictionary			theStrings;
-} NBundleInfo;
+//-----------------------------------------------------------------------------
+// Forward declarations
+class NArray;
+class NMutex;
+class NString;
 
-
-// Lists
-typedef std::map<NString, NBundleInfo, NStringHashCompare>			NBundleInfoMap;
-typedef NBundleInfoMap::iterator									NBundleInfoMapIterator;
-typedef NBundleInfoMap::const_iterator								NBundleInfoMapConstIterator;
+// Cache
+using NBundleCache = NCache<NString, NDictionary>;
 
 
 
 
 
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NBundle {
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NBundle
+{
 public:
-										NBundle(const NFile   &theFile);
-										NBundle(const NString &bundleID="");
-	virtual							   ~NBundle(void);
-	
-	
+										NBundle(const NFile& theRoot);
+										NBundle(const NString& bundleID = "");
+
+
 	// Is the bundle valid?
-	bool								IsValid(void) const;
+	bool                                IsValid() const;
 
 
 	// Get the bundle identifier
-	NString								GetIdentifier(void) const;
+	NString                             GetIdentifier() const;
 
 
-	// Get the bundle directory
-	NFile								GetFile(void) const;
+	// Get the root directory
+	NFile                               GetRoot() const;
 
 
 	// Get the resources directory
-	NFile								GetResources(void) const;
+	NFile                               GetResources() const;
 
 
 	// Get an Info.plist value
 	//
-	// If no key is supplied, GetInfoDictionary returns the Info.plist dictionary.
-    bool								GetInfoBoolean(   const NString &theKey)    const;
-	NString								GetInfoString(    const NString &theKey)    const;
-	NArray								GetInfoArray(     const NString &theKey)    const;
-	NDictionary							GetInfoDictionary(const NString &theKey="") const;
+	// GetInfoDictionary returns the Info.plist dictionary if  no key is supplied.
+	bool                                GetInfoBool(      const NString& theKey)      const;
+	NString                             GetInfoString(    const NString& theKey)      const;
+	NArray                              GetInfoArray(     const NString& theKey)      const;
+	NDictionary                         GetInfoDictionary(const NString& theKey = "") const;
 
 
 	// Get an executable
 	//
-	// If no name is supplied, returns the active executable.
-	NFile								GetExecutable(const NString &theName="") const;
+	// Returns the active executable if no name is supplied.
+	NFile                               GetExecutable(const NString& theName = "") const;
 
 
 	// Get a resource
-	NFile								GetResource(const NString &theName,
-													const NString &theType = "",
-													const NString &subDir  = "") const;
+	NFile                               GetResource(const NString& theName,
+													const NString& theType = "",
+													const NString& subDir  = "") const;
 
 
 	// Get a string
-	NString								GetString(const NString &theKey,
-												  const NString &defaultValue = "",
-												  const NString &tableName    = "") const;
+	NString                             GetString(const NString& theKey,
+												  const NString& defaultValue = "",
+												  const NString& tableName    = "") const;
 
 
 private:
-	NDictionary							GetBundleInfo(   void)                    const;
-	NDictionary							GetBundleStrings(const NString &theTable) const;
+	NFile                               GetBundle(        const NString& bundleID) const;
+	NFile                               GetResources(     const NFile& theBundle)  const;
+	NDictionary                         GetInfoDictionary(const NFile& theBundle)  const;
+	NFile                               GetExecutable(    const NFile& theBundle, const NString& theName) const;
 
-	static NBundleInfo					*AcquireInfo(const NFile &theFile);
-	static void							ReleaseInfo(void);
-	static NMutex						&GetLock(void);
+	NDictionary                         GetStringTable(const NString& theTable) const;
+	static NMutex&                      GetCacheLock();
+	static NBundleCache&                GetCache();
+
 
 
 private:
-	NFile								mFile;
-	mutable NFile						mResources;
+	NFile                               mRoot;
+	mutable NDictionary                 mInfo;
 };
 
 
 
 
 
-//============================================================================
-//		Inline functions
-//----------------------------------------------------------------------------
-inline NFile NBundleResource(const NString &theName, const NString &theType="", const NString &subDir="")
-{	NBundle		appBundle;
+//=============================================================================
+//		Function Prototypes
+//-----------------------------------------------------------------------------
+// Get a resource from the application bundle
+NFile NBundleResource(const NString& theName,
+					  const NString& theType = "",
+					  const NString& subDir  = "");
 
-	return(appBundle.GetResource(theName, theType, subDir));
-}
 
-inline NImage NBundleImage(const NString &theName, const NString &theType="", const NString &subDir="")
-{	NBundle		appBundle;
+// Get an image from the application bundle
+NImage NBundleImage(const NString& theName,
+					const NString& theType = "",
+					const NString& subDir  = "");
 
-	return(NImage(appBundle.GetResource(theName, theType, subDir)));
-}
 
-inline NString NBundleString(const NString &theKey, const NString &defaultValue="", const NString &tableName="")
-{	NBundle		appBundle;
-
-	return(appBundle.GetString(theKey, defaultValue, tableName));
-}
-
+// Get a string from the application bundle
+NString NBundleString(const NString& theKey,
+					  const NString& defaultValue = "",
+					  const NString& tableName    = "");
 
 
 
 
 
-#endif // NBUNDLE_HDR
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NBundle.inl"
 
 
+
+#endif // NBUNDLE_H
