@@ -437,6 +437,7 @@
 		AB514F7A1035788600E5A6AD /* TPropertyStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPropertyStore.cpp; sourceTree = "<group>"; };
 		AB53BBDB2421239C009960AA /* TFileUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileUtils.cpp; sourceTree = "<group>"; };
 		AB549AF42687BE3800B14417 /* TCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCache.cpp; sourceTree = "<group>"; };
+		AB549B8D2690841600B14417 /* TFileScanner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileScanner.cpp; sourceTree = "<group>"; };
 		AB54F9A723EE4503005207BC /* TTextUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTextUtils.cpp; sourceTree = "<group>"; };
 		AB54F9B023EF14CE005207BC /* TStringComparator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringComparator.cpp; sourceTree = "<group>"; };
 		AB56391423C2A3F600675F68 /* TString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TString.cpp; sourceTree = "<group>"; };
@@ -746,6 +747,7 @@
 				AB4AF5522422FEE600E665D4 /* TFileScanner.cpp */,
 				AB514D7C1034184B00E5A6AD /* TFileMap.cpp */,
 				AB4EB4BA2430EDBB00D36016 /* TFilePath.cpp */,
+				AB549B8D2690841600B14417 /* TFileScanner.cpp */,
 				AB53BBDB2421239C009960AA /* TFileUtils.cpp */,
 				AB514D7E1034184B00E5A6AD /* TPropertyList.cpp */,
 				ABF58CF02679727500327252 /* TUTI.cpp */,
