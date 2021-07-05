@@ -313,7 +313,7 @@ typename T::mapped_type fetch(const T&                       container,
 
 
 //=============================================================================
-//		nstd::find : Find an item in an assocaitive container.
+//		nstd::find : Find an item in an associative container.
 //-----------------------------------------------------------------------------
 template<typename T>
 typename T::const_iterator find(const T& container, const typename T::key_type& key)
