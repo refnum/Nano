@@ -627,6 +627,8 @@
 		AB4EB4C72430F3AF00D36016 /* NFormat.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NFormat.inl; sourceTree = "<group>"; };
 		AB4EB4C82430F3AF00D36016 /* NFormat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFormat.cpp; sourceTree = "<group>"; };
 		AB4EB4C92430F3AF00D36016 /* NFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFormat.h; sourceTree = "<group>"; };
+		AB4EEBE92693CD5E005816E3 /* NSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSet.h; sourceTree = "<group>"; };
+		AB4EEBEA2693CD5E005816E3 /* NMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NMap.h; sourceTree = "<group>"; };
 		AB5127DD23D0778400528FBE /* NStdAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStdAlgorithm.h; sourceTree = "<group>"; };
 		AB5127E823D07FB400528FBE /* NStdContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStdContainer.h; sourceTree = "<group>"; };
 		AB514E5A103460CB00E5A6AD /* NPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPoint.h; sourceTree = "<group>"; };
@@ -1753,6 +1755,7 @@
 				AB91554D0F9B4DD6009FFEAF /* NDictionary.h */,
 				ABB38CB025A7CC830050D506 /* NDictionary.inl */,
 				ABF58CE626795A4800327252 /* NFunction.h */,
+				AB4EEBEA2693CD5E005816E3 /* NMap.h */,
 				ABA7247023F8412800CF6EC2 /* NMixinAppendable.h */,
 				ABA7247123F8412800CF6EC2 /* NMixinAppendable.inl */,
 				ABF5130A2397AF7F001F9F8B /* NMixinAttributes.h */,
@@ -1770,6 +1773,7 @@
 				AB514F631035784000E5A6AD /* NPropertyStore.h */,
 				AB9155590F9B4DD6009FFEAF /* NRange.h */,
 				AB4E383423C8D9D50089B916 /* NRange.inl */,
+				AB4EEBE92693CD5E005816E3 /* NSet.h */,
 				AB481C4012A5327B0052C55F /* NURL.cpp */,
 				AB481C4112A5327B0052C55F /* NURL.h */,
 				ABF58DD0267F747C00327252 /* NURL.inl */,
