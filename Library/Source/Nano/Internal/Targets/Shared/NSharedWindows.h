@@ -84,17 +84,17 @@ public:
 	static NString                      ToString(const TCHAR* theText);
 
 
+	// Registry
+	static int32_t                      RegistryGetInt32( HKEY hKey, const NString& theKey, const NString& theValue);
+	static NString                      RegistryGetString(HKEY hKey, const NString& theKey, const NString& theValue);
+
+
 	// Error conversion
 	//
 	// StatusLastError returns NStatus::OK if passed true, otherwise it
 	// returns the current value of ::GetLastError as an NStatus.
 	static NStatus                      StatusResult(HRESULT winErr);
 	static NStatus                      StatusLastError(bool wasOK = false);
-
-
-	// Registry
-	static int32_t                      RegistryGetInt32( HKEY hKey, const NString& theKey, const NString& theValue);
-	static NString                      RegistryGetString(HKEY hKey, const NString& theKey, const NString& theValue);
 };
 
 

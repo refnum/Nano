@@ -297,6 +297,42 @@ static bool GetFileStateStatX(const NFilePath& thePath, NFileInfoState& theState
 
 #pragma mark NSharedLinux
 //=============================================================================
+//		NSharedLinux::GetProcFile : Get a /proc file.
+//-----------------------------------------------------------------------------
+NString NSharedLinux::GetProcFile(const NFilePath& thePath)
+{
+
+
+	// Read the file
+	NString theText;
+
+	int theFD = open(thePath.GetUTF8(), O_RDONLY);
+
+	if (theFD != -1)
+	{
+		uint8_t theBuffer[kNBufferSize];
+		ssize_t numRead;
+
+		do
+		{
+			numRead = read(theFD, theBuffer, kNBufferSize);
+			if (numRead > 0)
+			{
+				theText += NString(NStringEncoding::UTF8, size_t(numRead), theBuffer);
+			}
+		} while (numRead > 0);
+
+		close(theFD);
+	}
+
+	return theText;
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedLinux::BundleGet : Get the bundle for an ID.
 //-----------------------------------------------------------------------------
 NFile NSharedLinux::BundleGet(const NString& bundleID)
@@ -398,125 +434,22 @@ NFile NSharedLinux::BundleGetExecutable(const NFile& theBundle, const NString& t
 
 
 //=============================================================================
-//		NSharedLinux::TimeGet : Get the current time.
+//		NSharedLinux::DebuggerIsActive : Is a debugger active?
 //-----------------------------------------------------------------------------
-NTime NSharedLinux::TimeGet()
+bool NSharedLinux::DebuggerIsActive()
 {
 
 
-	// Get the time
-	struct timeval timeVal = {};
+	// Check for a tracer
+	NString theText  = NSharedLinux::GetProcFile(NFilePath("/proc/self/status"));
+	bool    isActive = !theText.Contains("TracerPid:\t0\n");
 
-	int sysErr = ::gettimeofday(&timeVal, nullptr);
-	NN_EXPECT_NOT_ERR(sysErr);
-
-	if (sysErr != 0)
+	if (isActive)
 	{
-		memset(&timeVal, 0x00, sizeof(timeVal));
+		isActive = theText.Contains("TracerPid:\t");
 	}
 
-	return NTime(NSharedPOSIX::TimeGetInterval(timeVal), kNanoEpochFrom1970);
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedLinux::TimeGetUpTime : Get the time since boot.
-//-----------------------------------------------------------------------------
-NInterval NSharedLinux::TimeGetUpTime()
-{
-
-
-	// Get the time since boot
-	struct timespec timeSpec = {};
-
-	int sysErr = ::clock_gettime(CLOCK_MONOTONIC, &timeSpec);
-	NN_EXPECT_NOT_ERR(sysErr);
-
-	if (sysErr != 0)
-	{
-		memset(&timeSpec, 0x00, sizeof(timeSpec));
-	}
-
-	return NTimeUtils::ToInterval(timeSpec);
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedLinux::TimeGetClockTicks : Get the clock ticks.
-//-----------------------------------------------------------------------------
-uint64_t NSharedLinux::TimeGetClockTicks()
-{
-
-
-	// Get the clock ticks
-	struct timespec timeSpec = {};
-
-	int sysErr = ::clock_gettime(kSystemClockID, &timeSpec);
-	NN_EXPECT_NOT_ERR(sysErr);
-
-	if (sysErr != 0)
-	{
-		memset(&timeSpec, 0x00, sizeof(timeSpec));
-	}
-
-	return (uint64_t(timeSpec.tv_sec) * kNanosecondsPerSecond) + uint64_t(timeSpec.tv_nsec);
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedLinux::TimeGetClockFrequency : Get the clock frequency.
-//-----------------------------------------------------------------------------
-uint64_t NSharedLinux::TimeGetClockFrequency()
-{
-
-
-	// Get the clock frequency
-	return kNanosecondsPerSecond;
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedLinux::GetProcFile : Get a /proc file.
-//-----------------------------------------------------------------------------
-NString NSharedLinux::GetProcFile(const NFilePath& thePath)
-{
-
-
-	// Read the file
-	NString theText;
-
-	int theFD = open(thePath.GetUTF8(), O_RDONLY);
-
-	if (theFD != -1)
-	{
-		uint8_t theBuffer[kNBufferSize];
-		ssize_t numRead;
-
-		do
-		{
-			numRead = read(theFD, theBuffer, kNBufferSize);
-			if (numRead > 0)
-			{
-				theText += NString(NStringEncoding::UTF8, size_t(numRead), theBuffer);
-			}
-		} while (numRead > 0);
-
-		close(theFD);
-	}
-
-	return theText;
+	return isActive;
 }
 
 
@@ -594,22 +527,110 @@ bool NSharedLinux::FileGetState(const NFilePath& thePath,
 
 
 //=============================================================================
-//		NSharedLinux::DebuggerIsActive : Is a debugger active?
+//		NSharedLinux::MachineMemory : Get the memory.
 //-----------------------------------------------------------------------------
-bool NSharedLinux::DebuggerIsActive()
+uint64_t NSharedLinux::MachineMemory()
 {
 
 
-	// Check for a tracer
-	NString theText  = NSharedLinux::GetProcFile(NFilePath("/proc/self/status"));
-	bool    isActive = !theText.Contains("TracerPid:\t0\n");
+	// Get the memory
+	uint64_t sizeBytes = 0;
+	NString  theText   = GetProcFile(NFilePath("/proc/meminfo"));
+	NString  theValue  = theText.GetMatch("MemTotal:\\s*(\\d+)");
 
-	if (isActive)
+	if (!theValue.IsEmpty())
 	{
-		isActive = theText.Contains("TracerPid:\t");
+		sizeBytes = NNumber(theValue).GetUInt64() * kNKibibyte;
 	}
 
-	return isActive;
+	return sizeBytes;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::MachineCPUName : Get the CPU name.
+//-----------------------------------------------------------------------------
+NString NSharedLinux::MachineCPUName()
+{
+
+
+	// Get the name
+	NString theText = GetProcFile(NFilePath("/proc/cpuinfo"));
+	NString theName = theText.GetMatch("model name\\s*:\\s*(.*)");
+	NN_EXPECT(!theName.IsEmpty());
+
+	if (theName.IsEmpty())
+	{
+		theName = "Unknown";
+	}
+
+	return theName;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::MachineCPUVendor : Get the CPU vendor.
+//-----------------------------------------------------------------------------
+NString NSharedLinux::MachineCPUVendor()
+{
+
+
+	// Get the vendor
+	NString theText = GetProcFile(NFilePath("/proc/cpuinfo"));
+	NString theName = theText.GetMatch("vendor_id\\s*:\\s*(.*)");
+	NN_EXPECT(!theName.IsEmpty());
+
+	if (theName.IsEmpty())
+	{
+		theName = "Unknown";
+	}
+
+	return theName;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::MachineCPUHertz : Get the CPU speed.
+//-----------------------------------------------------------------------------
+uint64_t NSharedLinux::MachineCPUHertz()
+{
+
+
+	// Get the maxium speed
+	uint64_t theSpeed = 0;
+	NString  theText =
+		GetProcFile(NFilePath("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq"));
+
+	if (!theText.IsEmpty())
+	{
+		theSpeed = NNumber(theText).GetUInt64() * kNKilohertz;
+	}
+
+
+
+	// Fall back to the current speed
+	if (theSpeed == 0)
+	{
+		theText = GetProcFile(NFilePath("/proc/cpuinfo"));
+		theText = theText.GetMatch("cpu MHz\\s*:\\s*(\\d+)");
+
+		if (!theText.IsEmpty())
+		{
+			theSpeed = NNumber(theText).GetUInt64() * kNMegahertz;
+		}
+	}
+
+	NN_REQUIRE(theSpeed != 0);
+	return theSpeed;
 }
 
 
@@ -659,34 +680,23 @@ NStatus NSharedLinux::PathExchange(const NFilePath& oldPath, const NFilePath& ne
 
 
 //=============================================================================
-//		NSharedLinux::ThreadStackSize : Get the thread stack size.
+//		NSharedLinux::ProcessName : Get the process name.
 //-----------------------------------------------------------------------------
-size_t NSharedLinux::ThreadStackSize()
+NString NSharedLinux::ProcessName()
 {
 
 
-	// Get the stack size
-	pthread_attr_t threadAttr{};
-	size_t         stackSize = 0;
-	int            sysErr    = pthread_getattr_np(pthread_self(), &threadAttr);
-	NN_EXPECT_NOT_ERR(sysErr);
+	// Get the name
+	NString theText = GetProcFile(NFilePath("/proc/self/status"));
+	NString theName = theText.GetMatch("Name\\s*:\\s*([^\\n]*)");
+	NN_EXPECT(!theName.IsEmpty());
 
-	if (sysErr == 0)
+	if (theName.IsEmpty())
 	{
-		void* stackBase = nullptr;
-		sysErr          = pthread_attr_getstack(&threadAttr, &stackBase, &stackSize);
-		NN_EXPECT_NOT_ERR(sysErr);
-
-		if (sysErr != 0)
-		{
-			stackSize = 0;
-		}
-
-		sysErr = pthread_attr_destroy(&threadAttr);
-		NN_EXPECT_NOT_ERR(sysErr);
+		theName = "Unknown";
 	}
 
-	return stackSize;
+	return theName;
 }
 
 
@@ -694,86 +704,42 @@ size_t NSharedLinux::ThreadStackSize()
 
 
 //=============================================================================
-//		NSharedLinux::ThreadGetCores : Get the current thread's preferred cores.
+//		NSharedLinux::ProcessMemory : Get the process memory usage.
 //-----------------------------------------------------------------------------
-NVectorUInt8 NSharedLinux::ThreadGetCores()
+NMemoryInfo NSharedLinux::ProcessMemory()
 {
 
 
-	// Get the thread affinity
-	cpu_set_t affinityMask;
-	CPU_ZERO(&affinityMask);
-
-	int sysErr = sched_getaffinity(0, sizeof(affinityMask), &affinityMask);
-	NN_EXPECT_NOT_ERR(sysErr);
-
-	size_t numCores = size_t(CPU_COUNT(&affinityMask));
-	NN_EXPECT(numCores != 0);
+	// Get the state we need
+	NString     theText = GetProcFile(NFilePath("/proc/self/status"));
+	NMemoryInfo theInfo{};
+	NString     theValue;
 
 
 
-	// Convert to cores
+	// Get the memory usage
 	//
-	// An empty list indicates no affinity, i.e. every core.
-	NVectorUInt8 theCores;
-
-	if (numCores != NMachine::GetCores())
-	{
-		for (int n = 0; n < CPU_SETSIZE; n++)
-		{
-			if (CPU_ISSET(n, &affinityMask))
-			{
-				theCores.push_back(uint8_t(n));
-			}
-		}
-	}
-
-	return theCores;
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedLinux::ThreadSetCores : Set the current thread's preferred cores.
-//-----------------------------------------------------------------------------
-void NSharedLinux::ThreadSetCores(const NVectorUInt8& theCores)
-{
-
-
-	// Validate our parameters
-	NN_REQUIRE(theCores.size() <= CPU_SETSIZE);
-
-
-	// Build the thread affinity
+	// addressSpaceUsed is set to allocated memory, although this will
+	// over-estimate as freed memory typically does not release its
+	// address space.
 	//
-	// An empty list indicates no affinity, i.e. every core.
-	cpu_set_t affinityMask;
-	CPU_ZERO(&affinityMask);
-
-	if (theCores.empty())
+	// addressSpaceMax is hard-coded to the standard Linux limits.
+	theValue = theText.GetMatch("VmRSS\\s*:\\s*([0-9]*) kB");
+	if (!theValue.IsEmpty())
 	{
-		size_t numCores = NMachine::GetCores();
-
-		for (size_t n = 0; n < numCores; n++)
-		{
-			CPU_SET(n, &affinityMask);
-		}
-	}
-	else
-	{
-		for (auto n : theCores)
-		{
-			CPU_SET(n, &affinityMask);
-		}
+		theInfo.memoryResident = NNumber(theValue).GetUInt64() * kNKibibyte;
 	}
 
+	theValue = theText.GetMatch("VmSize\\s*:\\s*([0-9]*) kB");
+	if (!theValue.IsEmpty())
+	{
+		theInfo.addressSpaceUsed = NNumber(theValue).GetUInt64() * kNKibibyte;
+	}
 
+	theInfo.memoryAllocated = theInfo.addressSpaceUsed;
+	theInfo.addressSpaceMax = NN_ARCH_64 ? (128 * kNTebibyte) : (3 * kNGibibyte);
 
-	// Set the thread affinity
-	int sysErr = sched_setaffinity(0, sizeof(affinityMask), &affinityMask);
-	NN_EXPECT_NOT_ERR(sysErr);
+	return theInfo;
 }
 
 
@@ -912,73 +878,6 @@ void NSharedLinux::SemaphoreSignal(NSemaphoreRef theSemaphore)
 
 
 //=============================================================================
-//		NSharedLinux::ProcessName : Get the process name.
-//-----------------------------------------------------------------------------
-NString NSharedLinux::ProcessName()
-{
-
-
-	// Get the name
-	NString theText = GetProcFile(NFilePath("/proc/self/status"));
-	NString theName = theText.GetMatch("Name\\s*:\\s*([^\\n]*)");
-	NN_EXPECT(!theName.IsEmpty());
-
-	if (theName.IsEmpty())
-	{
-		theName = "Unknown";
-	}
-
-	return theName;
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedLinux::ProcessMemory : Get the process memory usage.
-//-----------------------------------------------------------------------------
-NMemoryInfo NSharedLinux::ProcessMemory()
-{
-
-
-	// Get the state we need
-	NString     theText = GetProcFile(NFilePath("/proc/self/status"));
-	NMemoryInfo theInfo{};
-	NString     theValue;
-
-
-
-	// Get the memory usage
-	//
-	// addressSpaceUsed is set to allocated memory, although this will
-	// over-estimate as freed memory typically does not release its
-	// address space.
-	//
-	// addressSpaceMax is hard-coded to the standard Linux limits.
-	theValue = theText.GetMatch("VmRSS\\s*:\\s*([0-9]*) kB");
-	if (!theValue.IsEmpty())
-	{
-		theInfo.memoryResident = NNumber(theValue).GetUInt64() * kNKibibyte;
-	}
-
-	theValue = theText.GetMatch("VmSize\\s*:\\s*([0-9]*) kB");
-	if (!theValue.IsEmpty())
-	{
-		theInfo.addressSpaceUsed = NNumber(theValue).GetUInt64() * kNKibibyte;
-	}
-
-	theInfo.memoryAllocated = theInfo.addressSpaceUsed;
-	theInfo.addressSpaceMax = NN_ARCH_64 ? (128 * kNTebibyte) : (3 * kNGibibyte);
-
-	return theInfo;
-}
-
-
-
-
-
-//=============================================================================
 //		NSharedLinux::SystemPageSize : Get the page size.
 //-----------------------------------------------------------------------------
 size_t NSharedLinux::SystemPageSize()
@@ -997,108 +896,209 @@ size_t NSharedLinux::SystemPageSize()
 
 
 //=============================================================================
-//		NSharedLinux::MachineMemory : Get the memory.
+//		NSharedLinux::ThreadStackSize : Get the thread stack size.
 //-----------------------------------------------------------------------------
-uint64_t NSharedLinux::MachineMemory()
+size_t NSharedLinux::ThreadStackSize()
 {
 
 
-	// Get the memory
-	uint64_t sizeBytes = 0;
-	NString  theText   = GetProcFile(NFilePath("/proc/meminfo"));
-	NString  theValue  = theText.GetMatch("MemTotal:\\s*(\\d+)");
+	// Get the stack size
+	pthread_attr_t threadAttr{};
+	size_t         stackSize = 0;
+	int            sysErr    = pthread_getattr_np(pthread_self(), &threadAttr);
+	NN_EXPECT_NOT_ERR(sysErr);
 
-	if (!theValue.IsEmpty())
+	if (sysErr == 0)
 	{
-		sizeBytes = NNumber(theValue).GetUInt64() * kNKibibyte;
-	}
+		void* stackBase = nullptr;
+		sysErr          = pthread_attr_getstack(&threadAttr, &stackBase, &stackSize);
+		NN_EXPECT_NOT_ERR(sysErr);
 
-	return sizeBytes;
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedLinux::MachineCPUName : Get the CPU name.
-//-----------------------------------------------------------------------------
-NString NSharedLinux::MachineCPUName()
-{
-
-
-	// Get the name
-	NString theText = GetProcFile(NFilePath("/proc/cpuinfo"));
-	NString theName = theText.GetMatch("model name\\s*:\\s*(.*)");
-	NN_EXPECT(!theName.IsEmpty());
-
-	if (theName.IsEmpty())
-	{
-		theName = "Unknown";
-	}
-
-	return theName;
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedLinux::MachineCPUVendor : Get the CPU vendor.
-//-----------------------------------------------------------------------------
-NString NSharedLinux::MachineCPUVendor()
-{
-
-
-	// Get the vendor
-	NString theText = GetProcFile(NFilePath("/proc/cpuinfo"));
-	NString theName = theText.GetMatch("vendor_id\\s*:\\s*(.*)");
-	NN_EXPECT(!theName.IsEmpty());
-
-	if (theName.IsEmpty())
-	{
-		theName = "Unknown";
-	}
-
-	return theName;
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedLinux::MachineCPUHertz : Get the CPU speed.
-//-----------------------------------------------------------------------------
-uint64_t NSharedLinux::MachineCPUHertz()
-{
-
-
-	// Get the maxium speed
-	uint64_t theSpeed = 0;
-	NString  theText =
-		GetProcFile(NFilePath("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq"));
-
-	if (!theText.IsEmpty())
-	{
-		theSpeed = NNumber(theText).GetUInt64() * kNKilohertz;
-	}
-
-
-
-	// Fall back to the current speed
-	if (theSpeed == 0)
-	{
-		theText = GetProcFile(NFilePath("/proc/cpuinfo"));
-		theText = theText.GetMatch("cpu MHz\\s*:\\s*(\\d+)");
-
-		if (!theText.IsEmpty())
+		if (sysErr != 0)
 		{
-			theSpeed = NNumber(theText).GetUInt64() * kNMegahertz;
+			stackSize = 0;
+		}
+
+		sysErr = pthread_attr_destroy(&threadAttr);
+		NN_EXPECT_NOT_ERR(sysErr);
+	}
+
+	return stackSize;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::ThreadGetCores : Get the current thread's preferred cores.
+//-----------------------------------------------------------------------------
+NVectorUInt8 NSharedLinux::ThreadGetCores()
+{
+
+
+	// Get the thread affinity
+	cpu_set_t affinityMask;
+	CPU_ZERO(&affinityMask);
+
+	int sysErr = sched_getaffinity(0, sizeof(affinityMask), &affinityMask);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	size_t numCores = size_t(CPU_COUNT(&affinityMask));
+	NN_EXPECT(numCores != 0);
+
+
+
+	// Convert to cores
+	//
+	// An empty list indicates no affinity, i.e. every core.
+	NVectorUInt8 theCores;
+
+	if (numCores != NMachine::GetCores())
+	{
+		for (int n = 0; n < CPU_SETSIZE; n++)
+		{
+			if (CPU_ISSET(n, &affinityMask))
+			{
+				theCores.push_back(uint8_t(n));
+			}
 		}
 	}
 
-	NN_REQUIRE(theSpeed != 0);
-	return theSpeed;
+	return theCores;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::ThreadSetCores : Set the current thread's preferred cores.
+//-----------------------------------------------------------------------------
+void NSharedLinux::ThreadSetCores(const NVectorUInt8& theCores)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theCores.size() <= CPU_SETSIZE);
+
+
+	// Build the thread affinity
+	//
+	// An empty list indicates no affinity, i.e. every core.
+	cpu_set_t affinityMask;
+	CPU_ZERO(&affinityMask);
+
+	if (theCores.empty())
+	{
+		size_t numCores = NMachine::GetCores();
+
+		for (size_t n = 0; n < numCores; n++)
+		{
+			CPU_SET(n, &affinityMask);
+		}
+	}
+	else
+	{
+		for (auto n : theCores)
+		{
+			CPU_SET(n, &affinityMask);
+		}
+	}
+
+
+
+	// Set the thread affinity
+	int sysErr = sched_setaffinity(0, sizeof(affinityMask), &affinityMask);
+	NN_EXPECT_NOT_ERR(sysErr);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::TimeGet : Get the current time.
+//-----------------------------------------------------------------------------
+NTime NSharedLinux::TimeGet()
+{
+
+
+	// Get the time
+	struct timeval timeVal = {};
+
+	int sysErr = ::gettimeofday(&timeVal, nullptr);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	if (sysErr != 0)
+	{
+		memset(&timeVal, 0x00, sizeof(timeVal));
+	}
+
+	return NTime(NSharedPOSIX::TimeGetInterval(timeVal), kNanoEpochFrom1970);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::TimeGetUpTime : Get the time since boot.
+//-----------------------------------------------------------------------------
+NInterval NSharedLinux::TimeGetUpTime()
+{
+
+
+	// Get the time since boot
+	struct timespec timeSpec = {};
+
+	int sysErr = ::clock_gettime(CLOCK_MONOTONIC, &timeSpec);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	if (sysErr != 0)
+	{
+		memset(&timeSpec, 0x00, sizeof(timeSpec));
+	}
+
+	return NTimeUtils::ToInterval(timeSpec);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::TimeGetClockTicks : Get the clock ticks.
+//-----------------------------------------------------------------------------
+uint64_t NSharedLinux::TimeGetClockTicks()
+{
+
+
+	// Get the clock ticks
+	struct timespec timeSpec = {};
+
+	int sysErr = ::clock_gettime(kSystemClockID, &timeSpec);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	if (sysErr != 0)
+	{
+		memset(&timeSpec, 0x00, sizeof(timeSpec));
+	}
+
+	return (uint64_t(timeSpec.tv_sec) * kNanosecondsPerSecond) + uint64_t(timeSpec.tv_nsec);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::TimeGetClockFrequency : Get the clock frequency.
+//-----------------------------------------------------------------------------
+uint64_t NSharedLinux::TimeGetClockFrequency()
+{
+
+
+	// Get the clock frequency
+	return kNanosecondsPerSecond;
 }

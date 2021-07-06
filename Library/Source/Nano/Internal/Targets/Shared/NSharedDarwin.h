@@ -84,13 +84,6 @@ public:
 	static NFile                        BundleGetExecutable(    const NFile& theBundle, const NString& theName);
 
 
-	// Time
-	static NTime                        TimeGet();
-	static NInterval                    TimeGetUpTime();
-	static uint64_t                     TimeGetClockTicks();
-	static uint64_t                     TimeGetClockFrequency();
-
-
 	// Debugger
 	static bool                         DebuggerIsActive();
 	static NVectorString                DebuggerGetBacktrace(size_t skipFrames, size_t numFrames);
@@ -103,22 +96,28 @@ public:
 													 NFileInfoState&  theState);
 
 
+	// Images
+	static NStatus                      ImageDecode(      NImage& theImage, const NData& theData);
+	static NData                        ImageEncode(const NImage& theImage, const NUTI& theType);
+
+
+	// Machine
+	static size_t                       MachineCores(NCoreType theType);
+	static uint64_t                     MachineMemory();
+	static NString                      MachineCPUName();
+	static NString                      MachineCPUVendor();
+	static uint64_t                     MachineCPUHertz();
+
+
 	// File paths
 	static NStatus                      PathRename(  const NFilePath& oldPath, const NFilePath& newPath);
 	static NStatus                      PathExchange(const NFilePath& oldPath, const NFilePath& newPath);
 	static NFilePath                    PathLocation(NFileLocation theLocation);
 
 
-	// Images
-	static NStatus                      ImageDecode(      NImage& theImage, const NData& theData);
-	static NData                        ImageEncode(const NImage& theImage, const NUTI& theType);
-
-
-	// Threads
-	static bool                         ThreadIsMain();
-	static size_t                       ThreadStackSize();
-	static NVectorUInt8                 ThreadGetCores();
-	static void                         ThreadSetCores(const NVectorUInt8& theCores);
+	// Process
+	static NString                      ProcessName();
+	static NMemoryInfo                  ProcessMemory();
 
 
 	// Random
@@ -139,23 +138,24 @@ public:
 	static void                         SemaphoreSignal( NSemaphoreRef theSemaphore);
 
 
-	// Process
-	static NString                      ProcessName();
-	static NMemoryInfo                  ProcessMemory();
-
-
 	// System
 	static size_t                       SystemPageSize();
 	static NVersion                     SystemVersion();
 	static NString                      SystemName(NOSName theName);
 
 
-	// Machine
-	static size_t                       MachineCores(NCoreType theType);
-	static uint64_t                     MachineMemory();
-	static NString                      MachineCPUName();
-	static NString                      MachineCPUVendor();
-	static uint64_t                     MachineCPUHertz();
+	// Threads
+	static bool                         ThreadIsMain();
+	static size_t                       ThreadStackSize();
+	static NVectorUInt8                 ThreadGetCores();
+	static void                         ThreadSetCores(const NVectorUInt8& theCores);
+
+
+	// Time
+	static NTime                        TimeGet();
+	static NInterval                    TimeGetUpTime();
+	static uint64_t                     TimeGetClockTicks();
+	static uint64_t                     TimeGetClockFrequency();
 };
 
 

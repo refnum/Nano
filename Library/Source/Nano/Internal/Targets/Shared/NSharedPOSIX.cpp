@@ -258,618 +258,6 @@ static void* NThreadEntry(void* theParam)
 
 #pragma mark NSharedPOSIX
 //=============================================================================
-//		NSharedPOSIX::TimeGetTimeval : Convert to a timeval.
-//-----------------------------------------------------------------------------
-struct timeval NSharedPOSIX::TimeGetTimeval(NInterval theInterval)
-{
-	// Convert the value
-	NInterval timeSecs = floor(theInterval);
-	NInterval timeFrac = theInterval - timeSecs;
-
-	return {time_t(timeSecs), suseconds_t(timeFrac / kNTimeMicrosecond)};
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedPOSIX::TimeGetInterval : Convert to an NInterval.
-//-----------------------------------------------------------------------------
-NInterval NSharedPOSIX::TimeGetInterval(const struct timeval& timeVal)
-{
-
-
-	// Convert the value
-	NInterval timeSecs = NInterval(timeVal.tv_sec);
-	NInterval timeFrac = NInterval(timeVal.tv_usec) * kNTimeMicrosecond;
-
-	return timeSecs + timeFrac;
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedPOSIX::StatusSysErr : Convert an errno code to an NStatus.
-//-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::StatusSysErr(int sysErr)
-{
-
-
-	// Get the status
-	NStatus theErr = NStatus::Internal;
-
-	switch (sysErr)
-	{
-		case 0:
-			// No error
-			theErr = NStatus::OK;
-			break;
-
-		case EPERM:
-			// Operation not permitted
-			theErr = NStatus::Permission;
-			break;
-
-		case ENOENT:
-			// No such file or directory
-			theErr = NStatus::NotFound;
-			break;
-
-		case ESRCH:
-			// No such process
-			theErr = NStatus::NotFound;
-			break;
-
-		case EINTR:
-			// Interrupted system call
-			theErr = NStatus::Internal;
-			break;
-
-		case EIO:
-			// Input/output error
-			theErr = NStatus::Internal;
-			break;
-
-		case ENXIO:
-			// Device not configured
-			theErr = NStatus::Param;
-			break;
-
-		case E2BIG:
-			// Argument list too long
-			theErr = NStatus::Param;
-			break;
-
-		case ENOEXEC:
-			// Exec format error
-			theErr = NStatus::Param;
-			break;
-
-		case EBADF:
-			// Bad file descriptor
-			theErr = NStatus::NotFound;
-			break;
-
-		case ECHILD:
-			// No child processes
-			theErr = NStatus::NotFound;
-			break;
-
-		case EDEADLK:
-			// Resource deadlock avoided
-			theErr = NStatus::Busy;
-			break;
-
-		case ENOMEM:
-			// Cannot allocate memory
-			theErr = NStatus::Memory;
-			break;
-
-		case EACCES:
-			// Permission denied
-			theErr = NStatus::Permission;
-			break;
-
-		case EFAULT:
-			// Bad address
-			theErr = NStatus::NotFound;
-			break;
-
-		case ENOTBLK:
-			// Block device required
-			theErr = NStatus::NotSupported;
-			break;
-
-		case EBUSY:
-			// Device / Resource busy
-			theErr = NStatus::Busy;
-			break;
-
-		case EEXIST:
-			// File exists
-			theErr = NStatus::Permission;
-			break;
-
-		case EXDEV:
-			// Cross-device link
-			theErr = NStatus::Permission;
-			break;
-
-		case ENODEV:
-			// Operation not supported by device
-			theErr = NStatus::NotSupported;
-			break;
-
-		case ENOTDIR:
-			// Not a directory
-			theErr = NStatus::Param;
-			break;
-
-		case EISDIR:
-			// Is a directory
-			theErr = NStatus::Param;
-			break;
-
-		case EINVAL:
-			// Invalid argument
-			theErr = NStatus::Param;
-			break;
-
-		case ENFILE:
-			// Too many open files in system
-			theErr = NStatus::ExhaustedDst;
-			break;
-
-		case EMFILE:
-			// Too many open files
-			theErr = NStatus::ExhaustedDst;
-			break;
-
-		case ENOTTY:
-			// Inappropriate ioctl for device
-			theErr = NStatus::Param;
-			break;
-
-		case ETXTBSY:
-			// Text file busy
-			theErr = NStatus::Busy;
-			break;
-
-		case EFBIG:
-			// File too large
-			theErr = NStatus::ExhaustedDst;
-			break;
-
-		case ENOSPC:
-			// No space left on device
-			theErr = NStatus::DiskFull;
-			break;
-
-		case ESPIPE:
-			// Illegal seek
-			theErr = NStatus::Param;
-			break;
-
-		case EROFS:
-			// Read-only file system
-			theErr = NStatus::Permission;
-			break;
-
-		case EMLINK:
-			// Too many links
-			theErr = NStatus::ExhaustedDst;
-			break;
-
-		case EPIPE:
-			// Broken pipe
-			theErr = NStatus::Param;
-			break;
-
-		case EDOM:
-			// Numerical argument out of domain
-			theErr = NStatus::Param;
-			break;
-
-		case ERANGE:
-			// Result too large
-			theErr = NStatus::Param;
-			break;
-
-		case EAGAIN:
-			// Resource temporarily unavailable
-			theErr = NStatus::Busy;
-			break;
-
-		case EINPROGRESS:
-			// Operation now in progress
-			theErr = NStatus::Busy;
-			break;
-
-		case EALREADY:
-			// Operation already in progress
-			theErr = NStatus::Busy;
-			break;
-
-		case ENOTSOCK:
-			// Socket operation on non-socket
-			theErr = NStatus::Param;
-			break;
-
-		case EDESTADDRREQ:
-			// Destination address required
-			theErr = NStatus::Param;
-			break;
-
-		case EMSGSIZE:
-			// Message too long
-			theErr = NStatus::Param;
-			break;
-
-		case EPROTOTYPE:
-			// Protocol wrong type for socket
-			theErr = NStatus::Param;
-			break;
-
-		case ENOPROTOOPT:
-			// Protocol not available
-			theErr = NStatus::Param;
-			break;
-
-		case EPROTONOSUPPORT:
-			// Protocol not supported
-			theErr = NStatus::NotSupported;
-			break;
-
-		case ESOCKTNOSUPPORT:
-			// Socket type not supported
-			theErr = NStatus::NotSupported;
-			break;
-
-		case ENOTSUP:
-			// Operation not supported
-			theErr = NStatus::NotSupported;
-			break;
-
-		case EPFNOSUPPORT:
-			// Protocol family not supported
-			theErr = NStatus::NotSupported;
-			break;
-
-		case EAFNOSUPPORT:
-			// Address family not supported by protocol family
-			theErr = NStatus::NotSupported;
-			break;
-
-		case EADDRINUSE:
-			// Address already in use
-			theErr = NStatus::Busy;
-			break;
-
-		case EADDRNOTAVAIL:
-			// Can't assign requested address
-			theErr = NStatus::Param;
-			break;
-
-		case ENETDOWN:
-			// Network is down
-			theErr = NStatus::Param;
-			break;
-
-		case ENETUNREACH:
-			// Network is unreachable
-			theErr = NStatus::NotFound;
-			break;
-
-		case ENETRESET:
-			// Network dropped connection on reset
-			theErr = NStatus::Param;
-			break;
-
-		case ECONNABORTED:
-			// Software caused connection abort
-			theErr = NStatus::Param;
-			break;
-
-		case ECONNRESET:
-			// Connection reset by peer
-			theErr = NStatus::Param;
-			break;
-
-		case ENOBUFS:
-			// No buffer space available
-			theErr = NStatus::Param;
-			break;
-
-		case EISCONN:
-			// Socket is already connected
-			theErr = NStatus::Param;
-			break;
-
-		case ENOTCONN:
-			// Socket is not connected
-			theErr = NStatus::Param;
-			break;
-
-		case ESHUTDOWN:
-			// Can't send after socket shutdown
-			theErr = NStatus::Param;
-			break;
-
-		case ETOOMANYREFS:
-			// Too many references: can't splice
-			theErr = NStatus::Param;
-			break;
-
-		case ETIMEDOUT:
-			// Operation timed out
-			theErr = NStatus::Timeout;
-			break;
-
-		case ECONNREFUSED:
-			// Connection refused
-			theErr = NStatus::Param;
-			break;
-
-		case ELOOP:
-			// Too many levels of symbolic links
-			theErr = NStatus::Param;
-			break;
-
-		case ENAMETOOLONG:
-			// File name too long
-			theErr = NStatus::Param;
-			break;
-
-		case EHOSTDOWN:
-			// Host is down
-			theErr = NStatus::Param;
-			break;
-
-		case EHOSTUNREACH:
-			// No route to host
-			theErr = NStatus::Param;
-			break;
-
-		case ENOTEMPTY:
-			// Directory not empty
-			theErr = NStatus::Duplicate;
-			break;
-
-		case EUSERS:
-			// Too many users
-			theErr = NStatus::Param;
-			break;
-
-		case EDQUOT:
-			// Disc quota exceeded
-			theErr = NStatus::DiskFull;
-			break;
-
-		case ESTALE:
-			// Stale NFS file handle
-			theErr = NStatus::Param;
-			break;
-
-		case EREMOTE:
-			// Too many levels of remote in path
-			theErr = NStatus::Param;
-			break;
-
-		case ENOLCK:
-			// No locks available
-			theErr = NStatus::Param;
-			break;
-
-		case ENOSYS:
-			// Function not implemented
-			theErr = NStatus::Param;
-			break;
-
-		case EOVERFLOW:
-			// Value too large to be stored in data type
-			theErr = NStatus::Param;
-			break;
-
-		case ECANCELED:
-			// Operation canceled
-			theErr = NStatus::Cancelled;
-			break;
-
-		case EIDRM:
-			// Identifier removed
-			theErr = NStatus::Param;
-			break;
-
-		case ENOMSG:
-			// No message of desired type
-			theErr = NStatus::NotFound;
-			break;
-
-		case EILSEQ:
-			// Illegal byte sequence
-			theErr = NStatus::Malformed;
-			break;
-
-		case EBADMSG:
-			// Bad message
-			theErr = NStatus::Param;
-			break;
-
-		case EMULTIHOP:
-			// Reserved
-			theErr = NStatus::Param;
-			break;
-
-		case ENODATA:
-			// No message available on STREAM
-			theErr = NStatus::ExhaustedSrc;
-			break;
-
-		case ENOLINK:
-			// Reserved
-			theErr = NStatus::Param;
-			break;
-
-		case ENOSR:
-			// No STREAM resources
-			theErr = NStatus::Param;
-			break;
-
-		case ENOSTR:
-			// Not a STREAM
-			theErr = NStatus::Param;
-			break;
-
-		case EPROTO:
-			// Protocol error
-			theErr = NStatus::Param;
-			break;
-
-		case ETIME:
-			// STREAM ioctl timeout
-			theErr = NStatus::Timeout;
-			break;
-
-		case ENOTRECOVERABLE:
-			// State not recoverable
-			theErr = NStatus::Internal;
-			break;
-
-		case EOWNERDEAD:
-			// Previous owner died
-			theErr = NStatus::NotFound;
-			break;
-
-#if NN_PLATFORM_DARWIN
-		case EPROCLIM:
-			// Too many processes
-			theErr = NStatus::Param;
-			break;
-
-		case EBADRPC:
-			// RPC struct is bad
-			theErr = NStatus::Param;
-			break;
-
-		case ERPCMISMATCH:
-			// RPC version wrong
-			theErr = NStatus::Param;
-			break;
-
-		case EPROGUNAVAIL:
-			// RPC prog. not avail
-			theErr = NStatus::Param;
-			break;
-
-		case EPROGMISMATCH:
-			// Program version wrong
-			theErr = NStatus::Param;
-			break;
-
-		case EPROCUNAVAIL:
-			// Bad procedure for program
-			theErr = NStatus::Param;
-			break;
-
-		case EFTYPE:
-			// Inappropriate file type or format
-			theErr = NStatus::Param;
-			break;
-
-		case EAUTH:
-			// Authentication error
-			theErr = NStatus::Permission;
-			break;
-
-		case ENEEDAUTH:
-			// Need authenticator
-			theErr = NStatus::Permission;
-			break;
-
-		case EPWROFF:
-			// Device power is off
-			theErr = NStatus::Param;
-			break;
-
-		case EDEVERR:
-			// Device error, e.g. paper out
-			theErr = NStatus::Param;
-			break;
-
-		case EBADEXEC:
-			// Bad executable
-			theErr = NStatus::Malformed;
-			break;
-
-		case EBADARCH:
-			// Bad CPU type in executable
-			theErr = NStatus::Malformed;
-			break;
-
-		case ESHLIBVERS:
-			// Shared library version mismatch
-			theErr = NStatus::Malformed;
-			break;
-
-		case EBADMACHO:
-			// Malformed Macho file
-			theErr = NStatus::Malformed;
-			break;
-
-		case ENOATTR:
-			// Attribute not found
-			theErr = NStatus::NotFound;
-			break;
-
-		case ENOPOLICY:
-			// No such policy registered
-			theErr = NStatus::Param;
-			break;
-
-		case EQFULL:
-			// Interface output queue is full
-			theErr = NStatus::ExhaustedDst;
-			break;
-#endif //NN_PLATFORM_DARWIN
-
-		default:
-			NN_LOG_UNIMPLEMENTED("Unknown error {}", sysErr);
-			break;
-	}
-
-	return theErr;
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedPOSIX::StatusErrno : Get errno as an NStatus.
-//-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::StatusErrno(int sysErr)
-{
-
-
-	// Get the value
-	NStatus theErr = NStatus::OK;
-
-	if (sysErr != 0)
-	{
-		theErr = StatusSysErr(errno);
-	}
-
-	return theErr;
-}
-
-
-
-
-
-//=============================================================================
 //		NSharedPOSIX::EnvGet : Get an environment variable.
 //-----------------------------------------------------------------------------
 NString NSharedPOSIX::EnvGet(const NString& theName)
@@ -1473,6 +861,584 @@ NVectorFilePath NSharedPOSIX::PathChildren(const NFilePath& thePath)
 
 
 //=============================================================================
+//		NSharedPOSIX::StatusSysErr : Convert an errno code to an NStatus.
+//-----------------------------------------------------------------------------
+NStatus NSharedPOSIX::StatusSysErr(int sysErr)
+{
+
+
+	// Get the status
+	NStatus theErr = NStatus::Internal;
+
+	switch (sysErr)
+	{
+		case 0:
+			// No error
+			theErr = NStatus::OK;
+			break;
+
+		case EPERM:
+			// Operation not permitted
+			theErr = NStatus::Permission;
+			break;
+
+		case ENOENT:
+			// No such file or directory
+			theErr = NStatus::NotFound;
+			break;
+
+		case ESRCH:
+			// No such process
+			theErr = NStatus::NotFound;
+			break;
+
+		case EINTR:
+			// Interrupted system call
+			theErr = NStatus::Internal;
+			break;
+
+		case EIO:
+			// Input/output error
+			theErr = NStatus::Internal;
+			break;
+
+		case ENXIO:
+			// Device not configured
+			theErr = NStatus::Param;
+			break;
+
+		case E2BIG:
+			// Argument list too long
+			theErr = NStatus::Param;
+			break;
+
+		case ENOEXEC:
+			// Exec format error
+			theErr = NStatus::Param;
+			break;
+
+		case EBADF:
+			// Bad file descriptor
+			theErr = NStatus::NotFound;
+			break;
+
+		case ECHILD:
+			// No child processes
+			theErr = NStatus::NotFound;
+			break;
+
+		case EDEADLK:
+			// Resource deadlock avoided
+			theErr = NStatus::Busy;
+			break;
+
+		case ENOMEM:
+			// Cannot allocate memory
+			theErr = NStatus::Memory;
+			break;
+
+		case EACCES:
+			// Permission denied
+			theErr = NStatus::Permission;
+			break;
+
+		case EFAULT:
+			// Bad address
+			theErr = NStatus::NotFound;
+			break;
+
+		case ENOTBLK:
+			// Block device required
+			theErr = NStatus::NotSupported;
+			break;
+
+		case EBUSY:
+			// Device / Resource busy
+			theErr = NStatus::Busy;
+			break;
+
+		case EEXIST:
+			// File exists
+			theErr = NStatus::Permission;
+			break;
+
+		case EXDEV:
+			// Cross-device link
+			theErr = NStatus::Permission;
+			break;
+
+		case ENODEV:
+			// Operation not supported by device
+			theErr = NStatus::NotSupported;
+			break;
+
+		case ENOTDIR:
+			// Not a directory
+			theErr = NStatus::Param;
+			break;
+
+		case EISDIR:
+			// Is a directory
+			theErr = NStatus::Param;
+			break;
+
+		case EINVAL:
+			// Invalid argument
+			theErr = NStatus::Param;
+			break;
+
+		case ENFILE:
+			// Too many open files in system
+			theErr = NStatus::ExhaustedDst;
+			break;
+
+		case EMFILE:
+			// Too many open files
+			theErr = NStatus::ExhaustedDst;
+			break;
+
+		case ENOTTY:
+			// Inappropriate ioctl for device
+			theErr = NStatus::Param;
+			break;
+
+		case ETXTBSY:
+			// Text file busy
+			theErr = NStatus::Busy;
+			break;
+
+		case EFBIG:
+			// File too large
+			theErr = NStatus::ExhaustedDst;
+			break;
+
+		case ENOSPC:
+			// No space left on device
+			theErr = NStatus::DiskFull;
+			break;
+
+		case ESPIPE:
+			// Illegal seek
+			theErr = NStatus::Param;
+			break;
+
+		case EROFS:
+			// Read-only file system
+			theErr = NStatus::Permission;
+			break;
+
+		case EMLINK:
+			// Too many links
+			theErr = NStatus::ExhaustedDst;
+			break;
+
+		case EPIPE:
+			// Broken pipe
+			theErr = NStatus::Param;
+			break;
+
+		case EDOM:
+			// Numerical argument out of domain
+			theErr = NStatus::Param;
+			break;
+
+		case ERANGE:
+			// Result too large
+			theErr = NStatus::Param;
+			break;
+
+		case EAGAIN:
+			// Resource temporarily unavailable
+			theErr = NStatus::Busy;
+			break;
+
+		case EINPROGRESS:
+			// Operation now in progress
+			theErr = NStatus::Busy;
+			break;
+
+		case EALREADY:
+			// Operation already in progress
+			theErr = NStatus::Busy;
+			break;
+
+		case ENOTSOCK:
+			// Socket operation on non-socket
+			theErr = NStatus::Param;
+			break;
+
+		case EDESTADDRREQ:
+			// Destination address required
+			theErr = NStatus::Param;
+			break;
+
+		case EMSGSIZE:
+			// Message too long
+			theErr = NStatus::Param;
+			break;
+
+		case EPROTOTYPE:
+			// Protocol wrong type for socket
+			theErr = NStatus::Param;
+			break;
+
+		case ENOPROTOOPT:
+			// Protocol not available
+			theErr = NStatus::Param;
+			break;
+
+		case EPROTONOSUPPORT:
+			// Protocol not supported
+			theErr = NStatus::NotSupported;
+			break;
+
+		case ESOCKTNOSUPPORT:
+			// Socket type not supported
+			theErr = NStatus::NotSupported;
+			break;
+
+		case ENOTSUP:
+			// Operation not supported
+			theErr = NStatus::NotSupported;
+			break;
+
+		case EPFNOSUPPORT:
+			// Protocol family not supported
+			theErr = NStatus::NotSupported;
+			break;
+
+		case EAFNOSUPPORT:
+			// Address family not supported by protocol family
+			theErr = NStatus::NotSupported;
+			break;
+
+		case EADDRINUSE:
+			// Address already in use
+			theErr = NStatus::Busy;
+			break;
+
+		case EADDRNOTAVAIL:
+			// Can't assign requested address
+			theErr = NStatus::Param;
+			break;
+
+		case ENETDOWN:
+			// Network is down
+			theErr = NStatus::Param;
+			break;
+
+		case ENETUNREACH:
+			// Network is unreachable
+			theErr = NStatus::NotFound;
+			break;
+
+		case ENETRESET:
+			// Network dropped connection on reset
+			theErr = NStatus::Param;
+			break;
+
+		case ECONNABORTED:
+			// Software caused connection abort
+			theErr = NStatus::Param;
+			break;
+
+		case ECONNRESET:
+			// Connection reset by peer
+			theErr = NStatus::Param;
+			break;
+
+		case ENOBUFS:
+			// No buffer space available
+			theErr = NStatus::Param;
+			break;
+
+		case EISCONN:
+			// Socket is already connected
+			theErr = NStatus::Param;
+			break;
+
+		case ENOTCONN:
+			// Socket is not connected
+			theErr = NStatus::Param;
+			break;
+
+		case ESHUTDOWN:
+			// Can't send after socket shutdown
+			theErr = NStatus::Param;
+			break;
+
+		case ETOOMANYREFS:
+			// Too many references: can't splice
+			theErr = NStatus::Param;
+			break;
+
+		case ETIMEDOUT:
+			// Operation timed out
+			theErr = NStatus::Timeout;
+			break;
+
+		case ECONNREFUSED:
+			// Connection refused
+			theErr = NStatus::Param;
+			break;
+
+		case ELOOP:
+			// Too many levels of symbolic links
+			theErr = NStatus::Param;
+			break;
+
+		case ENAMETOOLONG:
+			// File name too long
+			theErr = NStatus::Param;
+			break;
+
+		case EHOSTDOWN:
+			// Host is down
+			theErr = NStatus::Param;
+			break;
+
+		case EHOSTUNREACH:
+			// No route to host
+			theErr = NStatus::Param;
+			break;
+
+		case ENOTEMPTY:
+			// Directory not empty
+			theErr = NStatus::Duplicate;
+			break;
+
+		case EUSERS:
+			// Too many users
+			theErr = NStatus::Param;
+			break;
+
+		case EDQUOT:
+			// Disc quota exceeded
+			theErr = NStatus::DiskFull;
+			break;
+
+		case ESTALE:
+			// Stale NFS file handle
+			theErr = NStatus::Param;
+			break;
+
+		case EREMOTE:
+			// Too many levels of remote in path
+			theErr = NStatus::Param;
+			break;
+
+		case ENOLCK:
+			// No locks available
+			theErr = NStatus::Param;
+			break;
+
+		case ENOSYS:
+			// Function not implemented
+			theErr = NStatus::Param;
+			break;
+
+		case EOVERFLOW:
+			// Value too large to be stored in data type
+			theErr = NStatus::Param;
+			break;
+
+		case ECANCELED:
+			// Operation canceled
+			theErr = NStatus::Cancelled;
+			break;
+
+		case EIDRM:
+			// Identifier removed
+			theErr = NStatus::Param;
+			break;
+
+		case ENOMSG:
+			// No message of desired type
+			theErr = NStatus::NotFound;
+			break;
+
+		case EILSEQ:
+			// Illegal byte sequence
+			theErr = NStatus::Malformed;
+			break;
+
+		case EBADMSG:
+			// Bad message
+			theErr = NStatus::Param;
+			break;
+
+		case EMULTIHOP:
+			// Reserved
+			theErr = NStatus::Param;
+			break;
+
+		case ENODATA:
+			// No message available on STREAM
+			theErr = NStatus::ExhaustedSrc;
+			break;
+
+		case ENOLINK:
+			// Reserved
+			theErr = NStatus::Param;
+			break;
+
+		case ENOSR:
+			// No STREAM resources
+			theErr = NStatus::Param;
+			break;
+
+		case ENOSTR:
+			// Not a STREAM
+			theErr = NStatus::Param;
+			break;
+
+		case EPROTO:
+			// Protocol error
+			theErr = NStatus::Param;
+			break;
+
+		case ETIME:
+			// STREAM ioctl timeout
+			theErr = NStatus::Timeout;
+			break;
+
+		case ENOTRECOVERABLE:
+			// State not recoverable
+			theErr = NStatus::Internal;
+			break;
+
+		case EOWNERDEAD:
+			// Previous owner died
+			theErr = NStatus::NotFound;
+			break;
+
+#if NN_PLATFORM_DARWIN
+		case EPROCLIM:
+			// Too many processes
+			theErr = NStatus::Param;
+			break;
+
+		case EBADRPC:
+			// RPC struct is bad
+			theErr = NStatus::Param;
+			break;
+
+		case ERPCMISMATCH:
+			// RPC version wrong
+			theErr = NStatus::Param;
+			break;
+
+		case EPROGUNAVAIL:
+			// RPC prog. not avail
+			theErr = NStatus::Param;
+			break;
+
+		case EPROGMISMATCH:
+			// Program version wrong
+			theErr = NStatus::Param;
+			break;
+
+		case EPROCUNAVAIL:
+			// Bad procedure for program
+			theErr = NStatus::Param;
+			break;
+
+		case EFTYPE:
+			// Inappropriate file type or format
+			theErr = NStatus::Param;
+			break;
+
+		case EAUTH:
+			// Authentication error
+			theErr = NStatus::Permission;
+			break;
+
+		case ENEEDAUTH:
+			// Need authenticator
+			theErr = NStatus::Permission;
+			break;
+
+		case EPWROFF:
+			// Device power is off
+			theErr = NStatus::Param;
+			break;
+
+		case EDEVERR:
+			// Device error, e.g. paper out
+			theErr = NStatus::Param;
+			break;
+
+		case EBADEXEC:
+			// Bad executable
+			theErr = NStatus::Malformed;
+			break;
+
+		case EBADARCH:
+			// Bad CPU type in executable
+			theErr = NStatus::Malformed;
+			break;
+
+		case ESHLIBVERS:
+			// Shared library version mismatch
+			theErr = NStatus::Malformed;
+			break;
+
+		case EBADMACHO:
+			// Malformed Macho file
+			theErr = NStatus::Malformed;
+			break;
+
+		case ENOATTR:
+			// Attribute not found
+			theErr = NStatus::NotFound;
+			break;
+
+		case ENOPOLICY:
+			// No such policy registered
+			theErr = NStatus::Param;
+			break;
+
+		case EQFULL:
+			// Interface output queue is full
+			theErr = NStatus::ExhaustedDst;
+			break;
+#endif //NN_PLATFORM_DARWIN
+
+		default:
+			NN_LOG_UNIMPLEMENTED("Unknown error {}", sysErr);
+			break;
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::StatusErrno : Get errno as an NStatus.
+//-----------------------------------------------------------------------------
+NStatus NSharedPOSIX::StatusErrno(int sysErr)
+{
+
+
+	// Get the value
+	NStatus theErr = NStatus::OK;
+
+	if (sysErr != 0)
+	{
+		theErr = StatusSysErr(errno);
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedPOSIX::ThreadCreate : Create a native thread.
 //-----------------------------------------------------------------------------
 NThreadHandle NSharedPOSIX::ThreadCreate(NThreadContext* theContext)
@@ -1687,4 +1653,38 @@ void NSharedPOSIX::ThreadSetPriority(float thePriority)
 		sysErr = pthread_setschedparam(pthread_self(), schedPolicy, &schedParams);
 		NN_EXPECT_NOT_ERR(sysErr);
 	}
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::TimeGetTimeval : Convert to a timeval.
+//-----------------------------------------------------------------------------
+struct timeval NSharedPOSIX::TimeGetTimeval(NInterval theInterval)
+{
+	// Convert the value
+	NInterval timeSecs = floor(theInterval);
+	NInterval timeFrac = theInterval - timeSecs;
+
+	return {time_t(timeSecs), suseconds_t(timeFrac / kNTimeMicrosecond)};
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedPOSIX::TimeGetInterval : Convert to an NInterval.
+//-----------------------------------------------------------------------------
+NInterval NSharedPOSIX::TimeGetInterval(const struct timeval& timeVal)
+{
+
+
+	// Convert the value
+	NInterval timeSecs = NInterval(timeVal.tv_sec);
+	NInterval timeFrac = NInterval(timeVal.tv_usec) * kNTimeMicrosecond;
+
+	return timeSecs + timeFrac;
 }

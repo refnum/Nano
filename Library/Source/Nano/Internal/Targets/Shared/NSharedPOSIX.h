@@ -72,21 +72,6 @@ class NString;
 class NSharedPOSIX
 {
 public:
-	// Time conversion
-	//
-	// No epoch conversion is performed on intervals.
-	static struct timeval               TimeGetTimeval(NInterval theInterval);
-	static NInterval                    TimeGetInterval(const struct timeval& timeVal);
-
-
-	// Error conversion
-	//
-	// StatusErrno returns NStatus::OK if passed 0, otherwise it
-	// returns the current value of errno as an NStatus.
-	static NStatus                      StatusSysErr(int sysErr);
-	static NStatus                      StatusErrno( int sysErr = -1);
-
-
 	// Environment
 	static NString                      EnvGet(const NString& theName);
 	static void                         EnvSet(const NString& theName, const NString& theValue);
@@ -141,6 +126,14 @@ public:
 	static NVectorFilePath              PathChildren(const NFilePath& thePath);
 
 
+	// Error conversion
+	//
+	// StatusErrno returns NStatus::OK if passed 0, otherwise it
+	// returns the current value of errno as an NStatus.
+	static NStatus                      StatusSysErr(int sysErr);
+	static NStatus                      StatusErrno( int sysErr = -1);
+
+
 	// Threads
 	static NThreadHandle                ThreadCreate(NThreadContext* theContext);
 	static void                         ThreadJoin(NThreadHandle theThread);
@@ -148,6 +141,13 @@ public:
 	static void                         ThreadSetName(const NString& theName);
 	static float                        ThreadGetPriority();
 	static void                         ThreadSetPriority(float thePriority);
+
+
+	// Time conversion
+	//
+	// No epoch conversion is performed on intervals.
+	static struct timeval               TimeGetTimeval(NInterval theInterval);
+	static NInterval                    TimeGetInterval(const struct timeval& timeVal);
 };
 
 

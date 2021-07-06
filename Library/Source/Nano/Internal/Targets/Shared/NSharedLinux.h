@@ -67,6 +67,10 @@ class NFile;
 class NSharedLinux
 {
 public:
+	// Get a /proc file
+	static NString                      GetProcFile(const NFilePath& thePath);
+
+
 	// Bundles
 	static NFile                        BundleGet(              const NString& bundleID);
 	static NFile                        BundleGetResources(     const NFile& theBundle);
@@ -74,15 +78,8 @@ public:
 	static NFile                        BundleGetExecutable(    const NFile& theBundle, const NString& theName);
 
 
-	// Time
-	static NTime                        TimeGet();
-	static NInterval                    TimeGetUpTime();
-	static uint64_t                     TimeGetClockTicks();
-	static uint64_t                     TimeGetClockFrequency();
-
-
-	// Get a /proc file
-	static NString                      GetProcFile(const NFilePath& thePath);
+	// Debugger
+	static bool                         DebuggerIsActive();
 
 
 	// File state
@@ -92,8 +89,11 @@ public:
 													 NFileInfoState&  theState);
 
 
-	// Debugger
-	static bool                         DebuggerIsActive();
+	// Machine
+	static uint64_t                     MachineMemory();
+	static NString                      MachineCPUName();
+	static NString                      MachineCPUVendor();
+	static uint64_t                     MachineCPUHertz();
 
 
 	// File paths
@@ -101,10 +101,9 @@ public:
 	static NStatus                      PathExchange(const NFilePath& oldPath, const NFilePath& newPath);
 
 
-	// Threads
-	static size_t                       ThreadStackSize();
-	static NVectorUInt8                 ThreadGetCores();
-	static void                         ThreadSetCores(const NVectorUInt8& theCores);
+	// Process
+	static NString                      ProcessName();
+	static NMemoryInfo                  ProcessMemory();
 
 
 	// Random
@@ -118,20 +117,21 @@ public:
 	static void                         SemaphoreSignal( NSemaphoreRef theSemaphore);
 
 
-	// Process
-	static NString                      ProcessName();
-	static NMemoryInfo                  ProcessMemory();
-
-
 	// System
 	static size_t                       SystemPageSize();
 
 
-	// Machine
-	static uint64_t                     MachineMemory();
-	static NString                      MachineCPUName();
-	static NString                      MachineCPUVendor();
-	static uint64_t                     MachineCPUHertz();
+	// Threads
+	static size_t                       ThreadStackSize();
+	static NVectorUInt8                 ThreadGetCores();
+	static void                         ThreadSetCores(const NVectorUInt8& theCores);
+
+
+	// Time
+	static NTime                        TimeGet();
+	static NInterval                    TimeGetUpTime();
+	static uint64_t                     TimeGetClockTicks();
+	static uint64_t                     TimeGetClockFrequency();
 };
 
 

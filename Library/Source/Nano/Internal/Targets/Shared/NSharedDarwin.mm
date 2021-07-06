@@ -542,70 +542,6 @@ NFile NSharedDarwin::BundleGetExecutable(const NFile& theBundle, const NString& 
 
 
 //=============================================================================
-//		NSharedDarwin::TimeGet : Get the current time.
-//-----------------------------------------------------------------------------
-NTime NSharedDarwin::TimeGet()
-{
-
-
-	// Get the time
-	return NTime(CFAbsoluteTimeGetCurrent(), kNanoEpochFrom2001);
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedDarwin::TimeGetUpTime : Get the time since boot.
-//-----------------------------------------------------------------------------
-NInterval NSharedDarwin::TimeGetUpTime()
-{
-
-
-	// Get the time since boot
-	static NTime sBootTime = GetBootTime();
-
-	return TimeGet() - sBootTime;
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedDarwin::TimeGetClockTicks : Get the clock ticks.
-//-----------------------------------------------------------------------------
-uint64_t NSharedDarwin::TimeGetClockTicks()
-{
-
-
-	// Get the clock ticks
-	return uint64_t(mach_absolute_time());
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedDarwin::TimeGetClockFrequency : Get the clock frequency.
-//-----------------------------------------------------------------------------
-uint64_t NSharedDarwin::TimeGetClockFrequency()
-{
-
-
-	// Get the clock frequency
-	static uint64_t sClockFrequency = GetMachClockFrequency();
-
-	return sClockFrequency;
-}
-
-
-
-
-
-//=============================================================================
 //		NSharedDarwin::DebuggerIsActive : Is a debugger active?
 //-----------------------------------------------------------------------------
 bool NSharedDarwin::DebuggerIsActive()
@@ -792,6 +728,223 @@ bool NSharedDarwin::FileGetState(const NFilePath& thePath,
 
 
 //=============================================================================
+//		NSharedDarwin::ImageDecode : Decode image data.
+//-----------------------------------------------------------------------------
+NStatus NSharedDarwin::ImageDecode(NImage& theImage, const NData& theData)
+{
+
+
+	// Get the state we need
+	NCGImageSource cgImageSource;
+	NCFData        cfData;
+
+	if (!cfData.Assign(CFDataCreateWithBytesNoCopy(kCFAllocatorDefault,
+												   theData.GetData(),
+												   CFIndex(theData.GetSize()),
+												   kCFAllocatorNull)))
+	{
+		return NStatus::Memory;
+	}
+
+	if (!cgImageSource.Assign(CGImageSourceCreateWithData(cfData, nullptr)))
+	{
+		return NStatus::Memory;
+	}
+
+
+
+	// Decode the image
+	NCGImage cgImage;
+
+	if (cgImage.Assign(CGImageSourceCreateImageAtIndex(cgImageSource, 0, nullptr)))
+	{
+		theImage = cgImage.GetImage();
+		return NStatus::OK;
+	}
+
+	return NStatus::NotSupported;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::ImageEncode : Encode image data.
+//-----------------------------------------------------------------------------
+NData NSharedDarwin::ImageEncode(const NImage& theImage, const NUTI& theType)
+{
+
+
+	// Validate our parameters and state
+	NN_REQUIRE(theImage.IsValid());
+	NN_REQUIRE(theType.IsValid());
+
+
+
+	// Get the state we need
+	CFStringRef dstFormat = nullptr;
+
+	if (theType == kNUTTypePNG)
+	{
+		dstFormat = kUTTypePNG;
+	}
+	else if (theType == kNUTTypeJPEG)
+	{
+		dstFormat = kUTTypeJPEG;
+	}
+	else if (theType == kNUTTypeTIFF)
+	{
+		dstFormat = kUTTypeTIFF;
+	}
+	else if (theType == kNUTTypeGIF)
+	{
+		dstFormat = kUTTypeGIF;
+	}
+	else
+	{
+		NN_LOG_ERROR("Unsupported format: {}", theType);
+		return NData();
+	}
+
+
+
+	// Encode the image
+	NCGImageDestination cgImageDst;
+	NCGImage            cgImage;
+	NCFMutableData      cfData;
+
+	if (cfData.Assign(CFDataCreateMutable(kCFAllocatorDefault, 0)) &&
+		cgImageDst.Assign(CGImageDestinationCreateWithData(cfData, dstFormat, 1, nullptr)) &&
+		cgImage.SetImage(theImage))
+	{
+		CGImageDestinationAddImage(cgImageDst, cgImage, nullptr);
+
+		if (CGImageDestinationFinalize(cgImageDst))
+		{
+			return cfData.GetData();
+		}
+	}
+
+	return NData();
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::MachineCores : Get the number of cores.
+//-----------------------------------------------------------------------------
+size_t NSharedDarwin::MachineCores(NCoreType theType)
+{
+
+
+	// Get the cores
+	bool    getPhysical = (theType == NCoreType::Physical);
+	int32_t numCores = GetSysctl<int32_t>(getPhysical ? "hw.physicalcpu_max" : "hw.logicalcpu_max");
+	NN_REQUIRE(numCores >= 1);
+
+	return size_t(numCores);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::MachineMemory : Get the memory.
+//-----------------------------------------------------------------------------
+uint64_t NSharedDarwin::MachineMemory()
+{
+
+
+	// Get the memory
+	int64_t sizeBytes = GetSysctl<int64_t>("hw.memsize");
+	NN_REQUIRE(sizeBytes > 0);
+
+	return uint64_t(sizeBytes);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::MachineCPUName : Get the CPU name.
+//-----------------------------------------------------------------------------
+NString NSharedDarwin::MachineCPUName()
+{
+
+
+	// Get the name
+	//
+	// CPU brand name is only available on macOS.
+	NString theName = GetSysctl<NString>("machdep.cpu.brand_string");
+	NN_EXPECT(!theName.IsEmpty());
+
+	if (theName.IsEmpty())
+	{
+		theName = "Unknown";
+	}
+
+	return theName;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::MachineCPUVendor : Get the CPU vendor.
+//-----------------------------------------------------------------------------
+NString NSharedDarwin::MachineCPUVendor()
+{
+
+
+	// Get the vendor
+	//
+	// CPU vendor is only available on macOS.
+	NString theName = GetSysctl<NString>("machdep.cpu.vendor");
+	NN_EXPECT(!theName.IsEmpty());
+
+	if (theName.IsEmpty())
+	{
+		theName = "Unknown";
+	}
+
+	return theName;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::MachineCPUHertz : Get the CPU speed.
+//-----------------------------------------------------------------------------
+uint64_t NSharedDarwin::MachineCPUHertz()
+{
+
+
+	// Get the speed
+	//
+	// CPU frequency is only available on macOS.
+#if NN_TARGET_MACOS
+	int64_t speedHz = GetSysctl<int64_t>("hw.cpufrequency_max");
+	NN_REQUIRE(speedHz > 0);
+#else
+	int64_t speedHz = 2 * kNGigahertz;
+#endif
+
+	return uint64_t(speedHz);
+}
+
+
+
+
+
+//=============================================================================
 //		NSharedDarwin::PathRename : Atomically rename a path.
 //-----------------------------------------------------------------------------
 NStatus NSharedDarwin::PathRename(const NFilePath& oldPath, const NFilePath& newPath)
@@ -900,223 +1053,55 @@ NFilePath NSharedDarwin::PathLocation(NFileLocation theLocation)
 
 
 //=============================================================================
-//		NSharedDarwin::ImageDecode : Decode image data.
+//		NSharedDarwin::ProcessName : Get the process name.
 //-----------------------------------------------------------------------------
-NStatus NSharedDarwin::ImageDecode(NImage& theImage, const NData& theData)
+NString NSharedDarwin::ProcessName()
+{
+
+
+	// Get the name
+	@autoreleasepool
+	{
+		return NString([[NSProcessInfo processInfo] processName].UTF8String);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::ProcessMemory : Get the process memory usage.
+//-----------------------------------------------------------------------------
+NMemoryInfo NSharedDarwin::ProcessMemory()
 {
 
 
 	// Get the state we need
-	NCGImageSource cgImageSource;
-	NCFData        cfData;
+	task_vm_info_data_t    vmInfo{};
+	mach_msg_type_number_t theCount = TASK_VM_INFO_COUNT;
 
-	if (!cfData.Assign(CFDataCreateWithBytesNoCopy(kCFAllocatorDefault,
-												   theData.GetData(),
-												   CFIndex(theData.GetSize()),
-												   kCFAllocatorNull)))
+	kern_return_t kernErr =
+		task_info(mach_task_self(), TASK_VM_INFO, task_info_t(&vmInfo), &theCount);
+
+	NN_EXPECT_NOT_ERR(kernErr);
+
+
+
+	// Get the memory usage
+	NMemoryInfo theInfo{};
+
+	if (kernErr == KERN_SUCCESS)
 	{
-		return NStatus::Memory;
+		NN_REQUIRE(vmInfo.max_address > vmInfo.min_address);
+
+		theInfo.memoryAllocated  = vmInfo.phys_footprint;
+		theInfo.memoryResident   = vmInfo.resident_size;
+		theInfo.addressSpaceUsed = vmInfo.virtual_size;
+		theInfo.addressSpaceMax  = vmInfo.max_address - vmInfo.min_address;
 	}
 
-	if (!cgImageSource.Assign(CGImageSourceCreateWithData(cfData, nullptr)))
-	{
-		return NStatus::Memory;
-	}
-
-
-
-	// Decode the image
-	NCGImage cgImage;
-
-	if (cgImage.Assign(CGImageSourceCreateImageAtIndex(cgImageSource, 0, nullptr)))
-	{
-		theImage = cgImage.GetImage();
-		return NStatus::OK;
-	}
-
-	return NStatus::NotSupported;
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedDarwin::ImageEncode : Encode image data.
-//-----------------------------------------------------------------------------
-NData NSharedDarwin::ImageEncode(const NImage& theImage, const NUTI& theType)
-{
-
-
-	// Validate our parameters and state
-	NN_REQUIRE(theImage.IsValid());
-	NN_REQUIRE(theType.IsValid());
-
-
-
-	// Get the state we need
-	CFStringRef dstFormat = nullptr;
-
-	if (theType == kNUTTypePNG)
-	{
-		dstFormat = kUTTypePNG;
-	}
-	else if (theType == kNUTTypeJPEG)
-	{
-		dstFormat = kUTTypeJPEG;
-	}
-	else if (theType == kNUTTypeTIFF)
-	{
-		dstFormat = kUTTypeTIFF;
-	}
-	else if (theType == kNUTTypeGIF)
-	{
-		dstFormat = kUTTypeGIF;
-	}
-	else
-	{
-		NN_LOG_ERROR("Unsupported format: {}", theType);
-		return NData();
-	}
-
-
-
-	// Encode the image
-	NCGImageDestination cgImageDst;
-	NCGImage            cgImage;
-	NCFMutableData      cfData;
-
-	if (cfData.Assign(CFDataCreateMutable(kCFAllocatorDefault, 0)) &&
-		cgImageDst.Assign(CGImageDestinationCreateWithData(cfData, dstFormat, 1, nullptr)) &&
-		cgImage.SetImage(theImage))
-	{
-		CGImageDestinationAddImage(cgImageDst, cgImage, nullptr);
-
-		if (CGImageDestinationFinalize(cgImageDst))
-		{
-			return cfData.GetData();
-		}
-	}
-
-	return NData();
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedDarwin::ThreadIsMain : Is this the main thread?
-//-----------------------------------------------------------------------------
-bool NSharedDarwin::ThreadIsMain()
-{
-
-
-	// Check the thread
-	int sysErr = pthread_main_np();
-	NN_REQUIRE(sysErr == 1 || sysErr == 0);
-
-	return sysErr == 1;
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedDarwin::ThreadStackSize : Get the thread stack size.
-//-----------------------------------------------------------------------------
-size_t NSharedDarwin::ThreadStackSize()
-{
-
-
-	// Get the stack size
-	return pthread_get_stacksize_np(pthread_self());
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedDarwin::ThreadGetCores : Get the current thread's preferred cores.
-//-----------------------------------------------------------------------------
-NVectorUInt8 NSharedDarwin::ThreadGetCores()
-{
-
-
-	// Get the thread affinity
-	thread_affinity_policy_data_t threadAffinity{};
-	mach_msg_type_number_t        numInfo    = 1;
-	boolean_t                     getDefault = false;
-
-
-	kern_return_t machErr = thread_policy_get(pthread_mach_thread_np(pthread_self()),
-											  THREAD_AFFINITY_POLICY,
-											  thread_policy_t(&threadAffinity),
-											  &numInfo,
-											  &getDefault);
-	NN_EXPECT_NOT_ERR(machErr);
-	NN_EXPECT(threadAffinity.affinity_tag <= kNUInt8Max);
-
-
-
-	// Convert to cores
-	//
-	// An empty list indicates no affinity, i.e. every core.
-	//
-	// We use core+1 as our affinity tag so that a tag of 0 represents no preference.
-	NVectorUInt8 theCores;
-
-	if (threadAffinity.affinity_tag != 0)
-	{
-		theCores.push_back(uint8_t(threadAffinity.affinity_tag - 1));
-	}
-
-	return theCores;
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedDarwin::ThreadSetCores : Set the current thread's preferred cores.
-//-----------------------------------------------------------------------------
-void NSharedDarwin::ThreadSetCores(const NVectorUInt8& theCores)
-{
-
-
-	// Get the state we need
-	//
-	// We use core+1 as our affinity tag so that a tag of 0 represents no preference.
-	thread_affinity_policy_data_t threadAffinity{};
-
-	switch (theCores.size())
-	{
-		case 0:
-			threadAffinity.affinity_tag = 0;
-			break;
-
-		case 1:
-			threadAffinity.affinity_tag = theCores[0] + 1;
-			break;
-
-		default:
-			threadAffinity.affinity_tag = theCores[0] + 1;
-			NN_LOG_WARNING("NSharedDarwin::ThreadSetCores only supports one core!");
-			break;
-	}
-
-
-
-	// Set the thread affinity
-	kern_return_t machErr = thread_policy_set(pthread_mach_thread_np(pthread_self()),
-											  THREAD_AFFINITY_POLICY,
-											  thread_policy_t(&threadAffinity),
-											  1);
-
-	NN_EXPECT_NOT_ERR(machErr);
+	return theInfo;
 }
 
 
@@ -1373,62 +1358,6 @@ void NSharedDarwin::SemaphoreSignal(NSemaphoreRef theSemaphore)
 
 
 //=============================================================================
-//		NSharedDarwin::ProcessName : Get the process name.
-//-----------------------------------------------------------------------------
-NString NSharedDarwin::ProcessName()
-{
-
-
-	// Get the name
-	@autoreleasepool
-	{
-		return NString([[NSProcessInfo processInfo] processName].UTF8String);
-	}
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedDarwin::ProcessMemory : Get the process memory usage.
-//-----------------------------------------------------------------------------
-NMemoryInfo NSharedDarwin::ProcessMemory()
-{
-
-
-	// Get the state we need
-	task_vm_info_data_t    vmInfo{};
-	mach_msg_type_number_t theCount = TASK_VM_INFO_COUNT;
-
-	kern_return_t kernErr =
-		task_info(mach_task_self(), TASK_VM_INFO, task_info_t(&vmInfo), &theCount);
-
-	NN_EXPECT_NOT_ERR(kernErr);
-
-
-
-	// Get the memory usage
-	NMemoryInfo theInfo{};
-
-	if (kernErr == KERN_SUCCESS)
-	{
-		NN_REQUIRE(vmInfo.max_address > vmInfo.min_address);
-
-		theInfo.memoryAllocated  = vmInfo.phys_footprint;
-		theInfo.memoryResident   = vmInfo.resident_size;
-		theInfo.addressSpaceUsed = vmInfo.virtual_size;
-		theInfo.addressSpaceMax  = vmInfo.max_address - vmInfo.min_address;
-	}
-
-	return theInfo;
-}
-
-
-
-
-
-//=============================================================================
 //		NSharedDarwin::SystemPageSize : Get the page size.
 //-----------------------------------------------------------------------------
 size_t NSharedDarwin::SystemPageSize()
@@ -1528,18 +1457,17 @@ NString NSharedDarwin::SystemName(NOSName theName)
 
 
 //=============================================================================
-//		NSharedDarwin::MachineCores : Get the number of cores.
+//		NSharedDarwin::ThreadIsMain : Is this the main thread?
 //-----------------------------------------------------------------------------
-size_t NSharedDarwin::MachineCores(NCoreType theType)
+bool NSharedDarwin::ThreadIsMain()
 {
 
 
-	// Get the cores
-	bool    getPhysical = (theType == NCoreType::Physical);
-	int32_t numCores = GetSysctl<int32_t>(getPhysical ? "hw.physicalcpu_max" : "hw.logicalcpu_max");
-	NN_REQUIRE(numCores >= 1);
+	// Check the thread
+	int sysErr = pthread_main_np();
+	NN_REQUIRE(sysErr == 1 || sysErr == 0);
 
-	return size_t(numCores);
+	return sysErr == 1;
 }
 
 
@@ -1547,17 +1475,14 @@ size_t NSharedDarwin::MachineCores(NCoreType theType)
 
 
 //=============================================================================
-//		NSharedDarwin::MachineMemory : Get the memory.
+//		NSharedDarwin::ThreadStackSize : Get the thread stack size.
 //-----------------------------------------------------------------------------
-uint64_t NSharedDarwin::MachineMemory()
+size_t NSharedDarwin::ThreadStackSize()
 {
 
 
-	// Get the memory
-	int64_t sizeBytes = GetSysctl<int64_t>("hw.memsize");
-	NN_REQUIRE(sizeBytes > 0);
-
-	return uint64_t(sizeBytes);
+	// Get the stack size
+	return pthread_get_stacksize_np(pthread_self());
 }
 
 
@@ -1565,24 +1490,41 @@ uint64_t NSharedDarwin::MachineMemory()
 
 
 //=============================================================================
-//		NSharedDarwin::MachineCPUName : Get the CPU name.
+//		NSharedDarwin::ThreadGetCores : Get the current thread's preferred cores.
 //-----------------------------------------------------------------------------
-NString NSharedDarwin::MachineCPUName()
+NVectorUInt8 NSharedDarwin::ThreadGetCores()
 {
 
 
-	// Get the name
+	// Get the thread affinity
+	thread_affinity_policy_data_t threadAffinity{};
+	mach_msg_type_number_t        numInfo    = 1;
+	boolean_t                     getDefault = false;
+
+
+	kern_return_t machErr = thread_policy_get(pthread_mach_thread_np(pthread_self()),
+											  THREAD_AFFINITY_POLICY,
+											  thread_policy_t(&threadAffinity),
+											  &numInfo,
+											  &getDefault);
+	NN_EXPECT_NOT_ERR(machErr);
+	NN_EXPECT(threadAffinity.affinity_tag <= kNUInt8Max);
+
+
+
+	// Convert to cores
 	//
-	// CPU brand name is only available on macOS.
-	NString theName = GetSysctl<NString>("machdep.cpu.brand_string");
-	NN_EXPECT(!theName.IsEmpty());
+	// An empty list indicates no affinity, i.e. every core.
+	//
+	// We use core+1 as our affinity tag so that a tag of 0 represents no preference.
+	NVectorUInt8 theCores;
 
-	if (theName.IsEmpty())
+	if (threadAffinity.affinity_tag != 0)
 	{
-		theName = "Unknown";
+		theCores.push_back(uint8_t(threadAffinity.affinity_tag - 1));
 	}
 
-	return theName;
+	return theCores;
 }
 
 
@@ -1590,24 +1532,42 @@ NString NSharedDarwin::MachineCPUName()
 
 
 //=============================================================================
-//		NSharedDarwin::MachineCPUVendor : Get the CPU vendor.
+//		NSharedDarwin::ThreadSetCores : Set the current thread's preferred cores.
 //-----------------------------------------------------------------------------
-NString NSharedDarwin::MachineCPUVendor()
+void NSharedDarwin::ThreadSetCores(const NVectorUInt8& theCores)
 {
 
 
-	// Get the vendor
+	// Get the state we need
 	//
-	// CPU vendor is only available on macOS.
-	NString theName = GetSysctl<NString>("machdep.cpu.vendor");
-	NN_EXPECT(!theName.IsEmpty());
+	// We use core+1 as our affinity tag so that a tag of 0 represents no preference.
+	thread_affinity_policy_data_t threadAffinity{};
 
-	if (theName.IsEmpty())
+	switch (theCores.size())
 	{
-		theName = "Unknown";
+		case 0:
+			threadAffinity.affinity_tag = 0;
+			break;
+
+		case 1:
+			threadAffinity.affinity_tag = theCores[0] + 1;
+			break;
+
+		default:
+			threadAffinity.affinity_tag = theCores[0] + 1;
+			NN_LOG_WARNING("NSharedDarwin::ThreadSetCores only supports one core!");
+			break;
 	}
 
-	return theName;
+
+
+	// Set the thread affinity
+	kern_return_t machErr = thread_policy_set(pthread_mach_thread_np(pthread_self()),
+											  THREAD_AFFINITY_POLICY,
+											  thread_policy_t(&threadAffinity),
+											  1);
+
+	NN_EXPECT_NOT_ERR(machErr);
 }
 
 
@@ -1615,21 +1575,61 @@ NString NSharedDarwin::MachineCPUVendor()
 
 
 //=============================================================================
-//		NSharedDarwin::MachineCPUHertz : Get the CPU speed.
+//		NSharedDarwin::TimeGet : Get the current time.
 //-----------------------------------------------------------------------------
-uint64_t NSharedDarwin::MachineCPUHertz()
+NTime NSharedDarwin::TimeGet()
 {
 
 
-	// Get the speed
-	//
-	// CPU frequency is only available on macOS.
-#if NN_TARGET_MACOS
-	int64_t speedHz = GetSysctl<int64_t>("hw.cpufrequency_max");
-	NN_REQUIRE(speedHz > 0);
-#else
-	int64_t speedHz = 2 * kNGigahertz;
-#endif
+	// Get the time
+	return NTime(CFAbsoluteTimeGetCurrent(), kNanoEpochFrom2001);
+}
 
-	return uint64_t(speedHz);
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::TimeGetUpTime : Get the time since boot.
+//-----------------------------------------------------------------------------
+NInterval NSharedDarwin::TimeGetUpTime()
+{
+
+
+	// Get the time since boot
+	static NTime sBootTime = GetBootTime();
+
+	return TimeGet() - sBootTime;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::TimeGetClockTicks : Get the clock ticks.
+//-----------------------------------------------------------------------------
+uint64_t NSharedDarwin::TimeGetClockTicks()
+{
+
+
+	// Get the clock ticks
+	return uint64_t(mach_absolute_time());
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedDarwin::TimeGetClockFrequency : Get the clock frequency.
+//-----------------------------------------------------------------------------
+uint64_t NSharedDarwin::TimeGetClockFrequency()
+{
+
+
+	// Get the clock frequency
+	static uint64_t sClockFrequency = GetMachClockFrequency();
+
+	return sClockFrequency;
 }

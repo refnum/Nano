@@ -133,88 +133,6 @@ NString NSharedWindows::ToString(const TCHAR* theText)
 
 
 //=============================================================================
-//		NSharedWindows::StatusResult : Convert an HRESULT to an NStatus.
-//-----------------------------------------------------------------------------
-NStatus NSharedWindows::StatusResult(HRESULT winErr)
-{
-
-
-	// Get the status
-	NStatus theErr = NStatus::Internal;
-
-	switch (winErr)
-	{
-		case HRESULT_FROM_WIN32(ERROR_SUCCESS):
-			theErr = NStatus::OK;
-			break;
-
-		case HRESULT_FROM_WIN32(ERROR_SHARING_VIOLATION):
-			theErr = NStatus::Busy;
-			break;
-
-		case HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND):
-			theErr = NStatus::NotFound;
-			break;
-
-		case HRESULT_FROM_WIN32(ERROR_PATH_NOT_FOUND):
-			theErr = NStatus::NotFound;
-			break;
-
-		case HRESULT_FROM_WIN32(ERROR_ENVVAR_NOT_FOUND):
-			theErr = NStatus::NotFound;
-			break;
-
-		case HRESULT_FROM_WIN32(ERROR_ACCESS_DENIED):
-			theErr = NStatus::Permission;
-			break;
-
-		case HRESULT_FROM_WIN32(ERROR_HANDLE_EOF):
-			theErr = NStatus::ExhaustedSrc;
-			break;
-
-		case HRESULT_FROM_WIN32(ERROR_ALREADY_EXISTS):
-			theErr = NStatus::Duplicate;
-			break;
-
-		case HRESULT_FROM_WIN32(ERROR_INVALID_HANDLE):
-			theErr = NStatus::Param;
-			break;
-
-		default:
-			NN_LOG_UNIMPLEMENTED("Unknown error {}", winErr);
-			break;
-	}
-
-	return theErr;
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedWindows::StatusLastError : Get the last error.
-//-----------------------------------------------------------------------------
-NStatus NSharedWindows::StatusLastError(bool wasOK)
-{
-
-
-	// Get the error
-	NStatus theErr = NStatus::OK;
-
-	if (!wasOK)
-	{
-		theErr = StatusResult(HRESULT_FROM_WIN32(::GetLastError()));
-	}
-
-	return theErr;
-}
-
-
-
-
-
-//=============================================================================
 //		NSharedWindows::RegistryGetInt32 : Get a uint32_t from the registry.
 //-----------------------------------------------------------------------------
 int32_t NSharedWindows::RegistryGetInt32(HKEY hKey, const NString& theKey, const NString& theValue)
@@ -308,4 +226,86 @@ NString NSharedWindows::RegistryGetString(HKEY hKey, const NString& theKey, cons
 	}
 
 	return theResult;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedWindows::StatusResult : Convert an HRESULT to an NStatus.
+//-----------------------------------------------------------------------------
+NStatus NSharedWindows::StatusResult(HRESULT winErr)
+{
+
+
+	// Get the status
+	NStatus theErr = NStatus::Internal;
+
+	switch (winErr)
+	{
+		case HRESULT_FROM_WIN32(ERROR_SUCCESS):
+			theErr = NStatus::OK;
+			break;
+
+		case HRESULT_FROM_WIN32(ERROR_SHARING_VIOLATION):
+			theErr = NStatus::Busy;
+			break;
+
+		case HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND):
+			theErr = NStatus::NotFound;
+			break;
+
+		case HRESULT_FROM_WIN32(ERROR_PATH_NOT_FOUND):
+			theErr = NStatus::NotFound;
+			break;
+
+		case HRESULT_FROM_WIN32(ERROR_ENVVAR_NOT_FOUND):
+			theErr = NStatus::NotFound;
+			break;
+
+		case HRESULT_FROM_WIN32(ERROR_ACCESS_DENIED):
+			theErr = NStatus::Permission;
+			break;
+
+		case HRESULT_FROM_WIN32(ERROR_HANDLE_EOF):
+			theErr = NStatus::ExhaustedSrc;
+			break;
+
+		case HRESULT_FROM_WIN32(ERROR_ALREADY_EXISTS):
+			theErr = NStatus::Duplicate;
+			break;
+
+		case HRESULT_FROM_WIN32(ERROR_INVALID_HANDLE):
+			theErr = NStatus::Param;
+			break;
+
+		default:
+			NN_LOG_UNIMPLEMENTED("Unknown error {}", winErr);
+			break;
+	}
+
+	return theErr;
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedWindows::StatusLastError : Get the last error.
+//-----------------------------------------------------------------------------
+NStatus NSharedWindows::StatusLastError(bool wasOK)
+{
+
+
+	// Get the error
+	NStatus theErr = NStatus::OK;
+
+	if (!wasOK)
+	{
+		theErr = StatusResult(HRESULT_FROM_WIN32(::GetLastError()));
+	}
+
+	return theErr;
 }
