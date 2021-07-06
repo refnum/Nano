@@ -59,6 +59,7 @@
 
 
 NN_DIAGNOSTIC_PUSH();
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wmissing-noreturn");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wsign-conversion");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wsigned-enum-bitfield");
 NN_DIAGNOSTIC_IGNORE_MSVC(4355);    // 'this' used in base member initializer

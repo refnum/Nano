@@ -658,6 +658,13 @@
 		AB4EEC55269513B6005816E3 /* fast_table.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fast_table.h; sourceTree = "<group>"; };
 		AB4EEC56269513B6005816E3 /* Nano_fast_float.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Nano_fast_float.h; sourceTree = "<group>"; };
 		AB4EEC57269513B6005816E3 /* LICENSE-MIT */ = {isa = PBXFileReference; lastKnownFileType = text; path = "LICENSE-MIT"; sourceTree = "<group>"; };
+		AB4EEC5926951733005816E3 /* Nano_fmt_format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Nano_fmt_format.h; sourceTree = "<group>"; };
+		AB4EEC5A26951733005816E3 /* fmt_ostream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fmt_ostream.h; sourceTree = "<group>"; };
+		AB4EEC5B26951733005816E3 /* fmt_core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fmt_core.h; sourceTree = "<group>"; };
+		AB4EEC5C26951733005816E3 /* fmt_format-inl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "fmt_format-inl.h"; sourceTree = "<group>"; };
+		AB4EEC5D26951733005816E3 /* fmt_format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fmt_format.h; sourceTree = "<group>"; };
+		AB4EEC5E26951733005816E3 /* LICENSE.rst */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.rst; sourceTree = "<group>"; };
+		AB4EEC5F26951733005816E3 /* fmt_printf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fmt_printf.h; sourceTree = "<group>"; };
 		AB5127DD23D0778400528FBE /* NStdAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStdAlgorithm.h; sourceTree = "<group>"; };
 		AB5127E823D07FB400528FBE /* NStdContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStdContainer.h; sourceTree = "<group>"; };
 		AB514E5A103460CB00E5A6AD /* NPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPoint.h; sourceTree = "<group>"; };
@@ -864,13 +871,6 @@
 		ABBE8C8E2446096C009E9B53 /* NUsageLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUsageLog.h; sourceTree = "<group>"; };
 		ABBE8C9624460A11009E9B53 /* NUsageBucket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUsageBucket.cpp; sourceTree = "<group>"; };
 		ABC272A7237B407E00D96FE6 /* NanoConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NanoConstants.h; sourceTree = "<group>"; };
-		ABC646AF25817DF2009B82AD /* Nano_fmt_format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Nano_fmt_format.h; sourceTree = "<group>"; };
-		ABC646B025817DF2009B82AD /* fmt_ostream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fmt_ostream.h; sourceTree = "<group>"; };
-		ABC646B125817DF2009B82AD /* fmt_core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fmt_core.h; sourceTree = "<group>"; };
-		ABC646B225817DF2009B82AD /* fmt_format-inl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "fmt_format-inl.h"; sourceTree = "<group>"; };
-		ABC646B325817DF2009B82AD /* fmt_format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fmt_format.h; sourceTree = "<group>"; };
-		ABC646B425817DF2009B82AD /* LICENSE.rst */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.rst; sourceTree = "<group>"; };
-		ABC646B525817DF2009B82AD /* fmt_printf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fmt_printf.h; sourceTree = "<group>"; };
 		ABC646D125818466009B82AD /* pcre2_xclass.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pcre2_xclass.c; sourceTree = "<group>"; };
 		ABC646D225818466009B82AD /* pcre2_script_run.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pcre2_script_run.c; sourceTree = "<group>"; };
 		ABC646D325818466009B82AD /* pcre2_convert.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pcre2_convert.c; sourceTree = "<group>"; };
@@ -1318,17 +1318,31 @@
 		AB4EEC4E269513B6005816E3 /* fast_float-1.1.2 */ = {
 			isa = PBXGroup;
 			children = (
+				AB4EEC54269513B6005816E3 /* ascii_number.h */,
+				AB4EEC53269513B6005816E3 /* decimal_to_binary.h */,
 				AB4EEC4F269513B6005816E3 /* fast_float.h */,
+				AB4EEC55269513B6005816E3 /* fast_table.h */,
+				AB4EEC52269513B6005816E3 /* float_common.h */,
+				AB4EEC57269513B6005816E3 /* LICENSE-MIT */,
+				AB4EEC56269513B6005816E3 /* Nano_fast_float.h */,
 				AB4EEC50269513B6005816E3 /* parse_number.h */,
 				AB4EEC51269513B6005816E3 /* simple_decimal_conversion.h */,
-				AB4EEC52269513B6005816E3 /* float_common.h */,
-				AB4EEC53269513B6005816E3 /* decimal_to_binary.h */,
-				AB4EEC54269513B6005816E3 /* ascii_number.h */,
-				AB4EEC55269513B6005816E3 /* fast_table.h */,
-				AB4EEC56269513B6005816E3 /* Nano_fast_float.h */,
-				AB4EEC57269513B6005816E3 /* LICENSE-MIT */,
 			);
 			path = "fast_float-1.1.2";
+			sourceTree = "<group>";
+		};
+		AB4EEC5826951733005816E3 /* fmt-8.0.0 */ = {
+			isa = PBXGroup;
+			children = (
+				AB4EEC5B26951733005816E3 /* fmt_core.h */,
+				AB4EEC5C26951733005816E3 /* fmt_format-inl.h */,
+				AB4EEC5D26951733005816E3 /* fmt_format.h */,
+				AB4EEC5A26951733005816E3 /* fmt_ostream.h */,
+				AB4EEC5F26951733005816E3 /* fmt_printf.h */,
+				AB4EEC5E26951733005816E3 /* LICENSE.rst */,
+				AB4EEC5926951733005816E3 /* Nano_fmt_format.h */,
+			);
+			path = "fmt-8.0.0";
 			sourceTree = "<group>";
 		};
 		AB5127DC23D0778400528FBE /* Std */ = {
@@ -1587,7 +1601,7 @@
 				AB9154FD0F9B4DD5009FFEAF /* Read Me.txt */,
 				AB4EEBF42693D40C005816E3 /* expat-2.4.1 */,
 				AB4EEC4E269513B6005816E3 /* fast_float-1.1.2 */,
-				ABC646AE25817DF2009B82AD /* fmt-7.1.3 */,
+				AB4EEC5826951733005816E3 /* fmt-8.0.0 */,
 				AB3A4990258199E70065B4DA /* json-parser-1.1.0 */,
 				ABAA15E725DF492600785E5D /* libb64-2.0.0 */,
 				ABC646D025818466009B82AD /* pcre2-10.36 */,
@@ -1928,20 +1942,6 @@
 				ABB95B7C0FB7250100C5A7FF /* NIOSTime.cpp */,
 			);
 			path = iOS;
-			sourceTree = "<group>";
-		};
-		ABC646AE25817DF2009B82AD /* fmt-7.1.3 */ = {
-			isa = PBXGroup;
-			children = (
-				ABC646B125817DF2009B82AD /* fmt_core.h */,
-				ABC646B225817DF2009B82AD /* fmt_format-inl.h */,
-				ABC646B325817DF2009B82AD /* fmt_format.h */,
-				ABC646B025817DF2009B82AD /* fmt_ostream.h */,
-				ABC646B525817DF2009B82AD /* fmt_printf.h */,
-				ABC646B425817DF2009B82AD /* LICENSE.rst */,
-				ABC646AF25817DF2009B82AD /* Nano_fmt_format.h */,
-			);
-			path = "fmt-7.1.3";
 			sourceTree = "<group>";
 		};
 		ABC646D025818466009B82AD /* pcre2-10.36 */ = {
