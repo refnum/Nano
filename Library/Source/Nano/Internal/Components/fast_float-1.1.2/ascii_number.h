@@ -14,6 +14,34 @@ namespace fast_float {
 // able to optimize it well.
 fastfloat_really_inline bool is_integer(char c)  noexcept  { return c >= '0' && c <= '9'; }
 
+fastfloat_really_inline uint64_t byteswap(uint64_t val) {
+  return (val & 0xFF00000000000000) >> 56
+    | (val & 0x00FF000000000000) >> 40
+    | (val & 0x0000FF0000000000) >> 24
+    | (val & 0x000000FF00000000) >> 8
+    | (val & 0x00000000FF000000) << 8
+    | (val & 0x0000000000FF0000) << 24
+    | (val & 0x000000000000FF00) << 40
+    | (val & 0x00000000000000FF) << 56;
+}
+
+fastfloat_really_inline uint64_t read_u64(const char *chars) {
+  uint64_t val;
+  ::memcpy(&val, chars, sizeof(uint64_t));
+#if FASTFLOAT_IS_BIG_ENDIAN == 1
+  // Need to read as-if the number was in little-endian order.
+  val = byteswap(val);
+#endif
+  return val;
+}
+
+fastfloat_really_inline void write_u64(uint8_t *chars, uint64_t val) {
+#if FASTFLOAT_IS_BIG_ENDIAN == 1
+  // Need to read as-if the number was in little-endian order.
+  val = byteswap(val);
+#endif
+  ::memcpy(chars, &val, sizeof(uint64_t));
+}
 
 // credit  @aqrit
 fastfloat_really_inline uint32_t  parse_eight_digits_unrolled(uint64_t val) {
@@ -27,21 +55,17 @@ fastfloat_really_inline uint32_t  parse_eight_digits_unrolled(uint64_t val) {
 }
 
 fastfloat_really_inline uint32_t parse_eight_digits_unrolled(const char *chars)  noexcept  {
-  uint64_t val;
-  ::memcpy(&val, chars, sizeof(uint64_t));
-  return parse_eight_digits_unrolled(val);
+  return parse_eight_digits_unrolled(read_u64(chars));
 }
 
 // credit @aqrit
 fastfloat_really_inline bool is_made_of_eight_digits_fast(uint64_t val)  noexcept  {
   return !((((val + 0x4646464646464646) | (val - 0x3030303030303030)) &
-     0x8080808080808080)); 
+     0x8080808080808080));
 }
 
 fastfloat_really_inline bool is_made_of_eight_digits_fast(const char *chars)  noexcept  {
-  uint64_t val;
-  ::memcpy(&val, chars, 8);
-  return is_made_of_eight_digits_fast(val);
+  return is_made_of_eight_digits_fast(read_u64(chars));
 }
 
 struct parsed_number_string {
@@ -62,7 +86,7 @@ parsed_number_string parse_number_string(const char *p, const char *pend, chars_
   answer.valid = false;
   answer.too_many_digits = false;
   answer.negative = (*p == '-');
-  if ((*p == '-') || (*p == '+')) {
+  if (*p == '-') { // C++17 20.19.3.(7.1) explicitly forbids '+' sign here
     ++p;
     if (p == pend) {
       return answer;
@@ -87,17 +111,15 @@ parsed_number_string parse_number_string(const char *p, const char *pend, chars_
   int64_t exponent = 0;
   if ((p != pend) && (*p == '.')) {
     ++p;
-#if FASTFLOAT_IS_BIG_ENDIAN == 0
-    // Fast approach only tested under little endian systems
+  // Fast approach only tested under little endian systems
+  if ((p + 8 <= pend) && is_made_of_eight_digits_fast(p)) {
+    i = i * 100000000 + parse_eight_digits_unrolled(p); // in rare cases, this will overflow, but that's ok
+    p += 8;
     if ((p + 8 <= pend) && is_made_of_eight_digits_fast(p)) {
       i = i * 100000000 + parse_eight_digits_unrolled(p); // in rare cases, this will overflow, but that's ok
       p += 8;
-      if ((p + 8 <= pend) && is_made_of_eight_digits_fast(p)) {
-        i = i * 100000000 + parse_eight_digits_unrolled(p); // in rare cases, this will overflow, but that's ok
-        p += 8;
-      }
     }
-#endif
+  }
     while ((p != pend) && is_integer(*p)) {
       uint8_t digit = uint8_t(*p - '0');
       ++p;
@@ -118,7 +140,7 @@ parsed_number_string parse_number_string(const char *p, const char *pend, chars_
     if ((p != pend) && ('-' == *p)) {
       neg_exp = true;
       ++p;
-    } else if ((p != pend) && ('+' == *p)) {
+    } else if ((p != pend) && ('+' == *p)) { // '+' on exponent is allowed by C++17 20.19.3.(7.1)
       ++p;
     }
     if ((p == pend) || !is_integer(*p)) {
@@ -200,9 +222,8 @@ fastfloat_really_inline decimal parse_decimal(const char *p, const char *pend) n
   answer.num_digits = 0;
   answer.decimal_point = 0;
   answer.truncated = false;
-  // any whitespace has been skipped.
   answer.negative = (*p == '-');
-  if ((*p == '-') || (*p == '+')) {
+  if (*p == '-') { // C++17 20.19.3.(7.1) explicitly forbids '+' sign here
     ++p;
   }
   // skip leading zeroes
@@ -226,20 +247,17 @@ fastfloat_really_inline decimal parse_decimal(const char *p, const char *pend) n
        ++p;
       }
     }
-#if FASTFLOAT_IS_BIG_ENDIAN == 0
     // We expect that this loop will often take the bulk of the running time
     // because when a value has lots of digits, these digits often
     while ((p + 8 <= pend) && (answer.num_digits + 8 < max_digits)) {
-      uint64_t val;
-      ::memcpy(&val, p, sizeof(uint64_t));
+      uint64_t val = read_u64(p);
       if(! is_made_of_eight_digits_fast(val)) { break; }
       // We have eight digits, process them in one go!
       val -= 0x3030303030303030;
-      ::memcpy(answer.digits + answer.num_digits, &val, sizeof(uint64_t));
+      write_u64(answer.digits + answer.num_digits, val);
       answer.num_digits += 8;
       p += 8;
     }
-#endif
     while ((p != pend) && is_integer(*p)) {
       if (answer.num_digits < max_digits) {
         answer.digits[answer.num_digits] = uint8_t(*p - '0');
@@ -249,13 +267,33 @@ fastfloat_really_inline decimal parse_decimal(const char *p, const char *pend) n
     }
     answer.decimal_point = int32_t(first_after_period - p);
   }
+  // We want num_digits to be the number of significant digits, excluding
+  // leading *and* trailing zeros! Otherwise the truncated flag later is
+  // going to be misleading.
+  if(answer.num_digits > 0) {
+    // We potentially need the answer.num_digits > 0 guard because we
+    // prune leading zeros. So with answer.num_digits > 0, we know that
+    // we have at least one non-zero digit.
+    const char *preverse = p - 1;
+    int32_t trailing_zeros = 0;
+    while ((*preverse == '0') || (*preverse == '.')) {
+      if(*preverse == '0') { trailing_zeros++; };
+      --preverse;
+    }
+    answer.decimal_point += int32_t(answer.num_digits);
+    answer.num_digits -= uint32_t(trailing_zeros);
+  }
+  if(answer.num_digits > max_digits) {
+    answer.truncated = true;
+    answer.num_digits = max_digits;
+  }
   if ((p != pend) && (('e' == *p) || ('E' == *p))) {
     ++p;
     bool neg_exp = false;
     if ((p != pend) && ('-' == *p)) {
       neg_exp = true;
       ++p;
-    } else if ((p != pend) && ('+' == *p)) {
+    } else if ((p != pend) && ('+' == *p)) { // '+' on exponent is allowed by C++17 20.19.3.(7.1)
       ++p;
     }
     int32_t exp_number = 0; // exponential part
@@ -263,15 +301,10 @@ fastfloat_really_inline decimal parse_decimal(const char *p, const char *pend) n
       uint8_t digit = uint8_t(*p - '0');
       if (exp_number < 0x10000) {
         exp_number = 10 * exp_number + digit;
-      }    
+      }
       ++p;
     }
     answer.decimal_point += (neg_exp ? -exp_number : exp_number);
-  }
-  answer.decimal_point += int32_t(answer.num_digits);
-  if(answer.num_digits > max_digits) {
-    answer.truncated = true;
-    answer.num_digits = max_digits;
   }
   // In very rare cases, we may have fewer than 19 digits, we want to be able to reliably
   // assume that all digits up to max_digit_without_overflow have been initialized.

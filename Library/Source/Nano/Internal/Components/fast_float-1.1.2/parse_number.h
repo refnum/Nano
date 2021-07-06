@@ -13,7 +13,7 @@
 namespace fast_float {
 
 
-namespace {
+namespace detail {
 /**
  * Special case +inf, -inf, nan, infinity, -infinity.
  * The case comparisons could be made much faster given that we know that the
@@ -22,48 +22,41 @@ namespace {
 template <typename T>
 from_chars_result parse_infnan(const char *first, const char *last, T &value)  noexcept  {
   from_chars_result answer;
+  answer.ptr = first;
   answer.ec = std::errc(); // be optimistic
+  bool minusSign = false;
+  if (*first == '-') { // assume first < last, so dereference without checks; C++17 20.19.3.(7.1) explicitly forbids '+' here
+      minusSign = true;
+      ++first;
+  }
   if (last - first >= 3) {
     if (fastfloat_strncasecmp(first, "nan", 3)) {
-      answer.ptr = first + 3;
-      value = std::numeric_limits<T>::quiet_NaN();
+      answer.ptr = (first += 3);
+      value = minusSign ? -std::numeric_limits<T>::quiet_NaN() : std::numeric_limits<T>::quiet_NaN();
+      // Check for possible nan(n-char-seq-opt), C++17 20.19.3.7, C11 7.20.1.3.3. At least MSVC produces nan(ind) and nan(snan).
+      if(first != last && *first == '(') {
+        for(const char* ptr = first + 1; ptr != last; ++ptr) {
+          if (*ptr == ')') {
+            answer.ptr = ptr + 1; // valid nan(n-char-seq-opt)
+            break;
+          }
+          else if(!(('a' <= *ptr && *ptr <= 'z') || ('A' <= *ptr && *ptr <= 'Z') || ('0' <= *ptr && *ptr <= '9') || *ptr == '_'))
+            break; // forbidden char, not nan(n-char-seq-opt)
+        }
+      }
       return answer;
     }
     if (fastfloat_strncasecmp(first, "inf", 3)) {
-      if ((last - first >= 8) && fastfloat_strncasecmp(first, "infinity", 8)) {
+      if ((last - first >= 8) && fastfloat_strncasecmp(first + 3, "inity", 5)) {
         answer.ptr = first + 8;
       } else {
         answer.ptr = first + 3;
       }
-      value = std::numeric_limits<T>::infinity();
+      value = minusSign ? -std::numeric_limits<T>::infinity() : std::numeric_limits<T>::infinity();
       return answer;
-    }
-    if (last - first >= 4) {
-      if (fastfloat_strncasecmp(first, "+nan", 4) || fastfloat_strncasecmp(first, "-nan", 4)) {
-        answer.ptr = first + 4;
-        value = std::numeric_limits<T>::quiet_NaN();
-        if (first[0] == '-') {
-          value = -value;
-        }
-        return answer;
-      }
-
-      if (fastfloat_strncasecmp(first, "+inf", 4) || fastfloat_strncasecmp(first, "-inf", 4)) {
-        if ((last - first >= 8) && fastfloat_strncasecmp(first + 1, "infinity", 8)) {
-          answer.ptr = first + 9;
-        } else {
-          answer.ptr = first + 4;
-        }
-        value = std::numeric_limits<T>::infinity();
-        if (first[0] == '-') {
-          value = -value;
-        }
-        return answer;
-      }
     }
   }
   answer.ec = std::errc::invalid_argument;
-  answer.ptr = first;
   return answer;
 }
 
@@ -85,7 +78,7 @@ fastfloat_really_inline void to_float(bool negative, adjusted_mantissa am, T &va
 #endif
 }
 
-} // namespace
+} // namespace detail
 
 
 
@@ -96,9 +89,6 @@ from_chars_result from_chars(const char *first, const char *last,
 
 
   from_chars_result answer;
-  while ((first != last) && fast_float::is_space(uint8_t(*first))) {
-    first++;
-  }
   if (first == last) {
     answer.ec = std::errc::invalid_argument;
     answer.ptr = first;
@@ -106,7 +96,7 @@ from_chars_result from_chars(const char *first, const char *last,
   }
   parsed_number_string pns = parse_number_string(first, last, fmt);
   if (!pns.valid) {
-    return parse_infnan(first, last, value);
+    return detail::parse_infnan(first, last, value);
   }
   answer.ec = std::errc(); // be optimistic
   answer.ptr = pns.lastmatch;
@@ -127,7 +117,7 @@ from_chars_result from_chars(const char *first, const char *last,
   // If we called compute_float<binary_format<T>>(pns.exponent, pns.mantissa) and we have an invalid power (am.power2 < 0),
   // then we need to go the long way around again. This is very uncommon.
   if(am.power2 < 0) { am = parse_long_mantissa<binary_format<T>>(first,last); }
-  to_float(pns.negative, am, value);
+  detail::to_float(pns.negative, am, value);
   return answer;
 }
 
