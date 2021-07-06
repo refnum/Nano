@@ -47,6 +47,7 @@
 #include "NString.h"
 
 // System
+#include <Windows.h>
 #include <objidl.h>
 
 
@@ -61,6 +62,7 @@ POINT          ToWN(const NPoint& thePoint);
 SIZE           ToWN(const NSize& theSize);
 RECT           ToWN(const NRectangle& theRect);
 const TCHAR*   ToWN(const NString& theString);
+FILETIME       ToWN(NInterval theTime);
 LARGE_INTEGER  ToWN(const int64_t& theValue);
 ULARGE_INTEGER ToWN(const uint64_t& theValue);
 void           ToWN(uint64_t theValue, DWORD& valueHigh, DWORD& valueLow);
@@ -74,6 +76,7 @@ NSize      ToNN(const SIZE& thePoint);
 NRectangle ToNN(const RECT& theRect);
 NRectangle ToNN(const RECTL& theRect);
 NString    ToNN(const TCHAR* theString);
+NInterval  ToNN(const FILETIME& theTime);
 int64_t    ToNN(const LARGE_INTEGER& theValue);
 uint64_t   ToNN(const ULARGE_INTEGER& theValue);
 uint64_t   ToNN(DWORD valueHigh, DWORD valueLow);

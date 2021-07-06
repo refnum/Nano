@@ -43,12 +43,11 @@
 
 // Nano
 #include "NFormat.h"
-#include "NSharedWindows.h"
 #include "NVersion.h"
+#include "NWindows.h"
 
 // System
 #include <VersionHelpers.h>
-#include <Windows.h>
 #include <stdlib.h>
 #include <sysinfoapi.h>
 
@@ -199,7 +198,7 @@ NString NSystem::SystemName(NOSName theName)
 		}
 		else
 		{
-			NString csdVersion = NSharedWindows::ToString(theInfo.szCSDVersion);
+			NString csdVersion = ToNN(theInfo.szCSDVersion);
 			if (!csdVersion.IsEmpty())
 			{
 				csdVersion += " ";

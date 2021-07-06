@@ -43,6 +43,7 @@
 
 // Nano
 #include "NSharedWindows.h"
+#include "NWindows.h"
 
 
 
@@ -237,8 +238,8 @@ uint64_t NFileHandle::FileGetPosition() const
 
 
 	// Get the state we need
-	HANDLE        hFile     = static_cast<HANDLE>(mHandle);
-	LARGE_INTEGER theOffset = NSharedWindows::ToLargeInteger(0);
+	HANDLE        hFile = static_cast<HANDLE>(mHandle);
+	LARGE_INTEGER theOffset{};
 
 
 
@@ -246,7 +247,7 @@ uint64_t NFileHandle::FileGetPosition() const
 	BOOL wasOK = SetFilePointerEx(hFile, theOffset, &theOffset, FILE_CURRENT);
 	NN_EXPECT(wasOK);
 
-	int64_t thePosition = NSharedWindows::ToInt64(theOffset);
+	int64_t thePosition = ToNN(theOffset);
 	NN_REQUIRE(thePosition >= 0);
 
 	if (!wasOK)
@@ -275,7 +276,7 @@ NStatus NFileHandle::FileSetPosition(int64_t thePosition, NFileOffset relativeTo
 
 	// Get the state we need
 	HANDLE        hFile     = static_cast<HANDLE>(mHandle);
-	LARGE_INTEGER theOffset = NSharedWindows::ToLargeInteger(thePosition);
+	LARGE_INTEGER theOffset = ToWN(thePosition);
 
 
 

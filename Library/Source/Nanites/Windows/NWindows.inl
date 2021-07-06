@@ -113,6 +113,23 @@ inline const TCHAR* ToWN(const NString& theString)
 
 
 //=============================================================================
+//		ToWN : Convert NInterval to FILETIME.
+//-----------------------------------------------------------------------------
+inline FILETIME ToWN(NInterval theTime)
+{
+	FILETIME theResult;
+
+	uint64_t hectoNanoSecs = uint64_t(theTime / (100.0 * kNTimeNanosecond));
+	ToWN(hectoNanoSecs, theResult.dwHighDateTime, theResult.dwLowDateTime);
+
+	return theResult;
+}
+
+
+
+
+
+//=============================================================================
 //		ToWN : Convert int64_t to LARGE_INTEGER.
 //-----------------------------------------------------------------------------
 inline LARGE_INTEGER ToWN(const int64_t& theValue)
@@ -156,7 +173,7 @@ inline void ToWN(uint64_t theValue, DWORD& valueHigh, DWORD& valueLow)
 
 
 //=============================================================================
-//		ToWN : Convert POINT to NPoint.
+//		ToNN : Convert POINT to NPoint.
 //-----------------------------------------------------------------------------
 inline NPoint ToNN(const POINT& thePoint)
 {
@@ -168,7 +185,7 @@ inline NPoint ToNN(const POINT& thePoint)
 
 
 //=============================================================================
-//		ToWN : Convert POINTS to NPoint.
+//		ToNN : Convert POINTS to NPoint.
 //-----------------------------------------------------------------------------
 inline NPoint ToNN(const POINTS& thePoint)
 {
@@ -180,7 +197,7 @@ inline NPoint ToNN(const POINTS& thePoint)
 
 
 //=============================================================================
-//		ToWN : Convert POINTL to NPoint.
+//		ToNN : Convert POINTL to NPoint.
 //-----------------------------------------------------------------------------
 inline NPoint ToNN(const POINTL& thePoint)
 {
@@ -192,7 +209,7 @@ inline NPoint ToNN(const POINTL& thePoint)
 
 
 //=============================================================================
-//		ToWN : Convert SIZE to NSize.
+//		ToNN : Convert SIZE to NSize.
 //-----------------------------------------------------------------------------
 inline NSize ToNN(const SIZE& thePoint)
 {
@@ -204,7 +221,7 @@ inline NSize ToNN(const SIZE& thePoint)
 
 
 //=============================================================================
-//		ToWN : Convert RECT to NRectangle.
+//		ToNN : Convert RECT to NRectangle.
 //-----------------------------------------------------------------------------
 inline NRectangle ToNN(const RECT& theRect)
 {
@@ -219,7 +236,7 @@ inline NRectangle ToNN(const RECT& theRect)
 
 
 //=============================================================================
-//		ToWN : Convert RECTL to NRectangle.
+//		ToNN : Convert RECTL to NRectangle.
 //-----------------------------------------------------------------------------
 inline NRectangle ToNN(const RECTL& theRect)
 {
@@ -234,12 +251,19 @@ inline NRectangle ToNN(const RECTL& theRect)
 
 
 //=============================================================================
-//		ToWN : Convert TCHAR* to NString.
+//		ToNN : Convert TCHAR* to NString.
 //-----------------------------------------------------------------------------
 inline NString ToNN(const TCHAR* theString)
 {
-	static_assert(sizeof(TCHAR) == sizeof(utf16_t));
-	return NString(reinterpret_cast<const utf16_t*>(theString));
+	if constexpr (sizeof(TCHAR) == sizeof(wchar_t))
+	{
+		return NString(reinterpret_cast<const utf16_t*>(theString));
+	}
+	else
+	{
+		const char* textA = reinterpret_cast<const char*>(theString);
+		return NString(NStringEncoding::WindowsLatin1, strlen(textA), textA);
+	}
 }
 
 
@@ -247,7 +271,21 @@ inline NString ToNN(const TCHAR* theString)
 
 
 //=============================================================================
-//		ToWN : Convert LARGE_INTEGER to int64_t.
+//		ToNN : Convert FILETIME to NInterval.
+//-----------------------------------------------------------------------------
+inline NInterval ToNN(const FILETIME& fileTime)
+{
+	uint64_t hectoNanoSecs = ToNN(fileTime.dwHighDateTime, fileTime.dwLowDateTime);
+
+	return NInterval(hectoNanoSecs) * (100.0 * kNTimeNanosecond);
+}
+
+
+
+
+
+//=============================================================================
+//		ToNN : Convert LARGE_INTEGER to int64_t.
 //-----------------------------------------------------------------------------
 inline int64_t ToNN(const LARGE_INTEGER& theValue)
 {
@@ -259,7 +297,7 @@ inline int64_t ToNN(const LARGE_INTEGER& theValue)
 
 
 //=============================================================================
-//		ToWN : Convert ULARGE_INTEGER to uint64_t.
+//		ToNN : Convert ULARGE_INTEGER to uint64_t.
 //-----------------------------------------------------------------------------
 inline uint64_t ToNN(const ULARGE_INTEGER& theValue)
 {
@@ -271,7 +309,7 @@ inline uint64_t ToNN(const ULARGE_INTEGER& theValue)
 
 
 //=============================================================================
-//		ToWN : Convert DWORD + DWORD to uint64_t.
+//		ToNN : Convert DWORD + DWORD to uint64_t.
 //-----------------------------------------------------------------------------
 inline uint64_t ToNN(DWORD valueHigh, DWORD valueLow)
 {
@@ -282,6 +320,7 @@ inline uint64_t ToNN(DWORD valueHigh, DWORD valueLow)
 
 
 
+#pragma mark NScopedCOM
 //=============================================================================
 //		NScopedCOM::NScopedCOM : Constructor.
 //-----------------------------------------------------------------------------

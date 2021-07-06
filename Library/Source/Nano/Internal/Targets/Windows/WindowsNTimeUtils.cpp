@@ -42,8 +42,7 @@
 #include "NTimeUtils.h"
 
 // Nano
-#include "NSharedWindows.h"
-#include "NanoConstants.h"
+#include "NWindows.h"
 
 
 
@@ -60,7 +59,7 @@ NTime NTimeUtils::GetTime()
 	FILETIME fileTime{};
 	GetSystemTimeAsFileTime(&fileTime);
 
-	return NTime(NSharedWindows::ToInterval(fileTime), kNanoEpochFrom1601);
+	return NTime(ToNN(fileTime), kNanoEpochFrom1601);
 }
 
 
@@ -92,12 +91,12 @@ uint64_t NTimeUtils::GetClockTicks()
 
 
 	// Get the clock ticks
-	LARGE_INTEGER clockTicks = NSharedWindows::ToLargeInteger(0);
+	LARGE_INTEGER clockTicks{};
 
 	BOOL wasOK = QueryPerformanceCounter(&clockTicks);
 	NN_EXPECT(wasOK);
 
-	int64_t theTicks = NSharedWindows::ToInt64(clockTicks);
+	int64_t theTicks = ToNN(clockTicks);
 	NN_REQUIRE(theTicks >= 0);
 
 	if (!wasOK)
@@ -120,12 +119,12 @@ uint64_t NTimeUtils::GetClockFrequency()
 
 
 	// Get the clock frequency
-	LARGE_INTEGER clockFreq = NSharedWindows::ToLargeInteger(0);
+	LARGE_INTEGER clockFreq{};
 
 	BOOL wasOK = QueryPerformanceFrequency(&clockFreq);
 	NN_EXPECT(wasOK);
 
-	int64_t theFreq = NSharedWindows::ToInt64(clockFreq);
+	int64_t theFreq = ToNN(clockFreq);
 	NN_REQUIRE(theFreq >= 0);
 
 	if (!wasOK)

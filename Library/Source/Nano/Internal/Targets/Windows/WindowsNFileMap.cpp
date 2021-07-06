@@ -43,7 +43,7 @@
 
 // Nano
 #include "NDebug.h"
-#include "NSharedWindows.h"
+#include "NWindows.h"
 
 
 
@@ -191,7 +191,7 @@ void NFileMap::MapFetch(NFileMapRef theHandle, NFileMapping& theMapping)
 	HANDLE hndMap = HANDLE(theHandle.value());
 	NN_REQUIRE(hndMap != INVALID_HANDLE_VALUE);
 
-	LARGE_INTEGER theOffset = NSharedWindows::ToLargeInteger(int64_t(theMapping.theOffset));
+	LARGE_INTEGER theOffset = ToWN(int64_t(theMapping.theOffset));
 
 
 

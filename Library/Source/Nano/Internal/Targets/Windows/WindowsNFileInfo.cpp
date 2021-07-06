@@ -43,7 +43,7 @@
 
 // Nano
 #include "NDebug.h"
-#include "NSharedWindows.h"
+#include "NWindows.h"
 
 // System
 #include <io.h>
@@ -164,15 +164,12 @@ static bool GetFileStateAttributes(const NFilePath& thePath, NFileInfoState& the
 		{
 			theState.theFlags |= kNFileInfoIsFile;
 			theState.theFlags &= ~kNFileInfoIsDirectory;
-			theState.fileSize =
-				NSharedWindows::ToUInt64(theInfo.nFileSizeHigh, theInfo.nFileSizeLow);
+			theState.fileSize = ToNN(theInfo.nFileSizeHigh, theInfo.nFileSizeLow);
 		}
 
-		theState.creationTime =
-			NTime(NSharedWindows::ToInterval(theInfo.ftCreationTime), kNanoEpochFrom1601);
+		theState.creationTime = NTime(ToNN(theInfo.ftCreationTime), kNanoEpochFrom1601);
 
-		theState.modifiedTime =
-			NTime(NSharedWindows::ToInterval(theInfo.ftLastWriteTime), kNanoEpochFrom1601);
+		theState.modifiedTime = NTime(ToNN(theInfo.ftLastWriteTime), kNanoEpochFrom1601);
 	}
 
 	return wasOK;

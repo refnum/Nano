@@ -42,11 +42,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
-#include "NanoConstants.h"
-#include "NanoTypes.h"
-
-// System
-#include <Windows.h>
+#include "NWindows.h"
 
 
 
@@ -68,22 +64,6 @@ class NString;
 class NSharedWindows
 {
 public:
-	// Integer conversion
-	static uint64_t                     ToUInt64(DWORD valueHigh, DWORD valueLow);
-	static int64_t                      ToInt64(LARGE_INTEGER  theValue);
-	static LARGE_INTEGER                ToLargeInteger(int64_t theValue);
-
-
-	// Time conversion
-	//
-	// No epoch conversion is performed on intervals.
-	static NInterval                    ToInterval(const FILETIME& fileTime);
-
-
-	// String conversion
-	static NString                      ToString(const TCHAR* theText);
-
-
 	// Registry
 	static int32_t                      RegistryGetInt32( HKEY hKey, const NString& theKey, const NString& theValue);
 	static NString                      RegistryGetString(HKEY hKey, const NString& theKey, const NString& theValue);
