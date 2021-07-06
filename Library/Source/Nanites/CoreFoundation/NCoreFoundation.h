@@ -76,6 +76,7 @@ NCFDictionary ToCF(const NDictionary& theDictionary);
 NCFNumber     ToCF(const NNumber& theNumber);
 CFRange       ToCF(const NRange& theRange);
 NCFString     ToCF(const NString& theString);
+NCFDate       ToCF(const NTime& theTime);
 NCFType       ToCF(const NAny& theValue);
 NCFURL        ToCF(const NURL& theURL);
 
@@ -87,7 +88,7 @@ NArray      ToNN(CFArrayRef cfArray);
 NArray      ToNN(CFMutableArrayRef cfArray);
 NData       ToNN(CFDataRef cfData);
 NData       ToNN(CFMutableDataRef cfData);
-NDate       ToNN(CFDateRef cfDate);
+NTime       ToNN(CFDateRef cfDate);
 NDictionary ToNN(CFDictionaryRef cfDictionary);
 NDictionary ToNN(CFMutableDictionaryRef cfDictionary);
 NNumber     ToNN(CFNumberRef cfNumber);

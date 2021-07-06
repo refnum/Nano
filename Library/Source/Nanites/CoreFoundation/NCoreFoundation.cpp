@@ -86,6 +86,11 @@ NCFType ToCF(const NAny& theValue)
 		cfObject.Set(ToCF(theValue.GetString()));
 	}
 
+	else if (theValue.IsTime())
+	{
+		cfObject.Set(ToCF(theValue.GetTime()));
+	}
+
 	else if (theValue.Is<NURL>())
 	{
 		cfObject.Set(ToCF(theValue.Get<NURL>()));

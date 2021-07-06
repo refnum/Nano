@@ -131,6 +131,18 @@ inline NCFString ToCF(const NString& theString)
 
 
 //=============================================================================
+//		ToCF : Convert an NTime to a CFDateRef.
+//-----------------------------------------------------------------------------
+inline NCFDate ToCF(const NTime& theTime)
+{
+	return NCFDate(theTime);
+}
+
+
+
+
+
+//=============================================================================
 //		ToCF : Convert an NURL to a CFURLRef.
 //-----------------------------------------------------------------------------
 inline NCFURL ToCF(const NURL& theURL)
@@ -201,13 +213,13 @@ inline NData ToNN(CFMutableDataRef cfData)
 //=============================================================================
 //		ToNN : Convert a CFDateRef to an NDate.
 //-----------------------------------------------------------------------------
-inline NDate ToNN(CFDateRef cfDate)
+inline NTime ToNN(CFDateRef cfDate)
 {
 	NCFDate theDate;
 
 	theDate.Set(cfDate);
 
-	return theDate.GetDate();
+	return theDate.GetTime();
 }
 
 

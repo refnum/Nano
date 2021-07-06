@@ -87,3 +87,44 @@ bool NCFDate::SetDate(const NDate& theDate)
 
 	return Assign(CFDateCreate(kCFAllocatorDefault, theTime));
 }
+
+
+
+
+
+//=============================================================================
+//		NCFDate::GetTime : Get the time.
+//-----------------------------------------------------------------------------
+NTime NCFDate::GetTime() const
+{
+
+
+	// Get the time
+	CFDateRef cfDate = *this;
+	NTime     theTime;
+
+	if (cfDate != nullptr)
+	{
+		CFAbsoluteTime cfTime = CFDateGetAbsoluteTime(cfDate);
+		theTime               = NTime(cfTime, kNanoEpochFrom2001);
+	}
+
+	return theTime;
+}
+
+
+
+
+
+//=============================================================================
+//		NCFDate::SetTime : Set the time.
+//-----------------------------------------------------------------------------
+bool NCFDate::SetTime(const NTime& theTime)
+{
+
+
+	// Set the time
+	CFAbsoluteTime cfTime = CFAbsoluteTime(theTime + kNanoEpochTo2001);
+
+	return Assign(CFDateCreate(kCFAllocatorDefault, cfTime));
+}

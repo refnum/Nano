@@ -276,7 +276,7 @@ NANO_TEST(TCoreFoundation, "ToNN/CFDateRef")
 
 
 	// Perform the test
-	REQUIRE(!ToNN(CFDateRef(nullptr)).IsValid());
+	REQUIRE(ToNN(CFDateRef(nullptr)) == 0.0);
 }
 
 

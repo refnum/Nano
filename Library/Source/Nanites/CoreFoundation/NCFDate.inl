@@ -54,3 +54,18 @@ inline NCFDate::NCFDate(const NDate& theDate)
 	// Initialise ourselves
 	SetDate(theDate);
 }
+
+
+
+
+
+//=============================================================================
+//		NCFDate::NCFDate : Constructor.
+//-----------------------------------------------------------------------------
+inline NCFDate::NCFDate(const NTime& theTime)
+{
+
+
+	// Initialise ourselves
+	SetTime(theTime);
+}

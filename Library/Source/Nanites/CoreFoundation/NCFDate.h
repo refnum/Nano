@@ -44,6 +44,7 @@
 // Nano
 #include "NCFObject.h"
 #include "NDate.h"
+#include "NTime.h"
 
 // System
 #include <CoreFoundation/CFDate.h>
@@ -59,12 +60,20 @@ class NCFDate : public NCFObject<CFDateRef>
 {
 public:
 										NCFDate(const NDate& theDate);
+										NCFDate(const NTime& theTime);
 										NCFDate() = default;
 
 
 	// Get / set the date
+	//
+	// GetDate will discard the time component of a CFDateRef.
 	NDate                               GetDate() const;
 	bool                                SetDate(  const NDate& theDate);
+
+
+	// Get / set the time
+	NTime                               GetTime() const;
+	bool                                SetTime(  const NTime& theTime);
 };
 
 
