@@ -41,6 +41,7 @@
 //-----------------------------------------------------------------------------
 #include "NCache.h"
 #include "NString.h"
+#include "NThread.h"
 #include "NTestFixture.h"
 
 
@@ -262,20 +263,28 @@ NANO_TEST(TCache, "SetMaxSize")
 
 
 	// Perform the test
+	//
+	// Sleep between insertions to ensure each object gets a distinct
+	// timestamp, and so will be purged consistently in LRU order.
 	theCache.SetMaxSize(3);
 	REQUIRE(theCache.GetMaxSize() == 3);
 
 	theCache.SetValue("one", std::make_shared<uint64_t>(100));
+	NThread::Sleep(kNTimeMillisecond);
 	REQUIRE(theCache.GetSize() == 1);
 
 	theCache.SetValue("two", std::make_shared<uint64_t>(200));
+	NThread::Sleep(kNTimeMillisecond);
 	REQUIRE(theCache.GetSize() == 2);
 
 	theCache.SetValue("three", std::make_shared<uint64_t>(300));
+	NThread::Sleep(kNTimeMillisecond);
 	REQUIRE(theCache.GetSize() == 3);
 
 	theCache.SetValue("four", std::make_shared<uint64_t>(400));
+	NThread::Sleep(kNTimeMillisecond);
 	REQUIRE(theCache.GetSize() == 3);
+
 	REQUIRE(!theCache.HasKey("one"));
 	REQUIRE(theCache.HasKey("two"));
 	REQUIRE(theCache.HasKey("three"));
