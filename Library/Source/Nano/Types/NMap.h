@@ -47,6 +47,8 @@
 NN_DIAGNOSTIC_PUSH();
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wsign-conversion");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wunused-template");
+NN_DIAGNOSTIC_IGNORE_MSVC(4127);    // Conditional expression is constant
+NN_DIAGNOSTIC_IGNORE_MSVC(4365);    // Signed / unsigned mismatch
 #include "hopscotch_map.h"
 NN_DIAGNOSTIC_POP();
 
