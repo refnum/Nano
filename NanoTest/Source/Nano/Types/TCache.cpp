@@ -41,8 +41,8 @@
 //-----------------------------------------------------------------------------
 #include "NCache.h"
 #include "NString.h"
-#include "NThread.h"
 #include "NTestFixture.h"
+#include "NThread.h"
 
 
 
@@ -83,7 +83,7 @@ NANO_TEST(TCache, "Clear")
 
 
 	// Perform the test
-	theCache.SetValue("one", 100);
+	theCache.SetValue("one", 1);
 	REQUIRE(!theCache.IsEmpty());
 
 	theCache.Clear();
@@ -102,8 +102,8 @@ NANO_TEST(TCache, "GetCost")
 
 
 	// Perform the test
-	theCache.SetValue("one", 100, 999);
-	REQUIRE(theCache.GetCost() == 999);
+	theCache.SetValue("one", 1, 100);
+	REQUIRE(theCache.GetCost() == 100);
 }
 
 
@@ -118,7 +118,7 @@ NANO_TEST(TCache, "GetSize")
 
 
 	// Perform the test
-	theCache.SetValue("one", 100);
+	theCache.SetValue("one", 1);
 	REQUIRE(theCache.GetSize() == 1);
 }
 
@@ -134,7 +134,7 @@ NANO_TEST(TCache, "HasKey")
 
 
 	// Perform the test
-	theCache.SetValue("one", 100);
+	theCache.SetValue("one", 1);
 	REQUIRE(theCache.HasKey("one"));
 	REQUIRE(!theCache.HasKey("two"));
 }
@@ -151,7 +151,7 @@ NANO_TEST(TCache, "RemoveKey")
 
 
 	// Perform the test
-	theCache.SetValue("one", 100);
+	theCache.SetValue("one", 1);
 	REQUIRE(theCache.HasKey("one"));
 
 	theCache.RemoveKey("one");
@@ -170,8 +170,8 @@ NANO_TEST(TCache, "GetValue")
 
 
 	// Perform the test
-	theCache.SetValue("one", 100);
-	REQUIRE(*(theCache.GetValue("one")) == 100);
+	theCache.SetValue("one", 1);
+	REQUIRE(*(theCache.GetValue("one")) == 1);
 }
 
 
@@ -186,11 +186,11 @@ NANO_TEST(TCache, "SetValue")
 
 
 	// Perform the test
-	theCache.SetValue("one", std::make_shared<uint64_t>(100));
-	theCache.SetValue("two", 200);
+	theCache.SetValue("one", std::make_shared<uint64_t>(1));
+	theCache.SetValue("two", 2);
 
-	REQUIRE(*(theCache.GetValue("one")) == 100);
-	REQUIRE(*(theCache.GetValue("two")) == 200);
+	REQUIRE(*(theCache.GetValue("one")) == 1);
+	REQUIRE(*(theCache.GetValue("two")) == 2);
 }
 
 
@@ -223,13 +223,13 @@ NANO_TEST(TCache, "SetMaxCost")
 	theCache.SetMaxCost(300);
 	REQUIRE(theCache.GetMaxCost() == 300);
 
-	theCache.SetValue("one", std::make_shared<uint64_t>(100), 100);
+	theCache.SetValue("one", 1, 100);
 	REQUIRE(theCache.GetSize() == 1);
 
-	theCache.SetValue("two", std::make_shared<uint64_t>(200), 200);
+	theCache.SetValue("two", 2, 200);
 	REQUIRE(theCache.GetSize() == 2);
 
-	theCache.SetValue("three", std::make_shared<uint64_t>(300), 300);
+	theCache.SetValue("three", 3, 300);
 	REQUIRE(theCache.GetSize() == 2);
 	REQUIRE(theCache.HasKey("one"));
 	REQUIRE(theCache.HasKey("two"));
@@ -269,19 +269,19 @@ NANO_TEST(TCache, "SetMaxSize")
 	theCache.SetMaxSize(3);
 	REQUIRE(theCache.GetMaxSize() == 3);
 
-	theCache.SetValue("one", std::make_shared<uint64_t>(100));
+	theCache.SetValue("one", 1);
 	NThread::Sleep(kNTimeMillisecond);
 	REQUIRE(theCache.GetSize() == 1);
 
-	theCache.SetValue("two", std::make_shared<uint64_t>(200));
+	theCache.SetValue("two", 2);
 	NThread::Sleep(kNTimeMillisecond);
 	REQUIRE(theCache.GetSize() == 2);
 
-	theCache.SetValue("three", std::make_shared<uint64_t>(300));
+	theCache.SetValue("three", 3);
 	NThread::Sleep(kNTimeMillisecond);
 	REQUIRE(theCache.GetSize() == 3);
 
-	theCache.SetValue("four", std::make_shared<uint64_t>(400));
+	theCache.SetValue("four", 4);
 	NThread::Sleep(kNTimeMillisecond);
 	REQUIRE(theCache.GetSize() == 3);
 
