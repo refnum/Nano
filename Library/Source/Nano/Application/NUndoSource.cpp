@@ -58,6 +58,9 @@
 //-----------------------------------------------------------------------------
 #include "NUndoSource.h"
 
+// Nano
+#include "NBundle.h"
+
 
 
 
@@ -92,14 +95,11 @@ void NUndoSource::RecordUndo(const NFunctionUndoAction& theAction,
 	// Get the state we need
 	NString theValue = theName;
 
-	// dair, TODO
-	NN_UNUSED(stringsAreKeys);
-	/*
-	 if (stringsAreKeys && !theName.IsEmpty())
-	 {
-	  theValue = NBundleString(theName, theName);
-	 }
-   */
+	if (stringsAreKeys && !theName.IsEmpty())
+	{
+		theValue = NBundleString(theName, theName);
+	}
+
 
 
 	// Record the action
