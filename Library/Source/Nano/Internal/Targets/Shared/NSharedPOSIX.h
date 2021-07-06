@@ -72,31 +72,19 @@ class NString;
 class NSharedPOSIX
 {
 public:
-	// Get the time of day
-	//
-	// Returns gettimeofday() in the Nano epoch.
-	static NTime                        gettimeofday();
-
-
-	// Get a clock time
-	//
-	// Returns clock_gettime for the specified clock.
-	static NInterval                    clock_gettime(clockid_t theID);
-
-
 	// Time conversion
 	//
 	// No epoch conversion is performed on intervals.
-	static struct timeval               ToTimeval(NInterval theInterval);
-	static NInterval                    ToInterval(const struct timeval& timeVal);
+	static struct timeval               TimeGetTimeval(NInterval theInterval);
+	static NInterval                    TimeGetInterval(const struct timeval& timeVal);
 
 
 	// Error conversion
 	//
-	// GetErrno returns NStatus::OK if passed 0, otherwise it
+	// StatusErrno returns NStatus::OK if passed 0, otherwise it
 	// returns the current value of errno as an NStatus.
-	static NStatus                      ToStatus(int sysErr);
-	static NStatus                      GetErrno(int sysErr = -1);
+	static NStatus                      StatusSysErr(int sysErr);
+	static NStatus                      StatusErrno( int sysErr = -1);
 
 
 	// Environment
@@ -104,8 +92,8 @@ public:
 	static void                         EnvSet(const NString& theName, const NString& theValue);
 
 
-	// Get an access() state
-	static void                         GetFileStateAccess(const NFilePath& thePath,
+	// File state
+	static void                         FileGetStateAccess(const NFilePath& thePath,
 														   NFileInfoFlags   theFlag,
 														   NFileInfoState&  theState);
 

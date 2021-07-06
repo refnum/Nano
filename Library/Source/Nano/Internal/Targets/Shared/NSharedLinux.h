@@ -75,16 +75,18 @@ public:
 
 
 	// Time
-	static uint64_t                     GetClockTicks();
-	static uint64_t                     GetClockFrequency();
+	static NTime                        TimeGet();
+	static NInterval                    TimeGetUpTime();
+	static uint64_t                     TimeGetClockTicks();
+	static uint64_t                     TimeGetClockFrequency();
 
 
 	// Get a /proc file
 	static NString                      GetProcFile(const NFilePath& thePath);
 
 
-	// Get file state
-	static bool                         GetFileState(const NFilePath& thePath,
+	// File state
+	static bool                         FileGetState(const NFilePath& thePath,
 													 NFileInfoFlags   theFlags,
 													 NFileInfoFlags&  validState,
 													 NFileInfoState&  theState);

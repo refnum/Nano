@@ -133,9 +133,9 @@ NString NSharedWindows::ToString(const TCHAR* theText)
 
 
 //=============================================================================
-//		NSharedWindows::ToStatus : Convert an HRESULT to an NStatus.
+//		NSharedWindows::StatusResult : Convert an HRESULT to an NStatus.
 //-----------------------------------------------------------------------------
-NStatus NSharedWindows::ToStatus(HRESULT winErr)
+NStatus NSharedWindows::StatusResult(HRESULT winErr)
 {
 
 
@@ -193,9 +193,9 @@ NStatus NSharedWindows::ToStatus(HRESULT winErr)
 
 
 //=============================================================================
-//		NSharedWindows::GetLastError : Get the last error.
+//		NSharedWindows::StatusLastError : Get the last error.
 //-----------------------------------------------------------------------------
-NStatus NSharedWindows::GetLastError(bool wasOK)
+NStatus NSharedWindows::StatusLastError(bool wasOK)
 {
 
 
@@ -204,7 +204,7 @@ NStatus NSharedWindows::GetLastError(bool wasOK)
 
 	if (!wasOK)
 	{
-		theErr = ToStatus(HRESULT_FROM_WIN32(::GetLastError()));
+		theErr = StatusResult(HRESULT_FROM_WIN32(::GetLastError()));
 	}
 
 	return theErr;

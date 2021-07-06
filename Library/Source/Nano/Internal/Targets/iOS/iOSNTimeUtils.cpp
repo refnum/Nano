@@ -56,7 +56,7 @@ NTime NTimeUtils::GetTime()
 
 
 	// Get the time
-	return NSharedDarwin::GetTime();
+	return NSharedDarwin::TimeGet();
 }
 
 
@@ -71,7 +71,7 @@ NInterval NTimeUtils::GetUpTime()
 
 
 	// Get the time since boot
-	return NSharedDarwin::GetUpTime();
+	return NSharedDarwin::TimeGetUpTime();
 }
 
 
@@ -81,7 +81,7 @@ NInterval NTimeUtils::GetUpTime()
 //=============================================================================
 //		NTimeUtils::GetClockTicks : Get the clock ticks.
 //-----------------------------------------------------------------------------
-uint64_t NTimeUtils::GetClockTicks()
+uint64_t NTimeUtils::TimeGetClockTicks()
 {
 
 
@@ -94,7 +94,7 @@ uint64_t NTimeUtils::GetClockTicks()
 
 
 //=============================================================================
-//		NTimeUtils::GetClockFrequency : Get the clock frequency.
+//		NTimeUtils::TimeGetClockFrequency : Get the clock frequency.
 //-----------------------------------------------------------------------------
 uint64_t NTimeUtils::GetClockFrequency()
 {

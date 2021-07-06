@@ -86,10 +86,10 @@ public:
 
 	// Error conversion
 	//
-	// GetLastError returns NStatus::OK if passed true, otherwise it
+	// StatusLastError returns NStatus::OK if passed true, otherwise it
 	// returns the current value of ::GetLastError as an NStatus.
-	static NStatus                      ToStatus(HRESULT winErr);
-	static NStatus                      GetLastError(bool wasOK = false);
+	static NStatus                      StatusResult(HRESULT winErr);
+	static NStatus                      StatusLastError(bool wasOK = false);
 
 
 	// Registry

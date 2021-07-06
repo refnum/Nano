@@ -43,7 +43,6 @@
 
 // Nano
 #include "NSharedLinux.h"
-#include "NSharedPOSIX.h"
 
 
 
@@ -57,7 +56,7 @@ NTime NTimeUtils::GetTime()
 
 
 	// Get the time
-	return NSharedPOSIX::gettimeofday();
+	return NSharedLinux::TimeGet();
 }
 
 
@@ -72,7 +71,7 @@ NInterval NTimeUtils::GetUpTime()
 
 
 	// Get the time since boot
-	return NSharedPOSIX::clock_gettime(CLOCK_MONOTONIC);
+	return NSharedLinux::TimeGetUpTime();
 }
 
 
@@ -87,7 +86,7 @@ uint64_t NTimeUtils::GetClockTicks()
 
 
 	// Get the clock ticks
-	return NSharedLinux::GetClockTicks();
+	return NSharedLinux::TimeGetClockTicks();
 }
 
 
@@ -102,5 +101,5 @@ uint64_t NTimeUtils::GetClockFrequency()
 
 
 	// Get the clock frequency
-	return NSharedLinux::GetClockFrequency();
+	return NSharedLinux::TimeGetClockFrequency();
 }

@@ -398,9 +398,59 @@ NFile NSharedLinux::BundleGetExecutable(const NFile& theBundle, const NString& t
 
 
 //=============================================================================
-//		NSharedLinux::GetClockTicks : Get the clock ticks.
+//		NSharedLinux::TimeGet : Get the current time.
 //-----------------------------------------------------------------------------
-uint64_t NSharedLinux::GetClockTicks()
+NTime NSharedLinux::TimeGet()
+{
+
+
+	// Get the time
+	struct timeval timeVal = {};
+
+	int sysErr = ::gettimeofday(&timeVal, nullptr);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	if (sysErr != 0)
+	{
+		memset(&timeVal, 0x00, sizeof(timeVal));
+	}
+
+	return NTime(NSharedPOSIX::TimeGetInterval(timeVal), kNanoEpochFrom1970);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::TimeGetUpTime : Get the time since boot.
+//-----------------------------------------------------------------------------
+NInterval NSharedLinux::TimeGetUpTime()
+{
+
+
+	// Get the time since boot
+	struct timespec timeSpec = {};
+
+	int sysErr = ::clock_gettime(CLOCK_MONOTONIC, &timeSpec);
+	NN_EXPECT_NOT_ERR(sysErr);
+
+	if (sysErr != 0)
+	{
+		memset(&timeSpec, 0x00, sizeof(timeSpec));
+	}
+
+	return NTimeUtils::ToInterval(timeSpec);
+}
+
+
+
+
+
+//=============================================================================
+//		NSharedLinux::TimeGetClockTicks : Get the clock ticks.
+//-----------------------------------------------------------------------------
+uint64_t NSharedLinux::TimeGetClockTicks()
 {
 
 
@@ -423,9 +473,9 @@ uint64_t NSharedLinux::GetClockTicks()
 
 
 //=============================================================================
-//		NSharedLinux::GetClockFrequency : Get the clock frequency.
+//		NSharedLinux::TimeGetClockFrequency : Get the clock frequency.
 //-----------------------------------------------------------------------------
-uint64_t NSharedLinux::GetClockFrequency()
+uint64_t NSharedLinux::TimeGetClockFrequency()
 {
 
 
@@ -474,9 +524,9 @@ NString NSharedLinux::GetProcFile(const NFilePath& thePath)
 
 
 //=============================================================================
-//		NSharedLinux::GetFileState : Get file state.
+//		NSharedLinux::FileGetState : Get file state.
 //-----------------------------------------------------------------------------
-bool NSharedLinux::GetFileState(const NFilePath& thePath,
+bool NSharedLinux::FileGetState(const NFilePath& thePath,
 								NFileInfoFlags   theFlags,
 								NFileInfoFlags&  validState,
 								NFileInfoState&  theState)
@@ -519,19 +569,19 @@ bool NSharedLinux::GetFileState(const NFilePath& thePath,
 	{
 		if ((theFlags & kNFileInfoCanRead) != 0)
 		{
-			NSharedPOSIX::GetFileStateAccess(thePath, kNFileInfoCanRead, theState);
+			NSharedPOSIX::FileGetStateAccess(thePath, kNFileInfoCanRead, theState);
 			validState |= kNFileInfoCanRead;
 		}
 
 		if ((theFlags & kNFileInfoCanWrite) != 0)
 		{
-			NSharedPOSIX::GetFileStateAccess(thePath, kNFileInfoCanWrite, theState);
+			NSharedPOSIX::FileGetStateAccess(thePath, kNFileInfoCanWrite, theState);
 			validState |= kNFileInfoCanWrite;
 		}
 
 		if ((theFlags & kNFileInfoCanExecute) != 0)
 		{
-			NSharedPOSIX::GetFileStateAccess(thePath, kNFileInfoCanExecute, theState);
+			NSharedPOSIX::FileGetStateAccess(thePath, kNFileInfoCanExecute, theState);
 			validState |= kNFileInfoCanExecute;
 		}
 	}
@@ -580,7 +630,7 @@ NStatus NSharedLinux::PathRename(const NFilePath& oldPath, const NFilePath& newP
 	int sysErr = int(syscall(SYS_renameat2, 0, oldUTF8, 0, newUTF8, RENAME_NOREPLACE));
 	NN_EXPECT_NOT_ERR(sysErr);
 
-	return NSharedPOSIX::GetErrno(sysErr);
+	return NSharedPOSIX::StatusErrno(sysErr);
 }
 
 
@@ -601,7 +651,7 @@ NStatus NSharedLinux::PathExchange(const NFilePath& oldPath, const NFilePath& ne
 	int sysErr = int(syscall(SYS_renameat2, 0, oldUTF8, 0, newUTF8, RENAME_EXCHANGE));
 	NN_EXPECT_NOT_ERR(sysErr);
 
-	return NSharedPOSIX::GetErrno(sysErr);
+	return NSharedPOSIX::StatusErrno(sysErr);
 }
 
 

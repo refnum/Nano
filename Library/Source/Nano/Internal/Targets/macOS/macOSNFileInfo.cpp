@@ -56,5 +56,5 @@ bool NFileInfo::FetchState(NFileInfoFlags theFlags)
 
 
 	// Fetch the state
-	return NSharedDarwin::GetFileState(mPath, theFlags, mValid, mState);
+	return NSharedDarwin::FileGetState(mPath, theFlags, mValid, mState);
 }

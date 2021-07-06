@@ -56,5 +56,5 @@ bool NFileInfo::FetchState(NFileInfoFlags theFlags)
 
 
 	// Fetch the state
-	return NSharedLinux::GetFileState(mPath, theFlags, mValid, mState);
+	return NSharedLinux::FileGetState(mPath, theFlags, mValid, mState);
 }

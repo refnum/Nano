@@ -193,7 +193,7 @@ static NStatus ApplyFileFlags(FILE* theFile, const NFilePath& thePath, NFileFlag
 		sysErr = posix_fadvise(fileDesc, 0, 0, POSIX_FADV_WILLNEED);
 #endif
 
-		theErr = NSharedPOSIX::GetErrno(sysErr);
+		theErr = NSharedPOSIX::StatusErrno(sysErr);
 		NN_EXPECT_NOT_ERR(theErr);
 	}
 
@@ -222,7 +222,7 @@ static NStatus ApplyFileFlags(FILE* theFile, const NFilePath& thePath, NFileFlag
 #endif
 		}
 
-		theErr = NSharedPOSIX::GetErrno(sysErr);
+		theErr = NSharedPOSIX::StatusErrno(sysErr);
 		NN_EXPECT_NOT_ERR(theErr);
 	}
 
@@ -258,65 +258,9 @@ static void* NThreadEntry(void* theParam)
 
 #pragma mark NSharedPOSIX
 //=============================================================================
-//		NSharedPOSIX::gettimeofday : Get the time of day.
+//		NSharedPOSIX::TimeGetTimeval : Convert to a timeval.
 //-----------------------------------------------------------------------------
-NTime NSharedPOSIX::gettimeofday()
-{
-
-
-	// Get the time of day
-	struct timeval timeVal = {};
-
-	int sysErr = ::gettimeofday(&timeVal, nullptr);
-	NN_EXPECT_NOT_ERR(sysErr);
-
-	if (sysErr != 0)
-	{
-		memset(&timeVal, 0x00, sizeof(timeVal));
-	}
-
-
-
-	// Get the time
-	return NTime(ToInterval(timeVal), kNanoEpochFrom1970);
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedPOSIX::clock_gettime : Get a clock time.
-//-----------------------------------------------------------------------------
-NInterval NSharedPOSIX::clock_gettime(clockid_t theID)
-{
-
-
-	// Get the clock time
-	struct timespec timeSpec = {};
-
-	int sysErr = ::clock_gettime(theID, &timeSpec);
-	NN_EXPECT_NOT_ERR(sysErr);
-
-	if (sysErr != 0)
-	{
-		memset(&timeSpec, 0x00, sizeof(timeSpec));
-	}
-
-
-
-	// Get the time
-	return NTimeUtils::ToInterval(timeSpec);
-}
-
-
-
-
-
-//=============================================================================
-//		NSharedPOSIX::ToTimeval : Convert to a timeval.
-//-----------------------------------------------------------------------------
-struct timeval NSharedPOSIX::ToTimeval(NInterval theInterval)
+struct timeval NSharedPOSIX::TimeGetTimeval(NInterval theInterval)
 {
 	// Convert the value
 	NInterval timeSecs = floor(theInterval);
@@ -330,9 +274,9 @@ struct timeval NSharedPOSIX::ToTimeval(NInterval theInterval)
 
 
 //=============================================================================
-//		NSharedPOSIX::ToInterval : Convert to an NInterval.
+//		NSharedPOSIX::TimeGetInterval : Convert to an NInterval.
 //-----------------------------------------------------------------------------
-NInterval NSharedPOSIX::ToInterval(const struct timeval& timeVal)
+NInterval NSharedPOSIX::TimeGetInterval(const struct timeval& timeVal)
 {
 
 
@@ -348,9 +292,9 @@ NInterval NSharedPOSIX::ToInterval(const struct timeval& timeVal)
 
 
 //=============================================================================
-//		NSharedPOSIX::ToStatus : Convert an errno to an NStatus.
+//		NSharedPOSIX::StatusSysErr : Convert an errno code to an NStatus.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::ToStatus(int sysErr)
+NStatus NSharedPOSIX::StatusSysErr(int sysErr)
 {
 
 
@@ -904,9 +848,9 @@ NStatus NSharedPOSIX::ToStatus(int sysErr)
 
 
 //=============================================================================
-//		NSharedPOSIX::GetErrno : Get errno as an NStatus.
+//		NSharedPOSIX::StatusErrno : Get errno as an NStatus.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::GetErrno(int sysErr)
+NStatus NSharedPOSIX::StatusErrno(int sysErr)
 {
 
 
@@ -915,7 +859,7 @@ NStatus NSharedPOSIX::GetErrno(int sysErr)
 
 	if (sysErr != 0)
 	{
-		theErr = ToStatus(errno);
+		theErr = StatusSysErr(errno);
 	}
 
 	return theErr;
@@ -983,9 +927,9 @@ void NSharedPOSIX::EnvSet(const NString& theName, const NString& theValue)
 
 
 //=============================================================================
-//		NSharedPOSIX::GetFileStateAccess : Get file state with access().
+//		NSharedPOSIX::FileGetStateAccess : Get file state with access().
 //-----------------------------------------------------------------------------
-void NSharedPOSIX::GetFileStateAccess(const NFilePath& thePath,
+void NSharedPOSIX::FileGetStateAccess(const NFilePath& thePath,
 									  NFileInfoFlags   theFlag,
 									  NFileInfoState&  theState)
 {
@@ -1065,7 +1009,7 @@ NStatus NSharedPOSIX::FileOpen(const NFilePath& thePath,
 
 	if (theFile == nullptr)
 	{
-		theErr = GetErrno();
+		theErr = StatusErrno();
 	}
 	else
 	{
@@ -1154,7 +1098,7 @@ NStatus NSharedPOSIX::FileSetPosition(NFileHandleRef fileHandle,
 	int sysErr = fseeko(theFile, off_t(thePosition), GetFileWhence(relativeTo));
 	NN_EXPECT_NOT_ERR(sysErr);
 
-	return GetErrno(sysErr);
+	return StatusErrno(sysErr);
 }
 
 
@@ -1185,7 +1129,7 @@ NStatus NSharedPOSIX::FileSetSize(NFileHandleRef fileHandle, uint64_t theSize)
 	int sysErr = ftruncate(fileDesc, off_t(theSize));
 	NN_EXPECT_NOT_ERR(sysErr);
 
-	return GetErrno(sysErr);
+	return StatusErrno(sysErr);
 }
 
 
@@ -1224,7 +1168,7 @@ NStatus NSharedPOSIX::FileRead(NFileHandleRef fileHandle,
 		}
 		else
 		{
-			theErr = ToStatus(ferror(theFile));
+			theErr = StatusSysErr(ferror(theFile));
 		}
 	}
 
@@ -1286,7 +1230,7 @@ NStatus NSharedPOSIX::FileFlush(NFileHandleRef fileHandle)
 	int sysErr = fflush(theFile);
 	NN_EXPECT_NOT_ERR(sysErr);
 
-	return GetErrno(sysErr);
+	return StatusErrno(sysErr);
 }
 
 
@@ -1441,7 +1385,7 @@ NStatus NSharedPOSIX::PathCreate(const NFilePath& thePath)
 	int sysErr = mkdir(thePath.GetUTF8(), S_IRWXU | S_IRWXG);
 	NN_EXPECT_NOT_ERR(sysErr);
 
-	return GetErrno(sysErr);
+	return StatusErrno(sysErr);
 }
 
 
@@ -1473,7 +1417,7 @@ NStatus NSharedPOSIX::PathDelete(const NFilePath& thePath)
 		NN_EXPECT_NOT_ERR(sysErr);
 	}
 
-	return GetErrno(sysErr);
+	return StatusErrno(sysErr);
 }
 
 

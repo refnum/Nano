@@ -243,7 +243,7 @@ static NTime GetBootTime()
 	// Get the boot time
 	struct timeval timeVal = GetSysctl<struct timeval>("kern.boottime");
 
-	return NTime(NSharedPOSIX::ToInterval(timeVal), kNanoEpochFrom2001);
+	return NTime(NSharedPOSIX::TimeGetInterval(timeVal), kNanoEpochFrom2001);
 }
 
 
@@ -542,9 +542,9 @@ NFile NSharedDarwin::BundleGetExecutable(const NFile& theBundle, const NString& 
 
 
 //=============================================================================
-//		NSharedDarwin::GetTime : Get the time.
+//		NSharedDarwin::TimeGet : Get the current time.
 //-----------------------------------------------------------------------------
-NTime NSharedDarwin::GetTime()
+NTime NSharedDarwin::TimeGet()
 {
 
 
@@ -557,16 +557,16 @@ NTime NSharedDarwin::GetTime()
 
 
 //=============================================================================
-//		NSharedDarwin::GetUpTime : Get the time since boot.
+//		NSharedDarwin::TimeGetUpTime : Get the time since boot.
 //-----------------------------------------------------------------------------
-NInterval NSharedDarwin::GetUpTime()
+NInterval NSharedDarwin::TimeGetUpTime()
 {
 
 
 	// Get the time since boot
 	static NTime sBootTime = GetBootTime();
 
-	return GetTime() - sBootTime;
+	return TimeGet() - sBootTime;
 }
 
 
@@ -574,9 +574,9 @@ NInterval NSharedDarwin::GetUpTime()
 
 
 //=============================================================================
-//		NSharedDarwin::GetClockTicks : Get the clock ticks.
+//		NSharedDarwin::TimeGetClockTicks : Get the clock ticks.
 //-----------------------------------------------------------------------------
-uint64_t NSharedDarwin::GetClockTicks()
+uint64_t NSharedDarwin::TimeGetClockTicks()
 {
 
 
@@ -589,9 +589,9 @@ uint64_t NSharedDarwin::GetClockTicks()
 
 
 //=============================================================================
-//		NSharedDarwin::GetClockFrequency : Get the clock frequency.
+//		NSharedDarwin::TimeGetClockFrequency : Get the clock frequency.
 //-----------------------------------------------------------------------------
-uint64_t NSharedDarwin::GetClockFrequency()
+uint64_t NSharedDarwin::TimeGetClockFrequency()
 {
 
 
@@ -734,9 +734,9 @@ NVectorString NSharedDarwin::DebuggerGetBacktrace(size_t skipFrames, size_t numF
 
 
 //=============================================================================
-//		NSharedDarwin::GetFileState : Get file state.
+//		NSharedDarwin::FileGetState : Get file state.
 //-----------------------------------------------------------------------------
-bool NSharedDarwin::GetFileState(const NFilePath& thePath,
+bool NSharedDarwin::FileGetState(const NFilePath& thePath,
 								 NFileInfoFlags   theFlags,
 								 NFileInfoFlags&  validState,
 								 NFileInfoState&  theState)
@@ -767,19 +767,19 @@ bool NSharedDarwin::GetFileState(const NFilePath& thePath,
 	{
 		if ((theFlags & kNFileInfoCanRead) != 0)
 		{
-			NSharedPOSIX::GetFileStateAccess(thePath, kNFileInfoCanRead, theState);
+			NSharedPOSIX::FileGetStateAccess(thePath, kNFileInfoCanRead, theState);
 			validState |= kNFileInfoCanRead;
 		}
 
 		if ((theFlags & kNFileInfoCanWrite) != 0)
 		{
-			NSharedPOSIX::GetFileStateAccess(thePath, kNFileInfoCanWrite, theState);
+			NSharedPOSIX::FileGetStateAccess(thePath, kNFileInfoCanWrite, theState);
 			validState |= kNFileInfoCanWrite;
 		}
 
 		if ((theFlags & kNFileInfoCanExecute) != 0)
 		{
-			NSharedPOSIX::GetFileStateAccess(thePath, kNFileInfoCanExecute, theState);
+			NSharedPOSIX::FileGetStateAccess(thePath, kNFileInfoCanExecute, theState);
 			validState |= kNFileInfoCanExecute;
 		}
 	}
@@ -802,7 +802,7 @@ NStatus NSharedDarwin::PathRename(const NFilePath& oldPath, const NFilePath& new
 	int sysErr = renamex_np(oldPath.GetUTF8(), newPath.GetUTF8(), RENAME_EXCL);
 	NN_EXPECT_NOT_ERR(sysErr);
 
-	return NSharedPOSIX::GetErrno(sysErr);
+	return NSharedPOSIX::StatusErrno(sysErr);
 }
 
 
@@ -820,7 +820,7 @@ NStatus NSharedDarwin::PathExchange(const NFilePath& oldPath, const NFilePath& n
 	int sysErr = renamex_np(oldPath.GetUTF8(), newPath.GetUTF8(), RENAME_SWAP);
 	NN_EXPECT_NOT_ERR(sysErr);
 
-	return NSharedPOSIX::GetErrno(sysErr);
+	return NSharedPOSIX::StatusErrno(sysErr);
 }
 
 
