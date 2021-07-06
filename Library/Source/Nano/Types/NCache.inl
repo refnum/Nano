@@ -181,7 +181,7 @@ std::shared_ptr<V> NCache<K, V>::GetValue(const K& theKey) const
 //		NCache::SetValue : Set a value.
 //-----------------------------------------------------------------------------
 template<typename K, typename V>
-void NCache<K, V>::SetValue(const K& theKey, std::shared_ptr<V> theValue, size_t theCost)
+void NCache<K, V>::SetValue(const K& theKey, const std::shared_ptr<V>& theValue, size_t theCost)
 {
 
 

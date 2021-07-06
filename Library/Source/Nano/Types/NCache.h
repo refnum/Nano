@@ -116,8 +116,8 @@ public:
 	// be purged to meet that threshold, potentially including the newly
 	// added item.
 	std::shared_ptr<V>                  GetValue(const K& theKey) const;
-	void                                SetValue(const K& theKey, std::shared_ptr<V> theValue, size_t theCost = 0);
-	void                                SetValue(const K& theKey, const           V& theValue, size_t theCost = 0);
+	void                                SetValue(const K& theKey, const std::shared_ptr<V>& theValue, size_t theCost = 0);
+	void                                SetValue(const K& theKey, const V& theValue, size_t theCost = 0);
 
 
 	// Get/set the maximum cost
