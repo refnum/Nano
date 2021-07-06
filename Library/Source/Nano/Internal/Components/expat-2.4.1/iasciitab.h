@@ -7,7 +7,9 @@
                                  |_| XML parser
 
    Copyright (c) 1997-2000 Thai Open Source Software Center Ltd
-   Copyright (c) 2000-2017 Expat development team
+   Copyright (c) 2000      Clark Cooper <coopercc@users.sourceforge.net>
+   Copyright (c) 2002      Fred L. Drake, Jr. <fdrake@users.sourceforge.net>
+   Copyright (c) 2017      Sebastian Pipping <sebastian@pipping.org>
    Licensed under the MIT license:
 
    Permission is  hereby granted,  free of charge,  to any  person obtaining
@@ -30,10 +32,11 @@
    USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+/* Like asciitab.h, except that 0xD has code BT_S rather than BT_CR */
 /* 0x00 */ BT_NONXML, BT_NONXML, BT_NONXML, BT_NONXML,
     /* 0x04 */ BT_NONXML, BT_NONXML, BT_NONXML, BT_NONXML,
     /* 0x08 */ BT_NONXML, BT_S, BT_LF, BT_NONXML,
-    /* 0x0C */ BT_NONXML, BT_CR, BT_NONXML, BT_NONXML,
+    /* 0x0C */ BT_NONXML, BT_S, BT_NONXML, BT_NONXML,
     /* 0x10 */ BT_NONXML, BT_NONXML, BT_NONXML, BT_NONXML,
     /* 0x14 */ BT_NONXML, BT_NONXML, BT_NONXML, BT_NONXML,
     /* 0x18 */ BT_NONXML, BT_NONXML, BT_NONXML, BT_NONXML,

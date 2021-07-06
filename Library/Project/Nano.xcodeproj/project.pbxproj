@@ -130,6 +130,15 @@
 		AB4EB4CA2430F3AF00D36016 /* NFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EB4C82430F3AF00D36016 /* NFormat.cpp */; };
 		AB4EB4CB2430F3AF00D36016 /* NFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EB4C82430F3AF00D36016 /* NFormat.cpp */; };
 		AB4EB4CC2430F3AF00D36016 /* NFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB4EB4C82430F3AF00D36016 /* NFormat.cpp */; };
+		AB4EEC0A2693D40C005816E3 /* xmlrole.c in Sources */ = {isa = PBXBuildFile; fileRef = AB4EEBF52693D40C005816E3 /* xmlrole.c */; };
+		AB4EEC0B2693D40C005816E3 /* xmlrole.c in Sources */ = {isa = PBXBuildFile; fileRef = AB4EEBF52693D40C005816E3 /* xmlrole.c */; };
+		AB4EEC0C2693D40C005816E3 /* xmlrole.c in Sources */ = {isa = PBXBuildFile; fileRef = AB4EEBF52693D40C005816E3 /* xmlrole.c */; };
+		AB4EEC102693D40C005816E3 /* xmlparse.c in Sources */ = {isa = PBXBuildFile; fileRef = AB4EEBFA2693D40C005816E3 /* xmlparse.c */; };
+		AB4EEC112693D40C005816E3 /* xmlparse.c in Sources */ = {isa = PBXBuildFile; fileRef = AB4EEBFA2693D40C005816E3 /* xmlparse.c */; };
+		AB4EEC122693D40C005816E3 /* xmlparse.c in Sources */ = {isa = PBXBuildFile; fileRef = AB4EEBFA2693D40C005816E3 /* xmlparse.c */; };
+		AB4EEC132693D40C005816E3 /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = AB4EEC062693D40C005816E3 /* xmltok.c */; };
+		AB4EEC142693D40C005816E3 /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = AB4EEC062693D40C005816E3 /* xmltok.c */; };
+		AB4EEC152693D40C005816E3 /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = AB4EEC062693D40C005816E3 /* xmltok.c */; };
 		AB53BBE1242123AB009960AA /* NFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBDF242123AB009960AA /* NFileUtils.cpp */; };
 		AB53BBE2242123AB009960AA /* NFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBDF242123AB009960AA /* NFileUtils.cpp */; };
 		AB53BBE3242123AB009960AA /* NFileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB53BBDF242123AB009960AA /* NFileUtils.cpp */; };
@@ -252,15 +261,6 @@
 		ABBE8C9724460A11009E9B53 /* NUsageBucket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBE8C9624460A11009E9B53 /* NUsageBucket.cpp */; };
 		ABBE8C9824460A11009E9B53 /* NUsageBucket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBE8C9624460A11009E9B53 /* NUsageBucket.cpp */; };
 		ABBE8C9924460A11009E9B53 /* NUsageBucket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBE8C9624460A11009E9B53 /* NUsageBucket.cpp */; };
-		ABC646802581666F009B82AD /* xmlrole.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC6466B2581666F009B82AD /* xmlrole.c */; };
-		ABC646812581666F009B82AD /* xmlrole.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC6466B2581666F009B82AD /* xmlrole.c */; };
-		ABC646822581666F009B82AD /* xmlrole.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC6466B2581666F009B82AD /* xmlrole.c */; };
-		ABC646862581666F009B82AD /* xmlparse.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC646712581666F009B82AD /* xmlparse.c */; };
-		ABC646872581666F009B82AD /* xmlparse.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC646712581666F009B82AD /* xmlparse.c */; };
-		ABC646882581666F009B82AD /* xmlparse.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC646712581666F009B82AD /* xmlparse.c */; };
-		ABC646892581666F009B82AD /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC6467C2581666F009B82AD /* xmltok.c */; };
-		ABC6468A2581666F009B82AD /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC6467C2581666F009B82AD /* xmltok.c */; };
-		ABC6468B2581666F009B82AD /* xmltok.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC6467C2581666F009B82AD /* xmltok.c */; };
 		ABC646F925818466009B82AD /* pcre2_xclass.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC646D125818466009B82AD /* pcre2_xclass.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABC646FA25818466009B82AD /* pcre2_xclass.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC646D125818466009B82AD /* pcre2_xclass.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		ABC646FB25818466009B82AD /* pcre2_xclass.c in Sources */ = {isa = PBXBuildFile; fileRef = ABC646D125818466009B82AD /* pcre2_xclass.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -535,7 +535,6 @@
 		AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLEncoder.h; sourceTree = "<group>"; };
 		AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLEncoder.cpp; sourceTree = "<group>"; };
 		AB20329125D73E0A0050DB00 /* NStdMath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NStdMath.h; sourceTree = "<group>"; };
-		AB2277AB2581B39F0008538E /* winconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = winconfig.h; sourceTree = "<group>"; };
 		AB2309EC2581AB8600919EBD /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
 		AB2309ED2581AB8600919EBD /* inftrees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inftrees.h; sourceTree = "<group>"; };
 		AB2309EE2581AB8600919EBD /* inflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inflate.c; sourceTree = "<group>"; };
@@ -629,6 +628,27 @@
 		AB4EB4C92430F3AF00D36016 /* NFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFormat.h; sourceTree = "<group>"; };
 		AB4EEBE92693CD5E005816E3 /* NSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSet.h; sourceTree = "<group>"; };
 		AB4EEBEA2693CD5E005816E3 /* NMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NMap.h; sourceTree = "<group>"; };
+		AB4EEBF52693D40C005816E3 /* xmlrole.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmlrole.c; sourceTree = "<group>"; };
+		AB4EEBF62693D40C005816E3 /* internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = internal.h; sourceTree = "<group>"; };
+		AB4EEBF72693D40C005816E3 /* xmltok.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmltok.h; sourceTree = "<group>"; };
+		AB4EEBF82693D40C005816E3 /* xmltok_ns.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok_ns.c; sourceTree = "<group>"; };
+		AB4EEBF92693D40C005816E3 /* nametab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nametab.h; sourceTree = "<group>"; };
+		AB4EEBFA2693D40C005816E3 /* xmlparse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmlparse.c; sourceTree = "<group>"; };
+		AB4EEBFB2693D40C005816E3 /* siphash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = siphash.h; sourceTree = "<group>"; };
+		AB4EEBFC2693D40C005816E3 /* latin1tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = latin1tab.h; sourceTree = "<group>"; };
+		AB4EEBFD2693D40C005816E3 /* expat_external.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat_external.h; sourceTree = "<group>"; };
+		AB4EEBFE2693D40C005816E3 /* winconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = winconfig.h; sourceTree = "<group>"; };
+		AB4EEBFF2693D40C005816E3 /* xmltok_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmltok_impl.h; sourceTree = "<group>"; };
+		AB4EEC002693D40C005816E3 /* utf8tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf8tab.h; sourceTree = "<group>"; };
+		AB4EEC012693D40C005816E3 /* ascii.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ascii.h; sourceTree = "<group>"; };
+		AB4EEC022693D40C005816E3 /* Nano_expat_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nano_expat_config.h; sourceTree = "<group>"; };
+		AB4EEC032693D40C005816E3 /* xmlrole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlrole.h; sourceTree = "<group>"; };
+		AB4EEC042693D40C005816E3 /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
+		AB4EEC052693D40C005816E3 /* expat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat.h; sourceTree = "<group>"; };
+		AB4EEC062693D40C005816E3 /* xmltok.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok.c; sourceTree = "<group>"; };
+		AB4EEC072693D40C005816E3 /* xmltok_impl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok_impl.c; sourceTree = "<group>"; };
+		AB4EEC082693D40C005816E3 /* asciitab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asciitab.h; sourceTree = "<group>"; };
+		AB4EEC092693D40C005816E3 /* iasciitab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iasciitab.h; sourceTree = "<group>"; };
 		AB5127DD23D0778400528FBE /* NStdAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStdAlgorithm.h; sourceTree = "<group>"; };
 		AB5127E823D07FB400528FBE /* NStdContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NStdContainer.h; sourceTree = "<group>"; };
 		AB514E5A103460CB00E5A6AD /* NPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPoint.h; sourceTree = "<group>"; };
@@ -835,26 +855,6 @@
 		ABBE8C8E2446096C009E9B53 /* NUsageLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUsageLog.h; sourceTree = "<group>"; };
 		ABBE8C9624460A11009E9B53 /* NUsageBucket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUsageBucket.cpp; sourceTree = "<group>"; };
 		ABC272A7237B407E00D96FE6 /* NanoConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NanoConstants.h; sourceTree = "<group>"; };
-		ABC6466B2581666F009B82AD /* xmlrole.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmlrole.c; sourceTree = "<group>"; };
-		ABC6466D2581666F009B82AD /* internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = internal.h; sourceTree = "<group>"; };
-		ABC6466E2581666F009B82AD /* xmltok.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmltok.h; sourceTree = "<group>"; };
-		ABC6466F2581666F009B82AD /* xmltok_ns.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok_ns.c; sourceTree = "<group>"; };
-		ABC646702581666F009B82AD /* nametab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nametab.h; sourceTree = "<group>"; };
-		ABC646712581666F009B82AD /* xmlparse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmlparse.c; sourceTree = "<group>"; };
-		ABC646722581666F009B82AD /* siphash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = siphash.h; sourceTree = "<group>"; };
-		ABC646732581666F009B82AD /* latin1tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = latin1tab.h; sourceTree = "<group>"; };
-		ABC646742581666F009B82AD /* expat_external.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat_external.h; sourceTree = "<group>"; };
-		ABC646752581666F009B82AD /* xmltok_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmltok_impl.h; sourceTree = "<group>"; };
-		ABC646762581666F009B82AD /* utf8tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf8tab.h; sourceTree = "<group>"; };
-		ABC646772581666F009B82AD /* ascii.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ascii.h; sourceTree = "<group>"; };
-		ABC646782581666F009B82AD /* Nano_expat_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nano_expat_config.h; sourceTree = "<group>"; };
-		ABC646792581666F009B82AD /* xmlrole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlrole.h; sourceTree = "<group>"; };
-		ABC6467A2581666F009B82AD /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
-		ABC6467B2581666F009B82AD /* expat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat.h; sourceTree = "<group>"; };
-		ABC6467C2581666F009B82AD /* xmltok.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok.c; sourceTree = "<group>"; };
-		ABC6467D2581666F009B82AD /* xmltok_impl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok_impl.c; sourceTree = "<group>"; };
-		ABC6467E2581666F009B82AD /* asciitab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asciitab.h; sourceTree = "<group>"; };
-		ABC6467F2581666F009B82AD /* iasciitab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iasciitab.h; sourceTree = "<group>"; };
 		ABC646AF25817DF2009B82AD /* Nano_fmt_format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Nano_fmt_format.h; sourceTree = "<group>"; };
 		ABC646B025817DF2009B82AD /* fmt_ostream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fmt_ostream.h; sourceTree = "<group>"; };
 		ABC646B125817DF2009B82AD /* fmt_core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fmt_core.h; sourceTree = "<group>"; };
@@ -1287,6 +1287,34 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		AB4EEBF42693D40C005816E3 /* expat-2.4.1 */ = {
+			isa = PBXGroup;
+			children = (
+				AB4EEC012693D40C005816E3 /* ascii.h */,
+				AB4EEC082693D40C005816E3 /* asciitab.h */,
+				AB4EEC042693D40C005816E3 /* COPYING */,
+				AB4EEBFD2693D40C005816E3 /* expat_external.h */,
+				AB4EEC052693D40C005816E3 /* expat.h */,
+				AB4EEC092693D40C005816E3 /* iasciitab.h */,
+				AB4EEBF62693D40C005816E3 /* internal.h */,
+				AB4EEBFC2693D40C005816E3 /* latin1tab.h */,
+				AB4EEBF92693D40C005816E3 /* nametab.h */,
+				AB4EEC022693D40C005816E3 /* Nano_expat_config.h */,
+				AB4EEBFB2693D40C005816E3 /* siphash.h */,
+				AB4EEC002693D40C005816E3 /* utf8tab.h */,
+				AB4EEBFE2693D40C005816E3 /* winconfig.h */,
+				AB4EEBFA2693D40C005816E3 /* xmlparse.c */,
+				AB4EEBF52693D40C005816E3 /* xmlrole.c */,
+				AB4EEC032693D40C005816E3 /* xmlrole.h */,
+				AB4EEC072693D40C005816E3 /* xmltok_impl.c */,
+				AB4EEBFF2693D40C005816E3 /* xmltok_impl.h */,
+				AB4EEBF82693D40C005816E3 /* xmltok_ns.c */,
+				AB4EEC062693D40C005816E3 /* xmltok.c */,
+				AB4EEBF72693D40C005816E3 /* xmltok.h */,
+			);
+			path = "expat-2.4.1";
+			sourceTree = "<group>";
+		};
 		AB5127DC23D0778400528FBE /* Std */ = {
 			isa = PBXGroup;
 			children = (
@@ -1541,7 +1569,7 @@
 			isa = PBXGroup;
 			children = (
 				AB9154FD0F9B4DD5009FFEAF /* Read Me.txt */,
-				ABC6466A2581666F009B82AD /* expat-2.2.10 */,
+				AB4EEBF42693D40C005816E3 /* expat-2.4.1 */,
 				ABE59A7E25D3419D0048AD5F /* fast_float-0.8.0 */,
 				ABC646AE25817DF2009B82AD /* fmt-7.1.3 */,
 				AB3A4990258199E70065B4DA /* json-parser-1.1.0 */,
@@ -1886,34 +1914,6 @@
 			path = iOS;
 			sourceTree = "<group>";
 		};
-		ABC6466A2581666F009B82AD /* expat-2.2.10 */ = {
-			isa = PBXGroup;
-			children = (
-				ABC646772581666F009B82AD /* ascii.h */,
-				ABC6467E2581666F009B82AD /* asciitab.h */,
-				ABC6467A2581666F009B82AD /* COPYING */,
-				ABC646742581666F009B82AD /* expat_external.h */,
-				ABC6467B2581666F009B82AD /* expat.h */,
-				ABC6467F2581666F009B82AD /* iasciitab.h */,
-				ABC6466D2581666F009B82AD /* internal.h */,
-				ABC646732581666F009B82AD /* latin1tab.h */,
-				ABC646702581666F009B82AD /* nametab.h */,
-				ABC646782581666F009B82AD /* Nano_expat_config.h */,
-				ABC646722581666F009B82AD /* siphash.h */,
-				ABC646762581666F009B82AD /* utf8tab.h */,
-				AB2277AB2581B39F0008538E /* winconfig.h */,
-				ABC646712581666F009B82AD /* xmlparse.c */,
-				ABC6466B2581666F009B82AD /* xmlrole.c */,
-				ABC646792581666F009B82AD /* xmlrole.h */,
-				ABC6467D2581666F009B82AD /* xmltok_impl.c */,
-				ABC646752581666F009B82AD /* xmltok_impl.h */,
-				ABC6466F2581666F009B82AD /* xmltok_ns.c */,
-				ABC6467C2581666F009B82AD /* xmltok.c */,
-				ABC6466E2581666F009B82AD /* xmltok.h */,
-			);
-			path = "expat-2.2.10";
-			sourceTree = "<group>";
-		};
 		ABC646AE25817DF2009B82AD /* fmt-7.1.3 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2109,7 +2109,6 @@
 				ABC6473D25818466009B82AD /* pcre2_valid_utf.c in Sources */,
 				ABB3379D23A04E8E000B81B0 /* NMutex.cpp in Sources */,
 				ABD3686525D81E9700C825B6 /* tvOSNFileMap.cpp in Sources */,
-				ABC6468B2581666F009B82AD /* xmltok.c in Sources */,
 				ABAA15F425DF492600785E5D /* cencode.c in Sources */,
 				AB54F9AF23EF14A7005207BC /* NStringComparator.cpp in Sources */,
 				AB4EB4CC2430F3AF00D36016 /* NFormat.cpp in Sources */,
@@ -2127,19 +2126,20 @@
 				AB230A102581AB8600919EBD /* deflate.c in Sources */,
 				AB8E64A925A2A67800AF2CE9 /* NNumber.cpp in Sources */,
 				AB371AAA25CB931D00DEC50B /* NBitVector.cpp in Sources */,
-				ABC646822581666F009B82AD /* xmlrole.c in Sources */,
 				AB230A1F2581AB8600919EBD /* gzlib.c in Sources */,
 				ABA4790725B7B91300F3C3C9 /* tvOSNProcess.cpp in Sources */,
 				ABA478B925B7B7A400F3C3C9 /* NProcess.cpp in Sources */,
 				AB549ADF26873A2D00B14417 /* NCGContext.cpp in Sources */,
 				ABC6470A25818466009B82AD /* pcre2_dfa_match.c in Sources */,
 				AB07EA44239A567400E0AC49 /* NSemaphore.cpp in Sources */,
+				AB4EEC0C2693D40C005816E3 /* xmlrole.c in Sources */,
 				ABC6470425818466009B82AD /* pcre2_fuzzsupport.c in Sources */,
 				AB081C3F25BC77FD0058D397 /* NMathUtils.cpp in Sources */,
 				ABDCE8D6241C61880054A16E /* tvOSNTimeUtils.cpp in Sources */,
 				AB230A162581AB8600919EBD /* crc32.c in Sources */,
 				AB62327424301A4000651349 /* NSharedDarwin.mm in Sources */,
 				ABF58C402676C2F600327252 /* NBroadcaster.cpp in Sources */,
+				AB4EEC152693D40C005816E3 /* xmltok.c in Sources */,
 				ABDCE8E7241F8ACD0054A16E /* NFile.cpp in Sources */,
 				ABF58CE426794C0C00327252 /* NImage.cpp in Sources */,
 				ABF58DC7267F572100327252 /* NCoreFoundation.cpp in Sources */,
@@ -2169,6 +2169,7 @@
 				AB00E50B267FDABE0023F244 /* NCFString.cpp in Sources */,
 				ABC6475525818466009B82AD /* pcre2_serialize.c in Sources */,
 				AB56392723C69CD000675F68 /* NByteSwap.cpp in Sources */,
+				AB4EEC122693D40C005816E3 /* xmlparse.c in Sources */,
 				ABD3682C25D7502100C825B6 /* NCommandLine.cpp in Sources */,
 				AB230A132581AB8600919EBD /* gzread.c in Sources */,
 				ABF58D87267C0F1100327252 /* tvOSNImage.cpp in Sources */,
@@ -2215,7 +2216,6 @@
 				AB2A304724524C9100F21BF6 /* NDebugger.cpp in Sources */,
 				AB4EB4C22430EE0F00D36016 /* NFilePath.cpp in Sources */,
 				ABA478BC25B7B7A400F3C3C9 /* NSystem.cpp in Sources */,
-				ABC646882581666F009B82AD /* xmlparse.c in Sources */,
 				AB0DBE7123999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
 				ABCC4AD125A5360500394AFE /* NArray.cpp in Sources */,
 				AB84536A2581A09D00B78BF7 /* WjCryptLib_Sha1.c in Sources */,
@@ -2261,7 +2261,6 @@
 				AB230A1A2581AB8600919EBD /* zutil.c in Sources */,
 				ABC6473B25818466009B82AD /* pcre2_valid_utf.c in Sources */,
 				ABB3379F23A04E8F000B81B0 /* NMutex.cpp in Sources */,
-				ABC646892581666F009B82AD /* xmltok.c in Sources */,
 				ABDCE8D0241C60540054A16E /* iOSNFileInfo.cpp in Sources */,
 				ABAA15F225DF492600785E5D /* cencode.c in Sources */,
 				AB54F9AD23EF14A7005207BC /* NStringComparator.cpp in Sources */,
@@ -2284,15 +2283,16 @@
 				AB230A1D2581AB8600919EBD /* gzlib.c in Sources */,
 				ABC6470825818466009B82AD /* pcre2_dfa_match.c in Sources */,
 				ABA478B725B7B7A400F3C3C9 /* NProcess.cpp in Sources */,
-				ABC646802581666F009B82AD /* xmlrole.c in Sources */,
 				AB549ADD26873A2C00B14417 /* NCGContext.cpp in Sources */,
 				ABC6470225818466009B82AD /* pcre2_fuzzsupport.c in Sources */,
+				AB4EEC0A2693D40C005816E3 /* xmlrole.c in Sources */,
 				AB53BBEB24212411009960AA /* iOSNFileUtils.cpp in Sources */,
 				AB230A142581AB8600919EBD /* crc32.c in Sources */,
 				AB081C3D25BC77FD0058D397 /* NMathUtils.cpp in Sources */,
 				AB07EA46239A567500E0AC49 /* NSemaphore.cpp in Sources */,
 				AB62327224301A4000651349 /* NSharedDarwin.mm in Sources */,
 				AB84536B2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */,
+				AB4EEC132693D40C005816E3 /* xmltok.c in Sources */,
 				ABF58C3C2676C2F500327252 /* NBroadcaster.cpp in Sources */,
 				ABB38CC525A7F1700050D506 /* NDictionary.cpp in Sources */,
 				ABF58CE226794C0B00327252 /* NImage.cpp in Sources */,
@@ -2322,6 +2322,7 @@
 				AB56391D23C2A52700675F68 /* NStringEncoder.cpp in Sources */,
 				AB00E509267FDABD0023F244 /* NCFString.cpp in Sources */,
 				AB230A112581AB8600919EBD /* gzread.c in Sources */,
+				AB4EEC102693D40C005816E3 /* xmlparse.c in Sources */,
 				ABC6471425818466009B82AD /* pcre2_chartables.c in Sources */,
 				ABF58D85267C0F0A00327252 /* iOSNImage.cpp in Sources */,
 				ABD3682825D7502100C825B6 /* NCommandLine.cpp in Sources */,
@@ -2365,7 +2366,6 @@
 				ABC6475025818466009B82AD /* pcre2_auto_possess.c in Sources */,
 				ABAA15EF25DF492600785E5D /* cdecode.c in Sources */,
 				AB4EB4C02430EE0F00D36016 /* NFilePath.cpp in Sources */,
-				ABC646862581666F009B82AD /* xmlparse.c in Sources */,
 				ABA478BA25B7B7A400F3C3C9 /* NSystem.cpp in Sources */,
 				AB07EA3E239A522E00E0AC49 /* iOSNSemaphore.cpp in Sources */,
 				ABDCE8AA241C2A550054A16E /* NPOSIX.cpp in Sources */,
@@ -2415,7 +2415,6 @@
 				ABC6473C25818466009B82AD /* pcre2_valid_utf.c in Sources */,
 				ABF58D86267C0F0D00327252 /* macOSNImage.cpp in Sources */,
 				AB56393C23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
-				ABC6468A2581666F009B82AD /* xmltok.c in Sources */,
 				AB1B4D9F23F0250C00B304D3 /* NStringScanner.cpp in Sources */,
 				ABAA15F325DF492600785E5D /* cencode.c in Sources */,
 				AB56390F23C2A3A900675F68 /* NString.cpp in Sources */,
@@ -2439,13 +2438,14 @@
 				ABD3686125D81E9400C825B6 /* macOSNFileMap.cpp in Sources */,
 				AB549ADE26873A2D00B14417 /* NCGContext.cpp in Sources */,
 				ABC6470925818466009B82AD /* pcre2_dfa_match.c in Sources */,
+				AB4EEC0B2693D40C005816E3 /* xmlrole.c in Sources */,
 				AB549B98269116CE00B14417 /* macOSNBundle.cpp in Sources */,
 				ABA478B825B7B7A400F3C3C9 /* NProcess.cpp in Sources */,
 				ABC6470325818466009B82AD /* pcre2_fuzzsupport.c in Sources */,
-				ABC646812581666F009B82AD /* xmlrole.c in Sources */,
 				AB081C3E25BC77FD0058D397 /* NMathUtils.cpp in Sources */,
 				AB230A152581AB8600919EBD /* crc32.c in Sources */,
 				ABA478EB25B7B91300F3C3C9 /* macOSNMachine.cpp in Sources */,
+				AB4EEC142693D40C005816E3 /* xmltok.c in Sources */,
 				AB62327324301A4000651349 /* NSharedDarwin.mm in Sources */,
 				ABF58C3E2676C2F600327252 /* NBroadcaster.cpp in Sources */,
 				AB84536C2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */,
@@ -2475,6 +2475,7 @@
 				AB56392623C69CD000675F68 /* NByteSwap.cpp in Sources */,
 				AB00E50C267FDABF0023F244 /* NCFString.cpp in Sources */,
 				AB230A122581AB8600919EBD /* gzread.c in Sources */,
+				AB4EEC112693D40C005816E3 /* xmlparse.c in Sources */,
 				ABD3682425D7502100C825B6 /* NCommandLine.cpp in Sources */,
 				ABC6471525818466009B82AD /* pcre2_chartables.c in Sources */,
 				ABC6473325818466009B82AD /* pcre2_find_bracket.c in Sources */,
@@ -2530,7 +2531,6 @@
 				ABDCE8E1241C61960054A16E /* macOSNSemaphore.cpp in Sources */,
 				ABF58CFB267973FB00327252 /* NUTIRegistry.cpp in Sources */,
 				ABDCE8B9241C59570054A16E /* NFileInfo.cpp in Sources */,
-				ABC646872581666F009B82AD /* xmlparse.c in Sources */,
 				AB1981092597C0E2002C5591 /* macOSNThread.cpp in Sources */,
 				ABDCE8AB241C2A550054A16E /* NPOSIX.cpp in Sources */,
 				ABF58CCC267932C200327252 /* NUndoManager.cpp in Sources */,

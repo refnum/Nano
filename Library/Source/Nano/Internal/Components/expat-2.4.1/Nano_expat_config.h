@@ -62,7 +62,9 @@
 #define XML_LARGE_SIZE                                      1
 #define XML_NS                                              1
 
-#if NN_TARGET_ANDROID || NN_TARGET_LINUX
+#if NN_TARGET_ANDROID
+	#define HAVE_SYSCALL_GETRANDOM                          1
+#elif NN_TARGET_LINUX
 	#define HAVE_GETRANDOM                                  1
 #elif NN_TARGET_IOS || NN_TARGET_MACOS || NN_TARGET_TVOS
 	#define HAVE_ARC4RANDOM                                 1
