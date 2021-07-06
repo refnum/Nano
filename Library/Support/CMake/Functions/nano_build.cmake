@@ -94,12 +94,12 @@ endfunction()
 function(_nano_build_generator_cmdline)
 
 	# Enable colour output
-	if (NN_COMPILER_CLANG)
-		target_compile_options("${PROJECT_NAME}" PRIVATE "-fcolor-diagnostics")
-
-	elseif (NN_COMPILER_GCC)
-		target_compile_options("${PROJECT_NAME}" PRIVATE "-fdiagnostics-color=always")
-	endif()
+	nano_project_options(
+		CLANG
+			"-fcolor-diagnostics"
+		GCC
+			"-fdiagnostics-color=always"
+	)
 
 
 
@@ -121,26 +121,26 @@ function(_nano_build_generator_cmdline)
 	#
 	# As disabling precompiled headers also disables their inclusion as a
 	# prefix header we need to manually force their inclusion.
-	get_target_property(PREFIX_FILES			"${PROJECT_NAME}" NN_PREFIX_FILES)
+	get_target_property(PREFIX_FILES "${PROJECT_NAME}" NN_PREFIX_FILES)
 
-	get_target_property(SOURCE_LANGUAGE_C		"${PROJECT_NAME}" NN_SOURCE_LANGUAGE_C)
-	get_target_property(SOURCE_LANGUAGE_CPP		"${PROJECT_NAME}" NN_SOURCE_LANGUAGE_CPP)
-	get_target_property(SOURCE_LANGUAGE_OBJCPP	"${PROJECT_NAME}" NN_SOURCE_LANGUAGE_OBJCPP)
+	if (PREFIX_FILES)
+		get_target_property(SOURCE_LANGUAGE_C		"${PROJECT_NAME}" NN_SOURCE_LANGUAGE_C)
+		get_target_property(SOURCE_LANGUAGE_CPP		"${PROJECT_NAME}" NN_SOURCE_LANGUAGE_CPP)
+		get_target_property(SOURCE_LANGUAGE_OBJCPP	"${PROJECT_NAME}" NN_SOURCE_LANGUAGE_OBJCPP)
 
-	list(APPEND SOURCE_SKIP_PRECOMPILE
-		${SOURCE_LANGUAGE_C}
-		${SOURCE_LANGUAGE_CPP}
-		${SOURCE_LANGUAGE_OBJCPP}
-	)
+		list(APPEND SOURCE_SKIP_PRECOMPILE
+			${SOURCE_LANGUAGE_C}
+			${SOURCE_LANGUAGE_CPP}
+			${SOURCE_LANGUAGE_OBJCPP}
+		)
 
-	foreach (SOURCE_PATH IN LISTS SOURCE_SKIP_PRECOMPILE)
-		set_property(SOURCE "${SOURCE_PATH}" PROPERTY SKIP_PRECOMPILE_HEADERS ON)
+
+		set_source_files_properties(${SOURCE_SKIP_PRECOMPILE} PROPERTIES SKIP_PRECOMPILE_HEADERS ON)
 
 		foreach (PREFIX_PATH IN LISTS PREFIX_FILES)
-			_nano_build_compiler_add_options("${SOURCE_PATH}" "-include;${PREFIX_PATH}")
+			nano_project_options(ALL -include "${PREFIX_PATH}" FILES ${SOURCE_SKIP_PRECOMPILE})
 		endforeach()
-	endforeach()
-
+	endif()
 
 
 	# Work around language override bug
@@ -151,11 +151,7 @@ function(_nano_build_generator_cmdline)
 	#
 	# This warning is not emitted when clang is invoked by Xcode so we only
 	# suppress the warning in Ninja / Makefile generators.
-	if (NN_COMPILER_CLANG)
-		foreach (SOURCE_PATH IN LISTS SOURCE_LANGUAGE_CPP)
-			_nano_build_compiler_add_options("${SOURCE_PATH}" "-Wno-deprecated")
-		endforeach()
-	endif()
+	nano_project_options(GCC CLANG "-Wno-deprecated" FILES ${SOURCE_LANGUAGE_CPP})
 
 endfunction()
 
@@ -227,32 +223,33 @@ function(_nano_build_generator_msvc)
 	#
 	# As disabling precompiled headers also disables their inclusion as a
 	# prefix header we need to manually force their inclusion.
-	get_target_property(PREFIX_FILES			"${PROJECT_NAME}" NN_PREFIX_FILES)
+	get_target_property(PREFIX_FILES "${PROJECT_NAME}" NN_PREFIX_FILES)
 
-	get_target_property(SOURCE_WARNINGS_MAXIMUM "${PROJECT_NAME}" NN_SOURCE_WARNINGS_MAXIMUM)
-	get_target_property(SOURCE_WARNINGS_MINIMUM "${PROJECT_NAME}" NN_SOURCE_WARNINGS_MINIMUM)
-	get_target_property(SOURCE_WARNINGS_NONE    "${PROJECT_NAME}" NN_SOURCE_WARNINGS_NONE)
+	if (PREFIX_FILES)
+		get_target_property(SOURCE_WARNINGS_MAXIMUM "${PROJECT_NAME}" NN_SOURCE_WARNINGS_MAXIMUM)
+		get_target_property(SOURCE_WARNINGS_MINIMUM "${PROJECT_NAME}" NN_SOURCE_WARNINGS_MINIMUM)
+		get_target_property(SOURCE_WARNINGS_NONE    "${PROJECT_NAME}" NN_SOURCE_WARNINGS_NONE)
 
-	get_target_property(SOURCE_LANGUAGE_C		"${PROJECT_NAME}" NN_SOURCE_LANGUAGE_C)
-	get_target_property(SOURCE_LANGUAGE_CPP		"${PROJECT_NAME}" NN_SOURCE_LANGUAGE_CPP)
-	get_target_property(SOURCE_LANGUAGE_OBJCPP	"${PROJECT_NAME}" NN_SOURCE_LANGUAGE_OBJCPP)
+		get_target_property(SOURCE_LANGUAGE_C		"${PROJECT_NAME}" NN_SOURCE_LANGUAGE_C)
+		get_target_property(SOURCE_LANGUAGE_CPP		"${PROJECT_NAME}" NN_SOURCE_LANGUAGE_CPP)
+		get_target_property(SOURCE_LANGUAGE_OBJCPP	"${PROJECT_NAME}" NN_SOURCE_LANGUAGE_OBJCPP)
 
-	list(APPEND SOURCE_SKIP_PRECOMPILE
-		${SOURCE_WARNINGS_MAXIMUM}
-		${SOURCE_WARNINGS_MINIMUM}
-		${SOURCE_WARNINGS_NONE}
-		${SOURCE_LANGUAGE_C}
-		${SOURCE_LANGUAGE_CPP}
-		${SOURCE_LANGUAGE_OBJCPP}
-	)
-	
-	foreach (SOURCE_PATH IN LISTS SOURCE_SKIP_PRECOMPILE)
-		set_property(SOURCE "${SOURCE_PATH}" PROPERTY SKIP_PRECOMPILE_HEADERS ON)
+		list(APPEND SOURCE_SKIP_PRECOMPILE
+			${SOURCE_WARNINGS_MAXIMUM}
+			${SOURCE_WARNINGS_MINIMUM}
+			${SOURCE_WARNINGS_NONE}
+			${SOURCE_LANGUAGE_C}
+			${SOURCE_LANGUAGE_CPP}
+			${SOURCE_LANGUAGE_OBJCPP}
+		)
+
+
+		set_source_files_properties(${SOURCE_SKIP_PRECOMPILE} PROPERTIES SKIP_PRECOMPILE_HEADERS ON)
 
 		foreach (PREFIX_PATH IN LISTS PREFIX_FILES)
-			_nano_build_compiler_add_options("${SOURCE_PATH}" "/FI${PREFIX_PATH}")
+			nano_project_options(MSVC "/FI${PREFIX_PATH}" FILES ${SOURCE_SKIP_PRECOMPILE})
 		endforeach()
-	endforeach()
+	endif()
 
 
 
@@ -353,19 +350,6 @@ endfunction()
 
 
 #==============================================================================
-#		_nano_build_compiler_add_options : Add compiler options.
-#------------------------------------------------------------------------------
-function(_nano_build_compiler_add_options SOURCE_PATH NEW_OPTIONS)
-
-	set_property(SOURCE "${SOURCE_PATH}" APPEND_STRING PROPERTY COMPILE_OPTIONS "${NEW_OPTIONS}")
-
-endfunction()
-
-
-
-
-
-#==============================================================================
 #		_nano_build_compiler_warnings : Set the compiler warnings.
 #------------------------------------------------------------------------------
 function(_nano_build_compiler_warnings)
@@ -374,13 +358,13 @@ function(_nano_build_compiler_warnings)
 	get_target_property(DEFAULT_WARNINGS "${PROJECT_NAME}" NN_DEFAULT_WARNINGS)
 
 	if (DEFAULT_WARNINGS STREQUAL "MAXIMUM" OR NOT DEFAULT_WARNINGS)
-		target_compile_options("${PROJECT_NAME}" PRIVATE "${NN_COMPILER_WARNINGS_MAXIMUM}")
+		nano_project_options(ALL ${NN_COMPILER_WARNINGS_MAXIMUM})
 
 	elseif (DEFAULT_WARNINGS STREQUAL "MINIMUM")
-		target_compile_options("${PROJECT_NAME}" PRIVATE "${NN_COMPILER_WARNINGS_MINIMUM}")
+		nano_project_options(ALL ${NN_COMPILER_WARNINGS_MINIMUM})
 
 	elseif (DEFAULT_WARNINGS STREQUAL "NONE")
-		target_compile_options("${PROJECT_NAME}" PRIVATE "${NN_COMPILER_WARNINGS_NONE}")
+		nano_project_options(ALL ${NN_COMPILER_WARNINGS_NONE})
 
 	else()
 		nano_log_error("Unknown default warning level '${WARNING_DEFAULT}'!")
@@ -389,30 +373,13 @@ function(_nano_build_compiler_warnings)
 
 
 	# Set the per-file warning levels
-	get_target_property(SOURCE_FILES			"${PROJECT_NAME}" NN_SOURCE_FILES)
 	get_target_property(SOURCE_WARNINGS_MAXIMUM	"${PROJECT_NAME}" NN_SOURCE_WARNINGS_MAXIMUM)
 	get_target_property(SOURCE_WARNINGS_MINIMUM	"${PROJECT_NAME}" NN_SOURCE_WARNINGS_MINIMUM)
 	get_target_property(SOURCE_WARNINGS_NONE	"${PROJECT_NAME}" NN_SOURCE_WARNINGS_NONE)
 
-	foreach (SOURCE_PATH IN LISTS SOURCE_FILES)
-
-		list(FIND SOURCE_WARNINGS_MAXIMUM	"${SOURCE_PATH}" FOUND_MAXIMUM)
-		list(FIND SOURCE_WARNINGS_MINIMUM	"${SOURCE_PATH}" FOUND_MINIMUM)
-		list(FIND SOURCE_WARNINGS_NONE		"${SOURCE_PATH}" FOUND_NONE)
-
-		if (FOUND_MAXIMUM GREATER_EQUAL 0)
-			_nano_build_compiler_add_options("${SOURCE_PATH}" "${NN_COMPILER_WARNINGS_MAXIMUM}")
-		endif()
-
-		if (FOUND_MINIMUM GREATER_EQUAL 0)
-			_nano_build_compiler_add_options("${SOURCE_PATH}" "${NN_COMPILER_WARNINGS_MINIMUM}")
-		endif()
-
-		if (FOUND_NONE GREATER_EQUAL 0)
-			_nano_build_compiler_add_options("${SOURCE_PATH}" "${NN_COMPILER_WARNINGS_NONE}")
-		endif()
-
-	endforeach()
+	nano_project_options(ALL ${NN_COMPILER_WARNINGS_MAXIMUM} FILES ${SOURCE_WARNINGS_MAXIMUM})
+	nano_project_options(ALL ${NN_COMPILER_WARNINGS_MINIMUM} FILES ${SOURCE_WARNINGS_MINIMUM})
+	nano_project_options(ALL ${NN_COMPILER_WARNINGS_NONE}    FILES ${SOURCE_WARNINGS_NONE})
 
 endfunction()
 
@@ -430,17 +397,9 @@ function(_nano_build_compiler_language)
 	get_target_property(SOURCE_LANGUAGE_CPP			"${PROJECT_NAME}" NN_SOURCE_LANGUAGE_CPP)
 	get_target_property(SOURCE_LANGUAGE_OBJCPP		"${PROJECT_NAME}" NN_SOURCE_LANGUAGE_OBJCPP)
 
-	foreach (SOURCE_PATH IN LISTS SOURCE_LANGUAGE_C)
-		set_source_files_properties("${SOURCE_PATH}" PROPERTIES LANGUAGE C)
-	endforeach()
-
-	foreach (SOURCE_PATH IN LISTS SOURCE_LANGUAGE_CPP)
-		set_source_files_properties("${SOURCE_PATH}" PROPERTIES LANGUAGE CXX)
-	endforeach()
-
-	foreach (SOURCE_PATH IN LISTS SOURCE_LANGUAGE_OBJCPP)
-		set_source_files_properties("${SOURCE_PATH}" PROPERTIES LANGUAGE OBJCXX)
-	endforeach()
+	set_source_files_properties(${SOURCE_LANGUAGE_C}      PROPERTIES LANGUAGE C)
+	set_source_files_properties(${SOURCE_LANGUAGE_CPP}    PROPERTIES LANGUAGE CXX)
+	set_source_files_properties(${SOURCE_LANGUAGE_OBJCPP} PROPERTIES LANGUAGE OBJCXX)
 
 endfunction()
 
@@ -509,7 +468,7 @@ endfunction()
 #------------------------------------------------------------------------------
 function(_nano_build_compiler_options)
 
-	target_compile_options("${PROJECT_NAME}" PRIVATE ${NN_COMPILER_OPTIONS})
+	nano_project_options(ALL ${NN_COMPILER_OPTIONS})
 
 	target_compile_features("${PROJECT_NAME}" PUBLIC "cxx_std_17")
 	target_compile_features("${PROJECT_NAME}" PUBLIC   "c_std_11")

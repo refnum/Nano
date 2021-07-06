@@ -191,11 +191,80 @@ endfunction()
 
 
 #==============================================================================
-#		nano_project_definitions : Set the source definitions.
+#		nano_project_definitions : Set the project compiler definitions.
 #------------------------------------------------------------------------------
 function(nano_project_definitions)
 
 	target_compile_definitions("${PROJECT_NAME}" PRIVATE ${ARGV})
+
+endfunction()
+
+
+
+
+
+#==============================================================================
+#		nano_project_options : Set the project compiler options.
+#------------------------------------------------------------------------------
+#		Compiler-specific options can be set for the CLANG, GCC, or MSVC
+#		compilers.
+#
+#		The special 'ALL' compiler applies the options to all compilers.
+#
+#		If the FILES keyword is provided then the options are applied to
+#		those source files, if any.
+#
+#		If the FILES keyword is not provided the options apply globally.
+#
+#		Usage:
+#
+#			nano_project_options(   [ALL   options...]
+#									[CLANG options...]
+#									[GCC   options...]
+#									[MSVC  options...]
+#									[FILES items...])
+#------------------------------------------------------------------------------
+function(nano_project_options)
+
+	cmake_parse_arguments(
+		PARSE_ARGV
+		0
+        ARGUMENT
+        ""
+        ""
+        "ALL;CLANG;GCC;MSVC;FILES"
+    )
+
+
+	if (ARGUMENT_FILES OR (FILES IN_LIST ARGUMENT_KEYWORDS_MISSING_VALUES))
+		if (ARGUMENT_FILES)
+			if (ARGUMENT_ALL)
+				set_property(SOURCE ${ARGUMENT_FILES} APPEND PROPERTY COMPILE_OPTIONS ${ARGUMENT_ALL})
+
+			elseif (ARGUMENT_CLANG AND NN_COMPILER_CLANG)
+				set_property(SOURCE ${ARGUMENT_FILES} APPEND PROPERTY COMPILE_OPTIONS ${ARGUMENT_CLANG})
+
+			elseif (ARGUMENT_GCC AND NN_COMPILER_GCC)
+				set_property(SOURCE ${ARGUMENT_FILES} APPEND PROPERTY COMPILE_OPTIONS ${ARGUMENT_GCC})
+
+			elseif (ARGUMENT_MSVC AND NN_COMPILER_MSVC)
+				set_property(SOURCE ${ARGUMENT_FILES} APPEND PROPERTY COMPILE_OPTIONS ${ARGUMENT_MSVC})
+			endif()
+		endif()
+	else()
+		if (ARGUMENT_ALL)
+			target_compile_options("${PROJECT_NAME}" PRIVATE ${ARGUMENT_ALL})
+
+		elseif (ARGUMENT_CLANG AND NN_COMPILER_CLANG)
+			target_compile_options("${PROJECT_NAME}" PRIVATE ${ARGUMENT_MSVC})
+
+		elseif (ARGUMENT_GCC AND NN_COMPILER_GCC)
+			target_compile_options("${PROJECT_NAME}" PRIVATE ${ARGUMENT_GCC})
+
+		elseif (ARGUMENT_MSVC AND NN_COMPILER_MSVC)
+			target_compile_options("${PROJECT_NAME}" PRIVATE ${ARGUMENT_MSVC})
+		endif()
+	endif()
 
 endfunction()
 
