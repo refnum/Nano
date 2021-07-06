@@ -97,7 +97,7 @@ T NDictionary::GetValue(const NString& theKey, const NString& theType) const
 	{
 		const auto& theValue = theIter->second;
 
-		if (theValue.Has<T>())
+		if (theValue.Is<T>())
 		{
 			return theValue.Get<T>();
 		}

@@ -438,92 +438,92 @@ bool NNumber::SetValue(const NAny& theValue)
 		didSet = false;
 	}
 
-	else if (theValue.HasBool())
+	else if (theValue.IsBool())
 	{
 		mValue = uint64_t(theValue.GetBool());
 	}
-	else if (theValue.HasUInt8())
+	else if (theValue.IsUInt8())
 	{
 		mValue = uint64_t(theValue.GetUInt8());
 	}
-	else if (theValue.HasUInt16())
+	else if (theValue.IsUInt16())
 	{
 		mValue = uint64_t(theValue.GetUInt16());
 	}
-	else if (theValue.HasUInt32())
+	else if (theValue.IsUInt32())
 	{
 		mValue = uint64_t(theValue.GetUInt32());
 	}
-	else if (theValue.HasUInt64())
+	else if (theValue.IsUInt64())
 	{
 		mValue = uint64_t(theValue.GetUInt64());
 	}
 
-	else if (theValue.HasInt8())
+	else if (theValue.IsInt8())
 	{
 		mValue = int64_t(theValue.GetInt8());
 	}
-	else if (theValue.HasInt16())
+	else if (theValue.IsInt16())
 	{
 		mValue = int64_t(theValue.GetInt16());
 	}
-	else if (theValue.HasInt32())
+	else if (theValue.IsInt32())
 	{
 		mValue = int64_t(theValue.GetInt32());
 	}
-	else if (theValue.HasInt64())
+	else if (theValue.IsInt64())
 	{
 		mValue = int64_t(theValue.GetInt64());
 	}
 
-	else if (theValue.HasFloat32())
+	else if (theValue.IsFloat32())
 	{
 		mValue = float64_t(theValue.GetFloat32());
 	}
-	else if (theValue.HasFloat64())
+	else if (theValue.IsFloat64())
 	{
 		mValue = float64_t(theValue.GetFloat64());
 	}
 
-	else if (theValue.Has<unsigned short>())
+	else if (theValue.Is<unsigned short>())
 	{
 		mValue = uint64_t(theValue.Get<unsigned short>());
 	}
-	else if (theValue.Has<unsigned int>())
+	else if (theValue.Is<unsigned int>())
 	{
 		mValue = uint64_t(theValue.Get<unsigned int>());
 	}
-	else if (theValue.Has<unsigned long>())
+	else if (theValue.Is<unsigned long>())
 	{
 		mValue = uint64_t(theValue.Get<unsigned long>());
 	}
-	else if (theValue.Has<unsigned long long>())
+	else if (theValue.Is<unsigned long long>())
 	{
 		mValue = uint64_t(theValue.Get<unsigned long long>());
 	}
 
-	else if (theValue.Has<short>())
+	else if (theValue.Is<short>())
 	{
 		mValue = int64_t(theValue.Get<short>());
 	}
-	else if (theValue.Has<int>())
+	else if (theValue.Is<int>())
 	{
 		mValue = int64_t(theValue.Get<int>());
 	}
-	else if (theValue.Has<long>())
+	else if (theValue.Is<long>())
 	{
 		mValue = int64_t(theValue.Get<long>());
 	}
-	else if (theValue.Has<long long>())
+	else if (theValue.Is<long long>())
 	{
 		mValue = int64_t(theValue.Get<long long>());
 	}
 
-	else if (theValue.Has<size_t>())
+	else if (theValue.Is<size_t>())
 	{
 		mValue = uint64_t(theValue.Get<size_t>());
 	}
-	else if (theValue.Has<uintptr_t>())
+	else if (theValue.Is<uintptr_t>())
 	{
 		mValue = uint64_t(theValue.Get<uintptr_t>());
 	}

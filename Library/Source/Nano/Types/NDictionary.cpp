@@ -179,7 +179,7 @@ bool NDictionary::Invert()
 	// Invert the keys / values
 	for (const auto& [theKey, theValue] : *this)
 	{
-		canInvert = theValue.Has<NString>();
+		canInvert = theValue.IsString();
 		if (canInvert)
 		{
 			NString newKey = theValue.Get<NString>();

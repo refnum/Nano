@@ -56,37 +56,37 @@ NCFType ToCF(const NAny& theValue)
 	NNumber theNumber;
 	NCFType cfObject;
 
-	if (theValue.HasBool())
+	if (theValue.IsBool())
 	{
 		cfObject.Set(theValue.GetBool() ? kCFBooleanTrue : kCFBooleanFalse);
 	}
 
-	else if (theValue.Has<NArray>())
+	else if (theValue.Is<NArray>())
 	{
 		cfObject.Set(ToCF(theValue.Get<NArray>()));
 	}
 
-	else if (theValue.Has<NData>())
+	else if (theValue.IsData())
 	{
 		cfObject.Set(ToCF(theValue.Get<NData>()));
 	}
 
-	else if (theValue.Has<NDate>())
+	else if (theValue.Is<NDate>())
 	{
 		cfObject.Set(ToCF(theValue.Get<NDate>()));
 	}
 
-	else if (theValue.Has<NDictionary>())
+	else if (theValue.Is<NDictionary>())
 	{
 		cfObject.Set(ToCF(theValue.Get<NDictionary>()));
 	}
 
-	else if (theValue.HasString())
+	else if (theValue.IsString())
 	{
 		cfObject.Set(ToCF(theValue.GetString()));
 	}
 
-	else if (theValue.Has<NURL>())
+	else if (theValue.Is<NURL>())
 	{
 		cfObject.Set(ToCF(theValue.Get<NURL>()));
 	}

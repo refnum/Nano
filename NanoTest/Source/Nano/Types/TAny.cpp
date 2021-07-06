@@ -197,64 +197,64 @@ NANO_TEST(TAny, "GetType")
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-NANO_TEST(TAny, "Has")
+NANO_TEST(TAny, "Is")
 {
 
 
 	// Perform the test
 	theValue = kTestUInt32;
-	REQUIRE(!theValue.HasBool());
-	REQUIRE(!theValue.HasUInt8());
-	REQUIRE(!theValue.HasUInt16());
-	REQUIRE(theValue.HasUInt32());
-	REQUIRE(!theValue.HasUInt64());
-	REQUIRE(!theValue.HasInt8());
-	REQUIRE(!theValue.HasInt16());
-	REQUIRE(!theValue.HasInt32());
-	REQUIRE(!theValue.HasInt64());
-	REQUIRE(!theValue.HasFloat32());
-	REQUIRE(!theValue.HasFloat64());
+	REQUIRE(!theValue.IsBool());
+	REQUIRE(!theValue.IsUInt8());
+	REQUIRE(!theValue.IsUInt16());
+	REQUIRE(theValue.IsUInt32());
+	REQUIRE(!theValue.IsUInt64());
+	REQUIRE(!theValue.IsInt8());
+	REQUIRE(!theValue.IsInt16());
+	REQUIRE(!theValue.IsInt32());
+	REQUIRE(!theValue.IsInt64());
+	REQUIRE(!theValue.IsFloat32());
+	REQUIRE(!theValue.IsFloat64());
 
 	theValue = kTestInt64;
-	REQUIRE(!theValue.HasBool());
-	REQUIRE(!theValue.HasUInt8());
-	REQUIRE(!theValue.HasUInt16());
-	REQUIRE(!theValue.HasUInt32());
-	REQUIRE(!theValue.HasUInt64());
-	REQUIRE(!theValue.HasInt8());
-	REQUIRE(!theValue.HasInt16());
-	REQUIRE(!theValue.HasInt32());
-	REQUIRE(theValue.HasInt64());
-	REQUIRE(!theValue.HasFloat32());
-	REQUIRE(!theValue.HasFloat64());
+	REQUIRE(!theValue.IsBool());
+	REQUIRE(!theValue.IsUInt8());
+	REQUIRE(!theValue.IsUInt16());
+	REQUIRE(!theValue.IsUInt32());
+	REQUIRE(!theValue.IsUInt64());
+	REQUIRE(!theValue.IsInt8());
+	REQUIRE(!theValue.IsInt16());
+	REQUIRE(!theValue.IsInt32());
+	REQUIRE(theValue.IsInt64());
+	REQUIRE(!theValue.IsFloat32());
+	REQUIRE(!theValue.IsFloat64());
 
 	theValue = kTestFloat32;
-	REQUIRE(!theValue.HasBool());
-	REQUIRE(!theValue.HasUInt8());
-	REQUIRE(!theValue.HasUInt16());
-	REQUIRE(!theValue.HasUInt32());
-	REQUIRE(!theValue.HasUInt64());
-	REQUIRE(!theValue.HasInt8());
-	REQUIRE(!theValue.HasInt16());
-	REQUIRE(!theValue.HasInt32());
-	REQUIRE(!theValue.HasInt64());
-	REQUIRE(theValue.HasFloat32());
-	REQUIRE(!theValue.HasFloat64());
+	REQUIRE(!theValue.IsBool());
+	REQUIRE(!theValue.IsUInt8());
+	REQUIRE(!theValue.IsUInt16());
+	REQUIRE(!theValue.IsUInt32());
+	REQUIRE(!theValue.IsUInt64());
+	REQUIRE(!theValue.IsInt8());
+	REQUIRE(!theValue.IsInt16());
+	REQUIRE(!theValue.IsInt32());
+	REQUIRE(!theValue.IsInt64());
+	REQUIRE(theValue.IsFloat32());
+	REQUIRE(!theValue.IsFloat64());
 
 	theValue = kTestData;
-	REQUIRE(theValue.HasData());
-	REQUIRE(!theValue.HasString());
-	REQUIRE(!theValue.HasTime());
+	REQUIRE(theValue.IsData());
+	REQUIRE(!theValue.IsString());
+	REQUIRE(!theValue.IsTime());
 
 	theValue = kTestString;
-	REQUIRE(!theValue.HasData());
-	REQUIRE(theValue.HasString());
-	REQUIRE(!theValue.HasTime());
+	REQUIRE(!theValue.IsData());
+	REQUIRE(theValue.IsString());
+	REQUIRE(!theValue.IsTime());
 
 	theValue = kTestTime;
-	REQUIRE(!theValue.HasData());
-	REQUIRE(!theValue.HasString());
-	REQUIRE(theValue.HasTime());
+	REQUIRE(!theValue.IsData());
+	REQUIRE(!theValue.IsString());
+	REQUIRE(theValue.IsTime());
 }
 
 

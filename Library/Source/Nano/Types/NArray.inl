@@ -178,7 +178,7 @@ T NArray::GetValue(size_t theIndex, const NString& theType) const
 	// Get the value
 	const auto& theValue = at(theIndex);
 
-	if (theValue.Has<T>())
+	if (theValue.Is<T>())
 	{
 		return theValue.Get<T>();
 	}

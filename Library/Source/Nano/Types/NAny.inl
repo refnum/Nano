@@ -169,10 +169,10 @@ inline const std::type_info& NAny::GetType() const
 
 
 //=============================================================================
-//		NAny::Has : Do we have the specified type?
+//		NAny::Is : Is the value the specified type?
 //-----------------------------------------------------------------------------
 template<typename T>
-bool NAny::Has() const
+bool NAny::Is() const
 {
 
 
@@ -185,14 +185,14 @@ bool NAny::Has() const
 
 
 //=============================================================================
-//		NAny::HasBool : Do we have a bool_t?
+//		NAny::IsBool : Is the value a bool_t?
 //-----------------------------------------------------------------------------
-inline bool NAny::HasBool() const
+inline bool NAny::IsBool() const
 {
 
 
 	// Check the type
-	return Has<bool>();
+	return Is<bool>();
 }
 
 
@@ -200,14 +200,14 @@ inline bool NAny::HasBool() const
 
 
 //=============================================================================
-//		NAny::HasUInt8 : Do we have a uint8_t?
+//		NAny::IsUInt8 : Is the value a uint8_t?
 //-----------------------------------------------------------------------------
-inline bool NAny::HasUInt8() const
+inline bool NAny::IsUInt8() const
 {
 
 
 	// Check the type
-	return Has<uint8_t>();
+	return Is<uint8_t>();
 }
 
 
@@ -215,14 +215,14 @@ inline bool NAny::HasUInt8() const
 
 
 //=============================================================================
-//		NAny::HasUInt16 : Do we have a uint16_t?
+//		NAny::IsUInt16 : Is the value a uint16_t?
 //-----------------------------------------------------------------------------
-inline bool NAny::HasUInt16() const
+inline bool NAny::IsUInt16() const
 {
 
 
 	// Check the type
-	return Has<uint16_t>();
+	return Is<uint16_t>();
 }
 
 
@@ -230,14 +230,14 @@ inline bool NAny::HasUInt16() const
 
 
 //=============================================================================
-//		NAny::HasUInt32 : Do we have a uint32_t?
+//		NAny::IsUInt32 : Is the value a uint32_t?
 //-----------------------------------------------------------------------------
-inline bool NAny::HasUInt32() const
+inline bool NAny::IsUInt32() const
 {
 
 
 	// Check the type
-	return Has<uint32_t>();
+	return Is<uint32_t>();
 }
 
 
@@ -245,14 +245,14 @@ inline bool NAny::HasUInt32() const
 
 
 //=============================================================================
-//		NAny::HasUInt64 : Do we have a uint64_t?
+//		NAny::IsUInt64 : Is the value a uint64_t?
 //-----------------------------------------------------------------------------
-inline bool NAny::HasUInt64() const
+inline bool NAny::IsUInt64() const
 {
 
 
 	// Check the type
-	return Has<uint64_t>();
+	return Is<uint64_t>();
 }
 
 
@@ -260,14 +260,14 @@ inline bool NAny::HasUInt64() const
 
 
 //=============================================================================
-//		NAny::HasInt8 : Do we have a int8_t?
+//		NAny::IsInt8 : Is the value a int8_t?
 //-----------------------------------------------------------------------------
-inline bool NAny::HasInt8() const
+inline bool NAny::IsInt8() const
 {
 
 
 	// Check the type
-	return Has<int8_t>();
+	return Is<int8_t>();
 }
 
 
@@ -275,14 +275,14 @@ inline bool NAny::HasInt8() const
 
 
 //=============================================================================
-//		NAny::HasInt16 : Do we have a int16_t?
+//		NAny::IsInt16 : Is the value a int16_t?
 //-----------------------------------------------------------------------------
-inline bool NAny::HasInt16() const
+inline bool NAny::IsInt16() const
 {
 
 
 	// Check the type
-	return Has<int16_t>();
+	return Is<int16_t>();
 }
 
 
@@ -290,14 +290,14 @@ inline bool NAny::HasInt16() const
 
 
 //=============================================================================
-//		NAny::HasInt32 : Do we have a int32_t?
+//		NAny::IsInt32 : Is the value a int32_t?
 //-----------------------------------------------------------------------------
-inline bool NAny::HasInt32() const
+inline bool NAny::IsInt32() const
 {
 
 
 	// Check the type
-	return Has<int32_t>();
+	return Is<int32_t>();
 }
 
 
@@ -305,14 +305,14 @@ inline bool NAny::HasInt32() const
 
 
 //=============================================================================
-//		NAny::HasInt64 : Do we have a int64_t?
+//		NAny::IsInt64 : Is the value a int64_t?
 //-----------------------------------------------------------------------------
-inline bool NAny::HasInt64() const
+inline bool NAny::IsInt64() const
 {
 
 
 	// Check the type
-	return Has<int64_t>();
+	return Is<int64_t>();
 }
 
 
@@ -320,14 +320,14 @@ inline bool NAny::HasInt64() const
 
 
 //=============================================================================
-//		NAny::HasFloat32 : Do we have a float32_t?
+//		NAny::IsFloat32 : Is the value a float32_t?
 //-----------------------------------------------------------------------------
-inline bool NAny::HasFloat32() const
+inline bool NAny::IsFloat32() const
 {
 
 
 	// Check the type
-	return Has<float32_t>();
+	return Is<float32_t>();
 }
 
 
@@ -335,14 +335,14 @@ inline bool NAny::HasFloat32() const
 
 
 //=============================================================================
-//		NAny::HasFloat64 : Do we have a float64_t?
+//		NAny::IsFloat64 : Is the value a float64_t?
 //-----------------------------------------------------------------------------
-inline bool NAny::HasFloat64() const
+inline bool NAny::IsFloat64() const
 {
 
 
 	// Check the type
-	return Has<float64_t>();
+	return Is<float64_t>();
 }
 
 
@@ -350,14 +350,14 @@ inline bool NAny::HasFloat64() const
 
 
 //=============================================================================
-//		NAny::HasData : Do we have an NData?
+//		NAny::IsData : Is the value an NData?
 //-----------------------------------------------------------------------------
-inline bool NAny::HasData() const
+inline bool NAny::IsData() const
 {
 
 
 	// Check the type
-	return Has<NData>();
+	return Is<NData>();
 }
 
 
@@ -365,14 +365,14 @@ inline bool NAny::HasData() const
 
 
 //=============================================================================
-//		NAny::HasString : Do we have an NString?
+//		NAny::IsString : Is the value an NString?
 //-----------------------------------------------------------------------------
-inline bool NAny::HasString() const
+inline bool NAny::IsString() const
 {
 
 
 	// Check the type
-	return Has<NString>();
+	return Is<NString>();
 }
 
 
@@ -380,14 +380,14 @@ inline bool NAny::HasString() const
 
 
 //=============================================================================
-//		NAny::HasTime : Do we have an NTime?
+//		NAny::IsTime : Is the value an NTime?
 //-----------------------------------------------------------------------------
-inline bool NAny::HasTime() const
+inline bool NAny::IsTime() const
 {
 
 
 	// Check the type
-	return Has<NTime>();
+	return Is<NTime>();
 }
 
 
@@ -403,7 +403,7 @@ const T& NAny::Get() const
 
 
 	// Validate our state
-	NN_REQUIRE(Has<T>());
+	NN_REQUIRE(Is<T>());
 
 
 

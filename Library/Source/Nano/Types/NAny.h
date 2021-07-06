@@ -109,23 +109,23 @@ public:
 	// Returns false if the value is not of the specified type,
 	// or there is no value.
 	template<typename T>
-	bool                                Has() const;
+	bool                                Is() const;
 
-	bool                                HasBool()    const;
-	bool                                HasUInt8()   const;
-	bool                                HasUInt16()  const;
-	bool                                HasUInt32()  const;
-	bool                                HasUInt64()  const;
-	bool                                HasInt8()    const;
-	bool                                HasInt16()   const;
-	bool                                HasInt32()   const;
-	bool                                HasInt64()   const;
-	bool                                HasFloat32() const;
-	bool                                HasFloat64() const;
+	bool                                IsBool()    const;
+	bool                                IsUInt8()   const;
+	bool                                IsUInt16()  const;
+	bool                                IsUInt32()  const;
+	bool                                IsUInt64()  const;
+	bool                                IsInt8()    const;
+	bool                                IsInt16()   const;
+	bool                                IsInt32()   const;
+	bool                                IsInt64()   const;
+	bool                                IsFloat32() const;
+	bool                                IsFloat64() const;
 
-	bool                                HasData()   const;
-	bool                                HasString() const;
-	bool                                HasTime()   const;
+	bool                                IsData()   const;
+	bool                                IsString() const;
+	bool                                IsTime()   const;
 
 
 	// Get the value

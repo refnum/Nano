@@ -400,7 +400,7 @@ NSharedPtrXMLNode NPropertyList::EncodeXML_Any(const NAny& theValue)
 	NSharedPtrXMLNode theNode;
 	NNumber           theNumber;
 
-	if (theValue.HasBool())
+	if (theValue.IsBool())
 	{
 		theNode = EncodeXML_Boolean(theValue.GetBool());
 	}
@@ -410,27 +410,27 @@ NSharedPtrXMLNode NPropertyList::EncodeXML_Any(const NAny& theValue)
 		theNode = EncodeXML_Number(theNumber);
 	}
 
-	else if (theValue.HasString())
+	else if (theValue.IsString())
 	{
 		theNode = EncodeXML_String(theValue.GetString());
 	}
 
-	else if (theValue.HasData())
+	else if (theValue.IsData())
 	{
 		theNode = EncodeXML_Data(theValue.GetData());
 	}
 
-	else if (theValue.HasTime())
+	else if (theValue.IsTime())
 	{
 		theNode = EncodeXML_Time(theValue.GetTime());
 	}
 
-	else if (theValue.Has<NArray>())
+	else if (theValue.Is<NArray>())
 	{
 		theNode = EncodeXML_Array(theValue.Get<NArray>());
 	}
 
-	else if (theValue.Has<NDictionary>())
+	else if (theValue.Is<NDictionary>())
 	{
 		theNode = EncodeXML_Dictionary(theValue.Get<NDictionary>());
 	}
@@ -1066,7 +1066,7 @@ NData NPropertyList::EncodeToBinary(const NDictionary& theState)
 	// shared data: two strings with the same text could be combined into the same object
 	// even if they are two separate objects before encoding).
 	//
-	// Our current approach means that our pre-flight just has to count the number of
+	// Our current approach means that our pre-flight just Is to count the number of
 	// objects we'll encode, as this gives us the size for encoding object references.
 	NPListBinaryEncodeInfo encodeInfo{};
 
@@ -1221,7 +1221,7 @@ uint64_t NPropertyList::EncodeBinary_GetObjectCount(const NAny& theValue)
 	// with dictionaries also generating objects for each of their keys.
 	uint64_t numObjects = 1;
 
-	if (theValue.Has<NArray>())
+	if (theValue.Is<NArray>())
 	{
 		for (const auto& childValue : theValue.Get<NArray>())
 		{
@@ -1229,7 +1229,7 @@ uint64_t NPropertyList::EncodeBinary_GetObjectCount(const NAny& theValue)
 		}
 	}
 
-	else if (theValue.Has<NDictionary>())
+	else if (theValue.Is<NDictionary>())
 	{
 		for (const auto& keyValue : theValue.Get<NDictionary>())
 		{
@@ -1349,7 +1349,7 @@ uint64_t NPropertyList::EncodeBinary_Any(NPListBinaryEncodeInfo& encodeInfo, con
 	// Encode the value
 	NNumber theNumber;
 
-	if (theValue.HasBool())
+	if (theValue.IsBool())
 	{
 		EncodeBinary_Boolean(encodeInfo, theValue.GetBool());
 	}
@@ -1366,27 +1366,27 @@ uint64_t NPropertyList::EncodeBinary_Any(NPListBinaryEncodeInfo& encodeInfo, con
 		}
 	}
 
-	else if (theValue.HasString())
+	else if (theValue.IsString())
 	{
 		EncodeBinary_String(encodeInfo, theValue.GetString());
 	}
 
-	else if (theValue.HasData())
+	else if (theValue.IsData())
 	{
 		EncodeBinary_Data(encodeInfo, theValue.GetData());
 	}
 
-	else if (theValue.HasTime())
+	else if (theValue.IsTime())
 	{
 		EncodeBinary_Time(encodeInfo, theValue.GetTime());
 	}
 
-	else if (theValue.Has<NArray>())
+	else if (theValue.Is<NArray>())
 	{
 		EncodeBinary_Array(encodeInfo, theValue.Get<NArray>());
 	}
 
-	else if (theValue.Has<NDictionary>())
+	else if (theValue.Is<NDictionary>())
 	{
 		EncodeBinary_Dictionary(encodeInfo, theValue.Get<NDictionary>());
 	}
@@ -1723,7 +1723,7 @@ NDictionary NPropertyList::DecodeFromBinary(const NData& theData)
 	uint64_t rootOffset = DecodeBinary_GetObjectOffset(decodeInfo, theTrailer.rootObject);
 	NAny     rootObject = DecodeBinary_Any(decodeInfo, rootOffset);
 
-	NN_REQUIRE(rootObject.Has<NDictionary>());
+	NN_REQUIRE(rootObject.Is<NDictionary>());
 
 	return rootObject.Get<NDictionary>();
 }
@@ -2175,7 +2175,7 @@ NDictionary NPropertyList::DecodeBinary_Dictionary(const NPListBinaryDecodeInfo&
 		NAny keyObject   = DecodeBinary_Any(decodeInfo, keyOffset);
 		NAny valueObject = DecodeBinary_Any(decodeInfo, valueOffset);
 
-		if (keyObject.HasString())
+		if (keyObject.IsString())
 		{
 			theValue[keyObject.GetString()] = valueObject;
 		}

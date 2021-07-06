@@ -128,23 +128,23 @@ NComparison NAny::CompareOrder(const NAny& theValue) const
 		// Only known value types can be compared.
 		else
 		{
-			if (Has<NArray>())
+			if (Is<NArray>())
 			{
 				theResult = NCompare(Get<NArray>(), theValue.Get<NArray>());
 			}
-			else if (Has<NData>())
+			else if (Is<NData>())
 			{
 				theResult = NCompare(Get<NData>(), theValue.Get<NData>());
 			}
-			else if (Has<NDictionary>())
+			else if (Is<NDictionary>())
 			{
 				theResult = NCompare(Get<NDictionary>(), theValue.Get<NDictionary>());
 			}
-			else if (Has<NString>())
+			else if (Is<NString>())
 			{
 				theResult = NCompare(Get<NString>(), theValue.Get<NString>());
 			}
-			else if (Has<NTime>())
+			else if (Is<NTime>())
 			{
 				theResult = NCompare(Get<NTime>(), theValue.Get<NTime>());
 			}
