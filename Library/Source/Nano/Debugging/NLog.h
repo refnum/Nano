@@ -99,11 +99,11 @@ public:
 										NLog()  = default;
 									   ~NLog()  = default;
 
-										NLog(     const NLog&) = delete;
-	NLog&                               operator=(const NLog&) = delete;
+										NLog(     const NLog& otherLog) = delete;
+	NLog&                               operator=(const NLog& otherLog) = delete;
 
-										NLog(     NLog&&)  = delete;
-	NLog&                               operator=(NLog&&)  = delete;
+										NLog(     NLog&& otherLog) = delete;
+	NLog&                               operator=(NLog&& otherLog) = delete;
 
 
 	// Log a message

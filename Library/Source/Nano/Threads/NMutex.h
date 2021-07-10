@@ -62,11 +62,11 @@ public:
 										NMutex();
 									   ~NMutex();
 
-										NMutex(   const NMutex&) = delete;
-	NMutex&                             operator=(const NMutex&) = delete;
+										NMutex(   const NMutex& otherMutex) = delete;
+	NMutex&                             operator=(const NMutex& otherMutex) = delete;
 
-										NMutex(   const NMutex&&) = delete;
-	NMutex&                             operator=(const NMutex&&) = delete;
+										NMutex(   const NMutex&& otherMutex) = delete;
+	NMutex&                             operator=(const NMutex&& otherMutex) = delete;
 
 
 	// Is the lock locked?

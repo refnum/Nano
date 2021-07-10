@@ -88,11 +88,11 @@ public:
 										NUsageBucket(const std::string& theTag);
 									   ~NUsageBucket();
 
-										NUsageBucket(const NUsageBucket&) = delete;
-	NUsageBucket&                       operator=(   const NUsageBucket&) = delete;
+										NUsageBucket(const NUsageBucket& otherBucket) = delete;
+	NUsageBucket&                       operator=(   const NUsageBucket& otherBucket) = delete;
 
-										NUsageBucket(NUsageBucket&&) = delete;
-	NUsageBucket&                       operator=(   NUsageBucket&&) = delete;
+										NUsageBucket(NUsageBucket&& otherBucket) = delete;
+	NUsageBucket&                       operator=(   NUsageBucket&& otherBucket) = delete;
 
 
 	// Add an entry

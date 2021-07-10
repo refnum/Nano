@@ -124,11 +124,11 @@ public:
 										NUsageLog()  = default;
 									   ~NUsageLog()  = default;
 
-										NUsageLog(const NUsageLog&) = delete;
-	NUsageLog&                          operator=(const NUsageLog&) = delete;
+										NUsageLog(const NUsageLog& otherLog) = delete;
+	NUsageLog&                          operator=(const NUsageLog& otherLog) = delete;
 
-										NUsageLog(NUsageLog&&) = delete;
-	NUsageLog&                          operator=(NUsageLog&&) = delete;
+										NUsageLog(NUsageLog&& otherLog) = delete;
+	NUsageLog&                          operator=(NUsageLog&& otherLog) = delete;
 
 
 	// Add / remove a bucket

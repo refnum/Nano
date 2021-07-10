@@ -81,11 +81,11 @@ public:
 										NSemaphore(size_t theValue = 0);
 									   ~NSemaphore();
 
-										NSemaphore(const NSemaphore& theSemaphore) = delete;
-	NSemaphore&                         operator=( const NSemaphore& theSemaphore) = delete;
+										NSemaphore(const NSemaphore& otherSemaphore) = delete;
+	NSemaphore&                         operator=( const NSemaphore& otherSemaphore) = delete;
 
-										NSemaphore(NSemaphore&& theSemaphore);
-	NSemaphore&                         operator=( NSemaphore&& theSemaphore);
+										NSemaphore(NSemaphore&& otherSemaphore);
+	NSemaphore&                         operator=( NSemaphore&& otherSemaphore);
 
 
 	// Wait for the semaphore

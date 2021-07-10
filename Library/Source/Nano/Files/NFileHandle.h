@@ -143,11 +143,11 @@ public:
 										NFileHandle();
 									   ~NFileHandle();
 
-										NFileHandle(const NFileHandle&) = delete;
-	NFileHandle&                        operator=(  const NFileHandle&) = delete;
+										NFileHandle(const NFileHandle& otherFile) = delete;
+	NFileHandle&                        operator=(  const NFileHandle& otherFile) = delete;
 
-										NFileHandle(NFileHandle&&) = delete;
-	NFileHandle&                        operator=(  NFileHandle&&) = delete;
+										NFileHandle(NFileHandle&& otherFile) = delete;
+	NFileHandle&                        operator=(  NFileHandle&& otherFile) = delete;
 
 
 	// Is the handle open?

@@ -198,11 +198,11 @@ public:
 										NTestFixture();
 	virtual                            ~NTestFixture() = default;
 
-										NTestFixture(const NTestFixture&) = delete;
-	NTestFixture&                       operator=(   const NTestFixture&) = delete;
+										NTestFixture(const NTestFixture& otherFixture) = delete;
+	NTestFixture&                       operator=(   const NTestFixture& otherFixture) = delete;
 
-										NTestFixture(NTestFixture&&) = delete;
-	NTestFixture&                       operator=(   NTestFixture&&) = delete;
+										NTestFixture(NTestFixture&& otherFixture) = delete;
+	NTestFixture&                       operator=(   NTestFixture&& otherFixture) = delete;
 
 
 	// Pre/post test hooks

@@ -64,11 +64,11 @@ public:
 										NLogOutput()          = default;
 	virtual                            ~NLogOutput()          = default;
 
-										NLogOutput(const NLogOutput&) = delete;
-	NLogOutput&                         operator=( const NLogOutput&) = delete;
+										NLogOutput(const NLogOutput& otherOutput) = delete;
+	NLogOutput&                         operator=( const NLogOutput& otherOutput) = delete;
 
-										NLogOutput(NLogOutput&&) = delete;
-	NLogOutput&                         operator=( NLogOutput&&) = delete;
+										NLogOutput(NLogOutput&& otherOutput) = delete;
+	NLogOutput&                         operator=( NLogOutput&& otherOutput) = delete;
 
 
 	// Log a message
@@ -88,11 +88,11 @@ public:
 										NLogOutputConsole()                   = default;
 	virtual                            ~NLogOutputConsole() override          = default;
 
-										NLogOutputConsole(const NLogOutputConsole&) = delete;
-	NLogOutputConsole&                  operator=(        const NLogOutputConsole&) = delete;
+										NLogOutputConsole(const NLogOutputConsole& otherOutput) = delete;
+	NLogOutputConsole&                  operator=(        const NLogOutputConsole& otherOutput) = delete;
 
-										NLogOutputConsole(NLogOutputConsole&&) = delete;
-	NLogOutputConsole&                  operator=(        NLogOutputConsole&&) = delete;
+										NLogOutputConsole(NLogOutputConsole&& otherOutput) = delete;
+	NLogOutputConsole&                  operator=(        NLogOutputConsole&& otherOutput) = delete;
 
 
 	// Log a message
