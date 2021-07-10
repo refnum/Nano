@@ -58,7 +58,8 @@
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-using NDBFlags                                              = uint16_t;
+// DB flags
+using NDBFlags                                              = uint8_t;
 
 inline constexpr NDBFlags kNDBNone                          = 0;
 inline constexpr NDBFlags kNDBReadOnly                      = (1 << 0);
