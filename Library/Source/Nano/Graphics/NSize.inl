@@ -4,8 +4,6 @@
 	DESCRIPTION:
 		Size object.
 
-		NEncodable support uses a helper class to avoid a v-table.
-
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
 		All rights reserved.
