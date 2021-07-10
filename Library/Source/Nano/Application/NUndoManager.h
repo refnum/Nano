@@ -46,6 +46,7 @@
 #include "NString.h"
 
 // System
+#include <functional>
 #include <vector>
 
 
