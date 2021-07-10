@@ -78,6 +78,21 @@ NTime NTimeUtils::GetAbsolute(NInterval theInterval)
 
 
 //=============================================================================
+//		NTimeUtils::IsAfter : Check the current time.
+//-----------------------------------------------------------------------------
+bool NTimeUtils::IsAfter(NTime theTime)
+{
+
+
+	// Check the time
+	return NTimeUtils::GetTime() >= theTime;
+}
+
+
+
+
+
+//=============================================================================
 //		NTimeUtils::ToTimespec : Convert to a timespec.
 //-----------------------------------------------------------------------------
 struct timespec NTimeUtils::ToTimespec(NInterval theInterval)

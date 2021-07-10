@@ -71,6 +71,12 @@ public:
 	static NTime                        GetAbsolute(NInterval theInterval);
 
 
+	// Check the current time
+	//
+	// Returns as the current time is after the specified time.
+	static bool                         IsAfter(NTime theTime);
+
+
 	// Get the clock ticks
 	//
 	// Returns the ticks since boot in the sytem clock.

@@ -40,6 +40,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NTestFixture.h"
+#include "NThread.h"
 #include "NTimeUtils.h"
 
 
@@ -110,6 +111,25 @@ NANO_TEST(TTimeUtils, "GetAbsolute")
 	REQUIRE(NTimeUtils::GetAbsolute(kNTimeNone) >= timeNow);
 	REQUIRE(NTimeUtils::GetAbsolute(kNTimeForever) > timeNow);
 	REQUIRE(NTimeUtils::GetAbsolute(1.0) > timeNow);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TTimeUtils, "IsAfter")
+{
+
+
+	// Perform the test
+	NTime endTime = NTimeUtils::GetTime() + 0.100;
+	REQUIRE(!NTimeUtils::IsAfter(endTime));
+
+	NThread::Sleep(0.150);
+	REQUIRE(NTimeUtils::IsAfter(endTime));
 }
 
 
