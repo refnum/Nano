@@ -127,6 +127,8 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Graphics/NColor.cpp"
 		"${NN_SOURCE_DIR}/Nano/Graphics/NColor.h"
 		"${NN_SOURCE_DIR}/Nano/Graphics/NColor.inl"
+		"${NN_SOURCE_DIR}/Nano/Graphics/NGeomUtils.cpp"
+		"${NN_SOURCE_DIR}/Nano/Graphics/NGeomUtils.h"
 		"${NN_SOURCE_DIR}/Nano/Graphics/NImage.cpp"
 		"${NN_SOURCE_DIR}/Nano/Graphics/NImage.h"
 		"${NN_SOURCE_DIR}/Nano/Graphics/NImage.inl"

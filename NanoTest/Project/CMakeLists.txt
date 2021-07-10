@@ -82,6 +82,7 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Files/TUTI.cpp"
 		"${NN_SOURCE_DIR}/Nano/Files/TUTIRegistry.cpp"
 		"${NN_SOURCE_DIR}/Nano/Graphics/TColor.cpp"
+		"${NN_SOURCE_DIR}/Nano/Graphics/TGeomUtils.cpp"
 		"${NN_SOURCE_DIR}/Nano/Graphics/TImage.cpp"
 		"${NN_SOURCE_DIR}/Nano/Graphics/TPoint.cpp"
 		"${NN_SOURCE_DIR}/Nano/Graphics/TRectangle.cpp"

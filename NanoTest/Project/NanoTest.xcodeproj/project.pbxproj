@@ -10,6 +10,9 @@
 		AB0267C62699ACDF00130611 /* TShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3326D11046C9B100C8DF0A /* TShape.cpp */; };
 		AB0267C72699ACDF00130611 /* TShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3326D11046C9B100C8DF0A /* TShape.cpp */; };
 		AB0267C82699ACE000130611 /* TShape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3326D11046C9B100C8DF0A /* TShape.cpp */; };
+		AB0267DE2699EDAB00130611 /* TGeomUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0267DD2699EDAB00130611 /* TGeomUtils.cpp */; };
+		AB0267DF2699EDAB00130611 /* TGeomUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0267DD2699EDAB00130611 /* TGeomUtils.cpp */; };
+		AB0267E02699EDAB00130611 /* TGeomUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0267DD2699EDAB00130611 /* TGeomUtils.cpp */; };
 		AB07EA41239A55CE00E0AC49 /* TSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D981034184B00E5A6AD /* TSemaphore.cpp */; };
 		AB07EA42239A55CE00E0AC49 /* TSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D981034184B00E5A6AD /* TSemaphore.cpp */; };
 		AB07EA43239A55CE00E0AC49 /* TSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D981034184B00E5A6AD /* TSemaphore.cpp */; };
@@ -375,6 +378,7 @@
 /* Begin PBXFileReference section */
 		20286C33FDCF999611CA2CEA /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		8D0C4E970486CD37000505A6 /* NanoTest_macOS */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NanoTest_macOS; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB0267DD2699EDAB00130611 /* TGeomUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TGeomUtils.cpp; sourceTree = "<group>"; };
 		AB081C4525BC78530058D397 /* TMathUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMathUtils.cpp; sourceTree = "<group>"; };
 		AB081C5625BCD5D40058D397 /* TRandom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TRandom.cpp; sourceTree = "<group>"; };
 		AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTimeUtils.cpp; sourceTree = "<group>"; };
@@ -386,7 +390,6 @@
 		AB1B4D9823F024FE00B304D3 /* TStringScanner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringScanner.cpp; sourceTree = "<group>"; };
 		AB1B4DA923F2F92A00B304D3 /* TStringTransformer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringTransformer.cpp; sourceTree = "<group>"; };
 		AB1BA195104E7D1400BB002B /* TTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTransform.cpp; sourceTree = "<group>"; };
-		AB1BA2A3105016AF00BB002B /* TGeometryUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TGeometryUtilities.cpp; sourceTree = "<group>"; };
 		AB20329225D73E1F0050DB00 /* TStdMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdMath.cpp; sourceTree = "<group>"; };
 		AB269E0525BBAEA7007EAEF8 /* TStdUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdUtility.cpp; sourceTree = "<group>"; };
 		AB2A304824524CD700F21BF6 /* TDebugger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDebugger.cpp; sourceTree = "<group>"; };
@@ -826,7 +829,6 @@
 		AB514DC31034184B00E5A6AD /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				AB1BA2A3105016AF00BB002B /* TGeometryUtilities.cpp */,
 				AB514DCC1034184B00E5A6AD /* TTextUtilities.cpp */,
 			);
 			path = Utilities;
@@ -862,6 +864,7 @@
 			isa = PBXGroup;
 			children = (
 				AB14320D103F512C002BD0D1 /* TColor.cpp */,
+				AB0267DD2699EDAB00130611 /* TGeomUtils.cpp */,
 				ABB4E03F1767BA6800892A75 /* TImage.cpp */,
 				AB514E741034612D00E5A6AD /* TPoint.cpp */,
 				AB514E761034612D00E5A6AD /* TRectangle.cpp */,
@@ -1148,6 +1151,7 @@
 				ABF513172397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF58DBD267F508A00327252 /* TCFDate.cpp in Sources */,
 				ABF5131A2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
+				AB0267DF2699EDAB00130611 /* TGeomUtils.cpp in Sources */,
 				ABF58CF6267973BA00327252 /* TUTIRegistry.cpp in Sources */,
 				ABF58D9A267C94DC00327252 /* TCFData.cpp in Sources */,
 				AB4EEBF12693CD74005816E3 /* TMap.cpp in Sources */,
@@ -1261,6 +1265,7 @@
 				ABF513162397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF58DBE267F508A00327252 /* TCFDate.cpp in Sources */,
 				ABF513192397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
+				AB0267DE2699EDAB00130611 /* TGeomUtils.cpp in Sources */,
 				ABF58CF5267973BA00327252 /* TUTIRegistry.cpp in Sources */,
 				ABF58D97267C94DA00327252 /* TCFData.cpp in Sources */,
 				AB4EEBF02693CD74005816E3 /* TMap.cpp in Sources */,
@@ -1374,6 +1379,7 @@
 				ABF513182397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF58DBC267F508A00327252 /* TCFDate.cpp in Sources */,
 				ABF5131B2397C3FB001F9F8B /* TMixinHashable.cpp in Sources */,
+				AB0267E02699EDAB00130611 /* TGeomUtils.cpp in Sources */,
 				ABF58CF7267973BA00327252 /* TUTIRegistry.cpp in Sources */,
 				ABF58D99267C94DC00327252 /* TCFData.cpp in Sources */,
 				AB4EEBF22693CD74005816E3 /* TMap.cpp in Sources */,
