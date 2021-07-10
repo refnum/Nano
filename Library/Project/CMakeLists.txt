@@ -134,6 +134,8 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Graphics/NPoint.inl"
 		"${NN_SOURCE_DIR}/Nano/Graphics/NRectangle.h"
 		"${NN_SOURCE_DIR}/Nano/Graphics/NRectangle.inl"
+		"${NN_SOURCE_DIR}/Nano/Graphics/NShape.h"
+		"${NN_SOURCE_DIR}/Nano/Graphics/NShape.inl"
 		"${NN_SOURCE_DIR}/Nano/Graphics/NSize.h"
 		"${NN_SOURCE_DIR}/Nano/Graphics/NSize.inl"
 		"${NN_SOURCE_DIR}/Nano/Graphics/NVector.h"

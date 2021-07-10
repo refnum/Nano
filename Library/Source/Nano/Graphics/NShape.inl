@@ -1,5 +1,5 @@
 /*	NAME:
-		NShape.h
+		NShape.inl
 
 	DESCRIPTION:
 		Shape object.
@@ -36,57 +36,90 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NSHAPE_HDR
-#define NSHAPE_HDR
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NMixinComparable.h"
-#include "NPoint.h"
 
 
 
 
 
 //=============================================================================
-//		Class Declaration
+//		NShape::NShape : Constructor.
 //-----------------------------------------------------------------------------
-class NN_EMPTY_BASE NShape final : public NMixinComparable<NShape>
+inline NShape::NShape(const NVectorPoint& thePoints, const NVectorSize& theLoops)
+	: points(thePoints)
+	, loops(theLoops)
 {
-public:
-										NShape(const NVectorPoint& thePoints, const NVectorSize& theLoops = {});
-										NShape() = default;
+}
+
+
+
+
+
+//=============================================================================
+//		NShape::Clear : Clear the shape.
+//-----------------------------------------------------------------------------
+inline void NShape::Clear()
+{
 
 
 	// Clear the shape
-	void                                Clear();
-
-
-	// Is the shape empty?
-	bool                                IsEmpty() const;
-
-
-
-public:
-	// NMixinComparable
-	bool                                CompareEqual(const NShape& theShape) const;
-	NComparison                         CompareOrder(const NShape& theShape) const;
-
-
-public:
-	NVectorPoint                        points;
-	NVectorSize                         loops;
-};
+	points.clear();
+	loops.clear();
+}
 
 
 
 
 
 //=============================================================================
-//		Includes
+//		NShape::IsEmpty : Is the shape empty?
 //-----------------------------------------------------------------------------
-#include "NShape.inl"
+inline bool NShape::IsEmpty() const
+{
+
+
+	// Test the shape
+	return points.empty();
+}
 
 
 
-#endif // NSIZE_HDR
+
+
+#pragma mark NMixinComparable
+//=============================================================================
+//		NShape::CompareEqual : Perform an equality comparison.
+//-----------------------------------------------------------------------------
+inline bool NShape::CompareEqual(const NShape& theShape) const
+{
+
+
+	// Compare the shape
+	return points == theShape.points && loops == theShape.loops;
+}
+
+
+
+
+
+//=============================================================================
+//		NShape::CompareOrder : Perform a three-way comparison.
+//-----------------------------------------------------------------------------
+inline NComparison NShape::CompareOrder(const NShape& theShape) const
+{
+
+
+	// Order the shape
+	//
+	// Sort by size of content; sorting by area might be more appropriate.
+	NComparison theResult = NCompare(points.size(), theShape.points.size());
+
+	if (theResult == NComparison::EqualTo)
+	{
+		theResult = NCompare(loops.size(), theShape.loops.size());
+	}
+
+	return theResult;
+}

@@ -506,6 +506,7 @@
 		AB0267BF2699A94900130611 /* sqlite3.36.0.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.36.0.c; sourceTree = "<group>"; };
 		AB0267C02699A94900130611 /* Nano_sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nano_sqlite3.h; sourceTree = "<group>"; };
 		AB0267C12699A94900130611 /* sqlite3.36.0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.36.0.h; sourceTree = "<group>"; };
+		AB0267C52699ACA100130611 /* NShape.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NShape.inl; sourceTree = "<group>"; };
 		AB03E590237A0C3200FACADF /* Nano_tvOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano_tvOS.xcconfig; sourceTree = "<group>"; };
 		AB03E642237A0C5F00FACADF /* libNano_tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano_tvOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB078D2711D4A988006C9347 /* NUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUIKit.h; sourceTree = "<group>"; };
@@ -632,7 +633,6 @@
 		AB328C8A17612D8400782F40 /* catch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = catch.hpp; sourceTree = "<group>"; };
 		AB328C8B17612D8400782F40 /* NTestFixture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTestFixture.cpp; sourceTree = "<group>"; };
 		AB328C8C17612D8400782F40 /* NTestFixture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTestFixture.h; sourceTree = "<group>"; };
-		AB3326B11046C6F000C8DF0A /* NShape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NShape.cpp; sourceTree = "<group>"; };
 		AB3326B21046C6F000C8DF0A /* NShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NShape.h; sourceTree = "<group>"; };
 		AB35B34210011269009B75EF /* NTextUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTextUtilities.cpp; sourceTree = "<group>"; };
 		AB35B34310011269009B75EF /* NTextUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTextUtilities.h; sourceTree = "<group>"; };
@@ -1403,8 +1403,8 @@
 				ABE7C0BC25D04AC800914618 /* NPoint.inl */,
 				AB514E5C103460CB00E5A6AD /* NRectangle.h */,
 				ABE7C0BD25D04AC800914618 /* NRectangle.inl */,
-				AB3326B11046C6F000C8DF0A /* NShape.cpp */,
 				AB3326B21046C6F000C8DF0A /* NShape.h */,
+				AB0267C52699ACA100130611 /* NShape.inl */,
 				AB514E5E103460CB00E5A6AD /* NSize.h */,
 				ABE7C0BE25D04AC800914618 /* NSize.inl */,
 				AB1BA181104E7CD300BB002B /* NTransform.cpp */,
