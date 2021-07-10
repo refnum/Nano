@@ -43,6 +43,7 @@
 //-----------------------------------------------------------------------------
 #include "NMixinComparable.h"
 #include "NPoint.h"
+#include "NRectangle.h"
 
 
 
@@ -65,6 +66,9 @@ public:
 	// Is the shape empty?
 	bool                                IsEmpty() const;
 
+
+	// Get the bounds
+	NRectangle                          GetBounds() const;
 
 
 public:

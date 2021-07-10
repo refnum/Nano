@@ -39,6 +39,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NGeomUtils.h"
 
 
 
@@ -82,6 +83,21 @@ inline bool NShape::IsEmpty() const
 
 	// Test the shape
 	return points.empty();
+}
+
+
+
+
+
+//=============================================================================
+//		NShape::GetBounds : Get the bounds.
+//-----------------------------------------------------------------------------
+inline NRectangle NShape::GetBounds() const
+{
+
+
+	// Get the bounds
+	return NGeomUtils::GetBounds(points);
 }
 
 
