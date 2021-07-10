@@ -54,12 +54,12 @@
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-// Parser options
-using NXMLParserOptions                                     = uint16_t;
+// Parser flags
+using NXMLParserFlags                                       = uint8_t;
 
-inline constexpr NXMLParserOptions kNXMLParserNone              = 0;
-inline constexpr NXMLParserOptions kNXMLParserSkipWhitespace    = (1 << 0);
-inline constexpr NXMLParserOptions kNXMLParserDefault           = kNXMLParserSkipWhitespace;
+inline constexpr NXMLParserFlags kNXMLParserNone            = 0;
+inline constexpr NXMLParserFlags kNXMLParserSkipWhitespace  = (1 << 0);
+inline constexpr NXMLParserFlags kNXMLParserDefault         = kNXMLParserSkipWhitespace;
 
 
 // Parsing progress
@@ -133,8 +133,8 @@ public:
 
 
 	// Get/set the options
-	NXMLParserOptions                   GetOptions() const;
-	void                                SetOptions(NXMLParserOptions setThese, NXMLParserOptions clearThese = kNXMLParserNone);
+	NXMLParserFlags                     GetOptions() const;
+	void                                SetOptions(NXMLParserFlags setThese, NXMLParserFlags clearThese = kNXMLParserNone);
 
 
 	// Parse a document
@@ -191,7 +191,7 @@ private:
 
 private:
 	struct XML_ParserStruct*            mParser;
-	NXMLParserOptions                   mOptions;
+	NXMLParserFlags                     mOptions;
 
 	bool                                mInsideCData;
 	bool                                mIsParsing;

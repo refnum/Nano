@@ -150,7 +150,7 @@ void NXMLParser::Clear()
 //=============================================================================
 //		NXMLParser::GetOptions : Get the options.
 //-----------------------------------------------------------------------------
-NXMLParserOptions NXMLParser::GetOptions() const
+NXMLParserFlags NXMLParser::GetOptions() const
 {
 
 
@@ -165,7 +165,7 @@ NXMLParserOptions NXMLParser::GetOptions() const
 //=============================================================================
 //		NXMLParser::SetOptions : Set the options.
 //-----------------------------------------------------------------------------
-void NXMLParser::SetOptions(NXMLParserOptions setThese, NXMLParserOptions clearThese)
+void NXMLParser::SetOptions(NXMLParserFlags setThese, NXMLParserFlags clearThese)
 {
 
 
