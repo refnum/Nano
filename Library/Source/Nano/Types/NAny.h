@@ -70,7 +70,7 @@ using NVectorAny = std::vector<NAny>;
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NAny final
+class NN_EMPTY_BASE NAny final
 	: public std::any
 	, public NMixinComparable<NAny>
 {

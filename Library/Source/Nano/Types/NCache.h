@@ -78,7 +78,7 @@ using NMapCacheEntries = std::unordered_map<K, NCacheEntry<V>>;
 //		Class Declaration
 //-----------------------------------------------------------------------------
 template<typename K, typename V>
-class NCache : public NMixinContainer<NCache<K, V>>
+class NN_EMPTY_BASE NCache : public NMixinContainer<NCache<K, V>>
 {
 public:
 										NCache();
