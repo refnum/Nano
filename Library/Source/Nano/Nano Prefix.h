@@ -43,23 +43,12 @@
 //-----------------------------------------------------------------------------
 // PCRE
 #define HAVE_CONFIG_H                                       1
-#define SUPPORT_UNICODE                                     1
-#define PCRE2_STATIC                                        1
 #define PCRE2_CODE_UNIT_WIDTH                               8
 
 
 // Expat
 #define XML_STATIC                                          1
 
-
-
-// Nano 3.x
-/*
-
-   // ZLib
- #define Z_PREFIX                                           1
- #define z_Byte                                             uint8_t
- */
 
 
 #endif // NANO_PREFIX_H
