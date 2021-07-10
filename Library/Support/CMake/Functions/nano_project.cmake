@@ -256,7 +256,7 @@ function(nano_project_options)
 			target_compile_options("${PROJECT_NAME}" PRIVATE ${ARGUMENT_ALL})
 
 		elseif (ARGUMENT_CLANG AND NN_COMPILER_CLANG)
-			target_compile_options("${PROJECT_NAME}" PRIVATE ${ARGUMENT_MSVC})
+			target_compile_options("${PROJECT_NAME}" PRIVATE ${ARGUMENT_CLANG})
 
 		elseif (ARGUMENT_GCC AND NN_COMPILER_GCC)
 			target_compile_options("${PROJECT_NAME}" PRIVATE ${ARGUMENT_GCC})
