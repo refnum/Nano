@@ -138,6 +138,8 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Graphics/NShape.inl"
 		"${NN_SOURCE_DIR}/Nano/Graphics/NSize.h"
 		"${NN_SOURCE_DIR}/Nano/Graphics/NSize.inl"
+		"${NN_SOURCE_DIR}/Nano/Graphics/NTransform.h"
+		"${NN_SOURCE_DIR}/Nano/Graphics/NTransform.inl"
 		"${NN_SOURCE_DIR}/Nano/Graphics/NVector.h"
 		"${NN_SOURCE_DIR}/Nano/Graphics/NVector.inl"
 		"${NN_SOURCE_DIR}/Nano/Internal/Components/expat-2.4.1/ascii.h"

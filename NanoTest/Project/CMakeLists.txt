@@ -87,6 +87,7 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Graphics/TRectangle.cpp"
 		"${NN_SOURCE_DIR}/Nano/Graphics/TShape.cpp"
 		"${NN_SOURCE_DIR}/Nano/Graphics/TSize.cpp"
+		"${NN_SOURCE_DIR}/Nano/Graphics/TTransform.cpp"
 		"${NN_SOURCE_DIR}/Nano/Graphics/TVector.cpp"
 		"${NN_SOURCE_DIR}/Nano/Maths/TMathUtils.cpp"
 		"${NN_SOURCE_DIR}/Nano/Maths/TRandom.cpp"
