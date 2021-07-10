@@ -41,13 +41,24 @@
 //=============================================================================
 //		Macros
 //-----------------------------------------------------------------------------
+// Expat
+#define XML_STATIC                                          1
+
+
 // PCRE
 #define HAVE_CONFIG_H                                       1
 #define PCRE2_CODE_UNIT_WIDTH                               8
 
 
-// Expat
-#define XML_STATIC                                          1
+// SQLite
+#define SQLITE_ENABLE_MEMORY_MANAGEMENT                     1
+#define SQLITE_THREADSAFE                                   1
+
+#if NN_DEBUG
+	#define SQLITE_DEBUG                                    1
+#else
+	#define NDEBUG                                          1
+#endif
 
 
 

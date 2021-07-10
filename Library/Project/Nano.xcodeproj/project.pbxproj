@@ -109,6 +109,9 @@
 		AB0267BA2699A56400130611 /* pcre2_serialize.c in Sources */ = {isa = PBXBuildFile; fileRef = AB02675D2699A56400130611 /* pcre2_serialize.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB0267BB2699A56400130611 /* pcre2_serialize.c in Sources */ = {isa = PBXBuildFile; fileRef = AB02675D2699A56400130611 /* pcre2_serialize.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB0267BC2699A56400130611 /* pcre2_serialize.c in Sources */ = {isa = PBXBuildFile; fileRef = AB02675D2699A56400130611 /* pcre2_serialize.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB0267C22699A94900130611 /* sqlite3.36.0.c in Sources */ = {isa = PBXBuildFile; fileRef = AB0267BF2699A94900130611 /* sqlite3.36.0.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB0267C32699A94900130611 /* sqlite3.36.0.c in Sources */ = {isa = PBXBuildFile; fileRef = AB0267BF2699A94900130611 /* sqlite3.36.0.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB0267C42699A94900130611 /* sqlite3.36.0.c in Sources */ = {isa = PBXBuildFile; fileRef = AB0267BF2699A94900130611 /* sqlite3.36.0.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB07EA272399D3D000E0AC49 /* iOSNTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA262399D3D000E0AC49 /* iOSNTimeUtils.cpp */; };
 		AB07EA3E239A522E00E0AC49 /* iOSNSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB07EA3B239A521F00E0AC49 /* iOSNSemaphore.cpp */; };
 		AB07EA44239A567400E0AC49 /* NSemaphore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */; };
@@ -198,9 +201,6 @@
 		AB371AAA25CB931D00DEC50B /* NBitVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155400F9B4DD6009FFEAF /* NBitVector.cpp */; };
 		AB371AAE25CB931D00DEC50B /* NBitVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155400F9B4DD6009FFEAF /* NBitVector.cpp */; };
 		AB371AAF25CB931E00DEC50B /* NBitVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155400F9B4DD6009FFEAF /* NBitVector.cpp */; };
-		AB3A4987258194580065B4DA /* sqlite3.34.0.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4984258194580065B4DA /* sqlite3.34.0.c */; };
-		AB3A4988258194580065B4DA /* sqlite3.34.0.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4984258194580065B4DA /* sqlite3.34.0.c */; };
-		AB3A4989258194580065B4DA /* sqlite3.34.0.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4984258194580065B4DA /* sqlite3.34.0.c */; };
 		AB3A4995258199E70065B4DA /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4991258199E70065B4DA /* json.c */; };
 		AB3A4996258199E70065B4DA /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4991258199E70065B4DA /* json.c */; };
 		AB3A4997258199E70065B4DA /* json.c in Sources */ = {isa = PBXBuildFile; fileRef = AB3A4991258199E70065B4DA /* json.c */; };
@@ -502,6 +502,10 @@
 		AB02675D2699A56400130611 /* pcre2_serialize.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pcre2_serialize.c; sourceTree = "<group>"; };
 		AB02675E2699A56400130611 /* pcre2_jit_simd_inc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcre2_jit_simd_inc.h; sourceTree = "<group>"; };
 		AB02675F2699A56400130611 /* LICENCE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENCE; sourceTree = "<group>"; };
+		AB0267BE2699A94900130611 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		AB0267BF2699A94900130611 /* sqlite3.36.0.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.36.0.c; sourceTree = "<group>"; };
+		AB0267C02699A94900130611 /* Nano_sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nano_sqlite3.h; sourceTree = "<group>"; };
+		AB0267C12699A94900130611 /* sqlite3.36.0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.36.0.h; sourceTree = "<group>"; };
 		AB03E590237A0C3200FACADF /* Nano_tvOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano_tvOS.xcconfig; sourceTree = "<group>"; };
 		AB03E642237A0C5F00FACADF /* libNano_tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNano_tvOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB078D2711D4A988006C9347 /* NUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUIKit.h; sourceTree = "<group>"; };
@@ -636,9 +640,6 @@
 		AB371A2F25CAF80D00DEC50B /* NVersion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NVersion.cpp; sourceTree = "<group>"; };
 		AB371A3025CAF80D00DEC50B /* NVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NVersion.h; sourceTree = "<group>"; };
 		AB371AA625CB92D800DEC50B /* NBitVector.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NBitVector.inl; sourceTree = "<group>"; };
-		AB3A4984258194580065B4DA /* sqlite3.34.0.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.34.0.c; sourceTree = "<group>"; };
-		AB3A4985258194580065B4DA /* Nano_sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nano_sqlite3.h; sourceTree = "<group>"; };
-		AB3A4986258194580065B4DA /* sqlite3.34.0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.34.0.h; sourceTree = "<group>"; };
 		AB3A4991258199E70065B4DA /* json.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = json.c; sourceTree = "<group>"; };
 		AB3A4992258199E70065B4DA /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		AB3A4994258199E70065B4DA /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
@@ -1127,6 +1128,17 @@
 			path = "pcre2-10.37";
 			sourceTree = "<group>";
 		};
+		AB0267BD2699A94900130611 /* sqlite-3.36.0 */ = {
+			isa = PBXGroup;
+			children = (
+				AB0267BE2699A94900130611 /* LICENSE.md */,
+				AB0267C02699A94900130611 /* Nano_sqlite3.h */,
+				AB0267BF2699A94900130611 /* sqlite3.36.0.c */,
+				AB0267C12699A94900130611 /* sqlite3.36.0.h */,
+			);
+			path = "sqlite-3.36.0";
+			sourceTree = "<group>";
+		};
 		AB078D2611D4A988006C9347 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -1269,16 +1281,6 @@
 				AB328C8C17612D8400782F40 /* NTestFixture.h */,
 			);
 			path = Catch;
-			sourceTree = "<group>";
-		};
-		AB3A4983258194580065B4DA /* sqlite-3.34.0 */ = {
-			isa = PBXGroup;
-			children = (
-				AB3A4985258194580065B4DA /* Nano_sqlite3.h */,
-				AB3A4984258194580065B4DA /* sqlite3.34.0.c */,
-				AB3A4986258194580065B4DA /* sqlite3.34.0.h */,
-			);
-			path = "sqlite-3.34.0";
 			sourceTree = "<group>";
 		};
 		AB3A4990258199E70065B4DA /* json-parser-1.1.0 */ = {
@@ -1637,7 +1639,7 @@
 				AB3A4990258199E70065B4DA /* json-parser-1.1.0 */,
 				ABAA15E725DF492600785E5D /* libb64-2.0.0 */,
 				AB0267372699A56400130611 /* pcre2-10.37 */,
-				AB3A4983258194580065B4DA /* sqlite-3.34.0 */,
+				AB0267BD2699A94900130611 /* sqlite-3.36.0 */,
 				AB84535B2581A09D00B78BF7 /* WjCryptLib-2.3.0 */,
 				ABCA9E3825818E4000E0B965 /* xxHash-0.8.0 */,
 				AB2309EB2581AB8600919EBD /* zlib-1.2.11 */,
@@ -2153,6 +2155,7 @@
 				AB00E51D267FE2A80023F244 /* NCFNumber.cpp in Sources */,
 				AB02679E2699A56400130611 /* pcre2_substitute.c in Sources */,
 				AB62326A242AF51300651349 /* NLog.cpp in Sources */,
+				AB0267C42699A94900130611 /* sqlite3.36.0.c in Sources */,
 				AB230A222581AB8600919EBD /* inftrees.c in Sources */,
 				AB549B87269083C000B14417 /* NPropertyList.cpp in Sources */,
 				AB0267802699A56400130611 /* pcre2_match.c in Sources */,
@@ -2217,7 +2220,6 @@
 				ABF58CFC267973FB00327252 /* NUTIRegistry.cpp in Sources */,
 				AB230A342581AB8600919EBD /* adler32.c in Sources */,
 				ABDCE8A3241C22AD0054A16E /* NClock.cpp in Sources */,
-				AB3A4989258194580065B4DA /* sqlite3.34.0.c in Sources */,
 				AB230A282581AB8600919EBD /* gzwrite.c in Sources */,
 				ABF58CCE267932C300327252 /* NUndoManager.cpp in Sources */,
 				ABF58DB7267F4F5900327252 /* NCFDate.cpp in Sources */,
@@ -2309,6 +2311,7 @@
 				AB00E51B267FE2A70023F244 /* NCFNumber.cpp in Sources */,
 				AB02679C2699A56400130611 /* pcre2_substitute.c in Sources */,
 				ABA4791125B7B91300F3C3C9 /* iOSNSystem.cpp in Sources */,
+				AB0267C22699A94900130611 /* sqlite3.36.0.c in Sources */,
 				AB549B89269083C100B14417 /* NPropertyList.cpp in Sources */,
 				AB00E515267FDC2D0023F244 /* NCFData.cpp in Sources */,
 				AB02677E2699A56400130611 /* pcre2_match.c in Sources */,
@@ -2374,7 +2377,6 @@
 				AB62326B242AF51300651349 /* NLogOutput.cpp in Sources */,
 				AB230A322581AB8600919EBD /* adler32.c in Sources */,
 				ABDCE8B5241C59570054A16E /* NFileHandle.cpp in Sources */,
-				AB3A4987258194580065B4DA /* sqlite3.34.0.c in Sources */,
 				ABF58CCA267932C200327252 /* NUndoManager.cpp in Sources */,
 				ABF58DB5267F4F5900327252 /* NCFDate.cpp in Sources */,
 				ABF58C2C267572F300327252 /* NDataCompressor.cpp in Sources */,
@@ -2465,6 +2467,7 @@
 				AB00E51C267FE2A80023F244 /* NCFNumber.cpp in Sources */,
 				AB02679D2699A56400130611 /* pcre2_substitute.c in Sources */,
 				AB230A212581AB8600919EBD /* inftrees.c in Sources */,
+				AB0267C32699A94900130611 /* sqlite3.36.0.c in Sources */,
 				AB549B88269083C000B14417 /* NPropertyList.cpp in Sources */,
 				AB00E516267FDC2D0023F244 /* NCFData.cpp in Sources */,
 				AB02677F2699A56400130611 /* pcre2_match.c in Sources */,
@@ -2537,7 +2540,6 @@
 				AB230A332581AB8600919EBD /* adler32.c in Sources */,
 				AB081C6425BCD5E50058D397 /* NRandom.cpp in Sources */,
 				AB62326C242AF51300651349 /* NLogOutput.cpp in Sources */,
-				AB3A4988258194580065B4DA /* sqlite3.34.0.c in Sources */,
 				AB198117259953A9002C5591 /* NRunLoop.cpp in Sources */,
 				ABF58C30267572F300327252 /* NData.cpp in Sources */,
 				AB230A272581AB8600919EBD /* gzwrite.c in Sources */,
