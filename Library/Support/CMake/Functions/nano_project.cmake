@@ -46,8 +46,8 @@ function(nano_project PROJECT_TYPE)
 	if (PROJECT_TYPE STREQUAL "STATIC")
 		add_library("${PROJECT_NAME}" STATIC)
 
-	elseif (PROJECT_TYPE STREQUAL "DYNAMIC")
-		add_library("${PROJECT_NAME}" DYNAMIC)
+	elseif (PROJECT_TYPE STREQUAL "SHARED")
+		add_library("${PROJECT_NAME}" SHARED)
 
 	elseif (PROJECT_TYPE STREQUAL "INTERFACE")
 		add_library("${PROJECT_NAME}" INTERFACE)
