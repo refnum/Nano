@@ -794,8 +794,6 @@
 		AB9155140F9B4DD5009FFEAF /* NListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NListener.h; sourceTree = "<group>"; };
 		AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NByteSwap.cpp; sourceTree = "<group>"; };
 		AB9155170F9B4DD5009FFEAF /* NByteSwap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NByteSwap.h; sourceTree = "<group>"; };
-		AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUnicodeParser.cpp; sourceTree = "<group>"; };
-		AB91551B0F9B4DD5009FFEAF /* NUnicodeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUnicodeParser.h; sourceTree = "<group>"; };
 		AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NMacFile.cpp; sourceTree = "<group>"; };
 		AB9155220F9B4DD6009FFEAF /* NMacSystem.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NMacSystem.cpp; sourceTree = "<group>"; };
 		AB9155230F9B4DD6009FFEAF /* NMacTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMacTarget.cpp; sourceTree = "<group>"; };
@@ -1706,8 +1704,6 @@
 				ABA478B225B7B7A400F3C3C9 /* NSystem.h */,
 				AB53A404109B237800817E89 /* NTask.cpp */,
 				AB53A405109B237800817E89 /* NTask.h */,
-				AB91551A0F9B4DD5009FFEAF /* NUnicodeParser.cpp */,
-				AB91551B0F9B4DD5009FFEAF /* NUnicodeParser.h */,
 				AB371A2F25CAF80D00DEC50B /* NVersion.cpp */,
 				AB371A3025CAF80D00DEC50B /* NVersion.h */,
 				AB371A2E25CAF80D00DEC50B /* NVersion.inl */,
