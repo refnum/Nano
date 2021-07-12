@@ -41,7 +41,15 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nanp
 #include "NanoTargets.h"
+
+// System
+#include <atomic>
+#include <type_traits>
+
+namespace nstd
+{
 
 
 
@@ -66,6 +74,47 @@
 	#define NN_STD_ANY_ALIGNAS(_x)                          alignas(_x)
 #endif
 
+
+
+
+
+//=============================================================================
+//		nstd::is_lock_free : Is a std::atomic type always lock free?
+//-----------------------------------------------------------------------------
+template<typename T>
+struct is_lock_free
+{
+	static constexpr bool value = std::atomic<T>::is_always_lock_free;
+};
+
+template<class T>
+inline constexpr bool is_lock_free_v = is_lock_free<T>::value;
+
+
+
+
+
+//=============================================================================
+//		nstd::is_alloc_free : Is a type always allocation-free?
+//-----------------------------------------------------------------------------
+template<typename T>
+struct is_alloc_free
+{
+	static constexpr bool value = std::conjunction_v<std::is_trivially_destructible<T>,
+													 std::is_trivially_copyable<T>,
+													 std::is_copy_constructible<T>,
+													 std::is_move_constructible<T>,
+													 std::is_copy_assignable<T>,
+													 std::is_move_assignable<T>,
+													 nstd::is_lock_free<T>>;
+};
+
+template<class T>
+inline constexpr bool is_alloc_free_v = is_alloc_free<T>::value;
+
+
+
+}    // namespace nstd
 
 
 #endif // NSTD_UTILITY_H

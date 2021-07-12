@@ -42,6 +42,9 @@
 #include "NStdUtility.h"
 #include "NTestFixture.h"
 
+// System
+#include <string>
+
 
 
 
@@ -49,4 +52,39 @@
 //=============================================================================
 //		Test Fixture
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(NStdUtility){};
+NANO_FIXTURE(TStdUtility){};
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TStdUtility, "nstd::is_lock_free")
+{
+
+
+	// Perform the test
+	REQUIRE(nstd::is_lock_free<uint32_t>::value);
+	REQUIRE(nstd::is_lock_free_v<uint32_t>);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TStdUtility, "nstd::is_alloc_free")
+{
+
+
+	// Perform the test
+	REQUIRE(nstd::is_alloc_free<uint32_t>::value);
+	REQUIRE(nstd::is_alloc_free_v<uint32_t>);
+
+	REQUIRE(!nstd::is_alloc_free<std::string>::value);
+	REQUIRE(!nstd::is_alloc_free_v<std::string>);
+}
