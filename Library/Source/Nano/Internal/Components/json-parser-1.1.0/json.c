@@ -1,30 +1,3 @@
-//=============================================================================
-//		Nano
-//-----------------------------------------------------------------------------
-// Nano
-#include "NanoMacros.h"
-
-
-// System
-#include <assert.h>
-#include <stdbool.h>
-
-
-// json-parser
-NN_DIAGNOSTIC_IGNORE_CLANG("-Wfloat-conversion");
-NN_DIAGNOSTIC_IGNORE_CLANG("-Wimplicit-int-conversion");
-NN_DIAGNOSTIC_IGNORE_CLANG("-Wsign-conversion");
-NN_DIAGNOSTIC_IGNORE_CLANG("-Wunused-parameter");
-
-
-
-
-
-
-
-
-
-
 /* vim: set et ts=3 sw=3 sts=3 ft=c:
  *
  * Copyright (C) 2012, 2013, 2014 James McLaughlin et al.  All rights reserved.

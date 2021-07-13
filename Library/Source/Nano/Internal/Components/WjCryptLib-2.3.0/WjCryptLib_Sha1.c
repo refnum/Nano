@@ -1,29 +1,3 @@
-//=============================================================================
-//		Nano
-//-----------------------------------------------------------------------------
-// Nano
-#include "NanoMacros.h"
-
-
-// System
-#include <assert.h>
-#include <stdbool.h>
-
-
-// WjCryptLib
-NN_DIAGNOSTIC_IGNORE_CLANG("-Wcast-align");
-NN_DIAGNOSTIC_IGNORE_CLANG("-Wcast-qual");
-NN_DIAGNOSTIC_IGNORE_CLANG("-Wunused-macros");
-
-
-
-
-
-
-
-
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  WjCryptLib_Sha1
 //

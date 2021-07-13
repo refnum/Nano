@@ -59,11 +59,6 @@ extern "C"
 #endif // defined(__cplusplus)
 
 
-// System
-#include <assert.h>
-#include <stdbool.h>
-
-
 
 
 
