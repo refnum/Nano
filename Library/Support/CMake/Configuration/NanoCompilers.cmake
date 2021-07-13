@@ -129,6 +129,24 @@ elseif (NN_COMPILER_GCC)
 		-Werror
 		-Wextra
 
+		-Wcast-align
+		-Wconversion
+		-Wdouble-promotion
+		-Wduplicated-branches
+		-Wduplicated-cond
+		-Wformat=2
+		-Wlogical-op
+		-Wmisleading-indentation
+		-Wnon-virtual-dtor
+		-Wnull-dereference
+		-Wold-style-cast
+		-Woverloaded-virtual
+		-Wpedantic
+		-Wshadow
+		-Wsign-conversion
+		-Wunused
+		-Wuseless-cast
+
 		-Wno-unknown-pragmas
 	)
 
@@ -148,6 +166,25 @@ elseif (NN_COMPILER_MSVC)
 		/Wall
 		/WX												# Warnings as errors
 
+		-D_CRT_SECURE_NO_WARNINGS
+		/w14242											# Possible loss of data in conversion
+		/w14254											# Possible loss of data in conversion
+		/w14263											# Override does not override any base class virtual function
+		/w14265											# Class has virtual functions, but destructor is not virtual
+		/w14287											# Unsigned/negative constant mismatch
+		/w14296											# Expression is always true/false
+		/w14311											# Pointer truncation from 'type1' to 'type2'
+		/w14545											# Expression before comma evaluates to a function without arguments
+		/w14546											# Function call before comma missing argument list
+		/w14547											# Operator before comma has no effect
+		/w14549											# Operator before comma has no effect
+		/w14555											# Expression has no effect
+		/w14619											# Unknown warning pragma
+		/w14640											# Thread un-safe static member initialization
+		/w14826											# Conversion is sign-extended
+		/w14905											# Casting wide string literal to LPSTR
+		/w14906											# Casting string literal to LPWSTR
+		/w14928											# Illegal copy-initialization
 		/wd4061											# Enumerator in switch of enum is not explicitly handled by a case label
 		/wd4068											# Unknown pragma
 		/wd4206											# Translation unit is empty
@@ -168,7 +205,7 @@ elseif (NN_COMPILER_MSVC)
 		/wd5039											# Pointer to potentially throwing function passed to C function
 		/wd5045											# Spectre mitigation suggested
 		/wd5105											# Macro expansion producing 'defined' has undefined behavior
-		-D_CRT_SECURE_NO_WARNINGS
+		/we4289											# Loop control variable used outside for loop
 	)
 
 	list(APPEND NN_COMPILER_WARNINGS_MINIMUM
@@ -250,7 +287,7 @@ else()
 	nn_log_error("Unknown compiler!")
 endif()
 
-list(APPEND NN_COMPILER_OPTIONS $<$<CONFIG:Debug>:${NN_COMPILER_OPTIONS_Debug}>)
+list(APPEND NN_COMPILER_OPTIONS $<$<CONFIG:Debug>:  ${NN_COMPILER_OPTIONS_Debug}>)
 list(APPEND NN_COMPILER_OPTIONS $<$<CONFIG:Release>:${NN_COMPILER_OPTIONS_Release}>)
 
 
