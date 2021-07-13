@@ -90,6 +90,25 @@
 #endif
 
 
+// Consume a trailing semicolon
+//
+// Allows a function-like macro to consume a trailing semicolon.
+//
+// Example:
+//
+//		#if HAVE_FEATURE
+//			#define DO_FEATURE()	DoFeature();
+//		#else
+//			#define DO_FEATURE()	NN_CONSUME_SEMICOLON()
+//		#endif
+//
+//		void Function()
+//		{
+//			DO_FEATURE();
+//		}
+//
+#define NN_CONSUME_SEMICOLON()                              struct _nano_consume_trailing_semicolon
+
 
 // Break to the debugger
 //
@@ -134,31 +153,31 @@
 //
 //		NN_DIAGNOSTIC_POP();
 //
-#define NN_DIAGNOSTIC_PUSH()
-#define NN_DIAGNOSTIC_POP()
-#define NN_DIAGNOSTIC_IGNORE_CLANG(_warning)
-#define NN_DIAGNOSTIC_IGNORE_GCC(_warning)
-#define NN_DIAGNOSTIC_IGNORE_MSVC(_warning)
+#define NN_DIAGNOSTIC_PUSH()                                NN_CONSUME_SEMICOLON()
+#define NN_DIAGNOSTIC_POP()                                 NN_CONSUME_SEMICOLON()
+#define NN_DIAGNOSTIC_IGNORE_CLANG(_warning)                NN_CONSUME_SEMICOLON()
+#define NN_DIAGNOSTIC_IGNORE_GCC(_warning)                  NN_CONSUME_SEMICOLON()
+#define NN_DIAGNOSTIC_IGNORE_MSVC(_warning)                 NN_CONSUME_SEMICOLON()
 
 #if NN_COMPILER_CLANG
 	#undef NN_DIAGNOSTIC_PUSH
 	#undef NN_DIAGNOSTIC_POP
 	#undef NN_DIAGNOSTIC_IGNORE_CLANG
 
-	#define NN_DIAGNOSTIC_PUSH()                            _Pragma("clang diagnostic push") static_assert(true)
-	#define NN_DIAGNOSTIC_POP()                             _Pragma("clang diagnostic pop") static_assert(true)
+	#define NN_DIAGNOSTIC_PUSH()                            _Pragma("clang diagnostic push") NN_CONSUME_SEMICOLON()
+	#define NN_DIAGNOSTIC_POP()                             _Pragma("clang diagnostic pop") NN_CONSUME_SEMICOLON()
 	#define NN_DIAGNOSTIC_IGNORE_CLANG(_warning)            \
-		_Pragma(NN_STRINGIFY_TOKEN(clang diagnostic ignored _warning)) static_assert(true)
+		_Pragma(NN_STRINGIFY_TOKEN(clang diagnostic ignored _warning)) NN_CONSUME_SEMICOLON()
 
 #elif NN_COMPILER_GCC
 	#undef NN_DIAGNOSTIC_PUSH
 	#undef NN_DIAGNOSTIC_POP
 	#undef NN_DIAGNOSTIC_IGNORE_GCC
 
-	#define NN_DIAGNOSTIC_PUSH()                            _Pragma("GCC diagnostic push") static_assert(true, "")
-	#define NN_DIAGNOSTIC_POP()                             _Pragma("GCC diagnostic pop") static_assert(true, "")
+	#define NN_DIAGNOSTIC_PUSH()                            _Pragma("GCC diagnostic push") NN_CONSUME_SEMICOLON()
+	#define NN_DIAGNOSTIC_POP()                             _Pragma("GCC diagnostic pop") NN_CONSUME_SEMICOLON()
 	#define NN_DIAGNOSTIC_IGNORE_GCC(_warning)              \
-		_Pragma(NN_STRINGIFY_TOKEN(GCC diagnostic ignored _warning)) static_assert(true, "")
+		_Pragma(NN_STRINGIFY_TOKEN(GCC diagnostic ignored _warning)) NN_CONSUME_SEMICOLON()
 
 #elif NN_COMPILER_MSVC
 	#undef NN_DIAGNOSTIC_PUSH

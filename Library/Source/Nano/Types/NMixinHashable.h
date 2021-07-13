@@ -90,7 +90,7 @@ inline constexpr size_t kNHashNone                          = 0;
 	};                                                              \
 	}                                                               \
 																	\
-	static_assert(true)
+	NN_CONSUME_SEMICOLON()
 
 
 #define NHASHABLE_STD_HASH(T)                               \
@@ -106,7 +106,7 @@ inline constexpr size_t kNHashNone                          = 0;
 	};                                                      \
 	}                                                       \
 															\
-	static_assert(true)
+	NN_CONSUME_SEMICOLON()
 
 
 #define NHASHABLE_STD_LESS(T)                                       \
@@ -132,7 +132,7 @@ inline constexpr size_t kNHashNone                          = 0;
 	};                                                              \
 	}                                                               \
 																	\
-	static_assert(true)
+	NN_CONSUME_SEMICOLON()
 
 
 
