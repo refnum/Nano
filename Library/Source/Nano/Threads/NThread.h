@@ -49,6 +49,7 @@
 
 // System
 #include <atomic>
+#include <memory>
 #include <thread>
 
 
@@ -61,8 +62,11 @@
 // Forward declarations
 class NThread;
 
-// Thread handle
+
+// Thread
+using NUniqueThread = std::unique_ptr<NThread>;
 using NThreadHandle = uintptr_t;
+
 
 // Thread context
 struct NThreadContext
@@ -83,38 +87,48 @@ class NThread
 public:
 	// Create a thread
 	//
-	// A thread may be created with a name and stack size.
-	//
-	// A stack size of 0 is a request for the platform default.
+	// Every thread has a name and a runloop.
 	//
 	//
-	// A thread may also be created with an invocable object and its arguments,
-	// such as a lambda or function.
+	// A thread may also be created with a custom stack size, where
+	// a stack size of 0 is a request for the platform default.
 	//
-	// A thread created without an invocable will enter its runloop.
+	// A thread may also be created with an invocable object and its
+	// arguments, such as a lambda or function.
 	//
-	// Every thread, even one created with an invocable, has its own runloop.
+	//
+	// A thread created with an invocable will execute the invocable.
+	//
+	// A thread created without an invocable will enter its runloop
+
+
+	// and wait for work.
+protected:
+public:
 	template<typename Function,
 			 typename... Args,
 			 typename = std::enable_if_t<std::is_invocable_v<Function&, Args...>>>
-	explicit                            NThread(const NString& theName, Function&& theFunction, Args&&... theArgs);
+	static NUniqueThread                Create(const NString& theName, Function&& theFunction, Args&&... theArgs);
 
 	template<typename Function,
 			 typename... Args,
 			 typename = std::enable_if_t<std::is_invocable_v<Function&, Args...>>>
-	explicit                            NThread(const NString& theName,
-												size_t         stackSize,
-												Function&&     theFunction,
-												Args&&... theArgs);
+	static NUniqueThread                Create(const NString& theName,
+											   size_t         stackSize,
+											   Function&&     theFunction,
+											   Args&&... theArgs);
 
-										NThread(const NString& theName, size_t stackSize = 0);
+	static NUniqueThread                Create(const NString& theName, size_t stackSize = 0);
+
+
+
 									   ~NThread();
 
 										NThread(  const NThread& otherThread) = delete;
 	NThread&                            operator=(const NThread& otherThread) = delete;
 
-										NThread(  NThread&& otherThread);
-	NThread&                            operator=(NThread&& otherThread);
+										NThread(  NThread&& otherThread) = delete;
+	NThread&                            operator=(NThread&& otherThread) = delete;
 
 
 	// Get the thread ID
@@ -193,13 +207,28 @@ public:
 
 
 private:
-	void                                Clear();
+	template<typename Function,
+			 typename... Args,
+			 typename = std::enable_if_t<std::is_invocable_v<Function&, Args...>>>
+	explicit                            NThread(const NString& theName, Function&& theFunction, Args&&... theArgs);
+
+	template<typename Function,
+			 typename... Args,
+			 typename = std::enable_if_t<std::is_invocable_v<Function&, Args...>>>
+	explicit                            NThread(const NString& theName,
+												size_t         stackSize,
+												Function&&     theFunction,
+												Args&&... theArgs);
+
+										NThread(const NString& theName, size_t stackSize = 0);
 
 	template<typename Function, typename... Args>
 	void                                CreateThread(const NString& theName,
 													 size_t         stackSize,
 													 Function&&     theFunction,
 													 Args&&... theArgs);
+
+	void                                Clear();
 
 	static NThreadHandle                ThreadCreate(NThreadContext* theContext);
 	static void                         ThreadJoin(NThreadHandle theThread);

@@ -61,130 +61,12 @@ thread_local NThread* NThread::mCurrentThread;
 //=============================================================================
 //		NThread::NThread : Constructor.
 //-----------------------------------------------------------------------------
-NThread::NThread(const NString& theName, size_t stackSize)
-	: mLock()
-	, mID()
-	, mThread(kNThreadNone)
-	, mRunLoop(nullptr)
-	, mIsComplete(false)
-	, mShouldStop(false)
+NUniqueThread NThread::Create(const NString& theName, size_t stackSize)
 {
 
 
 	// Create the thread
-	CreateThread(theName,
-				 stackSize,
-				 [&]()
-				 {
-					 mRunLoop->Run();
-				 });
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::~NThread : Destructor.
-//-----------------------------------------------------------------------------
-NThread::~NThread()
-{
-
-
-	// Wait for the thread
-	WaitForCompletion();
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::NThread : Constructor.
-//-----------------------------------------------------------------------------
-NThread::NThread(NThread&& otherThread)
-	: mLock()
-	, mID(std::exchange(otherThread.mID, {}))
-	, mThread(std::exchange(otherThread.mThread, kNThreadNone))
-	, mRunLoop(std::exchange(otherThread.mRunLoop, nullptr))
-	, mIsComplete(otherThread.mIsComplete.load())
-	, mShouldStop(otherThread.mShouldStop.load())
-{
-
-
-	// Reset the other object
-	otherThread.mIsComplete = false;
-	otherThread.mShouldStop = false;
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::operator= : Assignment operator.
-//-----------------------------------------------------------------------------
-NThread& NThread::operator=(NThread&& otherThread)
-{
-
-
-	// Validate our state
-	NN_REQUIRE(!mID.IsValid());
-	NN_REQUIRE(mIsComplete);
-
-
-
-	// Move the thread
-	if (this != &otherThread)
-	{
-		// Move the thread
-		mID         = std::exchange(otherThread.mID, {});
-		mThread     = std::exchange(otherThread.mThread, kNThreadNone);
-		mRunLoop    = std::exchange(otherThread.mRunLoop, nullptr);
-		mIsComplete = otherThread.mIsComplete.load();
-		mShouldStop = otherThread.mShouldStop.load();
-
-		otherThread.mIsComplete = false;
-		otherThread.mShouldStop = false;
-	}
-
-	return *this;
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::GetID : Get the thread ID.
-//-----------------------------------------------------------------------------
-NThreadID NThread::GetID() const
-{
-
-
-	// Get the ID
-	return mID;
-}
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::IsComplete : Is the thread complete?
-//-----------------------------------------------------------------------------
-bool NThread::IsComplete() const
-{
-
-
-	// Validate our state
-	NN_REQUIRE(NThreadID::Get() != mID, "The running thread is never complete!");
-
-
-
-	// Get our state
-	return mIsComplete;
+	return NUniqueThread(new NThread(theName, stackSize));
 }
 
 
@@ -225,36 +107,6 @@ void NThread::WaitForCompletion()
 
 
 //=============================================================================
-//		NThread::RequestStop : Request that the thread stop.
-//-----------------------------------------------------------------------------
-void NThread::RequestStop()
-{
-
-
-	// Update our state
-	mShouldStop = true;
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::ShouldStop : Should a thread stop?
-//-----------------------------------------------------------------------------
-bool NThread::ShouldStop()
-{
-
-
-	// Get our state
-	return mShouldStop;
-}
-
-
-
-
-
-//=============================================================================
 //		NThread::IsMain : Is the current thread the main thread?
 //-----------------------------------------------------------------------------
 bool NThread::IsMain()
@@ -268,21 +120,6 @@ bool NThread::IsMain()
 	static thread_local bool sIsMain = ThreadIsMain();
 
 	return sIsMain;
-}
-
-
-
-
-
-//=============================================================================
-//		NThread::GetCurrent : Get the current thread.
-//-----------------------------------------------------------------------------
-NThread* NThread::GetCurrent()
-{
-
-
-	// Get the thread
-	return mCurrentThread;
 }
 
 

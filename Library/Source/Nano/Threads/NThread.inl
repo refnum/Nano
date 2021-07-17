@@ -65,18 +65,12 @@ static constexpr NThreadHandle kNThreadNone                 = 0;
 //		NThread::NThread : Constructor.
 //-----------------------------------------------------------------------------
 template<typename Function, typename... Args, typename Enabled>
-NThread::NThread(const NString& theName, Function&& theFunction, Args&&... theArgs)
-	: mLock()
-	, mID()
-	, mThread(kNThreadNone)
-	, mRunLoop(nullptr)
-	, mIsComplete(false)
-	, mShouldStop(false)
+NUniqueThread NThread::Create(const NString& theName, Function&& theFunction, Args&&... theArgs)
 {
 
 
 	// Create the thread
-	CreateThread(theName, 0, theFunction, theArgs...);
+	return NUniqueThread(new NThread(theName, theFunction, theArgs...));
 }
 
 
@@ -87,21 +81,46 @@ NThread::NThread(const NString& theName, Function&& theFunction, Args&&... theAr
 //		NThread::NThread : Constructor.
 //-----------------------------------------------------------------------------
 template<typename Function, typename... Args, typename Enabled>
-NThread::NThread(const NString& theName,
-				 size_t         stackSize,
-				 Function&&     theFunction,
-				 Args&&... theArgs)
-	: mLock()
-	, mID()
-	, mThread(kNThreadNone)
-	, mRunLoop(nullptr)
-	, mIsComplete(false)
-	, mShouldStop(false)
+NUniqueThread NThread::Create(const NString& theName,
+							  size_t         stackSize,
+							  Function&&     theFunction,
+							  Args&&... theArgs)
 {
 
 
 	// Create the thread
-	CreateThread(theName, stackSize, theFunction, theArgs...);
+	return NUniqueThread(new NThread(theName, stackSize, theFunction, theArgs...));
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::~NThread : Destructor.
+//-----------------------------------------------------------------------------
+inline NThread::~NThread()
+{
+
+
+	// Wait for the thread
+	WaitForCompletion();
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::GetID : Get the thread ID.
+//-----------------------------------------------------------------------------
+inline NThreadID NThread::GetID() const
+{
+
+
+	// Get the ID
+	return mID;
+}
 
 
 
@@ -116,6 +135,71 @@ inline NSharedRunLoop NThread::GetRunLoop() const
 
 	// Get our state
 	return mRunLoop;
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::IsComplete : Is the thread complete?
+//-----------------------------------------------------------------------------
+inline bool NThread::IsComplete() const
+{
+
+
+	// Validate our state
+	NN_REQUIRE(NThreadID::Get() != mID, "The running thread is never complete!");
+
+
+
+	// Get our state
+	return mIsComplete;
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::RequestStop : Request that the thread stop.
+//-----------------------------------------------------------------------------
+inline void NThread::RequestStop()
+{
+
+
+	// Update our state
+	mShouldStop = true;
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::ShouldStop : Should a thread stop?
+//-----------------------------------------------------------------------------
+inline bool NThread::ShouldStop()
+{
+
+
+	// Get our state
+	return mShouldStop;
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::GetCurrent : Get the current thread.
+//-----------------------------------------------------------------------------
+inline NThread* NThread::GetCurrent()
+{
+
+
+	// Get the thread
+	return mCurrentThread;
 }
 
 
@@ -161,9 +245,85 @@ inline void NThread::Pause()
 
 
 
-
-
 #pragma mark private
+
+
+
+
+
+//=============================================================================
+//		NThread::NThread : Constructor.
+//-----------------------------------------------------------------------------
+template<typename Function, typename... Args, typename Enabled>
+NThread::NThread(const NString& theName, Function&& theFunction, Args&&... theArgs)
+	: mLock()
+	, mID()
+	, mThread(kNThreadNone)
+	, mRunLoop(nullptr)
+	, mIsComplete(false)
+	, mShouldStop(false)
+{
+
+
+	// Create the thread
+	CreateThread(theName, 0, theFunction, theArgs...);
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::NThread : Constructor.
+//-----------------------------------------------------------------------------
+template<typename Function, typename... Args, typename Enabled>
+NThread::NThread(const NString& theName,
+				 size_t         stackSize,
+				 Function&&     theFunction,
+				 Args&&... theArgs)
+	: mLock()
+	, mID()
+	, mThread(kNThreadNone)
+	, mRunLoop(nullptr)
+	, mIsComplete(false)
+	, mShouldStop(false)
+{
+
+
+	// Create the thread
+	CreateThread(theName, stackSize, theFunction, theArgs...);
+}
+
+
+
+
+
+//=============================================================================
+//		NThread::NThread : Constructor.
+//-----------------------------------------------------------------------------
+inline NThread::NThread(const NString& theName, size_t stackSize)
+	: mLock()
+	, mID()
+	, mThread(kNThreadNone)
+	, mRunLoop(nullptr)
+	, mIsComplete(false)
+	, mShouldStop(false)
+{
+
+
+	// Create the thread
+	CreateThread(theName,
+				 stackSize,
+				 [&]()
+				 {
+					 mRunLoop->Run();
+				 });
+}
+
+
+
+
+
 //=============================================================================
 //		CreateThread : Create a thread.
 //-----------------------------------------------------------------------------

@@ -69,9 +69,9 @@ static void TestIncrement(size_t* theValue)
 //-----------------------------------------------------------------------------
 NANO_FIXTURE(TRunLoop)
 {
-	std::shared_ptr<NRunLoop> runLoop;
-	NRunLoopWorkID            workID;
-	size_t                    theValue;
+	NSharedRunLoop runLoop;
+	NRunLoopWorkID workID;
+	size_t         theValue;
 
 	SETUP
 	{
@@ -111,12 +111,13 @@ NANO_TEST(TRunLoop, "GetCurrent")
 	NSemaphore theSemaphore;
 	bool       isMain = true;
 
-	NThread theThread("TRunLoop_GetCurrent",
-					  [&]()
-					  {
-						  isMain = (NRunLoop::GetCurrent() == NRunLoop::GetMain());
-						  theSemaphore.Signal();
-					  });
+	NUniqueThread theThread =
+		NThread::Create("TRunLoop_GetCurrent",
+						[&]()
+						{
+							isMain = (NRunLoop::GetCurrent() == NRunLoop::GetMain());
+							theSemaphore.Signal();
+						});
 
 	theSemaphore.Wait();
 	REQUIRE(!isMain);
@@ -134,9 +135,9 @@ NANO_TEST(TRunLoop, "Stop")
 
 
 	// Perform the test
-	NThread theThread("NRunLoop");
+	NUniqueThread theThread = NThread::Create("TRunLoop_Stop");
 
-	std::shared_ptr<NRunLoop> threadLoop = theThread.GetRunLoop();
+	NSharedRunLoop threadLoop = theThread->GetRunLoop();
 	threadLoop->Add(std::bind(TestIncrement, &theValue), kNTimeMillisecond, kNTimeMillisecond);
 
 	runLoop->Run(kNTimeMillisecond * 100);

@@ -75,30 +75,31 @@ NInterval BenchmarkMutex(std::function<void(MutexType&)> lockFunc,
 
 	for (size_t t = 0; t < kNumThreads; t++)
 	{
-		theThreads.emplace_back(NThread(
-			[&lockFunc, &unlockFunc, &startFlag, &theMutex = theMutexes[t]]()
-			{
-				// Wait for the flag
-				std::mt19937 randomWork{std::random_device{}()};
-
-				while (!startFlag)
-				{
-					randomWork();
-				}
-
-
-				// Do the work
-				for (size_t n = 0; n < kNumIters; n++)
-				{
-					lockFunc(theMutex);
-
-					while (randomWork() % 4)
+		theThreads.emplace_back(
+			NThread("BenchmarkMutex",
+					[&lockFunc, &unlockFunc, &startFlag, &theMutex = theMutexes[t]]()
 					{
-					}
+						// Wait for the flag
+						std::mt19937 randomWork{std::random_device{}()};
 
-					unlockFunc(theMutex);
-				}
-			}));
+						while (!startFlag)
+						{
+							randomWork();
+						}
+
+
+						// Do the work
+						for (size_t n = 0; n < kNumIters; n++)
+						{
+							lockFunc(theMutex);
+
+							while (randomWork() % 4)
+							{
+							}
+
+							unlockFunc(theMutex);
+						}
+					}));
 	}
 
 
