@@ -76,7 +76,7 @@ NXMLEncoder::NXMLEncoder()
 //=============================================================================
 //		NXMLEncoder::Encode : Encode a node to an XML document.
 //-----------------------------------------------------------------------------
-NString NXMLEncoder::Encode(const NSharedPtrXMLNode& theNode, NStatus* parseErr)
+NString NXMLEncoder::Encode(const NSharedXMLNode& theNode, NStatus* parseErr)
 {
 
 
@@ -110,9 +110,9 @@ NString NXMLEncoder::Encode(const NSharedPtrXMLNode& theNode, NStatus* parseErr)
 //=============================================================================
 //		NXMLEncoder::Decode : Decode an XML document to a node.
 //-----------------------------------------------------------------------------
-NSharedPtrXMLNode NXMLEncoder::Decode(const NString&           theXML,
-									  NStatus*                 parseErr,
-									  const NFunctionProgress& theProgress)
+NSharedXMLNode NXMLEncoder::Decode(const NString&           theXML,
+								   NStatus*                 parseErr,
+								   const NFunctionProgress& theProgress)
 {
 
 
@@ -135,8 +135,8 @@ NSharedPtrXMLNode NXMLEncoder::Decode(const NString&           theXML,
 
 
 	// Create the root
-	mDecodeRoot               = std::make_shared<NXMLNode>(NXMLNodeType::Document, "");
-	NSharedPtrXMLNode theNode = mDecodeRoot;
+	mDecodeRoot            = std::make_shared<NXMLNode>(NXMLNodeType::Document, "");
+	NSharedXMLNode theNode = mDecodeRoot;
 
 
 
@@ -169,7 +169,7 @@ NSharedPtrXMLNode NXMLEncoder::Decode(const NString&           theXML,
 //=============================================================================
 //		NXMLEncoder::EncodeNode : Encode a node to XML.
 //-----------------------------------------------------------------------------
-NString NXMLEncoder::EncodeNode(const NSharedPtrXMLNode& theNode, const NString& theIndent)
+NString NXMLEncoder::EncodeNode(const NSharedXMLNode& theNode, const NString& theIndent)
 {
 
 
@@ -211,7 +211,7 @@ NString NXMLEncoder::EncodeNode(const NSharedPtrXMLNode& theNode, const NString&
 //=============================================================================
 //		NXMLEncoder::EncodeDocument : Encode a document node.
 //-----------------------------------------------------------------------------
-NString NXMLEncoder::EncodeDocument(const NSharedPtrXMLNode& theNode, const NString& theIndent)
+NString NXMLEncoder::EncodeDocument(const NSharedXMLNode& theNode, const NString& theIndent)
 {
 
 
@@ -239,7 +239,7 @@ NString NXMLEncoder::EncodeDocument(const NSharedPtrXMLNode& theNode, const NStr
 //=============================================================================
 //		NXMLEncoder::EncodeDocType : Encode a DOCTYPE node.
 //-----------------------------------------------------------------------------
-NString NXMLEncoder::EncodeDocType(const NSharedPtrXMLNode& theNode)
+NString NXMLEncoder::EncodeDocType(const NSharedXMLNode& theNode)
 {
 
 
@@ -274,7 +274,7 @@ NString NXMLEncoder::EncodeDocType(const NSharedPtrXMLNode& theNode)
 //=============================================================================
 //		NXMLEncoder::EncodeElement : Encode an element node.
 //-----------------------------------------------------------------------------
-NString NXMLEncoder::EncodeElement(const NSharedPtrXMLNode& theNode, const NString& theIndent)
+NString NXMLEncoder::EncodeElement(const NSharedXMLNode& theNode, const NString& theIndent)
 {
 
 
@@ -303,9 +303,9 @@ NString NXMLEncoder::EncodeElement(const NSharedPtrXMLNode& theNode, const NStri
 
 
 		// Encode the children
-		const NVectorSharedPtrXMLNode& theChildren      = theNode->GetChildren();
-		bool                           hasChildElements = ContainsElements(theChildren);
-		NString                        childIndent      = theIndent + kEncodeIndent;
+		const NVectorSharedXMLNode& theChildren      = theNode->GetChildren();
+		bool                        hasChildElements = ContainsElements(theChildren);
+		NString                     childIndent      = theIndent + kEncodeIndent;
 
 		for (const auto& theChild : theChildren)
 		{
@@ -342,7 +342,7 @@ NString NXMLEncoder::EncodeElement(const NSharedPtrXMLNode& theNode, const NStri
 //=============================================================================
 //		NXMLEncoder::EncodeAttributes : Encode an element's attributes.
 //-----------------------------------------------------------------------------
-NString NXMLEncoder::EncodeAttributes(const NSharedPtrXMLNode& theNode)
+NString NXMLEncoder::EncodeAttributes(const NSharedXMLNode& theNode)
 {
 
 
@@ -377,7 +377,7 @@ NString NXMLEncoder::EncodeAttributes(const NSharedPtrXMLNode& theNode)
 //=============================================================================
 //		NXMLEncoder::EncodeComment : Encode a comment node.
 //-----------------------------------------------------------------------------
-NString NXMLEncoder::EncodeComment(const NSharedPtrXMLNode& theNode)
+NString NXMLEncoder::EncodeComment(const NSharedXMLNode& theNode)
 {
 
 
@@ -397,7 +397,7 @@ NString NXMLEncoder::EncodeComment(const NSharedPtrXMLNode& theNode)
 //=============================================================================
 //		NXMLEncoder::EncodeText : Encode a text node.
 //-----------------------------------------------------------------------------
-NString NXMLEncoder::EncodeText(const NSharedPtrXMLNode& theNode)
+NString NXMLEncoder::EncodeText(const NSharedXMLNode& theNode)
 {
 
 
@@ -428,7 +428,7 @@ NString NXMLEncoder::EncodeText(const NSharedPtrXMLNode& theNode)
 //=============================================================================
 //		NXMLEncoder::EncodeCData : Encode a CDATA node.
 //-----------------------------------------------------------------------------
-NString NXMLEncoder::EncodeCData(const NSharedPtrXMLNode& theNode)
+NString NXMLEncoder::EncodeCData(const NSharedXMLNode& theNode)
 {
 	NString theText;
 
@@ -455,8 +455,8 @@ bool NXMLEncoder::DecodeDocType(const NString& theName, const NXMLDocumentType& 
 
 
 	// Decode the node
-	NSharedPtrXMLNode theParent = GetDecodeParent();
-	NSharedPtrXMLNode theNode   = std::make_shared<NXMLNode>(NXMLNodeType::DocType, theName);
+	NSharedXMLNode theParent = GetDecodeParent();
+	NSharedXMLNode theNode   = std::make_shared<NXMLNode>(NXMLNodeType::DocType, theName);
 
 	if (!theInfo.systemID.IsEmpty())
 	{
@@ -485,8 +485,8 @@ bool NXMLEncoder::DecodeElementStart(const NString& theName, const NDictionary& 
 
 
 	// Decode the node
-	NSharedPtrXMLNode theParent = GetDecodeParent();
-	NSharedPtrXMLNode theNode   = std::make_shared<NXMLNode>(NXMLNodeType::Element, theName);
+	NSharedXMLNode theParent = GetDecodeParent();
+	NSharedXMLNode theNode   = std::make_shared<NXMLNode>(NXMLNodeType::Element, theName);
 
 	theNode->SetElementAttributes(theAttributes);
 
@@ -536,9 +536,9 @@ bool NXMLEncoder::DecodeText(const NString& theValue, bool isCData)
 
 
 	// Decode the node
-	NXMLNodeType      theType   = isCData ? NXMLNodeType::CData : NXMLNodeType::Text;
-	NSharedPtrXMLNode theParent = GetDecodeParent();
-	NSharedPtrXMLNode theNode   = std::make_shared<NXMLNode>(theType, theValue);
+	NXMLNodeType   theType   = isCData ? NXMLNodeType::CData : NXMLNodeType::Text;
+	NSharedXMLNode theParent = GetDecodeParent();
+	NSharedXMLNode theNode   = std::make_shared<NXMLNode>(theType, theValue);
 
 	theParent->AddChild(theNode);
 
@@ -557,8 +557,8 @@ bool NXMLEncoder::DecodeComment(const NString& theValue)
 
 
 	// Decode the node
-	NSharedPtrXMLNode theParent = GetDecodeParent();
-	NSharedPtrXMLNode theNode   = std::make_shared<NXMLNode>(NXMLNodeType::Comment, theValue);
+	NSharedXMLNode theParent = GetDecodeParent();
+	NSharedXMLNode theNode   = std::make_shared<NXMLNode>(NXMLNodeType::Comment, theValue);
 
 	theParent->AddChild(theNode);
 
@@ -572,7 +572,7 @@ bool NXMLEncoder::DecodeComment(const NString& theValue)
 //=============================================================================
 //		NXMLEncoder::ContainsElements : Does a node list contain elements?
 //-----------------------------------------------------------------------------
-bool NXMLEncoder::ContainsElements(const NVectorSharedPtrXMLNode& theNodes)
+bool NXMLEncoder::ContainsElements(const NVectorSharedXMLNode& theNodes)
 {
 
 
@@ -595,7 +595,7 @@ bool NXMLEncoder::ContainsElements(const NVectorSharedPtrXMLNode& theNodes)
 //=============================================================================
 //		NXMLEncoder::GetDecodeParent : Get the parent element.
 //-----------------------------------------------------------------------------
-NSharedPtrXMLNode NXMLEncoder::GetDecodeParent()
+NSharedXMLNode NXMLEncoder::GetDecodeParent()
 {
 
 

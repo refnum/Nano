@@ -115,25 +115,25 @@ public:
 
 private:
 	static NData                        EncodeToXML(    const NDictionary& theState);
-	static NSharedPtrXMLNode            EncodeXML_Any(  const NAny&             theValue);
-	static NSharedPtrXMLNode            EncodeXML_Array(const NArray&           theValue);
-	static NSharedPtrXMLNode            EncodeXML_Boolean(bool                  theValue);
-	static NSharedPtrXMLNode            EncodeXML_Data(      const NData&       theValue);
-	static NSharedPtrXMLNode            EncodeXML_Dictionary(const NDictionary& theValue);
-	static NSharedPtrXMLNode            EncodeXML_Number(    const NNumber&     theValue);
-	static NSharedPtrXMLNode            EncodeXML_String(    const NString&     theValue);
-	static NSharedPtrXMLNode            EncodeXML_Time(      const NTime&       theValue);
+	static NSharedXMLNode               EncodeXML_Any(  const NAny&             theValue);
+	static NSharedXMLNode               EncodeXML_Array(const NArray&           theValue);
+	static NSharedXMLNode               EncodeXML_Boolean(bool                  theValue);
+	static NSharedXMLNode               EncodeXML_Data(      const NData&       theValue);
+	static NSharedXMLNode               EncodeXML_Dictionary(const NDictionary& theValue);
+	static NSharedXMLNode               EncodeXML_Number(    const NNumber&     theValue);
+	static NSharedXMLNode               EncodeXML_String(    const NString&     theValue);
+	static NSharedXMLNode               EncodeXML_Time(      const NTime&       theValue);
 
 	static NDictionary                  DecodeFromXML(       const NData& theData);
-	static NAny                         DecodeXML_Any(       const NSharedPtrXMLNode& theNode);
-	static NArray                       DecodeXML_Array(     const NSharedPtrXMLNode& theNode);
-	static bool                         DecodeXML_Boolean(   const NSharedPtrXMLNode& theNode);
-	static NData                        DecodeXML_Data(      const NSharedPtrXMLNode& theNode);
-	static NDictionary                  DecodeXML_Dictionary(const NSharedPtrXMLNode& theNode);
-	static int64_t                      DecodeXML_Integer(   const NSharedPtrXMLNode& theNode);
-	static float64_t                    DecodeXML_Real(      const NSharedPtrXMLNode& theNode);
-	static NString                      DecodeXML_String(    const NSharedPtrXMLNode& theNode);
-	static NTime                        DecodeXML_Time(      const NSharedPtrXMLNode& theNode);
+	static NAny                         DecodeXML_Any(       const NSharedXMLNode& theNode);
+	static NArray                       DecodeXML_Array(     const NSharedXMLNode& theNode);
+	static bool                         DecodeXML_Boolean(   const NSharedXMLNode& theNode);
+	static NData                        DecodeXML_Data(      const NSharedXMLNode& theNode);
+	static NDictionary                  DecodeXML_Dictionary(const NSharedXMLNode& theNode);
+	static int64_t                      DecodeXML_Integer(   const NSharedXMLNode& theNode);
+	static float64_t                    DecodeXML_Real(      const NSharedXMLNode& theNode);
+	static NString                      DecodeXML_String(    const NSharedXMLNode& theNode);
+	static NTime                        DecodeXML_Time(      const NSharedXMLNode& theNode);
 
 
 	static NData                        EncodeToBinary(const NDictionary& theState);

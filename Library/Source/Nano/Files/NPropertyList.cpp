@@ -355,15 +355,13 @@ NData NPropertyList::EncodeToXML(const NDictionary& theState)
 
 
 	// Create the nodes
-	NSharedPtrXMLNode nodeDict = EncodeXML_Dictionary(theState);
+	NSharedXMLNode nodeDict = EncodeXML_Dictionary(theState);
 
-	NSharedPtrXMLNode nodePList =
-		std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenPList);
+	NSharedXMLNode nodePList = std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenPList);
 
-	NSharedPtrXMLNode nodeDocType =
-		std::make_shared<NXMLNode>(NXMLNodeType::DocType, kNXMLTokenPList);
+	NSharedXMLNode nodeDocType = std::make_shared<NXMLNode>(NXMLNodeType::DocType, kNXMLTokenPList);
 
-	NSharedPtrXMLNode nodeDoc = std::make_shared<NXMLNode>(NXMLNodeType::Document, "");
+	NSharedXMLNode nodeDoc = std::make_shared<NXMLNode>(NXMLNodeType::Document, "");
 
 	nodePList->SetElementAttribute(kNXMLTokenVersion, "1.0");
 	nodePList->AddChild(nodeDict);
@@ -392,13 +390,13 @@ NData NPropertyList::EncodeToXML(const NDictionary& theState)
 //=============================================================================
 //		NPropertyList::EncodeXML_Any : Encode an NAny.
 //-----------------------------------------------------------------------------
-NSharedPtrXMLNode NPropertyList::EncodeXML_Any(const NAny& theValue)
+NSharedXMLNode NPropertyList::EncodeXML_Any(const NAny& theValue)
 {
 
 
 	// Encode the value
-	NSharedPtrXMLNode theNode;
-	NNumber           theNumber;
+	NSharedXMLNode theNode;
+	NNumber        theNumber;
 
 	if (theValue.IsBool())
 	{
@@ -450,18 +448,18 @@ NSharedPtrXMLNode NPropertyList::EncodeXML_Any(const NAny& theValue)
 //=============================================================================
 //		NPropertyList::EncodeXML_Array : Encode an array.
 //-----------------------------------------------------------------------------
-NSharedPtrXMLNode NPropertyList::EncodeXML_Array(const NArray& theValue)
+NSharedXMLNode NPropertyList::EncodeXML_Array(const NArray& theValue)
 {
 
 
 	// Get the state we need
-	NSharedPtrXMLNode theNode = std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenArray);
+	NSharedXMLNode theNode = std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenArray);
 
 
 	// Encode the values
 	for (const auto& theItem : theValue)
 	{
-		NSharedPtrXMLNode nodeItem = EncodeXML_Any(theItem);
+		NSharedXMLNode nodeItem = EncodeXML_Any(theItem);
 
 		if (nodeItem)
 		{
@@ -479,13 +477,13 @@ NSharedPtrXMLNode NPropertyList::EncodeXML_Array(const NArray& theValue)
 //=============================================================================
 //		NPropertyList::EncodeXML_Boolean : Encode a bool.
 //-----------------------------------------------------------------------------
-NSharedPtrXMLNode NPropertyList::EncodeXML_Boolean(bool theValue)
+NSharedXMLNode NPropertyList::EncodeXML_Boolean(bool theValue)
 {
 
 
 	// Encode the value
-	NString           theToken = theValue ? kNXMLTokenTrue : kNXMLTokenFalse;
-	NSharedPtrXMLNode theNode  = std::make_shared<NXMLNode>(NXMLNodeType::Element, theToken);
+	NString        theToken = theValue ? kNXMLTokenTrue : kNXMLTokenFalse;
+	NSharedXMLNode theNode  = std::make_shared<NXMLNode>(NXMLNodeType::Element, theToken);
 
 	theNode->SetElementUnpaired(true);
 
@@ -499,7 +497,7 @@ NSharedPtrXMLNode NPropertyList::EncodeXML_Boolean(bool theValue)
 //=============================================================================
 //		NPropertyList::EncodeXML_Data : Encode binary data.
 //-----------------------------------------------------------------------------
-NSharedPtrXMLNode NPropertyList::EncodeXML_Data(const NData& theValue)
+NSharedXMLNode NPropertyList::EncodeXML_Data(const NData& theValue)
 {
 
 
@@ -509,7 +507,7 @@ NSharedPtrXMLNode NPropertyList::EncodeXML_Data(const NData& theValue)
 
 
 	// Encode the value
-	NSharedPtrXMLNode theNode = std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenData);
+	NSharedXMLNode theNode = std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenData);
 
 	theNode->SetElementContents(theText);
 
@@ -523,12 +521,12 @@ NSharedPtrXMLNode NPropertyList::EncodeXML_Data(const NData& theValue)
 //=============================================================================
 //		NPropertyList::EncodeXML_Dictionary : Encode a dictionary.
 //-----------------------------------------------------------------------------
-NSharedPtrXMLNode NPropertyList::EncodeXML_Dictionary(const NDictionary& theValue)
+NSharedXMLNode NPropertyList::EncodeXML_Dictionary(const NDictionary& theValue)
 {
 
 
 	// Get the state we need
-	NSharedPtrXMLNode theNode =
+	NSharedXMLNode theNode =
 		std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenDictionary);
 
 
@@ -543,12 +541,12 @@ NSharedPtrXMLNode NPropertyList::EncodeXML_Dictionary(const NDictionary& theValu
 	// Encode the values
 	for (const auto& theKey : theKeys)
 	{
-		const auto        iterItem = theValue.find(theKey);
-		NSharedPtrXMLNode nodeItem = EncodeXML_Any(iterItem->second);
+		const auto     iterItem = theValue.find(theKey);
+		NSharedXMLNode nodeItem = EncodeXML_Any(iterItem->second);
 
 		if (nodeItem)
 		{
-			NSharedPtrXMLNode nodeKey =
+			NSharedXMLNode nodeKey =
 				std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenKey);
 
 			nodeKey->SetElementContents(theKey);
@@ -568,7 +566,7 @@ NSharedPtrXMLNode NPropertyList::EncodeXML_Dictionary(const NDictionary& theValu
 //=============================================================================
 //		NPropertyList::EncodeXML_Number : Encode a number.
 //-----------------------------------------------------------------------------
-NSharedPtrXMLNode NPropertyList::EncodeXML_Number(const NNumber& theValue)
+NSharedXMLNode NPropertyList::EncodeXML_Number(const NNumber& theValue)
 {
 
 
@@ -611,7 +609,7 @@ NSharedPtrXMLNode NPropertyList::EncodeXML_Number(const NNumber& theValue)
 
 
 	// Encode the value
-	NSharedPtrXMLNode theNode = std::make_shared<NXMLNode>(NXMLNodeType::Element, theToken);
+	NSharedXMLNode theNode = std::make_shared<NXMLNode>(NXMLNodeType::Element, theToken);
 
 	theNode->SetElementContents(theText);
 
@@ -625,12 +623,12 @@ NSharedPtrXMLNode NPropertyList::EncodeXML_Number(const NNumber& theValue)
 //=============================================================================
 //		NPropertyList::EncodeXML_String : Encode a string.
 //-----------------------------------------------------------------------------
-NSharedPtrXMLNode NPropertyList::EncodeXML_String(const NString& theValue)
+NSharedXMLNode NPropertyList::EncodeXML_String(const NString& theValue)
 {
 
 
 	// Encode the value
-	NSharedPtrXMLNode theNode = std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenString);
+	NSharedXMLNode theNode = std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenString);
 
 	theNode->SetElementContents(theValue);
 
@@ -644,7 +642,7 @@ NSharedPtrXMLNode NPropertyList::EncodeXML_String(const NString& theValue)
 //=============================================================================
 //		NPropertyList::EncodeXML_Time : Encode a time.
 //-----------------------------------------------------------------------------
-NSharedPtrXMLNode NPropertyList::EncodeXML_Time(const NTime& theValue)
+NSharedXMLNode NPropertyList::EncodeXML_Time(const NTime& theValue)
 {
 
 
@@ -657,7 +655,7 @@ NSharedPtrXMLNode NPropertyList::EncodeXML_Time(const NTime& theValue)
 
 
 	// Encode the value
-	NSharedPtrXMLNode theNode = std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenTime);
+	NSharedXMLNode theNode = std::make_shared<NXMLNode>(NXMLNodeType::Element, kNXMLTokenTime);
 
 	theNode->SetElementContents(theText);
 
@@ -678,13 +676,13 @@ NDictionary NPropertyList::DecodeFromXML(const NData& theValue)
 	// Decode the XML
 	NXMLEncoder theEncoder;
 
-	NString           theXML(NStringEncoding::UTF8, theValue);
-	NSharedPtrXMLNode nodeDoc = theEncoder.Decode(theXML);
+	NString        theXML(NStringEncoding::UTF8, theValue);
+	NSharedXMLNode nodeDoc = theEncoder.Decode(theXML);
 
 
 
 	// Locate the root dictionary
-	NSharedPtrXMLNode nodeDict;
+	NSharedXMLNode nodeDict;
 
 	if (nodeDoc)
 	{
@@ -719,7 +717,7 @@ NDictionary NPropertyList::DecodeFromXML(const NData& theValue)
 //=============================================================================
 //		NPropertyList::DecodeXML_Any : Decode a NAny.
 //-----------------------------------------------------------------------------
-NAny NPropertyList::DecodeXML_Any(const NSharedPtrXMLNode& theNode)
+NAny NPropertyList::DecodeXML_Any(const NSharedXMLNode& theNode)
 {
 
 
@@ -781,7 +779,7 @@ NAny NPropertyList::DecodeXML_Any(const NSharedPtrXMLNode& theNode)
 //=============================================================================
 //		NPropertyList::DecodeXML_Array : Decode an array.
 //-----------------------------------------------------------------------------
-NArray NPropertyList::DecodeXML_Array(const NSharedPtrXMLNode& theNode)
+NArray NPropertyList::DecodeXML_Array(const NSharedXMLNode& theNode)
 {
 
 
@@ -813,7 +811,7 @@ NArray NPropertyList::DecodeXML_Array(const NSharedPtrXMLNode& theNode)
 //=============================================================================
 //		NPropertyList::DecodeXML_Boolean : Decode a bool.
 //-----------------------------------------------------------------------------
-bool NPropertyList::DecodeXML_Boolean(const NSharedPtrXMLNode& theNode)
+bool NPropertyList::DecodeXML_Boolean(const NSharedXMLNode& theNode)
 {
 
 
@@ -833,7 +831,7 @@ bool NPropertyList::DecodeXML_Boolean(const NSharedPtrXMLNode& theNode)
 //=============================================================================
 //		NPropertyList::DecodeXML_Data : Decode binary data.
 //-----------------------------------------------------------------------------
-NData NPropertyList::DecodeXML_Data(const NSharedPtrXMLNode& theNode)
+NData NPropertyList::DecodeXML_Data(const NSharedXMLNode& theNode)
 {
 
 
@@ -853,7 +851,7 @@ NData NPropertyList::DecodeXML_Data(const NSharedPtrXMLNode& theNode)
 //=============================================================================
 //		NPropertyList::DecodeXML_Dictionary : Decode a dictionary.
 //-----------------------------------------------------------------------------
-NDictionary NPropertyList::DecodeXML_Dictionary(const NSharedPtrXMLNode& theNode)
+NDictionary NPropertyList::DecodeXML_Dictionary(const NSharedXMLNode& theNode)
 {
 
 
@@ -863,7 +861,7 @@ NDictionary NPropertyList::DecodeXML_Dictionary(const NSharedPtrXMLNode& theNode
 
 
 	// Get the state we need
-	NVectorSharedPtrXMLNode theChildren = theNode->GetChildren();
+	NVectorSharedXMLNode theChildren = theNode->GetChildren();
 	NN_REQUIRE(NMathUtils::IsEven(theChildren.size()));
 
 
@@ -874,8 +872,8 @@ NDictionary NPropertyList::DecodeXML_Dictionary(const NSharedPtrXMLNode& theNode
 	for (auto theIter = theChildren.begin(); theIter != theChildren.end();)
 	{
 		// Get the key-value nodes
-		NSharedPtrXMLNode nodeKey   = *theIter++;
-		NSharedPtrXMLNode nodeValue = *theIter++;
+		NSharedXMLNode nodeKey   = *theIter++;
+		NSharedXMLNode nodeValue = *theIter++;
 
 		NN_REQUIRE(nodeKey->IsElement(kNXMLTokenKey));
 
@@ -901,7 +899,7 @@ NDictionary NPropertyList::DecodeXML_Dictionary(const NSharedPtrXMLNode& theNode
 //=============================================================================
 //		NPropertyList::DecodeXML_Integer : Decode an integer.
 //-----------------------------------------------------------------------------
-int64_t NPropertyList::DecodeXML_Integer(const NSharedPtrXMLNode& theNode)
+int64_t NPropertyList::DecodeXML_Integer(const NSharedXMLNode& theNode)
 {
 
 
@@ -933,7 +931,7 @@ int64_t NPropertyList::DecodeXML_Integer(const NSharedPtrXMLNode& theNode)
 //=============================================================================
 //		NPropertyList::DecodeXML_Real : Decode a floating point value.
 //-----------------------------------------------------------------------------
-float64_t NPropertyList::DecodeXML_Real(const NSharedPtrXMLNode& theNode)
+float64_t NPropertyList::DecodeXML_Real(const NSharedXMLNode& theNode)
 {
 
 
@@ -965,7 +963,7 @@ float64_t NPropertyList::DecodeXML_Real(const NSharedPtrXMLNode& theNode)
 //=============================================================================
 //		NPropertyList::DecodeXML_String : Decode a string.
 //-----------------------------------------------------------------------------
-NString NPropertyList::DecodeXML_String(const NSharedPtrXMLNode& theNode)
+NString NPropertyList::DecodeXML_String(const NSharedXMLNode& theNode)
 {
 
 
@@ -985,7 +983,7 @@ NString NPropertyList::DecodeXML_String(const NSharedPtrXMLNode& theNode)
 //=============================================================================
 //		NPropertyList::DecodeXML_Time : Decode a time.
 //-----------------------------------------------------------------------------
-NTime NPropertyList::DecodeXML_Time(const NSharedPtrXMLNode& theNode)
+NTime NPropertyList::DecodeXML_Time(const NSharedXMLNode& theNode)
 {
 
 

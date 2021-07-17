@@ -68,22 +68,22 @@ public:
 	// Encode/decode an XML document
 	//
 	// Returns an empty string/null node if an error occurs during parsing.
-	NString                             Encode(const NSharedPtrXMLNode& theNode, NStatus* parseErr = nullptr);
+	NString                             Encode(const NSharedXMLNode& theNode, NStatus* parseErr = nullptr);
 
-	NSharedPtrXMLNode                   Decode(const NString&           theXML,
+	NSharedXMLNode                      Decode(const NString&           theXML,
 											   NStatus*                 parseErr    = nullptr,
 											   const NFunctionProgress& theProgress = nullptr);
 
 
 private:
-	NString                             EncodeNode(      const NSharedPtrXMLNode& theNode, const NString& theIndent);
-	NString                             EncodeDocument(  const NSharedPtrXMLNode& theNode, const NString& theIndent);
-	NString                             EncodeDocType(   const NSharedPtrXMLNode& theNode);
-	NString                             EncodeElement(   const NSharedPtrXMLNode& theNode, const NString& theIndent);
-	NString                             EncodeAttributes(const NSharedPtrXMLNode& theNode);
-	NString                             EncodeComment(   const NSharedPtrXMLNode& theNode);
-	NString                             EncodeText(      const NSharedPtrXMLNode& theNode);
-	NString                             EncodeCData(     const NSharedPtrXMLNode& theNode);
+	NString                             EncodeNode(      const NSharedXMLNode& theNode, const NString& theIndent);
+	NString                             EncodeDocument(  const NSharedXMLNode& theNode, const NString& theIndent);
+	NString                             EncodeDocType(   const NSharedXMLNode& theNode);
+	NString                             EncodeElement(   const NSharedXMLNode& theNode, const NString& theIndent);
+	NString                             EncodeAttributes(const NSharedXMLNode& theNode);
+	NString                             EncodeComment(   const NSharedXMLNode& theNode);
+	NString                             EncodeText(      const NSharedXMLNode& theNode);
+	NString                             EncodeCData(     const NSharedXMLNode& theNode);
 
 	bool                                DecodeDocType(     const NString& theName, const NXMLDocumentType& theInfo);
 	bool                                DecodeElementStart(const NString& theName, const NDictionary& theAttributes);
@@ -91,14 +91,14 @@ private:
 	bool                                DecodeComment(     const NString& theValue);
 	bool                                DecodeText(        const NString& theValue, bool isCData);
 
-	bool                                ContainsElements(const NVectorSharedPtrXMLNode& theNodes);
+	bool                                ContainsElements(const NVectorSharedXMLNode& theNodes);
 
-	NSharedPtrXMLNode                   GetDecodeParent();
+	NSharedXMLNode                      GetDecodeParent();
 
 
 private:
-	NSharedPtrXMLNode                   mDecodeRoot;
-	NVectorSharedPtrXMLNode             mDecodeElements;
+	NSharedXMLNode                      mDecodeRoot;
+	NVectorSharedXMLNode                mDecodeElements;
 };
 
 

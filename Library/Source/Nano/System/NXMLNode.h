@@ -77,9 +77,9 @@ enum class NXMLNodeType
 // Forward declaration
 class NXMLNode;
 
-// Node pointer
-using NSharedPtrXMLNode       = std::shared_ptr<NXMLNode>;
-using NVectorSharedPtrXMLNode = std::vector<NSharedPtrXMLNode>;
+// XML node
+using NSharedXMLNode       = std::shared_ptr<NXMLNode>;
+using NVectorSharedXMLNode = std::vector<NSharedXMLNode>;
 
 
 
@@ -107,7 +107,7 @@ public:
 
 
 	// Get the parent
-	NSharedPtrXMLNode                   GetParent() const;
+	NSharedXMLNode                      GetParent() const;
 
 
 	// Does the node have any children?
@@ -115,8 +115,8 @@ public:
 
 
 	// Add/remove a child
-	void                                AddChild(   const NSharedPtrXMLNode& theChild, size_t insertBefore = kNNotFound);
-	void                                RemoveChild(const NSharedPtrXMLNode& theChild);
+	void                                AddChild(   const NSharedXMLNode& theChild, size_t insertBefore = kNNotFound);
+	void                                RemoveChild(const NSharedXMLNode& theChild);
 
 
 	// Remove the children
@@ -124,11 +124,11 @@ public:
 
 
 	// Get the children
-	NSharedPtrXMLNode                   GetChild(const NString& textValue) const;
-	NSharedPtrXMLNode                   GetChild(size_t theIndex)          const;
+	NSharedXMLNode                      GetChild(const NString& textValue) const;
+	NSharedXMLNode                      GetChild(size_t theIndex)          const;
 
-	NSharedPtrXMLNode                   GetChildAtPath(const NString& thePath) const;
-	const NVectorSharedPtrXMLNode&      GetChildren()  const;
+	NSharedXMLNode                      GetChildAtPath(const NString& thePath) const;
+	const NVectorSharedXMLNode&         GetChildren()  const;
 
 
 	// Get/set the type
@@ -177,7 +177,7 @@ public:
 
 private:
 	std::weak_ptr<NXMLNode>             mParent;
-	NVectorSharedPtrXMLNode             mChildren;
+	NVectorSharedXMLNode                mChildren;
 
 	NXMLNodeType                        mType;
 	NString                             mValue;

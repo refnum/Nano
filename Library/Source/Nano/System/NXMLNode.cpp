@@ -125,7 +125,7 @@ bool NXMLNode::IsElement(const NString& theName) const
 //=============================================================================
 //		NXMLNode::GetParent : Get the parent.
 //-----------------------------------------------------------------------------
-NSharedPtrXMLNode NXMLNode::GetParent() const
+NSharedXMLNode NXMLNode::GetParent() const
 {
 
 
@@ -155,7 +155,7 @@ bool NXMLNode::HasChildren() const
 //=============================================================================
 //		NXMLNode::AddChild : Add a child.
 //-----------------------------------------------------------------------------
-void NXMLNode::AddChild(const NSharedPtrXMLNode& theChild, size_t insertBefore)
+void NXMLNode::AddChild(const NSharedXMLNode& theChild, size_t insertBefore)
 {
 
 
@@ -188,7 +188,7 @@ void NXMLNode::AddChild(const NSharedPtrXMLNode& theChild, size_t insertBefore)
 //=============================================================================
 //		NXMLNode::RemoveChild : Remove a child.
 //-----------------------------------------------------------------------------
-void NXMLNode::RemoveChild(const NSharedPtrXMLNode& theChild)
+void NXMLNode::RemoveChild(const NSharedXMLNode& theChild)
 {
 
 
@@ -229,7 +229,7 @@ void NXMLNode::RemoveChildren()
 //=============================================================================
 //		NXMLNode::GetChild : Get a child.
 //-----------------------------------------------------------------------------
-NSharedPtrXMLNode NXMLNode::GetChild(const NString& textValue) const
+NSharedXMLNode NXMLNode::GetChild(const NString& textValue) const
 {
 
 
@@ -252,7 +252,7 @@ NSharedPtrXMLNode NXMLNode::GetChild(const NString& textValue) const
 //=============================================================================
 //		NXMLNode::GetChild : Get a child.
 //-----------------------------------------------------------------------------
-NSharedPtrXMLNode NXMLNode::GetChild(size_t theIndex) const
+NSharedXMLNode NXMLNode::GetChild(size_t theIndex) const
 {
 
 
@@ -272,14 +272,14 @@ NSharedPtrXMLNode NXMLNode::GetChild(size_t theIndex) const
 //=============================================================================
 //		NXMLNode::GetChildAtPath : Get a child.
 //-----------------------------------------------------------------------------
-NSharedPtrXMLNode NXMLNode::GetChildAtPath(const NString& thePath) const
+NSharedXMLNode NXMLNode::GetChildAtPath(const NString& thePath) const
 {
 
 
 	// Get the child
-	NXMLNode*         thisPtr   = const_cast<NXMLNode*>(this);
-	NSharedPtrXMLNode theParent = thisPtr->shared_from_this();
-	NSharedPtrXMLNode theChild{};
+	NXMLNode*      thisPtr   = const_cast<NXMLNode*>(this);
+	NSharedXMLNode theParent = thisPtr->shared_from_this();
+	NSharedXMLNode theChild{};
 
 	for (const auto& theName : thePath.Split("/"))
 	{
@@ -302,7 +302,7 @@ NSharedPtrXMLNode NXMLNode::GetChildAtPath(const NString& thePath) const
 //=============================================================================
 //		NXMLNode::GetChildren : Get the children.
 //-----------------------------------------------------------------------------
-const NVectorSharedPtrXMLNode& NXMLNode::GetChildren() const
+const NVectorSharedXMLNode& NXMLNode::GetChildren() const
 {
 
 
@@ -581,7 +581,7 @@ void NXMLNode::SetElementContents(const NString& theValue)
 
 
 	// Get the state we need
-	NSharedPtrXMLNode theNode = std::make_shared<NXMLNode>(NXMLNodeType::Text, theValue);
+	NSharedXMLNode theNode = std::make_shared<NXMLNode>(NXMLNodeType::Text, theValue);
 
 
 

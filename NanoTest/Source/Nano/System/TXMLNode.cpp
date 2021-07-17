@@ -51,7 +51,7 @@
 //-----------------------------------------------------------------------------
 NANO_FIXTURE(TXMLNode)
 {
-	NSharedPtrXMLNode theNode;
+	NSharedXMLNode theNode;
 };
 
 

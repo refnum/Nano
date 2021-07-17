@@ -104,21 +104,16 @@ NANO_TEST(TXMLEncoder, "Encoding")
 
 
 	// Perform the test
-	NSharedPtrXMLNode nodeDoc = std::make_shared<NXMLNode>(NXMLNodeType::Document, "");
-	NSharedPtrXMLNode nodeDocType =
-		std::make_shared<NXMLNode>(NXMLNodeType::DocType, kValueDocType);
-	NSharedPtrXMLNode nodeContents =
-		std::make_shared<NXMLNode>(NXMLNodeType::Element, kValueContents);
-	NSharedPtrXMLNode nodeChild1 =
-		std::make_shared<NXMLNode>(NXMLNodeType::Element, kValueNodeChild1);
-	NSharedPtrXMLNode nodeChild2 =
-		std::make_shared<NXMLNode>(NXMLNodeType::Element, kValueNodeChild2);
-	NSharedPtrXMLNode nodeChild3 =
-		std::make_shared<NXMLNode>(NXMLNodeType::Element, kValueNodeChild3);
-	NSharedPtrXMLNode nodeText = std::make_shared<NXMLNode>(NXMLNodeType::Text, kValueNodeText);
-	NSharedPtrXMLNode nodeComment =
+	NSharedXMLNode nodeDoc      = std::make_shared<NXMLNode>(NXMLNodeType::Document, "");
+	NSharedXMLNode nodeDocType  = std::make_shared<NXMLNode>(NXMLNodeType::DocType, kValueDocType);
+	NSharedXMLNode nodeContents = std::make_shared<NXMLNode>(NXMLNodeType::Element, kValueContents);
+	NSharedXMLNode nodeChild1 = std::make_shared<NXMLNode>(NXMLNodeType::Element, kValueNodeChild1);
+	NSharedXMLNode nodeChild2 = std::make_shared<NXMLNode>(NXMLNodeType::Element, kValueNodeChild2);
+	NSharedXMLNode nodeChild3 = std::make_shared<NXMLNode>(NXMLNodeType::Element, kValueNodeChild3);
+	NSharedXMLNode nodeText   = std::make_shared<NXMLNode>(NXMLNodeType::Text, kValueNodeText);
+	NSharedXMLNode nodeComment =
 		std::make_shared<NXMLNode>(NXMLNodeType::Comment, kValueNodeComment);
-	NSharedPtrXMLNode nodeCData = std::make_shared<NXMLNode>(NXMLNodeType::CData, kValueNodeCData);
+	NSharedXMLNode nodeCData = std::make_shared<NXMLNode>(NXMLNodeType::CData, kValueNodeCData);
 
 	nodeDoc->AddChild(nodeDocType);
 	nodeDocType->SetDocTypeSystemID(kValueDocTypeSystemID);
@@ -153,20 +148,20 @@ NANO_TEST(TXMLEncoder, "Decoding")
 
 
 	// Perform the test
-	NSharedPtrXMLNode nodeDoc = theEncoder.Decode(kTestXML);
+	NSharedXMLNode nodeDoc = theEncoder.Decode(kTestXML);
 	REQUIRE(nodeDoc->IsType(NXMLNodeType::Document));
 
 
-	NVectorSharedPtrXMLNode theChildren = nodeDoc->GetChildren();
+	NVectorSharedXMLNode theChildren = nodeDoc->GetChildren();
 	REQUIRE(theChildren.size() == 2);
 
-	NSharedPtrXMLNode nodeChild1 = theChildren[0];
+	NSharedXMLNode nodeChild1 = theChildren[0];
 	REQUIRE(nodeChild1->IsType(NXMLNodeType::DocType));
 	REQUIRE(nodeChild1->GetTextValue() == kValueDocType);
 	REQUIRE(nodeChild1->GetDocTypeSystemID() == kValueDocTypeSystemID);
 	REQUIRE(nodeChild1->GetDocTypePublicID() == kValueDocTypePublicID);
 
-	NSharedPtrXMLNode nodeChild2 = theChildren[1];
+	NSharedXMLNode nodeChild2 = theChildren[1];
 	REQUIRE(nodeChild2->IsType(NXMLNodeType::Element));
 	REQUIRE(nodeChild2->GetTextValue() == kValueContents);
 	REQUIRE(nodeChild2->GetElementAttributes().IsEmpty());
@@ -193,7 +188,7 @@ NANO_TEST(TXMLEncoder, "Decoding")
 	theChildren = nodeChild1->GetChildren();
 	REQUIRE(theChildren.size() == 1);
 
-	NSharedPtrXMLNode nodeText = theChildren[0];
+	NSharedXMLNode nodeText = theChildren[0];
 	REQUIRE(nodeText->IsType(NXMLNodeType::Text));
 	REQUIRE(nodeText->GetTextValue() == kValueNodeText);
 
@@ -201,11 +196,11 @@ NANO_TEST(TXMLEncoder, "Decoding")
 	theChildren = nodeChild2->GetChildren();
 	REQUIRE(theChildren.size() == 2);
 
-	NSharedPtrXMLNode nodeComment = theChildren[0];
+	NSharedXMLNode nodeComment = theChildren[0];
 	REQUIRE(nodeComment->IsType(NXMLNodeType::Comment));
 	REQUIRE(nodeComment->GetTextValue() == kValueNodeComment);
 
-	NSharedPtrXMLNode nodeChild3 = theChildren[1];
+	NSharedXMLNode nodeChild3 = theChildren[1];
 	REQUIRE(nodeChild3->IsType(NXMLNodeType::Element));
 	REQUIRE(nodeChild3->GetTextValue() == kValueNodeChild3);
 	REQUIRE(nodeChild3->GetElementAttribute(kAttribute1Name).IsEmpty());
@@ -216,7 +211,7 @@ NANO_TEST(TXMLEncoder, "Decoding")
 	theChildren = nodeChild3->GetChildren();
 	REQUIRE(theChildren.size() == 1);
 
-	NSharedPtrXMLNode nodeCData = theChildren[0];
+	NSharedXMLNode nodeCData = theChildren[0];
 	REQUIRE(nodeCData->IsType(NXMLNodeType::CData));
 	REQUIRE(nodeCData->GetTextValue() == kValueNodeCData);
 }
@@ -233,8 +228,8 @@ NANO_TEST(TXMLEncoder, "Recoding")
 
 
 	// Perform the test
-	NSharedPtrXMLNode nodeDoc = theEncoder.Decode(kTestXML);
-	NString           theText = theEncoder.Encode(nodeDoc);
+	NSharedXMLNode nodeDoc = theEncoder.Decode(kTestXML);
+	NString        theText = theEncoder.Encode(nodeDoc);
 
 	REQUIRE(theText == kTestXML);
 }
