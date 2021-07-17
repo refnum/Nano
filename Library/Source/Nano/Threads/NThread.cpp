@@ -165,20 +165,6 @@ NThreadID NThread::GetID() const
 	// Get the ID
 	return mID;
 }
-
-
-
-
-
-//=============================================================================
-//		NThread::GetRunLoop : Get the runloop.
-//-----------------------------------------------------------------------------
-std::shared_ptr<NRunLoop> NThread::GetRunLoop() const
-{
-
-
-	// Get our state
-	return mRunLoop;
 }
 
 

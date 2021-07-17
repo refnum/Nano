@@ -72,15 +72,16 @@ inline constexpr NRunLoopWorkID NRunLoopWorkNone            = 0;
 //-----------------------------------------------------------------------------
 // Forward declarations
 class NSemaphore;
+class NRunLoop;
 
 
-// RunLoop handle
-using NRunLoopHandle = uintptr_t;
+// RunLoop
+using NSharedRunLoop       = std::shared_ptr<NRunLoop>;
+using NRunLoopWorkFunction = std::function<void()>;
+using NRunLoopHandle       = uintptr_t;
 
 
 // RunLoop work
-using NRunLoopWorkFunction = std::function<void()>;
-
 struct NRunLoopWork
 {
 	NRunLoopWorkID              theID;
@@ -158,11 +159,11 @@ public:
 
 
 	// Get the main thread's runloop
-	static std::shared_ptr<NRunLoop>    GetMain();
+	static NSharedRunLoop               GetMain();
 
 
 	// Get the current thread's runloop
-	static std::shared_ptr<NRunLoop>    GetCurrent();
+	static NSharedRunLoop               GetCurrent();
 
 
 	// Add a function to the main runloop

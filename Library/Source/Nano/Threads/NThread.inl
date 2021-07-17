@@ -102,6 +102,20 @@ NThread::NThread(const NString& theName,
 
 	// Create the thread
 	CreateThread(theName, stackSize, theFunction, theArgs...);
+
+
+
+
+
+//=============================================================================
+//		NThread::GetRunLoop : Get the runloop.
+//-----------------------------------------------------------------------------
+inline NSharedRunLoop NThread::GetRunLoop() const
+{
+
+
+	// Get our state
+	return mRunLoop;
 }
 
 
