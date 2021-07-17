@@ -51,6 +51,16 @@
 
 
 //=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Undo Manager
+using NSharedUndoManager                                    = std::shared_ptr<NUndoManager>;
+
+
+
+
+
+//=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
 class NUndoSource
@@ -81,11 +91,11 @@ public:
 	// Set the undo manager
 	//
 	// Undo actions recorded without an undo manager are discarded.
-	void                                SetUndoManager(const std::shared_ptr<NUndoManager>& undoManager);
+	void                                SetUndoManager(const NSharedUndoManager& undoManager);
 
 
 private:
-	std::shared_ptr<NUndoManager>       mUndoManager;
+	NSharedUndoManager                  mUndoManager;
 };
 
 

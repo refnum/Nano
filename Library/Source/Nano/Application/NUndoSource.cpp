@@ -147,7 +147,7 @@ void NUndoSource::TrackUndo(bool beginTrack, bool canFlush)
 //=============================================================================
 //		NUndoSource::SetUndoManager : Set the undo manager.
 //-----------------------------------------------------------------------------
-void NUndoSource::SetUndoManager(const std::shared_ptr<NUndoManager>& undoManager)
+void NUndoSource::SetUndoManager(const NSharedUndoManager& undoManager)
 {
 
 
