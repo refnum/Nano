@@ -52,7 +52,7 @@
 //		Internal Constants
 //-----------------------------------------------------------------------------
 // Conversion
-static constexpr float kNOneOver255                         = 1.0f / 255.0f;
+inline constexpr float kNOneOver255                         = 1.0f / 255.0f;
 
 
 

@@ -100,10 +100,10 @@ static const char* kNLabelDayWide[] =
 
 
 // Literals
-inline constexpr const utf8_t* kNDateFormatTokens           = "GyYuQqMLwWdDFgEecahHKkmsSAzZv'";
-inline constexpr const utf8_t* kNDateFormatUnimplemented    = "???";
-inline constexpr utf8_t        kNUTF8Quote                  = '\'';
-inline constexpr utf8_t        kNUTF8Null                   = 0;
+static constexpr const utf8_t* kNDateFormatTokens           = "GyYuQqMLwWdDFgEecahHKkmsSAzZv'";
+static constexpr const utf8_t* kNDateFormatUnimplemented    = "???";
+static constexpr utf8_t        kNUTF8Quote                  = '\'';
+static constexpr utf8_t        kNUTF8Null                   = 0;
 
 
 

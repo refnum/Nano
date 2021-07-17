@@ -55,7 +55,7 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr NThreadHandle kNThreadNone                 = 0;
+inline constexpr NThreadHandle kNThreadNone                 = 0;
 
 
 
