@@ -92,7 +92,7 @@ NANO_TEST(TRunLoop, "GetMain")
 {
 
 
-	// Perform the teest
+	// Perform the test
 	REQUIRE(runLoop == NRunLoop::GetMain());
 }
 
