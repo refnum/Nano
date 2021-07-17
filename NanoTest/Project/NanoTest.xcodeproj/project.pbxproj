@@ -46,6 +46,9 @@
 		AB1B4DAA23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4DA923F2F92A00B304D3 /* TStringTransformer.cpp */; };
 		AB1B4DAB23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4DA923F2F92A00B304D3 /* TStringTransformer.cpp */; };
 		AB1B4DAC23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1B4DA923F2F92A00B304D3 /* TStringTransformer.cpp */; };
+		AB1C77FA26A315E600A43965 /* TDeque.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1C77F926A315E600A43965 /* TDeque.cpp */; };
+		AB1C77FB26A315E600A43965 /* TDeque.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1C77F926A315E600A43965 /* TDeque.cpp */; };
+		AB1C77FC26A315E600A43965 /* TDeque.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1C77F926A315E600A43965 /* TDeque.cpp */; };
 		AB20328725D72B6D0050DB00 /* TColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB14320D103F512C002BD0D1 /* TColor.cpp */; };
 		AB20328B25D72B6D0050DB00 /* TColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB14320D103F512C002BD0D1 /* TColor.cpp */; };
 		AB20328C25D72B6E0050DB00 /* TColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB14320D103F512C002BD0D1 /* TColor.cpp */; };
@@ -328,6 +331,9 @@
 		ABFD46FF25C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470025C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
 		ABFD470125C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABFD46FE25C4FD0E00CE9358 /* TRandomGenerator.cpp */; };
+		ABFEA79A269A5EE2004CDF44 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		ABFEA79B269A5EE2004CDF44 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		ABFEA79C269A5EE2004CDF44 /* (null) in Sources */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -390,6 +396,7 @@
 		AB1B4D9823F024FE00B304D3 /* TStringScanner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringScanner.cpp; sourceTree = "<group>"; };
 		AB1B4DA923F2F92A00B304D3 /* TStringTransformer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringTransformer.cpp; sourceTree = "<group>"; };
 		AB1BA195104E7D1400BB002B /* TTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTransform.cpp; sourceTree = "<group>"; };
+		AB1C77F926A315E600A43965 /* TDeque.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDeque.cpp; sourceTree = "<group>"; };
 		AB20329225D73E1F0050DB00 /* TStdMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdMath.cpp; sourceTree = "<group>"; };
 		AB269E0525BBAEA7007EAEF8 /* TStdUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdUtility.cpp; sourceTree = "<group>"; };
 		AB2A304824524CD700F21BF6 /* TDebugger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDebugger.cpp; sourceTree = "<group>"; };
@@ -808,6 +815,7 @@
 				AB514D9F1034184B00E5A6AD /* TArray.cpp */,
 				AB514DA11034184B00E5A6AD /* TBitVector.cpp */,
 				AB549AF42687BE3800B14417 /* TCache.cpp */,
+				AB1C77F926A315E600A43965 /* TDeque.cpp */,
 				AB514DAB1034184B00E5A6AD /* TDictionary.cpp */,
 				ABF58CE726795A5800327252 /* TFunction.cpp */,
 				AB4EEBEC2693CD74005816E3 /* TMap.cpp */,
@@ -1124,6 +1132,7 @@
 				ABA478C725B7B7FE00F3C3C9 /* TMachine.cpp in Sources */,
 				ABF58DC3267F509300327252 /* TCFArray.cpp in Sources */,
 				AB4EB4C52430F34E00D36016 /* TFormat.cpp in Sources */,
+				AB1C77FB26A315E600A43965 /* TDeque.cpp in Sources */,
 				AB1B4DAB23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9A923EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB1980F725975D17002C5591 /* TThreadID.cpp in Sources */,
@@ -1139,6 +1148,7 @@
 				ABE7C0D925D0B06500914618 /* TVector.cpp in Sources */,
 				ABF58CF22679727500327252 /* TUTI.cpp in Sources */,
 				ABF58CD2267932CB00327252 /* TUndoSource.cpp in Sources */,
+				ABFEA79B269A5EE2004CDF44 /* (null) in Sources */,
 				AB549B86268FA72900B14417 /* TXMLNode.cpp in Sources */,
 				AB4AF5542422FEE700E665D4 /* TFileScanner.cpp in Sources */,
 				AB54F9B223EF14CF005207BC /* TStringComparator.cpp in Sources */,
@@ -1238,6 +1248,7 @@
 				ABA478C625B7B7FE00F3C3C9 /* TMachine.cpp in Sources */,
 				ABF58DC2267F509300327252 /* TCFArray.cpp in Sources */,
 				AB4EB4C42430F34E00D36016 /* TFormat.cpp in Sources */,
+				AB1C77FA26A315E600A43965 /* TDeque.cpp in Sources */,
 				AB1B4DAA23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9A823EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB1980F625975D17002C5591 /* TThreadID.cpp in Sources */,
@@ -1253,6 +1264,7 @@
 				ABE7C0DD25D0B06500914618 /* TVector.cpp in Sources */,
 				ABF58CF12679727500327252 /* TUTI.cpp in Sources */,
 				ABF58CD4267932CB00327252 /* TUndoSource.cpp in Sources */,
+				ABFEA79A269A5EE2004CDF44 /* (null) in Sources */,
 				AB549B83268FA72900B14417 /* TXMLNode.cpp in Sources */,
 				AB4AF5532422FEE700E665D4 /* TFileScanner.cpp in Sources */,
 				AB54F9B123EF14CF005207BC /* TStringComparator.cpp in Sources */,
@@ -1352,6 +1364,7 @@
 				ABA478C825B7B7FE00F3C3C9 /* TMachine.cpp in Sources */,
 				ABF58DBF267F509100327252 /* TCFArray.cpp in Sources */,
 				AB4EB4C62430F34E00D36016 /* TFormat.cpp in Sources */,
+				AB1C77FC26A315E600A43965 /* TDeque.cpp in Sources */,
 				AB1B4DAC23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9AA23EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB1980F825975D17002C5591 /* TThreadID.cpp in Sources */,
@@ -1367,6 +1380,7 @@
 				ABE7C0D225D0B06400914618 /* TVector.cpp in Sources */,
 				ABF58CF32679727500327252 /* TUTI.cpp in Sources */,
 				ABF58CD0267932CA00327252 /* TUndoSource.cpp in Sources */,
+				ABFEA79C269A5EE2004CDF44 /* (null) in Sources */,
 				AB549B7D268FA72800B14417 /* TXMLNode.cpp in Sources */,
 				AB4AF5552422FEE700E665D4 /* TFileScanner.cpp in Sources */,
 				AB54F9B323EF14CF005207BC /* TStringComparator.cpp in Sources */,
