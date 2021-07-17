@@ -41,8 +41,8 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-// System
-#include <functional>
+// Nano
+#include "NFunction.h"
 
 
 
@@ -54,11 +54,11 @@
 // Execute synchronously on the main thread
 //
 // Blocks until the function is complete.
-void NExecuteMain(const std::function<void()>& theFunction);
+void NExecuteMain(const NFunction& theFunction);
 
 
 // Execute asynchronously on the main thread
-void NExecuteMainAsync(const std::function<void()>& theFunction);
+void NExecuteMainAsync(const NFunction& theFunction);
 
 
 

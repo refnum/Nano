@@ -43,10 +43,10 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NBroadcaster.h"
+#include "NFunction.h"
 #include "NString.h"
 
 // System
-#include <functional>
 #include <vector>
 
 
@@ -65,16 +65,11 @@ inline constexpr const char* kNUndoManagerUpdated           = "NUndoManager.Upda
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
-// Undo Action
-using NFunctionUndoAction                                   = std::function<void()>;
-using NVectorUndoAction                                     = std::vector<NFunctionUndoAction>;
-
-
 // Undo Group
 struct NUndoGroup
 {
-	NString           theName;
-	NVectorUndoAction theActions;
+	NString         theName;
+	NVectorFunction theActions;
 };
 
 using NVectorUndoGroup = std::vector<NUndoGroup>;
@@ -211,7 +206,7 @@ public:
 	//
 	// If no group is open when an action is recorded, a new group will be opened
 	// closed around the action automatically.
-	void                                RecordAction(const NFunctionUndoAction& theAction);
+	void                                RecordAction(const NFunction& theAction);
 
 
 private:

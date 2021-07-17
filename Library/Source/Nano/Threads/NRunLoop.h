@@ -42,13 +42,13 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NFunction.h"
 #include "NMutex.h"
 #include "NThreadID.h"
 #include "NTime.h"
 
 // System
 #include <deque>
-#include <functional>
 #include <memory>
 
 
@@ -76,9 +76,8 @@ class NRunLoop;
 
 
 // RunLoop
-using NSharedRunLoop       = std::shared_ptr<NRunLoop>;
-using NRunLoopWorkFunction = std::function<void()>;
-using NRunLoopHandle       = uintptr_t;
+using NSharedRunLoop = std::shared_ptr<NRunLoop>;
+using NRunLoopHandle = uintptr_t;
 
 
 // RunLoop work
@@ -87,7 +86,7 @@ struct NRunLoopWork
 	NRunLoopWorkID              theID;
 	NTime                       executeAt;
 	NInterval                   executeEvery;
-	NRunLoopWorkFunction        theFunction;
+	NFunction                   theFunction;
 	std::shared_ptr<NSemaphore> theSemaphore;
 };
 
@@ -136,7 +135,7 @@ public:
 	//
 	// An optional semaphore can be supplied which will be signalled whenever
 	// the function has been executed.
-	NRunLoopWorkID                      Add(const NRunLoopWorkFunction&  theFunctor,
+	NRunLoopWorkID                      Add(const NFunction&             theFunctor,
 											NInterval                    executeAfter = kNTimeNone,
 											NInterval                    executeEvery = kNTimeNone,
 											std::shared_ptr<NSemaphore>* theSemaphore = nullptr);

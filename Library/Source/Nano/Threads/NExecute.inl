@@ -50,7 +50,7 @@
 //=============================================================================
 //		NExecuteMain : Execute synchronously on the main thread.
 //-----------------------------------------------------------------------------
-inline void NExecuteMain(const std::function<void()>& theFunction)
+inline void NExecuteMain(const NFunction& theFunction)
 {
 
 
@@ -69,7 +69,7 @@ inline void NExecuteMain(const std::function<void()>& theFunction)
 //=============================================================================
 //		NExecuteMainAsync : Execute asynchronously on the main thread.
 //-----------------------------------------------------------------------------
-inline void NExecuteMainAsync(const std::function<void()>& theFunction)
+inline void NExecuteMainAsync(const NFunction& theFunction)
 {
 
 

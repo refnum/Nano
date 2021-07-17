@@ -41,6 +41,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NFunction.h"
 #include "NUndoManager.h"
 
 // System
@@ -71,9 +72,9 @@ public:
 
 
 	// Record an undo action
-	void                                RecordUndo(const NFunctionUndoAction& theAction,
-												   const NString&             theName        = "",
-												   bool                       stringsAreKeys = true);
+	void                                RecordUndo(const NFunction& theAction,
+												   const NString&   theName        = "",
+												   bool             stringsAreKeys = true);
 
 
 	// Track an undo group

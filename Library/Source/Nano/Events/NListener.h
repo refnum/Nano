@@ -88,9 +88,9 @@ public:
 													   const NString&           theMsg,
 													   const NFunctionListenID& theFunctor);
 
-	void                                StartListening(NBroadcaster*              theBroadcaster,
-													   const NString&             theMsg,
-													   const NFunctionListenVoid& theFunctor);
+	void                                StartListening(NBroadcaster*    theBroadcaster,
+													   const NString&   theMsg,
+													   const NFunction& theFunctor);
 
 	void                                StopListening(NBroadcaster* theBroadcaster, const NString& theMsg);
 

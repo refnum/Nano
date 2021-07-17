@@ -54,8 +54,8 @@ NANO_FIXTURE(TListener)
 	NBroadcaster theBroadcaster;
 	NListener    theListener;
 
-	NFunctionListenVoid doEvent;
-	uint32_t            numEvents;
+	NFunction doEvent;
+	uint32_t  numEvents;
 
 	SETUP
 	{

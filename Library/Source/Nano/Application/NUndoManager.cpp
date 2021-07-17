@@ -483,7 +483,7 @@ void NUndoManager::SetGroupName(const NString& theName)
 //=============================================================================
 //		NUndoManager::RecordAction : Record an undo action.
 //-----------------------------------------------------------------------------
-void NUndoManager::RecordAction(const NFunctionUndoAction& theAction)
+void NUndoManager::RecordAction(const NFunction& theAction)
 {
 
 

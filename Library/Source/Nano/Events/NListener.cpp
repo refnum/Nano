@@ -92,9 +92,9 @@ void NListener::StartListening(NBroadcaster*            theBroadcaster,
 //=============================================================================
 //		NListener::StartListening : Start listening for a message.
 //-----------------------------------------------------------------------------
-void NListener::StartListening(NBroadcaster*              theBroadcaster,
-							   const NString&             theMsg,
-							   const NFunctionListenVoid& theFunctor)
+void NListener::StartListening(NBroadcaster*    theBroadcaster,
+							   const NString&   theMsg,
+							   const NFunction& theFunctor)
 {
 
 

@@ -86,9 +86,9 @@ void NUndoSource::ClearUndo()
 //=============================================================================
 //		NUndoSource::RecordUndo : Record an undo action.
 //-----------------------------------------------------------------------------
-void NUndoSource::RecordUndo(const NFunctionUndoAction& theAction,
-							 const NString&             theName,
-							 bool                       stringsAreKeys)
+void NUndoSource::RecordUndo(const NFunction& theAction,
+							 const NString&   theName,
+							 bool             stringsAreKeys)
 {
 
 

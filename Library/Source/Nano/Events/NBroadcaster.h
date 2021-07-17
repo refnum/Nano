@@ -42,11 +42,11 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NFunction.h"
 #include "NMutex.h"
 #include "NString.h"
 
 // System
-#include <functional>
 #include <unordered_map>
 
 
@@ -61,8 +61,7 @@ class NListener;
 
 
 // Functors
-using NFunctionListenID   = std::function<void(const NString& theMsg)>;
-using NFunctionListenVoid = std::function<void()>;
+using NFunctionListenID = std::function<void(const NString& theMsg)>;
 
 
 // Containers

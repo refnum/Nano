@@ -42,6 +42,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NFunction.h"
 #include "NMutex.h"
 #include "NRunLoop.h"
 #include "NString.h"
@@ -71,8 +72,8 @@ using NThreadHandle = uintptr_t;
 // Thread context
 struct NThreadContext
 {
-	size_t                stackSize;
-	std::function<void()> threadEntry;
+	size_t    stackSize;
+	NFunction threadEntry;
 };
 
 

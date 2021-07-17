@@ -42,6 +42,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include <functional>
+#include <vector>
 
 
 
@@ -63,6 +64,11 @@
 #define kNArg8                                              std::placeholders::_8
 #define kNArg9                                              std::placeholders::_9
 #define kNArg10                                             std::placeholders::_10
+
+
+// Functions
+using NFunction                                             = std::function<void()>;
+using NVectorFunction                                       = std::vector<NFunction>;
 
 
 
