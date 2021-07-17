@@ -42,7 +42,7 @@
 #include "NFileInfo.h"
 
 // Nano
-#include "NSharedLinux.h"
+#include "NCommonLinux.h"
 
 
 
@@ -56,5 +56,5 @@ bool NFileInfo::FetchState(NFileInfoFlags theFlags)
 
 
 	// Fetch the state
-	return NSharedLinux::FileGetState(mPath, theFlags, mValid, mState);
+	return NCommonLinux::FileGetState(mPath, theFlags, mValid, mState);
 }

@@ -43,7 +43,7 @@
 
 
 // Nano
-#include "NSharedDarwin.h"
+#include "NCommonDarwin.h"
 
 
 
@@ -57,7 +57,7 @@ NRunLoopHandle NRunLoop::RunLoopCreate(bool isMain)
 
 
 	// Create the runloop
-	return NSharedDarwin::RunLoopCreate(isMain);
+	return NCommonDarwin::RunLoopCreate(isMain);
 }
 
 
@@ -72,7 +72,7 @@ void NRunLoop::RunLoopDestroy(NRunLoopHandle runLoop)
 
 
 	// Sleep the runloop
-	NSharedDarwin::RunLoopDestroy(runLoop);
+	NCommonDarwin::RunLoopDestroy(runLoop);
 }
 
 
@@ -87,7 +87,7 @@ void NRunLoop::RunLoopSleep(NRunLoopHandle runLoop, NInterval sleepFor)
 
 
 	// Destroy the runloop
-	NSharedDarwin::RunLoopSleep(runLoop, sleepFor);
+	NCommonDarwin::RunLoopSleep(runLoop, sleepFor);
 }
 
 
@@ -102,5 +102,5 @@ void NRunLoop::RunLoopWake(NRunLoopHandle runLoop)
 
 
 	// Wake the runloop
-	NSharedDarwin::RunLoopWake(runLoop);
+	NCommonDarwin::RunLoopWake(runLoop);
 }

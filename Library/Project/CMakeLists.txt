@@ -418,7 +418,7 @@ nano_project_include_paths(
 		"${NN_SOURCE_DIR}/Nano/Internal/Components/sqlite-3.36.0"
 		"${NN_SOURCE_DIR}/Nano/Internal/Components/WjCryptLib-2.3.0"
 		"${NN_SOURCE_DIR}/Nano/Internal/Components/zlib-1.2.11"
-		"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared"
+		"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common"
 )
 
 nano_project_warnings(
@@ -452,10 +452,10 @@ if (NN_TARGET_ANDROID)
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Android/AndroidNSystem.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Android/AndroidNThread.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Android/AndroidNTimeUtils.cpp"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedLinux.cpp"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedLinux.h"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedPOSIX.cpp"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedPOSIX.h"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonLinux.cpp"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonLinux.h"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonPOSIX.cpp"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonPOSIX.h"
 	)
 
 	nano_project_include_paths(
@@ -518,6 +518,10 @@ if (NN_TARGET_IOS)
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/NCGShading.inl"
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/NCoreGraphics.h"
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/NCoreGraphics.inl"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonDarwin.h"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonDarwin.mm"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonPOSIX.cpp"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonPOSIX.h"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/iOS/iOSNBundle.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/iOS/iOSNDebugger.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/iOS/iOSNFileHandle.cpp"
@@ -533,10 +537,6 @@ if (NN_TARGET_IOS)
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/iOS/iOSNSystem.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/iOS/iOSNThread.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/iOS/iOSNTimeUtils.cpp"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedDarwin.h"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedDarwin.mm"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedPOSIX.cpp"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedPOSIX.h"
 	)
 
 	nano_project_include_paths(
@@ -558,6 +558,10 @@ endif()
 if (NN_TARGET_LINUX)
 	nano_project_sources(
 		PRIVATE
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonLinux.cpp"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonLinux.h"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonPOSIX.cpp"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonPOSIX.h"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Linux/LinuxNBundle.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Linux/LinuxNDebugger.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Linux/LinuxNFileHandle.cpp"
@@ -573,10 +577,6 @@ if (NN_TARGET_LINUX)
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Linux/LinuxNSystem.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Linux/LinuxNThread.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Linux/LinuxNTimeUtils.cpp"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedLinux.cpp"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedLinux.h"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedPOSIX.cpp"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedPOSIX.h"
 	)
 
 	nano_project_include_paths(
@@ -633,6 +633,10 @@ if (NN_TARGET_MACOS)
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/NCGShading.inl"
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/NCoreGraphics.h"
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/NCoreGraphics.inl"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonDarwin.h"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonDarwin.mm"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonPOSIX.cpp"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonPOSIX.h"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/macOS/macOSNBundle.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/macOS/macOSNDebugger.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/macOS/macOSNFileHandle.cpp"
@@ -648,10 +652,6 @@ if (NN_TARGET_MACOS)
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/macOS/macOSNSystem.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/macOS/macOSNThread.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/macOS/macOSNTimeUtils.cpp"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedDarwin.h"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedDarwin.mm"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedPOSIX.cpp"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedPOSIX.h"
 	)
 
 	nano_project_include_paths(
@@ -676,8 +676,8 @@ if (NN_TARGET_TVOS)
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFArray.cpp"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFArray.h"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFArray.inl"
-			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFData.h"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFData.cpp"
+			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFData.h"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFData.inl"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFDate.cpp"
 			"${NN_SOURCE_DIR}/Nanites/CoreFoundation/NCFDate.h"
@@ -711,10 +711,10 @@ if (NN_TARGET_TVOS)
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/NCGShading.inl"
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/NCoreGraphics.h"
 			"${NN_SOURCE_DIR}/Nanites/CoreGraphics/NCoreGraphics.inl"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedDarwin.h"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedDarwin.mm"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedPOSIX.cpp"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedPOSIX.h"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonDarwin.h"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonDarwin.mm"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonPOSIX.cpp"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonPOSIX.h"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/tvOS/tvOSNBundle.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/tvOS/tvOSNDebugger.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/tvOS/tvOSNFileHandle.cpp"
@@ -751,11 +751,10 @@ endif()
 if (NN_TARGET_WINDOWS)
 	nano_project_sources(
 		PRIVATE
-			"${PROJECT_SOURCE_DIR}/../Support/Visual Studio/Nano.natvis"
 			"${NN_SOURCE_DIR}/Nanites/Windows/NWindows.h"
 			"${NN_SOURCE_DIR}/Nanites/Windows/NWindows.inl"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedWindows.cpp"
-			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Shared/NSharedWindows.h"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonWindows.cpp"
+			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Common/NCommonWindows.h"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Windows/WindowsNBundle.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Windows/WindowsNDebugger.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Windows/WindowsNFileHandle.cpp"
@@ -771,6 +770,7 @@ if (NN_TARGET_WINDOWS)
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Windows/WindowsNSystem.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Windows/WindowsNThread.cpp"
 			"${NN_SOURCE_DIR}/Nano/Internal/Targets/Windows/WindowsNTimeUtils.cpp"
+			"${PROJECT_SOURCE_DIR}/../Support/Visual Studio/Nano.natvis"
 	)
 
 	nano_project_include_paths(

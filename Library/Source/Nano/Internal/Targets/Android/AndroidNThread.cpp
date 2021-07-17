@@ -42,8 +42,8 @@
 #include "NThread.h"
 
 // Nano
-#include "NSharedLinux.h"
-#include "NSharedPOSIX.h"
+#include "NCommonLinux.h"
+#include "NCommonPOSIX.h"
 
 // System
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wreserved-id-macro");
@@ -76,7 +76,7 @@ size_t NThread::GetStackSize()
 
 
 	// Get the size
-	return NSharedLinux::ThreadStackSize();
+	return NCommonLinux::ThreadStackSize();
 }
 
 
@@ -91,7 +91,7 @@ NString NThread::GetName()
 
 
 	// Get the name
-	return NSharedPOSIX::ThreadGetName();
+	return NCommonPOSIX::ThreadGetName();
 }
 
 
@@ -106,7 +106,7 @@ void NThread::SetName(const NString& theName)
 
 
 	// Set the name
-	NSharedPOSIX::ThreadSetName(theName);
+	NCommonPOSIX::ThreadSetName(theName);
 }
 
 
@@ -121,7 +121,7 @@ float NThread::GetPriority()
 
 
 	// Get the priority
-	return NSharedPOSIX::ThreadGetPriority();
+	return NCommonPOSIX::ThreadGetPriority();
 }
 
 
@@ -136,7 +136,7 @@ void NThread::SetPriority(float thePriority)
 
 
 	// Set the priority
-	NSharedPOSIX::ThreadSetPriority(thePriority);
+	NCommonPOSIX::ThreadSetPriority(thePriority);
 }
 
 
@@ -151,7 +151,7 @@ NVectorUInt8 NThread::GetCores()
 
 
 	// Get the cores
-	return NSharedLinux::ThreadGetCores();
+	return NCommonLinux::ThreadGetCores();
 }
 
 
@@ -166,7 +166,7 @@ void NThread::SetCores(const NVectorUInt8& theCores)
 
 
 	// Set the cores
-	NSharedLinux::ThreadSetCores(theCores);
+	NCommonLinux::ThreadSetCores(theCores);
 }
 
 
@@ -182,7 +182,7 @@ NThreadHandle NThread::ThreadCreate(NThreadContext* theContext)
 
 
 	// Create the thread
-	return NSharedPOSIX::ThreadCreate(theContext);
+	return NCommonPOSIX::ThreadCreate(theContext);
 }
 
 
@@ -197,7 +197,7 @@ void NThread::ThreadJoin(NThreadHandle theThread)
 
 
 	// Join the thread
-	NSharedPOSIX::ThreadJoin(theThread);
+	NCommonPOSIX::ThreadJoin(theThread);
 }
 
 

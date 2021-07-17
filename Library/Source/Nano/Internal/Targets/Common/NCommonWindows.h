@@ -1,5 +1,5 @@
 /*	NAME:
-		NSharedWindows.h
+		NCommonWindows.h
 
 	DESCRIPTION:
 		Windows support.
@@ -36,8 +36,8 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NSHARED_WINDOWS_H
-#define NSHARED_WINDOWS_H
+#ifndef NCOMMON_WINDOWS_H
+#define NCOMMON_WINDOWS_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
@@ -61,7 +61,7 @@ class NString;
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NSharedWindows
+class NCommonWindows
 {
 public:
 	// Registry
@@ -79,4 +79,4 @@ public:
 
 
 
-#endif // NSHARED_WINDOWS_H
+#endif // NCOMMON_WINDOWS_H

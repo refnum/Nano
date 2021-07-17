@@ -42,7 +42,7 @@
 #include "NBundle.h"
 
 // Nano
-#include "NSharedLinux.h"
+#include "NCommonLinux.h"
 
 
 
@@ -56,7 +56,7 @@ NFile NBundle::GetBundle(const NString& bundleID) const
 
 
 	// Get the bundle
-	return NSharedLinux::BundleGet(bundleID);
+	return NCommonLinux::BundleGet(bundleID);
 }
 
 
@@ -71,7 +71,7 @@ NFile NBundle::GetResources(const NFile& theBundle) const
 
 
 	// Get the resources
-	return NSharedLinux::BundleGetResources(theBundle);
+	return NCommonLinux::BundleGetResources(theBundle);
 }
 
 
@@ -86,7 +86,7 @@ NDictionary NBundle::GetInfoDictionary(const NFile& theBundle) const
 
 
 	// Get the dictionary
-	return NSharedLinux::BundleGetInfoDictionary(theBundle);
+	return NCommonLinux::BundleGetInfoDictionary(theBundle);
 }
 
 
@@ -101,5 +101,5 @@ NFile NBundle::GetExecutable(const NFile& theBundle, const NString& theName) con
 
 
 	// Get the executable
-	return NSharedLinux::BundleGetExecutable(theBundle, theName);
+	return NCommonLinux::BundleGetExecutable(theBundle, theName);
 }

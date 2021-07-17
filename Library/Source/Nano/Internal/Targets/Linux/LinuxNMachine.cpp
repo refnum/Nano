@@ -42,7 +42,7 @@
 #include "NMachine.h"
 
 // Nano
-#include "NSharedLinux.h"
+#include "NCommonLinux.h"
 
 // System
 #include <unistd.h>
@@ -64,7 +64,7 @@ long GetPhysicalCores()
 	// Get the physical cores
 	std::unordered_set<NString> coreIDs;
 
-	for (const auto& theLine : NSharedLinux::GetProcFile(NFilePath("/proc/cpuinfo")).GetLines())
+	for (const auto& theLine : NCommonLinux::GetProcFile(NFilePath("/proc/cpuinfo")).GetLines())
 	{
 		if (theLine.Contains("core id\\s*?:\\s*\\d+", kNStringPattern))
 		{
@@ -117,7 +117,7 @@ uint64_t NMachine::GetMemoryBytes()
 
 
 	// Get the memory
-	return NSharedLinux::MachineMemory();
+	return NCommonLinux::MachineMemory();
 }
 
 
@@ -132,7 +132,7 @@ NString NMachine::GetCPUName()
 
 
 	// Get the name
-	return NSharedLinux::MachineCPUName();
+	return NCommonLinux::MachineCPUName();
 }
 
 
@@ -147,7 +147,7 @@ NString NMachine::GetCPUVendor()
 
 
 	// Get the vendor
-	return NSharedLinux::MachineCPUVendor();
+	return NCommonLinux::MachineCPUVendor();
 }
 
 
@@ -162,5 +162,5 @@ uint64_t NMachine::GetCPUHertz()
 
 
 	// Get the speed
-	return NSharedLinux::MachineCPUHertz();
+	return NCommonLinux::MachineCPUHertz();
 }

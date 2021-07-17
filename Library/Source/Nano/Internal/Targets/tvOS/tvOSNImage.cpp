@@ -42,7 +42,7 @@
 #include "NImage.h"
 
 // Nano
-#include "NSharedDarwin.h"
+#include "NCommonDarwin.h"
 
 
 
@@ -56,7 +56,7 @@ NStatus NImage::ImageDecode(const NData& theData)
 
 
 	// Deocde the image
-	return NSharedDarwin::ImageDecode(*this, theData);
+	return NCommonDarwin::ImageDecode(*this, theData);
 }
 
 
@@ -71,5 +71,5 @@ NData NImage::ImageEncode(const NUTI& theType) const
 
 
 	// Encode the image
-	return NSharedDarwin::ImageEncode(*this, theType);
+	return NCommonDarwin::ImageEncode(*this, theType);
 }

@@ -42,7 +42,7 @@
 #include "NTimeUtils.h"
 
 // Nano
-#include "NSharedLinux.h"
+#include "NCommonLinux.h"
 
 
 
@@ -56,7 +56,7 @@ NTime NTimeUtils::GetTime()
 
 
 	// Get the time
-	return NSharedLinux::TimeGet();
+	return NCommonLinux::TimeGet();
 }
 
 
@@ -71,7 +71,7 @@ NInterval NTimeUtils::GetUpTime()
 
 
 	// Get the time since boot
-	return NSharedLinux::TimeGetUpTime();
+	return NCommonLinux::TimeGetUpTime();
 }
 
 
@@ -86,7 +86,7 @@ uint64_t NTimeUtils::GetClockTicks()
 
 
 	// Get the clock ticks
-	return NSharedLinux::TimeGetClockTicks();
+	return NCommonLinux::TimeGetClockTicks();
 }
 
 
@@ -101,5 +101,5 @@ uint64_t NTimeUtils::GetClockFrequency()
 
 
 	// Get the clock frequency
-	return NSharedLinux::TimeGetClockFrequency();
+	return NCommonLinux::TimeGetClockFrequency();
 }

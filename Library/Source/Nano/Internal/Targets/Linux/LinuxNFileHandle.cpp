@@ -42,7 +42,7 @@
 #include "NFileHandle.h"
 
 // Nano
-#include "NSharedPOSIX.h"
+#include "NCommonPOSIX.h"
 
 
 
@@ -56,7 +56,7 @@ NStatus NFileHandle::FileOpen(const NFilePath& thePath, NFileAccess theAccess, N
 
 
 	// Open the file
-	return NSharedPOSIX::FileOpen(thePath, theAccess, theFlags, mHandle);
+	return NCommonPOSIX::FileOpen(thePath, theAccess, theFlags, mHandle);
 }
 
 
@@ -71,7 +71,7 @@ void NFileHandle::FileClose()
 
 
 	// Open the file
-	NSharedPOSIX::FileClose(mHandle);
+	NCommonPOSIX::FileClose(mHandle);
 }
 
 
@@ -86,7 +86,7 @@ uint64_t NFileHandle::FileGetPosition() const
 
 
 	// Open the file
-	return NSharedPOSIX::FileGetPosition(mHandle);
+	return NCommonPOSIX::FileGetPosition(mHandle);
 }
 
 
@@ -101,7 +101,7 @@ NStatus NFileHandle::FileSetPosition(int64_t thePosition, NFileOffset relativeTo
 
 
 	// Open the file
-	return NSharedPOSIX::FileSetPosition(mHandle, thePosition, relativeTo);
+	return NCommonPOSIX::FileSetPosition(mHandle, thePosition, relativeTo);
 }
 
 
@@ -116,7 +116,7 @@ NStatus NFileHandle::FileSetSize(uint64_t theSize)
 
 
 	// Set the size
-	return NSharedPOSIX::FileSetSize(mHandle, theSize);
+	return NCommonPOSIX::FileSetSize(mHandle, theSize);
 }
 
 
@@ -131,7 +131,7 @@ NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& sizeRead
 
 
 	// Read from the file
-	return NSharedPOSIX::FileRead(mHandle, theSize, thePtr, sizeRead);
+	return NCommonPOSIX::FileRead(mHandle, theSize, thePtr, sizeRead);
 }
 
 
@@ -146,7 +146,7 @@ NStatus NFileHandle::FileWrite(uint64_t theSize, const void* thePtr, uint64_t& s
 
 
 	// Write to the file
-	return NSharedPOSIX::FileWrite(mHandle, theSize, thePtr, sizeWritten);
+	return NCommonPOSIX::FileWrite(mHandle, theSize, thePtr, sizeWritten);
 }
 
 
@@ -161,5 +161,5 @@ NStatus NFileHandle::FileFlush()
 
 
 	// Flush the file
-	return NSharedPOSIX::FileFlush(mHandle);
+	return NCommonPOSIX::FileFlush(mHandle);
 }

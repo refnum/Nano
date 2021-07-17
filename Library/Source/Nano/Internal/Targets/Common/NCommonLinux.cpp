@@ -1,5 +1,5 @@
 /*	NAME:
-		NSharedLinux.cpp
+		NCommonLinux.cpp
 
 	DESCRIPTION:
 		Linux support.
@@ -39,16 +39,16 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NSharedLinux.h"
+#include "NCommonLinux.h"
 
 // Nano
+#include "NCommonPOSIX.h"
 #include "NDebug.h"
 #include "NDictionary.h"
 #include "NFormat.h"
 #include "NMachine.h"
 #include "NNumber.h"
 #include "NPropertyList.h"
-#include "NSharedPOSIX.h"
 #include "NSystem.h"
 #include "NTimeUtils.h"
 #include "NanoTargets.h"
@@ -295,11 +295,11 @@ static bool GetFileStateStatX(const NFilePath& thePath, NFileInfoState& theState
 
 
 
-#pragma mark NSharedLinux
+#pragma mark NCommonLinux
 //=============================================================================
-//		NSharedLinux::GetProcFile : Get a /proc file.
+//		NCommonLinux::GetProcFile : Get a /proc file.
 //-----------------------------------------------------------------------------
-NString NSharedLinux::GetProcFile(const NFilePath& thePath)
+NString NCommonLinux::GetProcFile(const NFilePath& thePath)
 {
 
 
@@ -333,9 +333,9 @@ NString NSharedLinux::GetProcFile(const NFilePath& thePath)
 
 
 //=============================================================================
-//		NSharedLinux::BundleGet : Get the bundle for an ID.
+//		NCommonLinux::BundleGet : Get the bundle for an ID.
 //-----------------------------------------------------------------------------
-NFile NSharedLinux::BundleGet(const NString& bundleID)
+NFile NCommonLinux::BundleGet(const NString& bundleID)
 {
 
 
@@ -382,9 +382,9 @@ NFile NSharedLinux::BundleGet(const NString& bundleID)
 
 
 //=============================================================================
-//		NSharedLinux::BundleGetResources : Get the resources directory for the bundle.
+//		NCommonLinux::BundleGetResources : Get the resources directory for the bundle.
 //-----------------------------------------------------------------------------
-NFile NSharedLinux::BundleGetResources(const NFile& theBundle)
+NFile NCommonLinux::BundleGetResources(const NFile& theBundle)
 {
 
 
@@ -397,9 +397,9 @@ NFile NSharedLinux::BundleGetResources(const NFile& theBundle)
 
 
 //=============================================================================
-//		NSharedLinux::BundleGetInfoDictionary : Get the Info.plist dictionary for a bundle.
+//		NCommonLinux::BundleGetInfoDictionary : Get the Info.plist dictionary for a bundle.
 //-----------------------------------------------------------------------------
-NDictionary NSharedLinux::BundleGetInfoDictionary(const NFile& theBundle)
+NDictionary NCommonLinux::BundleGetInfoDictionary(const NFile& theBundle)
 {
 
 
@@ -419,9 +419,9 @@ NDictionary NSharedLinux::BundleGetInfoDictionary(const NFile& theBundle)
 
 
 //=============================================================================
-//		NSharedLinux::BundleGetExecutable : Get an executable from a bundle.
+//		NCommonLinux::BundleGetExecutable : Get an executable from a bundle.
 //-----------------------------------------------------------------------------
-NFile NSharedLinux::BundleGetExecutable(const NFile& theBundle, const NString& theName)
+NFile NCommonLinux::BundleGetExecutable(const NFile& theBundle, const NString& theName)
 {
 
 
@@ -434,14 +434,14 @@ NFile NSharedLinux::BundleGetExecutable(const NFile& theBundle, const NString& t
 
 
 //=============================================================================
-//		NSharedLinux::DebuggerIsActive : Is a debugger active?
+//		NCommonLinux::DebuggerIsActive : Is a debugger active?
 //-----------------------------------------------------------------------------
-bool NSharedLinux::DebuggerIsActive()
+bool NCommonLinux::DebuggerIsActive()
 {
 
 
 	// Check for a tracer
-	NString theText  = NSharedLinux::GetProcFile(NFilePath("/proc/self/status"));
+	NString theText  = NCommonLinux::GetProcFile(NFilePath("/proc/self/status"));
 	bool    isActive = !theText.Contains("TracerPid:\t0\n");
 
 	if (isActive)
@@ -457,9 +457,9 @@ bool NSharedLinux::DebuggerIsActive()
 
 
 //=============================================================================
-//		NSharedLinux::FileGetState : Get file state.
+//		NCommonLinux::FileGetState : Get file state.
 //-----------------------------------------------------------------------------
-bool NSharedLinux::FileGetState(const NFilePath& thePath,
+bool NCommonLinux::FileGetState(const NFilePath& thePath,
 								NFileInfoFlags   theFlags,
 								NFileInfoFlags&  validState,
 								NFileInfoState&  theState)
@@ -502,19 +502,19 @@ bool NSharedLinux::FileGetState(const NFilePath& thePath,
 	{
 		if ((theFlags & kNFileInfoCanRead) != 0)
 		{
-			NSharedPOSIX::FileGetStateAccess(thePath, kNFileInfoCanRead, theState);
+			NCommonPOSIX::FileGetStateAccess(thePath, kNFileInfoCanRead, theState);
 			validState |= kNFileInfoCanRead;
 		}
 
 		if ((theFlags & kNFileInfoCanWrite) != 0)
 		{
-			NSharedPOSIX::FileGetStateAccess(thePath, kNFileInfoCanWrite, theState);
+			NCommonPOSIX::FileGetStateAccess(thePath, kNFileInfoCanWrite, theState);
 			validState |= kNFileInfoCanWrite;
 		}
 
 		if ((theFlags & kNFileInfoCanExecute) != 0)
 		{
-			NSharedPOSIX::FileGetStateAccess(thePath, kNFileInfoCanExecute, theState);
+			NCommonPOSIX::FileGetStateAccess(thePath, kNFileInfoCanExecute, theState);
 			validState |= kNFileInfoCanExecute;
 		}
 	}
@@ -527,9 +527,9 @@ bool NSharedLinux::FileGetState(const NFilePath& thePath,
 
 
 //=============================================================================
-//		NSharedLinux::MachineMemory : Get the memory.
+//		NCommonLinux::MachineMemory : Get the memory.
 //-----------------------------------------------------------------------------
-uint64_t NSharedLinux::MachineMemory()
+uint64_t NCommonLinux::MachineMemory()
 {
 
 
@@ -551,9 +551,9 @@ uint64_t NSharedLinux::MachineMemory()
 
 
 //=============================================================================
-//		NSharedLinux::MachineCPUName : Get the CPU name.
+//		NCommonLinux::MachineCPUName : Get the CPU name.
 //-----------------------------------------------------------------------------
-NString NSharedLinux::MachineCPUName()
+NString NCommonLinux::MachineCPUName()
 {
 
 
@@ -575,9 +575,9 @@ NString NSharedLinux::MachineCPUName()
 
 
 //=============================================================================
-//		NSharedLinux::MachineCPUVendor : Get the CPU vendor.
+//		NCommonLinux::MachineCPUVendor : Get the CPU vendor.
 //-----------------------------------------------------------------------------
-NString NSharedLinux::MachineCPUVendor()
+NString NCommonLinux::MachineCPUVendor()
 {
 
 
@@ -599,9 +599,9 @@ NString NSharedLinux::MachineCPUVendor()
 
 
 //=============================================================================
-//		NSharedLinux::MachineCPUHertz : Get the CPU speed.
+//		NCommonLinux::MachineCPUHertz : Get the CPU speed.
 //-----------------------------------------------------------------------------
-uint64_t NSharedLinux::MachineCPUHertz()
+uint64_t NCommonLinux::MachineCPUHertz()
 {
 
 
@@ -638,9 +638,9 @@ uint64_t NSharedLinux::MachineCPUHertz()
 
 
 //=============================================================================
-//		NSharedLinux::PathRename : Atomically rename a path.
+//		NCommonLinux::PathRename : Atomically rename a path.
 //-----------------------------------------------------------------------------
-NStatus NSharedLinux::PathRename(const NFilePath& oldPath, const NFilePath& newPath)
+NStatus NCommonLinux::PathRename(const NFilePath& oldPath, const NFilePath& newPath)
 {
 
 
@@ -651,7 +651,7 @@ NStatus NSharedLinux::PathRename(const NFilePath& oldPath, const NFilePath& newP
 	int sysErr = int(syscall(SYS_renameat2, 0, oldUTF8, 0, newUTF8, RENAME_NOREPLACE));
 	NN_EXPECT_NOT_ERR(sysErr);
 
-	return NSharedPOSIX::StatusErrno(sysErr);
+	return NCommonPOSIX::StatusErrno(sysErr);
 }
 
 
@@ -659,9 +659,9 @@ NStatus NSharedLinux::PathRename(const NFilePath& oldPath, const NFilePath& newP
 
 
 //=============================================================================
-//		NSharedLinux::PathExchange : Atomically exchange paths.
+//		NCommonLinux::PathExchange : Atomically exchange paths.
 //-----------------------------------------------------------------------------
-NStatus NSharedLinux::PathExchange(const NFilePath& oldPath, const NFilePath& newPath)
+NStatus NCommonLinux::PathExchange(const NFilePath& oldPath, const NFilePath& newPath)
 {
 
 
@@ -672,7 +672,7 @@ NStatus NSharedLinux::PathExchange(const NFilePath& oldPath, const NFilePath& ne
 	int sysErr = int(syscall(SYS_renameat2, 0, oldUTF8, 0, newUTF8, RENAME_EXCHANGE));
 	NN_EXPECT_NOT_ERR(sysErr);
 
-	return NSharedPOSIX::StatusErrno(sysErr);
+	return NCommonPOSIX::StatusErrno(sysErr);
 }
 
 
@@ -680,9 +680,9 @@ NStatus NSharedLinux::PathExchange(const NFilePath& oldPath, const NFilePath& ne
 
 
 //=============================================================================
-//		NSharedLinux::ProcessName : Get the process name.
+//		NCommonLinux::ProcessName : Get the process name.
 //-----------------------------------------------------------------------------
-NString NSharedLinux::ProcessName()
+NString NCommonLinux::ProcessName()
 {
 
 
@@ -704,9 +704,9 @@ NString NSharedLinux::ProcessName()
 
 
 //=============================================================================
-//		NSharedLinux::ProcessMemory : Get the process memory usage.
+//		NCommonLinux::ProcessMemory : Get the process memory usage.
 //-----------------------------------------------------------------------------
-NMemoryInfo NSharedLinux::ProcessMemory()
+NMemoryInfo NCommonLinux::ProcessMemory()
 {
 
 
@@ -747,9 +747,9 @@ NMemoryInfo NSharedLinux::ProcessMemory()
 
 
 //=============================================================================
-//		NSharedLinux::RandomSecureData : Get random data.
+//		NCommonLinux::RandomSecureData : Get random data.
 //-----------------------------------------------------------------------------
-void NSharedLinux::RandomSecureData(size_t theSize, void* thePtr)
+void NCommonLinux::RandomSecureData(size_t theSize, void* thePtr)
 {
 
 
@@ -781,9 +781,9 @@ void NSharedLinux::RandomSecureData(size_t theSize, void* thePtr)
 
 
 //=============================================================================
-//		NSharedLinux::SemaphoreCreate : Create a semaphore.
+//		NCommonLinux::SemaphoreCreate : Create a semaphore.
 //-----------------------------------------------------------------------------
-NSemaphoreRef NSharedLinux::SemaphoreCreate(size_t theValue)
+NSemaphoreRef NCommonLinux::SemaphoreCreate(size_t theValue)
 {
 
 
@@ -809,9 +809,9 @@ NSemaphoreRef NSharedLinux::SemaphoreCreate(size_t theValue)
 
 
 //=============================================================================
-//		NSharedLinux::SemaphoreDestroy : Destroy a semaphore.
+//		NCommonLinux::SemaphoreDestroy : Destroy a semaphore.
 //-----------------------------------------------------------------------------
-void NSharedLinux::SemaphoreDestroy(NSemaphoreRef theSemaphore)
+void NCommonLinux::SemaphoreDestroy(NSemaphoreRef theSemaphore)
 {
 
 
@@ -829,9 +829,9 @@ void NSharedLinux::SemaphoreDestroy(NSemaphoreRef theSemaphore)
 
 
 //=============================================================================
-//		NSharedLinux::SemaphoreWait : Wait for a semaphore.
+//		NCommonLinux::SemaphoreWait : Wait for a semaphore.
 //-----------------------------------------------------------------------------
-bool NSharedLinux::SemaphoreWait(NSemaphoreRef theSemaphore, NInterval waitFor)
+bool NCommonLinux::SemaphoreWait(NSemaphoreRef theSemaphore, NInterval waitFor)
 {
 
 
@@ -860,9 +860,9 @@ bool NSharedLinux::SemaphoreWait(NSemaphoreRef theSemaphore, NInterval waitFor)
 
 
 //=============================================================================
-//		NSharedLinux::SemaphoreSignal : Signal a semaphore.
+//		NCommonLinux::SemaphoreSignal : Signal a semaphore.
 //-----------------------------------------------------------------------------
-void NSharedLinux::SemaphoreSignal(NSemaphoreRef theSemaphore)
+void NCommonLinux::SemaphoreSignal(NSemaphoreRef theSemaphore)
 {
 
 
@@ -878,9 +878,9 @@ void NSharedLinux::SemaphoreSignal(NSemaphoreRef theSemaphore)
 
 
 //=============================================================================
-//		NSharedLinux::SystemPageSize : Get the page size.
+//		NCommonLinux::SystemPageSize : Get the page size.
 //-----------------------------------------------------------------------------
-size_t NSharedLinux::SystemPageSize()
+size_t NCommonLinux::SystemPageSize()
 {
 
 
@@ -896,9 +896,9 @@ size_t NSharedLinux::SystemPageSize()
 
 
 //=============================================================================
-//		NSharedLinux::ThreadStackSize : Get the thread stack size.
+//		NCommonLinux::ThreadStackSize : Get the thread stack size.
 //-----------------------------------------------------------------------------
-size_t NSharedLinux::ThreadStackSize()
+size_t NCommonLinux::ThreadStackSize()
 {
 
 
@@ -931,9 +931,9 @@ size_t NSharedLinux::ThreadStackSize()
 
 
 //=============================================================================
-//		NSharedLinux::ThreadGetCores : Get the current thread's preferred cores.
+//		NCommonLinux::ThreadGetCores : Get the current thread's preferred cores.
 //-----------------------------------------------------------------------------
-NVectorUInt8 NSharedLinux::ThreadGetCores()
+NVectorUInt8 NCommonLinux::ThreadGetCores()
 {
 
 
@@ -973,9 +973,9 @@ NVectorUInt8 NSharedLinux::ThreadGetCores()
 
 
 //=============================================================================
-//		NSharedLinux::ThreadSetCores : Set the current thread's preferred cores.
+//		NCommonLinux::ThreadSetCores : Set the current thread's preferred cores.
 //-----------------------------------------------------------------------------
-void NSharedLinux::ThreadSetCores(const NVectorUInt8& theCores)
+void NCommonLinux::ThreadSetCores(const NVectorUInt8& theCores)
 {
 
 
@@ -1018,9 +1018,9 @@ void NSharedLinux::ThreadSetCores(const NVectorUInt8& theCores)
 
 
 //=============================================================================
-//		NSharedLinux::TimeGet : Get the current time.
+//		NCommonLinux::TimeGet : Get the current time.
 //-----------------------------------------------------------------------------
-NTime NSharedLinux::TimeGet()
+NTime NCommonLinux::TimeGet()
 {
 
 
@@ -1035,7 +1035,7 @@ NTime NSharedLinux::TimeGet()
 		memset(&timeVal, 0x00, sizeof(timeVal));
 	}
 
-	return NTime(NSharedPOSIX::TimeGetInterval(timeVal), kNanoEpochFrom1970);
+	return NTime(NCommonPOSIX::TimeGetInterval(timeVal), kNanoEpochFrom1970);
 }
 
 
@@ -1043,9 +1043,9 @@ NTime NSharedLinux::TimeGet()
 
 
 //=============================================================================
-//		NSharedLinux::TimeGetUpTime : Get the time since boot.
+//		NCommonLinux::TimeGetUpTime : Get the time since boot.
 //-----------------------------------------------------------------------------
-NInterval NSharedLinux::TimeGetUpTime()
+NInterval NCommonLinux::TimeGetUpTime()
 {
 
 
@@ -1068,9 +1068,9 @@ NInterval NSharedLinux::TimeGetUpTime()
 
 
 //=============================================================================
-//		NSharedLinux::TimeGetClockTicks : Get the clock ticks.
+//		NCommonLinux::TimeGetClockTicks : Get the clock ticks.
 //-----------------------------------------------------------------------------
-uint64_t NSharedLinux::TimeGetClockTicks()
+uint64_t NCommonLinux::TimeGetClockTicks()
 {
 
 
@@ -1093,9 +1093,9 @@ uint64_t NSharedLinux::TimeGetClockTicks()
 
 
 //=============================================================================
-//		NSharedLinux::TimeGetClockFrequency : Get the clock frequency.
+//		NCommonLinux::TimeGetClockFrequency : Get the clock frequency.
 //-----------------------------------------------------------------------------
-uint64_t NSharedLinux::TimeGetClockFrequency()
+uint64_t NCommonLinux::TimeGetClockFrequency()
 {
 
 

@@ -42,10 +42,10 @@
 #include "NSystem.h"
 
 // Nano
+#include "NCommonLinux.h"
+#include "NCommonPOSIX.h"
 #include "NFormat.h"
 #include "NNumber.h"
-#include "NSharedLinux.h"
-#include "NSharedPOSIX.h"
 #include "NVersion.h"
 
 // System
@@ -85,7 +85,7 @@ NString NSystem::GetEnv(const NString& theName)
 
 
 	// Get the variable
-	return NSharedPOSIX::EnvGet(theName);
+	return NCommonPOSIX::EnvGet(theName);
 }
 
 
@@ -100,7 +100,7 @@ void NSystem::SetEnv(const NString& theName, const NString& theValue)
 
 
 	// Set the variable
-	NSharedPOSIX::EnvSet(theName, theValue);
+	NCommonPOSIX::EnvSet(theName, theValue);
 }
 
 
@@ -115,7 +115,7 @@ size_t NSystem::GetPageSize()
 
 
 	// Get the page size
-	return NSharedLinux::SystemPageSize();
+	return NCommonLinux::SystemPageSize();
 }
 
 

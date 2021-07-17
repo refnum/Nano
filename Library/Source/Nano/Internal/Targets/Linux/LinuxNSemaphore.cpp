@@ -42,7 +42,7 @@
 #include "NSemaphore.h"
 
 // Nano
-#include "NSharedLinux.h"
+#include "NCommonLinux.h"
 
 
 
@@ -56,7 +56,7 @@ NSemaphoreRef NSemaphore::Create(size_t theValue)
 
 
 	// Create the semaphore
-	return NSharedLinux::SemaphoreCreate(theValue);
+	return NCommonLinux::SemaphoreCreate(theValue);
 }
 
 
@@ -71,7 +71,7 @@ void NSemaphore::Destroy(NSemaphoreRef theSemaphore)
 
 
 	// Destroy the semaphore
-	NSharedLinux::SemaphoreDestroy(theSemaphore);
+	NCommonLinux::SemaphoreDestroy(theSemaphore);
 }
 
 
@@ -86,7 +86,7 @@ bool NSemaphore::Wait(NSemaphoreRef theSemaphore, NInterval waitFor)
 
 
 	// Wait for the semaphore
-	return NSharedLinux::SemaphoreWait(theSemaphore, waitFor);
+	return NCommonLinux::SemaphoreWait(theSemaphore, waitFor);
 }
 
 
@@ -101,5 +101,5 @@ void NSemaphore::Signal(NSemaphoreRef theSemaphore)
 
 
 	// Signal the semaphore
-	NSharedLinux::SemaphoreSignal(theSemaphore);
+	NCommonLinux::SemaphoreSignal(theSemaphore);
 }

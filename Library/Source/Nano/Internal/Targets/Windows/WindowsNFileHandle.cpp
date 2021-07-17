@@ -42,7 +42,7 @@
 #include "NFileHandle.h"
 
 // Nano
-#include "NSharedWindows.h"
+#include "NCommonWindows.h"
 #include "NWindows.h"
 
 
@@ -197,7 +197,7 @@ NStatus NFileHandle::FileOpen(const NFilePath& thePath, NFileAccess theAccess, N
 		mHandle = NFileHandleRef(hFile);
 	}
 
-	return NSharedWindows::StatusLastError(wasOK);
+	return NCommonWindows::StatusLastError(wasOK);
 }
 
 
@@ -284,7 +284,7 @@ NStatus NFileHandle::FileSetPosition(int64_t thePosition, NFileOffset relativeTo
 	BOOL wasOK = SetFilePointerEx(hFile, theOffset, nullptr, GetFileMove(relativeTo));
 	NN_EXPECT(wasOK);
 
-	return NSharedWindows::StatusLastError(wasOK);
+	return NCommonWindows::StatusLastError(wasOK);
 }
 
 
@@ -314,7 +314,7 @@ NStatus NFileHandle::FileSetSize(uint64_t theSize)
 	if (theErr == NStatus::OK)
 	{
 		BOOL wasOK = SetEndOfFile(hFile);
-		theErr     = NSharedWindows::StatusLastError(wasOK);
+		theErr     = NCommonWindows::StatusLastError(wasOK);
 		NN_EXPECT_NOT_ERR(theErr);
 	}
 
@@ -346,7 +346,7 @@ NStatus NFileHandle::FileRead(uint64_t theSize, void* thePtr, uint64_t& sizeRead
 
 	// Read from the file
 	BOOL wasOK = ReadFile(hFile, thePtr, DWORD(theSize), &bytesRead, nullptr);
-	theErr     = NSharedWindows::StatusLastError(wasOK);
+	theErr     = NCommonWindows::StatusLastError(wasOK);
 	NN_EXPECT_NOT_ERR(theErr);
 
 	if (wasOK)
@@ -385,7 +385,7 @@ NStatus NFileHandle::FileWrite(uint64_t theSize, const void* thePtr, uint64_t& s
 
 	// Write to the file
 	BOOL wasOK = WriteFile(hFile, thePtr, DWORD(theSize), &bytesWritten, nullptr);
-	theErr     = NSharedWindows::StatusLastError(wasOK);
+	theErr     = NCommonWindows::StatusLastError(wasOK);
 	NN_EXPECT_NOT_ERR(theErr);
 
 	if (wasOK)
@@ -419,5 +419,5 @@ NStatus NFileHandle::FileFlush()
 	BOOL wasOK = FlushFileBuffers(hFile);
 	NN_EXPECT(wasOK);
 
-	return NSharedWindows::StatusLastError(wasOK);
+	return NCommonWindows::StatusLastError(wasOK);
 }

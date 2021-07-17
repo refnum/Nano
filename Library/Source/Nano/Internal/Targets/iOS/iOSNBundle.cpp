@@ -42,7 +42,7 @@
 #include "NBundle.h"
 
 // Nano
-#include "NSharedDarwin.h"
+#include "NCommonDarwin.h"
 
 
 
@@ -56,7 +56,7 @@ NFile NBundle::GetBundle(const NString& bundleID) const
 
 
 	// Get the bundle
-	return NSharedDarwin::BundleGet(bundleID);
+	return NCommonDarwin::BundleGet(bundleID);
 }
 
 
@@ -71,7 +71,7 @@ NFile NBundle::GetResources(const NFile& theBundle) const
 
 
 	// Get the resources
-	return NSharedDarwin::BundleGetResources(theBundle);
+	return NCommonDarwin::BundleGetResources(theBundle);
 }
 
 
@@ -86,7 +86,7 @@ NDictionary NBundle::GetInfoDictionary(const NFile& theBundle) const
 
 
 	// Get the dictionary
-	return NSharedDarwin::BundleGetInfoDictionary(theBundle);
+	return NCommonDarwin::BundleGetInfoDictionary(theBundle);
 }
 
 
@@ -101,5 +101,5 @@ NFile NBundle::GetExecutable(const NFile& theBundle, const NString& theName) con
 
 
 	// Get the executable
-	return NSharedDarwin::BundleGetExecutable(theBundle, theName);
+	return NCommonDarwin::BundleGetExecutable(theBundle, theName);
 }

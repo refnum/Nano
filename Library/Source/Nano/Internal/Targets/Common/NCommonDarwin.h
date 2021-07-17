@@ -1,8 +1,8 @@
 /*	NAME:
-		NSharedLinux.h
+		NCommonDarwin.h
 
 	DESCRIPTION:
-		Linux support.
+		Darwin support.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -36,15 +36,18 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NSHARED_LINUX_H
-#define NSHARED_LINUX_H
+#ifndef NCOMMON_DARWIN_H
+#define NCOMMON_DARWIN_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+// Nano
 #include "NFileInfo.h"
+#include "NFileUtils.h"
+#include "NMachine.h"
 #include "NProcess.h"
-#include "NSemaphore.h"
-#include "NString.h"
+#include "NRunLoop.h"
+#include "NSystem.h"
 
 
 
@@ -56,6 +59,13 @@
 // Forward declarations
 class NDictionary;
 class NFile;
+class NFilePath;
+class NImage;
+class NSemaphore;
+class NString;
+class NTime;
+class NUTI;
+class NVersion;
 
 
 
@@ -64,13 +74,9 @@ class NFile;
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NSharedLinux
+class NCommonDarwin
 {
 public:
-	// Get a /proc file
-	static NString                      GetProcFile(const NFilePath& thePath);
-
-
 	// Bundles
 	static NFile                        BundleGet(              const NString& bundleID);
 	static NFile                        BundleGetResources(     const NFile& theBundle);
@@ -80,6 +86,7 @@ public:
 
 	// Debugger
 	static bool                         DebuggerIsActive();
+	static NVectorString                DebuggerGetBacktrace(size_t skipFrames, size_t numFrames);
 
 
 	// File state
@@ -89,7 +96,13 @@ public:
 													 NFileInfoState&  theState);
 
 
+	// Images
+	static NStatus                      ImageDecode(      NImage& theImage, const NData& theData);
+	static NData                        ImageEncode(const NImage& theImage, const NUTI& theType);
+
+
 	// Machine
+	static size_t                       MachineCores(NCoreType theType);
 	static uint64_t                     MachineMemory();
 	static NString                      MachineCPUName();
 	static NString                      MachineCPUVendor();
@@ -99,6 +112,7 @@ public:
 	// File paths
 	static NStatus                      PathRename(  const NFilePath& oldPath, const NFilePath& newPath);
 	static NStatus                      PathExchange(const NFilePath& oldPath, const NFilePath& newPath);
+	static NFilePath                    PathLocation(NFileLocation theLocation);
 
 
 	// Process
@@ -110,6 +124,13 @@ public:
 	static void                         RandomSecureData(size_t theSize, void* thePtr);
 
 
+	// Runloops
+	static NRunLoopHandle               RunLoopCreate(bool isMain);
+	static void                         RunLoopDestroy(NRunLoopHandle runLoop);
+	static void                         RunLoopSleep(  NRunLoopHandle runLoop, NInterval sleepFor);
+	static void                         RunLoopWake(   NRunLoopHandle runLoop);
+
+
 	// Semaphores
 	static NSemaphoreRef                SemaphoreCreate(size_t theValue);
 	static void                         SemaphoreDestroy(NSemaphoreRef theSemaphore);
@@ -119,9 +140,12 @@ public:
 
 	// System
 	static size_t                       SystemPageSize();
+	static NVersion                     SystemVersion();
+	static NString                      SystemName(NOSName theName);
 
 
 	// Threads
+	static bool                         ThreadIsMain();
 	static size_t                       ThreadStackSize();
 	static NVectorUInt8                 ThreadGetCores();
 	static void                         ThreadSetCores(const NVectorUInt8& theCores);
@@ -136,4 +160,4 @@ public:
 
 
 
-#endif // NSHARED_LINUX_H
+#endif // NCOMMON_DARWIN_H

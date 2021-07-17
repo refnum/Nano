@@ -42,9 +42,9 @@
 #include "NSystem.h"
 
 // Nano
+#include "NCommonLinux.h"
+#include "NCommonPOSIX.h"
 #include "NFormat.h"
-#include "NSharedLinux.h"
-#include "NSharedPOSIX.h"
 #include "NVersion.h"
 
 // System
@@ -62,7 +62,7 @@ NString NSystem::GetEnv(const NString& theName)
 
 
 	// Get the variable
-	return NSharedPOSIX::EnvGet(theName);
+	return NCommonPOSIX::EnvGet(theName);
 }
 
 
@@ -77,7 +77,7 @@ void NSystem::SetEnv(const NString& theName, const NString& theValue)
 
 
 	// Set the variable
-	NSharedPOSIX::EnvSet(theName, theValue);
+	NCommonPOSIX::EnvSet(theName, theValue);
 }
 
 
@@ -92,7 +92,7 @@ size_t NSystem::GetPageSize()
 
 
 	// Get the page size
-	return NSharedLinux::SystemPageSize();
+	return NCommonLinux::SystemPageSize();
 }
 
 
@@ -160,7 +160,7 @@ NString NSystem::SystemName(NOSName theName)
 
 
 	// Get the state we need
-	NString fullVersion = NSharedLinux::GetProcFile(NFilePath("/proc/version"));
+	NString fullVersion = NCommonLinux::GetProcFile(NFilePath("/proc/version"));
 
 
 

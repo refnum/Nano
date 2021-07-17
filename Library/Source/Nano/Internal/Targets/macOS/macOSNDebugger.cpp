@@ -42,7 +42,7 @@
 #include "NDebugger.h"
 
 // Nano
-#include "NSharedDarwin.h"
+#include "NCommonDarwin.h"
 
 
 
@@ -56,7 +56,7 @@ bool NDebugger::IsActive()
 
 
 	// Check the state
-	return NSharedDarwin::DebuggerIsActive();
+	return NCommonDarwin::DebuggerIsActive();
 }
 
 
@@ -73,5 +73,5 @@ NVectorString NDebugger::GetBacktrace(size_t skipFrames, size_t numFrames)
 	// Get the backtrace
 	//
 	// We increase skipFrames to skip ourselves.
-	return NSharedDarwin::DebuggerGetBacktrace(skipFrames + 1, numFrames);
+	return NCommonDarwin::DebuggerGetBacktrace(skipFrames + 1, numFrames);
 }

@@ -42,7 +42,7 @@
 #include "NFileMap.h"
 
 // Nano
-#include "NSharedPOSIX.h"
+#include "NCommonPOSIX.h"
 
 
 
@@ -56,7 +56,7 @@ size_t NFileMap::MapPageSize()
 
 
 	// Get the page size
-	return NSharedPOSIX::MapPageSize();
+	return NCommonPOSIX::MapPageSize();
 }
 
 
@@ -71,7 +71,7 @@ NFileMapRef NFileMap::MapOpen(const NFilePath& thePath, NMapAccess theAccess)
 
 
 	// Open the file
-	return NSharedPOSIX::MapOpen(thePath, theAccess);
+	return NCommonPOSIX::MapOpen(thePath, theAccess);
 }
 
 
@@ -86,7 +86,7 @@ void NFileMap::MapClose(NFileMapRef theHandle)
 
 
 	// Close the file
-	NSharedPOSIX::MapClose(theHandle);
+	NCommonPOSIX::MapClose(theHandle);
 }
 
 
@@ -101,7 +101,7 @@ void NFileMap::MapFetch(NFileMapRef theHandle, NFileMapping& theMapping)
 
 
 	// Map the pages
-	NSharedPOSIX::MapFetch(theHandle, theMapping);
+	NCommonPOSIX::MapFetch(theHandle, theMapping);
 }
 
 
@@ -116,5 +116,5 @@ void NFileMap::MapDiscard(NFileMapRef theHandle, const NFileMapping& theMapping)
 
 
 	// Discard the pages
-	NSharedPOSIX::MapDiscard(theHandle, theMapping);
+	NCommonPOSIX::MapDiscard(theHandle, theMapping);
 }

@@ -42,8 +42,8 @@
 #include "NSemaphore.h"
 
 // Nano
+#include "NCommonWindows.h"
 #include "NDebug.h"
-#include "NSharedWindows.h"
 
 // System
 #include <limits.h>

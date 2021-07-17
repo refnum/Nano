@@ -1,5 +1,5 @@
 /*	NAME:
-		NSharedWindows.cpp
+		NCommonWindows.cpp
 
 	DESCRIPTION:
 		Windows support.
@@ -39,7 +39,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NSharedWindows.h"
+#include "NCommonWindows.h"
 
 // Nano
 #include "NData.h"
@@ -50,9 +50,9 @@
 
 
 //=============================================================================
-//		NSharedWindows::RegistryGetInt32 : Get a uint32_t from the registry.
+//		NCommonWindows::RegistryGetInt32 : Get a uint32_t from the registry.
 //-----------------------------------------------------------------------------
-int32_t NSharedWindows::RegistryGetInt32(HKEY hKey, const NString& theKey, const NString& theValue)
+int32_t NCommonWindows::RegistryGetInt32(HKEY hKey, const NString& theKey, const NString& theValue)
 {
 
 
@@ -89,9 +89,9 @@ int32_t NSharedWindows::RegistryGetInt32(HKEY hKey, const NString& theKey, const
 
 
 //=============================================================================
-//		NSharedWindows::RegistryGetString : Get an NString from the registry.
+//		NCommonWindows::RegistryGetString : Get an NString from the registry.
 //-----------------------------------------------------------------------------
-NString NSharedWindows::RegistryGetString(HKEY hKey, const NString& theKey, const NString& theValue)
+NString NCommonWindows::RegistryGetString(HKEY hKey, const NString& theKey, const NString& theValue)
 {
 
 
@@ -150,9 +150,9 @@ NString NSharedWindows::RegistryGetString(HKEY hKey, const NString& theKey, cons
 
 
 //=============================================================================
-//		NSharedWindows::StatusResult : Convert an HRESULT to an NStatus.
+//		NCommonWindows::StatusResult : Convert an HRESULT to an NStatus.
 //-----------------------------------------------------------------------------
-NStatus NSharedWindows::StatusResult(HRESULT winErr)
+NStatus NCommonWindows::StatusResult(HRESULT winErr)
 {
 
 
@@ -210,9 +210,9 @@ NStatus NSharedWindows::StatusResult(HRESULT winErr)
 
 
 //=============================================================================
-//		NSharedWindows::StatusLastError : Get the last error.
+//		NCommonWindows::StatusLastError : Get the last error.
 //-----------------------------------------------------------------------------
-NStatus NSharedWindows::StatusLastError(bool wasOK)
+NStatus NCommonWindows::StatusLastError(bool wasOK)
 {
 
 

@@ -42,7 +42,7 @@
 #include "NDebugger.h"
 
 // Nano
-#include "NSharedLinux.h"
+#include "NCommonLinux.h"
 
 // System
 #include <cxxabi.h>
@@ -70,7 +70,7 @@ bool NDebugger::IsActive()
 
 
 	// Check the state
-	return NSharedLinux::DebuggerIsActive();
+	return NCommonLinux::DebuggerIsActive();
 }
 
 

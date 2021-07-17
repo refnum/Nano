@@ -1,5 +1,5 @@
 /*	NAME:
-		NSharedDarwin.mm
+		NCommonDarwin.mm
 
 	DESCRIPTION:
 		Darwin support.
@@ -39,13 +39,14 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NSharedDarwin.h"
+#include "NCommonDarwin.h"
 
 // Nano
 #include "NCFData.h"
 #include "NCFString.h"
 #include "NCFURL.h"
 #include "NCGImage.h"
+#include "NCommonPOSIX.h"
 #include "NCoreFoundation.h"
 #include "NData.h"
 #include "NDebug.h"
@@ -54,7 +55,6 @@
 #include "NFilePath.h"
 #include "NFormat.h"
 #include "NSemaphore.h"
-#include "NSharedPOSIX.h"
 #include "NString.h"
 #include "NTime.h"
 #include "NTimeUtils.h"
@@ -243,7 +243,7 @@ static NTime GetBootTime()
 	// Get the boot time
 	struct timeval timeVal = GetSysctl<struct timeval>("kern.boottime");
 
-	return NTime(NSharedPOSIX::TimeGetInterval(timeVal), kNanoEpochFrom2001);
+	return NTime(NCommonPOSIX::TimeGetInterval(timeVal), kNanoEpochFrom2001);
 }
 
 
@@ -385,11 +385,11 @@ static void StopRunLoop(CFRunLoopTimerRef /*cfTimer*/, void* /*userData*/)
 
 
 
-#pragma mark NSharedDarwin
+#pragma mark NCommonDarwin
 //=============================================================================
-//		NSharedDarwin::BundleGet : Get the bundle for an ID.
+//		NCommonDarwin::BundleGet : Get the bundle for an ID.
 //-----------------------------------------------------------------------------
-NFile NSharedDarwin::BundleGet(const NString& bundleID)
+NFile NCommonDarwin::BundleGet(const NString& bundleID)
 {
 
 
@@ -432,9 +432,9 @@ NFile NSharedDarwin::BundleGet(const NString& bundleID)
 
 
 //=============================================================================
-//		NSharedDarwin::BundleGetResources : Get the resources directory for the bundle.
+//		NCommonDarwin::BundleGetResources : Get the resources directory for the bundle.
 //-----------------------------------------------------------------------------
-NFile NSharedDarwin::BundleGetResources(const NFile& theBundle)
+NFile NCommonDarwin::BundleGetResources(const NFile& theBundle)
 {
 
 
@@ -472,9 +472,9 @@ NFile NSharedDarwin::BundleGetResources(const NFile& theBundle)
 
 
 //=============================================================================
-//		NSharedDarwin::BundleGetInfoDictionary : Get the Info.plist dictionary for a bundle.
+//		NCommonDarwin::BundleGetInfoDictionary : Get the Info.plist dictionary for a bundle.
 //-----------------------------------------------------------------------------
-NDictionary NSharedDarwin::BundleGetInfoDictionary(const NFile& theBundle)
+NDictionary NCommonDarwin::BundleGetInfoDictionary(const NFile& theBundle)
 {
 
 
@@ -501,9 +501,9 @@ NDictionary NSharedDarwin::BundleGetInfoDictionary(const NFile& theBundle)
 
 
 //=============================================================================
-//		NSharedDarwin::BundleGetExecutable : Get an executable from a bundle.
+//		NCommonDarwin::BundleGetExecutable : Get an executable from a bundle.
 //-----------------------------------------------------------------------------
-NFile NSharedDarwin::BundleGetExecutable(const NFile& theBundle, const NString& theName)
+NFile NCommonDarwin::BundleGetExecutable(const NFile& theBundle, const NString& theName)
 {
 
 
@@ -542,9 +542,9 @@ NFile NSharedDarwin::BundleGetExecutable(const NFile& theBundle, const NString& 
 
 
 //=============================================================================
-//		NSharedDarwin::DebuggerIsActive : Is a debugger active?
+//		NCommonDarwin::DebuggerIsActive : Is a debugger active?
 //-----------------------------------------------------------------------------
-bool NSharedDarwin::DebuggerIsActive()
+bool NCommonDarwin::DebuggerIsActive()
 {
 
 
@@ -574,9 +574,9 @@ bool NSharedDarwin::DebuggerIsActive()
 
 
 //=============================================================================
-//		NSharedDarwin::DebuggerGetBacktrace : Get a backtrace.
+//		NCommonDarwin::DebuggerGetBacktrace : Get a backtrace.
 //-----------------------------------------------------------------------------
-NVectorString NSharedDarwin::DebuggerGetBacktrace(size_t skipFrames, size_t numFrames)
+NVectorString NCommonDarwin::DebuggerGetBacktrace(size_t skipFrames, size_t numFrames)
 {
 
 
@@ -610,7 +610,7 @@ NVectorString NSharedDarwin::DebuggerGetBacktrace(size_t skipFrames, size_t numF
 	//
 	// Example symbols:
 	//
-	//		"0   NanoTest_macOS                      0x0000000100e542bb _ZN13NSharedDarwin20DebuggerGetBacktraceEmm + 1083"
+	//		"0   NanoTest_macOS                      0x0000000100e542bb _ZN13NCommonDarwin20DebuggerGetBacktraceEmm + 1083"
 	//		"1   NanoTest_macOS                      0x0000000101072219 _ZN9NDebugger12GetBacktraceEmm + 57"
 	//		"2   NanoTest_macOS                      0x0000000100c569f4 _ZN12_GLOBAL__N_129____C_A_T_C_H____T_E_S_T____24testEv + 1060"
 	//		"3   NanoTest_macOS                      0x0000000100c55efb _ZN12_GLOBAL__N_129____C_A_T_C_H____T_E_S_T____210InvokeTestEv + 251"
@@ -670,9 +670,9 @@ NVectorString NSharedDarwin::DebuggerGetBacktrace(size_t skipFrames, size_t numF
 
 
 //=============================================================================
-//		NSharedDarwin::FileGetState : Get file state.
+//		NCommonDarwin::FileGetState : Get file state.
 //-----------------------------------------------------------------------------
-bool NSharedDarwin::FileGetState(const NFilePath& thePath,
+bool NCommonDarwin::FileGetState(const NFilePath& thePath,
 								 NFileInfoFlags   theFlags,
 								 NFileInfoFlags&  validState,
 								 NFileInfoState&  theState)
@@ -703,19 +703,19 @@ bool NSharedDarwin::FileGetState(const NFilePath& thePath,
 	{
 		if ((theFlags & kNFileInfoCanRead) != 0)
 		{
-			NSharedPOSIX::FileGetStateAccess(thePath, kNFileInfoCanRead, theState);
+			NCommonPOSIX::FileGetStateAccess(thePath, kNFileInfoCanRead, theState);
 			validState |= kNFileInfoCanRead;
 		}
 
 		if ((theFlags & kNFileInfoCanWrite) != 0)
 		{
-			NSharedPOSIX::FileGetStateAccess(thePath, kNFileInfoCanWrite, theState);
+			NCommonPOSIX::FileGetStateAccess(thePath, kNFileInfoCanWrite, theState);
 			validState |= kNFileInfoCanWrite;
 		}
 
 		if ((theFlags & kNFileInfoCanExecute) != 0)
 		{
-			NSharedPOSIX::FileGetStateAccess(thePath, kNFileInfoCanExecute, theState);
+			NCommonPOSIX::FileGetStateAccess(thePath, kNFileInfoCanExecute, theState);
 			validState |= kNFileInfoCanExecute;
 		}
 	}
@@ -728,9 +728,9 @@ bool NSharedDarwin::FileGetState(const NFilePath& thePath,
 
 
 //=============================================================================
-//		NSharedDarwin::ImageDecode : Decode image data.
+//		NCommonDarwin::ImageDecode : Decode image data.
 //-----------------------------------------------------------------------------
-NStatus NSharedDarwin::ImageDecode(NImage& theImage, const NData& theData)
+NStatus NCommonDarwin::ImageDecode(NImage& theImage, const NData& theData)
 {
 
 
@@ -770,9 +770,9 @@ NStatus NSharedDarwin::ImageDecode(NImage& theImage, const NData& theData)
 
 
 //=============================================================================
-//		NSharedDarwin::ImageEncode : Encode image data.
+//		NCommonDarwin::ImageEncode : Encode image data.
 //-----------------------------------------------------------------------------
-NData NSharedDarwin::ImageEncode(const NImage& theImage, const NUTI& theType)
+NData NCommonDarwin::ImageEncode(const NImage& theImage, const NUTI& theType)
 {
 
 
@@ -834,9 +834,9 @@ NData NSharedDarwin::ImageEncode(const NImage& theImage, const NUTI& theType)
 
 
 //=============================================================================
-//		NSharedDarwin::MachineCores : Get the number of cores.
+//		NCommonDarwin::MachineCores : Get the number of cores.
 //-----------------------------------------------------------------------------
-size_t NSharedDarwin::MachineCores(NCoreType theType)
+size_t NCommonDarwin::MachineCores(NCoreType theType)
 {
 
 
@@ -853,9 +853,9 @@ size_t NSharedDarwin::MachineCores(NCoreType theType)
 
 
 //=============================================================================
-//		NSharedDarwin::MachineMemory : Get the memory.
+//		NCommonDarwin::MachineMemory : Get the memory.
 //-----------------------------------------------------------------------------
-uint64_t NSharedDarwin::MachineMemory()
+uint64_t NCommonDarwin::MachineMemory()
 {
 
 
@@ -871,9 +871,9 @@ uint64_t NSharedDarwin::MachineMemory()
 
 
 //=============================================================================
-//		NSharedDarwin::MachineCPUName : Get the CPU name.
+//		NCommonDarwin::MachineCPUName : Get the CPU name.
 //-----------------------------------------------------------------------------
-NString NSharedDarwin::MachineCPUName()
+NString NCommonDarwin::MachineCPUName()
 {
 
 
@@ -896,9 +896,9 @@ NString NSharedDarwin::MachineCPUName()
 
 
 //=============================================================================
-//		NSharedDarwin::MachineCPUVendor : Get the CPU vendor.
+//		NCommonDarwin::MachineCPUVendor : Get the CPU vendor.
 //-----------------------------------------------------------------------------
-NString NSharedDarwin::MachineCPUVendor()
+NString NCommonDarwin::MachineCPUVendor()
 {
 
 
@@ -921,9 +921,9 @@ NString NSharedDarwin::MachineCPUVendor()
 
 
 //=============================================================================
-//		NSharedDarwin::MachineCPUHertz : Get the CPU speed.
+//		NCommonDarwin::MachineCPUHertz : Get the CPU speed.
 //-----------------------------------------------------------------------------
-uint64_t NSharedDarwin::MachineCPUHertz()
+uint64_t NCommonDarwin::MachineCPUHertz()
 {
 
 
@@ -945,9 +945,9 @@ uint64_t NSharedDarwin::MachineCPUHertz()
 
 
 //=============================================================================
-//		NSharedDarwin::PathRename : Atomically rename a path.
+//		NCommonDarwin::PathRename : Atomically rename a path.
 //-----------------------------------------------------------------------------
-NStatus NSharedDarwin::PathRename(const NFilePath& oldPath, const NFilePath& newPath)
+NStatus NCommonDarwin::PathRename(const NFilePath& oldPath, const NFilePath& newPath)
 {
 
 
@@ -955,7 +955,7 @@ NStatus NSharedDarwin::PathRename(const NFilePath& oldPath, const NFilePath& new
 	int sysErr = renamex_np(oldPath.GetUTF8(), newPath.GetUTF8(), RENAME_EXCL);
 	NN_EXPECT_NOT_ERR(sysErr);
 
-	return NSharedPOSIX::StatusErrno(sysErr);
+	return NCommonPOSIX::StatusErrno(sysErr);
 }
 
 
@@ -963,9 +963,9 @@ NStatus NSharedDarwin::PathRename(const NFilePath& oldPath, const NFilePath& new
 
 
 //=============================================================================
-//		NSharedDarwin::PathExchange : Atomically exchange two paths.
+//		NCommonDarwin::PathExchange : Atomically exchange two paths.
 //-----------------------------------------------------------------------------
-NStatus NSharedDarwin::PathExchange(const NFilePath& oldPath, const NFilePath& newPath)
+NStatus NCommonDarwin::PathExchange(const NFilePath& oldPath, const NFilePath& newPath)
 {
 
 
@@ -973,7 +973,7 @@ NStatus NSharedDarwin::PathExchange(const NFilePath& oldPath, const NFilePath& n
 	int sysErr = renamex_np(oldPath.GetUTF8(), newPath.GetUTF8(), RENAME_SWAP);
 	NN_EXPECT_NOT_ERR(sysErr);
 
-	return NSharedPOSIX::StatusErrno(sysErr);
+	return NCommonPOSIX::StatusErrno(sysErr);
 }
 
 
@@ -981,9 +981,9 @@ NStatus NSharedDarwin::PathExchange(const NFilePath& oldPath, const NFilePath& n
 
 
 //=============================================================================
-//		NSharedDarwin::PathLocation : Get a location as a path.
+//		NCommonDarwin::PathLocation : Get a location as a path.
 //-----------------------------------------------------------------------------
-NFilePath NSharedDarwin::PathLocation(NFileLocation theLocation)
+NFilePath NCommonDarwin::PathLocation(NFileLocation theLocation)
 {
 
 
@@ -1053,9 +1053,9 @@ NFilePath NSharedDarwin::PathLocation(NFileLocation theLocation)
 
 
 //=============================================================================
-//		NSharedDarwin::ProcessName : Get the process name.
+//		NCommonDarwin::ProcessName : Get the process name.
 //-----------------------------------------------------------------------------
-NString NSharedDarwin::ProcessName()
+NString NCommonDarwin::ProcessName()
 {
 
 
@@ -1071,9 +1071,9 @@ NString NSharedDarwin::ProcessName()
 
 
 //=============================================================================
-//		NSharedDarwin::ProcessMemory : Get the process memory usage.
+//		NCommonDarwin::ProcessMemory : Get the process memory usage.
 //-----------------------------------------------------------------------------
-NMemoryInfo NSharedDarwin::ProcessMemory()
+NMemoryInfo NCommonDarwin::ProcessMemory()
 {
 
 
@@ -1109,9 +1109,9 @@ NMemoryInfo NSharedDarwin::ProcessMemory()
 
 
 //=============================================================================
-//		NSharedDarwin::RandomSecureData : Get random data.
+//		NCommonDarwin::RandomSecureData : Get random data.
 //-----------------------------------------------------------------------------
-void NSharedDarwin::RandomSecureData(size_t theSize, void* thePtr)
+void NCommonDarwin::RandomSecureData(size_t theSize, void* thePtr)
 {
 
 
@@ -1133,9 +1133,9 @@ void NSharedDarwin::RandomSecureData(size_t theSize, void* thePtr)
 
 
 //=============================================================================
-//		NSharedDarwin::RunLoopCreate : Create a runloop.
+//		NCommonDarwin::RunLoopCreate : Create a runloop.
 //-----------------------------------------------------------------------------
-NRunLoopHandle NSharedDarwin::RunLoopCreate(bool isMain)
+NRunLoopHandle NCommonDarwin::RunLoopCreate(bool isMain)
 {
 
 
@@ -1189,9 +1189,9 @@ NRunLoopHandle NSharedDarwin::RunLoopCreate(bool isMain)
 
 
 //=============================================================================
-//		NSharedDarwin::RunLoopDestroy : Destroy a runloop.
+//		NCommonDarwin::RunLoopDestroy : Destroy a runloop.
 //-----------------------------------------------------------------------------
-void NSharedDarwin::RunLoopDestroy(NRunLoopHandle runLoop)
+void NCommonDarwin::RunLoopDestroy(NRunLoopHandle runLoop)
 {
 
 
@@ -1210,9 +1210,9 @@ void NSharedDarwin::RunLoopDestroy(NRunLoopHandle runLoop)
 
 
 //=============================================================================
-//		NSharedDarwin::RunLoopSleep : Sleep a runloop.
+//		NCommonDarwin::RunLoopSleep : Sleep a runloop.
 //-----------------------------------------------------------------------------
-void NSharedDarwin::RunLoopSleep(NRunLoopHandle runLoop, NInterval sleepFor)
+void NCommonDarwin::RunLoopSleep(NRunLoopHandle runLoop, NInterval sleepFor)
 {
 
 
@@ -1240,9 +1240,9 @@ void NSharedDarwin::RunLoopSleep(NRunLoopHandle runLoop, NInterval sleepFor)
 
 
 //=============================================================================
-//		NSharedDarwin::RunLoopWake : Wake a runloop.
+//		NCommonDarwin::RunLoopWake : Wake a runloop.
 //-----------------------------------------------------------------------------
-void NSharedDarwin::RunLoopWake(NRunLoopHandle runLoop)
+void NCommonDarwin::RunLoopWake(NRunLoopHandle runLoop)
 {
 
 
@@ -1260,9 +1260,9 @@ void NSharedDarwin::RunLoopWake(NRunLoopHandle runLoop)
 
 
 //=============================================================================
-//		NSharedDarwin::SemaphoreCreate : Create a semaphore.
+//		NCommonDarwin::SemaphoreCreate : Create a semaphore.
 //-----------------------------------------------------------------------------
-NSemaphoreRef NSharedDarwin::SemaphoreCreate(size_t theValue)
+NSemaphoreRef NCommonDarwin::SemaphoreCreate(size_t theValue)
 {
 
 
@@ -1295,9 +1295,9 @@ NSemaphoreRef NSharedDarwin::SemaphoreCreate(size_t theValue)
 
 
 //=============================================================================
-//		NSharedDarwin::SemaphoreDestroy : Destroy a semaphore.
+//		NCommonDarwin::SemaphoreDestroy : Destroy a semaphore.
 //-----------------------------------------------------------------------------
-void NSharedDarwin::SemaphoreDestroy(NSemaphoreRef theSemaphore)
+void NCommonDarwin::SemaphoreDestroy(NSemaphoreRef theSemaphore)
 {
 
 
@@ -1312,9 +1312,9 @@ void NSharedDarwin::SemaphoreDestroy(NSemaphoreRef theSemaphore)
 
 
 //=============================================================================
-//		NSharedDarwin::SemaphoreWait : Wait for a semaphore.
+//		NCommonDarwin::SemaphoreWait : Wait for a semaphore.
 //-----------------------------------------------------------------------------
-bool NSharedDarwin::SemaphoreWait(NSemaphoreRef theSemaphore, NInterval waitFor)
+bool NCommonDarwin::SemaphoreWait(NSemaphoreRef theSemaphore, NInterval waitFor)
 {
 
 
@@ -1341,9 +1341,9 @@ bool NSharedDarwin::SemaphoreWait(NSemaphoreRef theSemaphore, NInterval waitFor)
 
 
 //=============================================================================
-//		NSharedDarwin::SemaphoreSignal : Signal a semaphore.
+//		NCommonDarwin::SemaphoreSignal : Signal a semaphore.
 //-----------------------------------------------------------------------------
-void NSharedDarwin::SemaphoreSignal(NSemaphoreRef theSemaphore)
+void NCommonDarwin::SemaphoreSignal(NSemaphoreRef theSemaphore)
 {
 
 
@@ -1358,9 +1358,9 @@ void NSharedDarwin::SemaphoreSignal(NSemaphoreRef theSemaphore)
 
 
 //=============================================================================
-//		NSharedDarwin::SystemPageSize : Get the page size.
+//		NCommonDarwin::SystemPageSize : Get the page size.
 //-----------------------------------------------------------------------------
-size_t NSharedDarwin::SystemPageSize()
+size_t NCommonDarwin::SystemPageSize()
 {
 
 
@@ -1376,9 +1376,9 @@ size_t NSharedDarwin::SystemPageSize()
 
 
 //=============================================================================
-//		NSharedDarwin::SystemVersion : Get the OS version.
+//		NCommonDarwin::SystemVersion : Get the OS version.
 //-----------------------------------------------------------------------------
-NVersion NSharedDarwin::SystemVersion()
+NVersion NCommonDarwin::SystemVersion()
 {
 
 
@@ -1424,9 +1424,9 @@ NVersion NSharedDarwin::SystemVersion()
 
 
 //=============================================================================
-//		NSharedDarwin::SystemName : Get the OS name.
+//		NCommonDarwin::SystemName : Get the OS name.
 //-----------------------------------------------------------------------------
-NString NSharedDarwin::SystemName(NOSName theName)
+NString NCommonDarwin::SystemName(NOSName theName)
 {
 
 
@@ -1457,9 +1457,9 @@ NString NSharedDarwin::SystemName(NOSName theName)
 
 
 //=============================================================================
-//		NSharedDarwin::ThreadIsMain : Is this the main thread?
+//		NCommonDarwin::ThreadIsMain : Is this the main thread?
 //-----------------------------------------------------------------------------
-bool NSharedDarwin::ThreadIsMain()
+bool NCommonDarwin::ThreadIsMain()
 {
 
 
@@ -1475,9 +1475,9 @@ bool NSharedDarwin::ThreadIsMain()
 
 
 //=============================================================================
-//		NSharedDarwin::ThreadStackSize : Get the thread stack size.
+//		NCommonDarwin::ThreadStackSize : Get the thread stack size.
 //-----------------------------------------------------------------------------
-size_t NSharedDarwin::ThreadStackSize()
+size_t NCommonDarwin::ThreadStackSize()
 {
 
 
@@ -1490,9 +1490,9 @@ size_t NSharedDarwin::ThreadStackSize()
 
 
 //=============================================================================
-//		NSharedDarwin::ThreadGetCores : Get the current thread's preferred cores.
+//		NCommonDarwin::ThreadGetCores : Get the current thread's preferred cores.
 //-----------------------------------------------------------------------------
-NVectorUInt8 NSharedDarwin::ThreadGetCores()
+NVectorUInt8 NCommonDarwin::ThreadGetCores()
 {
 
 
@@ -1532,9 +1532,9 @@ NVectorUInt8 NSharedDarwin::ThreadGetCores()
 
 
 //=============================================================================
-//		NSharedDarwin::ThreadSetCores : Set the current thread's preferred cores.
+//		NCommonDarwin::ThreadSetCores : Set the current thread's preferred cores.
 //-----------------------------------------------------------------------------
-void NSharedDarwin::ThreadSetCores(const NVectorUInt8& theCores)
+void NCommonDarwin::ThreadSetCores(const NVectorUInt8& theCores)
 {
 
 
@@ -1555,7 +1555,7 @@ void NSharedDarwin::ThreadSetCores(const NVectorUInt8& theCores)
 
 		default:
 			threadAffinity.affinity_tag = theCores[0] + 1;
-			NN_LOG_WARNING("NSharedDarwin::ThreadSetCores only supports one core!");
+			NN_LOG_WARNING("NCommonDarwin::ThreadSetCores only supports one core!");
 			break;
 	}
 
@@ -1575,9 +1575,9 @@ void NSharedDarwin::ThreadSetCores(const NVectorUInt8& theCores)
 
 
 //=============================================================================
-//		NSharedDarwin::TimeGet : Get the current time.
+//		NCommonDarwin::TimeGet : Get the current time.
 //-----------------------------------------------------------------------------
-NTime NSharedDarwin::TimeGet()
+NTime NCommonDarwin::TimeGet()
 {
 
 
@@ -1590,9 +1590,9 @@ NTime NSharedDarwin::TimeGet()
 
 
 //=============================================================================
-//		NSharedDarwin::TimeGetUpTime : Get the time since boot.
+//		NCommonDarwin::TimeGetUpTime : Get the time since boot.
 //-----------------------------------------------------------------------------
-NInterval NSharedDarwin::TimeGetUpTime()
+NInterval NCommonDarwin::TimeGetUpTime()
 {
 
 
@@ -1607,9 +1607,9 @@ NInterval NSharedDarwin::TimeGetUpTime()
 
 
 //=============================================================================
-//		NSharedDarwin::TimeGetClockTicks : Get the clock ticks.
+//		NCommonDarwin::TimeGetClockTicks : Get the clock ticks.
 //-----------------------------------------------------------------------------
-uint64_t NSharedDarwin::TimeGetClockTicks()
+uint64_t NCommonDarwin::TimeGetClockTicks()
 {
 
 
@@ -1622,9 +1622,9 @@ uint64_t NSharedDarwin::TimeGetClockTicks()
 
 
 //=============================================================================
-//		NSharedDarwin::TimeGetClockFrequency : Get the clock frequency.
+//		NCommonDarwin::TimeGetClockFrequency : Get the clock frequency.
 //-----------------------------------------------------------------------------
-uint64_t NSharedDarwin::TimeGetClockFrequency()
+uint64_t NCommonDarwin::TimeGetClockFrequency()
 {
 
 

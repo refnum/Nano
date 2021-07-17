@@ -1,5 +1,5 @@
 /*	NAME:
-		NSharedPOSIX.h
+		NCommonPOSIX.h
 
 	DESCRIPTION:
 		POSIX support.
@@ -36,8 +36,8 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NSHARED_POSIX_H
-#define NSHARED_POSIX_H
+#ifndef NCOMMON_POSIX_H
+#define NCOMMON_POSIX_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
@@ -69,7 +69,7 @@ class NString;
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NSharedPOSIX
+class NCommonPOSIX
 {
 public:
 	// Environment
@@ -152,4 +152,4 @@ public:
 
 
 
-#endif // NSHARED_POSIX_H
+#endif // NCOMMON_POSIX_H

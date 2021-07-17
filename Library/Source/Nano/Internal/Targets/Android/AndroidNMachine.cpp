@@ -42,7 +42,7 @@
 #include "NMachine.h"
 
 // Nano
-#include "NSharedLinux.h"
+#include "NCommonLinux.h"
 
 // System
 #include <cpufeatures/cpu-features.h>
@@ -89,7 +89,7 @@ uint64_t NMachine::GetMemoryBytes()
 
 
 	// Get the memory
-	return NSharedLinux::MachineMemory();
+	return NCommonLinux::MachineMemory();
 }
 
 
@@ -104,7 +104,7 @@ NString NMachine::GetCPUName()
 
 
 	// Get the name
-	return NSharedLinux::MachineCPUName();
+	return NCommonLinux::MachineCPUName();
 }
 
 
@@ -119,7 +119,7 @@ NString NMachine::GetCPUVendor()
 
 
 	// Get the vendor
-	return NSharedLinux::MachineCPUVendor();
+	return NCommonLinux::MachineCPUVendor();
 }
 
 
@@ -134,5 +134,5 @@ uint64_t NMachine::GetCPUHertz()
 
 
 	// Get the speed
-	return NSharedLinux::MachineCPUHertz();
+	return NCommonLinux::MachineCPUHertz();
 }

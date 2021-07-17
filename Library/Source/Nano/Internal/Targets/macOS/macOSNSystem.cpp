@@ -43,8 +43,8 @@
 
 
 // Nano
-#include "NSharedDarwin.h"
-#include "NSharedPOSIX.h"
+#include "NCommonDarwin.h"
+#include "NCommonPOSIX.h"
 #include "NVersion.h"
 
 
@@ -59,7 +59,7 @@ NString NSystem::GetEnv(const NString& theName)
 
 
 	// Get the variable
-	return NSharedPOSIX::EnvGet(theName);
+	return NCommonPOSIX::EnvGet(theName);
 }
 
 
@@ -74,7 +74,7 @@ void NSystem::SetEnv(const NString& theName, const NString& theValue)
 
 
 	// Set the variable
-	NSharedPOSIX::EnvSet(theName, theValue);
+	NCommonPOSIX::EnvSet(theName, theValue);
 }
 
 
@@ -89,7 +89,7 @@ size_t NSystem::GetPageSize()
 
 
 	// Get the page size
-	return NSharedDarwin::SystemPageSize();
+	return NCommonDarwin::SystemPageSize();
 }
 
 
@@ -104,7 +104,7 @@ NVersion NSystem::GetVersion()
 
 
 	// Get the version
-	return NSharedDarwin::SystemVersion();
+	return NCommonDarwin::SystemVersion();
 }
 
 
@@ -119,5 +119,5 @@ NString NSystem::SystemName(NOSName theName)
 
 
 	// Get the version
-	return NSharedDarwin::SystemName(theName);
+	return NCommonDarwin::SystemName(theName);
 }

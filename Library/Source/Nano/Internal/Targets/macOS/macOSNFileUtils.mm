@@ -42,8 +42,8 @@
 #include "NFileUtils.h"
 
 // Nano
-#include "NSharedDarwin.h"
-#include "NSharedPOSIX.h"
+#include "NCommonDarwin.h"
+#include "NCommonPOSIX.h"
 
 // System
 #include <Foundation/Foundation.h>
@@ -60,7 +60,7 @@ NStatus NFileUtils::PathCreate(const NFilePath& thePath)
 
 
 	// Create the path
-	return NSharedPOSIX::PathCreate(thePath);
+	return NCommonPOSIX::PathCreate(thePath);
 }
 
 
@@ -104,7 +104,7 @@ NStatus NFileUtils::PathDelete(const NFilePath& thePath, NFileAction theAction)
 	// Delete the path
 	else
 	{
-		theErr = NSharedPOSIX::PathDelete(thePath);
+		theErr = NCommonPOSIX::PathDelete(thePath);
 	}
 
 	return theErr;
@@ -122,7 +122,7 @@ NVectorFilePath NFileUtils::PathChildren(const NFilePath& thePath)
 
 
 	// Get the children
-	return NSharedPOSIX::PathChildren(thePath);
+	return NCommonPOSIX::PathChildren(thePath);
 }
 
 
@@ -137,7 +137,7 @@ NStatus NFileUtils::PathRename(const NFilePath& oldPath, const NFilePath& newPat
 
 
 	// Rename the path
-	return NSharedDarwin::PathRename(oldPath, newPath);
+	return NCommonDarwin::PathRename(oldPath, newPath);
 }
 
 
@@ -152,7 +152,7 @@ NStatus NFileUtils::PathExchange(const NFilePath& oldPath, const NFilePath& newP
 
 
 	// Exchange the paths
-	return NSharedDarwin::PathExchange(oldPath, newPath);
+	return NCommonDarwin::PathExchange(oldPath, newPath);
 }
 
 
@@ -167,5 +167,5 @@ NFilePath NFileUtils::PathLocation(NFileLocation theLocation)
 
 
 	// Get the location
-	return NSharedDarwin::PathLocation(theLocation);
+	return NCommonDarwin::PathLocation(theLocation);
 }

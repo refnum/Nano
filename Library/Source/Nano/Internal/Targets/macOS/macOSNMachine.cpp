@@ -42,7 +42,7 @@
 #include "NMachine.h"
 
 // Nano
-#include "NSharedDarwin.h"
+#include "NCommonDarwin.h"
 
 
 
@@ -56,7 +56,7 @@ size_t NMachine::GetCores(NCoreType theType)
 
 
 	// Get the cores
-	return NSharedDarwin::MachineCores(theType);
+	return NCommonDarwin::MachineCores(theType);
 }
 
 
@@ -71,7 +71,7 @@ uint64_t NMachine::GetMemoryBytes()
 
 
 	// Get the memory
-	return NSharedDarwin::MachineMemory();
+	return NCommonDarwin::MachineMemory();
 }
 
 
@@ -86,7 +86,7 @@ NString NMachine::GetCPUName()
 
 
 	// Get the name
-	return NSharedDarwin::MachineCPUName();
+	return NCommonDarwin::MachineCPUName();
 }
 
 
@@ -101,7 +101,7 @@ NString NMachine::GetCPUVendor()
 
 
 	// Get the vendor
-	return NSharedDarwin::MachineCPUVendor();
+	return NCommonDarwin::MachineCPUVendor();
 }
 
 
@@ -116,5 +116,5 @@ uint64_t NMachine::GetCPUHertz()
 
 
 	// Get the speed
-	return NSharedDarwin::MachineCPUHertz();
+	return NCommonDarwin::MachineCPUHertz();
 }

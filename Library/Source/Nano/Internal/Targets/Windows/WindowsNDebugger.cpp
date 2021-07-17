@@ -42,7 +42,7 @@
 #include "NDebugger.h"
 
 // Nano
-#include "NSharedWindows.h"
+#include "NCommonWindows.h"
 
 // System
 #include <dbghelp.h>

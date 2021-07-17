@@ -42,7 +42,7 @@
 #include "NFileInfo.h"
 
 // Nano
-#include "NSharedDarwin.h"
+#include "NCommonDarwin.h"
 
 
 
@@ -56,5 +56,5 @@ bool NFileInfo::FetchState(NFileInfoFlags theFlags)
 
 
 	// Fetch the state
-	return NSharedDarwin::FileGetState(mPath, theFlags, mValid, mState);
+	return NCommonDarwin::FileGetState(mPath, theFlags, mValid, mState);
 }

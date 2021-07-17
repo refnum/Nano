@@ -1,5 +1,5 @@
 /*	NAME:
-		NSharedPOSIX.cpp
+		NCommonPOSIX.cpp
 
 	DESCRIPTION:
 		POSIX support.
@@ -39,7 +39,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NSharedPOSIX.h"
+#include "NCommonPOSIX.h"
 
 // Nano
 #include "NDebug.h"
@@ -193,7 +193,7 @@ static NStatus ApplyFileFlags(FILE* theFile, const NFilePath& thePath, NFileFlag
 		sysErr = posix_fadvise(fileDesc, 0, 0, POSIX_FADV_WILLNEED);
 #endif
 
-		theErr = NSharedPOSIX::StatusErrno(sysErr);
+		theErr = NCommonPOSIX::StatusErrno(sysErr);
 		NN_EXPECT_NOT_ERR(theErr);
 	}
 
@@ -222,7 +222,7 @@ static NStatus ApplyFileFlags(FILE* theFile, const NFilePath& thePath, NFileFlag
 #endif
 		}
 
-		theErr = NSharedPOSIX::StatusErrno(sysErr);
+		theErr = NCommonPOSIX::StatusErrno(sysErr);
 		NN_EXPECT_NOT_ERR(theErr);
 	}
 
@@ -256,11 +256,11 @@ static void* NThreadEntry(void* theParam)
 
 
 
-#pragma mark NSharedPOSIX
+#pragma mark NCommonPOSIX
 //=============================================================================
-//		NSharedPOSIX::EnvGet : Get an environment variable.
+//		NCommonPOSIX::EnvGet : Get an environment variable.
 //-----------------------------------------------------------------------------
-NString NSharedPOSIX::EnvGet(const NString& theName)
+NString NCommonPOSIX::EnvGet(const NString& theName)
 {
 
 
@@ -286,9 +286,9 @@ NString NSharedPOSIX::EnvGet(const NString& theName)
 
 
 //=============================================================================
-//		NSharedPOSIX::EnvSet : Set an environment variable.
+//		NCommonPOSIX::EnvSet : Set an environment variable.
 //-----------------------------------------------------------------------------
-void NSharedPOSIX::EnvSet(const NString& theName, const NString& theValue)
+void NCommonPOSIX::EnvSet(const NString& theName, const NString& theValue)
 {
 
 
@@ -315,9 +315,9 @@ void NSharedPOSIX::EnvSet(const NString& theName, const NString& theValue)
 
 
 //=============================================================================
-//		NSharedPOSIX::FileGetStateAccess : Get file state with access().
+//		NCommonPOSIX::FileGetStateAccess : Get file state with access().
 //-----------------------------------------------------------------------------
-void NSharedPOSIX::FileGetStateAccess(const NFilePath& thePath,
+void NCommonPOSIX::FileGetStateAccess(const NFilePath& thePath,
 									  NFileInfoFlags   theFlag,
 									  NFileInfoState&  theState)
 {
@@ -375,9 +375,9 @@ void NSharedPOSIX::FileGetStateAccess(const NFilePath& thePath,
 
 
 //=============================================================================
-//		NSharedPOSIX::FileOpen : Open a file.
+//		NCommonPOSIX::FileOpen : Open a file.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::FileOpen(const NFilePath& thePath,
+NStatus NCommonPOSIX::FileOpen(const NFilePath& thePath,
 							   NFileAccess      theAccess,
 							   NFileFlags       theFlags,
 							   NFileHandleRef&  fileHandle)
@@ -416,9 +416,9 @@ NStatus NSharedPOSIX::FileOpen(const NFilePath& thePath,
 
 
 //=============================================================================
-//		NSharedPOSIX::FileClose : Close a file.
+//		NCommonPOSIX::FileClose : Close a file.
 //-----------------------------------------------------------------------------
-void NSharedPOSIX::FileClose(NFileHandleRef fileHandle)
+void NCommonPOSIX::FileClose(NFileHandleRef fileHandle)
 {
 
 
@@ -436,9 +436,9 @@ void NSharedPOSIX::FileClose(NFileHandleRef fileHandle)
 
 
 //=============================================================================
-//		NSharedPOSIX::FileGetPosition : Get the file position.
+//		NCommonPOSIX::FileGetPosition : Get the file position.
 //-----------------------------------------------------------------------------
-uint64_t NSharedPOSIX::FileGetPosition(NFileHandleRef fileHandle)
+uint64_t NCommonPOSIX::FileGetPosition(NFileHandleRef fileHandle)
 {
 
 
@@ -464,9 +464,9 @@ uint64_t NSharedPOSIX::FileGetPosition(NFileHandleRef fileHandle)
 
 
 //=============================================================================
-//		NSharedPOSIX::FileSetPosition : Set the file position.
+//		NCommonPOSIX::FileSetPosition : Set the file position.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::FileSetPosition(NFileHandleRef fileHandle,
+NStatus NCommonPOSIX::FileSetPosition(NFileHandleRef fileHandle,
 									  int64_t        thePosition,
 									  NFileOffset    relativeTo)
 {
@@ -494,9 +494,9 @@ NStatus NSharedPOSIX::FileSetPosition(NFileHandleRef fileHandle,
 
 
 //=============================================================================
-//		NSharedPOSIX::FileSetSize : Set the file size.
+//		NCommonPOSIX::FileSetSize : Set the file size.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::FileSetSize(NFileHandleRef fileHandle, uint64_t theSize)
+NStatus NCommonPOSIX::FileSetSize(NFileHandleRef fileHandle, uint64_t theSize)
 {
 
 
@@ -525,9 +525,9 @@ NStatus NSharedPOSIX::FileSetSize(NFileHandleRef fileHandle, uint64_t theSize)
 
 
 //=============================================================================
-//		NSharedPOSIX::FileRead : Read from a file.
+//		NCommonPOSIX::FileRead : Read from a file.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::FileRead(NFileHandleRef fileHandle,
+NStatus NCommonPOSIX::FileRead(NFileHandleRef fileHandle,
 							   uint64_t       theSize,
 							   void*          thePtr,
 							   uint64_t&      sizeRead)
@@ -568,9 +568,9 @@ NStatus NSharedPOSIX::FileRead(NFileHandleRef fileHandle,
 
 
 //=============================================================================
-//		NSharedPOSIX::FileWrite : Write to a file.
+//		NCommonPOSIX::FileWrite : Write to a file.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::FileWrite(NFileHandleRef fileHandle,
+NStatus NCommonPOSIX::FileWrite(NFileHandleRef fileHandle,
 								uint64_t       theSize,
 								const void*    thePtr,
 								uint64_t&      sizeWritten)
@@ -603,9 +603,9 @@ NStatus NSharedPOSIX::FileWrite(NFileHandleRef fileHandle,
 
 
 //=============================================================================
-//		NSharedPOSIX::FileFlush : Flush the file.
+//		NCommonPOSIX::FileFlush : Flush the file.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::FileFlush(NFileHandleRef fileHandle)
+NStatus NCommonPOSIX::FileFlush(NFileHandleRef fileHandle)
 {
 
 
@@ -626,9 +626,9 @@ NStatus NSharedPOSIX::FileFlush(NFileHandleRef fileHandle)
 
 
 //=============================================================================
-//		NSharedPOSIX::MapPageSize : Get the file mapping page size.
+//		NCommonPOSIX::MapPageSize : Get the file mapping page size.
 //-----------------------------------------------------------------------------
-size_t NSharedPOSIX::MapPageSize()
+size_t NCommonPOSIX::MapPageSize()
 {
 
 
@@ -641,9 +641,9 @@ size_t NSharedPOSIX::MapPageSize()
 
 
 //=============================================================================
-//		NSharedPOSIX::MapOpen : Open a file for mapping.
+//		NCommonPOSIX::MapOpen : Open a file for mapping.
 //-----------------------------------------------------------------------------
-NFileMapRef NSharedPOSIX::MapOpen(const NFilePath& thePath, NMapAccess theAccess)
+NFileMapRef NCommonPOSIX::MapOpen(const NFilePath& thePath, NMapAccess theAccess)
 {
 
 
@@ -671,9 +671,9 @@ NFileMapRef NSharedPOSIX::MapOpen(const NFilePath& thePath, NMapAccess theAccess
 
 
 //=============================================================================
-//		NSharedPOSIX::MapClose : Close a mapped file.
+//		NCommonPOSIX::MapClose : Close a mapped file.
 //-----------------------------------------------------------------------------
-void NSharedPOSIX::MapClose(NFileMapRef theHandle)
+void NCommonPOSIX::MapClose(NFileMapRef theHandle)
 {
 
 
@@ -690,9 +690,9 @@ void NSharedPOSIX::MapClose(NFileMapRef theHandle)
 
 
 //=============================================================================
-//		NSharedPOSIX::MapFetch : Fetch mapped pages.
+//		NCommonPOSIX::MapFetch : Fetch mapped pages.
 //-----------------------------------------------------------------------------
-void NSharedPOSIX::MapFetch(NFileMapRef theHandle, NFileMapping& theMapping)
+void NCommonPOSIX::MapFetch(NFileMapRef theHandle, NFileMapping& theMapping)
 {
 
 
@@ -729,9 +729,9 @@ void NSharedPOSIX::MapFetch(NFileMapRef theHandle, NFileMapping& theMapping)
 
 
 //=============================================================================
-//		NSharedPOSIX::MapDiscard : Discard mapped pages.
+//		NCommonPOSIX::MapDiscard : Discard mapped pages.
 //-----------------------------------------------------------------------------
-void NSharedPOSIX::MapDiscard(NFileMapRef theHandle, const NFileMapping& theMapping)
+void NCommonPOSIX::MapDiscard(NFileMapRef theHandle, const NFileMapping& theMapping)
 {
 
 
@@ -763,9 +763,9 @@ void NSharedPOSIX::MapDiscard(NFileMapRef theHandle, const NFileMapping& theMapp
 
 
 //=============================================================================
-//		NSharedPOSIX::PathCreate : Create a path.
+//		NCommonPOSIX::PathCreate : Create a path.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::PathCreate(const NFilePath& thePath)
+NStatus NCommonPOSIX::PathCreate(const NFilePath& thePath)
 {
 
 
@@ -781,9 +781,9 @@ NStatus NSharedPOSIX::PathCreate(const NFilePath& thePath)
 
 
 //=============================================================================
-//		NSharedPOSIX::PathDelete : Delete a path.
+//		NCommonPOSIX::PathDelete : Delete a path.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::PathDelete(const NFilePath& thePath)
+NStatus NCommonPOSIX::PathDelete(const NFilePath& thePath)
 {
 
 
@@ -813,9 +813,9 @@ NStatus NSharedPOSIX::PathDelete(const NFilePath& thePath)
 
 
 //=============================================================================
-//		NSharedPOSIX::PathChildren : Get the children of a path.
+//		NCommonPOSIX::PathChildren : Get the children of a path.
 //-----------------------------------------------------------------------------
-NVectorFilePath NSharedPOSIX::PathChildren(const NFilePath& thePath)
+NVectorFilePath NCommonPOSIX::PathChildren(const NFilePath& thePath)
 {
 
 
@@ -861,9 +861,9 @@ NVectorFilePath NSharedPOSIX::PathChildren(const NFilePath& thePath)
 
 
 //=============================================================================
-//		NSharedPOSIX::StatusSysErr : Convert an errno code to an NStatus.
+//		NCommonPOSIX::StatusSysErr : Convert an errno code to an NStatus.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::StatusSysErr(int sysErr)
+NStatus NCommonPOSIX::StatusSysErr(int sysErr)
 {
 
 
@@ -1417,9 +1417,9 @@ NStatus NSharedPOSIX::StatusSysErr(int sysErr)
 
 
 //=============================================================================
-//		NSharedPOSIX::StatusErrno : Get errno as an NStatus.
+//		NCommonPOSIX::StatusErrno : Get errno as an NStatus.
 //-----------------------------------------------------------------------------
-NStatus NSharedPOSIX::StatusErrno(int sysErr)
+NStatus NCommonPOSIX::StatusErrno(int sysErr)
 {
 
 
@@ -1439,9 +1439,9 @@ NStatus NSharedPOSIX::StatusErrno(int sysErr)
 
 
 //=============================================================================
-//		NSharedPOSIX::ThreadCreate : Create a native thread.
+//		NCommonPOSIX::ThreadCreate : Create a native thread.
 //-----------------------------------------------------------------------------
-NThreadHandle NSharedPOSIX::ThreadCreate(NThreadContext* theContext)
+NThreadHandle NCommonPOSIX::ThreadCreate(NThreadContext* theContext)
 {
 
 
@@ -1480,9 +1480,9 @@ NThreadHandle NSharedPOSIX::ThreadCreate(NThreadContext* theContext)
 
 
 //=============================================================================
-//		NSharedPOSIX::ThreadJoin : Join a native thread.
+//		NCommonPOSIX::ThreadJoin : Join a native thread.
 //-----------------------------------------------------------------------------
-void NSharedPOSIX::ThreadJoin(NThreadHandle theThread)
+void NCommonPOSIX::ThreadJoin(NThreadHandle theThread)
 {
 
 
@@ -1498,9 +1498,9 @@ void NSharedPOSIX::ThreadJoin(NThreadHandle theThread)
 
 
 //=============================================================================
-//		NSharedPOSIX::ThreadGetName : Get the current thread's name.
+//		NCommonPOSIX::ThreadGetName : Get the current thread's name.
 //-----------------------------------------------------------------------------
-NString NSharedPOSIX::ThreadGetName()
+NString NCommonPOSIX::ThreadGetName()
 {
 
 
@@ -1523,9 +1523,9 @@ NString NSharedPOSIX::ThreadGetName()
 
 
 //=============================================================================
-//		NSharedPOSIX::ThreadSetName : Set the current thread's name.
+//		NCommonPOSIX::ThreadSetName : Set the current thread's name.
 //-----------------------------------------------------------------------------
-void NSharedPOSIX::ThreadSetName(const NString& theName)
+void NCommonPOSIX::ThreadSetName(const NString& theName)
 {
 
 
@@ -1540,7 +1540,7 @@ void NSharedPOSIX::ThreadSetName(const NString& theName)
 
 	if (theName.GetSize() > nameLen)
 	{
-		NN_LOG_WARNING("NSharedPOSIX::ThreadSetName truncated '{}' to '{}'", theName, theBuffer);
+		NN_LOG_WARNING("NCommonPOSIX::ThreadSetName truncated '{}' to '{}'", theName, theBuffer);
 	}
 
 
@@ -1560,9 +1560,9 @@ void NSharedPOSIX::ThreadSetName(const NString& theName)
 
 
 //=============================================================================
-//		NSharedPOSIX::ThreadGetPriority : Get the current thread's priority.
+//		NCommonPOSIX::ThreadGetPriority : Get the current thread's priority.
 //-----------------------------------------------------------------------------
-float NSharedPOSIX::ThreadGetPriority()
+float NCommonPOSIX::ThreadGetPriority()
 {
 
 
@@ -1605,9 +1605,9 @@ float NSharedPOSIX::ThreadGetPriority()
 
 
 //=============================================================================
-//		NSharedPOSIX::ThreadSetPriority : Set the current thread's priority.
+//		NCommonPOSIX::ThreadSetPriority : Set the current thread's priority.
 //-----------------------------------------------------------------------------
-void NSharedPOSIX::ThreadSetPriority(float thePriority)
+void NCommonPOSIX::ThreadSetPriority(float thePriority)
 {
 
 
@@ -1660,9 +1660,9 @@ void NSharedPOSIX::ThreadSetPriority(float thePriority)
 
 
 //=============================================================================
-//		NSharedPOSIX::TimeGetTimeval : Convert to a timeval.
+//		NCommonPOSIX::TimeGetTimeval : Convert to a timeval.
 //-----------------------------------------------------------------------------
-struct timeval NSharedPOSIX::TimeGetTimeval(NInterval theInterval)
+struct timeval NCommonPOSIX::TimeGetTimeval(NInterval theInterval)
 {
 	// Convert the value
 	NInterval timeSecs = floor(theInterval);
@@ -1676,9 +1676,9 @@ struct timeval NSharedPOSIX::TimeGetTimeval(NInterval theInterval)
 
 
 //=============================================================================
-//		NSharedPOSIX::TimeGetInterval : Convert to an NInterval.
+//		NCommonPOSIX::TimeGetInterval : Convert to an NInterval.
 //-----------------------------------------------------------------------------
-NInterval NSharedPOSIX::TimeGetInterval(const struct timeval& timeVal)
+NInterval NCommonPOSIX::TimeGetInterval(const struct timeval& timeVal)
 {
 
 

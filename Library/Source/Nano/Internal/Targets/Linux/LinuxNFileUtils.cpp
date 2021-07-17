@@ -42,8 +42,8 @@
 #include "NFileUtils.h"
 
 // Nano
-#include "NSharedLinux.h"
-#include "NSharedPOSIX.h"
+#include "NCommonLinux.h"
+#include "NCommonPOSIX.h"
 #include "NSystem.h"
 
 
@@ -58,7 +58,7 @@ NStatus NFileUtils::PathCreate(const NFilePath& thePath)
 
 
 	// Create the path
-	return NSharedPOSIX::PathCreate(thePath);
+	return NCommonPOSIX::PathCreate(thePath);
 }
 
 
@@ -73,7 +73,7 @@ NStatus NFileUtils::PathDelete(const NFilePath& thePath, NFileAction /*theAction
 
 
 	// Delete the path
-	return NSharedPOSIX::PathDelete(thePath);
+	return NCommonPOSIX::PathDelete(thePath);
 }
 
 
@@ -88,7 +88,7 @@ NVectorFilePath NFileUtils::PathChildren(const NFilePath& thePath)
 
 
 	// Get the children
-	return NSharedPOSIX::PathChildren(thePath);
+	return NCommonPOSIX::PathChildren(thePath);
 }
 
 
@@ -103,7 +103,7 @@ NStatus NFileUtils::PathRename(const NFilePath& oldPath, const NFilePath& newPat
 
 
 	// Rename the path
-	return NSharedLinux::PathRename(oldPath, newPath);
+	return NCommonLinux::PathRename(oldPath, newPath);
 }
 
 
@@ -118,7 +118,7 @@ NStatus NFileUtils::PathExchange(const NFilePath& oldPath, const NFilePath& newP
 
 
 	// Exchange the paths
-	return NSharedLinux::PathExchange(oldPath, newPath);
+	return NCommonLinux::PathExchange(oldPath, newPath);
 }
 
 

@@ -42,7 +42,7 @@
 #include "NRandom.h"
 
 // Nano
-#include "NSharedLinux.h"
+#include "NCommonLinux.h"
 
 
 
@@ -56,5 +56,5 @@ void NRandom::GetSecureData(size_t theSize, void* thePtr)
 
 
 	// Get the data
-	return NSharedLinux::RandomSecureData(theSize, thePtr);
+	return NCommonLinux::RandomSecureData(theSize, thePtr);
 }

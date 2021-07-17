@@ -42,7 +42,7 @@
 #include "NSemaphore.h"
 
 // Nano
-#include "NSharedDarwin.h"
+#include "NCommonDarwin.h"
 
 
 
@@ -56,7 +56,7 @@ NSemaphoreRef NSemaphore::Create(size_t theValue)
 
 
 	// Create the semaphore
-	return NSharedDarwin::SemaphoreCreate(theValue);
+	return NCommonDarwin::SemaphoreCreate(theValue);
 }
 
 
@@ -71,7 +71,7 @@ void NSemaphore::Destroy(NSemaphoreRef theSemaphore)
 
 
 	// Destroy the semaphore
-	NSharedDarwin::SemaphoreDestroy(theSemaphore);
+	NCommonDarwin::SemaphoreDestroy(theSemaphore);
 }
 
 
@@ -86,7 +86,7 @@ bool NSemaphore::Wait(NSemaphoreRef theSemaphore, NInterval waitFor)
 
 
 	// Wait for the semaphore
-	return NSharedDarwin::SemaphoreWait(theSemaphore, waitFor);
+	return NCommonDarwin::SemaphoreWait(theSemaphore, waitFor);
 }
 
 
@@ -101,5 +101,5 @@ void NSemaphore::Signal(NSemaphoreRef theSemaphore)
 
 
 	// Signal the semaphore
-	NSharedDarwin::SemaphoreSignal(theSemaphore);
+	NCommonDarwin::SemaphoreSignal(theSemaphore);
 }

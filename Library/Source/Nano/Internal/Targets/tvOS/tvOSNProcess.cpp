@@ -42,7 +42,7 @@
 #include "NProcess.h"
 
 // Nano
-#include "NSharedDarwin.h"
+#include "NCommonDarwin.h"
 
 
 
@@ -56,7 +56,7 @@ NString NProcess::GetName()
 
 
 	// Get the name
-	return NSharedDarwin::ProcessName();
+	return NCommonDarwin::ProcessName();
 }
 
 
@@ -71,5 +71,5 @@ NMemoryInfo NProcess::GetMemory()
 
 
 	// Get the memory
-	return NSharedDarwin::ProcessMemory();
+	return NCommonDarwin::ProcessMemory();
 }

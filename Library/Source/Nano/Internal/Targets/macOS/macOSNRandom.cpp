@@ -42,7 +42,7 @@
 #include "NRandom.h"
 
 // Nano
-#include "NSharedDarwin.h"
+#include "NCommonDarwin.h"
 
 
 
@@ -56,5 +56,5 @@ void NRandom::GetSecureData(size_t theSize, void* thePtr)
 
 
 	// Get the data
-	return NSharedDarwin::RandomSecureData(theSize, thePtr);
+	return NCommonDarwin::RandomSecureData(theSize, thePtr);
 }

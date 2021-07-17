@@ -42,7 +42,7 @@
 #include "NProcess.h"
 
 // Nano
-#include "NSharedLinux.h"
+#include "NCommonLinux.h"
 
 
 
@@ -56,7 +56,7 @@ NString NProcess::GetName()
 
 
 	// Get the name
-	return NSharedLinux::ProcessName();
+	return NCommonLinux::ProcessName();
 }
 
 
@@ -71,5 +71,5 @@ NMemoryInfo NProcess::GetMemory()
 
 
 	// Get the memory
-	return NSharedLinux::ProcessMemory();
+	return NCommonLinux::ProcessMemory();
 }

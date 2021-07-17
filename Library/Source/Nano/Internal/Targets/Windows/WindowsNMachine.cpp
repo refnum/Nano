@@ -42,9 +42,9 @@
 #include "NMachine.h"
 
 // Nano
+#include "NCommonWindows.h"
 #include "NData.h"
 #include "NMathUtils.h"
-#include "NSharedWindows.h"
 
 // System
 #include <Windows.h>
@@ -138,7 +138,7 @@ NString NMachine::GetCPUName()
 
 	// Get the name
 	NString theName =
-		NSharedWindows::RegistryGetString(HKEY_LOCAL_MACHINE,
+		NCommonWindows::RegistryGetString(HKEY_LOCAL_MACHINE,
 										  "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
 										  "ProcessorNameString");
 	NN_EXPECT(!theName.IsEmpty());
@@ -164,7 +164,7 @@ NString NMachine::GetCPUVendor()
 
 	// Get the name
 	NString theName =
-		NSharedWindows::RegistryGetString(HKEY_LOCAL_MACHINE,
+		NCommonWindows::RegistryGetString(HKEY_LOCAL_MACHINE,
 										  "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
 										  "VendorIdentifier");
 	NN_EXPECT(!theName.IsEmpty());
@@ -190,7 +190,7 @@ uint64_t NMachine::GetCPUHertz()
 
 	// Get the speed
 	int32_t speedMhz =
-		NSharedWindows::RegistryGetInt32(HKEY_LOCAL_MACHINE,
+		NCommonWindows::RegistryGetInt32(HKEY_LOCAL_MACHINE,
 										 "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
 										 "~MHz");
 	NN_REQUIRE(speedMhz > 0);

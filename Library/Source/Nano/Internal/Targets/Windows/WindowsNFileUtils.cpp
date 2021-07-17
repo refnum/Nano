@@ -42,9 +42,9 @@
 #include "NFileUtils.h"
 
 // Nano
+#include "NCommonWindows.h"
 #include "NData.h"
 #include "NFileInfo.h"
-#include "NSharedWindows.h"
 #include "NString.h"
 
 // System
@@ -135,7 +135,7 @@ NStatus RenameTransacted(HANDLE hTransaction, const NFilePath& oldPath, const NF
 									 hTransaction);
 	NN_EXPECT(wasOK);
 
-	return NSharedWindows::StatusLastError(wasOK);
+	return NCommonWindows::StatusLastError(wasOK);
 }
 
 
@@ -154,7 +154,7 @@ NStatus NFileUtils::PathCreate(const NFilePath& thePath)
 	BOOL wasOK = ::CreateDirectoryW(LPCWSTR(thePath.GetUTF16()), nullptr);
 	NN_EXPECT(wasOK);
 
-	return NSharedWindows::StatusLastError(wasOK);
+	return NCommonWindows::StatusLastError(wasOK);
 }
 
 
@@ -216,7 +216,7 @@ NStatus NFileUtils::PathDelete(const NFilePath& thePath, NFileAction theAction)
 			NN_EXPECT(wasOK);
 		}
 
-		theErr = NSharedWindows::StatusLastError(wasOK);
+		theErr = NCommonWindows::StatusLastError(wasOK);
 	}
 
 	return theErr;
@@ -290,7 +290,7 @@ NStatus NFileUtils::PathRename(const NFilePath& oldPath, const NFilePath& newPat
 		if (theErr == NStatus::OK)
 		{
 			BOOL wasOK = CommitTransaction(hTransaction);
-			theErr     = NSharedWindows::StatusLastError(wasOK);
+			theErr     = NCommonWindows::StatusLastError(wasOK);
 			NN_EXPECT_NOT_ERR(theErr);
 		}
 
@@ -341,7 +341,7 @@ NStatus NFileUtils::PathExchange(const NFilePath& oldPath, const NFilePath& newP
 		if (theErr == NStatus::OK)
 		{
 			BOOL wasOK = CommitTransaction(hTransaction);
-			theErr     = NSharedWindows::StatusLastError(wasOK);
+			theErr     = NCommonWindows::StatusLastError(wasOK);
 			NN_EXPECT_NOT_ERR(theErr);
 		}
 

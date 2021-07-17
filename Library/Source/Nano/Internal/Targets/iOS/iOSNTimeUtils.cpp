@@ -42,7 +42,7 @@
 #include "NTimeUtils.h"
 
 // Nano
-#include "NSharedDarwin.h"
+#include "NCommonDarwin.h"
 
 
 
@@ -56,7 +56,7 @@ NTime NTimeUtils::GetTime()
 
 
 	// Get the time
-	return NSharedDarwin::TimeGet();
+	return NCommonDarwin::TimeGet();
 }
 
 
@@ -71,7 +71,7 @@ NInterval NTimeUtils::GetUpTime()
 
 
 	// Get the time since boot
-	return NSharedDarwin::TimeGetUpTime();
+	return NCommonDarwin::TimeGetUpTime();
 }
 
 
@@ -86,7 +86,7 @@ uint64_t NTimeUtils::TimeGetClockTicks()
 
 
 	// Get the clock ticks
-	return NSharedDarwin::GetClockTicks();
+	return NCommonDarwin::GetClockTicks();
 }
 
 
@@ -101,5 +101,5 @@ uint64_t NTimeUtils::GetClockFrequency()
 
 
 	// Get the clock frequency
-	return NSharedDarwin::GetClockFrequency();
+	return NCommonDarwin::GetClockFrequency();
 }
