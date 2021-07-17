@@ -166,15 +166,6 @@ public:
 	static NSharedRunLoop               GetCurrent();
 
 
-	// Add a function to the main runloop
-	//
-	// NRunLoop::Main will block until the function is complete.
-	//
-	// NRunLoop::MainAsync will add the function to the main runloop and return.
-	static void                         Main(     const NRunLoopWorkFunction& theFunctor);
-	static void                         MainAsync(const NRunLoopWorkFunction& theFunctor);
-
-
 private:
 	void                                PerformWork(bool onlyOne);
 	bool                                FinishedSleep(NTime endTime);

@@ -55,6 +55,9 @@
 		AB20329325D73E1F0050DB00 /* TStdMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB20329225D73E1F0050DB00 /* TStdMath.cpp */; };
 		AB20329425D73E1F0050DB00 /* TStdMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB20329225D73E1F0050DB00 /* TStdMath.cpp */; };
 		AB20329525D73E1F0050DB00 /* TStdMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB20329225D73E1F0050DB00 /* TStdMath.cpp */; };
+		AB21145226A33EE3004874CD /* TExecute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB21145126A33EE3004874CD /* TExecute.cpp */; };
+		AB21145326A33EE3004874CD /* TExecute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB21145126A33EE3004874CD /* TExecute.cpp */; };
+		AB21145426A33EE3004874CD /* TExecute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB21145126A33EE3004874CD /* TExecute.cpp */; };
 		AB269E0625BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB269E0525BBAEA7007EAEF8 /* TStdUtility.cpp */; };
 		AB269E0725BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB269E0525BBAEA7007EAEF8 /* TStdUtility.cpp */; };
 		AB269E0825BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB269E0525BBAEA7007EAEF8 /* TStdUtility.cpp */; };
@@ -398,6 +401,7 @@
 		AB1BA195104E7D1400BB002B /* TTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTransform.cpp; sourceTree = "<group>"; };
 		AB1C77F926A315E600A43965 /* TDeque.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDeque.cpp; sourceTree = "<group>"; };
 		AB20329225D73E1F0050DB00 /* TStdMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdMath.cpp; sourceTree = "<group>"; };
+		AB21145126A33EE3004874CD /* TExecute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TExecute.cpp; sourceTree = "<group>"; };
 		AB269E0525BBAEA7007EAEF8 /* TStdUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdUtility.cpp; sourceTree = "<group>"; };
 		AB2A304824524CD700F21BF6 /* TDebugger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDebugger.cpp; sourceTree = "<group>"; };
 		AB2AAD7D10396310007BC4E6 /* TLocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLocale.cpp; sourceTree = "<group>"; };
@@ -794,6 +798,7 @@
 		AB514D911034184B00E5A6AD /* Threads */ = {
 			isa = PBXGroup;
 			children = (
+				AB21145126A33EE3004874CD /* TExecute.cpp */,
 				ABA6244B25CE3C4900D2FA4D /* TLockable.cpp */,
 				ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */,
 				ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */,
@@ -1084,6 +1089,7 @@
 				ABDCE8AF241C2A720054A16E /* TPOSIX.cpp in Sources */,
 				ABDCE8BE241C59680054A16E /* TFileInfo.cpp in Sources */,
 				AB081C4725BC78530058D397 /* TMathUtils.cpp in Sources */,
+				AB21145326A33EE3004874CD /* TExecute.cpp in Sources */,
 				ABBB2B5F23801DBB00EB2840 /* TLog.cpp in Sources */,
 				ABF58CDF26794BFB00327252 /* TImage.cpp in Sources */,
 				ABBB2B6223801DBB00EB2840 /* TLogOutput.cpp in Sources */,
@@ -1200,6 +1206,7 @@
 				ABDCE8AE241C2A720054A16E /* TPOSIX.cpp in Sources */,
 				ABDCE8BD241C59680054A16E /* TFileInfo.cpp in Sources */,
 				AB081C4625BC78530058D397 /* TMathUtils.cpp in Sources */,
+				AB21145226A33EE3004874CD /* TExecute.cpp in Sources */,
 				AB439B8123800C0100DBB6B2 /* NanoTest.cpp in Sources */,
 				ABF58CE026794BFB00327252 /* TImage.cpp in Sources */,
 				ABBB2B5E23801DBB00EB2840 /* TLog.cpp in Sources */,
@@ -1316,6 +1323,7 @@
 				ABDCE8B0241C2A720054A16E /* TPOSIX.cpp in Sources */,
 				ABDCE8BF241C59680054A16E /* TFileInfo.cpp in Sources */,
 				AB081C4825BC78530058D397 /* TMathUtils.cpp in Sources */,
+				AB21145426A33EE3004874CD /* TExecute.cpp in Sources */,
 				AB439BF123800C0600DBB6B2 /* NanoTest.cpp in Sources */,
 				ABF58CDE26794BFA00327252 /* TImage.cpp in Sources */,
 				ABBB2B6023801DBB00EB2840 /* TLog.cpp in Sources */,

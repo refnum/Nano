@@ -117,6 +117,7 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Text/TStringTransformer.cpp"
 		"${NN_SOURCE_DIR}/Nano/Text/TTextUtils.cpp"
 		"${NN_SOURCE_DIR}/Nano/Text/TUnicodeView.cpp"
+		"${NN_SOURCE_DIR}/Nano/Threads/TExecute.cpp"
 		"${NN_SOURCE_DIR}/Nano/Threads/TLockable.cpp"
 		"${NN_SOURCE_DIR}/Nano/Threads/TMutex.cpp"
 		"${NN_SOURCE_DIR}/Nano/Threads/TRunLoop.cpp"
