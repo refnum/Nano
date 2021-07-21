@@ -329,6 +329,8 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Threads/NMutex.inl"
 		"${NN_SOURCE_DIR}/Nano/Threads/NRunLoop.cpp"
 		"${NN_SOURCE_DIR}/Nano/Threads/NRunLoop.h"
+		"${NN_SOURCE_DIR}/Nano/Threads/NRunLoopTask.h"
+		"${NN_SOURCE_DIR}/Nano/Threads/NRunLoopTask.inl"
 		"${NN_SOURCE_DIR}/Nano/Threads/NScopedLock.h"
 		"${NN_SOURCE_DIR}/Nano/Threads/NScopedLock.inl"
 		"${NN_SOURCE_DIR}/Nano/Threads/NSemaphore.cpp"

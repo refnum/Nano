@@ -590,6 +590,8 @@
 		AB1C77F026A2F28200A43965 /* NCommonDarwin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NCommonDarwin.h; sourceTree = "<group>"; };
 		AB1C77F126A2F28200A43965 /* NCommonLinux.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NCommonLinux.cpp; sourceTree = "<group>"; };
 		AB1C77F226A2F28200A43965 /* NCommonWindows.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NCommonWindows.cpp; sourceTree = "<group>"; };
+		AB1C93AF26A7A66000D91BD1 /* NRunLoopTask.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NRunLoopTask.inl; sourceTree = "<group>"; };
+		AB1C93B026A7A66000D91BD1 /* NRunLoopTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRunLoopTask.h; sourceTree = "<group>"; };
 		AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLEncoder.h; sourceTree = "<group>"; };
 		AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLEncoder.cpp; sourceTree = "<group>"; };
 		AB20329125D73E0A0050DB00 /* NStdMath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NStdMath.h; sourceTree = "<group>"; };
@@ -1817,6 +1819,8 @@
 				ABC75E601753910100BB5983 /* NReadWriteLock.h */,
 				AB198115259953A9002C5591 /* NRunLoop.cpp */,
 				AB198114259953A9002C5591 /* NRunLoop.h */,
+				AB1C93B026A7A66000D91BD1 /* NRunLoopTask.h */,
+				AB1C93AF26A7A66000D91BD1 /* NRunLoopTask.inl */,
 				AB2E01C7239878AF00224E11 /* NScopedLock.h */,
 				ABA478A925B6585900F3C3C9 /* NScopedLock.inl */,
 				AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */,

@@ -121,6 +121,7 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Threads/TLockable.cpp"
 		"${NN_SOURCE_DIR}/Nano/Threads/TMutex.cpp"
 		"${NN_SOURCE_DIR}/Nano/Threads/TRunLoop.cpp"
+		"${NN_SOURCE_DIR}/Nano/Threads/TRunLoopTask.cpp"
 		"${NN_SOURCE_DIR}/Nano/Threads/TScopedLock.cpp"
 		"${NN_SOURCE_DIR}/Nano/Threads/TSemaphore.cpp"
 		"${NN_SOURCE_DIR}/Nano/Threads/TSpinLock.cpp"

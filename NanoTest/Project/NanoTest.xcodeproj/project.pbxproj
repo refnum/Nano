@@ -49,6 +49,9 @@
 		AB1C77FA26A315E600A43965 /* TDeque.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1C77F926A315E600A43965 /* TDeque.cpp */; };
 		AB1C77FB26A315E600A43965 /* TDeque.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1C77F926A315E600A43965 /* TDeque.cpp */; };
 		AB1C77FC26A315E600A43965 /* TDeque.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1C77F926A315E600A43965 /* TDeque.cpp */; };
+		AB1C93B226A7A66C00D91BD1 /* TRunLoopTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1C93B126A7A66C00D91BD1 /* TRunLoopTask.cpp */; };
+		AB1C93B326A7A66C00D91BD1 /* TRunLoopTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1C93B126A7A66C00D91BD1 /* TRunLoopTask.cpp */; };
+		AB1C93B426A7A66C00D91BD1 /* TRunLoopTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1C93B126A7A66C00D91BD1 /* TRunLoopTask.cpp */; };
 		AB20328725D72B6D0050DB00 /* TColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB14320D103F512C002BD0D1 /* TColor.cpp */; };
 		AB20328B25D72B6D0050DB00 /* TColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB14320D103F512C002BD0D1 /* TColor.cpp */; };
 		AB20328C25D72B6E0050DB00 /* TColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB14320D103F512C002BD0D1 /* TColor.cpp */; };
@@ -400,6 +403,7 @@
 		AB1B4DA923F2F92A00B304D3 /* TStringTransformer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStringTransformer.cpp; sourceTree = "<group>"; };
 		AB1BA195104E7D1400BB002B /* TTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTransform.cpp; sourceTree = "<group>"; };
 		AB1C77F926A315E600A43965 /* TDeque.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDeque.cpp; sourceTree = "<group>"; };
+		AB1C93B126A7A66C00D91BD1 /* TRunLoopTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TRunLoopTask.cpp; sourceTree = "<group>"; };
 		AB20329225D73E1F0050DB00 /* TStdMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdMath.cpp; sourceTree = "<group>"; };
 		AB21145126A33EE3004874CD /* TExecute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TExecute.cpp; sourceTree = "<group>"; };
 		AB269E0525BBAEA7007EAEF8 /* TStdUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdUtility.cpp; sourceTree = "<group>"; };
@@ -803,6 +807,7 @@
 				ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */,
 				ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */,
 				AB19811C259953C8002C5591 /* TRunLoop.cpp */,
+				AB1C93B126A7A66C00D91BD1 /* TRunLoopTask.cpp */,
 				AB371A9F25CB884000DEC50B /* TScopedLock.cpp */,
 				AB514D981034184B00E5A6AD /* TSemaphore.cpp */,
 				ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */,
@@ -1151,6 +1156,7 @@
 				ABF58DBA267F508700327252 /* TCFDictionary.cpp in Sources */,
 				AB371ABA25CB932600DEC50B /* TBitVector.cpp in Sources */,
 				AB549B85268FA72900B14417 /* TXMLEncoder.cpp in Sources */,
+				AB1C93B326A7A66C00D91BD1 /* TRunLoopTask.cpp in Sources */,
 				ABE7C0D925D0B06500914618 /* TVector.cpp in Sources */,
 				ABF58CF22679727500327252 /* TUTI.cpp in Sources */,
 				ABF58CD2267932CB00327252 /* TUndoSource.cpp in Sources */,
@@ -1268,6 +1274,7 @@
 				ABF58DBB267F508700327252 /* TCFDictionary.cpp in Sources */,
 				AB371ABE25CB932600DEC50B /* TBitVector.cpp in Sources */,
 				AB549B82268FA72900B14417 /* TXMLEncoder.cpp in Sources */,
+				AB1C93B226A7A66C00D91BD1 /* TRunLoopTask.cpp in Sources */,
 				ABE7C0DD25D0B06500914618 /* TVector.cpp in Sources */,
 				ABF58CF12679727500327252 /* TUTI.cpp in Sources */,
 				ABF58CD4267932CB00327252 /* TUndoSource.cpp in Sources */,
@@ -1385,6 +1392,7 @@
 				ABF58DB9267F508700327252 /* TCFDictionary.cpp in Sources */,
 				AB371AB625CB932500DEC50B /* TBitVector.cpp in Sources */,
 				AB549B7C268FA72800B14417 /* TXMLEncoder.cpp in Sources */,
+				AB1C93B426A7A66C00D91BD1 /* TRunLoopTask.cpp in Sources */,
 				ABE7C0D225D0B06400914618 /* TVector.cpp in Sources */,
 				ABF58CF32679727500327252 /* TUTI.cpp in Sources */,
 				ABF58CD0267932CA00327252 /* TUndoSource.cpp in Sources */,
