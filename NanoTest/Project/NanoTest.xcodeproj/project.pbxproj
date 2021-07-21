@@ -61,6 +61,15 @@
 		AB21145226A33EE3004874CD /* TExecute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB21145126A33EE3004874CD /* TExecute.cpp */; };
 		AB21145326A33EE3004874CD /* TExecute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB21145126A33EE3004874CD /* TExecute.cpp */; };
 		AB21145426A33EE3004874CD /* TExecute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB21145126A33EE3004874CD /* TExecute.cpp */; };
+		AB21146426A3452E004874CD /* TThreadGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB21146226A3452E004874CD /* TThreadGroup.cpp */; };
+		AB21146526A3452E004874CD /* TThreadGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB21146226A3452E004874CD /* TThreadGroup.cpp */; };
+		AB21146626A3452E004874CD /* TThreadGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB21146226A3452E004874CD /* TThreadGroup.cpp */; };
+		AB21146726A3452E004874CD /* TThreadTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB21146326A3452E004874CD /* TThreadTask.cpp */; };
+		AB21146826A3452E004874CD /* TThreadTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB21146326A3452E004874CD /* TThreadTask.cpp */; };
+		AB21146926A3452E004874CD /* TThreadTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB21146326A3452E004874CD /* TThreadTask.cpp */; };
+		AB21146A26A3453E004874CD /* TThreadPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D9C1034184B00E5A6AD /* TThreadPool.cpp */; };
+		AB21146B26A3453E004874CD /* TThreadPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D9C1034184B00E5A6AD /* TThreadPool.cpp */; };
+		AB21146C26A3453E004874CD /* TThreadPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D9C1034184B00E5A6AD /* TThreadPool.cpp */; };
 		AB269E0625BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB269E0525BBAEA7007EAEF8 /* TStdUtility.cpp */; };
 		AB269E0725BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB269E0525BBAEA7007EAEF8 /* TStdUtility.cpp */; };
 		AB269E0825BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB269E0525BBAEA7007EAEF8 /* TStdUtility.cpp */; };
@@ -406,6 +415,8 @@
 		AB1C93B126A7A66C00D91BD1 /* TRunLoopTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TRunLoopTask.cpp; sourceTree = "<group>"; };
 		AB20329225D73E1F0050DB00 /* TStdMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdMath.cpp; sourceTree = "<group>"; };
 		AB21145126A33EE3004874CD /* TExecute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TExecute.cpp; sourceTree = "<group>"; };
+		AB21146226A3452E004874CD /* TThreadGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TThreadGroup.cpp; sourceTree = "<group>"; };
+		AB21146326A3452E004874CD /* TThreadTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TThreadTask.cpp; sourceTree = "<group>"; };
 		AB269E0525BBAEA7007EAEF8 /* TStdUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TStdUtility.cpp; sourceTree = "<group>"; };
 		AB2A304824524CD700F21BF6 /* TDebugger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDebugger.cpp; sourceTree = "<group>"; };
 		AB2AAD7D10396310007BC4E6 /* TLocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLocale.cpp; sourceTree = "<group>"; };
@@ -812,8 +823,10 @@
 				AB514D981034184B00E5A6AD /* TSemaphore.cpp */,
 				ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */,
 				AB514D9A1034184B00E5A6AD /* TThread.cpp */,
+				AB21146226A3452E004874CD /* TThreadGroup.cpp */,
 				AB1980F525975D17002C5591 /* TThreadID.cpp */,
 				AB514D9C1034184B00E5A6AD /* TThreadPool.cpp */,
+				AB21146326A3452E004874CD /* TThreadTask.cpp */,
 			);
 			path = Threads;
 			sourceTree = "<group>";
@@ -1098,6 +1111,7 @@
 				ABBB2B5F23801DBB00EB2840 /* TLog.cpp in Sources */,
 				ABF58CDF26794BFB00327252 /* TImage.cpp in Sources */,
 				ABBB2B6223801DBB00EB2840 /* TLogOutput.cpp in Sources */,
+				AB21146B26A3453E004874CD /* TThreadPool.cpp in Sources */,
 				AB91565D0F9B4F37009FFEAF /* NanoTest.cpp in Sources */,
 				ABF58C17267572E100327252 /* TDataEncoder.cpp in Sources */,
 				ABF58C11267572E100327252 /* TDataCompressor.cpp in Sources */,
@@ -1108,6 +1122,7 @@
 				AB0267C72699ACDF00130611 /* TShape.cpp in Sources */,
 				ABF58DA4267CB26E00327252 /* TCGColor.cpp in Sources */,
 				ABBB2B6523801DBB00EB2840 /* TDebug.cpp in Sources */,
+				AB21146526A3452E004874CD /* TThreadGroup.cpp in Sources */,
 				ABD3681425D74D0E00C825B6 /* TStdMemory.cpp in Sources */,
 				ABF58DCA267F585F00327252 /* TCFNumber.cpp in Sources */,
 				ABE7C0CA25D0AD8D00914618 /* TSize.cpp in Sources */,
@@ -1148,6 +1163,7 @@
 				AB54F9A923EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB1980F725975D17002C5591 /* TThreadID.cpp in Sources */,
 				AB371A2925CAF7EF00DEC50B /* TVersion.cpp in Sources */,
+				AB21146826A3452E004874CD /* TThreadTask.cpp in Sources */,
 				ABB38CB825A7CCC80050D506 /* TDictionary.cpp in Sources */,
 				AB4EB4BC2430EDBB00D36016 /* TFilePath.cpp in Sources */,
 				AB07EA42239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
@@ -1216,6 +1232,7 @@
 				AB439B8123800C0100DBB6B2 /* NanoTest.cpp in Sources */,
 				ABF58CE026794BFB00327252 /* TImage.cpp in Sources */,
 				ABBB2B5E23801DBB00EB2840 /* TLog.cpp in Sources */,
+				AB21146A26A3453E004874CD /* TThreadPool.cpp in Sources */,
 				ABBB2B6423801DBB00EB2840 /* TDebug.cpp in Sources */,
 				ABF58C16267572E100327252 /* TDataEncoder.cpp in Sources */,
 				ABF58C10267572E100327252 /* TDataCompressor.cpp in Sources */,
@@ -1226,6 +1243,7 @@
 				AB0267C62699ACDF00130611 /* TShape.cpp in Sources */,
 				ABF58DA3267CB26D00327252 /* TCGColor.cpp in Sources */,
 				ABBB2B6123801DBB00EB2840 /* TLogOutput.cpp in Sources */,
+				AB21146426A3452E004874CD /* TThreadGroup.cpp in Sources */,
 				ABD3681325D74D0E00C825B6 /* TStdMemory.cpp in Sources */,
 				ABF58DC9267F585E00327252 /* TCFNumber.cpp in Sources */,
 				ABE7C0CD25D0AD8D00914618 /* TSize.cpp in Sources */,
@@ -1266,6 +1284,7 @@
 				AB54F9A823EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB1980F625975D17002C5591 /* TThreadID.cpp in Sources */,
 				AB371A2825CAF7EF00DEC50B /* TVersion.cpp in Sources */,
+				AB21146726A3452E004874CD /* TThreadTask.cpp in Sources */,
 				ABB38CB925A7CCC80050D506 /* TDictionary.cpp in Sources */,
 				AB4EB4BB2430EDBB00D36016 /* TFilePath.cpp in Sources */,
 				AB07EA43239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
@@ -1334,6 +1353,7 @@
 				AB439BF123800C0600DBB6B2 /* NanoTest.cpp in Sources */,
 				ABF58CDE26794BFA00327252 /* TImage.cpp in Sources */,
 				ABBB2B6023801DBB00EB2840 /* TLog.cpp in Sources */,
+				AB21146C26A3453E004874CD /* TThreadPool.cpp in Sources */,
 				ABBB2B6623801DBB00EB2840 /* TDebug.cpp in Sources */,
 				ABF58C18267572E100327252 /* TDataEncoder.cpp in Sources */,
 				ABF58C12267572E100327252 /* TDataCompressor.cpp in Sources */,
@@ -1344,6 +1364,7 @@
 				AB0267C82699ACE000130611 /* TShape.cpp in Sources */,
 				ABF58DA5267CB26E00327252 /* TCGColor.cpp in Sources */,
 				ABBB2B6323801DBB00EB2840 /* TLogOutput.cpp in Sources */,
+				AB21146626A3452E004874CD /* TThreadGroup.cpp in Sources */,
 				ABD3681525D74D0E00C825B6 /* TStdMemory.cpp in Sources */,
 				ABF58DCB267F585F00327252 /* TCFNumber.cpp in Sources */,
 				ABE7C0C425D0AD8C00914618 /* TSize.cpp in Sources */,
@@ -1384,6 +1405,7 @@
 				AB54F9AA23EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB1980F825975D17002C5591 /* TThreadID.cpp in Sources */,
 				AB371A2A25CAF7EF00DEC50B /* TVersion.cpp in Sources */,
+				AB21146926A3452E004874CD /* TThreadTask.cpp in Sources */,
 				ABB38CB125A7CCC80050D506 /* TDictionary.cpp in Sources */,
 				AB4EB4BD2430EDBB00D36016 /* TFilePath.cpp in Sources */,
 				AB07EA41239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,

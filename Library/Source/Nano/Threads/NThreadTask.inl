@@ -1,8 +1,8 @@
 /*	NAME:
-		TThreadPool.cpp
+		NThreadTask.inl
 
 	DESCRIPTION:
-		NThreadPool tests.
+		Thread pool task.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -39,9 +39,6 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-// Nano
-#include "NTestFixture.h"
-#include "NThreadPool.h"
 #include "NThreadTask.h"
 
 
@@ -49,33 +46,17 @@
 
 
 //=============================================================================
-//		Fixture
+//		NThreadTask::NThreadTask : Constructor.
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(TThreadPool)
-{
-	std::unique_ptr<NThreadPool> thePool;
-
-	SETUP
-	{
-		thePool = std::make_unique<NThreadPool>("TThreadPool");
-	}
-};
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThreadPool, "Default")
+inline NThreadTask::NThreadTask(const NFunction& theFunction)
+	: mName()
+	, mFunction(theFunction)
+	, mCancelled(false)
 {
 
 
-	// Perform the test
-	REQUIRE(thePool->GetThreads() == 0);
-	REQUIRE(thePool->GetMinThreads() == 1);
-	REQUIRE(thePool->GetMaxThreads() != 0);
+	// Validate our parameters
+	NN_REQUIRE(theFunction != nullptr);
 }
 
 
@@ -83,17 +64,14 @@ NANO_TEST(TThreadPool, "Default")
 
 
 //=============================================================================
-//		Test Case
+//		NThreadTask::IsCancelled : Is the task cancelled?
 //-----------------------------------------------------------------------------
-NANO_TEST(TThreadPool, "IsPaused")
+inline bool NThreadTask::IsCancelled() const
 {
 
 
-	// Perform the test
-	REQUIRE(!thePool->IsPaused());
-
-	thePool->Pause();
-	REQUIRE(thePool->IsPaused());
+	// Get our state
+	return mCancelled;
 }
 
 
@@ -101,20 +79,14 @@ NANO_TEST(TThreadPool, "IsPaused")
 
 
 //=============================================================================
-//		Test Case
+//		NThreadTask::Cancel : Cancel the task.
 //-----------------------------------------------------------------------------
-NANO_TEST(TThreadPool, "PauseResume")
+inline void NThreadTask::Cancel()
 {
 
 
-	// Perform the test
-	REQUIRE(!thePool->IsPaused());
-
-	thePool->Pause();
-	REQUIRE(thePool->IsPaused());
-
-	thePool->Resume();
-	REQUIRE(!thePool->IsPaused());
+	// Set our state
+	mCancelled = true;
 }
 
 
@@ -122,22 +94,14 @@ NANO_TEST(TThreadPool, "PauseResume")
 
 
 //=============================================================================
-//		Test Case
+//		NThreadTask::GetName : Get the name.
 //-----------------------------------------------------------------------------
-NANO_TEST(TThreadPool, "AddFunction")
+inline NString NThreadTask::GetName() const
 {
 
 
-	// Perform the test
-	NSemaphore theSemaphore;
-
-	thePool->Add(
-		[&]()
-		{
-			theSemaphore.Signal();
-		});
-
-	REQUIRE(theSemaphore.Wait());
+	// Get the name
+	return mName;
 }
 
 
@@ -145,24 +109,14 @@ NANO_TEST(TThreadPool, "AddFunction")
 
 
 //=============================================================================
-//		Test Case
+//		NThreadTask::SetName : Set the name.
 //-----------------------------------------------------------------------------
-NANO_TEST(TThreadPool, "AddTask")
+inline void NThreadTask::SetName(const NString& theName)
 {
 
 
-	// Perform the test
-	NSemaphore theSemaphore;
-
-	auto theTask = std::make_shared<NThreadTask>(
-		[&]()
-		{
-			theSemaphore.Signal();
-		});
-
-	thePool->Add(theTask);
-
-	REQUIRE(theSemaphore.Wait());
+	// Set the name
+	mName = theName;
 }
 
 
@@ -170,15 +124,12 @@ NANO_TEST(TThreadPool, "AddTask")
 
 
 //=============================================================================
-//		Test Case
+//		NThreadTask::Execute : Execute the task.
 //-----------------------------------------------------------------------------
-NANO_TEST(TThreadPool, "GetMain")
+inline void NThreadTask::Execute()
 {
 
 
-	// Perform the test
-	NThreadPool* mainPool = NThreadPool::GetMain();
-
-	REQUIRE(mainPool != nullptr);
-	REQUIRE(mainPool != thePool.get());
+	// Execute the task
+	mFunction();
 }

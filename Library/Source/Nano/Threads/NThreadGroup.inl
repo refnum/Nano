@@ -1,8 +1,8 @@
 /*	NAME:
-		NThreadTask.h
+		NThreadGroup.inl
 
 	DESCRIPTION:
-		Thread pool task.
+		Thread pool group.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -36,63 +36,32 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NTHREADTASK_HDR
-#define NTHREADTASK_HDR
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-// Nano
-#include "NFunction.h"
-#include "NString.h"
-
-
-// System
-#include <atomic>
 
 
 
 
 
 //=============================================================================
-//		Class Declaration
+//		NThreadGroup::AddEach : Add tasks to the group.
 //-----------------------------------------------------------------------------
-class NThreadTask
+template<typename Container, typename Function>
+void NThreadGroup::AddEach(const Container& theContainer,
+						   const Function&  theFunction,
+						   NThreadPool*     thePool)
 {
-public:
-										NThreadTask(const NFunction& theFunction);
 
 
-	// Get/set the cancelled state
-	//
-	// A cancelled task will not be executed.
-	bool                                IsCancelled() const;
-	void                                Cancel();
-
-
-	// Get/set the name
-	NString                             GetName() const;
-	void                                SetName(  const NString& theName);
-
-
-	// Execute the task
-	void                                Execute();
-
-
-private:
-	NString                             mName;
-	NFunction                           mFunction;
-	std::atomic_bool                    mCancelled;
-};
-
-
-
-
-
-//=============================================================================
-//		Includes
-//-----------------------------------------------------------------------------
-#include "NThreadTask.inl"
-
-
-
-#endif // NThreadTask_HDR
+	// Add the tasks
+	for (const auto& theItem : theContainer)
+	{
+		Add(
+			[=]()
+			{
+				theFunction(theItem);
+			},
+			thePool);
+	}
+}

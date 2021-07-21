@@ -1,8 +1,8 @@
 /*	NAME:
-		TThreadPool.cpp
+		TThreadGroup.cpp
 
 	DESCRIPTION:
-		NThreadPool tests.
+		NThreadGroup tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -39,10 +39,9 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-// Nano
+#include "NDebug.h"
 #include "NTestFixture.h"
-#include "NThreadPool.h"
-#include "NThreadTask.h"
+#include "NThreadGroup.h"
 
 
 
@@ -51,15 +50,7 @@
 //=============================================================================
 //		Fixture
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(TThreadPool)
-{
-	std::unique_ptr<NThreadPool> thePool;
-
-	SETUP
-	{
-		thePool = std::make_unique<NThreadPool>("TThreadPool");
-	}
-};
+NANO_FIXTURE(TThreadGroup){};
 
 
 
@@ -68,117 +59,10 @@ NANO_FIXTURE(TThreadPool)
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-NANO_TEST(TThreadPool, "Default")
+NANO_TEST(TThreadGroup, "Default")
 {
 
 
 	// Perform the test
-	REQUIRE(thePool->GetThreads() == 0);
-	REQUIRE(thePool->GetMinThreads() == 1);
-	REQUIRE(thePool->GetMaxThreads() != 0);
-}
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThreadPool, "IsPaused")
-{
-
-
-	// Perform the test
-	REQUIRE(!thePool->IsPaused());
-
-	thePool->Pause();
-	REQUIRE(thePool->IsPaused());
-}
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThreadPool, "PauseResume")
-{
-
-
-	// Perform the test
-	REQUIRE(!thePool->IsPaused());
-
-	thePool->Pause();
-	REQUIRE(thePool->IsPaused());
-
-	thePool->Resume();
-	REQUIRE(!thePool->IsPaused());
-}
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThreadPool, "AddFunction")
-{
-
-
-	// Perform the test
-	NSemaphore theSemaphore;
-
-	thePool->Add(
-		[&]()
-		{
-			theSemaphore.Signal();
-		});
-
-	REQUIRE(theSemaphore.Wait());
-}
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThreadPool, "AddTask")
-{
-
-
-	// Perform the test
-	NSemaphore theSemaphore;
-
-	auto theTask = std::make_shared<NThreadTask>(
-		[&]()
-		{
-			theSemaphore.Signal();
-		});
-
-	thePool->Add(theTask);
-
-	REQUIRE(theSemaphore.Wait());
-}
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThreadPool, "GetMain")
-{
-
-
-	// Perform the test
-	NThreadPool* mainPool = NThreadPool::GetMain();
-
-	REQUIRE(mainPool != nullptr);
-	REQUIRE(mainPool != thePool.get());
+	NN_LOG_UNIMPLEMENTED();
 }

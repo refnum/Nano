@@ -1,8 +1,8 @@
 /*	NAME:
-		TThreadPool.cpp
+		NThreadGroup.h
 
 	DESCRIPTION:
-		NThreadPool tests.
+		Thread pool group.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -36,29 +36,72 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
+#ifndef NTHREADTASK_HDR
+#define NTHREADTASK_HDR
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
-#include "NTestFixture.h"
-#include "NThreadPool.h"
-#include "NThreadTask.h"
+#include "NFunction.h"
+#include "NSemaphore.h"
+
+// System
+#include <atomic>
 
 
 
 
 
 //=============================================================================
-//		Fixture
+//		Types
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(TThreadPool)
-{
-	std::unique_ptr<NThreadPool> thePool;
+// Forward declarations
+class NThreadPool;
 
-	SETUP
-	{
-		thePool = std::make_unique<NThreadPool>("TThreadPool");
-	}
+
+
+
+
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NThreadGroup
+{
+public:
+										NThreadGroup();
+
+
+	// Add a function to the group
+	//
+	// The function is executed by the specified thread pool,
+	// or the main thread pool if no pool is provided.
+	void                                Add(const NFunction& theFunction, NThreadPool* thePool = nullptr);
+
+
+	// Add functions to the group
+	//
+	// The function is invoked for each item in the container.
+	//
+	// The container must not be modified while the tasks are
+	// executing.
+	//
+	// The function is executed by the specified thread pool,
+	// or the main thread pool if no pool is provided.
+	template<typename Container, typename Function>
+	void                                AddEach(const Container& theContainer,
+												const Function&  theFunction,
+												NThreadPool*     thePool = nullptr);
+
+
+	// Wait for the group
+	//
+	// Waits for the tasks in this group to complete.
+	void                                WaitForCompletion();
+
+
+private:
+	std::atomic_size_t                  mCount;
+	NSemaphore                          mSemaphore;
 };
 
 
@@ -66,119 +109,10 @@ NANO_FIXTURE(TThreadPool)
 
 
 //=============================================================================
-//		Test Case
+//		Includes
 //-----------------------------------------------------------------------------
-NANO_TEST(TThreadPool, "Default")
-{
-
-
-	// Perform the test
-	REQUIRE(thePool->GetThreads() == 0);
-	REQUIRE(thePool->GetMinThreads() == 1);
-	REQUIRE(thePool->GetMaxThreads() != 0);
-}
+#include "NThreadGroup.inl"
 
 
 
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThreadPool, "IsPaused")
-{
-
-
-	// Perform the test
-	REQUIRE(!thePool->IsPaused());
-
-	thePool->Pause();
-	REQUIRE(thePool->IsPaused());
-}
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThreadPool, "PauseResume")
-{
-
-
-	// Perform the test
-	REQUIRE(!thePool->IsPaused());
-
-	thePool->Pause();
-	REQUIRE(thePool->IsPaused());
-
-	thePool->Resume();
-	REQUIRE(!thePool->IsPaused());
-}
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThreadPool, "AddFunction")
-{
-
-
-	// Perform the test
-	NSemaphore theSemaphore;
-
-	thePool->Add(
-		[&]()
-		{
-			theSemaphore.Signal();
-		});
-
-	REQUIRE(theSemaphore.Wait());
-}
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThreadPool, "AddTask")
-{
-
-
-	// Perform the test
-	NSemaphore theSemaphore;
-
-	auto theTask = std::make_shared<NThreadTask>(
-		[&]()
-		{
-			theSemaphore.Signal();
-		});
-
-	thePool->Add(theTask);
-
-	REQUIRE(theSemaphore.Wait());
-}
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TThreadPool, "GetMain")
-{
-
-
-	// Perform the test
-	NThreadPool* mainPool = NThreadPool::GetMain();
-
-	REQUIRE(mainPool != nullptr);
-	REQUIRE(mainPool != thePool.get());
-}
+#endif // NThreadTask_HDR

@@ -3,182 +3,190 @@
 
 	DESCRIPTION:
 		Thread pool.
-	
-	COPYRIGHT:
-        Copyright (c) 2006-2013, refNum Software
-        <http://www.refnum.com/>
 
-        All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+	COPYRIGHT:
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
+
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NThreadUtilities.h"
-#include "NSystemUtilities.h"
-#include "NMathUtilities.h"
-#include "NTimeUtilities.h"
-#include "NThread.h"
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
 #include "NThreadPool.h"
 
-
-
-
-
-//============================================================================
-//		Internal types
-//----------------------------------------------------------------------------
-struct CompareFIFO
-{
-	bool operator()(const NThreadTask *a, const NThreadTask *b) const
-	{
-		return(a->GetTimeStamp() > b->GetTimeStamp());
-	}
-};
-
-struct CompareLIFO
-{
-	bool operator()(const NThreadTask *a, const NThreadTask *b) const
-	{
-		return(a->GetTimeStamp() < b->GetTimeStamp());
-	}
-};
-
-struct ComparePriority
-{
-	bool operator()(const NThreadTask *a, const NThreadTask *b) const
-	{
-		return(a->GetPriority() > b->GetPriority());
-	}
-};
+// Nano
+#include "NFormat.h"
+#include "NMachine.h"
+#include "NScopedLock.h"
+#include "NThreadTask.h"
+#include "NTimeUtils.h"
+#include "NanoConstants.h"
 
 
 
 
 
-//============================================================================
+//=============================================================================
+//		Internal Constants
+//-----------------------------------------------------------------------------
+inline constexpr NInterval kNCullInterval                   = 2 * kNTimeMinute;
+
+
+
+
+
+//=============================================================================
 //		NThreadPool::NThreadPool : Constructor.
-//----------------------------------------------------------------------------
-NThreadPool::NThreadPool(void)
+//-----------------------------------------------------------------------------
+NThreadPool::NThreadPool(const NString& theName,
+						 size_t         minThreads,
+						 size_t         maxThreads,
+						 size_t         stackSize)
+	: mName(theName)
+	, mMinThreads(minThreads)
+	, mMaxThreads(maxThreads)
+	, mStackSize(stackSize)
+	, mLock{}
+	, mCullTask{}
+	, mIsPaused(false)
+	, mLastWork(0)
+	, mWorkers{}
+	, mTasks{}
 {
+
+
+	// Validate our parameters
+	NN_REQUIRE(minThreads >= 1);
+	NN_REQUIRE(minThreads <= maxThreads);
+
 
 
 	// Initialize ourselves
-	mIsPaused    = false;
-	mStopThreads = false;
-	mHavePushed  = true;
-	mThreadLimit = NThreadUtilities::GetCPUCount();
+	StartCulling();
 
-	mActiveTasks   = 0;
-	mActiveThreads = 0;
+	if (mMaxThreads == kNSizeMax)
+	{
+		mMaxThreads = NMachine::GetCores();
+	}
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NThreadPool::~NThreadPool : Destructor.
-//----------------------------------------------------------------------------
-NThreadPool::~NThreadPool(void)
+//-----------------------------------------------------------------------------
+NThreadPool::~NThreadPool()
 {
 
 
-	// Stop the tasks
-	//
-	// Tasks must be stopped in the correct sequence: scheduled tasks must be
-	// flushed to avoid queueing more work, running tasks must be allowed to
-	// complete, and finally the threads themselves are stopped.
-	CancelTasks();
-	WaitForTasks();
-	StopThreads();
+	// Clean up
+	StopCulling();
+	StopWorkers();
 }
 
 
 
 
 
-//============================================================================
-//		NThreadPool::GetActiveTasks : Get the number of active tasks.
-//----------------------------------------------------------------------------
-NIndex NThreadPool::GetActiveTasks(void) const
+//=============================================================================
+//		NThreadPool::GetThreads : Get the thread count.
+//-----------------------------------------------------------------------------
+size_t NThreadPool::GetThreads() const
 {
 
 
-	// Get the size
-	return(mActiveTasks);
+	// Get the count
+	NScopedLock acuireLock(mLock);
+
+	return mWorkers.size();
 }
 
 
 
 
 
-//============================================================================
-//		NThreadPool::GetPendingTasks : Get the number of pending tasks.
-//----------------------------------------------------------------------------
-NIndex NThreadPool::GetPendingTasks(void) const
-{	StLock		acquireLock(mLock);
-	NIndex		numTasks;
+//=============================================================================
+//		NThreadPool::GetMinThreads : Get the minimum thread count.
+//-----------------------------------------------------------------------------
+size_t NThreadPool::GetMinThreads() const
+{
 
 
-
-	// Get the size
-	numTasks = (NIndex) mTasks.size();
-
-	return(numTasks);
+	// Get the count
+	return mMinThreads;
 }
 
 
 
 
 
-//============================================================================
-//		NThreadPool::GetThreadLimit : Get the thread limit.
-//----------------------------------------------------------------------------
-NIndex NThreadPool::GetThreadLimit(void) const
-{	StLock	acquireLock(mLock);
+//=============================================================================
+//		NThreadPool::GetMaxThreads : Get the maximum thread count.
+//-----------------------------------------------------------------------------
+size_t NThreadPool::GetMaxThreads() const
+{
 
 
-
-	// Get our state
-	return(mThreadLimit);
+	// Get the count
+	return mMaxThreads;
 }
 
 
 
 
 
-//============================================================================
-//		NThreadPool::SetThreadLimit : Set the thread limit.
-//----------------------------------------------------------------------------
-void NThreadPool::SetThreadLimit(NIndex theValue)
-{	StLock	acquireLock(mLock);
+//=============================================================================
+//		NThreadPool::IsPaused : Is the pool paused?
+//-----------------------------------------------------------------------------
+bool NThreadPool::IsPaused() const
+{
 
 
-
-	// Set our state
-	mThreadLimit = theValue;
+	// Get the state
+	return mIsPaused;
 }
 
 
 
 
 
-//============================================================================
+//=============================================================================
 //		NThreadPool::Pause : Pause the pool.
-//----------------------------------------------------------------------------
-void NThreadPool::Pause(void)
-{	StLock	acquireLock(mLock);
+//-----------------------------------------------------------------------------
+void NThreadPool::Pause()
+{
 
 
-
-	// Validate our state
-	NN_ASSERT(!mIsPaused);
-	NN_ASSERT(mTasksPending.empty());
-
-
-
-	// Update our state
+	// Pause the pool
 	mIsPaused = true;
 }
 
@@ -186,194 +194,66 @@ void NThreadPool::Pause(void)
 
 
 
-//============================================================================
+//=============================================================================
 //		NThreadPool::Resume : Resume the pool.
-//----------------------------------------------------------------------------
-void NThreadPool::Resume(void)
-{	StLock						acquireLock(mLock);
-	NThreadTaskListIterator		theIter;
+//-----------------------------------------------------------------------------
+void NThreadPool::Resume()
+{
 
 
-
-	// Validate our state
-	NN_ASSERT(mIsPaused);
-
-
-
-	// Schedule the tasks
-	//
-	// The threads are blocked until we release the lock, so any sorting
-	// of the task list will be deferred until the first thread can run.
-	for (theIter = mTasksPending.begin(); theIter != mTasksPending.end(); theIter++)
-		ScheduleTask(*theIter);
-
-
-
-	// Update our state
+	// Resume the pool
 	mIsPaused = false;
-	
-	mTasksPending.clear();
+
+	StartWorkers();
 }
 
 
 
 
 
-//============================================================================
-//		NThreadPool::AddTask : Add a task to the pool.
-//----------------------------------------------------------------------------
-void NThreadPool::AddTask(NThreadTask *theTask)
-{	StLock	acquireLock(mLock);
-
+//=============================================================================
+//		NThreadPool::Add : Add a task.
+//-----------------------------------------------------------------------------
+void NThreadPool::Add(const NFunction& theFunction)
+{
 
 
 	// Add the task
-	if (mIsPaused)
-		mTasksPending.push_back(theTask);
-	else
-		ScheduleTask(theTask);
+	Add(std::make_shared<NThreadTask>(theFunction));
 }
 
 
 
 
 
-//============================================================================
-//		NThreadPool::CancelTasks : Cancel the outstanding tasks.
-//----------------------------------------------------------------------------
-void NThreadPool::CancelTasks(void)
-{	StLock							acquireLock(mLock);
-	NThreadTaskListConstIterator	theIter;
-
-
-
-	// Cancel the tasks
-	for (theIter = mTasks.begin(); theIter != mTasks.end(); theIter++)
-		delete *theIter;
-	
-	mTasks.clear();
-}
-
-
-
-
-
-//============================================================================
-//		NThreadPool::WaitForTasks : Wait for the tasks to complete.
-//----------------------------------------------------------------------------
-bool NThreadPool::WaitForTasks(NTime waitFor)
-{	bool		areDone, canTimeout;
-	NTime		endTime;
-
-
-
-	// Get the state we need
-	endTime    =  NTimeUtilities::GetTime() + waitFor;
-	canTimeout = !NMathUtilities::AreEqual(waitFor, kNTimeForever);
-
-
-
-	// Wait for the tasks
-	do
-		{
-		// Get the state we need
-		mLock.Lock();
-		areDone = (mTasks.empty() && mActiveTasks == 0);
-		mLock.Unlock();
-
-
-
-		// Wait for the tasks to complete
-		if (!areDone)
-			{
-			NThread::Sleep();
-
-			if (canTimeout && NTimeUtilities::GetTime() >= endTime)
-				break;
-			}
-		}
-	while (!areDone);
-
-	return(areDone);
-}
-
-
-
-
-
-#pragma mark protected
-//============================================================================
-//		NThreadPool::PushTask : Push a task.
-//----------------------------------------------------------------------------
-void NThreadPool::PushTask(NThreadTaskList &theTasks, NThreadTask *theTask)
+//=============================================================================
+//		NThreadPool::Add : Add a task.
+//-----------------------------------------------------------------------------
+void NThreadPool::Add(const NSharedThreadTask& theTask)
 {
 
 
-	// Push the task
-	theTasks.push_back(theTask);
+	// Add the task
+	mTasks.EmplaceFront(theTask);
+
+	StartWorkers();
 }
 
 
 
 
 
-//============================================================================
-//		NThreadPool::PopTask : Pop a task.
-//----------------------------------------------------------------------------
-NThreadTask *NThreadPool::PopTask(NThreadTaskList &theTasks, bool havePushed)
+//=============================================================================
+//		NThreadPool::GetMain : Get the main thread pool.
+//-----------------------------------------------------------------------------
+NThreadPool* NThreadPool::GetMain()
 {
 
 
-	// Pop the task
-	if (havePushed)
-		SchedulePriority(theTasks);
+	// Get the main thread pool
+	static NThreadPool sPool("NThreadPool");
 
-	return(extract_back(theTasks));
-}
-
-
-
-
-
-//============================================================================
-//		NThreadPool::ScheduleFIFO : FIFO scheduler.
-//----------------------------------------------------------------------------
-void NThreadPool::ScheduleFIFO(NThreadTaskList &theTasks)
-{
-
-
-	// Sort the list
-	std::sort(theTasks.begin(), theTasks.end(), CompareFIFO());
-}
-
-
-
-
-
-//============================================================================
-//		NThreadPool::ScheduleLIFO : LIFO scheduler.
-//----------------------------------------------------------------------------
-void NThreadPool::ScheduleLIFO(NThreadTaskList &theTasks)
-{
-
-
-	// Sort the list
-	std::sort(theTasks.begin(), theTasks.end(), CompareLIFO());
-}
-
-
-
-
-
-//============================================================================
-//		NThreadPool::SchedulePriority : Priority scheduler.
-//----------------------------------------------------------------------------
-void NThreadPool::SchedulePriority(NThreadTaskList &theTasks)
-{
-
-
-	// Sort the list
-	std::sort(theTasks.begin(), theTasks.end(), ComparePriority());
+	return &sPool;
 }
 
 
@@ -381,129 +261,260 @@ void NThreadPool::SchedulePriority(NThreadTaskList &theTasks)
 
 
 #pragma mark private
-//============================================================================
-//		NThreadPool::StopThreads : Stop the threads.
-//----------------------------------------------------------------------------
-void NThreadPool::StopThreads(void)
-{	NIndex		n;
+//=============================================================================
+//		NThreadPool::StartWorkers : Start the workers.
+//-----------------------------------------------------------------------------
+void NThreadPool::StartWorkers()
+{
+
+
+	// Check our state
+	size_t numTasks = mTasks.GetSize();
+
+	if (numTasks == 0)
+	{
+		return;
+	}
 
 
 
-	// Stop the threads
-	mLock.Lock();
+	// Wake idle workers
+	//
+	// We wake one idle worker for each oustanding task.
+	//
+	// Running workers will consume as many tasks as they can, so an idle
+	// worker may be woken unnecessarily if a running worker steals the
+	// new work, however this ensures maximum throughput when tasks are
+	// long-running.
+	NScopedLock acquireLock(mLock);
 
-	mStopThreads = true;
-	
-	for (n = 0; n < mActiveThreads; n++)
-		mSemaphore.Signal();
-	
-	mLock.Unlock();
+	mLastWork = NTimeUtils::GetTime();
+
+	for (auto& theWorker : mWorkers)
+	{
+		if (theWorker->isIdle)
+		{
+			StartWorker(theWorker.get());
+
+			numTasks--;
+			if (numTasks == 0)
+			{
+				return;
+			}
+		}
+	}
 
 
 
-	// Wait for them to quit
-	while (mActiveThreads != 0)
-		NThread::Sleep();
-	
-	mStopThreads = false;
+	// Create new threads
+	//
+	// We create one new worker for each outstanding task, up to the limit.
+	while (mWorkers.size() < mMaxThreads)
+	{
+		CreateWorker();
+
+		numTasks--;
+		if (numTasks == 0)
+		{
+			return;
+		}
+	}
+
+
+
+	// Always wake one worker
+	//
+	// We may race between adding work and a worker marking itself as idle:
+	//
+	//		Worker: finish ExecuteTasks
+	//		Caller: add task, call StartWorkers
+	//		Caller: no idle threads, max workers created, do nothing
+	//		Worker: mark self as idle
+	//		-> new task is never picked up by a worker
+	//
+	// To avoid this we always bump one worker to process any new task.
+	//
+	// This has minimal overhead as, if we did catch a worker in this window,
+	// the worker would simply re-enter its runloop rather before sleeping.
+	StartWorker(mWorkers.front().get());
 }
 
 
 
 
 
-//============================================================================
-//		NThreadPool::ScheduleTask : Schedule a task for execution.
-//----------------------------------------------------------------------------
-void NThreadPool::ScheduleTask(NThreadTask *theTask)
+//=============================================================================
+//		NThreadPool::StopWorkers : Stop the workers.
+//-----------------------------------------------------------------------------
+void NThreadPool::StopWorkers()
+{
+
+
+	// Stop the workers
+	NScopedLock acquireLock(mLock);
+
+	for (auto& theWorker : mWorkers)
+	{
+		theWorker->theThread->RequestStop();
+	}
+
+	for (auto& theWorker : mWorkers)
+	{
+		theWorker->theThread->WaitForCompletion();
+	}
+
+	mWorkers.clear();
+}
+
+
+
+
+
+//=============================================================================
+//		NThreadPool::ExecuteTasks : Execute tasks.
+//-----------------------------------------------------------------------------
+void NThreadPool::ExecuteTasks()
+{
+
+
+	// Execute the tasks
+	NThread* thisThread = NThread::GetCurrent();
+	bool     gotWork    = true;
+
+	while (gotWork && !mIsPaused && !thisThread->ShouldStop())
+	{
+		auto theWork = mTasks.PopBack();
+		gotWork      = theWork.has_value();
+
+		if (gotWork)
+		{
+			NSharedThreadTask theTask = *theWork;
+
+			if (!theTask->IsCancelled())
+			{
+				theTask->Execute();
+			}
+		}
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NThreadPool::CreateWorker : Create a new worker.
+//-----------------------------------------------------------------------------
+void NThreadPool::CreateWorker()
 {
 
 
 	// Validate our state
-	NN_ASSERT(mLock.IsLocked());
-	
-
-
-	// Add the task
-	PushTask(mTasks, theTask);
-	mHavePushed = true;
+	NN_REQUIRE(mWorkers.size() < mMaxThreads);
 
 
 
-	// Update the workers
-	//
-	// If we've reached the thread limit then the existing threads will need to
-	// process this task, so we signal to let them know there's more work to do.
-	//
-	// Incrementing the thread count must be done by the main thread, since a large
-	// number of tasks may be queued up before any worker thread gets a chance to run. 
-	if (mActiveThreads < mThreadLimit)
-		NThreadUtilities::DetachFunctor(BindSelf(NThreadPool::ExecuteTasks));
+	// Create the worker
+	NUniqueThreadPoolWorker theWorker = std::make_unique<NThreadPoolWorker>();
 
-	mSemaphore.Signal();
+	NString threadID     = NFormat("{}.{}", mName, mWorkers.size());
+	theWorker->theThread = NThread::Create(threadID, mStackSize);
+	theWorker->isIdle    = true;
+
+	mWorkers.emplace_back(std::move(theWorker));
+	StartWorker(mWorkers.back().get());
 }
 
 
 
 
 
-//============================================================================
-//		NThreadPool::ExecuteTasks : Execute the tasks.
-//----------------------------------------------------------------------------
-void NThreadPool::ExecuteTasks(void)
-{	NThreadTask		*theTask;
-	bool			areDone;
+//=============================================================================
+//		NThreadPool::StartWorker : Execute a worker.
+//-----------------------------------------------------------------------------
+void NThreadPool::StartWorker(NThreadPoolWorker* theWorker)
+{
 
 
-
-	// Update the pool
-	NThreadUtilities::AtomicAdd32(mActiveThreads, 1);
-
-
-
-	// Execute the tasks
-	do
+	// Start the worker
+	theWorker->theThread->GetRunLoop()->Add(
+		[=]()
 		{
-		// Wait for the semaphore
-		mSemaphore.Wait();
+			NN_REQUIRE(theWorker->isIdle);
+			theWorker->isIdle = false;
 
+			ExecuteTasks();
 
-
-		// Get the next task
-		mLock.Lock();
-		
-		areDone = mStopThreads;
-		theTask = NULL;
-		
-		if (!areDone && !mTasks.empty())
-			{
-			theTask     = PopTask(mTasks, mHavePushed);
-			mHavePushed = false;
-			}
-
-		mLock.Unlock();
-
-
-
-		// Execute the task
-		if (theTask != NULL)
-			{	NN_MEMORY_POOL		thePool;
-
-			NThreadUtilities::AtomicAdd32(mActiveTasks, 1);
-
-			if (!theTask->IsStopped())
-				theTask->Run();
-
-			delete theTask;
-			NThreadUtilities::AtomicAdd32(mActiveTasks, -1);
-			}
-		}
-	while (!areDone);
-
-
-
-	// Update the pool
-	NThreadUtilities::AtomicAdd32(mActiveThreads, -1);
+			theWorker->isIdle = true;
+			mLastWork         = NTimeUtils::GetTime();
+		});
 }
 
 
+
+
+
+//=============================================================================
+//		NThreadPool::StartCulling : Start culling workers.
+//-----------------------------------------------------------------------------
+void NThreadPool::StartCulling()
+{
+
+
+	// Install the task
+	mCullTask.Add(
+		[this]()
+		{
+			CullWorkers();
+		},
+		kNCullInterval,
+		kNCullInterval);
+}
+
+
+
+
+
+//=============================================================================
+//		NThreadPool::StopCulling : Stop culling workers.
+//-----------------------------------------------------------------------------
+void NThreadPool::StopCulling()
+{
+
+
+	// Remove the task
+	mCullTask.Clear();
+}
+
+
+
+
+
+//=============================================================================
+//		NThreadPool::CullWorkers : Cull the workers.
+//-----------------------------------------------------------------------------
+void NThreadPool::CullWorkers()
+{
+
+
+	// Cull threads
+	//
+	// Workers are culled whenever we are idle for a prolonged period.
+	//
+	// We cull from the back to ensure that any further worker threads
+	// continue to have sequentially numbered names (0..mMaxThreads).
+	NInterval idleTime = NTimeUtils::GetTime() - mLastWork;
+
+	if (idleTime >= kNCullInterval)
+	{
+		NScopedLock acquireLock(mLock);
+
+		size_t newSize = mWorkers.size() / 2;
+
+		while (mWorkers.size() != newSize)
+		{
+			NN_REQUIRE(mWorkers.back()->isIdle);
+			mWorkers.pop_back();
+		}
+	}
+}

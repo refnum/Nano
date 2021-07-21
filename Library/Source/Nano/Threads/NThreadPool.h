@@ -3,191 +3,158 @@
 
 	DESCRIPTION:
 		Thread pool.
-	
+
 	COPYRIGHT:
-        Copyright (c) 2006-2013, refNum Software
-        <http://www.refnum.com/>
+		Copyright (c) 2006-2021, refNum Software
+		All rights reserved.
 
-        All rights reserved. Released under the terms of licence.html.
-	__________________________________________________________________________
+		Redistribution and use in source and binary forms, with or without
+		modification, are permitted provided that the following conditions
+		are met:
+		
+		1. Redistributions of source code must retain the above copyright
+		notice, this list of conditions and the following disclaimer.
+		
+		2. Redistributions in binary form must reproduce the above copyright
+		notice, this list of conditions and the following disclaimer in the
+		documentation and/or other materials provided with the distribution.
+		
+		3. Neither the name of the copyright holder nor the names of its
+		contributors may be used to endorse or promote products derived from
+		this software without specific prior written permission.
+		
+		THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+		"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+		LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+		A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+		HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+		SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+		LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+		DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+		THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+		(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+	___________________________________________________________________________
 */
-#ifndef NTHREADPOOL_HDR
-#define NTHREADPOOL_HDR
-//============================================================================
-//		Include files
-//----------------------------------------------------------------------------
-#include "NSTLUtilities.h"
-#include "NSemaphore.h"
+#ifndef NTHREAD_POOL_H
+#define NTHREAD_POOL_H
+//=============================================================================
+//		Includes
+//-----------------------------------------------------------------------------
+#include "NDeque.h"
+#include "NFunction.h"
 #include "NMutex.h"
-#include "NThreadTask.h"
+#include "NRunLoopTask.h"
+#include "NSemaphore.h"
+#include "NString.h"
+#include "NThread.h"
+#include "NanoConstants.h"
+
+// System
+#include <atomic>
+#include <memory>
+#include <vector>
 
 
 
 
 
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NThreadPool {
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Forward declaration
+class NThreadTask;
+
+
+// Worker thread
+struct NThreadPoolWorker
+{
+	NUniqueThread    theThread;
+	std::atomic_bool isIdle;
+};
+
+
+// Thread pool
+using NSharedThreadTask       = std::shared_ptr<NThreadTask>;
+using NUniqueThreadPoolWorker = std::unique_ptr<NThreadPoolWorker>;
+using NVectorThreadPoolWorker = std::vector<NUniqueThreadPoolWorker>;
+
+
+
+
+
+//=============================================================================
+//		Class Declaration
+//-----------------------------------------------------------------------------
+class NThreadPool
+{
 public:
-										NThreadPool(void);
-	virtual							   ~NThreadPool(void);
+										NThreadPool(const NString& theName,
+													size_t         minThreads = 1,
+													size_t         maxThreads = kNSizeMax,
+													size_t         stackSize  = 0);
+
+									   ~NThreadPool();
 
 
-	// Get the number of tasks
-	NIndex								GetActiveTasks( void) const;
-	NIndex								GetPendingTasks(void) const;
-	
+	// Get the thread count
+	//
+	// The thread pool will allocate up to maxThreads threads to perform work.
+	//
+	// An idle pool will gradually reduce the number of active threads down
+	// to minThreads.
+	size_t                              GetThreads()    const;
+	size_t                              GetMinThreads() const;
+	size_t                              GetMaxThreads() const;
 
-	// Get/set the thread limit
-	NIndex								GetThreadLimit(void) const;
-	void								SetThreadLimit(NIndex theValue);
+
+	// Is the pool paused?
+	bool                                IsPaused() const;
 
 
-	// Pause/resume the pool
+	// Pause / resume the pool
 	//
-	// Tasks may be added to the pool while it is paused, however neither
-	// existing or new tasks will be scheduled until the pool is resumed.
-	//
-	// This allows tasks to be added in batches that can take into account
-	// the pool's scheduling algorithm.
-	//
-	//
-	// E.g., a LIFO pool may contain {A,B,C}. Pausing that pool while adding
-	// {1,2,3} will ensure that pool contains {A,B,C,1,2,3} when the next
-	// task is executed.
-	//
-	// If the tasks in this pool are driven by user actions, this ensures that
-	// the last user action (3) is always executed first.
-	//
-	// If the pool was not paused, one or more of {A,B,C} may be dispatched
-	// while {1,2,3} are being added - which can cause (3) to have to wait.
-	void								Pause( void);
-	void								Resume(void);
+	// No further tasks are executed while the pool is paused.
+	void                                Pause();
+	void                                Resume();
 
 
 	// Add a task to the pool
-	//
-	// The pool takes ownership of the task, and will release it when done.
-	void								AddTask(NThreadTask *theTask);
+	void                                Add(const NFunction& theFunction);
+	void                                Add(const NSharedThreadTask& theTask);
 
 
-	// Cancel pending tasks
-	//
-	// Tasks that have already been scheduled will continue to run.
-	void								CancelTasks(void);
-
-
-	// Wait for completion
-	//
-	// Waits for all of the scheduled tasks to complete.
-	bool								WaitForTasks(NTime waitFor=kNTimeForever);
-
-
-protected:
-	// Push/pop a task
-	//
-	// Tasks are saved to a list, and extracted in a scheduler-specific order.
-	//
-	// PopTask is passed a flag indicating if any tasks have been pushed since
-	// the last pop, allowing sorting to be deferred until needed.
-	//
-	// The default implementation sorts tasks by priority when popping, but these
-	// methods can be overridden to implement replacement schedulers.
-	virtual void						PushTask(NThreadTaskList &theTasks, NThreadTask *theTask);
-	virtual NThreadTask				   *PopTask( NThreadTaskList &theTasks, bool havePushed);
-
-
-	// Sort a task list
-	//
-	// Sorts are performed in reverse order, leaving the next task at the end (so
-	// that tasks can be popped off the back of the list, until a sort is required).
-	void								ScheduleFIFO(    NThreadTaskList &theTasks);
-	void								ScheduleLIFO(    NThreadTaskList &theTasks);
-	void								SchedulePriority(NThreadTaskList &theTasks);
+	// Get the main thread pool
+	static NThreadPool*                 GetMain();
 
 
 private:
-	void								StopThreads(void);
+	void                                StartWorkers();
+	void                                StopWorkers();
+	void                                ExecuteTasks();
 
-	void								ScheduleTask(NThreadTask *theTask);
-	void								ExecuteTasks(void);
+	void                                CreateWorker();
+	void                                StartWorker(NThreadPoolWorker* theWorker);
+
+	void                                StartCulling();
+	void                                StopCulling();
+	void                                CullWorkers();
 
 
 private:
-	mutable NMutex						mLock;
+	NString                             mName;
+	size_t                              mMinThreads;
+	size_t                              mMaxThreads;
+	size_t                              mStackSize;
 
-	bool								mIsPaused;
-	bool								mStopThreads;
-	bool								mHavePushed;
-	NIndex								mThreadLimit;
-
-	NIndex								mActiveTasks;
-	NIndex								mActiveThreads;
-
-	NThreadTaskList						mTasks;
-	NThreadTaskList						mTasksPending;
-	NSemaphore							mSemaphore;
+	mutable NMutex                      mLock;
+	NRunLoopTask                        mCullTask;
+	std::atomic_bool                    mIsPaused;
+	std::atomic<NTime>                  mLastWork;
+	NVectorThreadPoolWorker             mWorkers;
+	NDeque<NSharedThreadTask>           mTasks;
 };
 
 
 
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NThreadPoolFIFO : NThreadPool {
-public:
-										NThreadPoolFIFO(void) { }
-	virtual							   ~NThreadPoolFIFO(void) { }
-
-
-protected:
-	// Push/pop a task
-	inline void PushTask(NThreadTaskList &theTasks, NThreadTask *theTask)
-	{
-		theTasks.push_back(theTask);
-	}
-
-	inline NThreadTask *PopTask(NThreadTaskList &theTasks, bool /*havePushed*/)
-	{
-		return(extract_front(theTasks));
-	}
-};
-
-
-
-
-
-//============================================================================
-//		Class declaration
-//----------------------------------------------------------------------------
-class NThreadPoolLIFO : NThreadPool {
-public:
-										NThreadPoolLIFO(void) { }
-	virtual							   ~NThreadPoolLIFO(void) { }
-
-
-protected:
-	// Push/pop a task
-	inline void PushTask(NThreadTaskList &theTasks, NThreadTask *theTask)
-	{
-		theTasks.push_back(theTask);
-	}
-
-	inline NThreadTask *PopTask(NThreadTaskList &theTasks, bool /*havePushed*/)
-	{
-		return(extract_back(theTasks));
-	}
-};
-
-
-
-
-
-
-
-#endif // NTHREADPOOL_HDR
-
-
+#endif // NTHREAD_POOL_H
