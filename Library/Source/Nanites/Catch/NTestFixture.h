@@ -60,6 +60,7 @@ NN_DIAGNOSTIC_IGNORE_MSVC(4996);    // Deprecated function
 NN_DIAGNOSTIC_IGNORE_MSVC(5204);    // Destructor is not virtual
 NN_DIAGNOSTIC_IGNORE_MSVC(5219);    // Implicit conversion
 
+#define CATCH_CONFIG_ENABLE_BENCHMARKING
 #include "catch.hpp"
 
 NN_DIAGNOSTIC_POP();
