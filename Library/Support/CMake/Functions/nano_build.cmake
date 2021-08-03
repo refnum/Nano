@@ -468,7 +468,10 @@ endfunction()
 #------------------------------------------------------------------------------
 function(_nano_build_compiler_options)
 
+	# Options
 	nano_project_options(ALL ${NN_COMPILER_OPTIONS})
+
+	set_property(TARGET "${PROJECT_NAME}" PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 	set_property(TARGET "${PROJECT_NAME}" PROPERTY CXX_STANDARD          17)
 	set_property(TARGET "${PROJECT_NAME}" PROPERTY CXX_EXTENSIONS        OFF)
