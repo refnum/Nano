@@ -51,6 +51,10 @@
 //=============================================================================
 //		Function Prototypes
 //-----------------------------------------------------------------------------
+// Execute asynchronously on a background thread
+void NExecute(const NFunction& theFunction);
+
+
 // Execute synchronously on the main thread
 //
 // Blocks until the function is complete.

@@ -42,6 +42,22 @@
 // Nano
 #include "NRunLoop.h"
 #include "NSemaphore.h"
+#include "NThreadPool.h"
+
+
+
+
+
+//=============================================================================
+//		NExecute : Execute asynchronously on a background thread.
+//-----------------------------------------------------------------------------
+inline void NExecute(const NFunction& theFunction)
+{
+
+
+	// Execute the function
+	NThreadPool::GetMain()->Add(theFunction);
+}
 
 
 

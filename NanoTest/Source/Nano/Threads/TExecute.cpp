@@ -60,6 +60,31 @@ NANO_FIXTURE(TExecute){};
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
+NANO_TEST(TExecute, "NExecute")
+{
+
+
+	// Perform the test
+	bool didExecute = false;
+
+	NExecute(
+		[&]()
+		{
+			REQUIRE(NRunLoop::GetCurrent() != NRunLoop::GetMain());
+			didExecute = true;
+		});
+
+	NRunLoop::GetMain()->Run(0.010);
+	REQUIRE(didExecute);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
 NANO_TEST(TExecute, "NExecuteMain")
 {
 
