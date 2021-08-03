@@ -52,6 +52,7 @@ nano_project(APP)
 nano_project_sources(
 	PRIVATE
 		"${NN_SOURCE_DIR}/../../Library/Source/Nanites/Catch/NTestFixture.cpp"
+		"${NN_SOURCE_DIR}/Benchmarks/BThreadPool.cpp"
 		"${NN_SOURCE_DIR}/Nano/Application/TCommandLine.cpp"
 		"${NN_SOURCE_DIR}/Nano/Application/TUndoManager.cpp"
 		"${NN_SOURCE_DIR}/Nano/Application/TUndoSource.cpp"

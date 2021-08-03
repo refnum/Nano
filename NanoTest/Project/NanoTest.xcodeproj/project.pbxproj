@@ -250,6 +250,9 @@
 		ABE8150E25E47E5E002FA8CD /* TDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABE8150D25E47E5E002FA8CD /* TDate.cpp */; };
 		ABE8150F25E47E5E002FA8CD /* TDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABE8150D25E47E5E002FA8CD /* TDate.cpp */; };
 		ABE8151025E47E5E002FA8CD /* TDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABE8150D25E47E5E002FA8CD /* TDate.cpp */; };
+		ABF44ADE26A8EC4E00F7F369 /* BThreadPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF44ADD26A8EC4E00F7F369 /* BThreadPool.cpp */; };
+		ABF44ADF26A8EC4E00F7F369 /* BThreadPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF44ADD26A8EC4E00F7F369 /* BThreadPool.cpp */; };
+		ABF44AE026A8EC4E00F7F369 /* BThreadPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF44ADD26A8EC4E00F7F369 /* BThreadPool.cpp */; };
 		ABF5130D2397B193001F9F8B /* TMixinAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */; };
 		ABF5130E2397B193001F9F8B /* TMixinAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */; };
 		ABF5130F2397B193001F9F8B /* TMixinAttributes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */; };
@@ -531,6 +534,7 @@
 		ABEB0BFE16760C8A00B74B71 /* TMessageServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMessageServer.cpp; sourceTree = "<group>"; };
 		ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestListener.cpp; sourceTree = "<group>"; };
 		ABEC885C0FC73DD7003B7166 /* CTestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTestListener.h; sourceTree = "<group>"; };
+		ABF44ADD26A8EC4E00F7F369 /* BThreadPool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BThreadPool.cpp; sourceTree = "<group>"; };
 		ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMixinAttributes.cpp; sourceTree = "<group>"; };
 		ABF513102397C3FB001F9F8B /* TMixinComparable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMixinComparable.cpp; sourceTree = "<group>"; };
 		ABF513112397C3FB001F9F8B /* TMixinContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMixinContainer.cpp; sourceTree = "<group>"; };
@@ -933,6 +937,7 @@
 		AB9155DC0F9B4F37009FFEAF /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				ABF44ADC26A8EC3400F7F369 /* Benchmarks */,
 				ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */,
 				ABEC885C0FC73DD7003B7166 /* CTestListener.h */,
 				AB9155DD0F9B4F37009FFEAF /* CTestUtilities.cpp */,
@@ -956,6 +961,14 @@
 				ABCFE3991773A09C0054EEA3 /* TCoreGraphics.cpp */,
 			);
 			path = CoreGraphics;
+			sourceTree = "<group>";
+		};
+		ABF44ADC26A8EC3400F7F369 /* Benchmarks */ = {
+			isa = PBXGroup;
+			children = (
+				ABF44ADD26A8EC4E00F7F369 /* BThreadPool.cpp */,
+			);
+			path = Benchmarks;
 			sourceTree = "<group>";
 		};
 		ABF58C0A267572E100327252 /* Data */ = {
@@ -1203,6 +1216,7 @@
 				ABF58CDC26793B9000327252 /* TProgressable.cpp in Sources */,
 				AB53BBDD2421239C009960AA /* TFileUtils.cpp in Sources */,
 				AB56393723C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
+				ABF44ADF26A8EC4E00F7F369 /* BThreadPool.cpp in Sources */,
 				ABBE8C8624460960009E9B53 /* TUsageLog.cpp in Sources */,
 				AB2A304A24524CD700F21BF6 /* TDebugger.cpp in Sources */,
 				ABF58DA9267EB40900327252 /* TCoreFoundation.cpp in Sources */,
@@ -1324,6 +1338,7 @@
 				ABF58CDB26793B9000327252 /* TProgressable.cpp in Sources */,
 				AB53BBDC2421239C009960AA /* TFileUtils.cpp in Sources */,
 				AB56393623C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
+				ABF44ADE26A8EC4E00F7F369 /* BThreadPool.cpp in Sources */,
 				ABBE8C8524460960009E9B53 /* TUsageLog.cpp in Sources */,
 				AB2A304924524CD700F21BF6 /* TDebugger.cpp in Sources */,
 				ABF58DA8267EB40900327252 /* TCoreFoundation.cpp in Sources */,
@@ -1445,6 +1460,7 @@
 				ABF58CDD26793B9000327252 /* TProgressable.cpp in Sources */,
 				AB53BBDE2421239C009960AA /* TFileUtils.cpp in Sources */,
 				AB56393823C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
+				ABF44AE026A8EC4E00F7F369 /* BThreadPool.cpp in Sources */,
 				ABBE8C8724460960009E9B53 /* TUsageLog.cpp in Sources */,
 				AB2A304B24524CD700F21BF6 /* TDebugger.cpp in Sources */,
 				ABF58DAA267EB40900327252 /* TCoreFoundation.cpp in Sources */,
