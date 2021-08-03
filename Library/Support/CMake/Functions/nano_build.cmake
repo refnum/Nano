@@ -481,8 +481,11 @@ function(_nano_build_compiler_options)
 	set_property(TARGET "${PROJECT_NAME}" PROPERTY C_EXTENSIONS        OFF)
 	set_property(TARGET "${PROJECT_NAME}" PROPERTY C_STANDARD_REQUIRED ON)
 
-	target_compile_definitions("${PROJECT_NAME}" PRIVATE NN_DEBUG=$<BOOL:$<CONFIG:Debug>>)
-	target_compile_definitions("${PROJECT_NAME}" PRIVATE NN_RELEASE=$<BOOL:$<CONFIG:Release>>)
+
+
+	# Definitions
+	nano_project_definitions(NN_DEBUG=$<BOOL:$<CONFIG:Debug>>)
+	nano_project_definitions(NN_RELEASE=$<BOOL:$<CONFIG:Release>>)
 
 endfunction()
 
