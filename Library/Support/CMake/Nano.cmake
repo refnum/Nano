@@ -39,12 +39,12 @@
 #		Includes
 #------------------------------------------------------------------------------
 # Configuration
-include(Functions/nano_log)
-include(Configuration/NanoTargets)
-include(Configuration/NanoEnvironment)
-include(Configuration/NanoCompilers)
+include("${CMAKE_CURRENT_LIST_DIR}/Library/nano_log.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/Configuration/NanoTargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/Configuration/NanoEnvironment.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/Configuration/NanoCompilers.cmake")
 
 
 # Functions
-include(Functions/nano_project)
-include(Functions/nano_build)
+include("${CMAKE_CURRENT_LIST_DIR}/Library/nano_project.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/Library/nano_build.cmake")
