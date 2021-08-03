@@ -60,8 +60,18 @@ endfunction()
 #==============================================================================
 #		_nano_build_get_matching_paths : Get a list of matching paths.
 #------------------------------------------------------------------------------
-#		Note :	INPUT_PATHS are assumed to have been converted to real paths,
-#				allowing us to identify a match by comparing the prefix.
+#		Takes a list of file paths and a list of paths to match against that
+#		list.
+#
+#		INPUT_PATHS contains a list of file paths.
+#
+#		MATCHING_PATHS contains a list of file or directory paths.
+#
+#		File paths will match if they exist in the input paths, directory
+#		paths will match any file under that directory in the intput paths.
+#
+#		The input paths are assumed to have been expanded to real paths which
+#		allows us to identify a match by comparing the prefix.
 #------------------------------------------------------------------------------
 function(_nano_build_get_matching_paths OUTPUT_PATHS INPUT_PATHS MATCHING_PATHS)
 
@@ -107,20 +117,21 @@ function(_nano_build_generator_cmdline)
 	#
 	# The Ninja / Makefile generators implement precompiled headers by
 	# creating a set of language-specific headers that include the prefix
-	# headers, then precompiling those headers for each language.
+	# headers and precompiling those headers for each language.
 	#
-	# These precompiled prefix headers are selected based on the extension
-	# of each source file, rather than the language used to compile that
-	# file.
+	# The precompiled prefix header used for a given source file is selected
+	# based on the extension of that source file, rather than the language
+	# used to compile that file.
 	#
-	# This then fails as precompiled headers are language-specific.
+	# This fails if the langauge has been overriden, as the precompiled
+	# headers are language-specific.
 	#
 	#
-	# To work around this we disable precompiled headers for any files that
-	# have a custom language flag.
+	# To work around this we disable precompiled headers for any files whose
+	# language has been overriden.
 	#
-	# As disabling precompiled headers also disables their inclusion as a
-	# prefix header we need to manually force their inclusion.
+	# Disabling precompiled headers also disables their inclusion as a prefix
+	# and so we need to manually force their inclusion.
 	get_target_property(PREFIX_FILES "${PROJECT_NAME}" NN_PREFIX_FILES)
 
 	if (PREFIX_FILES)
@@ -143,14 +154,16 @@ function(_nano_build_generator_cmdline)
 	endif()
 
 
+
 	# Work around language override bug
 	#
 	# Compiling .c files as C++ produces a warning from clang:
 	#
-	#	error: treating 'c' input as 'c++' when in C++ mode, this behavior is deprecated [-Werror,-Wdeprecated]
+	#	error: treating 'c' input as 'c++' when in C++ mode, this
+	#	       behavior is deprecated [-Werror,-Wdeprecated]
 	#
-	# This warning is not emitted when clang is invoked by Xcode so we only
-	# suppress the warning in Ninja / Makefile generators.
+	# This warning is not emitted when clang is invoked by Xcode so we
+	# only suppress the warning for the Ninja / Makefile generators.
 	nano_project_options(GCC CLANG "-Wno-deprecated" FILES ${SOURCE_LANGUAGE_CPP})
 
 endfunction()
@@ -203,26 +216,26 @@ function(_nano_build_generator_msvc)
 
 	# Work around precompiled header bugs
 	#
-	# The MSVC generator implements precompiled headers by creating a set
-	# of language-specific headers that include the prefix headers, then
+	# The MSVC generator implements precompiled headers by creating a set of
+	# language-specific headers that include the prefix headers and
 	# precompiling those headers for each language.
 	#
-	# These precompiled prefix headers are selected based on the extension
-	# of each source file, rather than the language used to compile that
-	# file.
+	# The precompiled prefix header used for a given source file is selected
+	# based on the extension of that source file, rather than the language
+	# used to compile that file.
 	#
-	# This then fails as precompiled headers are language-specific.
+	# This fails if the langauge has been overriden, as the precompiled
+	# headers are language-specific.
+	#
+	# In addition MSVC ignores the warning level set on individual files in
+	# favour of the warning level set on the precompiled prefix header.
 	#
 	#
-	# In addition MSVC ignores the warning level set on individual files
-	# in favour of the warning level set on the precompiled prefix header.
+	# To work around this we disable precompiled headers for any files whose
+	# language has been overriden, or which have a custom warning level.
 	#
-	#
-	# To work around this we disable precompiled headers for any files that
-	# have a custom language or warning flags.
-	#
-	# As disabling precompiled headers also disables their inclusion as a
-	# prefix header we need to manually force their inclusion.
+	# Disabling precompiled headers also disables their inclusion as a prefix
+	# and so we need to manually force their inclusion.
 	get_target_property(PREFIX_FILES "${PROJECT_NAME}" NN_PREFIX_FILES)
 
 	if (PREFIX_FILES)
@@ -282,22 +295,22 @@ function(_nano_build_generator_xcode)
 
 	# Work around precompiled header bug
 	#
-	# The Xcode generator implements precompiled headers by creating a set
-	# of language-specific headers that include the prefix headers, then
-	# setting the Xcode project to use one of those headers as the prefix
-	# header.
+	# The Xcode generator implements precompiled headers by creating a set of
+	# language-specific headers that include the prefix headers then setting
+	# the Xcode project to use one of those headers as the prefix header.
 	#
-	# As Xcode only supports a single precompiled prefix header, this means
-	# that this header is only visible to one language and other languages
-	# are built without a prefix header.
+	# As Xcode only supports a single precompiled prefix header this means
+	# that this header is only visible to one language.
 	#
 	#
-	# To work around this we set Xcode's prefix header directly, and let
-	# Xcode generate its own language-specific precompiled prefix headers.
+	# To work around this we set Xcode's prefix header directly, and let Xcode
+	# generate its own language-specific precompiled prefix headers.
 	#
-	# This assumes we only have a single prefix header. To support multiple
-	# prefix headers we would need to accumulate them into a generated source
-	# file then pass that file eto Xcode as the prefix.
+	# This approach assumes we only have a single prefix header.
+	#
+	# To support multiple prefix headers we would need to include them from a
+	# generated source file then tell Xcode to use that generated files as the
+	# prefix header.
 	get_target_property(PREFIX_FILES "${PROJECT_NAME}" NN_PREFIX_FILES)
 	list(LENGTH PREFIX_FILES PREFIX_COUNT)
 
@@ -415,7 +428,7 @@ function(_nano_build_compiler_source)
 	# Create the paths
 	#
 	# To simplify path comparisons we normalise all paths to real paths,
-	# and expand any file-or-directory file lists into a list of files.
+	# and match any file-or-directory file lists into a list of files.
 	get_target_property(SOURCE_FILES				"${PROJECT_NAME}" SOURCES)
 	get_target_property(PREFIX_FILES				"${PROJECT_NAME}" PRECOMPILE_HEADERS)
 

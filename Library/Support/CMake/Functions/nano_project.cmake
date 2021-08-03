@@ -105,17 +105,16 @@ endfunction()
 #==============================================================================
 #		nano_project_warnings : Set the source warning level.
 #------------------------------------------------------------------------------
-#		The warning level can be set to MAXIMUM, MINIMUM, or NONE followed
-#		by zero or more paths.
+#		The warning level can be set to MAXIMUM, MINIMUM, or NONE followed by
+#		zero or more paths.
 #
-#		If no paths are provided after a level then the level becomes the
-#		default level for source files.
+#		A level followed by zero paths sets the default warning level.
 #
-#		If paths to files are provided after a level then the level is applied
-#		to those files.
+#		A level followed by file paths applies the warning level to those
+#		files.
 #
-#		If paths to directories are provided after a level then the level is
-#		applied to all files under that directory path.
+#		A level followed by directory paths applies the warning level to any
+#		files within those directories.
 #
 #		The default warning level is MAXIMUM.
 #
@@ -160,7 +159,8 @@ endfunction()
 #==============================================================================
 #		nano_project_language : Set the source language.
 #------------------------------------------------------------------------------
-#		The language for source files can be set to C, CPP, or OBJCPP.
+#		The source language can be set to C, CPP, or OBJCPP followed by one
+#		or more paths.
 #
 #		The default language is determined by the file extension.
 #
