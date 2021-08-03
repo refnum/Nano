@@ -470,8 +470,13 @@ function(_nano_build_compiler_options)
 
 	nano_project_options(ALL ${NN_COMPILER_OPTIONS})
 
-	target_compile_features("${PROJECT_NAME}" PUBLIC "cxx_std_17")
-	target_compile_features("${PROJECT_NAME}" PUBLIC   "c_std_11")
+	set_property(TARGET "${PROJECT_NAME}" PROPERTY CXX_STANDARD          17)
+	set_property(TARGET "${PROJECT_NAME}" PROPERTY CXX_EXTENSIONS        OFF)
+	set_property(TARGET "${PROJECT_NAME}" PROPERTY CXX_STANDARD_REQUIRED ON)
+
+	set_property(TARGET "${PROJECT_NAME}" PROPERTY C_STANDARD          11)
+	set_property(TARGET "${PROJECT_NAME}" PROPERTY C_EXTENSIONS        OFF)
+	set_property(TARGET "${PROJECT_NAME}" PROPERTY C_STANDARD_REQUIRED ON)
 
 	target_compile_definitions("${PROJECT_NAME}" PRIVATE NN_DEBUG=$<BOOL:$<CONFIG:Debug>>)
 	target_compile_definitions("${PROJECT_NAME}" PRIVATE NN_RELEASE=$<BOOL:$<CONFIG:Release>>)
