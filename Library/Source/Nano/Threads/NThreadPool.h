@@ -131,7 +131,7 @@ public:
 private:
 	void                                StartWorkers();
 	void                                StopWorkers();
-	void                                ExecuteTasks();
+	void                                ExecuteTasks(NThreadPoolWorker* theWorker);
 
 	void                                CreateWorker();
 	void                                StartWorker(NThreadPoolWorker* theWorker);

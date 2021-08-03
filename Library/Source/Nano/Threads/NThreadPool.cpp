@@ -57,6 +57,7 @@
 //		Internal Constants
 //-----------------------------------------------------------------------------
 inline constexpr NInterval kNCullInterval                   = 2 * kNTimeMinute;
+inline constexpr size_t    kNExecuteAttempts                = 20000;
 
 
 
@@ -289,13 +290,11 @@ void NThreadPool::StartWorkers()
 	NScopedLock acquireLock(mLock);
 
 	mLastWork = NTimeUtils::GetTime();
-
 	for (auto& theWorker : mWorkers)
 	{
 		if (theWorker->isIdle)
 		{
 			StartWorker(theWorker.get());
-
 			numTasks--;
 			if (numTasks == 0)
 			{
@@ -319,24 +318,6 @@ void NThreadPool::StartWorkers()
 			return;
 		}
 	}
-
-
-
-	// Always wake one worker
-	//
-	// We may race between adding work and a worker marking itself as idle:
-	//
-	//		Worker: finish ExecuteTasks
-	//		Caller: add task, call StartWorkers
-	//		Caller: no idle threads, max workers created, do nothing
-	//		Worker: mark self as idle
-	//		-> new task is never picked up by a worker
-	//
-	// To avoid this we always bump one worker to process any new task.
-	//
-	// This has minimal overhead as, if we did catch a worker in this window,
-	// the worker would simply re-enter its runloop rather before sleeping.
-	StartWorker(mWorkers.front().get());
 }
 
 
@@ -373,29 +354,95 @@ void NThreadPool::StopWorkers()
 //=============================================================================
 //		NThreadPool::ExecuteTasks : Execute tasks.
 //-----------------------------------------------------------------------------
-void NThreadPool::ExecuteTasks()
+void NThreadPool::ExecuteTasks(NThreadPoolWorker* theWorker)
 {
 
 
-	// Execute the tasks
+	// Update our state
 	NThread* thisThread = NThread::GetCurrent();
-	bool     gotWork    = true;
 
-	while (gotWork && !mIsPaused && !thisThread->ShouldStop())
+	NN_REQUIRE(theWorker->isIdle);
+	theWorker->isIdle = false;
+
+
+
+	// Execute the tasks
+	//
+	// Each worker executes tasks until they task queue is empty.
+	//
+	// To reduce latency when a queue is being filled with small jobs almost
+	// as as fast as they are being executed then we perform a small number
+	// of spins once the queue appears to be empty.
+	//
+	// If the queue continues to remain empty even after that spin then we
+	// return and allow ourselves to go to sleep.
+	bool shouldStop = false;
+
+	for (size_t n = 0; n < kNExecuteAttempts && !shouldStop; n++)
 	{
-		auto theWork = mTasks.PopBack();
-		gotWork      = theWork.has_value();
-
-		if (gotWork)
+		// Update our state
+		//
+		// On the last iteration we mark ourselves as idle before we check
+		// the queue.
+		//
+		// This allow us to avoid a race with an adding thread:
+		//
+		//		Caller: call AddTask, adds to queue
+		//		Caller: checks threads, sees none are idle
+		//		Worker: empties queue, marks self as idle, returns
+		//		Caller: max threads running, doesn't start/wake a thread
+		//
+		// By marking ourselve as idle before we check the queue then we can
+		// gaurantee the work will always be processed:
+		//
+		//	- If we mark ourselves as idle before the new work gets added
+		//    then the caller will see we're idle and wake us.
+		//
+		//	- If we mark ourselves as idle after the new work gets added
+		//    then we'll find the new work on our last check of the queue.
+		//
+		// At worst we suffer a spurious wake, where we mark ourselves as
+		// idle and the caller schedules a wake while we're processing the
+		// new work.
+		if (n == (kNExecuteAttempts - 1))
 		{
-			NSharedThreadTask theTask = *theWork;
+			theWorker->isIdle = true;
+		}
 
-			if (!theTask->IsCancelled())
+
+		// Execute the tasks
+		while (!mTasks.IsEmpty())
+		{
+			shouldStop = mIsPaused || thisThread->ShouldStop();
+			if (shouldStop)
 			{
-				theTask->Execute();
+				break;
+			}
+
+			auto theWork = mTasks.PopBack();
+			if (theWork.has_value())
+			{
+				NSharedThreadTask theTask = *theWork;
+				if (!theTask->IsCancelled())
+				{
+					theTask->Execute();
+				}
 			}
 		}
+
+
+
+		// Pause if we're going to spin
+		if (!shouldStop)
+		{
+			NThread::Pause();
+		}
 	}
+
+
+
+	// Update our state
+	mLastWork = NTimeUtils::GetTime();
 }
 
 
@@ -440,13 +487,7 @@ void NThreadPool::StartWorker(NThreadPoolWorker* theWorker)
 	theWorker->theThread->GetRunLoop()->Add(
 		[=]()
 		{
-			NN_REQUIRE(theWorker->isIdle);
-			theWorker->isIdle = false;
-
-			ExecuteTasks();
-
-			theWorker->isIdle = true;
-			mLastWork         = NTimeUtils::GetTime();
+			ExecuteTasks(theWorker);
 		});
 }
 
