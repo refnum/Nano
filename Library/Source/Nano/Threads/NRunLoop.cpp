@@ -165,10 +165,10 @@ void NRunLoop::Stop()
 //=============================================================================
 //		NRunLoop::Add : Add a function.
 //-----------------------------------------------------------------------------
-NRunLoopWorkID NRunLoop::Add(const NFunction&             theFunction,
-							 NInterval                    executeAfter,
-							 NInterval                    executeEvery,
-							 std::shared_ptr<NSemaphore>* theSemaphore)
+NRunLoopWorkID NRunLoop::Add(const NFunction&  theFunction,
+							 NInterval         executeAfter,
+							 NInterval         executeEvery,
+							 NSharedSemaphore* theSemaphore)
 {
 
 

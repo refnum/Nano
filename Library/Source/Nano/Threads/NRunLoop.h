@@ -76,18 +76,19 @@ class NRunLoop;
 
 
 // RunLoop
-using NSharedRunLoop = std::shared_ptr<NRunLoop>;
-using NRunLoopHandle = uintptr_t;
+using NSharedSemaphore = std::shared_ptr<NSemaphore>;
+using NSharedRunLoop   = std::shared_ptr<NRunLoop>;
+using NRunLoopHandle   = uintptr_t;
 
 
 // RunLoop work
 struct NRunLoopWork
 {
-	NRunLoopWorkID              theID;
-	NTime                       executeAt;
-	NInterval                   executeEvery;
-	NFunction                   theFunction;
-	std::shared_ptr<NSemaphore> theSemaphore;
+	NRunLoopWorkID   theID;
+	NTime            executeAt;
+	NInterval        executeEvery;
+	NFunction        theFunction;
+	NSharedSemaphore theSemaphore;
 };
 
 
@@ -135,10 +136,10 @@ public:
 	//
 	// An optional semaphore can be supplied which will be signalled whenever
 	// the function has been executed.
-	NRunLoopWorkID                      Add(const NFunction&             theFunction,
-											NInterval                    executeAfter = kNTimeNone,
-											NInterval                    executeEvery = kNTimeNone,
-											std::shared_ptr<NSemaphore>* theSemaphore = nullptr);
+	NRunLoopWorkID                      Add(const NFunction&  theFunction,
+											NInterval         executeAfter = kNTimeNone,
+											NInterval         executeEvery = kNTimeNone,
+											NSharedSemaphore* theSemaphore = nullptr);
 
 
 	// Remove a function
