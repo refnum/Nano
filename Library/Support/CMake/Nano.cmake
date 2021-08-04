@@ -45,6 +45,6 @@ include("${CMAKE_CURRENT_LIST_DIR}/Configuration/NanoEnvironment.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/Configuration/NanoCompilers.cmake")
 
 
-# Functions
+# Library
 include("${CMAKE_CURRENT_LIST_DIR}/Library/nano_project.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/Library/nano_build.cmake")

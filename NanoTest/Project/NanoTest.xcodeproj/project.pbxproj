@@ -491,8 +491,6 @@
 		AB56393523C75C1A00675F68 /* TUnicodeView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUnicodeView.cpp; sourceTree = "<group>"; };
 		AB5E179625F84AD900920CF0 /* TDateFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDateFormatter.cpp; sourceTree = "<group>"; };
 		AB6E7E3609F9052300F73093 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		AB9155DD0F9B4F37009FFEAF /* CTestUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestUtilities.cpp; sourceTree = "<group>"; };
-		AB9155DE0F9B4F37009FFEAF /* CTestUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTestUtilities.h; sourceTree = "<group>"; };
 		AB9156350F9B4F37009FFEAF /* NanoTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NanoTest.cpp; sourceTree = "<group>"; };
 		ABA3E83B2698E51B0030EAE6 /* TDBHandle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDBHandle.cpp; sourceTree = "<group>"; };
 		ABA478C325B7B7FE00F3C3C9 /* TMachine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMachine.cpp; sourceTree = "<group>"; };
@@ -940,8 +938,6 @@
 				ABF44ADC26A8EC3400F7F369 /* Benchmarks */,
 				ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */,
 				ABEC885C0FC73DD7003B7166 /* CTestListener.h */,
-				AB9155DD0F9B4F37009FFEAF /* CTestUtilities.cpp */,
-				AB9155DE0F9B4F37009FFEAF /* CTestUtilities.h */,
 				AB9156350F9B4F37009FFEAF /* NanoTest.cpp */,
 				AB328C8217612CBF00782F40 /* Internal */,
 				AB514DD21034184B00E5A6AD /* Nanites */,
