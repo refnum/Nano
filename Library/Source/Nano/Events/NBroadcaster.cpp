@@ -99,14 +99,14 @@ void NBroadcaster::Broadcast(const NString& theMsg)
 //-----------------------------------------------------------------------------
 void NBroadcaster::AddListener(NListener*               theListener,
 							   const NString&           theMsg,
-							   const NFunctionListenID& theFunctor)
+							   const NFunctionListenID& theFunction)
 {
 
 
 	// Validate our parameters
 	NN_REQUIRE(theListener != nullptr);
 	NN_REQUIRE(!theMsg.IsEmpty());
-	NN_REQUIRE(theFunctor);
+	NN_REQUIRE(theFunction);
 
 
 
@@ -116,7 +116,7 @@ void NBroadcaster::AddListener(NListener*               theListener,
 	auto& theRecipients = mRecipients[theMsg];
 
 	NN_REQUIRE(!nstd::contains(theRecipients, theListener));
-	theRecipients[theListener] = theFunctor;
+	theRecipients[theListener] = theFunction;
 }
 
 

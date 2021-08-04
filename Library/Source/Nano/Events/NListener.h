@@ -86,11 +86,11 @@ public:
 	// Each listener may register one function with a broadcaster for a given message.
 	void                                StartListening(NBroadcaster*            theBroadcaster,
 													   const NString&           theMsg,
-													   const NFunctionListenID& theFunctor);
+													   const NFunctionListenID& theFunction);
 
 	void                                StartListening(NBroadcaster*    theBroadcaster,
 													   const NString&   theMsg,
-													   const NFunction& theFunctor);
+													   const NFunction& theFunction);
 
 	void                                StopListening(NBroadcaster* theBroadcaster, const NString& theMsg);
 

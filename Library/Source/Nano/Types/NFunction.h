@@ -2,7 +2,7 @@
 		NFunction.h
 
 	DESCRIPTION:
-		Functor object.
+		Function object.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software

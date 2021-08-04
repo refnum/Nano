@@ -60,7 +60,7 @@
 class NListener;
 
 
-// Functors
+// Functions
 using NFunctionListenID = std::function<void(const NString& theMsg)>;
 
 
@@ -98,7 +98,7 @@ protected:
 	// Add / remove a listener
 	void                                AddListener(NListener*               theListener,
 													const NString&           theMsg,
-													const NFunctionListenID& theFunctor);
+													const NFunctionListenID& theFunction);
 
 	void                                RemoveListener(NListener* theListener, const NString& theMsg);
 

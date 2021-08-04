@@ -74,14 +74,14 @@ NListener::~NListener()
 //-----------------------------------------------------------------------------
 void NListener::StartListening(NBroadcaster*            theBroadcaster,
 							   const NString&           theMsg,
-							   const NFunctionListenID& theFunctor)
+							   const NFunctionListenID& theFunction)
 {
 
 
 	// Start listening for the message
 	NScopedLock acquireLock(mLock);
 
-	theBroadcaster->AddListener(this, theMsg, theFunctor);
+	theBroadcaster->AddListener(this, theMsg, theFunction);
 	mBroadcasters.push_back(theBroadcaster);
 }
 
@@ -94,7 +94,7 @@ void NListener::StartListening(NBroadcaster*            theBroadcaster,
 //-----------------------------------------------------------------------------
 void NListener::StartListening(NBroadcaster*    theBroadcaster,
 							   const NString&   theMsg,
-							   const NFunction& theFunctor)
+							   const NFunction& theFunction)
 {
 
 
@@ -103,7 +103,7 @@ void NListener::StartListening(NBroadcaster*    theBroadcaster,
 				   theMsg,
 				   [=](const NString&)
 				   {
-					   theFunctor();
+					   theFunction();
 				   });
 }
 

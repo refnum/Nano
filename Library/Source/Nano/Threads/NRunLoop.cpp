@@ -165,7 +165,7 @@ void NRunLoop::Stop()
 //=============================================================================
 //		NRunLoop::Add : Add a function.
 //-----------------------------------------------------------------------------
-NRunLoopWorkID NRunLoop::Add(const NFunction&             theFunctor,
+NRunLoopWorkID NRunLoop::Add(const NFunction&             theFunction,
 							 NInterval                    executeAfter,
 							 NInterval                    executeEvery,
 							 std::shared_ptr<NSemaphore>* theSemaphore)
@@ -173,7 +173,7 @@ NRunLoopWorkID NRunLoop::Add(const NFunction&             theFunctor,
 
 
 	// Validate our parameters and state
-	NN_REQUIRE(theFunctor != nullptr);
+	NN_REQUIRE(theFunction != nullptr);
 	NN_REQUIRE(executeAfter >= 0.0);
 	NN_REQUIRE(executeEvery >= 0.0);
 
@@ -185,7 +185,7 @@ NRunLoopWorkID NRunLoop::Add(const NFunction&             theFunctor,
 	theWork.theID        = NRunLoopWorkNone;
 	theWork.executeAt    = NTimeUtils::GetTime() + executeAfter;
 	theWork.executeEvery = executeEvery;
-	theWork.theFunction  = theFunctor;
+	theWork.theFunction  = theFunction;
 
 	if (theSemaphore != nullptr)
 	{

@@ -135,7 +135,7 @@ public:
 	//
 	// An optional semaphore can be supplied which will be signalled whenever
 	// the function has been executed.
-	NRunLoopWorkID                      Add(const NFunction&             theFunctor,
+	NRunLoopWorkID                      Add(const NFunction&             theFunction,
 											NInterval                    executeAfter = kNTimeNone,
 											NInterval                    executeEvery = kNTimeNone,
 											std::shared_ptr<NSemaphore>* theSemaphore = nullptr);

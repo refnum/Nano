@@ -200,9 +200,9 @@ public:
 	// is added to the correct stack.
 	//
 	//
-	// Note that since actions are arbitrary functors, any non-static method can
+	// Note that since actions are arbitrary functions, any non-static method can
 	// be captured as the action. When the action is executed, the method will be
-	// invoked on the object that was bound into the functor.
+	// invoked on the object that was bound into the function.
 	//
 	// If no group is open when an action is recorded, a new group will be opened
 	// closed around the action automatically.
