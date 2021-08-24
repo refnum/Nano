@@ -399,6 +399,22 @@ void move_back(T& container1, T& container2)
 
 
 //=============================================================================
+//		nstd::move_back : Move a container's contents to the end of a container.
+//-----------------------------------------------------------------------------
+template<typename T>
+void move_back(T& container1, T&& container2)
+{
+	container1.reserve(container1.size() + container2.size());
+	std::move(container2.begin(), container2.end(), std::back_inserter(container1));
+
+	container2.clear();
+}
+
+
+
+
+
+//=============================================================================
 //		nstd::pop_front : Remove the first element from a container.
 //-----------------------------------------------------------------------------
 template<typename T>
