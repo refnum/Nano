@@ -42,7 +42,9 @@
 #include "NBroadcaster.h"
 
 // Nano
-#include "NListener.h"
+#include "NAny.h"
+#include "NBroadcast.h"
+#include "NExecute.h"
 #include "NScopedLock.h"
 #include "NStdAlgorithm.h"
 
@@ -51,14 +53,19 @@
 
 
 //=============================================================================
-//		NBroadcaster::~NBroadcaster : Destructor.
+//		NBroadcaster::Send : Send a message synchronously.
 //-----------------------------------------------------------------------------
-NBroadcaster::~NBroadcaster()
+void NBroadcaster::Send(const NString& theMessage, const NAny& theValue)
 {
 
 
-	// Clean up
-	RemoveListeners();
+	// Validate our paramaeters
+	NN_REQUIRE(!theMessage.IsEmpty());
+
+
+
+	// Send the message
+	Get().SendBroadcast(theMessage, theValue);
 }
 
 
@@ -66,57 +73,48 @@ NBroadcaster::~NBroadcaster()
 
 
 //=============================================================================
-//		NBroadcaster::Broadcast : Broadcast a message.
+//		NBroadcaster::SendAsync : Send a message asynchronously.
 //-----------------------------------------------------------------------------
-void NBroadcaster::Broadcast(const NString& theMsg)
+void NBroadcaster::SendAsync(const NString& theMessage, const NAny& theValue)
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(!theMsg.IsEmpty());
+	// Validate our paramaeters
+	NN_REQUIRE(!theMessage.IsEmpty());
 
 
-	// Broadcast the message
-	NScopedLock acquireLock(mLock);
 
-	auto theRecipients = mRecipients.find(theMsg);
-	if (theRecipients != mRecipients.end())
-	{
-		for (const auto& theRecipient : theRecipients->second)
+	// Send the message
+	NExecute(
+		[=]()
 		{
-			theRecipient.second(theMsg);
-		}
-	}
+			Send(theMessage, theValue);
+		});
 }
 
 
 
 
 
-#pragma mark protected
+#pragma mark protect
 //=============================================================================
-//		NBroadcaster::AddListener : Add a listener.
+//		NBroadcaster::StartReceiving : Start receiving a message.
 //-----------------------------------------------------------------------------
-void NBroadcaster::AddListener(NListener*               theListener,
-							   const NString&           theMsg,
-							   const NFunctionListenID& theFunction)
+void NBroadcaster::StartReceiving(const NReceiver*         theReceiver,
+								  const NString&           theMessage,
+								  const NFunctionReceiver& theFunction)
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(theListener != nullptr);
-	NN_REQUIRE(!theMsg.IsEmpty());
-	NN_REQUIRE(theFunction);
+	// Validate our paramaeters
+	NN_REQUIRE(theReceiver != nullptr);
+	NN_REQUIRE(!theMessage.IsEmpty());
+	NN_REQUIRE(theFunction != nullptr);
 
 
 
-	// Add the listener
-	NScopedLock acquireLock(mLock);
-
-	auto& theRecipients = mRecipients[theMsg];
-
-	NN_REQUIRE(!nstd::contains(theRecipients, theListener));
-	theRecipients[theListener] = theFunction;
+	// Add the receiver
+	Get().AddReceiver(theReceiver, theMessage, theFunction);
 }
 
 
@@ -124,49 +122,60 @@ void NBroadcaster::AddListener(NListener*               theListener,
 
 
 //=============================================================================
-//		NBroadcaster::RemoveListener : Remove a listener.
+//		NBroadcaster::StopReceiving : Stop receiving to a message.
 //-----------------------------------------------------------------------------
-void NBroadcaster::RemoveListener(NListener* theListener, const NString& theMsg)
+void NBroadcaster::StopReceiving(const NReceiver* theReceiver, const NString& theMessage)
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(theListener != nullptr);
+	// Validate our paramaeters
+	NN_REQUIRE(theReceiver != nullptr);
+	NN_REQUIRE(!theMessage.IsEmpty());
 
 
 
-	// Remove the listener
-	NScopedLock acquireLock(mLock);
+	// Remove the receiver
+	Get().RemoveReceiver(theReceiver, theMessage);
+}
 
-	if (theMsg.IsEmpty())
-	{
-		// Remove for all events
-		for (auto theIter = mRecipients.begin(); theIter != mRecipients.end();)
-		{
-			theIter->second.erase(theListener);
-			if (theIter->second.empty())
-			{
-				theIter = mRecipients.erase(theIter);
-			}
-			else
-			{
-				theIter++;
-			}
-		}
-	}
 
-	else
-	{
-		// Remove for the specified event
-		const auto& theIter = mRecipients.find(theMsg);
-		NN_REQUIRE(theIter != mRecipients.end());
 
-		theIter->second.erase(theListener);
-		if (theIter->second.empty())
-		{
-			mRecipients.erase(theIter);
-		}
-	}
+
+
+//=============================================================================
+//		NBroadcaster::StopReceiving : Stop receiving messages.
+//-----------------------------------------------------------------------------
+void NBroadcaster::StopReceiving(const NReceiver* theReceiver)
+{
+
+
+	// Validate our paramaeters
+	NN_REQUIRE(theReceiver != nullptr);
+
+
+
+	// Remove the receiver
+	Get().RemoveReceiver(theReceiver);
+}
+
+
+
+
+
+//=============================================================================
+//		NBroadcaster::DestroyedReceiver : A receiver has been detroyed.
+//-----------------------------------------------------------------------------
+void NBroadcaster::DestroyedReceiver(const NReceiver* theReceiver)
+{
+
+
+	// Validate our paramaeters
+	NN_REQUIRE(theReceiver != nullptr);
+
+
+
+	// Mark the receiver as destroyed
+	Get().DestroyReceiver(theReceiver);
 }
 
 
@@ -175,22 +184,316 @@ void NBroadcaster::RemoveListener(NListener* theListener, const NString& theMsg)
 
 #pragma mark private
 //=============================================================================
-//		NBroadcaster::RemoveListeners : Remove all of our listeners.
+//		NBroadcaster::SendBroadcast : Send a broadcast.
 //-----------------------------------------------------------------------------
-void NBroadcaster::RemoveListeners()
+void NBroadcaster::SendBroadcast(const NString& theMessage, const NAny& theValue)
 {
 
 
-	// Remove the listeners
+	// Validate our parameters
+	NN_REQUIRE(!theMessage.IsEmpty());
+
+
+
+	// Prepare to send
 	NScopedLock acquireLock(mLock);
 
-	for (const auto& theIter : mRecipients)
+	NN_REQUIRE(mCurrentMessage.IsEmpty());
+	NN_REQUIRE(mCurrentDestroyed.empty());
+
+
+
+	// Send the broadcast
+	//
+	// Sending a broadcast may cause receivers to be added or removed from
+	// the recipient list for the current message.
+	//
+	// As broadcasts are sent in an undefined order we defer these changes
+	// until after a broadcast has concluded.
+	//
+	// This means that:
+	//
+	//	o A receiver destroyed during a broadcast will not receive the message
+	//	o A receiver added     during a broadcast will not receive the message
+	//	o A receiver removed   during a broadcast will     receive the message
+	mCurrentMessage = theMessage;
+
+	for (const auto& theRecipient : GetRecipients(theMessage))
 	{
-		for (auto& theRecipient : theIter.second)
+		if (!nstd::contains(mCurrentDestroyed, theRecipient.theReceiver))
 		{
-			theRecipient.first->StopListening(this, theIter.first);
+			theRecipient.theFunction({theMessage, theValue});
 		}
 	}
 
-	mRecipients.clear();
+
+
+	// Reset our state
+	mCurrentMessage.Clear();
+	mCurrentDestroyed.clear();
+}
+
+
+
+
+
+//=============================================================================
+//		NBroadcaster::IsReceiving : Is a receiver receiving a message?
+//-----------------------------------------------------------------------------
+bool NBroadcaster::IsReceiving(const NReceiver* theReceiver, const NString& theMessage)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theReceiver != nullptr);
+	NN_REQUIRE(!theMessage.IsEmpty());
+
+
+
+	// Check the receivers
+	//
+	// If we have the receiver and the receiver has the message then we know
+	// that we must have the receiver listed as a recipient of the message.
+	auto iterReceiver = mReceivers.find(theReceiver);
+	if (iterReceiver != mReceivers.end())
+	{
+		if (nstd::contains(iterReceiver->second, theMessage))
+		{
+			NN_REQUIRE(HasReceiver(GetRecipients(theMessage), theReceiver));
+			return true;
+		}
+	}
+
+
+
+	// Validate our state
+	//
+	// If we don't have the receiver, or the receiver doesn't have the message,
+	// we shouldn't find the reciever in the recipient list for the message.
+	NN_REQUIRE(!nstd::contains(mMessages, theMessage) ||
+			   !HasReceiver(GetRecipients(theMessage), theReceiver));
+
+	return false;
+}
+
+
+
+
+
+//=============================================================================
+//		NBroadcaster::HasReceiver : Does a recipient list contain a receiver?
+//-----------------------------------------------------------------------------
+bool NBroadcaster::HasReceiver(const NVectorBroadcastRecipients& theRecipients,
+							   const NReceiver*                  theReceiver)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theReceiver != nullptr);
+
+
+	// Check the recipients
+	for (const auto& theRecipient : theRecipients)
+	{
+		if (theRecipient.theReceiver == theReceiver)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+
+
+
+//=============================================================================
+//		NBroadcaster::AddReceiver : Add a receiver.
+//-----------------------------------------------------------------------------
+void NBroadcaster::AddReceiver(const NReceiver*         theReceiver,
+							   const NString&           theMessage,
+							   const NFunctionReceiver& theFunction)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!IsReceiving(theReceiver, theMessage));
+	NN_REQUIRE(!theMessage.IsEmpty());
+	NN_REQUIRE(theFunction != nullptr);
+
+
+
+	// Add the receiver
+	NScopedLock acquireLock(mLock);
+
+	mMessages[theMessage].push_back({theReceiver, theFunction});
+	mReceivers[theReceiver].push_back(theMessage);
+}
+
+
+
+
+
+//=============================================================================
+//		NBroadcaster::RemoveReceiver : Remove a receiver.
+//-----------------------------------------------------------------------------
+void NBroadcaster::RemoveReceiver(const NReceiver* theReceiver, const NString& theMessage)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(IsReceiving(theReceiver, theMessage));
+	NN_REQUIRE(!theMessage.IsEmpty());
+
+
+
+	// Remove the receiver
+	NScopedLock acquireLock(mLock);
+
+	nstd::erase_if(mMessages.find(theMessage).value(),
+				   [=](const NBroadcastRecipient& theRecipient)
+				   {
+					   return theRecipient.theReceiver == theReceiver;
+				   });
+
+	nstd::erase(mReceivers.find(theReceiver).value(), theMessage);
+
+
+
+	// Clean up
+	//
+	// The maps can be shrunk when an entry becomes empty.
+	auto iterMessage = mMessages.find(theMessage);
+	if (iterMessage->second.empty())
+	{
+		mMessages.erase(theMessage);
+	}
+
+	auto iterReceiver = mReceivers.find(theReceiver);
+	if (iterReceiver->second.empty())
+	{
+		mReceivers.erase(iterReceiver);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NBroadcaster::RemoveReceiver : Remove a receiver.
+//-----------------------------------------------------------------------------
+void NBroadcaster::RemoveReceiver(const NReceiver* theReceiver)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theReceiver != nullptr);
+
+
+
+	// Remove the receiver
+	NScopedLock acquireLock(mLock);
+
+	for (const auto& theMessage : GetMessages(theReceiver))
+	{
+		RemoveReceiver(theReceiver, theMessage);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NBroadcaster::DestroyReceiver : A receiver has been detroyed.
+//-----------------------------------------------------------------------------
+void NBroadcaster::DestroyReceiver(const NReceiver* theReceiver)
+{
+
+
+	// Validate our paramaeters
+	NN_REQUIRE(theReceiver != nullptr);
+
+
+
+	// Mark the receiver as destroyed
+	NScopedLock acquireLock(mLock);
+
+	if (!mCurrentMessage.IsEmpty())
+	{
+		mCurrentDestroyed.push_back(theReceiver);
+	}
+
+	RemoveReceiver(theReceiver);
+}
+
+
+
+
+
+//=============================================================================
+//		NBroadcaster::GetRecipients : Get the recipients of a message.
+//-----------------------------------------------------------------------------
+NVectorBroadcastRecipients NBroadcaster::GetRecipients(const NString& theMessage)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theMessage.IsEmpty());
+
+
+
+	// Get the recipients
+	auto iterMessage = mMessages.find(theMessage);
+	if (iterMessage != mMessages.end())
+	{
+		return iterMessage->second;
+	}
+
+	return {};
+}
+
+
+
+
+
+//=============================================================================
+//		NBroadcaster::GetMessages : Get the messages for a receiver.
+//-----------------------------------------------------------------------------
+NVectorString NBroadcaster::GetMessages(const NReceiver* theReceiver)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theReceiver != nullptr);
+
+
+
+	// Get the messages
+	auto iterReceiver = mReceivers.find(theReceiver);
+	if (iterReceiver != mReceivers.end())
+	{
+		return iterReceiver->second;
+	}
+
+	return {};
+}
+
+
+
+
+
+//=============================================================================
+//		NBroadcaster::Get : Get the instance.
+//-----------------------------------------------------------------------------
+NBroadcaster& NBroadcaster::Get()
+{
+
+
+	// Get the instance
+	static NBroadcaster sInstance;
+
+	return sInstance;
 }

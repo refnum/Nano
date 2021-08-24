@@ -42,12 +42,10 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
-#include "NFunction.h"
+#include "NAny.h"
+#include "NMap.h"
 #include "NMutex.h"
-#include "NString.h"
-
-// System
-#include <unordered_map>
+#include "NReceiver.h"
 
 
 
@@ -56,17 +54,22 @@
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
-// Forward declaratiosn
-class NListener;
+// Forward declarations
+class NString;
 
 
-// Functions
-using NFunctionListenID = std::function<void(const NString& theMsg)>;
+// Recipients
+struct NBroadcastRecipient
+{
+	const NReceiver*  theReceiver;
+	NFunctionReceiver theFunction;
+};
 
+using NVectorBroadcastRecipients = std::vector<NBroadcastRecipient>;
+using NVectorBroadcastReceivers  = std::vector<const NReceiver*>;
 
-// Containers
-using NMapListenerFunctions = std::unordered_map<NListener*, NFunctionListenID>;
-using NMapMessageRecipients = std::unordered_map<NString, NMapListenerFunctions>;
+using NBroadcastMessageRecipients = NMap<NString, NVectorBroadcastRecipients>;
+using NBroadcastReceiverMessages  = NMap<const NReceiver*, NVectorString>;
 
 
 
@@ -77,39 +80,70 @@ using NMapMessageRecipients = std::unordered_map<NString, NMapListenerFunctions>
 //-----------------------------------------------------------------------------
 class NBroadcaster
 {
-	friend class                        NListener;
+	friend class                        NReceiver;
 
 public:
-										NBroadcaster() = default;
-	virtual                            ~NBroadcaster();
-
-										NBroadcaster(const NBroadcaster& otherBroadcaster) = delete;
-	NBroadcaster&                       operator=(   const NBroadcaster& otherBroadcaster) = delete;
-
-										NBroadcaster(NBroadcaster&& otherBroadcaster) = delete;
-	NBroadcaster&                       operator=(   NBroadcaster&& otherBroadcaster) = delete;
+	// Broadcast a message synchronously.
+	//
+	// The message will be delivered on the calling thread.
+	static void                         Send(const NString& theMessage, const NAny& theValue = {});
 
 
-	// Broadcast a message
-	void                                Broadcast(const NString& theMsg);
+	// Broadcast a message asynchronously
+	//
+	// The message will be delivered on a background thread.
+	static void                         SendAsync(const NString& theMessage, const NAny& theValue = {});
 
 
 protected:
-	// Add / remove a listener
-	void                                AddListener(NListener*               theListener,
-													const NString&           theMsg,
-													const NFunctionListenID& theFunction);
+	// Start receiving a message
+	static void                         StartReceiving(const NReceiver*         theReceiver,
+													   const NString&           theMessage,
+													   const NFunctionReceiver& theFunction);
 
-	void                                RemoveListener(NListener* theListener, const NString& theMsg);
+
+	// Stop receiving a message
+	static void                         StopReceiving(const NReceiver* theReceiver, const NString& theMessage);
+
+
+	// Stop receiving any messages
+	static void                         StopReceiving(const NReceiver* theReceiver);
+
+
+	// A receiver has been destroyed
+	static void                         DestroyedReceiver(const NReceiver* theReceiver);
 
 
 private:
-	void                                RemoveListeners();
+	void                                SendBroadcast(const NString& theMessage, const NAny& theValue);
+
+	bool                                IsReceiving(const NReceiver* theReceiver, const NString& theMessage);
+
+	bool                                HasReceiver(const NVectorBroadcastRecipients& theRecipients, const NReceiver* theReceiver);
+
+	void                                AddReceiver(const NReceiver*         theReceiver,
+													const NString&           theMessage,
+													const NFunctionReceiver& theFunction);
+
+	void                                RemoveReceiver(const NReceiver* theReceiver, const NString& theMessage);
+	void                                RemoveReceiver(const NReceiver* theReceiver);
+
+	void                                DestroyReceiver(const NReceiver* theReceiver);
+
+	NVectorBroadcastRecipients          GetRecipients(const NString& theMessage);
+	NVectorString                       GetMessages(  const NReceiver* theReceiver);
+
+	static NBroadcaster&                Get();
+
 
 
 private:
 	NMutex                              mLock;
-	NMapMessageRecipients               mRecipients;
+	NBroadcastMessageRecipients         mMessages;
+	NBroadcastReceiverMessages          mReceivers;
+
+	NString                             mCurrentMessage;
+	NVectorBroadcastReceivers           mCurrentDestroyed;
 };
 
 

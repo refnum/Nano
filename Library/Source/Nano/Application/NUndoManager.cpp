@@ -525,5 +525,5 @@ void NUndoManager::UpdatedStacks()
 
 
 	// Let everyone know
-	Broadcast(kNUndoManagerUpdated);
+	NBroadcaster::Send(kNUndoManagerUpdated, this);
 }

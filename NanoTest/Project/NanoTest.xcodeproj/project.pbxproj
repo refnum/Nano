@@ -184,6 +184,15 @@
 		ABB38CB125A7CCC80050D506 /* TDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DAB1034184B00E5A6AD /* TDictionary.cpp */; };
 		ABB38CB825A7CCC80050D506 /* TDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DAB1034184B00E5A6AD /* TDictionary.cpp */; };
 		ABB38CB925A7CCC80050D506 /* TDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DAB1034184B00E5A6AD /* TDictionary.cpp */; };
+		ABB9137826D276DF009CC362 /* TBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB9137326D276DF009CC362 /* TBroadcaster.cpp */; };
+		ABB9137926D276DF009CC362 /* TBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB9137326D276DF009CC362 /* TBroadcaster.cpp */; };
+		ABB9137A26D276DF009CC362 /* TBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB9137326D276DF009CC362 /* TBroadcaster.cpp */; };
+		ABB9138C26D51B33009CC362 /* TReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB9138B26D51B33009CC362 /* TReceiver.cpp */; };
+		ABB9138D26D51B33009CC362 /* TReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB9138B26D51B33009CC362 /* TReceiver.cpp */; };
+		ABB9138E26D51B33009CC362 /* TReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB9138B26D51B33009CC362 /* TReceiver.cpp */; };
+		ABB9139526D51B93009CC362 /* TBroadcast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB9139426D51B93009CC362 /* TBroadcast.cpp */; };
+		ABB9139626D51B93009CC362 /* TBroadcast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB9139426D51B93009CC362 /* TBroadcast.cpp */; };
+		ABB9139726D51B93009CC362 /* TBroadcast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB9139426D51B93009CC362 /* TBroadcast.cpp */; };
 		ABBB2B5E23801DBB00EB2840 /* TLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5B23801DBB00EB2840 /* TLog.cpp */; };
 		ABBB2B5F23801DBB00EB2840 /* TLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5B23801DBB00EB2840 /* TLog.cpp */; };
 		ABBB2B6023801DBB00EB2840 /* TLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABBB2B5B23801DBB00EB2840 /* TLog.cpp */; };
@@ -283,12 +292,6 @@
 		ABF58C1C267572E100327252 /* TDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58C0F267572E100327252 /* TDataCipher.cpp */; };
 		ABF58C1D267572E100327252 /* TDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58C0F267572E100327252 /* TDataCipher.cpp */; };
 		ABF58C1E267572E100327252 /* TDataCipher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58C0F267572E100327252 /* TDataCipher.cpp */; };
-		ABF58C412676C2FB00327252 /* TListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D731034184B00E5A6AD /* TListener.cpp */; };
-		ABF58C422676C2FB00327252 /* TBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D711034184B00E5A6AD /* TBroadcaster.cpp */; };
-		ABF58C432676C2FC00327252 /* TListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D731034184B00E5A6AD /* TListener.cpp */; };
-		ABF58C442676C2FC00327252 /* TBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D711034184B00E5A6AD /* TBroadcaster.cpp */; };
-		ABF58C452676C2FD00327252 /* TListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D731034184B00E5A6AD /* TListener.cpp */; };
-		ABF58C462676C2FD00327252 /* TBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D711034184B00E5A6AD /* TBroadcaster.cpp */; };
 		ABF58CCF267932CA00327252 /* TUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D641034184B00E5A6AD /* TUndoManager.cpp */; };
 		ABF58CD0267932CA00327252 /* TUndoSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D661034184B00E5A6AD /* TUndoSource.cpp */; };
 		ABF58CD1267932CB00327252 /* TUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D641034184B00E5A6AD /* TUndoManager.cpp */; };
@@ -454,8 +457,6 @@
 		AB514D621034184B00E5A6AD /* TPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPreferences.cpp; sourceTree = "<group>"; };
 		AB514D641034184B00E5A6AD /* TUndoManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUndoManager.cpp; sourceTree = "<group>"; };
 		AB514D661034184B00E5A6AD /* TUndoSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TUndoSource.cpp; sourceTree = "<group>"; };
-		AB514D711034184B00E5A6AD /* TBroadcaster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TBroadcaster.cpp; sourceTree = "<group>"; };
-		AB514D731034184B00E5A6AD /* TListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TListener.cpp; sourceTree = "<group>"; };
 		AB514D781034184B00E5A6AD /* TBundle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TBundle.cpp; sourceTree = "<group>"; };
 		AB514D7C1034184B00E5A6AD /* TFileMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileMap.cpp; sourceTree = "<group>"; };
 		AB514D7E1034184B00E5A6AD /* TPropertyList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPropertyList.cpp; sourceTree = "<group>"; };
@@ -506,6 +507,9 @@
 		ABA7247223F8415E00CF6EC2 /* TMixinAppendable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMixinAppendable.cpp; sourceTree = "<group>"; };
 		ABB4E03F1767BA6800892A75 /* TImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TImage.cpp; sourceTree = "<group>"; };
 		ABB6782E12AE56EF0077D64E /* TCFURL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCFURL.cpp; sourceTree = "<group>"; };
+		ABB9137326D276DF009CC362 /* TBroadcaster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TBroadcaster.cpp; sourceTree = "<group>"; };
+		ABB9138B26D51B33009CC362 /* TReceiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TReceiver.cpp; sourceTree = "<group>"; };
+		ABB9139426D51B93009CC362 /* TBroadcast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TBroadcast.cpp; sourceTree = "<group>"; };
 		ABBB2B5B23801DBB00EB2840 /* TLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLog.cpp; sourceTree = "<group>"; };
 		ABBB2B5C23801DBB00EB2840 /* TLogOutput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TLogOutput.cpp; sourceTree = "<group>"; };
 		ABBB2B5D23801DBB00EB2840 /* TDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDebug.cpp; sourceTree = "<group>"; };
@@ -770,9 +774,10 @@
 		AB514D701034184B00E5A6AD /* Events */ = {
 			isa = PBXGroup;
 			children = (
-				AB514D711034184B00E5A6AD /* TBroadcaster.cpp */,
-				AB514D731034184B00E5A6AD /* TListener.cpp */,
+				ABB9139426D51B93009CC362 /* TBroadcast.cpp */,
+				ABB9137326D276DF009CC362 /* TBroadcaster.cpp */,
 				ABF58CDA26793B9000327252 /* TProgressable.cpp */,
+				ABB9138B26D51B33009CC362 /* TReceiver.cpp */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -1132,6 +1137,7 @@
 				ABF58D90267C194000327252 /* TCGImage.cpp in Sources */,
 				AB56391923C2A3F600675F68 /* TString.cpp in Sources */,
 				AB89A43226BF549900323127 /* BSizeOf.cpp in Sources */,
+				ABB9138D26D51B33009CC362 /* TReceiver.cpp in Sources */,
 				ABB3379A23A04E09000B81B0 /* TMutex.cpp in Sources */,
 				AB549B8B269083C700B14417 /* TPropertyList.cpp in Sources */,
 				AB0267C72699ACDF00130611 /* TShape.cpp in Sources */,
@@ -1142,7 +1148,6 @@
 				ABF58DCA267F585F00327252 /* TCFNumber.cpp in Sources */,
 				ABE7C0CA25D0AD8D00914618 /* TSize.cpp in Sources */,
 				AB20328B25D72B6D0050DB00 /* TColor.cpp in Sources */,
-				ABF58C462676C2FD00327252 /* TBroadcaster.cpp in Sources */,
 				ABA478CA25B7B7FE00F3C3C9 /* TProcess.cpp in Sources */,
 				ABCC4ACC25A535F500394AFE /* TArray.cpp in Sources */,
 				ABF58D9B267CABC300327252 /* TCoreGraphics.cpp in Sources */,
@@ -1161,7 +1166,6 @@
 				ABDCE8EA241F8AEA0054A16E /* TFile.cpp in Sources */,
 				AB549B0C2689144600B14417 /* TBundle.cpp in Sources */,
 				ABF513142397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
-				ABF58C452676C2FD00327252 /* TListener.cpp in Sources */,
 				AB269E0725BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */,
 				ABF58DD2267F74A800327252 /* TURL.cpp in Sources */,
 				ABCC4AAA25A4D5A600394AFE /* TAny.cpp in Sources */,
@@ -1177,6 +1181,7 @@
 				AB1B4DAB23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9A923EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB1980F725975D17002C5591 /* TThreadID.cpp in Sources */,
+				ABB9139626D51B93009CC362 /* TBroadcast.cpp in Sources */,
 				AB371A2925CAF7EF00DEC50B /* TVersion.cpp in Sources */,
 				AB21146826A3452E004874CD /* TThreadTask.cpp in Sources */,
 				ABB38CB825A7CCC80050D506 /* TDictionary.cpp in Sources */,
@@ -1220,6 +1225,7 @@
 				AB56393723C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				ABF44ADF26A8EC4E00F7F369 /* BThreadPool.cpp in Sources */,
 				ABBE8C8624460960009E9B53 /* TUsageLog.cpp in Sources */,
+				ABB9137926D276DF009CC362 /* TBroadcaster.cpp in Sources */,
 				AB2A304A24524CD700F21BF6 /* TDebugger.cpp in Sources */,
 				ABF58DA9267EB40900327252 /* TCoreFoundation.cpp in Sources */,
 				AB20329425D73E1F0050DB00 /* TStdMath.cpp in Sources */,
@@ -1255,6 +1261,7 @@
 				ABF58D8E267C193F00327252 /* TCGImage.cpp in Sources */,
 				AB56391823C2A3F600675F68 /* TString.cpp in Sources */,
 				AB89A43126BF549900323127 /* BSizeOf.cpp in Sources */,
+				ABB9138C26D51B33009CC362 /* TReceiver.cpp in Sources */,
 				ABB3379B23A04E0A000B81B0 /* TMutex.cpp in Sources */,
 				AB549B8C269083C700B14417 /* TPropertyList.cpp in Sources */,
 				AB0267C62699ACDF00130611 /* TShape.cpp in Sources */,
@@ -1265,7 +1272,6 @@
 				ABF58DC9267F585E00327252 /* TCFNumber.cpp in Sources */,
 				ABE7C0CD25D0AD8D00914618 /* TSize.cpp in Sources */,
 				AB20328C25D72B6E0050DB00 /* TColor.cpp in Sources */,
-				ABF58C422676C2FB00327252 /* TBroadcaster.cpp in Sources */,
 				ABA478C925B7B7FE00F3C3C9 /* TProcess.cpp in Sources */,
 				ABCC4ACD25A535F500394AFE /* TArray.cpp in Sources */,
 				ABF58D9D267CABC600327252 /* TCoreGraphics.cpp in Sources */,
@@ -1284,7 +1290,6 @@
 				ABDCE8E9241F8AEA0054A16E /* TFile.cpp in Sources */,
 				AB549B0D2689144600B14417 /* TBundle.cpp in Sources */,
 				ABF513132397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
-				ABF58C412676C2FB00327252 /* TListener.cpp in Sources */,
 				AB269E0625BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */,
 				ABF58DD3267F74A800327252 /* TURL.cpp in Sources */,
 				ABCC4AA925A4D5A600394AFE /* TAny.cpp in Sources */,
@@ -1300,6 +1305,7 @@
 				AB1B4DAA23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9A823EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB1980F625975D17002C5591 /* TThreadID.cpp in Sources */,
+				ABB9139526D51B93009CC362 /* TBroadcast.cpp in Sources */,
 				AB371A2825CAF7EF00DEC50B /* TVersion.cpp in Sources */,
 				AB21146726A3452E004874CD /* TThreadTask.cpp in Sources */,
 				ABB38CB925A7CCC80050D506 /* TDictionary.cpp in Sources */,
@@ -1343,6 +1349,7 @@
 				AB56393623C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				ABF44ADE26A8EC4E00F7F369 /* BThreadPool.cpp in Sources */,
 				ABBE8C8524460960009E9B53 /* TUsageLog.cpp in Sources */,
+				ABB9137826D276DF009CC362 /* TBroadcaster.cpp in Sources */,
 				AB2A304924524CD700F21BF6 /* TDebugger.cpp in Sources */,
 				ABF58DA8267EB40900327252 /* TCoreFoundation.cpp in Sources */,
 				AB20329325D73E1F0050DB00 /* TStdMath.cpp in Sources */,
@@ -1378,6 +1385,7 @@
 				ABF58D92267C194000327252 /* TCGImage.cpp in Sources */,
 				AB56391A23C2A3F600675F68 /* TString.cpp in Sources */,
 				AB89A43326BF549900323127 /* BSizeOf.cpp in Sources */,
+				ABB9138E26D51B33009CC362 /* TReceiver.cpp in Sources */,
 				ABB3379C23A04E0A000B81B0 /* TMutex.cpp in Sources */,
 				AB549B8A269083C700B14417 /* TPropertyList.cpp in Sources */,
 				AB0267C82699ACE000130611 /* TShape.cpp in Sources */,
@@ -1388,7 +1396,6 @@
 				ABF58DCB267F585F00327252 /* TCFNumber.cpp in Sources */,
 				ABE7C0C425D0AD8C00914618 /* TSize.cpp in Sources */,
 				AB20328725D72B6D0050DB00 /* TColor.cpp in Sources */,
-				ABF58C442676C2FC00327252 /* TBroadcaster.cpp in Sources */,
 				ABA478CB25B7B7FE00F3C3C9 /* TProcess.cpp in Sources */,
 				ABCC4AC825A535F500394AFE /* TArray.cpp in Sources */,
 				ABF58D9C267CABC500327252 /* TCoreGraphics.cpp in Sources */,
@@ -1407,7 +1414,6 @@
 				ABDCE8EB241F8AEA0054A16E /* TFile.cpp in Sources */,
 				AB549B0B2689144500B14417 /* TBundle.cpp in Sources */,
 				ABF513152397C3FB001F9F8B /* TMixinComparable.cpp in Sources */,
-				ABF58C432676C2FC00327252 /* TListener.cpp in Sources */,
 				AB269E0825BBAEA7007EAEF8 /* TStdUtility.cpp in Sources */,
 				ABF58DD1267F74A800327252 /* TURL.cpp in Sources */,
 				ABCC4AAB25A4D5A600394AFE /* TAny.cpp in Sources */,
@@ -1423,6 +1429,7 @@
 				AB1B4DAC23F2F92A00B304D3 /* TStringTransformer.cpp in Sources */,
 				AB54F9AA23EE4503005207BC /* TTextUtils.cpp in Sources */,
 				AB1980F825975D17002C5591 /* TThreadID.cpp in Sources */,
+				ABB9139726D51B93009CC362 /* TBroadcast.cpp in Sources */,
 				AB371A2A25CAF7EF00DEC50B /* TVersion.cpp in Sources */,
 				AB21146926A3452E004874CD /* TThreadTask.cpp in Sources */,
 				ABB38CB125A7CCC80050D506 /* TDictionary.cpp in Sources */,
@@ -1466,6 +1473,7 @@
 				AB56393823C75C1A00675F68 /* TUnicodeView.cpp in Sources */,
 				ABF44AE026A8EC4E00F7F369 /* BThreadPool.cpp in Sources */,
 				ABBE8C8724460960009E9B53 /* TUsageLog.cpp in Sources */,
+				ABB9137A26D276DF009CC362 /* TBroadcaster.cpp in Sources */,
 				AB2A304B24524CD700F21BF6 /* TDebugger.cpp in Sources */,
 				ABF58DAA267EB40900327252 /* TCoreFoundation.cpp in Sources */,
 				AB20329525D73E1F0050DB00 /* TStdMath.cpp in Sources */,

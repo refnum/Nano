@@ -354,6 +354,9 @@
 		ABB38CBD25A7F1700050D506 /* NDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */; };
 		ABB38CC125A7F1700050D506 /* NDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */; };
 		ABB38CC525A7F1700050D506 /* NDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */; };
+		ABB9138826D51B24009CC362 /* NReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB9138726D51B24009CC362 /* NReceiver.cpp */; };
+		ABB9138926D51B24009CC362 /* NReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB9138726D51B24009CC362 /* NReceiver.cpp */; };
+		ABB9138A26D51B24009CC362 /* NReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB9138726D51B24009CC362 /* NReceiver.cpp */; };
 		ABBB2B6823806E6100EB2840 /* NTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB328C8B17612D8400782F40 /* NTestFixture.cpp */; };
 		ABBB2B6923806E6200EB2840 /* NTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB328C8B17612D8400782F40 /* NTestFixture.cpp */; };
 		ABBB2B6A23806E6200EB2840 /* NTestFixture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB328C8B17612D8400782F40 /* NTestFixture.cpp */; };
@@ -424,11 +427,8 @@
 		ABF58C38267572F300327252 /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58C2B267572F300327252 /* NDataDigest.cpp */; };
 		ABF58C39267572F300327252 /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58C2B267572F300327252 /* NDataDigest.cpp */; };
 		ABF58C3A267572F300327252 /* NDataDigest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABF58C2B267572F300327252 /* NDataDigest.cpp */; };
-		ABF58C3B2676C2F500327252 /* NListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155130F9B4DD5009FFEAF /* NListener.cpp */; };
 		ABF58C3C2676C2F500327252 /* NBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155110F9B4DD5009FFEAF /* NBroadcaster.cpp */; };
-		ABF58C3D2676C2F600327252 /* NListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155130F9B4DD5009FFEAF /* NListener.cpp */; };
 		ABF58C3E2676C2F600327252 /* NBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155110F9B4DD5009FFEAF /* NBroadcaster.cpp */; };
-		ABF58C3F2676C2F600327252 /* NListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155130F9B4DD5009FFEAF /* NListener.cpp */; };
 		ABF58C402676C2F600327252 /* NBroadcaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155110F9B4DD5009FFEAF /* NBroadcaster.cpp */; };
 		ABF58CC9267932C200327252 /* NUndoSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A789F103234BE00DFBA38 /* NUndoSource.cpp */; };
 		ABF58CCA267932C200327252 /* NUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1A78A0103234BE00DFBA38 /* NUndoManager.cpp */; };
@@ -806,8 +806,6 @@
 		AB91550D0F9B4DD5009FFEAF /* NanoTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoTypes.h; sourceTree = "<group>"; };
 		AB9155110F9B4DD5009FFEAF /* NBroadcaster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NBroadcaster.cpp; sourceTree = "<group>"; };
 		AB9155120F9B4DD5009FFEAF /* NBroadcaster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBroadcaster.h; sourceTree = "<group>"; };
-		AB9155130F9B4DD5009FFEAF /* NListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NListener.cpp; sourceTree = "<group>"; };
-		AB9155140F9B4DD5009FFEAF /* NListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NListener.h; sourceTree = "<group>"; };
 		AB9155160F9B4DD5009FFEAF /* NByteSwap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NByteSwap.cpp; sourceTree = "<group>"; };
 		AB9155170F9B4DD5009FFEAF /* NByteSwap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NByteSwap.h; sourceTree = "<group>"; };
 		AB91551F0F9B4DD6009FFEAF /* NMacFile.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NMacFile.cpp; sourceTree = "<group>"; };
@@ -912,6 +910,10 @@
 		ABB38C6925A686B10050D506 /* NArray.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NArray.inl; sourceTree = "<group>"; };
 		ABB38CB025A7CC830050D506 /* NDictionary.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NDictionary.inl; sourceTree = "<group>"; };
 		ABB6781812AE55AA0077D64E /* NCFURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFURL.h; sourceTree = "<group>"; };
+		ABB9138626D51B24009CC362 /* NReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NReceiver.h; sourceTree = "<group>"; };
+		ABB9138726D51B24009CC362 /* NReceiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NReceiver.cpp; sourceTree = "<group>"; };
+		ABB9139026D51B87009CC362 /* NBroadcast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBroadcast.h; sourceTree = "<group>"; };
+		ABB9139826D51BFD009CC362 /* NBroadcast.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NBroadcast.inl; sourceTree = "<group>"; };
 		ABB95B750FB7250100C5A7FF /* NIOSFile.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NIOSFile.cpp; sourceTree = "<group>"; };
 		ABB95B780FB7250100C5A7FF /* NIOSSystem.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NIOSSystem.cpp; sourceTree = "<group>"; };
 		ABB95B790FB7250100C5A7FF /* NIOSTarget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NIOSTarget.cpp; sourceTree = "<group>"; };
@@ -1694,12 +1696,14 @@
 		AB9155100F9B4DD5009FFEAF /* Events */ = {
 			isa = PBXGroup;
 			children = (
+				ABB9139026D51B87009CC362 /* NBroadcast.h */,
+				ABB9139826D51BFD009CC362 /* NBroadcast.inl */,
 				AB9155110F9B4DD5009FFEAF /* NBroadcaster.cpp */,
 				AB9155120F9B4DD5009FFEAF /* NBroadcaster.h */,
-				AB9155130F9B4DD5009FFEAF /* NListener.cpp */,
-				AB9155140F9B4DD5009FFEAF /* NListener.h */,
 				ABF58CD526793B7100327252 /* NProgressable.cpp */,
 				ABF58CD626793B7100327252 /* NProgressable.h */,
+				ABB9138726D51B24009CC362 /* NReceiver.cpp */,
+				ABB9138626D51B24009CC362 /* NReceiver.h */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -2158,6 +2162,7 @@
 				AB081C3F25BC77FD0058D397 /* NMathUtils.cpp in Sources */,
 				ABDCE8D6241C61880054A16E /* tvOSNTimeUtils.cpp in Sources */,
 				AB230A162581AB8600919EBD /* crc32.c in Sources */,
+				ABB9138A26D51B24009CC362 /* NReceiver.cpp in Sources */,
 				AB0267DC2699EDA400130611 /* NGeomUtils.cpp in Sources */,
 				ABF58C402676C2F600327252 /* NBroadcaster.cpp in Sources */,
 				AB4EEC152693D40C005816E3 /* xmltok.c in Sources */,
@@ -2197,7 +2202,6 @@
 				AB230A132581AB8600919EBD /* gzread.c in Sources */,
 				AB0267AD2699A56400130611 /* pcre2_error.c in Sources */,
 				ABF58D87267C0F1100327252 /* tvOSNImage.cpp in Sources */,
-				ABF58C3F2676C2F600327252 /* NListener.cpp in Sources */,
 				ABF58D8B267C180A00327252 /* NCGImage.cpp in Sources */,
 				AB02676B2699A56400130611 /* pcre2_fuzzsupport.c in Sources */,
 				AB0267A12699A56400130611 /* pcre2_study.c in Sources */,
@@ -2317,6 +2321,7 @@
 				AB230A142581AB8600919EBD /* crc32.c in Sources */,
 				AB081C3D25BC77FD0058D397 /* NMathUtils.cpp in Sources */,
 				AB07EA46239A567500E0AC49 /* NSemaphore.cpp in Sources */,
+				ABB9138826D51B24009CC362 /* NReceiver.cpp in Sources */,
 				AB0267DA2699EDA400130611 /* NGeomUtils.cpp in Sources */,
 				AB84536B2581A09D00B78BF7 /* WjCryptLib_Sha256.c in Sources */,
 				AB4EEC132693D40C005816E3 /* xmltok.c in Sources */,
@@ -2355,7 +2360,6 @@
 				ABF58D85267C0F0A00327252 /* iOSNImage.cpp in Sources */,
 				ABD3682825D7502100C825B6 /* NCommandLine.cpp in Sources */,
 				AB0267AB2699A56400130611 /* pcre2_error.c in Sources */,
-				ABF58C3B2676C2F500327252 /* NListener.cpp in Sources */,
 				ABF58D8D267C180B00327252 /* NCGImage.cpp in Sources */,
 				ABA4791A25B7B91300F3C3C9 /* iOSNProcess.cpp in Sources */,
 				AB0267692699A56400130611 /* pcre2_fuzzsupport.c in Sources */,
@@ -2476,6 +2480,7 @@
 				AB549B98269116CE00B14417 /* macOSNBundle.cpp in Sources */,
 				ABA478B825B7B7A400F3C3C9 /* NProcess.cpp in Sources */,
 				AB081C3E25BC77FD0058D397 /* NMathUtils.cpp in Sources */,
+				ABB9138926D51B24009CC362 /* NReceiver.cpp in Sources */,
 				AB0267DB2699EDA400130611 /* NGeomUtils.cpp in Sources */,
 				AB230A152581AB8600919EBD /* crc32.c in Sources */,
 				ABA478EB25B7B91300F3C3C9 /* macOSNMachine.cpp in Sources */,
@@ -2512,7 +2517,6 @@
 				AB0267702699A56400130611 /* pcre2_dfa_match.c in Sources */,
 				AB4EEC112693D40C005816E3 /* xmlparse.c in Sources */,
 				ABD3682425D7502100C825B6 /* NCommandLine.cpp in Sources */,
-				ABF58C3D2676C2F600327252 /* NListener.cpp in Sources */,
 				AB0267AC2699A56400130611 /* pcre2_error.c in Sources */,
 				ABDCE8DF241C61960054A16E /* macOSNFileHandle.cpp in Sources */,
 				ABF58D8C267C180B00327252 /* NCGImage.cpp in Sources */,

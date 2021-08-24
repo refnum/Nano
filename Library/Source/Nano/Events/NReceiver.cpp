@@ -1,8 +1,8 @@
 /*	NAME:
-		NListener.cpp
+		NReceiver.cpp
 
 	DESCRIPTION:
-		Message listener.
+		Broadcast receiver.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -39,30 +39,24 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
-#include "NListener.h"
+#include "NReceiver.h"
 
 // Nano
-#include "NScopedLock.h"
-#include "NStdAlgorithm.h"
-#include "NString.h"
-
-
-// System
-#include <unordered_set>
+#include "NBroadcaster.h"
 
 
 
 
 
 //=============================================================================
-//		NListener::~NListener : Destructor.
+//		NReceiver::~NReceiver : Destructor.
 //-----------------------------------------------------------------------------
-NListener::~NListener()
+NReceiver::~NReceiver()
 {
 
 
 	// Clean up
-	StopListening();
+	NBroadcaster::DestroyedReceiver(this);
 }
 
 
@@ -70,19 +64,14 @@ NListener::~NListener()
 
 
 //=============================================================================
-//		NListener::StartListening : Start listening for a message.
+//		NReceiver::StartReceiving : Start receiving a message.
 //-----------------------------------------------------------------------------
-void NListener::StartListening(NBroadcaster*            theBroadcaster,
-							   const NString&           theMsg,
-							   const NFunctionListenID& theFunction)
+void NReceiver::StartReceiving(const NString& theMessage, const NFunctionReceiver& theFunction)
 {
 
 
-	// Start listening for the message
-	NScopedLock acquireLock(mLock);
-
-	theBroadcaster->AddListener(this, theMsg, theFunction);
-	mBroadcasters.push_back(theBroadcaster);
+	// Start receiving the message
+	NBroadcaster::StartReceiving(this, theMessage, theFunction);
 }
 
 
@@ -90,21 +79,19 @@ void NListener::StartListening(NBroadcaster*            theBroadcaster,
 
 
 //=============================================================================
-//		NListener::StartListening : Start listening for a message.
+//		NReceiver::StartReceiving : Start receiving a message.
 //-----------------------------------------------------------------------------
-void NListener::StartListening(NBroadcaster*    theBroadcaster,
-							   const NString&   theMsg,
-							   const NFunction& theFunction)
+void NReceiver::StartReceiving(const NString& theMessage, const NFunction& theFunction)
 {
 
 
-	// Start listening for the message
-	StartListening(theBroadcaster,
-				   theMsg,
-				   [=](const NString&)
-				   {
-					   theFunction();
-				   });
+	// Start receiving the message
+	NBroadcaster::StartReceiving(this,
+								 theMessage,
+								 [=](const NBroadcast&)
+								 {
+									 theFunction();
+								 });
 }
 
 
@@ -112,54 +99,27 @@ void NListener::StartListening(NBroadcaster*    theBroadcaster,
 
 
 //=============================================================================
-//		NListener::StopListening : Stop listening for a message.
+//		NReceiver::StopReceiving : Stop receiving a message.
 //-----------------------------------------------------------------------------
-void NListener::StopListening(NBroadcaster* theBroadcaster, const NString& theMsg)
+void NReceiver::StopReceiving(const NString& theMessage)
 {
 
 
-	// Stop listening for the message
-	NScopedLock acquireLock(mLock);
-
-	theBroadcaster->RemoveListener(this, theMsg);
-
-
-
-	// Remove one broadcaster from our list
-	//
-	// We may be listening to the same broadcaster multiple times by listening
-	// for different messages.
-	//
-	// However, as each Start / Stop must be balanced, we know we can never be
-	// asked to stop listening to someone we're not listening to.
-	NN_REQUIRE(nstd::contains(mBroadcasters, theBroadcaster));
-
-	nstd::erase(mBroadcasters, theBroadcaster);
+	// Stop receiving the message
+	NBroadcaster::StopReceiving(this, theMessage);
 }
 
 
 
 
 
-#pragma mark private
 //=============================================================================
-//		NListener::StopListening : Stop listening to all messages.
+//		NReceiver::StopReceiving : Stop receiving messages.
 //-----------------------------------------------------------------------------
-void NListener::StopListening()
+void NReceiver::StopReceiving()
 {
 
 
-	// Stop listening to messages
-	//
-	// We may listen to a broadcaster multiple items, however when we remove
-	// ourselves due to destruction we only need to inform them once.
-	NScopedLock acquireLock(mLock);
-
-	NVectorBroadcaster theBroadcasters(mBroadcasters);
-	nstd::uniquify(theBroadcasters);
-
-	for (auto& theBroadcaster : theBroadcasters)
-	{
-		theBroadcaster->RemoveListener(this, "");
-	}
+	// Stop receiving messages
+	NBroadcaster::StopReceiving(this);
 }

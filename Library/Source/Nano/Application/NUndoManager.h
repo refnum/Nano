@@ -81,7 +81,7 @@ using NVectorUndoGroup = std::vector<NUndoGroup>;
 //=============================================================================
 //		Class Declaration
 //-----------------------------------------------------------------------------
-class NUndoManager : public NBroadcaster
+class NUndoManager
 {
 public:
 										NUndoManager();
