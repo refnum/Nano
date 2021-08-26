@@ -109,10 +109,10 @@ NVectorString NTextUtils::RemoveEmpty(const NVectorString& theStrings)
 	NVectorString theResult(theStrings);
 
 	nstd::erase_if(theResult,
-				   [](const NString& theString)
-				   {
-					   return theString.IsEmpty();
-				   });
+	[](const NString& theString)
+	{
+		return theString.IsEmpty();
+	});
 
 	return theResult;
 }

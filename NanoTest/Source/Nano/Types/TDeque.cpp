@@ -344,21 +344,21 @@ NANO_TEST(TDeque, "ProducerConsumer")
 	NVectorSize theOutput;
 
 	NUniqueThread theConsumer = NThread::Create("TDeque_ProducerConsumer",
-												[&]()
-												{
-													while (theOutput.size() != kNSizeLarge)
-													{
-														auto theItem = theDeque.PopBack();
-														if (theItem.has_value())
-														{
-															theOutput.push_back(theItem.value());
-														}
-														else
-														{
-															NThread::Sleep(0.010);
-														}
-													}
-												});
+	[&]()
+	{
+		while (theOutput.size() != kNSizeLarge)
+		{
+			auto theItem = theDeque.PopBack();
+			if (theItem.has_value())
+			{
+				theOutput.push_back(theItem.value());
+			}
+			else
+			{
+				NThread::Sleep(0.010);
+			}
+		}
+	});
 
 
 
@@ -405,21 +405,21 @@ NANO_TEST(TDeque, "ProducerConsumers")
 	{
 		theConsumers.emplace_back(
 			NThread::Create("TDeque::ProducerConsumers",
-							[&theInput = theDeque, &theOutput = theOutputs[n]]()
-							{
-								while (theOutput.size() != kNSizeConsumer)
-								{
-									auto theItem = theInput.PopBack();
-									if (theItem.has_value())
-									{
-										theOutput.push_back(theItem.value());
-									}
-									else
-									{
-										NThread::Sleep(0.010);
-									}
-								}
-							}));
+			[&theInput = theDeque, &theOutput = theOutputs[n]]()
+			{
+				while (theOutput.size() != kNSizeConsumer)
+				{
+					auto theItem = theInput.PopBack();
+					if (theItem.has_value())
+					{
+						theOutput.push_back(theItem.value());
+					}
+					else
+					{
+						NThread::Sleep(0.010);
+					}
+				}
+			}));
 	}
 
 

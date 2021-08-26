@@ -132,10 +132,10 @@ NANO_TEST(TThreadPool, "AddFunction")
 	NSemaphore theSemaphore;
 
 	thePool->Add(
-		[&]()
-		{
-			theSemaphore.Signal();
-		});
+	[&]()
+	{
+		theSemaphore.Signal();
+	});
 
 	REQUIRE(theSemaphore.Wait());
 }
@@ -155,10 +155,10 @@ NANO_TEST(TThreadPool, "AddTask")
 	NSemaphore theSemaphore;
 
 	auto theTask = std::make_shared<NThreadTask>(
-		[&]()
-		{
-			theSemaphore.Signal();
-		});
+	[&]()
+	{
+		theSemaphore.Signal();
+	});
 
 	thePool->Add(theTask);
 

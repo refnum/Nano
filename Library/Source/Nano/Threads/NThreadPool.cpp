@@ -485,10 +485,10 @@ void NThreadPool::StartWorker(NThreadPoolWorker* theWorker)
 
 	// Start the worker
 	theWorker->theThread->GetRunLoop()->Add(
-		[=]()
-		{
-			ExecuteTasks(theWorker);
-		});
+	[=]()
+	{
+		ExecuteTasks(theWorker);
+	});
 }
 
 
@@ -504,10 +504,10 @@ void NThreadPool::StartCulling()
 
 	// Install the task
 	mCullTask.Add(
-		[this]()
-		{
-			CullWorkers();
-		},
+	[this]()
+	{
+		CullWorkers();
+	},
 		kNCullInterval,
 		kNCullInterval);
 }

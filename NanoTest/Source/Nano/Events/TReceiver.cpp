@@ -138,12 +138,12 @@ NANO_TEST(TReceiver, "StartReceiving/Value")
 
 	// Perform the test
 	theReceiver.StartReceiving(kNTestMessage,
-							   [&](const NAny& theValue)
-							   {
-								   REQUIRE(theValue.IsUInt32());
-								   REQUIRE(theValue.GetUInt32() == kNTestValue);
-								   theReceiver.Increment();
-							   });
+	[&](const NAny& theValue)
+	{
+		REQUIRE(theValue.IsUInt32());
+		REQUIRE(theValue.GetUInt32() == kNTestValue);
+		theReceiver.Increment();
+	});
 
 	REQUIRE(theReceiver.GetValue() == 0);
 	NBroadcaster::Send(kNTestMessage, kNTestValue);
@@ -163,10 +163,10 @@ NANO_TEST(TReceiver, "StartReceiving")
 
 	// Perform the test
 	theReceiver.StartReceiving(kNTestMessage,
-							   [&]()
-							   {
-								   theReceiver.Increment();
-							   });
+	[&]()
+	{
+		theReceiver.Increment();
+	});
 
 	REQUIRE(theReceiver.GetValue() == 0);
 	NBroadcaster::Send(kNTestMessage, kNTestValue);
@@ -186,10 +186,10 @@ NANO_TEST(TReceiver, "StopReceiving/Message")
 
 	// Perform the test
 	theReceiver.StartReceiving(kNTestMessage,
-							   [&]()
-							   {
-								   theReceiver.Increment();
-							   });
+	[&]()
+	{
+		theReceiver.Increment();
+	});
 
 	REQUIRE(theReceiver.GetValue() == 0);
 	NBroadcaster::Send(kNTestMessage, kNTestValue);
@@ -214,10 +214,10 @@ NANO_TEST(TReceiver, "StopReceiving/All")
 
 	// Perform the test
 	theReceiver.StartReceiving(kNTestMessage,
-							   [&]()
-							   {
-								   theReceiver.Increment();
-							   });
+	[&]()
+	{
+		theReceiver.Increment();
+	});
 
 	REQUIRE(theReceiver.GetValue() == 0);
 	NBroadcaster::Send(kNTestMessage, kNTestValue);
@@ -248,10 +248,10 @@ NANO_TEST(TReceiver, "Destructor")
 		TestReceiverIncrement scopedReceiver;
 
 		scopedReceiver.StartReceiving(kNTestMessage,
-									  [&]()
-									  {
-										  scopedReceiver.Increment();
-									  });
+		[&]()
+		{
+			scopedReceiver.Increment();
+		});
 
 		REQUIRE(scopedReceiver.GetValue() == 0);
 		NBroadcaster::Send(kNTestMessage, kNTestValue);
@@ -274,10 +274,10 @@ NANO_TEST(TReceiver, "StartStopStartReceiving")
 
 	// Perform the test
 	theReceiver.StartReceiving(kNTestMessage,
-							   [&]()
-							   {
-								   theReceiver.Increment();
-							   });
+	[&]()
+	{
+		theReceiver.Increment();
+	});
 
 	REQUIRE(theReceiver.GetValue() == 0);
 	NBroadcaster::Send(kNTestMessage, kNTestValue);
@@ -289,10 +289,10 @@ NANO_TEST(TReceiver, "StartStopStartReceiving")
 	REQUIRE(theReceiver.GetValue() == 1);
 
 	theReceiver.StartReceiving(kNTestMessage,
-							   [&]()
-							   {
-								   theReceiver.Increment();
-							   });
+	[&]()
+	{
+		theReceiver.Increment();
+	});
 
 	NBroadcaster::Send(kNTestMessage, kNTestValue);
 	REQUIRE(theReceiver.GetValue() == 2);

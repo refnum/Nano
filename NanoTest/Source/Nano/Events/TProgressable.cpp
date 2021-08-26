@@ -95,10 +95,10 @@ NANO_TEST(TProgressable, "GetProgressFunction")
 
 	// Perform the test
 	theProgress.SetProgressFunction(
-		[](NProgress, float)
-		{
-			return NStatus::OK;
-		});
+	[](NProgress, float)
+	{
+		return NStatus::OK;
+	});
 
 	REQUIRE(theProgress.GetProgressFunction() != nullptr);
 }
@@ -163,23 +163,23 @@ NANO_TEST(TProgressable, "UpdateProgress")
 	size_t numEnd    = 0;
 
 	theProgress.SetProgressFunction(
-		[&](NProgress theState, float)
+	[&](NProgress theState, float)
+	{
+		switch (theState)
 		{
-			switch (theState)
-			{
-				case NProgress::Begin:
-					numBegin++;
-					break;
-				case NProgress::Update:
-					numUpdate++;
-					break;
-				case NProgress::End:
-					numEnd++;
-					break;
-			}
+			case NProgress::Begin:
+				numBegin++;
+				break;
+			case NProgress::Update:
+				numUpdate++;
+				break;
+			case NProgress::End:
+				numEnd++;
+				break;
+		}
 
-			return NStatus::OK;
-		});
+		return NStatus::OK;
+	});
 
 
 

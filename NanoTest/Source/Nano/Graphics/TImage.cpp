@@ -546,11 +546,11 @@ NANO_TEST(TImage, "ForEachPixel/Immutable")
 	size_t numPixels = 0;
 
 	theImage.ForEachPixel(
-		[&](size_t, size_t, const uint8_t*)
-		{
-			numPixels++;
-			return true;
-		});
+	[&](size_t, size_t, const uint8_t*)
+	{
+		numPixels++;
+		return true;
+	});
 
 	REQUIRE(numPixels == 1);
 }
@@ -565,11 +565,11 @@ NANO_TEST(TImage, "ForEachPixel/Mutable")
 	size_t numPixels = 0;
 
 	theImage.ForEachPixel(
-		[&](size_t, size_t, uint8_t*)
-		{
-			numPixels++;
-			return true;
-		});
+	[&](size_t, size_t, uint8_t*)
+	{
+		numPixels++;
+		return true;
+	});
 
 	REQUIRE(numPixels == 1);
 }
@@ -589,11 +589,11 @@ NANO_TEST(TImage, "ForEachRow/Immutable")
 	size_t numRows = 0;
 
 	theImage.ForEachRow(
-		[&](size_t, size_t, const uint8_t*)
-		{
-			numRows++;
-			return true;
-		});
+	[&](size_t, size_t, const uint8_t*)
+	{
+		numRows++;
+		return true;
+	});
 
 	REQUIRE(numRows == 1);
 }
@@ -608,11 +608,11 @@ NANO_TEST(TImage, "ForEachRow/Mutable")
 	size_t numRows = 0;
 
 	theImage.ForEachRow(
-		[&](size_t, size_t, uint8_t*)
-		{
-			numRows++;
-			return true;
-		});
+	[&](size_t, size_t, uint8_t*)
+	{
+		numRows++;
+		return true;
+	});
 
 	REQUIRE(numRows == 1);
 }

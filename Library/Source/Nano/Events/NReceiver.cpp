@@ -88,10 +88,10 @@ void NReceiver::StartReceiving(const NString& theMessage, const NFunction& theFu
 	// Start receiving the message
 	NBroadcaster::StartReceiving(this,
 								 theMessage,
-								 [=](const NBroadcast&)
-								 {
-									 theFunction();
-								 });
+	[=](const NBroadcast&)
+	{
+		theFunction();
+	});
 }
 
 

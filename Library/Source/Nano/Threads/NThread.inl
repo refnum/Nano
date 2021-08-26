@@ -314,10 +314,10 @@ inline NThread::NThread(const NString& theName, size_t stackSize)
 	// Create the thread
 	CreateThread(theName,
 				 stackSize,
-				 [&]()
-				 {
-					 mRunLoop->Run();
-				 });
+	[&]()
+	{
+		mRunLoop->Run();
+	});
 }
 
 

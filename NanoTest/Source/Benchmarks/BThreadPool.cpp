@@ -175,13 +175,13 @@ static void PerformBenchmark(size_t numTasks, size_t numIters)
 	{
 		return CreateWork(numTasks,
 						  numIters,
-						  [&](WorkState* theWork)
-						  {
-							  NThreadPool::GetMain()->Add(
-								  [=]()
-								  {
-									  ExecuteWork(theWork);
-								  });
+		[&](WorkState* theWork)
+		{
+			NThreadPool::GetMain()->Add(
+			[=]()
+			{
+				ExecuteWork(theWork);
+			});
 						  });
 	};
 
@@ -191,13 +191,13 @@ static void PerformBenchmark(size_t numTasks, size_t numIters)
 	{
 		return CreateWork(numTasks,
 						  numIters,
-						  [=](WorkState* theWork)
-						  {
-							  std::async(
-								  [=]()
-								  {
-									  ExecuteWork(theWork);
-								  });
+		[=](WorkState* theWork)
+		{
+			std::async(
+			[=]()
+			{
+				ExecuteWork(theWork);
+			});
 						  });
 	};
 #endif // NN_TARGET_WINDOWS
@@ -210,15 +210,15 @@ static void PerformBenchmark(size_t numTasks, size_t numIters)
 
 		return CreateWork(numTasks,
 						  numIters,
-						  [=](WorkState* theWork)
-						  {
-							  dispatch_async_f(
-								  theQueue,
-								  theWork,
-								  [](void* userData)
-								  {
-									  ExecuteWork(reinterpret_cast<WorkState*>(userData));
-								  });
+		[=](WorkState* theWork)
+		{
+			dispatch_async_f(
+				theQueue,
+				theWork,
+			[](void* userData)
+			{
+				ExecuteWork(reinterpret_cast<WorkState*>(userData));
+			});
 						  });
 	};
 #endif // NN_PLATFORM_DARWIN

@@ -113,11 +113,11 @@ NANO_TEST(TRunLoop, "GetCurrent")
 
 	NUniqueThread theThread =
 		NThread::Create("TRunLoop_GetCurrent",
-						[&]()
-						{
-							isMain = (NRunLoop::GetCurrent() == NRunLoop::GetMain());
-							theSemaphore.Signal();
-						});
+		[&]()
+		{
+			isMain = (NRunLoop::GetCurrent() == NRunLoop::GetMain());
+			theSemaphore.Signal();
+		});
 
 	theSemaphore.Wait();
 	REQUIRE(!isMain);

@@ -398,20 +398,20 @@ void NImage::ForEachPixel(const NFunctionEachImmutablePixel& theFunction) const
 	size_t bytesPerPixel = GetBytesPerPixel();
 
 	ForEachRow(
-		[&](size_t y, size_t theWidth, const uint8_t* rowPtr)
+	[&](size_t y, size_t theWidth, const uint8_t* rowPtr)
+	{
+		for (size_t x = 0; x < theWidth; x++)
 		{
-			for (size_t x = 0; x < theWidth; x++)
+			if (!theFunction(x, y, rowPtr))
 			{
-				if (!theFunction(x, y, rowPtr))
-				{
-					return false;
-				}
-
-				rowPtr += bytesPerPixel;
+				return false;
 			}
 
-			return true;
-		});
+			rowPtr += bytesPerPixel;
+		}
+
+		return true;
+	});
 }
 
 
@@ -429,20 +429,20 @@ void NImage::ForEachPixel(const NFunctionEachMutablePixel& theFunction)
 	size_t pixelBytes = GetBytesPerPixel();
 
 	ForEachRow(
-		[&](size_t y, size_t theWidth, uint8_t* rowPtr)
+	[&](size_t y, size_t theWidth, uint8_t* rowPtr)
+	{
+		for (size_t x = 0; x < theWidth; x++)
 		{
-			for (size_t x = 0; x < theWidth; x++)
+			if (!theFunction(x, y, rowPtr))
 			{
-				if (!theFunction(x, y, rowPtr))
-				{
-					return false;
-				}
-
-				rowPtr += pixelBytes;
+				return false;
 			}
 
-			return true;
-		});
+			rowPtr += pixelBytes;
+		}
+
+		return true;
+	});
 }
 
 

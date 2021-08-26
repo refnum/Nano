@@ -350,10 +350,10 @@ void NCache<K, V>::PurgeSize()
 	//
 	// Sort by least recently used,
 	nstd::sort(keyTimes,
-			   [](const NCacheKeyTime& valueA, const NCacheKeyTime& valueB)
-			   {
-				   return valueA.lastAccess < valueB.lastAccess;
-			   });
+	[](const NCacheKeyTime& valueA, const NCacheKeyTime& valueB)
+	{
+		return valueA.lastAccess < valueB.lastAccess;
+	});
 
 	for (const auto& keyTime : keyTimes)
 	{
@@ -402,10 +402,10 @@ void NCache<K, V>::PurgeCost()
 	//
 	// Sort by largest cost.
 	nstd::sort(keyCosts,
-			   [](const NCacheKeyCost& valueA, const NCacheKeyCost& valueB)
-			   {
-				   return valueA.theCost > valueB.theCost;
-			   });
+	[](const NCacheKeyCost& valueA, const NCacheKeyCost& valueB)
+	{
+		return valueA.theCost > valueB.theCost;
+	});
 
 	for (const auto& keyCost : keyCosts)
 	{

@@ -58,10 +58,10 @@ void NThreadGroup::AddEach(const Container& theContainer,
 	for (const auto& theItem : theContainer)
 	{
 		Add(
-			[=]()
-			{
-				theFunction(theItem);
-			},
+		[=]()
+		{
+			theFunction(theItem);
+		},
 			thePool);
 	}
 }

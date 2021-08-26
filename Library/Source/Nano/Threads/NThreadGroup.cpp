@@ -76,11 +76,11 @@ void NThreadGroup::Add(const NFunction& theFunction, NThreadPool* thePool)
 
 	mCount++;
 	thePool->Add(
-		[=]()
-		{
-			theFunction();
-			mSemaphore.Signal();
-		});
+	[=]()
+	{
+		theFunction();
+		mSemaphore.Signal();
+	});
 }
 
 

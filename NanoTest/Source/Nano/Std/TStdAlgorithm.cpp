@@ -190,10 +190,10 @@ NANO_TEST(TStdAlgorithm, "nstd:erase_if")
 	REQUIRE(theVector.size() == 3);
 
 	nstd::erase_if(theVector,
-				   [](uint32_t theValue)
-				   {
-					   return theValue != 2;
-				   });
+	[](uint32_t theValue)
+	{
+		return theValue != 2;
+	});
 
 	REQUIRE(theVector.size() == 1);
 	REQUIRE(theVector[0] == 2);

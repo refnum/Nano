@@ -579,10 +579,10 @@ NRunLoopWork* NRunLoop::GetNextWork()
 	if (mSortWork)
 	{
 		nstd::stable_sort(mWork,
-						  [](const NRunLoopWork& workA, const NRunLoopWork& workB)
-						  {
-							  return workA.executeAt < workB.executeAt;
-						  });
+		[](const NRunLoopWork& workA, const NRunLoopWork& workB)
+		{
+			return workA.executeAt < workB.executeAt;
+		});
 
 		mSortWork = false;
 	}

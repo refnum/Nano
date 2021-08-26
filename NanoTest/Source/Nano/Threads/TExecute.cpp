@@ -68,11 +68,11 @@ NANO_TEST(TExecute, "NExecute")
 	bool didExecute = false;
 
 	NExecute(
-		[&]()
-		{
-			REQUIRE(NRunLoop::GetCurrent() != NRunLoop::GetMain());
-			didExecute = true;
-		});
+	[&]()
+	{
+		REQUIRE(NRunLoop::GetCurrent() != NRunLoop::GetMain());
+		didExecute = true;
+	});
 
 	NRunLoop::GetMain()->Run(0.010);
 	REQUIRE(didExecute);
@@ -94,14 +94,14 @@ NANO_TEST(TExecute, "NExecuteMain")
 
 	auto theThread =
 		NThread::Create("NExecuteMain",
-						[&]()
-						{
-							NExecuteMain(
-								[&]()
-								{
-									REQUIRE(NRunLoop::GetCurrent() == NRunLoop::GetMain());
-									didExecute = true;
-								});
+		[&]()
+		{
+			NExecuteMain(
+			[&]()
+			{
+				REQUIRE(NRunLoop::GetCurrent() == NRunLoop::GetMain());
+				didExecute = true;
+			});
 						});
 
 	NRunLoop::GetMain()->Run(0.010);
@@ -123,11 +123,11 @@ NANO_TEST(TExecute, "NExecuteMainAsync")
 	bool didExecute = false;
 
 	NExecuteMainAsync(
-		[&]()
-		{
-			REQUIRE(NRunLoop::GetCurrent() == NRunLoop::GetMain());
-			didExecute = true;
-		});
+	[&]()
+	{
+		REQUIRE(NRunLoop::GetCurrent() == NRunLoop::GetMain());
+		didExecute = true;
+	});
 
 	NRunLoop::GetMain()->Run(0.010);
 	REQUIRE(didExecute);

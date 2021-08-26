@@ -70,10 +70,10 @@ NANO_TEST(TRunLoopTask, "Clear")
 	theTask.Clear();
 
 	theTask.Add(
-		[]()
-		{
-			NN_LOG_INFO("TRunLoopTask_Add");
-		},
+	[]()
+	{
+		NN_LOG_INFO("TRunLoopTask_Add");
+	},
 		kNTimeMinute,
 		kNTimeMinute);
 
@@ -93,10 +93,10 @@ NANO_TEST(TRunLoopTask, "Add")
 
 	// Perform the test
 	theTask.Add(
-		[]()
-		{
-			NN_LOG_INFO("TRunLoopTask_Add");
-		},
+	[]()
+	{
+		NN_LOG_INFO("TRunLoopTask_Add");
+	},
 		kNTimeMinute,
 		kNTimeMinute);
 }

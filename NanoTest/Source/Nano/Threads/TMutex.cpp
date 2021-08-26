@@ -77,29 +77,29 @@ NInterval BenchmarkMutex(std::function<void(MutexType&)> lockFunc,
 	{
 		theThreads.emplace_back(
 			NThread("BenchmarkMutex",
-					[&lockFunc, &unlockFunc, &startFlag, &theMutex = theMutexes[t]]()
+			[&lockFunc, &unlockFunc, &startFlag, &theMutex = theMutexes[t]]()
+			{
+				// Wait for the flag
+				std::mt19937 randomWork{std::random_device{}()};
+
+				while (!startFlag)
+				{
+					randomWork();
+				}
+
+
+				// Do the work
+				for (size_t n = 0; n < kNumIters; n++)
+				{
+					lockFunc(theMutex);
+
+					while (randomWork() % 4)
 					{
-						// Wait for the flag
-						std::mt19937 randomWork{std::random_device{}()};
+					}
 
-						while (!startFlag)
-						{
-							randomWork();
-						}
-
-
-						// Do the work
-						for (size_t n = 0; n < kNumIters; n++)
-						{
-							lockFunc(theMutex);
-
-							while (randomWork() % 4)
-							{
-							}
-
-							unlockFunc(theMutex);
-						}
-					}));
+					unlockFunc(theMutex);
+				}
+			}));
 	}
 
 
@@ -220,10 +220,10 @@ NANO_TEST(TMutex, "Benchmark/Uncontended")
 
 
 	NInterval timeNMutex = BenchmarkMutex<NMutex, kNumIters, kNumThreads>(
-		[](NMutex& theLock)
-		{
-			theLock.Lock();
-		},
+	[](NMutex& theLock)
+	{
+		theLock.Lock();
+	},
 		[](NMutex& theLock)
 		{
 			theLock.Unlock();
@@ -233,10 +233,10 @@ NANO_TEST(TMutex, "Benchmark/Uncontended")
 
 
 	NInterval timeStdMutex = BenchmarkMutex<std::mutex, kNumIters, kNumThreads>(
-		[](std::mutex& theLock)
-		{
-			theLock.lock();
-		},
+	[](std::mutex& theLock)
+	{
+		theLock.lock();
+	},
 		[](std::mutex& theLock)
 		{
 			theLock.unlock();
@@ -268,10 +268,10 @@ NANO_TEST(TMutex, "Benchmark/Contended")
 
 
 	NInterval timeNMutex = BenchmarkMutex<NMutex, kNumIters, kNumThreads>(
-		[](NMutex& theLock)
-		{
-			theLock.Lock();
-		},
+	[](NMutex& theLock)
+	{
+		theLock.Lock();
+	},
 		[](NMutex& theLock)
 		{
 			theLock.Unlock();
@@ -281,10 +281,10 @@ NANO_TEST(TMutex, "Benchmark/Contended")
 
 
 	NInterval timeStdMutex = BenchmarkMutex<std::mutex, kNumIters, kNumThreads>(
-		[](std::mutex& theLock)
-		{
-			theLock.lock();
-		},
+	[](std::mutex& theLock)
+	{
+		theLock.lock();
+	},
 		[](std::mutex& theLock)
 		{
 			theLock.unlock();

@@ -86,10 +86,10 @@ void NBroadcaster::SendAsync(const NString& theMessage, const NAny& theValue)
 
 	// Send the message
 	NExecute(
-		[=]()
-		{
-			Send(theMessage, theValue);
-		});
+	[=]()
+	{
+		Send(theMessage, theValue);
+	});
 }
 
 
@@ -352,10 +352,10 @@ void NBroadcaster::RemoveReceiver(const NReceiver* theReceiver, const NString& t
 	NScopedLock acquireLock(mLock);
 
 	nstd::erase_if(mMessages.find(theMessage).value(),
-				   [=](const NBroadcastRecipient& theRecipient)
-				   {
-					   return theRecipient.theReceiver == theReceiver;
-				   });
+	[=](const NBroadcastRecipient& theRecipient)
+	{
+		return theRecipient.theReceiver == theReceiver;
+	});
 
 	nstd::erase(mReceivers.find(theReceiver).value(), theMessage);
 
