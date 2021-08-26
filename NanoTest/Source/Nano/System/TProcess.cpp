@@ -41,6 +41,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NProcess.h"
+#include "NString.h"
 #include "NTestFixture.h"
 
 

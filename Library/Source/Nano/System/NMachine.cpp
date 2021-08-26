@@ -41,6 +41,10 @@
 //-----------------------------------------------------------------------------
 #include "NMachine.h"
 
+// Nano
+#include "NDebug.h"
+#include "NString.h"
+
 
 
 

@@ -41,6 +41,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NMachine.h"
+#include "NString.h"
 #include "NTestFixture.h"
 
 
