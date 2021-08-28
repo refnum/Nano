@@ -138,10 +138,10 @@ NANO_TEST(TReceiver, "StartReceiving/Value")
 
 	// Perform the test
 	theReceiver.StartReceiving(kNTestMessage,
-	[&](const NAny& theValue)
+	[&](const NBroadcast& theBroadcast)
 	{
-		REQUIRE(theValue.IsUInt32());
-		REQUIRE(theValue.GetUInt32() == kNTestValue);
+		REQUIRE(theBroadcast.GetValue().IsUInt32());
+		REQUIRE(theBroadcast.GetValue().GetUInt32() == kNTestValue);
 		theReceiver.Increment();
 	});
 
