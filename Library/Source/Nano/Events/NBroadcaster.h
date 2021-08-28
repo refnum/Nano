@@ -46,6 +46,7 @@
 #include "NMap.h"
 #include "NMutex.h"
 #include "NReceiver.h"
+#include "NString.h"
 
 
 
@@ -54,10 +55,6 @@
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
-// Forward declarations
-class NString;
-
-
 // Recipients
 struct NBroadcastRecipient
 {

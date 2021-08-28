@@ -40,6 +40,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NArray.h"
+#include "NData.h"
 #include "NDataEncoder.h"
 #include "NDictionary.h"
 #include "NFile.h"
