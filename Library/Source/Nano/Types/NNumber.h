@@ -85,6 +85,7 @@ class NN_EMPTY_BASE NNumber final : public NMixinComparable<NNumber>
 public:
 	template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
 										NNumber(T theValue);
+										NNumber(const NNumber& theValue);
 										NNumber(const NString& theValue);
 
 										NNumber() = default;
@@ -134,6 +135,7 @@ public:
 	// Operators
 	template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
 	NNumber&                            operator=(T theValue);
+	NNumber&                            operator=(const NNumber& theValue);
 	NNumber&                            operator=(const NString& theValue);
 
 

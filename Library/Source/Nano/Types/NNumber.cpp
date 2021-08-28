@@ -62,23 +62,6 @@
 
 
 //=============================================================================
-//		NAny::NAny : Constructor.
-//-----------------------------------------------------------------------------
-NNumber::NNumber(const NString& theValue)
-	: mValue()
-{
-
-
-	// Set the value
-	bool wasOK = SetValue(theValue);
-	NN_REQUIRE(wasOK);
-}
-
-
-
-
-
-//=============================================================================
 //		NNumber::IsInteger : Is the number an integer?
 //-----------------------------------------------------------------------------
 bool NNumber::IsInteger() const
@@ -438,17 +421,24 @@ bool NNumber::SetValue(const NAny& theValue)
 		didSet = false;
 	}
 
+	else if (theValue.Is<NNumber>())
+	{
+		mValue = theValue.GetNumber().mValue;
+	}
+
 	else if (theValue.IsBool())
 	{
 		mValue = uint64_t(theValue.GetBool());
 	}
-	else if (theValue.IsUInt8())
+
+
+	else if (theValue.Is<uint8_t>())
 	{
-		mValue = uint64_t(theValue.GetUInt8());
+		mValue = uint64_t(theValue.Get<uint8_t>());
 	}
-	else if (theValue.IsUInt16())
+	else if (theValue.Is<uint16_t>())
 	{
-		mValue = uint64_t(theValue.GetUInt16());
+		mValue = uint64_t(theValue.Get<uint16_t>());
 	}
 	else if (theValue.IsUInt32())
 	{
@@ -459,13 +449,14 @@ bool NNumber::SetValue(const NAny& theValue)
 		mValue = uint64_t(theValue.GetUInt64());
 	}
 
-	else if (theValue.IsInt8())
+
+	else if (theValue.Is<int8_t>())
 	{
-		mValue = int64_t(theValue.GetInt8());
+		mValue = int64_t(theValue.Get<int8_t>());
 	}
-	else if (theValue.IsInt16())
+	else if (theValue.Is<int16_t>())
 	{
-		mValue = int64_t(theValue.GetInt16());
+		mValue = int64_t(theValue.Get<int16_t>());
 	}
 	else if (theValue.IsInt32())
 	{
@@ -476,6 +467,7 @@ bool NNumber::SetValue(const NAny& theValue)
 		mValue = int64_t(theValue.GetInt64());
 	}
 
+
 	else if (theValue.IsFloat32())
 	{
 		mValue = float64_t(theValue.GetFloat32());
@@ -484,6 +476,7 @@ bool NNumber::SetValue(const NAny& theValue)
 	{
 		mValue = float64_t(theValue.GetFloat64());
 	}
+
 
 	else if (theValue.Is<unsigned short>())
 	{
@@ -502,6 +495,7 @@ bool NNumber::SetValue(const NAny& theValue)
 		mValue = uint64_t(theValue.Get<unsigned long long>());
 	}
 
+
 	else if (theValue.Is<short>())
 	{
 		mValue = int64_t(theValue.Get<short>());
@@ -518,6 +512,7 @@ bool NNumber::SetValue(const NAny& theValue)
 	{
 		mValue = int64_t(theValue.Get<long long>());
 	}
+
 
 	else if (theValue.Is<size_t>())
 	{
@@ -554,24 +549,6 @@ bool NNumber::SetValue(const NString& theValue)
 	bool          isValid   = ParseReal(textStart) || ParseInteger(textStart);
 
 	return isValid;
-}
-
-
-
-
-
-//=============================================================================
-//		NAny::NAny : Constructor.
-//-----------------------------------------------------------------------------
-NNumber& NNumber::operator=(const NString& theValue)
-{
-
-
-	// Set the value
-	bool wasOK = SetValue(theValue);
-	NN_REQUIRE(wasOK);
-
-	return *this;
 }
 
 

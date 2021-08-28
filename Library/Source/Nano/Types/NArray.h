@@ -101,12 +101,15 @@ public:
 
 	// Remove a value
 	void                                RemoveValue(size_t theIndex);
+
+
+	// Remove a range of values
 	void                                RemoveValues(const NRange& theRange);
 
 
 	// Get a value
 	//
-	// Returns 0/empty if the value can not be returned as the specified type.
+	// A value may only be fetched as a type if it is of that type.
 	bool                                GetBool(   size_t theIndex) const;
 	uint32_t                            GetUInt32( size_t theIndex) const;
 	uint64_t                            GetUInt64( size_t theIndex) const;
@@ -118,6 +121,7 @@ public:
 	NArray                              GetArray(     size_t theIndex) const;
 	NData                               GetData(      size_t theIndex) const;
 	NDictionary                         GetDictionary(size_t theIndex) const;
+	NNumber                             GetNumber(    size_t theIndex) const;
 	NString                             GetString(    size_t theIndex) const;
 	NTime                               GetTime(      size_t theIndex) const;
 
@@ -139,10 +143,8 @@ public:
 
 
 private:
-	NNumber                             GetNumber(size_t theIndex, const NString& theType) const;
-
 	template<typename T>
-	T                                   GetValue(size_t theIndex, const NString& theType) const;
+	T                                   GetValue(size_t theIndex) const;
 };
 
 

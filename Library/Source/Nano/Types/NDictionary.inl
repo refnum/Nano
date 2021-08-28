@@ -74,20 +74,122 @@ inline size_t NDictionary::GetSize() const
 
 
 
+//=============================================================================
+//		NDictionary::GetBool : Get a bool value.
+//-----------------------------------------------------------------------------
+inline bool NDictionary::GetBool(const NString& theKey) const
+{
+
+
+	// Get the value
+	return GetValue<bool>(theKey);
+}
+
+
+
+
+
+//=============================================================================
+//		NDictionary::GetUInt32 : Get a uint32_t value.
+//-----------------------------------------------------------------------------
+inline uint32_t NDictionary::GetUInt32(const NString& theKey) const
+{
+
+
+	// Get the value
+	return GetValue<uint32_t>(theKey);
+}
+
+
+
+
+
+//=============================================================================
+//		NDictionary::GetUInt64 : Get a uint64_t value.
+//-----------------------------------------------------------------------------
+inline uint64_t NDictionary::GetUInt64(const NString& theKey) const
+{
+
+
+	// Get the value
+	return GetValue<uint64_t>(theKey);
+}
+
+
+
+
+
+//=============================================================================
+//		NDictionary::GetInt32 : Get an int32_t value.
+//-----------------------------------------------------------------------------
+inline int32_t NDictionary::GetInt32(const NString& theKey) const
+{
+
+
+	// Get the value
+	return GetValue<int32_t>(theKey);
+}
+
+
+
+
+
+//=============================================================================
+//		NDictionary::GetInt64 : Get an int64_t value.
+//-----------------------------------------------------------------------------
+inline int64_t NDictionary::GetInt64(const NString& theKey) const
+{
+
+
+	// Get the value
+	return GetValue<int64_t>(theKey);
+}
+
+
+
+
+
+//=============================================================================
+//		NDictionary::GetFloat32 : Get a float32_t value.
+//-----------------------------------------------------------------------------
+inline float32_t NDictionary::GetFloat32(const NString& theKey) const
+{
+
+
+	// Get the value
+	return GetValue<float32_t>(theKey);
+}
+
+
+
+
+
+//=============================================================================
+//		NDictionary::GetFloat64 : Get a float64_t value.
+//-----------------------------------------------------------------------------
+inline float64_t NDictionary::GetFloat64(const NString& theKey) const
+{
+
+
+	// Get the value
+	return GetValue<float64_t>(theKey);
+}
+
+
+
+
+
 #pragma mark private
 //=============================================================================
 //		NDictionary::GetValue : Get a typed value.
 //-----------------------------------------------------------------------------
 template<typename T>
-T NDictionary::GetValue(const NString& theKey, const NString& theType) const
+T NDictionary::GetValue(const NString& theKey) const
 {
 
 
 	// Validate our parameters
 	NN_REQUIRE(!theKey.IsEmpty());
-	NN_REQUIRE(!theType.IsEmpty());
-
-	NN_UNUSED(theType);
 
 
 

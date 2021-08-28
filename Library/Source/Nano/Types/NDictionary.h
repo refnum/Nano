@@ -43,6 +43,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NAny.h"
+#include "NMap.h"
 #include "NMixinComparable.h"
 #include "NMixinContainer.h"
 #include "NString.h"
@@ -71,7 +72,7 @@ class NTime;
 //		Class Declaration
 //-----------------------------------------------------------------------------
 class NN_EMPTY_BASE NDictionary final
-	: public std::unordered_map<NString, NAny>
+	: public NMap<NString, NAny>
 	, public NMixinComparable<NDictionary>
 	, public NMixinContainer<NDictionary>
 {
@@ -89,26 +90,33 @@ public:
 
 
 	// Remove a key
-	void                                RemoveKey( const NString& theKey);
-	void                                RemoveKeys(const NVectorString& theKeys);
+	void                                RemoveKey(const NString& theKey);
 
 
-	// Get the keys / values
+	// Get the keys
 	//
-	// Ordering is undefined, and may change on any mutation.
-	NVectorString                       GetKeys()   const;
+	// Keys are returned in an undefined order.
+	NVectorString                       GetKeys() const;
+
+
+	// Get the values
+	//
+	// Values are returned in an undefined order.
 	NVectorAny                          GetValues() const;
 
 
 	// Invert the dictionary
 	//
-	// A dictionary can only be inverted if all values are unique, non-empty, strings.
+	// A dictionary can only be inverted if all of its values are unique,
+	// non-empty, strings.
 	bool                                Invert();
 
 
 	// Get a value
 	//
-	// Returns 0/empty if the value can not be returned as the specified type.
+	// A value may only be fetched as a type if it is of that type.
+	//
+	// Returns 0/empty if there is no value for the key.
 	bool                                GetBool(   const NString& theKey) const;
 	uint32_t                            GetUInt32( const NString& theKey) const;
 	uint64_t                            GetUInt64( const NString& theKey) const;
@@ -120,6 +128,7 @@ public:
 	NArray                              GetArray(     const NString& theKey) const;
 	NData                               GetData(      const NString& theKey) const;
 	NDictionary                         GetDictionary(const NString& theKey) const;
+	NNumber                             GetNumber(    const NString& theKey) const;
 	NString                             GetString(    const NString& theKey) const;
 	NTime                               GetTime(      const NString& theKey) const;
 
@@ -131,10 +140,8 @@ public:
 
 
 private:
-	NNumber                             GetNumber(const NString& theKey, const NString& theType) const;
-
 	template<typename T>
-	T                                   GetValue(const NString& theKey, const NString& theType) const;
+	T                                   GetValue(const NString& theKey) const;
 };
 
 

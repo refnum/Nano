@@ -94,30 +94,6 @@ void NDictionary::RemoveKey(const NString& theKey)
 
 
 //=============================================================================
-//		NDictionary::RemoveKeys : Remove keys.
-//-----------------------------------------------------------------------------
-void NDictionary::RemoveKeys(const NVectorString& theKeys)
-{
-
-
-	// Validate our parameters
-	NN_REQUIRE(!theKeys.empty());
-
-
-
-	// Remove the keys
-	for (const auto& theKey : theKeys)
-	{
-		NN_REQUIRE(!theKey.IsEmpty());
-		erase(theKey);
-	}
-}
-
-
-
-
-
-//=============================================================================
 //		NDictionary::GetKeys : Get the keys.
 //-----------------------------------------------------------------------------
 NVectorString NDictionary::GetKeys() const
@@ -213,111 +189,6 @@ bool NDictionary::Invert()
 
 
 //=============================================================================
-//		NDictionary::GetBool : Get a bool value.
-//-----------------------------------------------------------------------------
-bool NDictionary::GetBool(const NString& theKey) const
-{
-
-
-	// Get the value
-	return GetNumber(theKey, "bool").GetBool();
-}
-
-
-
-
-
-//=============================================================================
-//		NDictionary::GetUInt32 : Get a uint32_t value.
-//-----------------------------------------------------------------------------
-uint32_t NDictionary::GetUInt32(const NString& theKey) const
-{
-
-
-	// Get the value
-	return GetNumber(theKey, "uint32_t").GetUInt32();
-}
-
-
-
-
-
-//=============================================================================
-//		NDictionary::GetUInt64 : Get a uint64_t value.
-//-----------------------------------------------------------------------------
-uint64_t NDictionary::GetUInt64(const NString& theKey) const
-{
-
-
-	// Get the value
-	return GetNumber(theKey, "uint64_t").GetUInt64();
-}
-
-
-
-
-
-//=============================================================================
-//		NDictionary::GetInt32 : Get an int32_t value.
-//-----------------------------------------------------------------------------
-int32_t NDictionary::GetInt32(const NString& theKey) const
-{
-
-
-	// Get the value
-	return GetNumber(theKey, "int32_t").GetInt32();
-}
-
-
-
-
-
-//=============================================================================
-//		NDictionary::GetInt64 : Get an int64_t value.
-//-----------------------------------------------------------------------------
-int64_t NDictionary::GetInt64(const NString& theKey) const
-{
-
-
-	// Get the value
-	return GetNumber(theKey, "int64_t").GetInt64();
-}
-
-
-
-
-
-//=============================================================================
-//		NDictionary::GetFloat32 : Get a float32_t value.
-//-----------------------------------------------------------------------------
-float32_t NDictionary::GetFloat32(const NString& theKey) const
-{
-
-
-	// Get the value
-	return GetNumber(theKey, "float32_t").GetFloat32();
-}
-
-
-
-
-
-//=============================================================================
-//		NDictionary::GetFloat64 : Get a float64_t value.
-//-----------------------------------------------------------------------------
-float64_t NDictionary::GetFloat64(const NString& theKey) const
-{
-
-
-	// Get the value
-	return GetNumber(theKey, "float64_t").GetFloat64();
-}
-
-
-
-
-
-//=============================================================================
 //		NDictionary::GetArray : Get an NArray value.
 //-----------------------------------------------------------------------------
 NArray NDictionary::GetArray(const NString& theKey) const
@@ -325,7 +196,7 @@ NArray NDictionary::GetArray(const NString& theKey) const
 
 
 	// Get the value
-	return GetValue<NArray>(theKey, "NArray");
+	return GetValue<NArray>(theKey);
 }
 
 
@@ -340,7 +211,7 @@ NData NDictionary::GetData(const NString& theKey) const
 
 
 	// Get the value
-	return GetValue<NData>(theKey, "NData");
+	return GetValue<NData>(theKey);
 }
 
 
@@ -355,7 +226,22 @@ NDictionary NDictionary::GetDictionary(const NString& theKey) const
 
 
 	// Get the value
-	return GetValue<NDictionary>(theKey, "NDictionary");
+	return GetValue<NDictionary>(theKey);
+}
+
+
+
+
+
+//=============================================================================
+//		NDictionary::GetNumber : Get an NNumber value.
+//-----------------------------------------------------------------------------
+NNumber NDictionary::GetNumber(const NString& theKey) const
+{
+
+
+	// Get the value
+	return GetValue<NNumber>(theKey);
 }
 
 
@@ -370,7 +256,7 @@ NString NDictionary::GetString(const NString& theKey) const
 
 
 	// Get the value
-	return GetValue<NString>(theKey, "NString");
+	return GetValue<NString>(theKey);
 }
 
 
@@ -385,7 +271,7 @@ NTime NDictionary::GetTime(const NString& theKey) const
 
 
 	// Get the value
-	return GetValue<NTime>(theKey, "NTime");
+	return GetValue<NTime>(theKey);
 }
 
 
@@ -457,41 +343,6 @@ NComparison NDictionary::CompareOrder(const NDictionary& theDictionary) const
 			{
 				break;
 			}
-		}
-	}
-
-	return theResult;
-}
-
-
-
-
-
-#pragma mark private
-//=============================================================================
-//		NDictionary::GetNumber : Get a number value.
-//-----------------------------------------------------------------------------
-NNumber NDictionary::GetNumber(const NString& theKey, const NString& theType) const
-{
-
-
-	// Validate our parameters
-	NN_REQUIRE(!theKey.IsEmpty());
-	NN_REQUIRE(!theType.IsEmpty());
-
-	NN_UNUSED(theType);
-
-
-
-	// Get the number
-	NNumber theResult;
-
-	auto theIter = find(theKey);
-	if (theIter != end())
-	{
-		if (!theResult.SetValue(theIter->second))
-		{
-			NN_LOG_WARNING("Unable to convert [{}] to {}", theKey, theType);
 		}
 	}
 

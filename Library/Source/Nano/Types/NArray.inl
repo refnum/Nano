@@ -114,6 +114,111 @@ inline size_t NArray::GetSize() const
 
 
 //=============================================================================
+//		NArray::GetBool : Get a bool value.
+//-----------------------------------------------------------------------------
+inline bool NArray::GetBool(size_t theIndex) const
+{
+
+
+	// Get the value
+	return GetValue<bool>(theIndex);
+}
+
+
+
+
+
+//=============================================================================
+//		NArray::GetUInt32 : Get a uint32_t value.
+//-----------------------------------------------------------------------------
+inline uint32_t NArray::GetUInt32(size_t theIndex) const
+{
+
+
+	// Get the value
+	return GetValue<uint32_t>(theIndex);
+}
+
+
+
+
+
+//=============================================================================
+//		NArray::GetUInt64 : Get a uint64_t value.
+//-----------------------------------------------------------------------------
+inline uint64_t NArray::GetUInt64(size_t theIndex) const
+{
+
+
+	// Get the value
+	return GetValue<uint64_t>(theIndex);
+}
+
+
+
+
+
+//=============================================================================
+//		NArray::GetInt32 : Get an int32_t value.
+//-----------------------------------------------------------------------------
+inline int32_t NArray::GetInt32(size_t theIndex) const
+{
+
+
+	// Get the value
+	return GetValue<int32_t>(theIndex);
+}
+
+
+
+
+
+//=============================================================================
+//		NArray::GetInt64 : Get an int64_t value.
+//-----------------------------------------------------------------------------
+inline int64_t NArray::GetInt64(size_t theIndex) const
+{
+
+
+	// Get the value
+	return GetValue<int64_t>(theIndex);
+}
+
+
+
+
+
+//=============================================================================
+//		NArray::GetFloat32 : Get a float32_t value.
+//-----------------------------------------------------------------------------
+inline float32_t NArray::GetFloat32(size_t theIndex) const
+{
+
+
+	// Get the value
+	return GetValue<float32_t>(theIndex);
+}
+
+
+
+
+
+//=============================================================================
+//		NArray::GetFloat64 : Get a float64_t value.
+//-----------------------------------------------------------------------------
+inline float64_t NArray::GetFloat64(size_t theIndex) const
+{
+
+
+	// Get the value
+	return GetValue<float64_t>(theIndex);
+}
+
+
+
+
+
+//=============================================================================
 //		NArray::GetVector : Get a std::vector.
 //-----------------------------------------------------------------------------
 template<typename T>
@@ -158,30 +263,19 @@ void NArray::SetVector(const std::vector<T>& theValues)
 
 
 
-#pragma mark private
 //=============================================================================
-//		NArray::GetValue : Get a typed value.
+//		NDictionary::GetValue : Get a typed value.
 //-----------------------------------------------------------------------------
 template<typename T>
-T NArray::GetValue(size_t theIndex, const NString& theType) const
+T NArray::GetValue(size_t theIndex) const
 {
 
 
 	// Validate our parameters
 	NN_REQUIRE(theIndex < GetSize());
-	NN_REQUIRE(!theType.IsEmpty());
-
-	NN_UNUSED(theType);
 
 
 
 	// Get the value
-	const auto& theValue = at(theIndex);
-
-	if (theValue.Is<T>())
-	{
-		return theValue.Get<T>();
-	}
-
-	return {};
+	return at(theIndex).Get<T>();
 }

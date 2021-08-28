@@ -42,13 +42,12 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
-#include "NData.h"
 #include "NMixinComparable.h"
-#include "NString.h"
-#include "NTime.h"
+#include "NanoMacros.h"
 
 // System
 #include <any>
+#include <vector>
 
 
 
@@ -59,6 +58,12 @@
 //-----------------------------------------------------------------------------
 // Forward declaration
 class NAny;
+class NDictionary;
+class NArray;
+class NNumber;
+class NData;
+class NString;
+class NTime;
 
 // Containers
 using NVectorAny = std::vector<NAny>;
@@ -112,43 +117,44 @@ public:
 	bool                                Is() const;
 
 	bool                                IsBool()    const;
-	bool                                IsUInt8()   const;
-	bool                                IsUInt16()  const;
 	bool                                IsUInt32()  const;
 	bool                                IsUInt64()  const;
-	bool                                IsInt8()    const;
-	bool                                IsInt16()   const;
 	bool                                IsInt32()   const;
 	bool                                IsInt64()   const;
 	bool                                IsFloat32() const;
 	bool                                IsFloat64() const;
 
-	bool                                IsData()   const;
-	bool                                IsString() const;
-	bool                                IsTime()   const;
+	bool                                IsArray()      const;
+	bool                                IsData()       const;
+	bool                                IsDictionary() const;
+	bool                                IsNumber()     const;
+	bool                                IsString()     const;
+	bool                                IsTime()       const;
 
 
 	// Get the value
 	//
-	// The value must be known to be of the specified type.
+	// A value may only be fetched as a type if it is of that type,
+	// or there is no value.
+	//
+	// Returns 0/empty if there is no value.
 	template<typename T>
 	const T&                            Get() const;
 
 	bool                                GetBool()    const;
-	uint8_t                             GetUInt8()   const;
-	uint16_t                            GetUInt16()  const;
 	uint32_t                            GetUInt32()  const;
 	uint64_t                            GetUInt64()  const;
-	int8_t                              GetInt8()    const;
-	int16_t                             GetInt16()   const;
 	int32_t                             GetInt32()   const;
 	int64_t                             GetInt64()   const;
 	float32_t                           GetFloat32() const;
 	float64_t                           GetFloat64() const;
 
-	NData                               GetData()   const;
-	NString                             GetString() const;
-	NTime                               GetTime()   const;
+	NArray                              GetArray()      const;
+	NData                               GetData()       const;
+	NDictionary                         GetDictionary() const;
+	NNumber                             GetNumber()     const;
+	NString                             GetString()     const;
+	NTime                               GetTime()       const;
 
 
 public:

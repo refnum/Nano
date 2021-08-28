@@ -110,111 +110,6 @@ void NArray::RemoveValues(const NRange& theRange)
 
 
 //=============================================================================
-//		NArray::GetBool : Get a bool value.
-//-----------------------------------------------------------------------------
-bool NArray::GetBool(size_t theIndex) const
-{
-
-
-	// Get the value
-	return GetNumber(theIndex, "bool").GetBool();
-}
-
-
-
-
-
-//=============================================================================
-//		NArray::GetUInt32 : Get a uint32_t value.
-//-----------------------------------------------------------------------------
-uint32_t NArray::GetUInt32(size_t theIndex) const
-{
-
-
-	// Get the value
-	return GetNumber(theIndex, "uint32_t").GetUInt32();
-}
-
-
-
-
-
-//=============================================================================
-//		NArray::GetUInt64 : Get a uint64_t value.
-//-----------------------------------------------------------------------------
-uint64_t NArray::GetUInt64(size_t theIndex) const
-{
-
-
-	// Get the value
-	return GetNumber(theIndex, "uint64_t").GetUInt64();
-}
-
-
-
-
-
-//=============================================================================
-//		NArray::GetInt32 : Get an int32_t value.
-//-----------------------------------------------------------------------------
-int32_t NArray::GetInt32(size_t theIndex) const
-{
-
-
-	// Get the value
-	return GetNumber(theIndex, "int32_t").GetInt32();
-}
-
-
-
-
-
-//=============================================================================
-//		NArray::GetInt64 : Get an int64_t value.
-//-----------------------------------------------------------------------------
-int64_t NArray::GetInt64(size_t theIndex) const
-{
-
-
-	// Get the value
-	return GetNumber(theIndex, "int64_t").GetInt64();
-}
-
-
-
-
-
-//=============================================================================
-//		NArray::GetFloat32 : Get a float32_t value.
-//-----------------------------------------------------------------------------
-float32_t NArray::GetFloat32(size_t theIndex) const
-{
-
-
-	// Get the value
-	return GetNumber(theIndex, "float32_t").GetFloat32();
-}
-
-
-
-
-
-//=============================================================================
-//		NArray::GetFloat64 : Get a float64_t value.
-//-----------------------------------------------------------------------------
-float64_t NArray::GetFloat64(size_t theIndex) const
-{
-
-
-	// Get the value
-	return GetNumber(theIndex, "float64_t").GetFloat64();
-}
-
-
-
-
-
-//=============================================================================
 //		NArray::GetArray : Get an NArray value.
 //-----------------------------------------------------------------------------
 NArray NArray::GetArray(size_t theIndex) const
@@ -222,7 +117,7 @@ NArray NArray::GetArray(size_t theIndex) const
 
 
 	// Get the value
-	return GetValue<NArray>(theIndex, "NArray");
+	return GetValue<NArray>(theIndex);
 }
 
 
@@ -237,7 +132,7 @@ NData NArray::GetData(size_t theIndex) const
 
 
 	// Get the value
-	return GetValue<NData>(theIndex, "NData");
+	return GetValue<NData>(theIndex);
 }
 
 
@@ -252,7 +147,22 @@ NDictionary NArray::GetDictionary(size_t theIndex) const
 
 
 	// Get the value
-	return GetValue<NDictionary>(theIndex, "NDictionary");
+	return GetValue<NDictionary>(theIndex);
+}
+
+
+
+
+
+//=============================================================================
+//		NArray::GetNumber : Get an NNumber value.
+//-----------------------------------------------------------------------------
+NNumber NArray::GetNumber(size_t theIndex) const
+{
+
+
+	// Get the value
+	return GetValue<NNumber>(theIndex);
 }
 
 
@@ -267,7 +177,7 @@ NString NArray::GetString(size_t theIndex) const
 
 
 	// Get the value
-	return GetValue<NString>(theIndex, "NString");
+	return GetValue<NString>(theIndex);
 }
 
 
@@ -282,7 +192,7 @@ NTime NArray::GetTime(size_t theIndex) const
 
 
 	// Get the value
-	return GetValue<NTime>(theIndex, "NTime");
+	return GetValue<NTime>(theIndex);
 }
 
 
@@ -351,37 +261,6 @@ NComparison NArray::CompareOrder(const NArray& theArray) const
 	if (theResult == NComparison::EqualTo)
 	{
 		theResult = NCompare(sizeA, sizeB);
-	}
-
-	return theResult;
-}
-
-
-
-
-
-#pragma mark private
-//=============================================================================
-//		NArray::GetNumber : Get a number value.
-//-----------------------------------------------------------------------------
-NNumber NArray::GetNumber(size_t theIndex, const NString& theType) const
-{
-
-
-	// Validate our parameters
-	NN_REQUIRE(theIndex < GetSize());
-	NN_REQUIRE(!theType.IsEmpty());
-
-	NN_UNUSED(theType);
-
-
-
-	// Get the number
-	NNumber theResult;
-
-	if (!theResult.SetValue(at(theIndex)))
-	{
-		NN_LOG_WARNING("Unable to convert [{}] to {}", theIndex, theType);
 	}
 
 	return theResult;

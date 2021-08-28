@@ -177,7 +177,7 @@ bool NAny::Is() const
 
 
 	// Check the type
-	return type() == typeid(T);
+	return has_value() && type() == typeid(T);
 }
 
 
@@ -193,36 +193,6 @@ inline bool NAny::IsBool() const
 
 	// Check the type
 	return Is<bool>();
-}
-
-
-
-
-
-//=============================================================================
-//		NAny::IsUInt8 : Is the value a uint8_t?
-//-----------------------------------------------------------------------------
-inline bool NAny::IsUInt8() const
-{
-
-
-	// Check the type
-	return Is<uint8_t>();
-}
-
-
-
-
-
-//=============================================================================
-//		NAny::IsUInt16 : Is the value a uint16_t?
-//-----------------------------------------------------------------------------
-inline bool NAny::IsUInt16() const
-{
-
-
-	// Check the type
-	return Is<uint16_t>();
 }
 
 
@@ -253,36 +223,6 @@ inline bool NAny::IsUInt64() const
 
 	// Check the type
 	return Is<uint64_t>();
-}
-
-
-
-
-
-//=============================================================================
-//		NAny::IsInt8 : Is the value a int8_t?
-//-----------------------------------------------------------------------------
-inline bool NAny::IsInt8() const
-{
-
-
-	// Check the type
-	return Is<int8_t>();
-}
-
-
-
-
-
-//=============================================================================
-//		NAny::IsInt16 : Is the value a int16_t?
-//-----------------------------------------------------------------------------
-inline bool NAny::IsInt16() const
-{
-
-
-	// Check the type
-	return Is<int16_t>();
 }
 
 
@@ -350,51 +290,6 @@ inline bool NAny::IsFloat64() const
 
 
 //=============================================================================
-//		NAny::IsData : Is the value an NData?
-//-----------------------------------------------------------------------------
-inline bool NAny::IsData() const
-{
-
-
-	// Check the type
-	return Is<NData>();
-}
-
-
-
-
-
-//=============================================================================
-//		NAny::IsString : Is the value an NString?
-//-----------------------------------------------------------------------------
-inline bool NAny::IsString() const
-{
-
-
-	// Check the type
-	return Is<NString>();
-}
-
-
-
-
-
-//=============================================================================
-//		NAny::IsTime : Is the value an NTime?
-//-----------------------------------------------------------------------------
-inline bool NAny::IsTime() const
-{
-
-
-	// Check the type
-	return Is<NTime>();
-}
-
-
-
-
-
-//=============================================================================
 //		NAny::Get : Get the specified type.
 //-----------------------------------------------------------------------------
 template<typename T>
@@ -423,37 +318,12 @@ inline bool NAny::GetBool() const
 
 
 	// Get the value
-	return Get<bool>();
-}
+	if (IsBool())
+	{
+		return Get<bool>();
+	}
 
-
-
-
-
-//=============================================================================
-//		NAny::GetUInt8 : Get a uint8_t.
-//-----------------------------------------------------------------------------
-inline uint8_t NAny::GetUInt8() const
-{
-
-
-	// Get the value
-	return Get<uint8_t>();
-}
-
-
-
-
-
-//=============================================================================
-//		NAny::GetUInt16 : Get a uint16_t.
-//-----------------------------------------------------------------------------
-inline uint16_t NAny::GetUInt16() const
-{
-
-
-	// Get the value
-	return Get<uint16_t>();
+	return false;
 }
 
 
@@ -468,7 +338,12 @@ inline uint32_t NAny::GetUInt32() const
 
 
 	// Get the value
-	return Get<uint32_t>();
+	if (IsUInt32())
+	{
+		return Get<uint32_t>();
+	}
+
+	return 0;
 }
 
 
@@ -483,37 +358,12 @@ inline uint64_t NAny::GetUInt64() const
 
 
 	// Get the value
-	return Get<uint64_t>();
-}
+	if (IsUInt64())
+	{
+		return Get<uint64_t>();
+	}
 
-
-
-
-
-//=============================================================================
-//		NAny::GetInt8 : Get a int8_t.
-//-----------------------------------------------------------------------------
-inline int8_t NAny::GetInt8() const
-{
-
-
-	// Get the value
-	return Get<int8_t>();
-}
-
-
-
-
-
-//=============================================================================
-//		NAny::GetInt16 : Get a int16_t.
-//-----------------------------------------------------------------------------
-inline int16_t NAny::GetInt16() const
-{
-
-
-	// Get the value
-	return Get<int16_t>();
+	return 0;
 }
 
 
@@ -528,7 +378,12 @@ inline int32_t NAny::GetInt32() const
 
 
 	// Get the value
-	return Get<int32_t>();
+	if (IsInt32())
+	{
+		return Get<int32_t>();
+	}
+
+	return 0;
 }
 
 
@@ -543,7 +398,12 @@ inline int64_t NAny::GetInt64() const
 
 
 	// Get the value
-	return Get<int64_t>();
+	if (IsInt64())
+	{
+		return Get<int64_t>();
+	}
+
+	return 0;
 }
 
 
@@ -558,7 +418,12 @@ inline float32_t NAny::GetFloat32() const
 
 
 	// Get the value
-	return Get<float32_t>();
+	if (IsFloat32())
+	{
+		return Get<float32_t>();
+	}
+
+	return 0.0f;
 }
 
 
@@ -573,50 +438,10 @@ inline float64_t NAny::GetFloat64() const
 
 
 	// Get the value
-	return Get<float64_t>();
-}
+	if (IsFloat64())
+	{
+		return Get<float64_t>();
+	}
 
-
-
-
-
-//=============================================================================
-//		NAny::GetData : Get an NData.
-//-----------------------------------------------------------------------------
-inline NData NAny::GetData() const
-{
-
-
-	// Get the value
-	return Get<NData>();
-}
-
-
-
-
-
-//=============================================================================
-//		NAny::GetString : Get an NString.
-//-----------------------------------------------------------------------------
-inline NString NAny::GetString() const
-{
-
-
-	// Get the value
-	return Get<NString>();
-}
-
-
-
-
-
-//=============================================================================
-//		NAny::GetTime : Get an NTime.
-//-----------------------------------------------------------------------------
-inline NTime NAny::GetTime() const
-{
-
-
-	// Get the value
-	return Get<NTime>();
+	return 0.0;
 }

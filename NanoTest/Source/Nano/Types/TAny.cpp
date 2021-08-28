@@ -40,7 +40,36 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NAny.h"
+#include "NArray.h"
+#include "NData.h"
+#include "NDictionary.h"
+#include "NNumber.h"
+#include "NStdContainer.h"
 #include "NTestFixture.h"
+#include "NTime.h"
+
+
+
+
+
+//=============================================================================
+//		Internal Functions
+//-----------------------------------------------------------------------------
+//		GetTestDictionary : Get a test dictionary.
+//-----------------------------------------------------------------------------
+static NDictionary GetTestDictionary()
+{
+
+
+	// Get the dictionary
+	NDictionary theResult;
+
+	theResult["one"]   = 1;
+	theResult["two"]   = "two";
+	theResult["three"] = NNumber(3);
+
+	return theResult;
+}
 
 
 
@@ -49,14 +78,22 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static const uint8_t kTestBytes[]{0xA1, 0xB1, 0xC1, 0xD1, 0xA2, 0xB2, 0xC2, 0xD2};
+static const uint8_t kTestUInt8s[]{0xA1, 0xB1, 0xC1, 0xD1, 0xA2, 0xB2, 0xC2, 0xD2};
 
+static constexpr bool      kTestBool                        = false;
 static constexpr uint32_t  kTestUInt32                      = 123;
-static constexpr int64_t   kTestInt64                       = -123;
-static constexpr float32_t kTestFloat32                     = 123.5;
-static const NData         kTestData(sizeof(kTestBytes), kTestBytes);
-static const NString       kTestString("Testing");
-static constexpr NTime     kTestTime(100);
+static constexpr uint64_t  kTestUInt64                      = 456;
+static constexpr int32_t   kTestInt32                       = -123;
+static constexpr int64_t   kTestInt64                       = -456;
+static constexpr float32_t kTestFloat32                     = 5.5f;
+static constexpr float64_t kTestFloat64                     = 6.5;
+
+static const NArray      kTestArray(nstd::vector(kTestUInt8s));
+static const NData       kTestData(sizeof(kTestUInt8s), kTestUInt8s);
+static const NDictionary kTestDictionary(GetTestDictionary());
+static const NNumber     kTestNumber(100);
+static const NString     kTestString("Testing");
+static constexpr NTime   kTestTime(100);
 
 
 
@@ -202,57 +239,198 @@ NANO_TEST(TAny, "Is")
 
 
 	// Perform the test
-	theValue = kTestUInt32;
-	REQUIRE(!theValue.IsBool());
-	REQUIRE(!theValue.IsUInt8());
-	REQUIRE(!theValue.IsUInt16());
-	REQUIRE(theValue.IsUInt32());
+	theValue = kTestBool;
+	REQUIRE(theValue.IsBool());
+	REQUIRE(!theValue.IsUInt32());
 	REQUIRE(!theValue.IsUInt64());
-	REQUIRE(!theValue.IsInt8());
-	REQUIRE(!theValue.IsInt16());
 	REQUIRE(!theValue.IsInt32());
 	REQUIRE(!theValue.IsInt64());
 	REQUIRE(!theValue.IsFloat32());
 	REQUIRE(!theValue.IsFloat64());
+	REQUIRE(!theValue.IsArray());
+	REQUIRE(!theValue.IsData());
+	REQUIRE(!theValue.IsDictionary());
+	REQUIRE(!theValue.IsNumber());
+	REQUIRE(!theValue.IsString());
+	REQUIRE(!theValue.IsTime());
+
+	theValue = kTestUInt32;
+	REQUIRE(!theValue.IsBool());
+	REQUIRE(theValue.IsUInt32());
+	REQUIRE(!theValue.IsUInt64());
+	REQUIRE(!theValue.IsInt32());
+	REQUIRE(!theValue.IsInt64());
+	REQUIRE(!theValue.IsFloat32());
+	REQUIRE(!theValue.IsFloat64());
+	REQUIRE(!theValue.IsArray());
+	REQUIRE(!theValue.IsData());
+	REQUIRE(!theValue.IsDictionary());
+	REQUIRE(!theValue.IsNumber());
+	REQUIRE(!theValue.IsString());
+	REQUIRE(!theValue.IsTime());
+
+	theValue = kTestUInt64;
+	REQUIRE(!theValue.IsBool());
+	REQUIRE(!theValue.IsUInt32());
+	REQUIRE(theValue.IsUInt64());
+	REQUIRE(!theValue.IsInt32());
+	REQUIRE(!theValue.IsInt64());
+	REQUIRE(!theValue.IsFloat32());
+	REQUIRE(!theValue.IsFloat64());
+	REQUIRE(!theValue.IsArray());
+	REQUIRE(!theValue.IsData());
+	REQUIRE(!theValue.IsDictionary());
+	REQUIRE(!theValue.IsNumber());
+	REQUIRE(!theValue.IsString());
+	REQUIRE(!theValue.IsTime());
+
+	theValue = kTestInt32;
+	REQUIRE(!theValue.IsBool());
+	REQUIRE(!theValue.IsUInt32());
+	REQUIRE(!theValue.IsUInt64());
+	REQUIRE(theValue.IsInt32());
+	REQUIRE(!theValue.IsInt64());
+	REQUIRE(!theValue.IsFloat32());
+	REQUIRE(!theValue.IsFloat64());
+	REQUIRE(!theValue.IsArray());
+	REQUIRE(!theValue.IsData());
+	REQUIRE(!theValue.IsDictionary());
+	REQUIRE(!theValue.IsNumber());
+	REQUIRE(!theValue.IsString());
+	REQUIRE(!theValue.IsTime());
 
 	theValue = kTestInt64;
 	REQUIRE(!theValue.IsBool());
-	REQUIRE(!theValue.IsUInt8());
-	REQUIRE(!theValue.IsUInt16());
 	REQUIRE(!theValue.IsUInt32());
 	REQUIRE(!theValue.IsUInt64());
-	REQUIRE(!theValue.IsInt8());
-	REQUIRE(!theValue.IsInt16());
 	REQUIRE(!theValue.IsInt32());
 	REQUIRE(theValue.IsInt64());
 	REQUIRE(!theValue.IsFloat32());
 	REQUIRE(!theValue.IsFloat64());
+	REQUIRE(!theValue.IsArray());
+	REQUIRE(!theValue.IsData());
+	REQUIRE(!theValue.IsDictionary());
+	REQUIRE(!theValue.IsNumber());
+	REQUIRE(!theValue.IsString());
+	REQUIRE(!theValue.IsTime());
 
 	theValue = kTestFloat32;
 	REQUIRE(!theValue.IsBool());
-	REQUIRE(!theValue.IsUInt8());
-	REQUIRE(!theValue.IsUInt16());
 	REQUIRE(!theValue.IsUInt32());
 	REQUIRE(!theValue.IsUInt64());
-	REQUIRE(!theValue.IsInt8());
-	REQUIRE(!theValue.IsInt16());
 	REQUIRE(!theValue.IsInt32());
 	REQUIRE(!theValue.IsInt64());
 	REQUIRE(theValue.IsFloat32());
 	REQUIRE(!theValue.IsFloat64());
+	REQUIRE(!theValue.IsArray());
+	REQUIRE(!theValue.IsData());
+	REQUIRE(!theValue.IsDictionary());
+	REQUIRE(!theValue.IsNumber());
+	REQUIRE(!theValue.IsString());
+	REQUIRE(!theValue.IsTime());
+
+	theValue = kTestFloat64;
+	REQUIRE(!theValue.IsBool());
+	REQUIRE(!theValue.IsUInt32());
+	REQUIRE(!theValue.IsUInt64());
+	REQUIRE(!theValue.IsInt32());
+	REQUIRE(!theValue.IsInt64());
+	REQUIRE(!theValue.IsFloat32());
+	REQUIRE(theValue.IsFloat64());
+	REQUIRE(!theValue.IsArray());
+	REQUIRE(!theValue.IsData());
+	REQUIRE(!theValue.IsDictionary());
+	REQUIRE(!theValue.IsNumber());
+	REQUIRE(!theValue.IsString());
+	REQUIRE(!theValue.IsTime());
+
+	theValue = kTestArray;
+	REQUIRE(!theValue.IsBool());
+	REQUIRE(!theValue.IsUInt32());
+	REQUIRE(!theValue.IsUInt64());
+	REQUIRE(!theValue.IsInt32());
+	REQUIRE(!theValue.IsInt64());
+	REQUIRE(!theValue.IsFloat32());
+	REQUIRE(!theValue.IsFloat64());
+	REQUIRE(theValue.IsArray());
+	REQUIRE(!theValue.IsData());
+	REQUIRE(!theValue.IsDictionary());
+	REQUIRE(!theValue.IsNumber());
+	REQUIRE(!theValue.IsString());
+	REQUIRE(!theValue.IsTime());
 
 	theValue = kTestData;
+	REQUIRE(!theValue.IsBool());
+	REQUIRE(!theValue.IsUInt32());
+	REQUIRE(!theValue.IsUInt64());
+	REQUIRE(!theValue.IsInt32());
+	REQUIRE(!theValue.IsInt64());
+	REQUIRE(!theValue.IsFloat32());
+	REQUIRE(!theValue.IsFloat64());
+	REQUIRE(!theValue.IsArray());
 	REQUIRE(theValue.IsData());
+	REQUIRE(!theValue.IsDictionary());
+	REQUIRE(!theValue.IsNumber());
+	REQUIRE(!theValue.IsString());
+	REQUIRE(!theValue.IsTime());
+
+	theValue = kTestDictionary;
+	REQUIRE(!theValue.IsBool());
+	REQUIRE(!theValue.IsUInt32());
+	REQUIRE(!theValue.IsUInt64());
+	REQUIRE(!theValue.IsInt32());
+	REQUIRE(!theValue.IsInt64());
+	REQUIRE(!theValue.IsFloat32());
+	REQUIRE(!theValue.IsFloat64());
+	REQUIRE(!theValue.IsArray());
+	REQUIRE(!theValue.IsData());
+	REQUIRE(theValue.IsDictionary());
+	REQUIRE(!theValue.IsNumber());
+	REQUIRE(!theValue.IsString());
+	REQUIRE(!theValue.IsTime());
+
+	theValue = kTestNumber;
+	REQUIRE(!theValue.IsBool());
+	REQUIRE(!theValue.IsUInt32());
+	REQUIRE(!theValue.IsUInt64());
+	REQUIRE(!theValue.IsInt32());
+	REQUIRE(!theValue.IsInt64());
+	REQUIRE(!theValue.IsFloat32());
+	REQUIRE(!theValue.IsFloat64());
+	REQUIRE(!theValue.IsArray());
+	REQUIRE(!theValue.IsData());
+	REQUIRE(!theValue.IsDictionary());
+	REQUIRE(theValue.IsNumber());
 	REQUIRE(!theValue.IsString());
 	REQUIRE(!theValue.IsTime());
 
 	theValue = kTestString;
+	REQUIRE(!theValue.IsBool());
+	REQUIRE(!theValue.IsUInt32());
+	REQUIRE(!theValue.IsUInt64());
+	REQUIRE(!theValue.IsInt32());
+	REQUIRE(!theValue.IsInt64());
+	REQUIRE(!theValue.IsFloat32());
+	REQUIRE(!theValue.IsFloat64());
+	REQUIRE(!theValue.IsArray());
 	REQUIRE(!theValue.IsData());
+	REQUIRE(!theValue.IsDictionary());
+	REQUIRE(!theValue.IsNumber());
 	REQUIRE(theValue.IsString());
 	REQUIRE(!theValue.IsTime());
 
 	theValue = kTestTime;
+	REQUIRE(!theValue.IsBool());
+	REQUIRE(!theValue.IsUInt32());
+	REQUIRE(!theValue.IsUInt64());
+	REQUIRE(!theValue.IsInt32());
+	REQUIRE(!theValue.IsInt64());
+	REQUIRE(!theValue.IsFloat32());
+	REQUIRE(!theValue.IsFloat64());
+	REQUIRE(!theValue.IsArray());
 	REQUIRE(!theValue.IsData());
+	REQUIRE(!theValue.IsDictionary());
+	REQUIRE(!theValue.IsNumber());
 	REQUIRE(!theValue.IsString());
 	REQUIRE(theValue.IsTime());
 }
@@ -264,13 +442,22 @@ NANO_TEST(TAny, "Is")
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-NANO_TEST(TAny, "Get")
+NANO_TEST(TAny, "Get/Value")
 {
 
 
 	// Perform the test
+	theValue = kTestBool;
+	REQUIRE(theValue.GetBool() == kTestBool);
+
 	theValue = kTestUInt32;
 	REQUIRE(theValue.GetUInt32() == kTestUInt32);
+
+	theValue = kTestUInt64;
+	REQUIRE(theValue.GetUInt64() == kTestUInt64);
+
+	theValue = kTestInt32;
+	REQUIRE(theValue.GetInt32() == kTestInt32);
 
 	theValue = kTestInt64;
 	REQUIRE(theValue.GetInt64() == kTestInt64);
@@ -278,14 +465,53 @@ NANO_TEST(TAny, "Get")
 	theValue = kTestFloat32;
 	REQUIRE(theValue.GetFloat32() == kTestFloat32);
 
+	theValue = kTestFloat64;
+	REQUIRE(theValue.GetFloat64() == kTestFloat64);
+
+	theValue = kTestArray;
+	REQUIRE(theValue.GetArray() == kTestArray);
+
 	theValue = kTestData;
 	REQUIRE(theValue.GetData() == kTestData);
+
+	theValue = kTestDictionary;
+	REQUIRE(theValue.GetDictionary() == kTestDictionary);
+
+	theValue = kTestNumber;
+	REQUIRE(theValue.GetNumber() == kTestNumber);
 
 	theValue = kTestString;
 	REQUIRE(theValue.GetString() == kTestString);
 
 	theValue = kTestTime;
 	REQUIRE(theValue.GetTime() == kTestTime);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TAny, "Get/Empty")
+{
+
+
+	// Perform the test
+	REQUIRE(theValue.GetBool() == false);
+	REQUIRE(theValue.GetUInt32() == 0);
+	REQUIRE(theValue.GetUInt64() == 0);
+	REQUIRE(theValue.GetInt32() == 0);
+	REQUIRE(theValue.GetInt64() == 0);
+	REQUIRE(theValue.GetFloat32() == 0.0f);
+	REQUIRE(theValue.GetFloat64() == 0.0);
+	REQUIRE(theValue.GetArray() == NArray());
+	REQUIRE(theValue.GetData() == NData());
+	REQUIRE(theValue.GetDictionary() == NDictionary());
+	REQUIRE(theValue.GetNumber() == NNumber());
+	REQUIRE(theValue.GetString() == NString());
+	REQUIRE(theValue.GetTime() == NTime());
 }
 
 
@@ -302,8 +528,8 @@ NANO_TEST(TAny, "Compare")
 	// Perform the test
 	NAny valueA = kTestUInt32;
 	NAny valueB = kTestFloat32;
-	REQUIRE(valueA < valueB);
-	REQUIRE(valueB > valueA);
+	REQUIRE(valueB < valueA);
+	REQUIRE(valueA > valueB);
 
 	theValue = valueA;
 	REQUIRE(theValue == valueA);

@@ -56,6 +56,216 @@
 
 
 
+//=============================================================================
+//		NAny::IsArray : Is the value an NArray?
+//-----------------------------------------------------------------------------
+bool NAny::IsArray() const
+{
+
+
+	// Check the type
+	return Is<NArray>();
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::IsData : Is the value an NData?
+//-----------------------------------------------------------------------------
+bool NAny::IsData() const
+{
+
+
+	// Check the type
+	return Is<NData>();
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::IsDictionary : Is the value an NDictionary?
+//-----------------------------------------------------------------------------
+bool NAny::IsDictionary() const
+{
+
+
+	// Check the type
+	return Is<NDictionary>();
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::IsNumber : Is the value an NNumber?
+//-----------------------------------------------------------------------------
+bool NAny::IsNumber() const
+{
+
+
+	// Check the type
+	return Is<NNumber>();
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::IsString : Is the value an NString?
+//-----------------------------------------------------------------------------
+bool NAny::IsString() const
+{
+
+
+	// Check the type
+	return Is<NString>();
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::IsTime : Is the value an NTime?
+//-----------------------------------------------------------------------------
+bool NAny::IsTime() const
+{
+
+
+	// Check the type
+	return Is<NTime>();
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::GetArray : Get an NArray.
+//-----------------------------------------------------------------------------
+NArray NAny::GetArray() const
+{
+
+
+	// Get the value
+	if (IsArray())
+	{
+		return Get<NArray>();
+	}
+
+	return {};
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::GetData : Get an NData.
+//-----------------------------------------------------------------------------
+NData NAny::GetData() const
+{
+
+
+	// Get the value
+	if (IsData())
+	{
+		return Get<NData>();
+	}
+
+	return {};
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::GetDictionary : Get an NDictionary.
+//-----------------------------------------------------------------------------
+NDictionary NAny::GetDictionary() const
+{
+
+
+	// Get the value
+	if (IsDictionary())
+	{
+		return Get<NDictionary>();
+	}
+
+	return {};
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::GetNumber : Get an NNumber.
+//-----------------------------------------------------------------------------
+NNumber NAny::GetNumber() const
+{
+
+
+	// Get the value
+	if (IsNumber())
+	{
+		return Get<NNumber>();
+	}
+
+	return {};
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::GetString : Get an NString.
+//-----------------------------------------------------------------------------
+NString NAny::GetString() const
+{
+
+
+	// Get the value
+	if (IsString())
+	{
+		return Get<NString>();
+	}
+
+	return {};
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::GetTime : Get an NTime.
+//-----------------------------------------------------------------------------
+NTime NAny::GetTime() const
+{
+
+
+	// Get the value
+	if (IsTime())
+	{
+		return Get<NTime>();
+	}
+
+	return {};
+}
+
+
+
+
+
 #pragma mark NMixinComparable
 //=============================================================================
 //		NAny::CompareEqual : Perform an equality comparison.
@@ -104,6 +314,7 @@ NComparison NAny::CompareOrder(const NAny& theValue) const
 		// us to compare values even across differing types.
 		NNumber numberA, numberB;
 
+
 		if (numberA.SetValue(*this) && numberB.SetValue(theValue))
 		{
 			theResult = NCompare(numberA, numberB);
@@ -147,6 +358,10 @@ NComparison NAny::CompareOrder(const NAny& theValue) const
 			else if (Is<NTime>())
 			{
 				theResult = NCompare(Get<NTime>(), theValue.Get<NTime>());
+			}
+			else if (Is<const utf8_t*>())
+			{
+				theResult = NCompare(strcmp(Get<const utf8_t*>(), theValue.Get<const utf8_t*>()));
 			}
 			else
 			{

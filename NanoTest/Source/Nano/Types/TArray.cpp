@@ -42,7 +42,9 @@
 #include "NArray.h"
 #include "NData.h"
 #include "NDictionary.h"
+#include "NNumber.h"
 #include "NStdAlgorithm.h"
+#include "NStdContainer.h"
 #include "NString.h"
 #include "NTestFixture.h"
 #include "NTime.h"
@@ -52,26 +54,52 @@
 
 
 //=============================================================================
+//		Internal Functions
+//-----------------------------------------------------------------------------
+//		GetTestDictionary : Get a test dictionary.
+//-----------------------------------------------------------------------------
+static NDictionary GetTestDictionary()
+{
+
+
+	// Get the dictionary
+	NDictionary theResult;
+
+	theResult["one"]   = 1;
+	theResult["two"]   = "two";
+	theResult["three"] = NNumber(3);
+
+	return theResult;
+}
+
+
+
+
+
+//=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static const uint8_t kTestBytes[]{0xA1, 0xB1, 0xC1, 0xD1, 0xA2, 0xB2, 0xC2, 0xD2};
+static const uint8_t kTestUInt8s[]{0xA1, 0xB1, 0xC1, 0xD1, 0xA2, 0xB2, 0xC2, 0xD2};
+
+static constexpr bool      kTestBool                        = false;
+static constexpr uint32_t  kTestUInt32                      = 123;
+static constexpr uint64_t  kTestUInt64                      = 456;
+static constexpr int32_t   kTestInt32                       = -123;
+static constexpr int64_t   kTestInt64                       = -456;
+static constexpr float32_t kTestFloat32                     = 5.5f;
+static constexpr float64_t kTestFloat64                     = 6.5;
+
+static const NArray      kTestArray(nstd::vector(kTestUInt8s));
+static const NData       kTestData(sizeof(kTestUInt8s), kTestUInt8s);
+static const NDictionary kTestDictionary(GetTestDictionary());
+static const NNumber     kTestNumber(100);
+static const NString     kTestString("Testing");
+static constexpr NTime   kTestTime(100);
 
 static const NVectorInt32   kTestVectorInt32{1, 2};
 static const NVectorInt64   kTestVectorInt64{1, 2, 3};
 static const NVectorFloat32 kTestVectorFloat32{1.0, 2.0, 3.0, 4.0};
 static const NVectorFloat64 kTestVectorFloat64{1.0, 2.0, 3.0, 4.0, 5.0};
-
-
-static constexpr bool      kTestBool                        = true;
-static constexpr uint32_t  kTestUInt32                      = 32;
-static constexpr uint64_t  kTestUInt64                      = 65;
-static constexpr int32_t   kTestInt32                       = -32;
-static constexpr int64_t   kTestInt64                       = -65;
-static constexpr float32_t kTestFloat32                     = 32.5f;
-static constexpr float64_t kTestFloat64                     = 64.5;
-static const NData         kTestData(sizeof(kTestBytes), kTestBytes);
-static const NString       kTestString("Testing");
-static constexpr NTime     kTestTime(100);
 
 
 
@@ -258,12 +286,6 @@ NANO_TEST(TArray, "Get")
 
 
 	// Perform the test
-	NDictionary theDictionary;
-
-	theDictionary["Bool"]  = kTestBool;
-	theDictionary["Int32"] = kTestInt32;
-	theDictionary["Int64"] = kTestInt64;
-
 	theArray.push_back(kTestBool);
 	theArray.push_back(kTestUInt32);
 	theArray.push_back(kTestUInt64);
@@ -271,12 +293,14 @@ NANO_TEST(TArray, "Get")
 	theArray.push_back(kTestInt64);
 	theArray.push_back(kTestFloat32);
 	theArray.push_back(kTestFloat64);
+	theArray.push_back(kTestArray);
 	theArray.push_back(kTestData);
-	theArray.push_back(theDictionary);
+	theArray.push_back(kTestDictionary);
+	theArray.push_back(kTestNumber);
 	theArray.push_back(kTestString);
 	theArray.push_back(kTestTime);
 
-	REQUIRE(theArray.GetSize() == 11);
+	REQUIRE(theArray.GetSize() == 13);
 	REQUIRE(theArray.GetBool(0) == kTestBool);
 	REQUIRE(theArray.GetUInt32(1) == kTestUInt32);
 	REQUIRE(theArray.GetUInt64(2) == kTestUInt64);
@@ -284,19 +308,34 @@ NANO_TEST(TArray, "Get")
 	REQUIRE(theArray.GetInt64(4) == kTestInt64);
 	REQUIRE(theArray.GetFloat32(5) == kTestFloat32);
 	REQUIRE(theArray.GetFloat64(6) == kTestFloat64);
-	REQUIRE(theArray.GetData(7) == kTestData);
-	REQUIRE(theArray.GetDictionary(8) == theDictionary);
-	REQUIRE(theArray.GetString(9) == kTestString);
-	REQUIRE(theArray.GetTime(10) == kTestTime);
+	REQUIRE(theArray.GetArray(7) == kTestArray);
+	REQUIRE(theArray.GetData(8) == kTestData);
+	REQUIRE(theArray.GetDictionary(9) == kTestDictionary);
+	REQUIRE(theArray.GetNumber(10) == kTestNumber);
+	REQUIRE(theArray.GetString(11) == kTestString);
+	REQUIRE(theArray.GetTime(12) == kTestTime);
+}
 
 
-	NArray arrayA(theArray);
-	NArray arrayB(theArray);
 
-	theArray.push_back(arrayA);
-	theArray.push_back(arrayB);
 
-	REQUIRE(theArray.GetSize() == 13);
-	REQUIRE(theArray.GetArray(11) == arrayA);
-	REQUIRE(theArray.GetArray(12) == arrayB);
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TArray, "GetVector")
+{
+
+
+	// Perform the test
+	std::vector<uint8_t> theVector = theArray.GetVector<uint8_t>();
+	theArray.SetVector(theVector);
+
+	std::vector<uint8_t> theResult = theArray.GetVector<uint8_t>();
+	REQUIRE(theResult.size() == theVector.size());
+
+	for (size_t n = 0; n < theVector.size(); n++)
+	{
+		REQUIRE(theVector[n] == theResult[n]);
+	}
 }

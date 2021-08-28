@@ -65,8 +65,75 @@ NNumber::NNumber(T theValue)
 //=============================================================================
 //		NAny::NAny : Constructor.
 //-----------------------------------------------------------------------------
+inline NNumber::NNumber(const NNumber& theValue)
+	: mValue(theValue.mValue)
+{
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::NAny : Constructor.
+//-----------------------------------------------------------------------------
+inline NNumber::NNumber(const NString& theValue)
+	: mValue()
+{
+
+
+	// Set the value
+	bool wasOK = SetValue(theValue);
+	NN_REQUIRE(wasOK);
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::operator= : Assignment operator.
+//-----------------------------------------------------------------------------
 template<typename T, typename Enabled>
 NNumber& NNumber::operator=(T theValue)
+{
+
+
+	// Set the value
+	bool wasOK = SetValue(theValue);
+	NN_REQUIRE(wasOK);
+
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::NAny : Constructor.
+//-----------------------------------------------------------------------------
+inline NNumber& NNumber::operator=(const NNumber& theValue)
+{
+
+
+	// Set the value
+	if (this != &theValue)
+	{
+		mValue = theValue.mValue;
+	}
+
+	return *this;
+}
+
+
+
+
+
+//=============================================================================
+//		NAny::NAny : Constructor.
+//-----------------------------------------------------------------------------
+inline NNumber& NNumber::operator=(const NString& theValue)
 {
 
 
