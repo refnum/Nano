@@ -63,10 +63,10 @@ static const NBroadcast      kNTestBroadcast(kNTestMessage, kNTestValue);
 //=============================================================================
 //		Internal class declaration
 //-----------------------------------------------------------------------------
-class TestReceiverAdd : public NReceiver
+class TestReceiverBroadcaster : public NReceiver
 {
 public:
-	TestReceiverAdd()
+	TestReceiverBroadcaster()
 		: mValue(0)
 	{
 		StartReceiving(kNTestMessage,
@@ -103,7 +103,7 @@ private:
 //-----------------------------------------------------------------------------
 NANO_FIXTURE(TBroadcaster)
 {
-	TestReceiverAdd                     theReceiver;
+	TestReceiverBroadcaster             theReceiver;
 };
 
 

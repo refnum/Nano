@@ -61,10 +61,10 @@ static constexpr uint32_t    kNTestValue                    = 123;
 //=============================================================================
 //		Internal class declaration
 //-----------------------------------------------------------------------------
-class TestReceiverIncrement : public NReceiver
+class TestReceiverReceiver : public NReceiver
 {
 public:
-	TestReceiverIncrement()
+	TestReceiverReceiver()
 		: mValue(0)
 	{
 	}
@@ -97,7 +97,7 @@ private:
 //-----------------------------------------------------------------------------
 NANO_FIXTURE(TReceiver)
 {
-	TestReceiverIncrement               theReceiver;
+	TestReceiverReceiver                theReceiver;
 };
 
 
@@ -245,7 +245,7 @@ NANO_TEST(TReceiver, "Destructor")
 
 	if constexpr (true)
 	{
-		TestReceiverIncrement scopedReceiver;
+		TestReceiverReceiver scopedReceiver;
 
 		scopedReceiver.StartReceiving(kNTestMessage,
 		[&]()
