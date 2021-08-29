@@ -79,19 +79,20 @@ public:
 
 
 	// Start receiving a broadcast
+	// Start receiving a message
 	//
 	// A receiver may only register one function per message.
 	void                                StartReceiving(const NString& theMessage, const NFunctionReceiver& theFunction);
 	void                                StartReceiving(const NString& theMessage, const NFunction&         theFunction);
 
 
-	// Stop receiving a broadcast
+	// Stop receiving a message
 	//
 	// The receiver must be registered to receive the message.
 	void                                StopReceiving(const NString& theMessage);
 
 
-	// Stop receiving broadcasts
+	// Stop receiving any messages
 	void                                StopReceiving();
 };
 
