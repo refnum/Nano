@@ -156,6 +156,9 @@
 		AB89A43126BF549900323127 /* BSizeOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB89A43026BF549900323127 /* BSizeOf.cpp */; };
 		AB89A43226BF549900323127 /* BSizeOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB89A43026BF549900323127 /* BSizeOf.cpp */; };
 		AB89A43326BF549900323127 /* BSizeOf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB89A43026BF549900323127 /* BSizeOf.cpp */; };
+		AB8B147726DBC87700A1C886 /* TBroadcastQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8B147626DBC87700A1C886 /* TBroadcastQueue.cpp */; };
+		AB8B147826DBC87700A1C886 /* TBroadcastQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8B147626DBC87700A1C886 /* TBroadcastQueue.cpp */; };
+		AB8B147926DBC87700A1C886 /* TBroadcastQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8B147626DBC87700A1C886 /* TBroadcastQueue.cpp */; };
 		AB8E64AD25A2A68000AF2CE9 /* TNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB11034184B00E5A6AD /* TNumber.cpp */; };
 		AB8E64B125A2A68000AF2CE9 /* TNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB11034184B00E5A6AD /* TNumber.cpp */; };
 		AB8E64B525A2A68100AF2CE9 /* TNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514DB11034184B00E5A6AD /* TNumber.cpp */; };
@@ -496,6 +499,7 @@
 		AB5E179625F84AD900920CF0 /* TDateFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDateFormatter.cpp; sourceTree = "<group>"; };
 		AB6E7E3609F9052300F73093 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		AB89A43026BF549900323127 /* BSizeOf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BSizeOf.cpp; sourceTree = "<group>"; };
+		AB8B147626DBC87700A1C886 /* TBroadcastQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TBroadcastQueue.cpp; sourceTree = "<group>"; };
 		AB9156350F9B4F37009FFEAF /* NanoTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NanoTest.cpp; sourceTree = "<group>"; };
 		ABA3E83B2698E51B0030EAE6 /* TDBHandle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDBHandle.cpp; sourceTree = "<group>"; };
 		ABA478C325B7B7FE00F3C3C9 /* TMachine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMachine.cpp; sourceTree = "<group>"; };
@@ -776,6 +780,7 @@
 			children = (
 				ABB9139426D51B93009CC362 /* TBroadcast.cpp */,
 				ABB9137326D276DF009CC362 /* TBroadcaster.cpp */,
+				AB8B147626DBC87700A1C886 /* TBroadcastQueue.cpp */,
 				ABF58CDA26793B9000327252 /* TProgressable.cpp */,
 				ABB9138B26D51B33009CC362 /* TReceiver.cpp */,
 			);
@@ -1205,6 +1210,7 @@
 				ABF58DCE267F5BCD00327252 /* TCFString.cpp in Sources */,
 				ABFD470025C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */,
 				ABDCE8A6241C22BB0054A16E /* TClock.cpp in Sources */,
+				AB8B147826DBC87700A1C886 /* TBroadcastQueue.cpp in Sources */,
 				AB081C5825BCD5D40058D397 /* TRandom.cpp in Sources */,
 				ABF513172397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF58DBD267F508A00327252 /* TCFDate.cpp in Sources */,
@@ -1329,6 +1335,7 @@
 				ABF58DCD267F5BCD00327252 /* TCFString.cpp in Sources */,
 				ABFD46FF25C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */,
 				ABDCE8A5241C22BB0054A16E /* TClock.cpp in Sources */,
+				AB8B147726DBC87700A1C886 /* TBroadcastQueue.cpp in Sources */,
 				AB081C5725BCD5D40058D397 /* TRandom.cpp in Sources */,
 				ABF513162397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF58DBE267F508A00327252 /* TCFDate.cpp in Sources */,
@@ -1453,6 +1460,7 @@
 				ABF58DCF267F5BCD00327252 /* TCFString.cpp in Sources */,
 				ABFD470125C4FD0E00CE9358 /* TRandomGenerator.cpp in Sources */,
 				ABDCE8A7241C22BB0054A16E /* TClock.cpp in Sources */,
+				AB8B147926DBC87700A1C886 /* TBroadcastQueue.cpp in Sources */,
 				AB081C5925BCD5D40058D397 /* TRandom.cpp in Sources */,
 				ABF513182397C3FB001F9F8B /* TMixinContainer.cpp in Sources */,
 				ABF58DBC267F508A00327252 /* TCFDate.cpp in Sources */,

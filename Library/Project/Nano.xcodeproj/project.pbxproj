@@ -309,6 +309,9 @@
 		AB84536E2581A09D00B78BF7 /* WjCryptLib_Md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8453632581A09D00B78BF7 /* WjCryptLib_Md5.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB84536F2581A09D00B78BF7 /* WjCryptLib_Md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8453632581A09D00B78BF7 /* WjCryptLib_Md5.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB8453702581A09D00B78BF7 /* WjCryptLib_Md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8453632581A09D00B78BF7 /* WjCryptLib_Md5.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB8B147326DBC85200A1C886 /* NBroadcastQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8B147126DBC85200A1C886 /* NBroadcastQueue.cpp */; };
+		AB8B147426DBC85200A1C886 /* NBroadcastQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8B147126DBC85200A1C886 /* NBroadcastQueue.cpp */; };
+		AB8B147526DBC85200A1C886 /* NBroadcastQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8B147126DBC85200A1C886 /* NBroadcastQueue.cpp */; };
 		AB8E64A425A2A67800AF2CE9 /* NNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155540F9B4DD6009FFEAF /* NNumber.cpp */; };
 		AB8E64A825A2A67800AF2CE9 /* NNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155540F9B4DD6009FFEAF /* NNumber.cpp */; };
 		AB8E64A925A2A67800AF2CE9 /* NNumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB9155540F9B4DD6009FFEAF /* NNumber.cpp */; };
@@ -796,6 +799,8 @@
 		AB8453622581A09D00B78BF7 /* WjCryptLib_Aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WjCryptLib_Aes.h; sourceTree = "<group>"; };
 		AB8453632581A09D00B78BF7 /* WjCryptLib_Md5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WjCryptLib_Md5.c; sourceTree = "<group>"; };
 		AB8453642581A09D00B78BF7 /* WjCryptLib_Sha256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WjCryptLib_Sha256.h; sourceTree = "<group>"; };
+		AB8B147126DBC85200A1C886 /* NBroadcastQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NBroadcastQueue.cpp; sourceTree = "<group>"; };
+		AB8B147226DBC85200A1C886 /* NBroadcastQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBroadcastQueue.h; sourceTree = "<group>"; };
 		AB8DBDE623777E6500619B6A /* Nano.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano.xcconfig; sourceTree = "<group>"; };
 		AB8DBDF123777F8D00619B6A /* Nano_iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano_iOS.xcconfig; sourceTree = "<group>"; };
 		AB8DBDF223777F8D00619B6A /* Nano_macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano_macOS.xcconfig; sourceTree = "<group>"; };
@@ -1700,6 +1705,8 @@
 				ABB9139826D51BFD009CC362 /* NBroadcast.inl */,
 				AB9155110F9B4DD5009FFEAF /* NBroadcaster.cpp */,
 				AB9155120F9B4DD5009FFEAF /* NBroadcaster.h */,
+				AB8B147126DBC85200A1C886 /* NBroadcastQueue.cpp */,
+				AB8B147226DBC85200A1C886 /* NBroadcastQueue.h */,
 				ABF58CD526793B7100327252 /* NProgressable.cpp */,
 				ABF58CD626793B7100327252 /* NProgressable.h */,
 				ABB9138726D51B24009CC362 /* NReceiver.cpp */,
@@ -2147,6 +2154,7 @@
 				ABA478BF25B7B7A400F3C3C9 /* NMachine.cpp in Sources */,
 				AB0267B02699A56400130611 /* pcre2_config.c in Sources */,
 				ABE8151B25E47E6B002FA8CD /* NDate.cpp in Sources */,
+				AB8B147526DBC85200A1C886 /* NBroadcastQueue.cpp in Sources */,
 				AB230A102581AB8600919EBD /* deflate.c in Sources */,
 				AB8E64A925A2A67800AF2CE9 /* NNumber.cpp in Sources */,
 				AB371AAA25CB931D00DEC50B /* NBitVector.cpp in Sources */,
@@ -2306,6 +2314,7 @@
 				ABA478BD25B7B7A400F3C3C9 /* NMachine.cpp in Sources */,
 				AB0267AE2699A56400130611 /* pcre2_config.c in Sources */,
 				AB549B97269116CB00B14417 /* iOSNBundle.cpp in Sources */,
+				AB8B147326DBC85200A1C886 /* NBroadcastQueue.cpp in Sources */,
 				ABE8151925E47E6B002FA8CD /* NDate.cpp in Sources */,
 				AB19813825995538002C5591 /* iOSNRunLoop.cpp in Sources */,
 				AB8E64A425A2A67800AF2CE9 /* NNumber.cpp in Sources */,
@@ -2465,6 +2474,7 @@
 				AB42DBBD2425B21800962DD9 /* macOSNFileUtils.mm in Sources */,
 				AB0267AF2699A56400130611 /* pcre2_config.c in Sources */,
 				AB230A0F2581AB8600919EBD /* deflate.c in Sources */,
+				AB8B147426DBC85200A1C886 /* NBroadcastQueue.cpp in Sources */,
 				ABE8151A25E47E6B002FA8CD /* NDate.cpp in Sources */,
 				ABA478BE25B7B7A400F3C3C9 /* NMachine.cpp in Sources */,
 				AB371AAE25CB931D00DEC50B /* NBitVector.cpp in Sources */,

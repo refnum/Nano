@@ -70,6 +70,7 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Debugging/TUsageLog.cpp"
 		"${NN_SOURCE_DIR}/Nano/Events/TBroadcast.cpp"
 		"${NN_SOURCE_DIR}/Nano/Events/TBroadcaster.cpp"
+		"${NN_SOURCE_DIR}/Nano/Events/TBroadcastQueue.cpp"
 		"${NN_SOURCE_DIR}/Nano/Events/TProgressable.cpp"
 		"${NN_SOURCE_DIR}/Nano/Events/TReceiver.cpp"
 		"${NN_SOURCE_DIR}/Nano/Files/TBundle.cpp"

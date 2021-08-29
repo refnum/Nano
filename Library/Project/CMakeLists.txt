@@ -92,6 +92,8 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Events/NBroadcast.inl"
 		"${NN_SOURCE_DIR}/Nano/Events/NBroadcaster.cpp"
 		"${NN_SOURCE_DIR}/Nano/Events/NBroadcaster.h"
+		"${NN_SOURCE_DIR}/Nano/Events/NBroadcastQueue.cpp"
+		"${NN_SOURCE_DIR}/Nano/Events/NBroadcastQueue.h"
 		"${NN_SOURCE_DIR}/Nano/Events/NProgressable.cpp"
 		"${NN_SOURCE_DIR}/Nano/Events/NProgressable.h"
 		"${NN_SOURCE_DIR}/Nano/Events/NReceiver.cpp"
