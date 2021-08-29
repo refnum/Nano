@@ -45,6 +45,23 @@
 #include "NAny.h"
 #include "NString.h"
 
+// System
+#include <vector>
+
+
+
+
+
+//=============================================================================
+//		Types
+//-----------------------------------------------------------------------------
+// Forward declarations
+class NBroadcast;
+
+
+// Containers
+using NVectorBroadcast = std::vector<NBroadcast>;
+
 
 
 
