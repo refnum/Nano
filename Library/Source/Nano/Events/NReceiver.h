@@ -43,6 +43,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NFunction.h"
+#include "NString.h"
 
 
 
@@ -53,7 +54,6 @@
 //-----------------------------------------------------------------------------
 // Forward declarations
 class NBroadcast;
-class NString;
 
 // Receivers
 using NFunctionReceiver = std::function<void(const NBroadcast& theBroadcast)>;
@@ -78,7 +78,10 @@ public:
 	NReceiver&                          operator=(NReceiver&& otherReceiver) = delete;
 
 
-	// Start receiving a broadcast
+	// Get the messages being received
+	NVectorString                       GetMessages() const;
+
+
 	// Start receiving a message
 	//
 	// A receiver may only register one function per message.

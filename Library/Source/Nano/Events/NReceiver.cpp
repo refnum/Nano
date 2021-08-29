@@ -64,6 +64,21 @@ NReceiver::~NReceiver()
 
 
 //=============================================================================
+//		NReceiver::GetMessages : Get the messages being received.
+//-----------------------------------------------------------------------------
+NVectorString NReceiver::GetMessages() const
+{
+
+
+	// Get the messages
+	return NBroadcaster::GetMessages(this);
+}
+
+
+
+
+
+//=============================================================================
 //		NReceiver::StartReceiving : Start receiving a message.
 //-----------------------------------------------------------------------------
 void NReceiver::StartReceiving(const NString& theMessage, const NFunctionReceiver& theFunction)

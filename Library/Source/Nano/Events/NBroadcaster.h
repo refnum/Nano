@@ -98,6 +98,10 @@ public:
 
 
 protected:
+	// Get the messages a receiver is receiving
+	static NVectorString                GetMessages(const NReceiver* theReceiver);
+
+
 	// Start receiving a message
 	static void                         StartReceiving(const NReceiver*         theReceiver,
 													   const NString&           theMessage,
@@ -132,8 +136,8 @@ private:
 
 	void                                DestroyReceiver(const NReceiver* theReceiver);
 
-	NVectorBroadcastRecipients          GetRecipients(const NString& theMessage);
-	NVectorString                       GetMessages(  const NReceiver* theReceiver);
+	NVectorBroadcastRecipients          GetMessageRecipients(const NString& theMessage);
+	NVectorString                       GetReceiverMessages( const NReceiver* theReceiver);
 
 	static NBroadcaster&                Get();
 

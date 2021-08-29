@@ -126,7 +126,27 @@ void NBroadcaster::SendAsync(const NBroadcast& theBroadcast)
 
 
 
-#pragma mark protect
+#pragma mark protected
+//=============================================================================
+//		NBroadcaster::GetMessages : Get the messages for a receiver.
+//-----------------------------------------------------------------------------
+NVectorString NBroadcaster::GetMessages(const NReceiver* theReceiver)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(theReceiver != nullptr);
+
+
+
+	// Get the messages
+	return Get().GetReceiverMessages(theReceiver);
+}
+
+
+
+
+
 //=============================================================================
 //		NBroadcaster::StartReceiving : Start receiving a message.
 //-----------------------------------------------------------------------------
@@ -284,7 +304,7 @@ bool NBroadcaster::IsReceiving(const NReceiver* theReceiver, const NString& theM
 	{
 		if (nstd::contains(iterReceiver->second, theMessage))
 		{
-			NN_REQUIRE(HasReceiver(GetRecipients(theMessage), theReceiver));
+			NN_REQUIRE(HasReceiver(GetMessageRecipients(theMessage), theReceiver));
 			return true;
 		}
 	}
@@ -296,7 +316,7 @@ bool NBroadcaster::IsReceiving(const NReceiver* theReceiver, const NString& theM
 	// If we don't have the receiver, or the receiver doesn't have the message,
 	// we shouldn't find the reciever in the recipient list for the message.
 	NN_REQUIRE(!nstd::contains(mMessages, theMessage) ||
-			   !HasReceiver(GetRecipients(theMessage), theReceiver));
+			   !HasReceiver(GetMessageRecipients(theMessage), theReceiver));
 
 	return false;
 }
@@ -423,7 +443,7 @@ void NBroadcaster::RemoveReceiver(const NReceiver* theReceiver)
 	// Remove the receiver
 	NScopedLock acquireLock(mLock);
 
-	for (const auto& theMessage : GetMessages(theReceiver))
+	for (const auto& theMessage : GetReceiverMessages(theReceiver))
 	{
 		RemoveReceiver(theReceiver, theMessage);
 	}
@@ -461,9 +481,9 @@ void NBroadcaster::DestroyReceiver(const NReceiver* theReceiver)
 
 
 //=============================================================================
-//		NBroadcaster::GetRecipients : Get the recipients of a message.
+//		NBroadcaster::GetMessageRecipients : Get the recipients of a message.
 //-----------------------------------------------------------------------------
-NVectorBroadcastRecipients NBroadcaster::GetRecipients(const NString& theMessage)
+NVectorBroadcastRecipients NBroadcaster::GetMessageRecipients(const NString& theMessage)
 {
 
 
@@ -488,9 +508,9 @@ NVectorBroadcastRecipients NBroadcaster::GetRecipients(const NString& theMessage
 
 
 //=============================================================================
-//		NBroadcaster::GetMessages : Get the messages for a receiver.
+//		NBroadcaster::GetReceiverMessages : Get the messages for a receiver.
 //-----------------------------------------------------------------------------
-NVectorString NBroadcaster::GetMessages(const NReceiver* theReceiver)
+NVectorString NBroadcaster::GetReceiverMessages(const NReceiver* theReceiver)
 {
 
 

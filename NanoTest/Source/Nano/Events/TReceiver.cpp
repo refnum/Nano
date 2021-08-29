@@ -107,22 +107,52 @@ NANO_FIXTURE(TReceiver)
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-NANO_TEST(TReceiver, "StartReceiving/MessageValue")
+NANO_TEST(TReceiver, "GetMessages")
 {
 	// Perform the test
-	theReceiver.StartReceiving(kNTestMessage,
-							   [&](const NBroadcast& theBroadcast)
-							   {
-								   REQUIRE(theBroadcast.GetMessage() == kNTestMessage);
-								   REQUIRE(theBroadcast.GetValue().IsUInt32());
-								   REQUIRE(theBroadcast.GetValue().GetUInt32() == kNTestValue);
-								   theReceiver.Increment();
-								   theReceiver.Increment();
-							   });
+										REQUIRE(theReceiver.GetMessages().empty());
 
-										REQUIRE(theReceiver.GetValue() == 0);
+	theReceiver.StartReceiving("test.1",
+							   [&]()
+							   {
+							   });
+										REQUIRE(theReceiver.GetMessages().size() == 1);
+
+	theReceiver.StartReceiving("test.2",
+							   [&]()
+							   {
+							   });
+										REQUIRE(theReceiver.GetMessages().size() == 2);
+
+	theReceiver.StopReceiving();
+										REQUIRE(theReceiver.GetMessages().empty());
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TReceiver, "StartReceiving/MessageValue")
+{
+
+
+	// Perform the test
+	theReceiver.StartReceiving(kNTestMessage,
+	[&](const NBroadcast& theBroadcast)
+	{
+		REQUIRE(theBroadcast.GetMessage() == kNTestMessage);
+		REQUIRE(theBroadcast.GetValue().IsUInt32());
+		REQUIRE(theBroadcast.GetValue().GetUInt32() == kNTestValue);
+		theReceiver.Increment();
+		theReceiver.Increment();
+	});
+
+	REQUIRE(theReceiver.GetValue() == 0);
 	NBroadcaster::Send(kNTestMessage, kNTestValue);
-										REQUIRE(theReceiver.GetValue() == 2);
+	REQUIRE(theReceiver.GetValue() == 2);
 }
 
 
