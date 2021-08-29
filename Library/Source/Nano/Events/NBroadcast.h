@@ -72,6 +72,7 @@ using NVectorBroadcast = std::vector<NBroadcast>;
 class NBroadcast
 {
 public:
+										NBroadcast(const NString& theMessage);
 										NBroadcast(const NString& theMessage, const NAny& theValue);
 
 

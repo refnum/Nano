@@ -47,6 +47,23 @@
 //=============================================================================
 //		NBroadcast::NBroadcast : Constructor.
 //-----------------------------------------------------------------------------
+inline NBroadcast::NBroadcast(const NString& theMessage)
+	: mMessage(theMessage)
+	, mValue()
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(!theMessage.IsEmpty());
+}
+
+
+
+
+
+//=============================================================================
+//		NBroadcast::NBroadcast : Constructor.
+//-----------------------------------------------------------------------------
 inline NBroadcast::NBroadcast(const NString& theMessage, const NAny& theValue)
 	: mMessage(theMessage)
 	, mValue(theValue)
