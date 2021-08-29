@@ -61,7 +61,7 @@ NN_DIAGNOSTIC_POP();
 //-----------------------------------------------------------------------------
 // Set
 //
-// An NSet presents a broadly similar interface to std::set,
+// An NSet presents a broadly similar interface to std::unordered_set,
 // but is based on a more efficient implementation.
 //
 // The current implementation is tsl::hopscotch_set.
