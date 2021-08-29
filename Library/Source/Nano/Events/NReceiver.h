@@ -69,7 +69,7 @@ class NReceiver
 {
 public:
 										NReceiver() = default;
-	virtual                            ~NReceiver();
+									   ~NReceiver();
 
 										NReceiver(const NReceiver& otherReceiver) = delete;
 	NReceiver&                          operator=(const NReceiver& otherReceiver) = delete;
