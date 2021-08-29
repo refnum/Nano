@@ -65,7 +65,22 @@ void NBroadcaster::Send(const NString& theMessage, const NAny& theValue)
 
 
 	// Send the message
-	Get().SendBroadcast(theMessage, theValue);
+	Send({theMessage, theValue});
+}
+
+
+
+
+
+//=============================================================================
+//		NBroadcaster::Send : Send a message synchronously.
+//-----------------------------------------------------------------------------
+void NBroadcaster::Send(const NBroadcast& theBroadcast)
+{
+
+
+	// Send the message
+	Get().SendBroadcast(theBroadcast);
 }
 
 
@@ -85,10 +100,25 @@ void NBroadcaster::SendAsync(const NString& theMessage, const NAny& theValue)
 
 
 	// Send the message
+	SendAsync({theMessage, theValue});
+}
+
+
+
+
+
+//=============================================================================
+//		NBroadcaster::SendAsync : Send a message asynchronously.
+//-----------------------------------------------------------------------------
+void NBroadcaster::SendAsync(const NBroadcast& theBroadcast)
+{
+
+
+	// Send the message
 	NExecute(
 	[=]()
 	{
-		Send(theMessage, theValue);
+		Send(theBroadcast);
 	});
 }
 
@@ -186,13 +216,8 @@ void NBroadcaster::DestroyedReceiver(const NReceiver* theReceiver)
 //=============================================================================
 //		NBroadcaster::SendBroadcast : Send a broadcast.
 //-----------------------------------------------------------------------------
-void NBroadcaster::SendBroadcast(const NString& theMessage, const NAny& theValue)
+void NBroadcaster::SendBroadcast(const NBroadcast& theBroadcast)
 {
-
-
-	// Validate our parameters
-	NN_REQUIRE(!theMessage.IsEmpty());
-
 
 
 	// Prepare to send
@@ -216,13 +241,13 @@ void NBroadcaster::SendBroadcast(const NString& theMessage, const NAny& theValue
 	//	o A receiver destroyed during a broadcast will not receive the message
 	//	o A receiver added     during a broadcast will not receive the message
 	//	o A receiver removed   during a broadcast will     receive the message
-	mCurrentMessage = theMessage;
+	mCurrentMessage = theBroadcast.GetMessage();
 
-	for (const auto& theRecipient : GetRecipients(theMessage))
+	for (const auto& theRecipient : GetMessageRecipients(theBroadcast.GetMessage()))
 	{
 		if (!nstd::contains(mCurrentDestroyed, theRecipient.theReceiver))
 		{
-			theRecipient.theFunction({theMessage, theValue});
+			theRecipient.theFunction(theBroadcast);
 		}
 	}
 

@@ -54,6 +54,7 @@
 //-----------------------------------------------------------------------------
 static constexpr const char* kNTestMessage                  = "TestMessage";
 static constexpr uint32_t    kNTestValue                    = 123;
+static const NBroadcast      kNTestBroadcast(kNTestMessage, kNTestValue);
 
 
 
@@ -116,8 +117,12 @@ NANO_TEST(TBroadcaster, "SendMessage")
 {
 	// Perform the test
 										REQUIRE(theReceiver.GetValue() == 0);
+
 	NBroadcaster::Send(kNTestMessage);
 										REQUIRE(theReceiver.GetValue() == 1);
+
+	NBroadcaster::Send(kNTestBroadcast);
+										REQUIRE(theReceiver.GetValue() == 1 + kNTestValue);
 }
 
 
@@ -133,6 +138,7 @@ NANO_TEST(TBroadcaster, "SendMessageValue")
 
 	// Perform the test
 	REQUIRE(theReceiver.GetValue() == 0);
+
 	NBroadcaster::Send(kNTestMessage, kNTestValue);
 	REQUIRE(theReceiver.GetValue() == kNTestValue);
 }
@@ -150,9 +156,14 @@ NANO_TEST(TBroadcaster, "SendAsyncMessage")
 
 	// Perform the test
 	REQUIRE(theReceiver.GetValue() == 0);
+
 	NBroadcaster::SendAsync(kNTestMessage);
 	NThread::Sleep(0.050);
 	REQUIRE(theReceiver.GetValue() == 1);
+
+	NBroadcaster::SendAsync(kNTestBroadcast);
+	NThread::Sleep(0.050);
+	REQUIRE(theReceiver.GetValue() == 1 + kNTestValue);
 }
 
 

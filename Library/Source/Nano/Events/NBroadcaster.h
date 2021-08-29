@@ -55,6 +55,9 @@
 //=============================================================================
 //		Types
 //-----------------------------------------------------------------------------
+// Forward declaration
+class NBroadcast;
+
 // Recipients
 struct NBroadcastRecipient
 {
@@ -84,12 +87,14 @@ public:
 	//
 	// The message will be delivered on the calling thread.
 	static void                         Send(const NString& theMessage, const NAny& theValue = {});
+	static void                         Send(const NBroadcast& theBroadcast);
 
 
 	// Broadcast a message asynchronously
 	//
 	// The message will be delivered on a background thread.
 	static void                         SendAsync(const NString& theMessage, const NAny& theValue = {});
+	static void                         SendAsync(const NBroadcast& theBroadcast);
 
 
 protected:
@@ -112,7 +117,7 @@ protected:
 
 
 private:
-	void                                SendBroadcast(const NString& theMessage, const NAny& theValue);
+	void                                SendBroadcast(const NBroadcast& theBroadcast);
 
 	bool                                IsReceiving(const NReceiver* theReceiver, const NString& theMessage);
 
