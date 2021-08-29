@@ -343,7 +343,6 @@ void NBroadcaster::AddReceiver(const NReceiver*         theReceiver,
 
 
 	// Validate our parameters
-	NN_REQUIRE(!IsReceiving(theReceiver, theMessage));
 	NN_REQUIRE(!theMessage.IsEmpty());
 	NN_REQUIRE(theFunction != nullptr);
 
@@ -351,6 +350,8 @@ void NBroadcaster::AddReceiver(const NReceiver*         theReceiver,
 
 	// Add the receiver
 	NScopedLock acquireLock(mLock);
+
+	NN_REQUIRE(!IsReceiving(theReceiver, theMessage));
 
 	mMessages[theMessage].push_back({theReceiver, theFunction});
 	mReceivers[theReceiver].push_back(theMessage);
@@ -368,13 +369,14 @@ void NBroadcaster::RemoveReceiver(const NReceiver* theReceiver, const NString& t
 
 
 	// Validate our parameters
-	NN_REQUIRE(IsReceiving(theReceiver, theMessage));
 	NN_REQUIRE(!theMessage.IsEmpty());
 
 
 
 	// Remove the receiver
 	NScopedLock acquireLock(mLock);
+
+	NN_REQUIRE(IsReceiving(theReceiver, theMessage));
 
 	nstd::erase_if(mMessages.find(theMessage).value(),
 	[=](const NBroadcastRecipient& theRecipient)
@@ -465,8 +467,9 @@ NVectorBroadcastRecipients NBroadcaster::GetRecipients(const NString& theMessage
 {
 
 
-	// Validate our parameters
+	// Validate our parameters and state
 	NN_REQUIRE(!theMessage.IsEmpty());
+	NN_REQUIRE(mLock.IsLocked());
 
 
 
@@ -497,6 +500,8 @@ NVectorString NBroadcaster::GetMessages(const NReceiver* theReceiver)
 
 
 	// Get the messages
+	NScopedLock acquireLock(mLock);
+
 	auto iterReceiver = mReceivers.find(theReceiver);
 	if (iterReceiver != mReceivers.end())
 	{
