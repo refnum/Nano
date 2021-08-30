@@ -198,11 +198,9 @@ T NDictionary::GetValue(const NString& theKey) const
 	if (theIter != end())
 	{
 		const auto& theValue = theIter->second;
+		NN_REQUIRE(theValue.Is<T>());
 
-		if (theValue.Is<T>())
-		{
-			return theValue.Get<T>();
-		}
+		return theValue.Get<T>();
 	}
 
 	return {};

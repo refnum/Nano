@@ -273,6 +273,7 @@ T NArray::GetValue(size_t theIndex) const
 
 	// Validate our parameters
 	NN_REQUIRE(theIndex < GetSize());
+	NN_REQUIRE(at(theIndex).Is<T>());
 
 
 
