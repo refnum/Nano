@@ -309,6 +309,12 @@
 		AB84536E2581A09D00B78BF7 /* WjCryptLib_Md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8453632581A09D00B78BF7 /* WjCryptLib_Md5.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB84536F2581A09D00B78BF7 /* WjCryptLib_Md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8453632581A09D00B78BF7 /* WjCryptLib_Md5.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AB8453702581A09D00B78BF7 /* WjCryptLib_Md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AB8453632581A09D00B78BF7 /* WjCryptLib_Md5.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		AB89A42D26BED83C00323127 /* NPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB1453B0FF2C4DA006F178C /* NPreferences.cpp */; };
+		AB89A42E26BED83D00323127 /* NPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB1453B0FF2C4DA006F178C /* NPreferences.cpp */; };
+		AB89A42F26BED83D00323127 /* NPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB1453B0FF2C4DA006F178C /* NPreferences.cpp */; };
+		AB8B146E26D9A56500A1C886 /* NPreferenceFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8B146C26D9A56500A1C886 /* NPreferenceFile.cpp */; };
+		AB8B146F26D9A56500A1C886 /* NPreferenceFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8B146C26D9A56500A1C886 /* NPreferenceFile.cpp */; };
+		AB8B147026D9A56500A1C886 /* NPreferenceFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8B146C26D9A56500A1C886 /* NPreferenceFile.cpp */; };
 		AB8B147326DBC85200A1C886 /* NBroadcastQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8B147126DBC85200A1C886 /* NBroadcastQueue.cpp */; };
 		AB8B147426DBC85200A1C886 /* NBroadcastQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8B147126DBC85200A1C886 /* NBroadcastQueue.cpp */; };
 		AB8B147526DBC85200A1C886 /* NBroadcastQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB8B147126DBC85200A1C886 /* NBroadcastQueue.cpp */; };
@@ -799,6 +805,10 @@
 		AB8453622581A09D00B78BF7 /* WjCryptLib_Aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WjCryptLib_Aes.h; sourceTree = "<group>"; };
 		AB8453632581A09D00B78BF7 /* WjCryptLib_Md5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WjCryptLib_Md5.c; sourceTree = "<group>"; };
 		AB8453642581A09D00B78BF7 /* WjCryptLib_Sha256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WjCryptLib_Sha256.h; sourceTree = "<group>"; };
+		AB89A42426BED7E300323127 /* NPreference.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NPreference.h; sourceTree = "<group>"; };
+		AB89A42526BED7E300323127 /* NPreference.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NPreference.inl; sourceTree = "<group>"; };
+		AB8B146C26D9A56500A1C886 /* NPreferenceFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPreferenceFile.cpp; sourceTree = "<group>"; };
+		AB8B146D26D9A56500A1C886 /* NPreferenceFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPreferenceFile.h; sourceTree = "<group>"; };
 		AB8B147126DBC85200A1C886 /* NBroadcastQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NBroadcastQueue.cpp; sourceTree = "<group>"; };
 		AB8B147226DBC85200A1C886 /* NBroadcastQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBroadcastQueue.h; sourceTree = "<group>"; };
 		AB8DBDE623777E6500619B6A /* Nano.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Nano.xcconfig; sourceTree = "<group>"; };
@@ -1679,6 +1689,10 @@
 			children = (
 				AB9155070F9B4DD5009FFEAF /* NCommandLine.cpp */,
 				AB9155080F9B4DD5009FFEAF /* NCommandLine.h */,
+				AB89A42426BED7E300323127 /* NPreference.h */,
+				AB89A42526BED7E300323127 /* NPreference.inl */,
+				AB8B146C26D9A56500A1C886 /* NPreferenceFile.cpp */,
+				AB8B146D26D9A56500A1C886 /* NPreferenceFile.h */,
 				ABB1453B0FF2C4DA006F178C /* NPreferences.cpp */,
 				ABB1453D0FF2C4DA006F178C /* NPreferences.h */,
 				AB1A78A0103234BE00DFBA38 /* NUndoManager.cpp */,
@@ -2267,12 +2281,14 @@
 				ABF58CCE267932C300327252 /* NUndoManager.cpp in Sources */,
 				ABF58DB7267F4F5900327252 /* NCFDate.cpp in Sources */,
 				ABF58C2E267572F300327252 /* NDataCompressor.cpp in Sources */,
+				AB89A42F26BED83D00323127 /* NPreferences.cpp in Sources */,
 				AB081C6525BCD5E50058D397 /* NRandom.cpp in Sources */,
 				ABDCE8B7241C59570054A16E /* NFileHandle.cpp in Sources */,
 				AB1B4DA023F0250C00B304D3 /* NStringScanner.cpp in Sources */,
 				AB198118259953A9002C5591 /* NRunLoop.cpp in Sources */,
 				AB230A312581AB8600919EBD /* inffast.c in Sources */,
 				ABF58C31267572F300327252 /* NData.cpp in Sources */,
+				AB8B147026D9A56500A1C886 /* NPreferenceFile.cpp in Sources */,
 				AB230A252581AB8600919EBD /* uncompr.c in Sources */,
 				ABF58C37267572F300327252 /* NDataEncoder.cpp in Sources */,
 				ABBB2B6823806E6100EB2840 /* NTestFixture.cpp in Sources */,
@@ -2427,12 +2443,14 @@
 				ABF58CCA267932C200327252 /* NUndoManager.cpp in Sources */,
 				ABF58DB5267F4F5900327252 /* NCFDate.cpp in Sources */,
 				ABF58C2C267572F300327252 /* NDataCompressor.cpp in Sources */,
+				AB89A42D26BED83C00323127 /* NPreferences.cpp in Sources */,
 				AB230A262581AB8600919EBD /* gzwrite.c in Sources */,
 				AB081C6325BCD5E50058D397 /* NRandom.cpp in Sources */,
 				AB1B4D9E23F0250C00B304D3 /* NStringScanner.cpp in Sources */,
 				AB0DBE6F23999B7200F6AD43 /* NTimeUtils.cpp in Sources */,
 				AB198116259953A9002C5591 /* NRunLoop.cpp in Sources */,
 				ABF58C2F267572F300327252 /* NData.cpp in Sources */,
+				AB8B146E26D9A56500A1C886 /* NPreferenceFile.cpp in Sources */,
 				AB230A2F2581AB8600919EBD /* inffast.c in Sources */,
 				ABF58C35267572F300327252 /* NDataEncoder.cpp in Sources */,
 				AB230A232581AB8600919EBD /* uncompr.c in Sources */,
@@ -2587,12 +2605,14 @@
 				ABF58CCC267932C200327252 /* NUndoManager.cpp in Sources */,
 				ABF58DB6267F4F5900327252 /* NCFDate.cpp in Sources */,
 				ABF58C2D267572F300327252 /* NDataCompressor.cpp in Sources */,
+				AB89A42E26BED83D00323127 /* NPreferences.cpp in Sources */,
 				AB230A332581AB8600919EBD /* adler32.c in Sources */,
 				AB081C6425BCD5E50058D397 /* NRandom.cpp in Sources */,
 				AB62326C242AF51300651349 /* NLogOutput.cpp in Sources */,
 				AB198117259953A9002C5591 /* NRunLoop.cpp in Sources */,
 				ABF58C30267572F300327252 /* NData.cpp in Sources */,
 				AB230A272581AB8600919EBD /* gzwrite.c in Sources */,
+				AB8B146F26D9A56500A1C886 /* NPreferenceFile.cpp in Sources */,
 				ABF58C36267572F300327252 /* NDataEncoder.cpp in Sources */,
 				AB230A302581AB8600919EBD /* inffast.c in Sources */,
 				AB230A242581AB8600919EBD /* uncompr.c in Sources */,

@@ -55,6 +55,12 @@ nano_project_sources(
 	PRIVATE
 		"${NN_SOURCE_DIR}/Nano/Application/NCommandLine.cpp"
 		"${NN_SOURCE_DIR}/Nano/Application/NCommandLine.h"
+		"${NN_SOURCE_DIR}/Nano/Application/NPreference.h"
+		"${NN_SOURCE_DIR}/Nano/Application/NPreference.inl"
+		"${NN_SOURCE_DIR}/Nano/Application/NPreferenceFile.cpp"
+		"${NN_SOURCE_DIR}/Nano/Application/NPreferenceFile.h"
+		"${NN_SOURCE_DIR}/Nano/Application/NPreferences.cpp"
+		"${NN_SOURCE_DIR}/Nano/Application/NPreferences.h"
 		"${NN_SOURCE_DIR}/Nano/Application/NUndoManager.cpp"
 		"${NN_SOURCE_DIR}/Nano/Application/NUndoManager.h"
 		"${NN_SOURCE_DIR}/Nano/Application/NUndoSource.cpp"
