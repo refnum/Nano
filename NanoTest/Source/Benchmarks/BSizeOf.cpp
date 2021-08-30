@@ -42,12 +42,14 @@
 // Nano
 #include "NAny.h"
 #include "NArray.h"
+#include "NData.h"
 #include "NDictionary.h"
 #include "NMutex.h"
 #include "NNumber.h"
 #include "NPreference.h"
 #include "NString.h"
 #include "NTestFixture.h"
+#include "NTime.h"
 #include "NVariant.h"
 
 // System
@@ -83,27 +85,48 @@ NANO_TEST(BSizeOf, "Types")
 
 
 	// Perform the test
+#if NN_BENCHMARK_SIZEOF
+	NN_LOG_INFO("sizeof(NAny)        = {}", sizeof(NAny));
+	NN_LOG_INFO("sizeof(NArray)      = {}", sizeof(NArray));
+	NN_LOG_INFO("sizeof(NData)       = {}", sizeof(NData));
+	NN_LOG_INFO("sizeof(NDictionary) = {}", sizeof(NDictionary));
+	NN_LOG_INFO("sizeof(NMutex)      = {}", sizeof(NMutex));
+	NN_LOG_INFO("sizeof(NNumber)     = {}", sizeof(NNumber));
+	NN_LOG_INFO("sizeof(NString)     = {}", sizeof(NString));
+	NN_LOG_INFO("sizeof(NTime)       = {}", sizeof(NTime));
+	NN_LOG_INFO("sizeof(NVariant)    = {}", sizeof(NVariant<bool>));
+
+	NN_LOG_INFO("sizeof(NPreferenceBool)     = {}", sizeof(NPreferenceBool));
+	NN_LOG_INFO("sizeof(NPreferenceUInt32)   = {}", sizeof(NPreferenceUInt32));
+	NN_LOG_INFO("sizeof(NPreferenceUInt64)   = {}", sizeof(NPreferenceUInt64));
+	NN_LOG_INFO("sizeof(NPreferenceInt32)    = {}", sizeof(NPreferenceInt32));
+	NN_LOG_INFO("sizeof(NPreferenceInt64)    = {}", sizeof(NPreferenceInt64));
+	NN_LOG_INFO("sizeof(NPreferenceFloat32)  = {}", sizeof(NPreferenceFloat32));
+	NN_LOG_INFO("sizeof(NPreferenceFloat64)  = {}", sizeof(NPreferenceFloat64));
+#endif // NN_BENCHMARK_SIZEOF
+
+
+
+	// Perform the test
 	REQUIRE(sizeof(NAny) == sizeof(std::any));
 
 #if NN_COMPILER_CLANG
 	REQUIRE(sizeof(NAny) == 32);
 	REQUIRE(sizeof(NArray) == 24);
-	REQUIRE(sizeof(NDictionary) == 40);
+	REQUIRE(sizeof(NData) == 32);
+	REQUIRE(sizeof(NDictionary) == 96);
 	REQUIRE(sizeof(NMutex) == 32);
 	REQUIRE(sizeof(NNumber) == 16);
-	REQUIRE(sizeof(NPreference) == 112);
 	REQUIRE(sizeof(NString) == 32);
-	REQUIRE(sizeof(NVariant<uint8_t>) == 8);
-#endif // NN_COMPILER_CLANG
+	REQUIRE(sizeof(NTime) == 8);
+	REQUIRE(sizeof(NVariant<bool>) == 8);
 
-#if NN_BENCHMARK_SIZEOF
-	NN_LOG_INFO("sizeof(NAny)        = {}", sizeof(NAny));
-	NN_LOG_INFO("sizeof(NArray)      = {}", sizeof(NArray));
-	NN_LOG_INFO("sizeof(NDictionary) = {}", sizeof(NDictionary));
-	NN_LOG_INFO("sizeof(NMutex)      = {}", sizeof(NMutex));
-	NN_LOG_INFO("sizeof(NNumber)     = {}", sizeof(NNumber));
-	NN_LOG_INFO("sizeof(NPreference) = {}", sizeof(NPreference));
-	NN_LOG_INFO("sizeof(NString)     = {}", sizeof(NString));
-	NN_LOG_INFO("sizeof(NVariant)    = {}", sizeof(NVariant<uint8_t>));
-#endif // NN_BENCHMARK_SIZEOF
+	REQUIRE(sizeof(NPreferenceBool) == sizeof(bool));
+	REQUIRE(sizeof(NPreferenceUInt32) == sizeof(uint32_t));
+	REQUIRE(sizeof(NPreferenceUInt64) == sizeof(uint64_t));
+	REQUIRE(sizeof(NPreferenceInt32) == sizeof(int32_t));
+	REQUIRE(sizeof(NPreferenceInt64) == sizeof(int64_t));
+	REQUIRE(sizeof(NPreferenceFloat32) == sizeof(float32_t));
+	REQUIRE(sizeof(NPreferenceFloat64) == sizeof(float64_t));
+#endif // NN_COMPILER_CLANG
 }
