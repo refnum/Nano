@@ -324,6 +324,8 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Text/NUnicodeView.cpp"
 		"${NN_SOURCE_DIR}/Nano/Text/NUnicodeView.h"
 		"${NN_SOURCE_DIR}/Nano/Text/NUnicodeView.inl"
+		"${NN_SOURCE_DIR}/Nano/Threads/NAtomic.h"
+		"${NN_SOURCE_DIR}/Nano/Threads/NAtomic.inl"
 		"${NN_SOURCE_DIR}/Nano/Threads/NExecute.h"
 		"${NN_SOURCE_DIR}/Nano/Threads/NExecute.inl"
 		"${NN_SOURCE_DIR}/Nano/Threads/NLockable.h"

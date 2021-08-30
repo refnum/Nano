@@ -250,6 +250,9 @@
 		ABDCE8E9241F8AEA0054A16E /* TFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8E8241F8AEA0054A16E /* TFile.cpp */; };
 		ABDCE8EA241F8AEA0054A16E /* TFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8E8241F8AEA0054A16E /* TFile.cpp */; };
 		ABDCE8EB241F8AEA0054A16E /* TFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABDCE8E8241F8AEA0054A16E /* TFile.cpp */; };
+		ABE5024826DD034600BA97A6 /* TAtomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABE5024726DD034600BA97A6 /* TAtomic.cpp */; };
+		ABE5024926DD034600BA97A6 /* TAtomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABE5024726DD034600BA97A6 /* TAtomic.cpp */; };
+		ABE5024A26DD034600BA97A6 /* TAtomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABE5024726DD034600BA97A6 /* TAtomic.cpp */; };
 		ABE7C0C225D0AD8C00914618 /* TPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E741034612D00E5A6AD /* TPoint.cpp */; };
 		ABE7C0C325D0AD8C00914618 /* TRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E761034612D00E5A6AD /* TRectangle.cpp */; };
 		ABE7C0C425D0AD8C00914618 /* TSize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E781034612D00E5A6AD /* TSize.cpp */; };
@@ -540,6 +543,7 @@
 		ABDCE8BB241C59680054A16E /* TFileInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileInfo.cpp; sourceTree = "<group>"; };
 		ABDCE8BC241C59680054A16E /* TFileHandle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileHandle.cpp; sourceTree = "<group>"; };
 		ABDCE8E8241F8AEA0054A16E /* TFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFile.cpp; sourceTree = "<group>"; };
+		ABE5024726DD034600BA97A6 /* TAtomic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TAtomic.cpp; sourceTree = "<group>"; };
 		ABE8150D25E47E5E002FA8CD /* TDate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDate.cpp; sourceTree = "<group>"; };
 		ABEB0BFE16760C8A00B74B71 /* TMessageServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMessageServer.cpp; sourceTree = "<group>"; };
 		ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestListener.cpp; sourceTree = "<group>"; };
@@ -829,6 +833,7 @@
 		AB514D911034184B00E5A6AD /* Threads */ = {
 			isa = PBXGroup;
 			children = (
+				ABE5024726DD034600BA97A6 /* TAtomic.cpp */,
 				AB21145126A33EE3004874CD /* TExecute.cpp */,
 				ABA6244B25CE3C4900D2FA4D /* TLockable.cpp */,
 				ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */,
@@ -1193,6 +1198,7 @@
 				AB4EB4BC2430EDBB00D36016 /* TFilePath.cpp in Sources */,
 				AB07EA42239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7D2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
+				ABE5024926DD034600BA97A6 /* TAtomic.cpp in Sources */,
 				AB5E179825F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
 				ABF58DBA267F508700327252 /* TCFDictionary.cpp in Sources */,
 				AB371ABA25CB932600DEC50B /* TBitVector.cpp in Sources */,
@@ -1318,6 +1324,7 @@
 				AB4EB4BB2430EDBB00D36016 /* TFilePath.cpp in Sources */,
 				AB07EA43239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7E2399A15000F6AD43 /* TSpinLock.cpp in Sources */,
+				ABE5024826DD034600BA97A6 /* TAtomic.cpp in Sources */,
 				AB5E179725F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
 				ABF58DBB267F508700327252 /* TCFDictionary.cpp in Sources */,
 				AB371ABE25CB932600DEC50B /* TBitVector.cpp in Sources */,
@@ -1443,6 +1450,7 @@
 				AB4EB4BD2430EDBB00D36016 /* TFilePath.cpp in Sources */,
 				AB07EA41239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
 				AB0DBE7C2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
+				ABE5024A26DD034600BA97A6 /* TAtomic.cpp in Sources */,
 				AB5E179925F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
 				ABF58DB9267F508700327252 /* TCFDictionary.cpp in Sources */,
 				AB371AB625CB932500DEC50B /* TBitVector.cpp in Sources */,

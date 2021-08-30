@@ -991,6 +991,8 @@
 		ABDCE8CE241C604F0054A16E /* macOSNFileInfo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = macOSNFileInfo.cpp; sourceTree = "<group>"; };
 		ABDCE8E3241F8ACD0054A16E /* NFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFile.cpp; sourceTree = "<group>"; };
 		ABDCE8E4241F8ACD0054A16E /* NFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFile.h; sourceTree = "<group>"; };
+		ABE5024526DD031900BA97A6 /* NAtomic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NAtomic.h; sourceTree = "<group>"; };
+		ABE5024626DD031900BA97A6 /* NAtomic.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NAtomic.inl; sourceTree = "<group>"; };
 		ABE59A7A25D337590048AD5F /* NUnicodeView.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NUnicodeView.inl; sourceTree = "<group>"; };
 		ABE7C0BC25D04AC800914618 /* NPoint.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NPoint.inl; sourceTree = "<group>"; };
 		ABE7C0BD25D04AC800914618 /* NRectangle.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NRectangle.inl; sourceTree = "<group>"; };
@@ -1828,6 +1830,8 @@
 		AB9155380F9B4DD6009FFEAF /* Threads */ = {
 			isa = PBXGroup;
 			children = (
+				ABE5024526DD031900BA97A6 /* NAtomic.h */,
+				ABE5024626DD031900BA97A6 /* NAtomic.inl */,
 				AB21145526A33F14004874CD /* NExecute.h */,
 				AB21145626A33F15004874CD /* NExecute.inl */,
 				ABA6244925CE3C1300D2FA4D /* NLockable.h */,
