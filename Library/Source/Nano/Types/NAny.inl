@@ -318,12 +318,12 @@ inline bool NAny::GetBool() const
 
 
 	// Get the value
-	if (IsBool())
+	if (IsEmpty())
 	{
-		return Get<bool>();
+		return false;
 	}
 
-	return false;
+	return Get<bool>();
 }
 
 
@@ -338,12 +338,12 @@ inline uint32_t NAny::GetUInt32() const
 
 
 	// Get the value
-	if (IsUInt32())
+	if (IsEmpty())
 	{
-		return Get<uint32_t>();
+		return 0;
 	}
 
-	return 0;
+	return Get<uint32_t>();
 }
 
 
@@ -358,12 +358,12 @@ inline uint64_t NAny::GetUInt64() const
 
 
 	// Get the value
-	if (IsUInt64())
+	if (IsEmpty())
 	{
-		return Get<uint64_t>();
+		return 0;
 	}
 
-	return 0;
+	return Get<uint64_t>();
 }
 
 
@@ -378,12 +378,12 @@ inline int32_t NAny::GetInt32() const
 
 
 	// Get the value
-	if (IsInt32())
+	if (IsEmpty())
 	{
-		return Get<int32_t>();
+		return 0;
 	}
 
-	return 0;
+	return Get<int32_t>();
 }
 
 
@@ -398,12 +398,12 @@ inline int64_t NAny::GetInt64() const
 
 
 	// Get the value
-	if (IsInt64())
+	if (IsEmpty())
 	{
-		return Get<int64_t>();
+		return 0;
 	}
 
-	return 0;
+	return Get<int64_t>();
 }
 
 
@@ -418,12 +418,12 @@ inline float32_t NAny::GetFloat32() const
 
 
 	// Get the value
-	if (IsFloat32())
+	if (IsEmpty())
 	{
-		return Get<float32_t>();
+		return 0.0f;
 	}
 
-	return 0.0f;
+	return Get<float32_t>();
 }
 
 
@@ -438,10 +438,10 @@ inline float64_t NAny::GetFloat64() const
 
 
 	// Get the value
-	if (IsFloat64())
+	if (IsEmpty())
 	{
-		return Get<float64_t>();
+		return 0.0;
 	}
 
-	return 0.0;
+	return Get<float64_t>();
 }

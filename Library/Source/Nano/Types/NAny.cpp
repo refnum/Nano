@@ -154,12 +154,12 @@ NArray NAny::GetArray() const
 
 
 	// Get the value
-	if (IsArray())
+	if (IsEmpty())
 	{
-		return Get<NArray>();
+		return {};
 	}
 
-	return {};
+	return Get<NArray>();
 }
 
 
@@ -174,12 +174,12 @@ NData NAny::GetData() const
 
 
 	// Get the value
-	if (IsData())
+	if (IsEmpty())
 	{
-		return Get<NData>();
+		return {};
 	}
 
-	return {};
+	return Get<NData>();
 }
 
 
@@ -194,12 +194,12 @@ NDictionary NAny::GetDictionary() const
 
 
 	// Get the value
-	if (IsDictionary())
+	if (IsEmpty())
 	{
-		return Get<NDictionary>();
+		return {};
 	}
 
-	return {};
+	return Get<NDictionary>();
 }
 
 
@@ -214,12 +214,12 @@ NNumber NAny::GetNumber() const
 
 
 	// Get the value
-	if (IsNumber())
+	if (IsEmpty())
 	{
-		return Get<NNumber>();
+		return {};
 	}
 
-	return {};
+	return Get<NNumber>();
 }
 
 
@@ -234,12 +234,12 @@ NString NAny::GetString() const
 
 
 	// Get the value
-	if (IsString())
+	if (IsEmpty())
 	{
-		return Get<NString>();
+		return {};
 	}
 
-	return {};
+	return Get<NString>();
 }
 
 
@@ -254,12 +254,12 @@ NTime NAny::GetTime() const
 
 
 	// Get the value
-	if (IsTime())
+	if (IsEmpty())
 	{
-		return Get<NTime>();
+		return {};
 	}
 
-	return {};
+	return Get<NTime>();
 }
 
 
