@@ -200,6 +200,7 @@ endif()
 if (NN_TARGET_LINUX)
 	nano_project_libraries(
 		PRIVATE
+			"dl"
 			"pthread"
 	)
 endif()
