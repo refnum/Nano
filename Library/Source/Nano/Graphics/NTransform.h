@@ -96,7 +96,7 @@ public:
 	// Concatenate a translate / scale / rotate transform
 	constexpr void                      Translate(float64_t x, float64_t y);
 	constexpr void                      Scale(    float64_t x, float64_t y);
-	constexpr void                      Rotate(NRadians angle);
+	void                                Rotate(NRadians angle);
 
 
 	// Apply the transform

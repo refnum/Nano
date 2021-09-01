@@ -220,7 +220,7 @@ constexpr void NTransform::Scale(float64_t x, float64_t y)
 //=============================================================================
 //		NTransform::Rotate : Concatenate a rotation transform.
 //-----------------------------------------------------------------------------
-constexpr void NTransform::Rotate(NRadians angle)
+void NTransform::Rotate(NRadians angle)
 {
 
 
