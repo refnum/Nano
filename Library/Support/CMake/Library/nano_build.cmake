@@ -164,7 +164,7 @@ function(_nano_build_generator_cmdline)
 	#
 	# This warning is not emitted when clang is invoked by Xcode so we
 	# only suppress the warning for the Ninja / Makefile generators.
-	nano_project_options(GCC CLANG "-Wno-deprecated" FILES ${SOURCE_LANGUAGE_CPP})
+	nano_project_options(CLANG "-Wno-deprecated" FILES ${SOURCE_LANGUAGE_CPP})
 
 endfunction()
 
