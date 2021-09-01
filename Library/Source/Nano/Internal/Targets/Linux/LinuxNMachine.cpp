@@ -57,7 +57,7 @@
 //-----------------------------------------------------------------------------
 //		GetPhysicalCores : Get the number of physical cores.
 //-----------------------------------------------------------------------------
-long GetPhysicalCores()
+static long GetPhysicalCores()
 {
 
 
