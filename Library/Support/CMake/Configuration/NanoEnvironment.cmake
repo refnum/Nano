@@ -38,7 +38,10 @@
 #==============================================================================
 #		Configuration
 #------------------------------------------------------------------------------
-set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
+set(CMAKE_CONFIGURATION_TYPES
+	"Debug"
+	"Release"
+)
 
 
 
