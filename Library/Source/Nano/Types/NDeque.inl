@@ -133,11 +133,6 @@ T NDequeRingBuffer<T>::Load(size_t theIndex) const
 {
 
 
-	// Validate our parameters
-	NN_REQUIRE(theIndex >= 0);
-
-
-
 	// Store the value
 	return mBuffer[theIndex & mModuloMask].load(std::memory_order_relaxed);
 }
@@ -152,11 +147,6 @@ T NDequeRingBuffer<T>::Load(size_t theIndex) const
 template<typename T>
 void NDequeRingBuffer<T>::Store(size_t theIndex, T theValue)
 {
-
-
-	// Validate our parameters
-	NN_REQUIRE(theIndex >= 0);
-
 
 
 	// Store the value
@@ -382,6 +372,10 @@ bool NDeque<T>::PopFront()
 		if constexpr (!mIsAllocFree)
 		{
 			delete theItem;
+		}
+		else
+		{
+			NN_UNUSED(theItem);
 		}
 
 		return true;

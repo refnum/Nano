@@ -181,7 +181,7 @@ static bool GetFileStateStat(const NFilePath& thePath, NFileInfoState& theState)
 		}
 		else
 		{
-			theState.theFlags &= ~kNFileInfoIsFile;
+			theState.theFlags &= NFileInfoFlags(~kNFileInfoIsFile);
 			theState.fileSize = 0;
 		}
 
@@ -191,7 +191,7 @@ static bool GetFileStateStat(const NFilePath& thePath, NFileInfoState& theState)
 		}
 		else
 		{
-			theState.theFlags &= ~kNFileInfoIsDirectory;
+			theState.theFlags &= NFileInfoFlags(~kNFileInfoIsDirectory);
 		}
 
 		theState.modifiedTime = NTime(NTimeUtils::ToInterval(theInfo.st_mtim), kNanoEpochFrom1970);
@@ -956,7 +956,7 @@ NVectorUInt8 NCommonLinux::ThreadGetCores()
 
 	if (numCores != NMachine::GetCores())
 	{
-		for (int n = 0; n < CPU_SETSIZE; n++)
+		for (size_t n = 0; n < CPU_SETSIZE; n++)
 		{
 			if (CPU_ISSET(n, &affinityMask))
 			{

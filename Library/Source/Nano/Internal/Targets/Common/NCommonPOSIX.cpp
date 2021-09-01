@@ -365,7 +365,7 @@ void NCommonPOSIX::FileGetStateAccess(const NFilePath& thePath,
 		}
 		else
 		{
-			theState.theFlags &= ~theFlag;
+			theState.theFlags &= NFileInfoFlags(~theFlag);
 		}
 	}
 }
@@ -1643,7 +1643,7 @@ void NCommonPOSIX::ThreadSetPriority(float thePriority)
 		int valueMax = sched_get_priority_max(schedPolicy);
 		NN_REQUIRE(valueMax >= valueMin);
 
-		schedParams.sched_priority = valueMin + int(thePriority * (valueMax - valueMin));
+		schedParams.sched_priority = valueMin + int(thePriority * float(valueMax - valueMin));
 		NN_REQUIRE(schedParams.sched_priority >= valueMin);
 		NN_REQUIRE(schedParams.sched_priority <= valueMax);
 

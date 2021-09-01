@@ -107,6 +107,7 @@ public:
 
 
 	// Log a message
+										NN_VALIDATE_PRINTF(3, 0)
 	void                                Log(NLogLevel   logLevel,
 											const char* filePath,
 											int         lineNum,
@@ -121,6 +122,7 @@ public:
 private:
 	void                                OutputMessage(const NLogMessage& theMsg);
 
+										NN_VALIDATE_PRINTF(4, 0)
 	void                                FormatMessage(NLogMessage& theMsg,
 													  NLogLevel    logLevel,
 													  const char*  filePath,
