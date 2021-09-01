@@ -58,7 +58,7 @@ inline constexpr NInterval kNTimeMaxUInt64                  = NInterval(kNUInt64
 //=============================================================================
 //		NTime::NTime : Constructor.
 //-----------------------------------------------------------------------------
-constexpr NTime::NTime(NInterval theValue)
+constexpr NTime::NTime(NInterval theValue) noexcept
 	: mValue(theValue)
 {
 }

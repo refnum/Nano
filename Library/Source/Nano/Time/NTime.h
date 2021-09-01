@@ -79,7 +79,7 @@ inline constexpr NInterval kNanoEpochFrom1601               = -kNanoEpochTo1601;
 class NTime
 {
 public:
-	constexpr                           NTime(NInterval theValue = 0.0);
+	constexpr                           NTime(NInterval theValue = 0.0) noexcept;
 										NTime(NInterval theValue, NInterval fromEpoch);
 
 
