@@ -129,25 +129,76 @@ elseif (NN_COMPILER_GCC)
 		-Werror
 		-Wextra
 
+		-Walloc-zero
+		-Walloca
 		-Wcast-align
+		-Wcast-qual
 		-Wconversion
+		-Wdisabled-optimization
 		-Wdouble-promotion
 		-Wduplicated-branches
 		-Wduplicated-cond
-		-Wformat=2
+		-Wformat-overflow
+		-Wformat-signedness
+		-Wformat-truncation
+		-Wimplicit-fallthrough=5
+		-Winit-self
+		-Winvalid-pch
 		-Wlogical-op
 		-Wmisleading-indentation
-		-Wnon-virtual-dtor
+		-Wmissing-declarations
+		-Wmissing-format-attribute
+		-Wmissing-include-dirs
+		-Wmissing-noreturn
+		-Wno-aggressive-loop-optimizations
 		-Wnull-dereference
-		-Wold-style-cast
-		-Woverloaded-virtual
-		-Wpedantic
+		-Woverlength-strings
+		-Wpointer-arith
+		-Wredundant-decls
 		-Wshadow
 		-Wsign-conversion
+		-Wstack-protector
+		-Wstrict-aliasing
+		-Wsuggest-final-methods
+		-Wsuggest-final-types
+		-Wunreachable-code
 		-Wunused
-		-Wuseless-cast
+		-Wvector-operation-performance
+		-Wwrite-strings
 
 		-Wno-unknown-pragmas
+	)
+
+	list(APPEND NN_COMPILER_WARNINGS_MAXIMUM_CPP
+		-Wclass-memaccess
+		-Wctor-dtor-privacy
+		-Wdelete-non-virtual-dtor
+		-Wdeprecated-copy
+		-Wdeprecated-copy-dtor
+		-Wextra-semi
+		-Wnon-virtual-dtor
+		-Woverloaded-virtual
+		-Wpessimizing-move
+		-Wredundant-move
+		-Wreorder
+		-Wstrict-null-sentinel
+		-Wvirtual-inheritance
+		-Wzero-as-null-pointer-constant
+	)
+
+	list(APPEND NN_COMPILER_WARNINGS_MAXIMUM_OBJC
+		-Wselector
+		-Wstrict-selector-match
+		-Wundeclared-selector
+	)
+
+	list(APPEND NN_COMPILER_WARNINGS_MAXIMUM_C
+		-Wbad-function-cast
+		-Wjump-misses-init
+		-Wmissing-prototypes
+		-Wnested-externs
+		-Wold-style-definition
+		-Wstrict-prototypes
 	)
 
 	list(APPEND NN_COMPILER_WARNINGS_MINIMUM
@@ -155,7 +206,7 @@ elseif (NN_COMPILER_GCC)
 	)
 
 	list(APPEND NN_COMPILER_WARNINGS_NONE
-		-w
+		-w -fcompare-debug-second
 	)
 
 
