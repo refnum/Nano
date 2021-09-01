@@ -73,6 +73,16 @@
 #define NN_STRINGIFY(_token)                                NN_STRINGIFY_TOKEN(_token)
 
 
+// Paste two tokens
+//
+// Example:
+//
+//		#define UNIQUE_ID(_name)				NN_PASTE(_name, __COUNTER__)
+//
+#define NN_PASTE_INNER(_a, _b)                              _a##_b
+#define NN_PASTE(_a, _b)                                    NN_PASTE_INNER(_a, _b)
+
+
 // Force inlining
 //
 // Example:
@@ -107,7 +117,11 @@
 //			DO_FEATURE();
 //		}
 //
-#define NN_CONSUME_SEMICOLON()                              struct _nano_consume_trailing_semicolon
+#if NN_COMPILER_CLANG
+	#define NN_CONSUME_SEMICOLON()                          struct NN_PASTE(_nano_consume_trailing_semicolon_, __COUNTER__)
+#else
+	#define NN_CONSUME_SEMICOLON()                          struct NN_PASTE(_nano_consume_trailing_semicolon_, __COUNTER__)
+#endif
 
 
 // Break to the debugger
