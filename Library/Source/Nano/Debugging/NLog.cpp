@@ -158,7 +158,9 @@ void NLog::FormatMessage(NLogMessage& theMsg,
 
 	NN_DIAGNOSTIC_PUSH();
 	NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-nonliteral");
+
 	vsnprintf(theMsg.msgBuffer, sizeof(theMsg.msgBuffer), logMsg, theArgs);
+
 	NN_DIAGNOSTIC_POP();
 }
 

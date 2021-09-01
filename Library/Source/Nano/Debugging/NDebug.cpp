@@ -83,7 +83,12 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 	// Log the message
 	va_list argList;
 
+	NN_DIAGNOSTIC_PUSH();
+	NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-nonliteral");
+
 	va_start(argList, theMsg);
 	NLog::Get()->Log(logLevel, filePath, lineNum, theMsg, argList);
 	va_end(argList);
+
+	NN_DIAGNOSTIC_POP();
 }
