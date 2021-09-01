@@ -61,7 +61,7 @@ constexpr NTransform::NTransform(const NMatrix_3x3& theMatrix)
 //		NTransform::NTransform : Constructor.
 //-----------------------------------------------------------------------------
 constexpr NTransform::NTransform()
-	: mMatrix{{{1.0, 0.0, 0.0}, {0.0, 1.0, 0.0}, {0.0, 1.0, 1.0}}}
+	: mMatrix{{{1.0, 0.0, 0.0}, {0.0, 1.0, 0.0}, {0.0, 0.0, 1.0}}}
 {
 }
 
