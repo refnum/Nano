@@ -239,7 +239,7 @@ inline void NBitVector::SetBit(size_t theIndex, bool theValue)
 	}
 	else
 	{
-		*bitPointer.theByte &= ~uint8_t(1 << bitPointer.bitIndex);
+		*bitPointer.theByte &= uint8_t(~(1 << bitPointer.bitIndex));
 	}
 }
 

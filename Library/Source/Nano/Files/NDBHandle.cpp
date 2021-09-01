@@ -843,7 +843,7 @@ void NDBHandle::SQLiteBindParameterByIndex(NDBQueryRef dbQuery,
 
 	// Validate our parameters and state
 	NN_REQUIRE(dbQuery != nullptr);
-	NN_REQUIRE(theIndex <= std::numeric_limits<int>::max());
+	NN_REQUIRE(theIndex <= size_t(std::numeric_limits<int>::max()));
 	NN_REQUIRE(!theValue.IsEmpty());
 	NN_REQUIRE(IsOpen());
 

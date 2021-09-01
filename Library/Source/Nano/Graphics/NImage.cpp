@@ -654,14 +654,16 @@ void NImage::Convert_A8(NImageFormat theFormat)
 		case NImageFormat::R8_G8_B8_A8:
 		case NImageFormat::B8_G8_R8_A8:
 			tmpImage = NImage(GetSize(), NImageFormat::R8_G8_B8_A8);
-			ForEachRow(NBindSelf(NImage::RowExpand8To32, kNArg2, kNArg3, 3, &tmpImage, kNArg1));
+			ForEachRow(
+				NBindSelf(NImage::RowExpand8To32, kNArg2, kNArg3, size_t(3), &tmpImage, kNArg1));
 			*this = tmpImage;
 			break;
 
 		case NImageFormat::A8_R8_G8_B8:
 		case NImageFormat::A8_B8_G8_R8:
 			tmpImage = NImage(GetSize(), NImageFormat::R8_G8_B8_A8);
-			ForEachRow(NBindSelf(NImage::RowExpand8To32, kNArg2, kNArg3, 0, &tmpImage, kNArg1));
+			ForEachRow(
+				NBindSelf(NImage::RowExpand8To32, kNArg2, kNArg3, size_t(0), &tmpImage, kNArg1));
 			*this = tmpImage;
 			break;
 	}
@@ -860,7 +862,7 @@ void NImage::Convert_R8_G8_B8_A8(NImageFormat theFormat)
 			break;
 
 		case NImageFormat::A8:
-			ForEachRow(NBindSelf(NImage::RowReduce32To8, kNArg2, kNArg3, 3));
+			ForEachRow(NBindSelf(NImage::RowReduce32To8, kNArg2, kNArg3, size_t(3)));
 			break;
 
 		case NImageFormat::R8_G8_B8:
@@ -913,7 +915,7 @@ void NImage::Convert_B8_G8_R8_A8(NImageFormat theFormat)
 			break;
 
 		case NImageFormat::A8:
-			ForEachRow(NBindSelf(NImage::RowReduce32To8, kNArg2, kNArg3, 3));
+			ForEachRow(NBindSelf(NImage::RowReduce32To8, kNArg2, kNArg3, size_t(3)));
 			break;
 
 		case NImageFormat::R8_G8_B8:
@@ -965,7 +967,7 @@ void NImage::Convert_A8_R8_G8_B8(NImageFormat theFormat)
 			break;
 
 		case NImageFormat::A8:
-			ForEachRow(NBindSelf(NImage::RowReduce32To8, kNArg2, kNArg3, 0));
+			ForEachRow(NBindSelf(NImage::RowReduce32To8, kNArg2, kNArg3, size_t(0)));
 			break;
 
 		case NImageFormat::R8_G8_B8:
@@ -1017,7 +1019,7 @@ void NImage::Convert_A8_B8_G8_R8(NImageFormat theFormat)
 			break;
 
 		case NImageFormat::A8:
-			ForEachRow(NBindSelf(NImage::RowReduce32To8, kNArg2, kNArg3, 0));
+			ForEachRow(NBindSelf(NImage::RowReduce32To8, kNArg2, kNArg3, size_t(0)));
 			break;
 
 		case NImageFormat::R8_G8_B8:

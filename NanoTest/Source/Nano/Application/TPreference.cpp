@@ -260,7 +260,7 @@ NANO_TEST(TPreference, "GetSetGet")
 
 
 	// Perform the test
-	REQUIRE(prefBool.Get() == 0);
+	REQUIRE(prefBool.Get() == false);
 	REQUIRE(prefUInt32.Get() == 0);
 	REQUIRE(prefUInt64.Get() == 0);
 	REQUIRE(prefInt32.Get() == 0);
@@ -315,7 +315,7 @@ NANO_TEST(TPreference, "GetUpdateGet")
 
 
 	// Perform the test
-	REQUIRE(prefBool.Get() == 0);
+	REQUIRE(prefBool.Get() == false);
 	REQUIRE(prefUInt32.Get() == 0);
 	REQUIRE(prefUInt64.Get() == 0);
 	REQUIRE(prefInt32.Get() == 0);

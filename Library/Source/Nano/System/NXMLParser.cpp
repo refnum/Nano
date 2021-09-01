@@ -171,7 +171,7 @@ void NXMLParser::SetOptions(NXMLParserFlags setThese, NXMLParserFlags clearThese
 
 	// Set the options
 	mOptions |= setThese;
-	mOptions &= ~clearThese;
+	mOptions &= NXMLParserFlags(~clearThese);
 }
 
 

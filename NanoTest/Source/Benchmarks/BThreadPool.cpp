@@ -113,11 +113,11 @@ static void ExecuteWork(WorkState* theState)
 	{
 		if ((n % 2) == 1)
 		{
-			theState->theValue -= (1.0 / ((2.0 * n) + 1));
+			theState->theValue -= (1.0 / ((2.0 * float64_t(n)) + 1));
 		}
 		else
 		{
-			theState->theValue += (1.0 / ((2.0 * n) + 1));
+			theState->theValue += (1.0 / ((2.0 * float64_t(n)) + 1));
 		}
 	}
 
@@ -198,7 +198,7 @@ static void PerformBenchmark(size_t numTasks, size_t numIters)
 						  numIters,
 		[=](WorkState* theWork)
 		{
-			std::async(
+			(void) std::async(
 			[=]()
 			{
 				ExecuteWork(theWork);
