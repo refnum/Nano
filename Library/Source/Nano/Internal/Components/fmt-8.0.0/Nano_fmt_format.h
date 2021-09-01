@@ -62,6 +62,7 @@ NN_DIAGNOSTIC_PUSH();
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wmissing-noreturn");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wsign-conversion");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wsigned-enum-bitfield");
+NN_DIAGNOSTIC_IGNORE_GCC("-Wsuggest-attribute=format");
 NN_DIAGNOSTIC_IGNORE_MSVC(C4355_this_used_in_base_member_initializer);
 NN_DIAGNOSTIC_IGNORE_MSVC(C4365_signed_unsigned_mismatch);
 NN_DIAGNOSTIC_IGNORE_MSVC(C4582_constructor_not_implicitly_called);

@@ -48,6 +48,8 @@
 NN_DIAGNOSTIC_PUSH();
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wsign-conversion");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wunused-template");
+NN_DIAGNOSTIC_IGNORE_GCC("-Wshadow");
+NN_DIAGNOSTIC_IGNORE_GCC("-Wsign-conversion");
 NN_DIAGNOSTIC_IGNORE_MSVC(C4127_conditional_expression_is_constant);
 NN_DIAGNOSTIC_IGNORE_MSVC(C4365_signed_unsigned_mismatch);
 #include "hopscotch_set.h"

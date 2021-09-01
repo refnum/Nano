@@ -61,6 +61,7 @@ NN_DIAGNOSTIC_IGNORE_CLANG("-Wimplicit-fallthrough");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wold-style-cast");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wused-but-marked-unused");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wzero-as-null-pointer-constant");
+NN_DIAGNOSTIC_IGNORE_GCC("-Wimplicit-fallthrough");
 
 #include "xxhash.h"
 
