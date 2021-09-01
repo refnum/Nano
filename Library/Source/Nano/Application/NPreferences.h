@@ -138,17 +138,17 @@ public:
 	static void                         AddLayer(const NPreferenceLayer& theLayer);
 
 
-	// Get the change message
+	// Get the change broadcast
 	//
-	// A change message is broadcast whenever a key is added, removed, or modified.
+	// A change broadcast is sent whenever a key is added, removed, or modified.
 	//
-	// The name of the change message is derived from the key.
+	// The name of the broadcast is derived from the key.
 	//
-	// The value of the change message is the new value for the key, if any.
+	// The value of the broadcast is the new value for the key, if any.
 	//
-	// Change messages are sent on a background thread.
-	static NString                      GetChangeMessage(const NString& theKey);
-	static NString                      GetChangeKey(    const NString& theMessage);
+	// Change broadcast are sent on a background thread.
+	static NString                      GetChangeBroadcast(const NString& theKey);
+	static NString                      GetChangeKey(      const NString& theName);
 
 
 private:

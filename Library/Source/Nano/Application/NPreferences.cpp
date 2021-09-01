@@ -63,7 +63,7 @@
 //		Internal Constants
 //-----------------------------------------------------------------------------
 static constexpr size_t      kNLayerApp                     = 0;
-static constexpr const char* kNChangeMessagePrefix          = "NPreferences.Changed.";
+static constexpr const char* kNChangeBroadcastPrefix        = "NPreferences.Changed.";
 
 
 
@@ -457,9 +457,9 @@ void NPreferences::AddLayer(const NPreferenceLayer& theLayer)
 
 
 //=============================================================================
-//		NPreferences::GetChangeMessage : Get a key's change message.
+//		NPreferences::GetChangeBroadcast : Get a key's change broadcast.
 //-----------------------------------------------------------------------------
-NString NPreferences::GetChangeMessage(const NString& theKey)
+NString NPreferences::GetChangeBroadcast(const NString& theKey)
 {
 
 
@@ -467,8 +467,8 @@ NString NPreferences::GetChangeMessage(const NString& theKey)
 	NN_REQUIRE(!theKey.IsEmpty());
 
 
-	// Get the change message
-	return NFormat("{}{}", kNChangeMessagePrefix, theKey);
+	// Get the change name
+	return NFormat("{}{}", kNChangeBroadcastPrefix, theKey);
 }
 
 
@@ -476,19 +476,19 @@ NString NPreferences::GetChangeMessage(const NString& theKey)
 
 
 //=============================================================================
-//		NPreferences::GetChangeKey : Get a change message's key.
+//		NPreferences::GetChangeKey : Get a change broadcast's key.
 //-----------------------------------------------------------------------------
-NString NPreferences::GetChangeKey(const NString& theMessage)
+NString NPreferences::GetChangeKey(const NString& theName)
 {
 
 
 	// Validate our parameters
-	NN_REQUIRE(theMessage.GetSize() > strlen(kNChangeMessagePrefix));
+	NN_REQUIRE(theName.GetSize() > strlen(kNChangeBroadcastPrefix));
 
 
 
 	// Get the key
-	return theMessage.GetSuffix(theMessage.GetSize() - strlen(kNChangeMessagePrefix));
+	return theName.GetSuffix(theName.GetSize() - strlen(kNChangeBroadcastPrefix));
 }
 
 
@@ -544,6 +544,6 @@ void NPreferences::KeyChanged(const NString& theKey)
 
 
 
-	// Enqueue the message
-	mChanges.Add({GetChangeMessage(theKey), GetValue(theKey)});
+	// Enqueue the broadcast
+	mChanges.Add({GetChangeBroadcast(theKey), GetValue(theKey)});
 }

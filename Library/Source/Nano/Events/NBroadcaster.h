@@ -68,8 +68,8 @@ struct NBroadcastRecipient
 using NVectorBroadcastRecipients = std::vector<NBroadcastRecipient>;
 using NVectorBroadcastReceivers  = std::vector<const NReceiver*>;
 
-using NBroadcastMessageRecipients = NMap<NString, NVectorBroadcastRecipients>;
-using NBroadcastReceiverMessages  = NMap<const NReceiver*, NVectorString>;
+using NMapBroadcastRecipients = NMap<NString, NVectorBroadcastRecipients>;
+using NMapReceiverBroadcasts  = NMap<const NReceiver*, NVectorString>;
 
 
 
@@ -83,36 +83,36 @@ class NBroadcaster
 	friend class                        NReceiver;
 
 public:
-	// Broadcast a message synchronously.
+	// Send a broadcast synchronously.
 	//
-	// The message will be delivered on the calling thread.
-	static void                         Send(const NString& theMessage, const NAny& theValue = {});
+	// The broadcast will be delivered on the calling thread.
 	static void                         Send(const NBroadcast& theBroadcast);
+	static void                         Send(const NString& theName, const NAny& theValue = {});
 
 
-	// Broadcast a message asynchronously
+	// Send a broadcast asynchronously
 	//
-	// The message will be delivered on a background thread.
-	static void                         SendAsync(const NString& theMessage, const NAny& theValue = {});
+	// The broadcast will be delivered on a background thread.
 	static void                         SendAsync(const NBroadcast& theBroadcast);
+	static void                         SendAsync(const NString& theName, const NAny& theValue = {});
 
 
 protected:
-	// Get the messages a receiver is receiving
-	static NVectorString                GetMessages(const NReceiver* theReceiver);
+	// Get the broadcasts a receiver is receiving
+	static NVectorString                GetBroadcasts(const NReceiver* theReceiver);
 
 
-	// Start receiving a message
+	// Start receiving a broadcast
 	static void                         StartReceiving(const NReceiver*         theReceiver,
-													   const NString&           theMessage,
+													   const NString&           theName,
 													   const NFunctionReceiver& theFunction);
 
 
-	// Stop receiving a message
-	static void                         StopReceiving(const NReceiver* theReceiver, const NString& theMessage);
+	// Stop receiving a broadcast
+	static void                         StopReceiving(const NReceiver* theReceiver, const NString& theName);
 
 
-	// Stop receiving any messages
+	// Stop receiving any broadcasts
 	static void                         StopReceiving(const NReceiver* theReceiver);
 
 
@@ -123,21 +123,21 @@ protected:
 private:
 	void                                SendBroadcast(const NBroadcast& theBroadcast);
 
-	bool                                IsReceiving(const NReceiver* theReceiver, const NString& theMessage);
+	bool                                IsReceiving(const NReceiver* theReceiver, const NString& theName);
 
 	bool                                HasReceiver(const NVectorBroadcastRecipients& theRecipients, const NReceiver* theReceiver);
 
 	void                                AddReceiver(const NReceiver*         theReceiver,
-													const NString&           theMessage,
+													const NString&           theName,
 													const NFunctionReceiver& theFunction);
 
-	void                                RemoveReceiver(const NReceiver* theReceiver, const NString& theMessage);
+	void                                RemoveReceiver(const NReceiver* theReceiver, const NString& theName);
 	void                                RemoveReceiver(const NReceiver* theReceiver);
 
 	void                                DestroyReceiver(const NReceiver* theReceiver);
 
-	NVectorBroadcastRecipients          GetMessageRecipients(const NString& theMessage);
-	NVectorString                       GetReceiverMessages( const NReceiver* theReceiver);
+	NVectorBroadcastRecipients          GetBroadcastRecipients(const NString& theName);
+	NVectorString                       GetReceiverBroadcasts( const NReceiver* theReceiver);
 
 	static NBroadcaster&                Get();
 
@@ -145,10 +145,10 @@ private:
 
 private:
 	NMutex                              mLock;
-	NBroadcastMessageRecipients         mMessages;
-	NBroadcastReceiverMessages          mReceivers;
+	NMapBroadcastRecipients             mBroadcasts;
+	NMapReceiverBroadcasts              mReceivers;
 
-	NString                             mCurrentMessage;
+	NString                             mCurrentBroadcast;
 	NVectorBroadcastReceivers           mCurrentDestroyed;
 };
 

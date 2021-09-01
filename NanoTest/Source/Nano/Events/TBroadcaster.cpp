@@ -52,9 +52,9 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr const char* kNTestMessage                  = "TestMessage";
+static constexpr const char* kNTestName                     = "TestBroadcast";
 static constexpr uint32_t    kNTestValue                    = 123;
-static const NBroadcast      kNTestBroadcast(kNTestMessage, kNTestValue);
+static const NBroadcast      kNTestBroadcast(kNTestName, kNTestValue);
 
 
 
@@ -69,7 +69,7 @@ public:
 	TestReceiverBroadcaster()
 		: mValue(0)
 	{
-		StartReceiving(kNTestMessage,
+		StartReceiving(kNTestName,
 					   [&](const NBroadcast& theBroadcast)
 					   {
 						   if (theBroadcast.GetValue().IsUInt32())
@@ -113,12 +113,12 @@ NANO_FIXTURE(TBroadcaster)
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-NANO_TEST(TBroadcaster, "SendMessage")
+NANO_TEST(TBroadcaster, "SendBroadcast")
 {
 	// Perform the test
 										REQUIRE(theReceiver.GetValue() == 0);
 
-	NBroadcaster::Send(kNTestMessage);
+	NBroadcaster::Send(kNTestName);
 										REQUIRE(theReceiver.GetValue() == 1);
 
 	NBroadcaster::Send(kNTestBroadcast);
@@ -132,14 +132,14 @@ NANO_TEST(TBroadcaster, "SendMessage")
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-NANO_TEST(TBroadcaster, "SendMessageValue")
+NANO_TEST(TBroadcaster, "SendBroadcastValue")
 {
 
 
 	// Perform the test
 	REQUIRE(theReceiver.GetValue() == 0);
 
-	NBroadcaster::Send(kNTestMessage, kNTestValue);
+	NBroadcaster::Send(kNTestName, kNTestValue);
 	REQUIRE(theReceiver.GetValue() == kNTestValue);
 }
 
@@ -150,14 +150,14 @@ NANO_TEST(TBroadcaster, "SendMessageValue")
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-NANO_TEST(TBroadcaster, "SendAsyncMessage")
+NANO_TEST(TBroadcaster, "SendAsyncBroadcast")
 {
 
 
 	// Perform the test
 	REQUIRE(theReceiver.GetValue() == 0);
 
-	NBroadcaster::SendAsync(kNTestMessage);
+	NBroadcaster::SendAsync(kNTestName);
 	NThread::Sleep(0.050);
 	REQUIRE(theReceiver.GetValue() == 1);
 
@@ -173,13 +173,13 @@ NANO_TEST(TBroadcaster, "SendAsyncMessage")
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-NANO_TEST(TBroadcaster, "SendAsyncMessageValue")
+NANO_TEST(TBroadcaster, "SendAsyncBroadcastValue")
 {
 
 
 	// Perform the test
 	REQUIRE(theReceiver.GetValue() == 0);
-	NBroadcaster::SendAsync(kNTestMessage, kNTestValue);
+	NBroadcaster::SendAsync(kNTestName, kNTestValue);
 	NThread::Sleep(0.050);
 	REQUIRE(theReceiver.GetValue() == kNTestValue);
 }

@@ -49,7 +49,7 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr const char* kNTestMessage                  = "TestMessage";
+static constexpr const char* kNTestName                     = "TestBroadcast";
 static constexpr uint32_t    kNTestValue                    = 123;
 
 
@@ -68,13 +68,13 @@ NANO_FIXTURE(TBroadcast){};
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-NANO_TEST(TBroadcast, "GetMessage")
+NANO_TEST(TBroadcast, "GetName")
 {
 
 
 	// Perform the test
-	NBroadcast theBroadcast(kNTestMessage, kNTestValue);
+	NBroadcast theBroadcast(kNTestName, kNTestValue);
 
-	REQUIRE(theBroadcast.GetMessage() == kNTestMessage);
+	REQUIRE(theBroadcast.GetName() == kNTestName);
 	REQUIRE(theBroadcast.GetValue() == kNTestValue);
 }

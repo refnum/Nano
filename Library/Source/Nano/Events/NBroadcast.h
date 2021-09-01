@@ -72,12 +72,12 @@ using NVectorBroadcast = std::vector<NBroadcast>;
 class NBroadcast
 {
 public:
-										NBroadcast(const NString& theMessage);
-										NBroadcast(const NString& theMessage, const NAny& theValue);
+										NBroadcast(const NString& theName);
+										NBroadcast(const NString& theName, const NAny& theValue);
 
 
-	// Get the message
-	const NString&                      GetMessage() const;
+	// Get the name
+	const NString&                      GetName() const;
 
 
 	// Get the value
@@ -85,7 +85,7 @@ public:
 
 
 private:
-	NString                             mMessage;
+	NString                             mName;
 	NAny                                mValue;
 };
 

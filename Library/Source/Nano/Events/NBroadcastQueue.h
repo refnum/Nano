@@ -57,7 +57,7 @@ class NBroadcastQueue
 public:
 	// Add a broadcast
 	//
-	// The message will be delivered on a background thread.
+	// The broadcast will be delivered on a background thread.
 	void                                Add(const NBroadcast& theBroadcast);
 
 

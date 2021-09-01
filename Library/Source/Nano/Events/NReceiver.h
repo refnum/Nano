@@ -78,24 +78,24 @@ public:
 	NReceiver&                          operator=(NReceiver&& otherReceiver) = delete;
 
 
-	// Get the messages being received
-	NVectorString                       GetMessages() const;
+	// Get the broadcasts being received
+	NVectorString                       GetBroadcasts() const;
 
 
-	// Start receiving a message
+	// Start receiving a broadcast
 	//
-	// A receiver may only register one function per message.
-	void                                StartReceiving(const NString& theMessage, const NFunctionReceiver& theFunction);
-	void                                StartReceiving(const NString& theMessage, const NFunction&         theFunction);
+	// A receiver may only register one function per broadcast.
+	void                                StartReceiving(const NString& theName, const NFunctionReceiver& theFunction);
+	void                                StartReceiving(const NString& theName, const NFunction&         theFunction);
 
 
-	// Stop receiving a message
+	// Stop receiving a broadcast
 	//
-	// The receiver must be registered to receive the message.
-	void                                StopReceiving(const NString& theMessage);
+	// The receiver must be registered to receive the broadcast.
+	void                                StopReceiving(const NString& theName);
 
 
-	// Stop receiving any messages
+	// Stop receiving any broadcasts
 	void                                StopReceiving();
 };
 

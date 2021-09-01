@@ -47,14 +47,14 @@
 //=============================================================================
 //		NBroadcast::NBroadcast : Constructor.
 //-----------------------------------------------------------------------------
-inline NBroadcast::NBroadcast(const NString& theMessage)
-	: mMessage(theMessage)
+inline NBroadcast::NBroadcast(const NString& theName)
+	: mName(theName)
 	, mValue()
 {
 
 
 	// Validate our parameters
-	NN_REQUIRE(!theMessage.IsEmpty());
+	NN_REQUIRE(!theName.IsEmpty());
 }
 
 
@@ -64,14 +64,14 @@ inline NBroadcast::NBroadcast(const NString& theMessage)
 //=============================================================================
 //		NBroadcast::NBroadcast : Constructor.
 //-----------------------------------------------------------------------------
-inline NBroadcast::NBroadcast(const NString& theMessage, const NAny& theValue)
-	: mMessage(theMessage)
+inline NBroadcast::NBroadcast(const NString& theName, const NAny& theValue)
+	: mName(theName)
 	, mValue(theValue)
 {
 
 
 	// Validate our parameters
-	NN_REQUIRE(!theMessage.IsEmpty());
+	NN_REQUIRE(!theName.IsEmpty());
 }
 
 
@@ -79,14 +79,14 @@ inline NBroadcast::NBroadcast(const NString& theMessage, const NAny& theValue)
 
 
 //=============================================================================
-//		NBroadcast::GetMessage : Get the message.
+//		NBroadcast::GetName : Get the name.
 //-----------------------------------------------------------------------------
-inline const NString& NBroadcast::GetMessage() const
+inline const NString& NBroadcast::GetName() const
 {
 
 
-	// Get the message
-	return mMessage;
+	// Get the name
+	return mName;
 }
 
 

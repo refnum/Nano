@@ -51,8 +51,8 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr const char* kNTestMessage                  = "TestMessage";
-static const NBroadcast      kNTestBroadcast(kNTestMessage);
+static constexpr const char* kNTestName                     = "TestBroadcast";
+static const NBroadcast      kNTestBroadcast(kNTestName);
 
 
 
@@ -67,7 +67,7 @@ public:
 	TestReceiverQueue()
 		: mValue(0)
 	{
-		StartReceiving(kNTestMessage,
+		StartReceiving(kNTestName,
 					   [&](const NBroadcast&)
 					   {
 						   mValue++;
@@ -105,7 +105,7 @@ NANO_FIXTURE(TBroadcastQueue)
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-NANO_TEST(TBroadcastQueue, "SendMessage")
+NANO_TEST(TBroadcastQueue, "Add")
 {
 	// Perform the test
 										REQUIRE(theReceiver.GetValue() == 0);

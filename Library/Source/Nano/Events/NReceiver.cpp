@@ -64,14 +64,14 @@ NReceiver::~NReceiver()
 
 
 //=============================================================================
-//		NReceiver::GetMessages : Get the messages being received.
+//		NReceiver::GetBroadcasts : Get the broadcasts being received.
 //-----------------------------------------------------------------------------
-NVectorString NReceiver::GetMessages() const
+NVectorString NReceiver::GetBroadcasts() const
 {
 
 
-	// Get the messages
-	return NBroadcaster::GetMessages(this);
+	// Get the broadcasts
+	return NBroadcaster::GetBroadcasts(this);
 }
 
 
@@ -79,14 +79,14 @@ NVectorString NReceiver::GetMessages() const
 
 
 //=============================================================================
-//		NReceiver::StartReceiving : Start receiving a message.
+//		NReceiver::StartReceiving : Start receiving a broadcast.
 //-----------------------------------------------------------------------------
-void NReceiver::StartReceiving(const NString& theMessage, const NFunctionReceiver& theFunction)
+void NReceiver::StartReceiving(const NString& theName, const NFunctionReceiver& theFunction)
 {
 
 
-	// Start receiving the message
-	NBroadcaster::StartReceiving(this, theMessage, theFunction);
+	// Start receiving the broadcast
+	NBroadcaster::StartReceiving(this, theName, theFunction);
 }
 
 
@@ -94,15 +94,15 @@ void NReceiver::StartReceiving(const NString& theMessage, const NFunctionReceive
 
 
 //=============================================================================
-//		NReceiver::StartReceiving : Start receiving a message.
+//		NReceiver::StartReceiving : Start receiving a broadcasst.
 //-----------------------------------------------------------------------------
-void NReceiver::StartReceiving(const NString& theMessage, const NFunction& theFunction)
+void NReceiver::StartReceiving(const NString& theName, const NFunction& theFunction)
 {
 
 
-	// Start receiving the message
+	// Start receiving the broadcast
 	NBroadcaster::StartReceiving(this,
-								 theMessage,
+								 theName,
 	[=](const NBroadcast&)
 	{
 		theFunction();
@@ -114,14 +114,14 @@ void NReceiver::StartReceiving(const NString& theMessage, const NFunction& theFu
 
 
 //=============================================================================
-//		NReceiver::StopReceiving : Stop receiving a message.
+//		NReceiver::StopReceiving : Stop receiving a broadcasst.
 //-----------------------------------------------------------------------------
-void NReceiver::StopReceiving(const NString& theMessage)
+void NReceiver::StopReceiving(const NString& theName)
 {
 
 
-	// Stop receiving the message
-	NBroadcaster::StopReceiving(this, theMessage);
+	// Stop receiving the broadcast
+	NBroadcaster::StopReceiving(this, theName);
 }
 
 
@@ -129,12 +129,12 @@ void NReceiver::StopReceiving(const NString& theMessage)
 
 
 //=============================================================================
-//		NReceiver::StopReceiving : Stop receiving messages.
+//		NReceiver::StopReceiving : Stop receiving broadcasts.
 //-----------------------------------------------------------------------------
 void NReceiver::StopReceiving()
 {
 
 
-	// Stop receiving messages
+	// Stop receiving broadcasts
 	NBroadcaster::StopReceiving(this);
 }

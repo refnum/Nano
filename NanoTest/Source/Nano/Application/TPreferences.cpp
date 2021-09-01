@@ -346,16 +346,16 @@ NANO_TEST(TPreferences, "AddLayer")
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-NANO_TEST(TPreferences, "GetChangeMessage")
+NANO_TEST(TPreferences, "GetChangeBroadcast")
 {
 
 
 	// Perform the test
-	NString theMessage, theKey;
+	NString theName, theKey;
 
-	theMessage = NPreferences::GetChangeMessage(kKeyBool);
-	REQUIRE(!theMessage.IsEmpty());
+	theName = NPreferences::GetChangeBroadcast(kKeyBool);
+	REQUIRE(!theName.IsEmpty());
 
-	theKey = NPreferences::GetChangeKey(theMessage);
+	theKey = NPreferences::GetChangeKey(theName);
 	REQUIRE(theKey == kKeyBool);
 }

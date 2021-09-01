@@ -51,7 +51,7 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr const char* kNTestMessage                  = "TestMessage";
+static constexpr const char* kNTestName                     = "TestBroadcast";
 static constexpr uint32_t    kNTestValue                    = 123;
 
 
@@ -107,25 +107,25 @@ NANO_FIXTURE(TReceiver)
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-NANO_TEST(TReceiver, "GetMessages")
+NANO_TEST(TReceiver, "GetBroadcasts")
 {
 	// Perform the test
-										REQUIRE(theReceiver.GetMessages().empty());
+										REQUIRE(theReceiver.GetBroadcasts().empty());
 
 	theReceiver.StartReceiving("test.1",
 							   [&]()
 							   {
 							   });
-										REQUIRE(theReceiver.GetMessages().size() == 1);
+										REQUIRE(theReceiver.GetBroadcasts().size() == 1);
 
 	theReceiver.StartReceiving("test.2",
 							   [&]()
 							   {
 							   });
-										REQUIRE(theReceiver.GetMessages().size() == 2);
+										REQUIRE(theReceiver.GetBroadcasts().size() == 2);
 
 	theReceiver.StopReceiving();
-										REQUIRE(theReceiver.GetMessages().empty());
+										REQUIRE(theReceiver.GetBroadcasts().empty());
 }
 
 
@@ -135,15 +135,15 @@ NANO_TEST(TReceiver, "GetMessages")
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-NANO_TEST(TReceiver, "StartReceiving/MessageValue")
+NANO_TEST(TReceiver, "StartReceiving/Broadcast")
 {
 
 
 	// Perform the test
-	theReceiver.StartReceiving(kNTestMessage,
+	theReceiver.StartReceiving(kNTestName,
 	[&](const NBroadcast& theBroadcast)
 	{
-		REQUIRE(theBroadcast.GetMessage() == kNTestMessage);
+		REQUIRE(theBroadcast.GetName() == kNTestName);
 		REQUIRE(theBroadcast.GetValue().IsUInt32());
 		REQUIRE(theBroadcast.GetValue().GetUInt32() == kNTestValue);
 		theReceiver.Increment();
@@ -151,7 +151,7 @@ NANO_TEST(TReceiver, "StartReceiving/MessageValue")
 	});
 
 	REQUIRE(theReceiver.GetValue() == 0);
-	NBroadcaster::Send(kNTestMessage, kNTestValue);
+	NBroadcaster::Send(kNTestName, kNTestValue);
 	REQUIRE(theReceiver.GetValue() == 2);
 }
 
@@ -162,21 +162,19 @@ NANO_TEST(TReceiver, "StartReceiving/MessageValue")
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-NANO_TEST(TReceiver, "StartReceiving/Value")
+NANO_TEST(TReceiver, "StartReceiving/Void")
 {
 
 
 	// Perform the test
-	theReceiver.StartReceiving(kNTestMessage,
-	[&](const NBroadcast& theBroadcast)
+	theReceiver.StartReceiving(kNTestName,
+	[&]()
 	{
-		REQUIRE(theBroadcast.GetValue().IsUInt32());
-		REQUIRE(theBroadcast.GetValue().GetUInt32() == kNTestValue);
 		theReceiver.Increment();
 	});
 
 	REQUIRE(theReceiver.GetValue() == 0);
-	NBroadcaster::Send(kNTestMessage, kNTestValue);
+	NBroadcaster::Send(kNTestName, kNTestValue);
 	REQUIRE(theReceiver.GetValue() == 1);
 }
 
@@ -187,47 +185,24 @@ NANO_TEST(TReceiver, "StartReceiving/Value")
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-NANO_TEST(TReceiver, "StartReceiving")
+NANO_TEST(TReceiver, "StopReceiving/One")
 {
 
 
 	// Perform the test
-	theReceiver.StartReceiving(kNTestMessage,
+	theReceiver.StartReceiving(kNTestName,
 	[&]()
 	{
 		theReceiver.Increment();
 	});
 
 	REQUIRE(theReceiver.GetValue() == 0);
-	NBroadcaster::Send(kNTestMessage, kNTestValue);
-	REQUIRE(theReceiver.GetValue() == 1);
-}
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TReceiver, "StopReceiving/Message")
-{
-
-
-	// Perform the test
-	theReceiver.StartReceiving(kNTestMessage,
-	[&]()
-	{
-		theReceiver.Increment();
-	});
-
-	REQUIRE(theReceiver.GetValue() == 0);
-	NBroadcaster::Send(kNTestMessage, kNTestValue);
+	NBroadcaster::Send(kNTestName, kNTestValue);
 	REQUIRE(theReceiver.GetValue() == 1);
 
-	theReceiver.StopReceiving(kNTestMessage);
+	theReceiver.StopReceiving(kNTestName);
 
-	NBroadcaster::Send(kNTestMessage, kNTestValue);
+	NBroadcaster::Send(kNTestName, kNTestValue);
 	REQUIRE(theReceiver.GetValue() == 1);
 }
 
@@ -243,19 +218,19 @@ NANO_TEST(TReceiver, "StopReceiving/All")
 
 
 	// Perform the test
-	theReceiver.StartReceiving(kNTestMessage,
+	theReceiver.StartReceiving(kNTestName,
 	[&]()
 	{
 		theReceiver.Increment();
 	});
 
 	REQUIRE(theReceiver.GetValue() == 0);
-	NBroadcaster::Send(kNTestMessage, kNTestValue);
+	NBroadcaster::Send(kNTestName, kNTestValue);
 	REQUIRE(theReceiver.GetValue() == 1);
 
 	theReceiver.StopReceiving();
 
-	NBroadcaster::Send(kNTestMessage, kNTestValue);
+	NBroadcaster::Send(kNTestName, kNTestValue);
 	REQUIRE(theReceiver.GetValue() == 1);
 }
 
@@ -271,24 +246,24 @@ NANO_TEST(TReceiver, "Destructor")
 
 
 	// Perform the test
-	NBroadcaster::Send(kNTestMessage, kNTestValue);
+	NBroadcaster::Send(kNTestName, kNTestValue);
 
 	if constexpr (true)
 	{
 		TestReceiverReceiver scopedReceiver;
 
-		scopedReceiver.StartReceiving(kNTestMessage,
+		scopedReceiver.StartReceiving(kNTestName,
 		[&]()
 		{
 			scopedReceiver.Increment();
 		});
 
 		REQUIRE(scopedReceiver.GetValue() == 0);
-		NBroadcaster::Send(kNTestMessage, kNTestValue);
+		NBroadcaster::Send(kNTestName, kNTestValue);
 		REQUIRE(scopedReceiver.GetValue() == 1);
 	}
 
-	NBroadcaster::Send(kNTestMessage, kNTestValue);
+	NBroadcaster::Send(kNTestName, kNTestValue);
 }
 
 
@@ -303,27 +278,27 @@ NANO_TEST(TReceiver, "StartStopStartReceiving")
 
 
 	// Perform the test
-	theReceiver.StartReceiving(kNTestMessage,
+	theReceiver.StartReceiving(kNTestName,
 	[&]()
 	{
 		theReceiver.Increment();
 	});
 
 	REQUIRE(theReceiver.GetValue() == 0);
-	NBroadcaster::Send(kNTestMessage, kNTestValue);
+	NBroadcaster::Send(kNTestName, kNTestValue);
 	REQUIRE(theReceiver.GetValue() == 1);
 
-	theReceiver.StopReceiving(kNTestMessage);
+	theReceiver.StopReceiving(kNTestName);
 
-	NBroadcaster::Send(kNTestMessage, kNTestValue);
+	NBroadcaster::Send(kNTestName, kNTestValue);
 	REQUIRE(theReceiver.GetValue() == 1);
 
-	theReceiver.StartReceiving(kNTestMessage,
+	theReceiver.StartReceiving(kNTestName,
 	[&]()
 	{
 		theReceiver.Increment();
 	});
 
-	NBroadcaster::Send(kNTestMessage, kNTestValue);
+	NBroadcaster::Send(kNTestName, kNTestValue);
 	REQUIRE(theReceiver.GetValue() == 2);
 }

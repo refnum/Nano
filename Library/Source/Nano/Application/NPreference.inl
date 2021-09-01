@@ -59,7 +59,7 @@ NPreference<T>::NPreference(const NString& theKey)
 
 
 	// Register for changes
-	StartReceiving(NPreferences::GetChangeMessage(theKey),
+	StartReceiving(NPreferences::GetChangeBroadcast(theKey),
 	[=](const NBroadcast& theBroadcast)
 	{
 		ValueChanged(theBroadcast.GetValue());
@@ -82,12 +82,12 @@ NString NPreference<T>::GetKey() const
 
 	// Get the key
 	//
-	// To avoid having to store the key with each preference object,
-	// we recover it from our change message.
-	auto theMessages = GetMessages();
-	NN_REQUIRE(theMessages.size() == 1);
+	// To avoid having to store the key with each preference object
+	// we recover it from our change broadcast.
+	auto theBroadcasts = GetBroadcasts();
+	NN_REQUIRE(theBroadcasts.size() == 1);
 
-	return NPreferences::GetChangeKey(theMessages[0]);
+	return NPreferences::GetChangeKey(theBroadcasts[0]);
 }
 
 
