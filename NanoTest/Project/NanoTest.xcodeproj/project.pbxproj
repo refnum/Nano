@@ -560,8 +560,6 @@
 		ABE5024726DD034600BA97A6 /* TAtomic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TAtomic.cpp; sourceTree = "<group>"; };
 		ABE8150D25E47E5E002FA8CD /* TDate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDate.cpp; sourceTree = "<group>"; };
 		ABEB0BFE16760C8A00B74B71 /* TMessageServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMessageServer.cpp; sourceTree = "<group>"; };
-		ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CTestListener.cpp; sourceTree = "<group>"; };
-		ABEC885C0FC73DD7003B7166 /* CTestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTestListener.h; sourceTree = "<group>"; };
 		ABF44ADD26A8EC4E00F7F369 /* BThreadPool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BThreadPool.cpp; sourceTree = "<group>"; };
 		ABF5130C2397B193001F9F8B /* TMixinAttributes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMixinAttributes.cpp; sourceTree = "<group>"; };
 		ABF513102397C3FB001F9F8B /* TMixinComparable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMixinComparable.cpp; sourceTree = "<group>"; };
@@ -971,8 +969,6 @@
 			isa = PBXGroup;
 			children = (
 				ABF44ADC26A8EC3400F7F369 /* Benchmarks */,
-				ABEC885B0FC73DD7003B7166 /* CTestListener.cpp */,
-				ABEC885C0FC73DD7003B7166 /* CTestListener.h */,
 				AB9156350F9B4F37009FFEAF /* NanoTest.cpp */,
 				AB328C8217612CBF00782F40 /* Internal */,
 				AB514DD21034184B00E5A6AD /* Nanites */,
