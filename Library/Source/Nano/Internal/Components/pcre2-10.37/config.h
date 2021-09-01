@@ -117,7 +117,7 @@ sure both macros are undefined; an emulation function will then be used. */
 #define HAVE_STDLIB_H 1
 
 /* Define to 1 if you have the `strerror' function. */
-/* #undef HAVE_STRERROR */
+#undef HAVE_STRERROR
 
 /* Define to 1 if you have the <strings.h> header file. */
 /* #undef HAVE_STRINGS_H */
@@ -126,10 +126,10 @@ sure both macros are undefined; an emulation function will then be used. */
 #define HAVE_STRING_H 1
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
-/* #undef HAVE_SYS_STAT_H */
+#undef HAVE_SYS_STAT_H
 
 /* Define to 1 if you have the <sys/types.h> header file. */
-/* #undef HAVE_SYS_TYPES_H */
+#undef HAVE_SYS_TYPES_H
 
 /* Define to 1 if you have the <sys/wait.h> header file. */
 /* #undef HAVE_SYS_WAIT_H */
@@ -245,16 +245,16 @@ sure both macros are undefined; an emulation function will then be used. */
 #define PCRE2GREP_MAX_BUFSIZE 1048576
 
 /* to make a symbol visible */
-#define PCRE2POSIX_EXP_DECL extern __attribute__ ((visibility ("default")))
+/* #define PCRE2POSIX_EXP_DECL extern __attribute__ ((visibility ("default"))) */
 
 /* to make a symbol visible */
-#define PCRE2POSIX_EXP_DEFN extern __attribute__ ((visibility ("default")))
+/* #define PCRE2POSIX_EXP_DEFN extern __attribute__ ((visibility ("default"))) */
 
 /* Define to any value to include debugging code. */
 /* #undef PCRE2_DEBUG */
 
 /* to make a symbol visible */
-#define PCRE2_EXP_DECL extern __attribute__ ((visibility ("default")))
+/* #define PCRE2_EXP_DECL extern __attribute__ ((visibility ("default"))) */
 
 
 /* If you are compiling for a system other than a Unix-like system or
@@ -266,10 +266,10 @@ sure both macros are undefined; an emulation function will then be used. */
    This macro apears at the start of every exported function that is part
    of the external API. It does not appear on functions that are "external"
    in the C sense, but which are internal to the library. */
-#define PCRE2_EXP_DEFN __attribute__ ((visibility ("default")))
+/* #define PCRE2_EXP_DEFN __attribute__ ((visibility ("default"))) */
 
 /* Define to any value if linking statically (TODO: make nice with Libtool) */
-#define PCRE2_STATIC /**/
+//#define PCRE2_STATIC /**/
 
 /* Define to necessary symbol if this constant uses a non-standard name on
    your system. */
