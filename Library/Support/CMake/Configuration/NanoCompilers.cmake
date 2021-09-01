@@ -236,9 +236,12 @@ elseif (NN_COMPILER_MSVC)
 		/w14905											# Casting wide string literal to LPSTR
 		/w14906											# Casting string literal to LPWSTR
 		/w14928											# Illegal copy-initialization
+
+		/wc4289											# Loop control variable used outside for loop
 		/wd4061											# Enumerator in switch of enum is not explicitly handled by a case label
 		/wd4068											# Unknown pragma
 		/wd4206											# Translation unit is empty
+		/wd4324											# Structure was padded due to alignment specifier 
 		/wd4371											# Class layout may vary previous version of the compiler
 		/wd4514											# Unreferenced inline function has been removed 
 		/wd4571											# Structured exceptions are no longer caught
@@ -256,7 +259,6 @@ elseif (NN_COMPILER_MSVC)
 		/wd5039											# Pointer to potentially throwing function passed to C function
 		/wd5045											# Spectre mitigation suggested
 		/wd5105											# Macro expansion producing 'defined' has undefined behavior
-		/we4289											# Loop control variable used outside for loop
 	)
 
 	list(APPEND NN_COMPILER_WARNINGS_MINIMUM
