@@ -262,6 +262,9 @@
 		ABE5024826DD034600BA97A6 /* TAtomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABE5024726DD034600BA97A6 /* TAtomic.cpp */; };
 		ABE5024926DD034600BA97A6 /* TAtomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABE5024726DD034600BA97A6 /* TAtomic.cpp */; };
 		ABE5024A26DD034600BA97A6 /* TAtomic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABE5024726DD034600BA97A6 /* TAtomic.cpp */; };
+		ABE5024B26DD407F00BA97A6 /* TTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA195104E7D1400BB002B /* TTransform.cpp */; };
+		ABE5024C26DD407F00BA97A6 /* TTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA195104E7D1400BB002B /* TTransform.cpp */; };
+		ABE5024D26DD407F00BA97A6 /* TTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA195104E7D1400BB002B /* TTransform.cpp */; };
 		ABE7C0C225D0AD8C00914618 /* TPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E741034612D00E5A6AD /* TPoint.cpp */; };
 		ABE7C0C325D0AD8C00914618 /* TRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E761034612D00E5A6AD /* TRectangle.cpp */; };
 		ABE7C0C425D0AD8C00914618 /* TSize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E781034612D00E5A6AD /* TSize.cpp */; };
@@ -1146,6 +1149,7 @@
 				AB5127EB23D07FC700528FBE /* TStdContainer.cpp in Sources */,
 				AB5127E623D0780400528FBE /* TStdAlgorithm.cpp in Sources */,
 				ABE8150F25E47E5E002FA8CD /* TDate.cpp in Sources */,
+				ABE5024C26DD407F00BA97A6 /* TTransform.cpp in Sources */,
 				ABDCE8AF241C2A720054A16E /* TPOSIX.cpp in Sources */,
 				ABDCE8BE241C59680054A16E /* TFileInfo.cpp in Sources */,
 				AB081C4725BC78530058D397 /* TMathUtils.cpp in Sources */,
@@ -1275,6 +1279,7 @@
 				AB5127EA23D07FC700528FBE /* TStdContainer.cpp in Sources */,
 				AB5127E523D0780400528FBE /* TStdAlgorithm.cpp in Sources */,
 				ABE8150E25E47E5E002FA8CD /* TDate.cpp in Sources */,
+				ABE5024D26DD407F00BA97A6 /* TTransform.cpp in Sources */,
 				ABDCE8AE241C2A720054A16E /* TPOSIX.cpp in Sources */,
 				ABDCE8BD241C59680054A16E /* TFileInfo.cpp in Sources */,
 				AB081C4625BC78530058D397 /* TMathUtils.cpp in Sources */,
@@ -1404,6 +1409,7 @@
 				AB5127EC23D07FC700528FBE /* TStdContainer.cpp in Sources */,
 				AB5127E723D0780400528FBE /* TStdAlgorithm.cpp in Sources */,
 				ABE8151025E47E5E002FA8CD /* TDate.cpp in Sources */,
+				ABE5024B26DD407F00BA97A6 /* TTransform.cpp in Sources */,
 				ABDCE8B0241C2A720054A16E /* TPOSIX.cpp in Sources */,
 				ABDCE8BF241C59680054A16E /* TFileInfo.cpp in Sources */,
 				AB081C4825BC78530058D397 /* TMathUtils.cpp in Sources */,
