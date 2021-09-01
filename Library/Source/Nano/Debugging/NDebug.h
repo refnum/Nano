@@ -149,8 +149,8 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 				NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-extra-args");                              \
 				NN_DIAGNOSTIC_IGNORE_CLANG("-Wnon-pod-varargs");                                \
 				NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");                                \
-				NN_DIAGNOSTIC_IGNORE_MSVC(4474); /* Extra arguments */                          \
-				NN_DIAGNOSTIC_IGNORE_MSVC(4840); /* Non-POD arguments */                        \
+				NN_DIAGNOSTIC_IGNORE_MSVC(C4474_too_many_arguments_for_format_string);          \
+				NN_DIAGNOSTIC_IGNORE_MSVC(C4840_non_pod_argument_passed_to_variadic_function);  \
 				NanoLogPrintf(_level, __FILE__, __LINE__, _format, ##__VA_ARGS__);              \
 				NN_DIAGNOSTIC_POP();                                                            \
 			}                                                                                   \

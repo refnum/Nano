@@ -419,7 +419,11 @@ void NThreadPool::ExecuteTasks(NThreadPoolWorker* theWorker)
 				break;
 			}
 
+			NN_DIAGNOSTIC_PUSH();
+			NN_DIAGNOSTIC_IGNORE_MSVC(C4583_destructor_is_not_implicitly_called);
 			auto theWork = mTasks.PopBack();
+			NN_DIAGNOSTIC_POP();
+
 			if (theWork.has_value())
 			{
 				NSharedThreadTask theTask = *theWork;

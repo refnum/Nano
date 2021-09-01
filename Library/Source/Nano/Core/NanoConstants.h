@@ -42,6 +42,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NanoTargets.h"
 #include "NanoTypes.h"
 
 // System
@@ -150,6 +151,28 @@ enum class NStatus
 	TooNew,
 	TooOld
 };
+
+
+// MSVC warnings
+#if NN_COMPILER_MSVC
+	#define C4127_conditional_expression_is_constant            4127
+	#define C4146_unary_minus_applied_to_unsigned               4146
+	#define C4355_this_used_in_base_member_initializer          4355
+	#define C4365_signed_unsigned_mismatch                      4365
+	#define C4388_signed_unsigned_mismatch                      4388
+	#define C4464_relative_include_path_contains_dotdot         4464
+	#define C4474_too_many_arguments_for_format_string          4474
+	#define C4476_unknown_type_field_character_in_format        4476
+	#define C4582_constructor_not_implicitly_called             4582
+	#define C4583_destructor_is_not_implicitly_called           4583
+	#define C4619_unknown_warning                               4619
+	#define C4668_undefined_macro_treated_as_zero               4668
+	#define C4840_non_pod_argument_passed_to_variadic_function  4840
+	#define C4868_left_to_right_evaluation_order_undefined      4868
+	#define C4996_deprecated_function                           4996
+	#define C5204_destructor_is_not_virtual                     5204
+	#define C5219_implicit_conversion                           5219
+#endif // NN_COMPILER_MSVC
 
 
 

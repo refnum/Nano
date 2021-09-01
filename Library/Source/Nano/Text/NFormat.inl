@@ -68,8 +68,8 @@
 // Fmtlib
 NN_DIAGNOSTIC_PUSH();
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wsigned-enum-bitfield");
-NN_DIAGNOSTIC_IGNORE_MSVC(4464);    // Relative include path contains '..'
-NN_DIAGNOSTIC_IGNORE_MSVC(4582);    // Constructor is not implicitly called
+NN_DIAGNOSTIC_IGNORE_MSVC(C4464_relative_include_path_contains_dotdot);
+NN_DIAGNOSTIC_IGNORE_MSVC(C4582_constructor_not_implicitly_called);
 
 #include "fmt_printf.h"
 
@@ -118,21 +118,21 @@ NString NSprintfArgsToString(const fmt::basic_string_view<char>&         formatS
 		} while (false)
 
 #else
-	#define NN_FORMAT_CHECK_PRINTF(_format, ...)                            \
-		do                                                                  \
-		{                                                                   \
-			if constexpr (false)                                            \
-			{                                                               \
-				NN_DIAGNOSTIC_PUSH();                                       \
-				NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-extra-args");          \
-				NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-non-iso");             \
-				NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");            \
-				NN_DIAGNOSTIC_IGNORE_MSVC(4474); /* Extra arguments     */  \
-				NN_DIAGNOSTIC_IGNORE_MSVC(4840); /* Non-POD argument    */  \
-				NN_DIAGNOSTIC_IGNORE_MSVC(4476); /* Positional argument */  \
-				printf(_format, ##__VA_ARGS__);                             \
-				NN_DIAGNOSTIC_POP();                                        \
-			}                                                               \
+	#define NN_FORMAT_CHECK_PRINTF(_format, ...)                                                \
+		do                                                                                      \
+		{                                                                                       \
+			if constexpr (false)                                                                \
+			{                                                                                   \
+				NN_DIAGNOSTIC_PUSH();                                                           \
+				NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-extra-args");                              \
+				NN_DIAGNOSTIC_IGNORE_CLANG("-Wformat-non-iso");                                 \
+				NN_DIAGNOSTIC_IGNORE_GCC("-Wformat-extra-args");                                \
+				NN_DIAGNOSTIC_IGNORE_MSVC(C4474_too_many_arguments_for_format_string);          \
+				NN_DIAGNOSTIC_IGNORE_MSVC(C4476_unknown_type_field_character_in_format);        \
+				NN_DIAGNOSTIC_IGNORE_MSVC(C4840_non_pod_argument_passed_to_variadic_function);  \
+				printf(_format, ##__VA_ARGS__);                                                 \
+				NN_DIAGNOSTIC_POP();                                                            \
+			}                                                                                   \
 		} while (false)
 
 #endif

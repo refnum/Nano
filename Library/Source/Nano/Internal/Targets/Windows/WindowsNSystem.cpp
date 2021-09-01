@@ -175,7 +175,7 @@ NString NSystem::SystemName(NOSName theName)
 
 	// Get the state we need
 	NN_DIAGNOSTIC_PUSH();
-	NN_DIAGNOSTIC_IGNORE_MSVC(4996);    // Deprecated function
+	NN_DIAGNOSTIC_IGNORE_MSVC(C4996_deprecated_function);
 
 	OSVERSIONINFOEX theInfo{};
 	theInfo.dwOSVersionInfoSize = sizeof(theInfo);
@@ -204,7 +204,7 @@ NString NSystem::SystemName(NOSName theName)
 				csdVersion += " ";
 			}
 
-			NN_DIAGNOSTIC_IGNORE_MSVC(4840);
+			NN_DIAGNOSTIC_IGNORE_MSVC(C4840_non_pod_argument_passed_to_variadic_function);
 			theText = NFormat("{} [{}{}.{}-{}]",
 							  NSystem::GetName(NOSName::Detailed),
 							  csdVersion,

@@ -100,7 +100,7 @@ NString NSystem::GetName(NOSName theName)
 
 
 		case NOSName::Detailed:
-			NN_DIAGNOSTIC_IGNORE_MSVC(4840);
+			NN_DIAGNOSTIC_IGNORE_MSVC(C4840_non_pod_argument_passed_to_variadic_function);
 			theText = NFormat("{} {} ({})",
 							  GetName(NOSName::Platform),
 							  GetName(NOSName::Version),

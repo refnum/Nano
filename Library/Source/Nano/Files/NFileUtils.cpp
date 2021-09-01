@@ -320,7 +320,7 @@ NFilePath NFileUtils::GetUniqueChild(const NFilePath& thePath, const NString bas
 	// Generate a unique child
 	while (true)
 	{
-		NN_DIAGNOSTIC_IGNORE_MSVC(4840);
+		NN_DIAGNOSTIC_IGNORE_MSVC(C4840_non_pod_argument_passed_to_variadic_function);
 		NString uniqueName = NFormat("{}_{:08x}{:08x}{}",
 									 theStem,
 									 NRandom::GetUInt64(),

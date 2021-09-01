@@ -47,18 +47,20 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NanoConstants.h"
 #include "NanoMacros.h"
-#include "NanoTypes.h"
 
 // Catch
 NN_DIAGNOSTIC_PUSH();
-NN_DIAGNOSTIC_IGNORE_MSVC(4365);    // Signed / unsigned mismatch
-NN_DIAGNOSTIC_IGNORE_MSVC(4388);    // Signed / unsigned mismatch
-NN_DIAGNOSTIC_IGNORE_MSVC(4583);    // Destructor is not implicitly called
-NN_DIAGNOSTIC_IGNORE_MSVC(4868);    // Left-to-right evaluation order
-NN_DIAGNOSTIC_IGNORE_MSVC(4996);    // Deprecated function
-NN_DIAGNOSTIC_IGNORE_MSVC(5204);    // Destructor is not virtual
-NN_DIAGNOSTIC_IGNORE_MSVC(5219);    // Implicit conversion
+NN_DIAGNOSTIC_IGNORE_MSVC(C4355_this_used_in_base_member_initializer);
+NN_DIAGNOSTIC_IGNORE_MSVC(C4365_signed_unsigned_mismatch);
+NN_DIAGNOSTIC_IGNORE_MSVC(C4388_signed_unsigned_mismatch);
+NN_DIAGNOSTIC_IGNORE_MSVC(C4583_destructor_is_not_implicitly_called);
+NN_DIAGNOSTIC_IGNORE_MSVC(C4619_unknown_warning);
+NN_DIAGNOSTIC_IGNORE_MSVC(C4868_left_to_right_evaluation_order_undefined);
+NN_DIAGNOSTIC_IGNORE_MSVC(C4996_deprecated_function);
+NN_DIAGNOSTIC_IGNORE_MSVC(C5204_destructor_is_not_virtual);
+NN_DIAGNOSTIC_IGNORE_MSVC(C5219_implicit_conversion);
 
 #define CATCH_CONFIG_ENABLE_BENCHMARKING
 #include "catch.hpp"

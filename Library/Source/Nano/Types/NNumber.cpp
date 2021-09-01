@@ -884,9 +884,14 @@ bool NNumber::ParseReal(const utf8_t* textStart)
 		// back to strtod to parse these numbers.
 		if (!isHex)
 		{
+			NN_DIAGNOSTIC_PUSH();
+			NN_DIAGNOSTIC_IGNORE_MSVC(C4365_signed_unsigned_mismatch);
+
 			const utf8_t* textEnd   = textStart + strlen(textStart);
 			auto          theResult = fast_float::from_chars(textStart, textEnd, valueFloat64);
 			isValid                 = (theResult.ec == std::errc());
+
+			NN_DIAGNOSTIC_POP();
 		}
 		else
 		{

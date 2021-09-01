@@ -44,7 +44,12 @@
 #include "NThreadPool.h"
 
 // System
-#include <future>
+#if NN_TARGET_WINDOWS
+NN_DIAGNOSTIC_PUSH();
+NN_DIAGNOSTIC_IGNORE_MSVC(C4355_this_used_in_base_member_initializer);
+	#include <future>
+NN_DIAGNOSTIC_POP();
+#endif
 
 #if NN_PLATFORM_DARWIN
 	#include <dispatch/dispatch.h>

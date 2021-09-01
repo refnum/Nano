@@ -62,10 +62,10 @@ NN_DIAGNOSTIC_PUSH();
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wmissing-noreturn");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wsign-conversion");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wsigned-enum-bitfield");
-NN_DIAGNOSTIC_IGNORE_MSVC(4355);    // 'this' used in base member initializer
-NN_DIAGNOSTIC_IGNORE_MSVC(4365);    // Signed / unsigned mismatch
-NN_DIAGNOSTIC_IGNORE_MSVC(4582);    // Constructor is not implicitly called
-NN_DIAGNOSTIC_IGNORE_MSVC(4668);    // Undefined macro treated as 0
+NN_DIAGNOSTIC_IGNORE_MSVC(C4355_this_used_in_base_member_initializer);
+NN_DIAGNOSTIC_IGNORE_MSVC(C4365_signed_unsigned_mismatch);
+NN_DIAGNOSTIC_IGNORE_MSVC(C4582_constructor_not_implicitly_called);
+NN_DIAGNOSTIC_IGNORE_MSVC(C4668_undefined_macro_treated_as_zero);
 
 #include "fmt_format.h"
 

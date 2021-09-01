@@ -416,7 +416,7 @@ Output NRandom::PCG_XSH_RR(Output minValue, Output maxValue)
 	if (l < maxRange)
 	{
 		NN_DIAGNOSTIC_PUSH();
-		NN_DIAGNOSTIC_IGNORE_MSVC(4146);    // Unary minus applied to unsigned
+		NN_DIAGNOSTIC_IGNORE_MSVC(C4146_unary_minus_applied_to_unsigned);
 		Output t = Output(-maxRange);
 		NN_DIAGNOSTIC_POP();
 
