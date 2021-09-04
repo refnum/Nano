@@ -739,8 +739,6 @@
 		AB514E5C103460CB00E5A6AD /* NRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRectangle.h; sourceTree = "<group>"; };
 		AB514E5E103460CB00E5A6AD /* NSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSize.h; sourceTree = "<group>"; };
 		AB514E911034638700E5A6AD /* NVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NVector.h; sourceTree = "<group>"; };
-		AB514F631035784000E5A6AD /* NPropertyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPropertyStore.h; sourceTree = "<group>"; };
-		AB514F641035784000E5A6AD /* NPropertyStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPropertyStore.cpp; sourceTree = "<group>"; };
 		AB53A404109B237800817E89 /* NTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NTask.cpp; sourceTree = "<group>"; };
 		AB53A405109B237800817E89 /* NTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTask.h; sourceTree = "<group>"; };
 		AB53BBDF242123AB009960AA /* NFileUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFileUtils.cpp; sourceTree = "<group>"; };
@@ -1915,8 +1913,6 @@
 				AB9155540F9B4DD6009FFEAF /* NNumber.cpp */,
 				AB9155550F9B4DD6009FFEAF /* NNumber.h */,
 				AB68DB8A25B25E4F009C406D /* NNumber.inl */,
-				AB514F641035784000E5A6AD /* NPropertyStore.cpp */,
-				AB514F631035784000E5A6AD /* NPropertyStore.h */,
 				AB9155590F9B4DD6009FFEAF /* NRange.h */,
 				AB4E383423C8D9D50089B916 /* NRange.inl */,
 				AB4EEBE92693CD5E005816E3 /* NSet.h */,

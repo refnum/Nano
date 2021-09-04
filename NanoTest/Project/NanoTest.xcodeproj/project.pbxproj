@@ -502,7 +502,6 @@
 		AB514E761034612D00E5A6AD /* TRectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TRectangle.cpp; sourceTree = "<group>"; };
 		AB514E781034612D00E5A6AD /* TSize.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSize.cpp; sourceTree = "<group>"; };
 		AB514EBC1034654800E5A6AD /* TVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TVector.cpp; sourceTree = "<group>"; };
-		AB514F7A1035788600E5A6AD /* TPropertyStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPropertyStore.cpp; sourceTree = "<group>"; };
 		AB53BBDB2421239C009960AA /* TFileUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileUtils.cpp; sourceTree = "<group>"; };
 		AB549AF42687BE3800B14417 /* TCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCache.cpp; sourceTree = "<group>"; };
 		AB549B8D2690841600B14417 /* TFileScanner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFileScanner.cpp; sourceTree = "<group>"; };
@@ -883,7 +882,6 @@
 				ABF513112397C3FB001F9F8B /* TMixinContainer.cpp */,
 				ABF513122397C3FB001F9F8B /* TMixinHashable.cpp */,
 				AB514DB11034184B00E5A6AD /* TNumber.cpp */,
-				AB514F7A1035788600E5A6AD /* TPropertyStore.cpp */,
 				AB514DB51034184B00E5A6AD /* TRange.cpp */,
 				AB4EEBEB2693CD74005816E3 /* TSet.cpp */,
 				AB481C7B12A539830052C55F /* TURL.cpp */,
