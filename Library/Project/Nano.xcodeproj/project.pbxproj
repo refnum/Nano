@@ -1001,6 +1001,8 @@
 		ABDCE8E4241F8ACD0054A16E /* NFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFile.h; sourceTree = "<group>"; };
 		ABE5024526DD031900BA97A6 /* NAtomic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NAtomic.h; sourceTree = "<group>"; };
 		ABE5024626DD031900BA97A6 /* NAtomic.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NAtomic.inl; sourceTree = "<group>"; };
+		ABE5025126E260E400BA97A6 /* NFlags.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NFlags.h; sourceTree = "<group>"; };
+		ABE5025226E260E400BA97A6 /* NFlags.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NFlags.inl; sourceTree = "<group>"; };
 		ABE59A7A25D337590048AD5F /* NUnicodeView.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NUnicodeView.inl; sourceTree = "<group>"; };
 		ABE7C0BC25D04AC800914618 /* NPoint.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NPoint.inl; sourceTree = "<group>"; };
 		ABE7C0BD25D04AC800914618 /* NRectangle.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NRectangle.inl; sourceTree = "<group>"; };
@@ -1898,6 +1900,8 @@
 				AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */,
 				AB91554D0F9B4DD6009FFEAF /* NDictionary.h */,
 				ABB38CB025A7CC830050D506 /* NDictionary.inl */,
+				ABE5025126E260E400BA97A6 /* NFlags.h */,
+				ABE5025226E260E400BA97A6 /* NFlags.inl */,
 				ABF58CE626795A4800327252 /* NFunction.h */,
 				AB4EEBEA2693CD5E005816E3 /* NMap.h */,
 				ABA7247023F8412800CF6EC2 /* NMixinAppendable.h */,

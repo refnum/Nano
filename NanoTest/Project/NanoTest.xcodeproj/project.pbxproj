@@ -265,6 +265,9 @@
 		ABE5024B26DD407F00BA97A6 /* TTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA195104E7D1400BB002B /* TTransform.cpp */; };
 		ABE5024C26DD407F00BA97A6 /* TTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA195104E7D1400BB002B /* TTransform.cpp */; };
 		ABE5024D26DD407F00BA97A6 /* TTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB1BA195104E7D1400BB002B /* TTransform.cpp */; };
+		ABE5025426E260F400BA97A6 /* TFlags.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABE5025326E260F400BA97A6 /* TFlags.cpp */; };
+		ABE5025526E260F400BA97A6 /* TFlags.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABE5025326E260F400BA97A6 /* TFlags.cpp */; };
+		ABE5025626E260F400BA97A6 /* TFlags.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABE5025326E260F400BA97A6 /* TFlags.cpp */; };
 		ABE7C0C225D0AD8C00914618 /* TPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E741034612D00E5A6AD /* TPoint.cpp */; };
 		ABE7C0C325D0AD8C00914618 /* TRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E761034612D00E5A6AD /* TRectangle.cpp */; };
 		ABE7C0C425D0AD8C00914618 /* TSize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514E781034612D00E5A6AD /* TSize.cpp */; };
@@ -557,6 +560,7 @@
 		ABDCE8E8241F8AEA0054A16E /* TFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFile.cpp; sourceTree = "<group>"; };
 		ABE5024126DC4E5D00BA97A6 /* TPreferenceFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TPreferenceFile.cpp; sourceTree = "<group>"; };
 		ABE5024726DD034600BA97A6 /* TAtomic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TAtomic.cpp; sourceTree = "<group>"; };
+		ABE5025326E260F400BA97A6 /* TFlags.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TFlags.cpp; sourceTree = "<group>"; };
 		ABE8150D25E47E5E002FA8CD /* TDate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDate.cpp; sourceTree = "<group>"; };
 		ABEB0BFE16760C8A00B74B71 /* TMessageServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMessageServer.cpp; sourceTree = "<group>"; };
 		ABF44ADD26A8EC4E00F7F369 /* BThreadPool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BThreadPool.cpp; sourceTree = "<group>"; };
@@ -874,6 +878,7 @@
 				AB549AF42687BE3800B14417 /* TCache.cpp */,
 				AB1C77F926A315E600A43965 /* TDeque.cpp */,
 				AB514DAB1034184B00E5A6AD /* TDictionary.cpp */,
+				ABE5025326E260F400BA97A6 /* TFlags.cpp */,
 				ABF58CE726795A5800327252 /* TFunction.cpp */,
 				AB4EEBEC2693CD74005816E3 /* TMap.cpp */,
 				ABA7247223F8415E00CF6EC2 /* TMixinAppendable.cpp */,
@@ -1214,6 +1219,7 @@
 				AB5E179825F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
 				ABF58DBA267F508700327252 /* TCFDictionary.cpp in Sources */,
 				AB371ABA25CB932600DEC50B /* TBitVector.cpp in Sources */,
+				ABE5025526E260F400BA97A6 /* TFlags.cpp in Sources */,
 				AB549B85268FA72900B14417 /* TXMLEncoder.cpp in Sources */,
 				AB1C93B326A7A66C00D91BD1 /* TRunLoopTask.cpp in Sources */,
 				ABE7C0D925D0B06500914618 /* TVector.cpp in Sources */,
@@ -1344,6 +1350,7 @@
 				AB5E179725F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
 				ABF58DBB267F508700327252 /* TCFDictionary.cpp in Sources */,
 				AB371ABE25CB932600DEC50B /* TBitVector.cpp in Sources */,
+				ABE5025426E260F400BA97A6 /* TFlags.cpp in Sources */,
 				AB549B82268FA72900B14417 /* TXMLEncoder.cpp in Sources */,
 				AB1C93B226A7A66C00D91BD1 /* TRunLoopTask.cpp in Sources */,
 				ABE7C0DD25D0B06500914618 /* TVector.cpp in Sources */,
@@ -1474,6 +1481,7 @@
 				AB5E179925F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
 				ABF58DB9267F508700327252 /* TCFDictionary.cpp in Sources */,
 				AB371AB625CB932500DEC50B /* TBitVector.cpp in Sources */,
+				ABE5025626E260F400BA97A6 /* TFlags.cpp in Sources */,
 				AB549B7C268FA72800B14417 /* TXMLEncoder.cpp in Sources */,
 				AB1C93B426A7A66C00D91BD1 /* TRunLoopTask.cpp in Sources */,
 				ABE7C0D225D0B06400914618 /* TVector.cpp in Sources */,

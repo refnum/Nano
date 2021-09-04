@@ -149,6 +149,7 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Types/TCache.cpp"
 		"${NN_SOURCE_DIR}/Nano/Types/TDeque.cpp"
 		"${NN_SOURCE_DIR}/Nano/Types/TDictionary.cpp"
+		"${NN_SOURCE_DIR}/Nano/Types/TFlags.cpp"
 		"${NN_SOURCE_DIR}/Nano/Types/TFunction.cpp"
 		"${NN_SOURCE_DIR}/Nano/Types/TMap.cpp"
 		"${NN_SOURCE_DIR}/Nano/Types/TMixinAppendable.cpp"

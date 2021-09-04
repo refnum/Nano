@@ -388,6 +388,8 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Types/NDictionary.cpp"
 		"${NN_SOURCE_DIR}/Nano/Types/NDictionary.h"
 		"${NN_SOURCE_DIR}/Nano/Types/NDictionary.inl"
+		"${NN_SOURCE_DIR}/Nano/Types/NFlags.h"
+		"${NN_SOURCE_DIR}/Nano/Types/NFlags.inl"
 		"${NN_SOURCE_DIR}/Nano/Types/NFunction.h"
 		"${NN_SOURCE_DIR}/Nano/Types/NMap.h"
 		"${NN_SOURCE_DIR}/Nano/Types/NMixinAppendable.h"
