@@ -38,18 +38,18 @@
 #==============================================================================
 #		Internal Functions
 #------------------------------------------------------------------------------
-#		_nano_build_get_real_paths : Get a list of real paths.
+#		_nano_build_get_absolute_paths : Get a list of absolute paths.
 #------------------------------------------------------------------------------
-function(_nano_build_get_real_paths OUTPUT_PATHS INPUT_PATHS)
+function(_nano_build_get_absolute_paths OUTPUT_PATHS INPUT_PATHS)
 
 	if (INPUT_PATHS)
 		foreach (INPUT_PATH IN LISTS INPUT_PATHS)
-			file(REAL_PATH "${INPUT_PATH}" INPUT_PATH)
-			list(APPEND REAL_PATHS "${INPUT_PATH}")
+			cmake_path(ABSOLUTE_PATH INPUT_PATH NORMALIZE)
+			list(APPEND ABSOLUTE_PATHS "${INPUT_PATH}")
 		endforeach()
 	endif()
 
-	set(${OUTPUT_PATHS} "${REAL_PATHS}" PARENT_SCOPE)
+	set(${OUTPUT_PATHS} "${ABSOLUTE_PATHS}" PARENT_SCOPE)
 
 endfunction()
 
@@ -70,14 +70,14 @@ endfunction()
 #		File paths will match if they exist in the input paths, directory
 #		paths will match any file under that directory in the intput paths.
 #
-#		The input paths are assumed to have been expanded to real paths which
-#		allows us to identify a match by comparing the prefix.
+#		The input paths are assumed to have been expanded to absolute paths
+#		which allows us to identify a match by comparing the prefix.
 #------------------------------------------------------------------------------
 function(_nano_build_get_matching_paths OUTPUT_PATHS INPUT_PATHS MATCHING_PATHS)
 
 	if (MATCHING_PATHS AND INPUT_PATHS)
 		foreach (MATCH_PATH IN LISTS MATCHING_PATHS)
-			file(REAL_PATH "${MATCH_PATH}" MATCH_PATH)
+			cmake_path(ABSOLUTE_PATH MATCH_PATH NORMALIZE)
 
 			foreach (INPUT_PATH IN LISTS INPUT_PATHS)
 		
@@ -437,8 +437,8 @@ function(_nano_build_compiler_source)
 
 	# Create the paths
 	#
-	# To simplify path comparisons we normalise all paths to real paths,
-	# and match any file-or-directory file lists into a list of files.
+	# To simplify path comparisons we normalise all paths to absolute paths, and
+	# expand any file-or-directory file lists into a list of files for matching.
 	get_target_property(SOURCE_FILES				"${PROJECT_NAME}" SOURCES)
 	get_target_property(PREFIX_FILES				"${PROJECT_NAME}" PRECOMPILE_HEADERS)
 
@@ -451,8 +451,8 @@ function(_nano_build_compiler_source)
 	get_target_property(SOURCE_LANGUAGE_OBJCPP		"${PROJECT_NAME}" NN_SOURCE_LANGUAGE_OBJCPP)
 
 
-	_nano_build_get_real_paths(SOURCE_FILES					"${SOURCE_FILES}")
-	_nano_build_get_real_paths(PREFIX_FILES					"${PREFIX_FILES}")
+	_nano_build_get_absolute_paths(SOURCE_FILES				"${SOURCE_FILES}")
+	_nano_build_get_absolute_paths(PREFIX_FILES				"${PREFIX_FILES}")
 
 	_nano_build_get_matching_paths(SOURCE_WARNINGS_MAXIMUM	"${SOURCE_FILES}" "${SOURCE_WARNINGS_MAXIMUM}")
 	_nano_build_get_matching_paths(SOURCE_WARNINGS_MINIMUM	"${SOURCE_FILES}" "${SOURCE_WARNINGS_MINIMUM}")
