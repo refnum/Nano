@@ -86,9 +86,9 @@ NANO_TEST(NStringTransformer, "LowerCase")
 
 
 	// Perform the test
-	REQUIRE(NStringTransformer::Transform(kTestWordLower, kNStringTransformToLower) ==
+	REQUIRE(NStringTransformer::Transform(kTestWordLower, NStringTransform::ToLower) ==
 			kTestWordLower);
-	REQUIRE(NStringTransformer::Transform(kTestWordUpper, kNStringTransformToLower) ==
+	REQUIRE(NStringTransformer::Transform(kTestWordUpper, NStringTransform::ToLower) ==
 			kTestWordLower);
 }
 
@@ -104,9 +104,9 @@ NANO_TEST(NStringTransformer, "UpperCase")
 
 
 	// Perform the test
-	REQUIRE(NStringTransformer::Transform(kTestWordLower, kNStringTransformToUpper) ==
+	REQUIRE(NStringTransformer::Transform(kTestWordLower, NStringTransform::ToUpper) ==
 			kTestWordUpper);
-	REQUIRE(NStringTransformer::Transform(kTestWordUpper, kNStringTransformToUpper) ==
+	REQUIRE(NStringTransformer::Transform(kTestWordUpper, NStringTransform::ToUpper) ==
 			kTestWordUpper);
 }
 
@@ -122,9 +122,9 @@ NANO_TEST(NStringTransformer, "CapitaliseWords")
 
 
 	// Perform the test
-	REQUIRE(NStringTransformer::Transform(kTestWordsLower, kNStringTransformCapitalizeWords) ==
+	REQUIRE(NStringTransformer::Transform(kTestWordsLower, NStringTransform::CapitalizeWords) ==
 			kTestWordsCapitals);
-	REQUIRE(NStringTransformer::Transform(kTestWordsUpper, kNStringTransformCapitalizeWords) ==
+	REQUIRE(NStringTransformer::Transform(kTestWordsUpper, NStringTransform::CapitalizeWords) ==
 			kTestWordsCapitals);
 }
 
@@ -141,10 +141,10 @@ NANO_TEST(NStringTransformer, "CapitaliseSentences")
 
 	// Perform the test
 	REQUIRE(
-		NStringTransformer::Transform(kTestSentenceLower, kNStringTransformCapitalizeSentences) ==
+		NStringTransformer::Transform(kTestSentenceLower, NStringTransform::CapitalizeSentences) ==
 		kTestSentenceCapitals);
 	REQUIRE(
-		NStringTransformer::Transform(kTestSentenceUpper, kNStringTransformCapitalizeSentences) ==
+		NStringTransformer::Transform(kTestSentenceUpper, NStringTransform::CapitalizeSentences) ==
 		kTestSentenceCapitals);
 }
 
@@ -160,8 +160,8 @@ NANO_TEST(NStringTransformer, "Range")
 
 
 	// Perform the test
-	REQUIRE(NStringTransformer::Transform("rANge", kNStringTransformToLower, NRange(1, 2)) ==
+	REQUIRE(NStringTransformer::Transform("rANge", NStringTransform::ToLower, NRange(1, 2)) ==
 			"range");
-	REQUIRE(NStringTransformer::Transform("rANge", kNStringTransformToUpper, NRange(0, 3)) ==
+	REQUIRE(NStringTransformer::Transform("rANge", NStringTransform::ToUpper, NRange(0, 3)) ==
 			"RANge");
 }

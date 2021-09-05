@@ -554,7 +554,7 @@ void NString::ReplaceAll(const NVectorRange& theRanges,
 //=============================================================================
 //		NString::GetTransformed : Transform the string.
 //-----------------------------------------------------------------------------
-NString NString::GetTransformed(NStringTransform theTransform, const NRange& theRange)
+NString NString::GetTransformed(NStringTransformFlags theTransform, const NRange& theRange)
 {
 
 
@@ -574,7 +574,7 @@ NString NString::GetLower() const
 
 
 	// Transform the string
-	return NStringTransformer::Transform(*this, kNStringTransformToLower, kNRangeAll);
+	return NStringTransformer::Transform(*this, NStringTransform::ToLower, kNRangeAll);
 }
 
 
@@ -589,7 +589,7 @@ NString NString::GetUpper() const
 
 
 	// Transform the string
-	return NStringTransformer::Transform(*this, kNStringTransformToUpper, kNRangeAll);
+	return NStringTransformer::Transform(*this, NStringTransform::ToUpper, kNRangeAll);
 }
 
 

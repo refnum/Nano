@@ -79,13 +79,18 @@ inline constexpr NStringFindFlags kNStringFindPatternNoCase =
 
 
 // Transform flags
-using NStringTransform                                      = uint8_t;
+enum class NStringTransform
+{
+	ToLower,
+	ToUpper,
+	CapitalizeWords,
+	CapitalizeSentences
+};
 
-inline constexpr NStringTransform kNStringTransformNone                 = 0;
-inline constexpr NStringTransform kNStringTransformToLower              = (1 << 0);
-inline constexpr NStringTransform kNStringTransformToUpper              = (1 << 1);
-inline constexpr NStringTransform kNStringTransformCapitalizeWords      = (1 << 2);
-inline constexpr NStringTransform kNStringTransformCapitalizeSentences  = (1 << 3);
+NN_FLAG_ENUM(NStringTransform, NStringTransformFlags);
+
+inline constexpr NStringTransformFlags kNStringTransformNone;
+
 
 
 // Strings
@@ -321,7 +326,7 @@ public:
 
 
 	// Transform the string
-	NString                             GetTransformed(NStringTransform theTransform, const NRange& theRange = kNRangeAll);
+	NString                             GetTransformed(NStringTransformFlags theTransform, const NRange& theRange = kNRangeAll);
 	NString                             GetLower() const;
 	NString                             GetUpper() const;
 

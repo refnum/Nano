@@ -55,9 +55,9 @@ class NStringTransformer
 {
 public:
 	// Transform a string
-	static NString                      Transform(const NString&   theString,
-												  NStringTransform theTransform,
-												  const NRange&    theRange = kNRangeAll);
+	static NString                      Transform(const NString&        theString,
+												  NStringTransformFlags theFlags,
+												  const NRange&         theRange = kNRangeAll);
 
 
 private:

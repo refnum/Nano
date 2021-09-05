@@ -52,31 +52,31 @@
 //=============================================================================
 //		NStringTransformer::Transform : Transform a string.
 //-----------------------------------------------------------------------------
-NString NStringTransformer::Transform(const NString&   theString,
-									  NStringTransform theTransform,
-									  const NRange&    theRange)
+NString NStringTransformer::Transform(const NString&        theString,
+									  NStringTransformFlags theFlags,
+									  const NRange&         theRange)
 {
 
 
 	// Validate our parameters
-	if (theTransform & kNStringTransformToLower)
+	if (theFlags & NStringTransform::ToLower)
 	{
-		NN_REQUIRE(!(theTransform & kNStringTransformToUpper));
+		NN_REQUIRE(!(theFlags & NStringTransform::ToUpper));
 	}
 
-	if (theTransform & kNStringTransformToUpper)
+	if (theFlags & NStringTransform::ToUpper)
 	{
-		NN_REQUIRE(!(theTransform & kNStringTransformToLower));
+		NN_REQUIRE(!(theFlags & NStringTransform::ToLower));
 	}
 
-	if (theTransform & kNStringTransformCapitalizeWords)
+	if (theFlags & NStringTransform::CapitalizeWords)
 	{
-		NN_REQUIRE(!(theTransform & kNStringTransformCapitalizeSentences));
+		NN_REQUIRE(!(theFlags & NStringTransform::CapitalizeSentences));
 	}
 
-	if (theTransform & kNStringTransformCapitalizeSentences)
+	if (theFlags & NStringTransform::CapitalizeSentences)
 	{
-		NN_REQUIRE(!(theTransform & kNStringTransformCapitalizeWords));
+		NN_REQUIRE(!(theFlags & NStringTransform::CapitalizeWords));
 	}
 
 
@@ -84,7 +84,7 @@ NString NStringTransformer::Transform(const NString&   theString,
 	// Transform the string
 	NString theResult = theString;
 
-	if (!theResult.IsEmpty() && theTransform != kNStringTransformNone)
+	if (!theResult.IsEmpty() && theFlags)
 	{
 		// Get the state we need
 		NData theData   = theString.GetData(NStringEncoding::UTF32);
@@ -99,14 +99,14 @@ NString NStringTransformer::Transform(const NString&   theString,
 
 
 		// Transform the text
-		if (theTransform & kNStringTransformToLower)
+		if (theFlags & NStringTransform::ToLower)
 		{
 			if (CapitalizeCharacters(numUTF32, textUTF32, false))
 			{
 				didUpdate = true;
 			}
 		}
-		else if (theTransform & kNStringTransformToUpper)
+		else if (theFlags & NStringTransform::ToUpper)
 		{
 			if (CapitalizeCharacters(numUTF32, textUTF32, true))
 			{
@@ -114,14 +114,14 @@ NString NStringTransformer::Transform(const NString&   theString,
 			}
 		}
 
-		if (theTransform & kNStringTransformCapitalizeWords)
+		if (theFlags & NStringTransform::CapitalizeWords)
 		{
 			if (CapitalizeWords(numUTF32, textUTF32))
 			{
 				didUpdate = true;
 			}
 		}
-		else if (theTransform & kNStringTransformCapitalizeSentences)
+		else if (theFlags & NStringTransform::CapitalizeSentences)
 		{
 			if (CapitalizeSentences(numUTF32, textUTF32))
 			{
