@@ -56,12 +56,12 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr NFileInfoFlags kNFileInfoMaskStat =
-	kNFileInfoCanRead | kNFileInfoCanWrite | kNFileInfoCanExecute;
+static constexpr NFileStateFlags kNFileStateMaskStat =
+	NFileState::CanRead | NFileState::CanWrite | NFileState::CanExecute;
 
-static constexpr NFileInfoFlags kNFileInfoMaskAttributes =
-	kNFileInfoExists | kNFileInfoIsFile | kNFileInfoIsDirectory | kNFileInfoCreationTime |
-	kNFileInfoModifiedTime | kNFileInfoFileSize;
+static constexpr NFileStateFlags kNFileStateMaskAttributes =
+	NFileState::Exists | NFileState::IsFile | NFileState::IsDirectory | NFileState::CreationTime |
+	NFileState::ModifiedTime | NFileState::FileSize;
 
 
 
@@ -95,29 +95,29 @@ bool GetFileStateStat(const NFilePath& thePath, NFileInfoState& theState)
 	{
 		if ((theInfo.st_mode & _S_IREAD) != 0)
 		{
-			theState.theFlags |= kNFileInfoCanRead;
+			theState.theFlags.Set(NFileState::CanRead);
 		}
 		else
 		{
-			theState.theFlags &= ~kNFileInfoCanRead;
+			theState.theFlags.Clear(NFileState::CanRead);
 		}
 
 		if ((theInfo.st_mode & _S_IWRITE) != 0)
 		{
-			theState.theFlags |= kNFileInfoCanWrite;
+			theState.theFlags.Set(NFileState::CanWrite);
 		}
 		else
 		{
-			theState.theFlags &= ~kNFileInfoCanWrite;
+			theState.theFlags.Clear(NFileState::CanWrite);
 		}
 
 		if ((theInfo.st_mode & _S_IEXEC) != 0)
 		{
-			theState.theFlags |= kNFileInfoCanExecute;
+			theState.theFlags.Set(NFileState::CanExecute);
 		}
 		else
 		{
-			theState.theFlags &= ~kNFileInfoCanExecute;
+			theState.theFlags.Clear(NFileState::CanExecute);
 		}
 	}
 
@@ -152,18 +152,18 @@ static bool GetFileStateAttributes(const NFilePath& thePath, NFileInfoState& the
 	// Update the state
 	if (wasOK)
 	{
-		theState.theFlags |= kNFileInfoExists;
+		theState.theFlags |= NFileState::Exists;
 
 		if ((theInfo.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0)
 		{
-			theState.theFlags |= kNFileInfoIsDirectory;
-			theState.theFlags &= ~kNFileInfoIsFile;
+			theState.theFlags.Set(NFileState::IsDirectory);
+			theState.theFlags.Clear(NFileState::IsFile);
 			theState.fileSize = 0;
 		}
 		else
 		{
-			theState.theFlags |= kNFileInfoIsFile;
-			theState.theFlags &= ~kNFileInfoIsDirectory;
+			theState.theFlags.Set(NFileState::IsFile);
+			theState.theFlags.Clear(NFileState::IsDirectory);
 			theState.fileSize = ToNN(theInfo.nFileSizeHigh, theInfo.nFileSizeLow);
 		}
 
@@ -183,37 +183,37 @@ static bool GetFileStateAttributes(const NFilePath& thePath, NFileInfoState& the
 //=============================================================================
 //		NFileInfo::FetchState : Fetch the requested state.
 //-----------------------------------------------------------------------------
-bool NFileInfo::FetchState(NFileInfoFlags theFlags)
+bool NFileInfo::FetchState(NFileStateFlags theFlags)
 {
 
 
 	// Validate our parameters
 	NN_REQUIRE(mPath.IsValid());
-	NN_REQUIRE(theFlags != kNFileInfoNone);
+	NN_REQUIRE(theFlags);
 
 
 
 	// Fetch with stat
 	bool wasOK = true;
 
-	if (wasOK && (theFlags & kNFileInfoMaskStat) != 0)
+	if (wasOK && (theFlags & kNFileStateMaskStat))
 	{
 		wasOK = GetFileStateStat(mPath, mState);
 		if (wasOK)
 		{
-			mValid |= kNFileInfoMaskStat;
+			mValid |= NFileState::MaskStat;
 		}
 	}
 
 
 
 	// Fetch with GetFileAttributes
-	if (wasOK && (theFlags & kNFileInfoMaskAttributes) != 0)
+	if (wasOK && (theFlags & kNFileStateMaskAttributes))
 	{
 		wasOK = GetFileStateAttributes(mPath, mState);
 		if (wasOK)
 		{
-			mValid |= kNFileInfoMaskAttributes;
+			mValid |= NFileState::MaskAttributes;
 		}
 	}
 

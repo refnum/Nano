@@ -88,11 +88,12 @@ static constexpr clockid_t kSystemClockID                   = CLOCK_MONTONIC;
 
 
 // File
-static constexpr NFileInfoFlags kNFileInfoMaskStat          = kNFileInfoExists | kNFileInfoIsFile |
-													 kNFileInfoIsDirectory |
-													 kNFileInfoModifiedTime | kNFileInfoFileSize;
+static constexpr NFileStateFlags kNFileStateMaskStat =
+	NFileState::Exists | NFileState::IsFile | NFileState::IsDirectory | NFileState::ModifiedTime |
+	NFileState::FileSize;
 
-constexpr NFileInfoFlags kNFileInfoMaskStatX                = kNFileInfoCreationTime | kNFileInfoModifiedTime;
+constexpr NFileStateFlags kNFileStateMaskStatX =
+	NFileState::CreationTime | NFileState::ModifiedTime;
 
 
 // fcntl.h
@@ -172,26 +173,26 @@ static bool GetFileStateStat(const NFilePath& thePath, NFileInfoState& theState)
 	// Update the state
 	if (wasOK)
 	{
-		theState.theFlags |= kNFileInfoExists;
+		theState.theFlags |= NFileState::Exists;
 
 		if (S_ISREG(theInfo.st_mode))
 		{
-			theState.theFlags |= kNFileInfoIsFile;
+			theState.theFlags.Set(NFileState::IsFile);
 			theState.fileSize = uint64_t(theInfo.st_size);
 		}
 		else
 		{
-			theState.theFlags &= NFileInfoFlags(~kNFileInfoIsFile);
+			theState.theFlags.Clear(NFileState::IsFile);
 			theState.fileSize = 0;
 		}
 
 		if (S_ISDIR(theInfo.st_mode))
 		{
-			theState.theFlags |= kNFileInfoIsDirectory;
+			theState.theFlags.Set(NFileState::IsDirectory);
 		}
 		else
 		{
-			theState.theFlags &= NFileInfoFlags(~kNFileInfoIsDirectory);
+			theState.theFlags.Clear(NFileState::IsDirectory);
 		}
 
 		theState.modifiedTime = NTime(NTimeUtils::ToInterval(theInfo.st_mtim), kNanoEpochFrom1970);
@@ -276,7 +277,7 @@ static bool GetFileStateStatX(const NFilePath& thePath, NFileInfoState& theState
 	//
 	// We assume files are created when they were last modified, so
 	// we can skip a stat if the modification time is already known.
-	if ((theState.theFlags & kNFileInfoModifiedTime) == 0)
+	if ((theState.theFlags & NFileState::ModifiedTime) == 0)
 	{
 		struct stat theInfo;
 
@@ -460,38 +461,38 @@ bool NCommonLinux::DebuggerIsActive()
 //		NCommonLinux::FileGetState : Get file state.
 //-----------------------------------------------------------------------------
 bool NCommonLinux::FileGetState(const NFilePath& thePath,
-								NFileInfoFlags   theFlags,
-								NFileInfoFlags&  validState,
+								NFileStateFlags  theFlags,
+								NFileStateFlags& validState,
 								NFileInfoState&  theState)
 {
 
 
 	// Validate our parameters
 	NN_REQUIRE(thePath.IsValid());
-	NN_REQUIRE(theFlags != kNFileInfoNone);
+	NN_REQUIRE(theFlags);
 
 
 	// Fetch with stat
 	bool wasOK = true;
 
-	if (wasOK && (theFlags & kNFileInfoMaskStat) != 0)
+	if (wasOK && (theFlags & kNFileStateMaskStat))
 	{
 		wasOK = GetFileStateStat(thePath, theState);
 		if (wasOK)
 		{
-			validState |= kNFileInfoMaskStat;
+			validState |= kNFileStateMaskStat;
 		}
 	}
 
 
 
 	// Fetch with statx
-	if (wasOK && (theFlags & kNFileInfoMaskStatX) != 0)
+	if (wasOK && (theFlags & kNFileStateMaskStatX))
 	{
 		wasOK = GetFileStateStatX(thePath, theState);
 		if (wasOK)
 		{
-			validState |= kNFileInfoMaskStatX;
+			validState |= kNFileStateMaskStatX;
 		}
 	}
 
@@ -500,22 +501,22 @@ bool NCommonLinux::FileGetState(const NFilePath& thePath,
 	// Fetch with access
 	if (wasOK)
 	{
-		if ((theFlags & kNFileInfoCanRead) != 0)
+		if ((theFlags & NFileState::CanRead) != 0)
 		{
-			NCommonPOSIX::FileGetStateAccess(thePath, kNFileInfoCanRead, theState);
-			validState |= kNFileInfoCanRead;
+			NCommonPOSIX::FileGetStateAccess(thePath, NFileState::CanRead, theState);
+			validState |= NFileState::CanRead;
 		}
 
-		if ((theFlags & kNFileInfoCanWrite) != 0)
+		if ((theFlags & NFileState::CanWrite) != 0)
 		{
-			NCommonPOSIX::FileGetStateAccess(thePath, kNFileInfoCanWrite, theState);
-			validState |= kNFileInfoCanWrite;
+			NCommonPOSIX::FileGetStateAccess(thePath, NFileState::CanWrite, theState);
+			validState |= NFileState::CanWrite;
 		}
 
-		if ((theFlags & kNFileInfoCanExecute) != 0)
+		if ((theFlags & NFileState::CanExecute) != 0)
 		{
-			NCommonPOSIX::FileGetStateAccess(thePath, kNFileInfoCanExecute, theState);
-			validState |= kNFileInfoCanExecute;
+			NCommonPOSIX::FileGetStateAccess(thePath, NFileState::CanExecute, theState);
+			validState |= NFileState::CanExecute;
 		}
 	}
 

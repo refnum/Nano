@@ -108,9 +108,9 @@ static const char*      kNDebuggerSymbolName                = "0x\\w+ (\\w+) \\+
 static constexpr size_t kNDebuggerMaxFrames                 = 512;
 
 // File
-static constexpr NFileInfoFlags kNFileInfoMaskStat =
-	kNFileInfoExists | kNFileInfoIsFile | kNFileInfoIsDirectory | kNFileInfoCreationTime |
-	kNFileInfoModifiedTime | kNFileInfoFileSize;
+static constexpr NFileStateFlags kNFileStateMaskStat =
+	NFileState::Exists | NFileState::IsFile | NFileState::IsDirectory | NFileState::CreationTime |
+	NFileState::ModifiedTime | NFileState::FileSize;
 
 
 
@@ -301,26 +301,26 @@ static bool GetFileStateStat(const NFilePath& thePath, NFileInfoState& theState)
 	// Update the state
 	if (wasOK)
 	{
-		theState.theFlags |= kNFileInfoExists;
+		theState.theFlags |= NFileState::Exists;
 
 		if (S_ISREG(theInfo.st_mode))
 		{
-			theState.theFlags |= kNFileInfoIsFile;
+			theState.theFlags.Set(NFileState::IsFile);
 			theState.fileSize = uint64_t(theInfo.st_size);
 		}
 		else
 		{
-			theState.theFlags &= ~kNFileInfoIsFile;
+			theState.theFlags.Clear(NFileState::IsFile);
 			theState.fileSize = 0;
 		}
 
 		if (S_ISDIR(theInfo.st_mode))
 		{
-			theState.theFlags |= kNFileInfoIsDirectory;
+			theState.theFlags.Set(NFileState::IsDirectory);
 		}
 		else
 		{
-			theState.theFlags &= ~kNFileInfoIsDirectory;
+			theState.theFlags.Clear(NFileState::IsDirectory);
 		}
 
 		theState.creationTime =
@@ -673,26 +673,26 @@ NVectorString NCommonDarwin::DebuggerGetBacktrace(size_t skipFrames, size_t numF
 //		NCommonDarwin::FileGetState : Get file state.
 //-----------------------------------------------------------------------------
 bool NCommonDarwin::FileGetState(const NFilePath& thePath,
-								 NFileInfoFlags   theFlags,
-								 NFileInfoFlags&  validState,
+								 NFileStateFlags  theFlags,
+								 NFileStateFlags& validState,
 								 NFileInfoState&  theState)
 {
 
 
 	// Validate our parameters
 	NN_REQUIRE(thePath.IsValid());
-	NN_REQUIRE(theFlags != kNFileInfoNone);
+	NN_REQUIRE(theFlags);
 
 
 	// Fetch with stat
 	bool wasOK = true;
 
-	if (wasOK && (theFlags & kNFileInfoMaskStat) != 0)
+	if (wasOK && (theFlags & kNFileStateMaskStat))
 	{
 		wasOK = GetFileStateStat(thePath, theState);
 		if (wasOK)
 		{
-			validState |= kNFileInfoMaskStat;
+			validState |= kNFileStateMaskStat;
 		}
 	}
 
@@ -701,22 +701,22 @@ bool NCommonDarwin::FileGetState(const NFilePath& thePath,
 	// Fetch with access
 	if (wasOK)
 	{
-		if ((theFlags & kNFileInfoCanRead) != 0)
+		if (theFlags & NFileState::CanRead)
 		{
-			NCommonPOSIX::FileGetStateAccess(thePath, kNFileInfoCanRead, theState);
-			validState |= kNFileInfoCanRead;
+			NCommonPOSIX::FileGetStateAccess(thePath, NFileState::CanRead, theState);
+			validState |= NFileState::CanRead;
 		}
 
-		if ((theFlags & kNFileInfoCanWrite) != 0)
+		if (theFlags & NFileState::CanWrite)
 		{
-			NCommonPOSIX::FileGetStateAccess(thePath, kNFileInfoCanWrite, theState);
-			validState |= kNFileInfoCanWrite;
+			NCommonPOSIX::FileGetStateAccess(thePath, NFileState::CanWrite, theState);
+			validState |= NFileState::CanWrite;
 		}
 
-		if ((theFlags & kNFileInfoCanExecute) != 0)
+		if (theFlags & NFileState::CanExecute)
 		{
-			NCommonPOSIX::FileGetStateAccess(thePath, kNFileInfoCanExecute, theState);
-			validState |= kNFileInfoCanExecute;
+			NCommonPOSIX::FileGetStateAccess(thePath, NFileState::CanExecute, theState);
+			validState |= NFileState::CanExecute;
 		}
 	}
 

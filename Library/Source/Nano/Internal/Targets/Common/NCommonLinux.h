@@ -84,8 +84,8 @@ public:
 
 	// File state
 	static bool                         FileGetState(const NFilePath& thePath,
-													 NFileInfoFlags   theFlags,
-													 NFileInfoFlags&  validState,
+													 NFileStateFlags  theFlags,
+													 NFileStateFlags& validState,
 													 NFileInfoState&  theState);
 
 

@@ -42,6 +42,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NFilePath.h"
+#include "NFlags.h"
 #include "NTime.h"
 
 
@@ -51,18 +52,20 @@
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-using NFileInfoFlags                                        = uint16_t;
+enum class NFileState
+{
+	Exists,
+	IsFile,
+	IsDirectory,
+	CanRead,
+	CanWrite,
+	CanExecute,
+	CreationTime,
+	ModifiedTime,
+	FileSize
+};
 
-inline constexpr NFileInfoFlags kNFileInfoNone              = 0;
-inline constexpr NFileInfoFlags kNFileInfoExists            = (1 << 0);
-inline constexpr NFileInfoFlags kNFileInfoIsFile            = (1 << 1);
-inline constexpr NFileInfoFlags kNFileInfoIsDirectory       = (1 << 2);
-inline constexpr NFileInfoFlags kNFileInfoCanRead           = (1 << 3);
-inline constexpr NFileInfoFlags kNFileInfoCanWrite          = (1 << 4);
-inline constexpr NFileInfoFlags kNFileInfoCanExecute        = (1 << 5);
-inline constexpr NFileInfoFlags kNFileInfoCreationTime      = (1 << 6);
-inline constexpr NFileInfoFlags kNFileInfoModifiedTime      = (1 << 7);
-inline constexpr NFileInfoFlags kNFileInfoFileSize          = (1 << 8);
+NN_FLAG_ENUM(NFileState, NFileStateFlags);
 
 
 
@@ -73,10 +76,10 @@ inline constexpr NFileInfoFlags kNFileInfoFileSize          = (1 << 8);
 //-----------------------------------------------------------------------------
 struct NFileInfoState
 {
-	NFileInfoFlags theFlags;
-	NTime          creationTime;
-	NTime          modifiedTime;
-	uint64_t       fileSize;
+	NFileStateFlags theFlags;
+	NTime           creationTime;
+	NTime           modifiedTime;
+	uint64_t        fileSize;
 };
 
 
@@ -140,15 +143,15 @@ public:
 
 
 private:
-	bool                                TestFlag(NFileInfoFlags theFlag) const;
+	bool                                TestFlag(NFileStateFlags theFlag) const;
 
-	void                                UpdateState(NFileInfoFlags theFlags) const;
-	bool                                FetchState( NFileInfoFlags theFlags);
+	void                                UpdateState(NFileStateFlags theFlags) const;
+	bool                                FetchState( NFileStateFlags theFlags);
 
 
 private:
 	NFilePath                           mPath;
-	NFileInfoFlags                      mValid;
+	NFileStateFlags                     mValid;
 	NFileInfoState                      mState;
 };
 

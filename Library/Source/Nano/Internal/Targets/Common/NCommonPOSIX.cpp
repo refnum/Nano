@@ -349,7 +349,7 @@ void NCommonPOSIX::EnvSet(const NString& theName, const NString& theValue)
 //		NCommonPOSIX::FileGetStateAccess : Get file state with access().
 //-----------------------------------------------------------------------------
 void NCommonPOSIX::FileGetStateAccess(const NFilePath& thePath,
-									  NFileInfoFlags   theFlag,
+									  NFileStateFlags  theFlag,
 									  NFileInfoState&  theState)
 {
 
@@ -357,31 +357,33 @@ void NCommonPOSIX::FileGetStateAccess(const NFilePath& thePath,
 	// Validate our parameters
 	NN_REQUIRE(thePath.IsValid());
 
-	NN_REQUIRE(theFlag == kNFileInfoCanRead || theFlag == kNFileInfoCanWrite ||
-			   theFlag == kNFileInfoCanExecute);
+	NN_REQUIRE(theFlag == NFileStateFlags(NFileState::CanRead) ||
+			   theFlag == NFileStateFlags(NFileState::CanWrite) ||
+			   theFlag == NFileStateFlags(NFileState::CanExecute));
 
 
 
 	// Get the state we need
 	int theMode = -1;
 
-	switch (theFlag)
+	if (theFlag & NFileState::CanRead)
 	{
-		case kNFileInfoCanRead:
-			theMode = R_OK;
-			break;
+		theMode = R_OK;
+	}
 
-		case kNFileInfoCanWrite:
-			theMode = W_OK;
-			break;
+	else if (theFlag & NFileState::CanWrite)
+	{
+		theMode = W_OK;
+	}
 
-		case kNFileInfoCanExecute:
-			theMode = X_OK;
-			break;
+	else if (theFlag & NFileState::CanExecute)
+	{
+		theMode = X_OK;
+	}
 
-		default:
-			NN_LOG_ERROR("Unknown file info mode: {}", theFlag);
-			break;
+	else
+	{
+		NN_LOG_ERROR("Unknown file info mode!");
 	}
 
 
@@ -396,7 +398,7 @@ void NCommonPOSIX::FileGetStateAccess(const NFilePath& thePath,
 		}
 		else
 		{
-			theState.theFlags &= NFileInfoFlags(~theFlag);
+			theState.theFlags &= NFileStateFlags(~theFlag);
 		}
 	}
 }

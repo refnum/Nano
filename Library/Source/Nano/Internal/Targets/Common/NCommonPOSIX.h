@@ -79,7 +79,7 @@ public:
 
 	// File state
 	static void                         FileGetStateAccess(const NFilePath& thePath,
-														   NFileInfoFlags   theFlag,
+														   NFileStateFlags  theFlag,
 														   NFileInfoState&  theState);
 
 

@@ -48,9 +48,9 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr NFileInfoFlags kNFileInfoMaskError         = kNFileInfoExists | kNFileInfoIsFile |
-													  kNFileInfoIsDirectory | kNFileInfoCanRead |
-													  kNFileInfoCanWrite | kNFileInfoCanExecute;
+static constexpr NFileStateFlags kNFileStateMaskError =
+	NFileState::Exists | NFileState::IsFile | NFileState::IsDirectory | NFileState::CanRead |
+	NFileState::CanWrite | NFileState::CanExecute;
 
 
 
@@ -61,7 +61,7 @@ static constexpr NFileInfoFlags kNFileInfoMaskError         = kNFileInfoExists |
 //-----------------------------------------------------------------------------
 NFileInfo::NFileInfo(const NFilePath& thePath)
 	: mPath(thePath)
-	, mValid(kNFileInfoNone)
+	, mValid{}
 	, mState{}
 {
 
@@ -79,7 +79,7 @@ NFileInfo::NFileInfo(const NFilePath& thePath)
 //-----------------------------------------------------------------------------
 NFileInfo::NFileInfo()
 	: mPath{}
-	, mValid(kNFileInfoNone)
+	, mValid{}
 	, mState{}
 {
 }
@@ -164,7 +164,7 @@ void NFileInfo::Refresh()
 
 
 	// Update our state
-	mValid = kNFileInfoNone;
+	mValid = {};
 	mState = {};
 }
 
@@ -185,9 +185,9 @@ bool NFileInfo::Exists() const
 
 
 	// Get the state
-	UpdateState(kNFileInfoExists);
+	UpdateState(NFileState::Exists);
 
-	return TestFlag(kNFileInfoExists);
+	return TestFlag(NFileState::Exists);
 }
 
 
@@ -207,9 +207,9 @@ bool NFileInfo::IsFile() const
 
 
 	// Get the state
-	UpdateState(kNFileInfoIsFile);
+	UpdateState(NFileState::IsFile);
 
-	return TestFlag(kNFileInfoIsFile);
+	return TestFlag(NFileState::IsFile);
 }
 
 
@@ -229,9 +229,9 @@ bool NFileInfo::IsDirectory() const
 
 
 	// Get the state
-	UpdateState(kNFileInfoIsDirectory);
+	UpdateState(NFileState::IsDirectory);
 
-	return TestFlag(kNFileInfoIsDirectory);
+	return TestFlag(NFileState::IsDirectory);
 }
 
 
@@ -251,9 +251,9 @@ bool NFileInfo::CanRead() const
 
 
 	// Get the state
-	UpdateState(kNFileInfoCanRead);
+	UpdateState(NFileState::CanRead);
 
-	return TestFlag(kNFileInfoCanRead);
+	return TestFlag(NFileState::CanRead);
 }
 
 
@@ -273,9 +273,9 @@ bool NFileInfo::CanWrite() const
 
 
 	// Get the state
-	UpdateState(kNFileInfoCanWrite);
+	UpdateState(NFileState::CanWrite);
 
-	return TestFlag(kNFileInfoCanWrite);
+	return TestFlag(NFileState::CanWrite);
 }
 
 
@@ -295,9 +295,9 @@ bool NFileInfo::CanExecute() const
 
 
 	// Get the state
-	UpdateState(kNFileInfoCanExecute);
+	UpdateState(NFileState::CanExecute);
 
-	return TestFlag(kNFileInfoCanExecute);
+	return TestFlag(NFileState::CanExecute);
 }
 
 
@@ -317,7 +317,7 @@ NTime NFileInfo::GetCreationTime() const
 
 
 	// Get the state
-	UpdateState(kNFileInfoCreationTime);
+	UpdateState(NFileState::CreationTime);
 
 	return mState.creationTime;
 }
@@ -339,7 +339,7 @@ NTime NFileInfo::GetModifiedTime() const
 
 
 	// Get the state
-	UpdateState(kNFileInfoModifiedTime);
+	UpdateState(NFileState::ModifiedTime);
 
 	return mState.modifiedTime;
 }
@@ -361,7 +361,7 @@ uint64_t NFileInfo::GetFileSize() const
 
 
 	// Get the state
-	UpdateState(kNFileInfoFileSize);
+	UpdateState(NFileState::FileSize);
 
 	NN_REQUIRE(IsFile());
 	return mState.fileSize;
@@ -375,17 +375,17 @@ uint64_t NFileInfo::GetFileSize() const
 //=============================================================================
 //		NFileInfo::TestFlag : Test a flag.
 //-----------------------------------------------------------------------------
-bool NFileInfo::TestFlag(NFileInfoFlags theFlag) const
+bool NFileInfo::TestFlag(NFileStateFlags theFlag) const
 {
 
 
 	// Validate our state
-	NN_REQUIRE((mValid & theFlag) != 0);
+	NN_REQUIRE(mValid & theFlag);
 
 
 
 	// Test the flag
-	return (mState.theFlags & theFlag) != 0;
+	return mState.theFlags & theFlag;
 }
 
 
@@ -395,7 +395,7 @@ bool NFileInfo::TestFlag(NFileInfoFlags theFlag) const
 //=============================================================================
 //		NFileInfo::UpdateState : Update the file state.
 //-----------------------------------------------------------------------------
-void NFileInfo::UpdateState(NFileInfoFlags theFlags) const
+void NFileInfo::UpdateState(NFileStateFlags theFlags) const
 {
 
 
@@ -416,7 +416,7 @@ void NFileInfo::UpdateState(NFileInfoFlags theFlags) const
 			//
 			// However, if an error does occur, the one thing we can say is that
 			// the is-this / can-this states can be reported as false.
-			thisPtr->mValid = kNFileInfoMaskError;
+			thisPtr->mValid = kNFileStateMaskError;
 			thisPtr->mState = {};
 		}
 	}

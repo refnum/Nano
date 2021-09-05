@@ -51,7 +51,7 @@
 //=============================================================================
 //		NFileInfo::FetchState : Fetch the requested state.
 //-----------------------------------------------------------------------------
-bool NFileInfo::FetchState(NFileInfoFlags theFlags)
+bool NFileInfo::FetchState(NFileStateFlags theFlags)
 {
 
 
