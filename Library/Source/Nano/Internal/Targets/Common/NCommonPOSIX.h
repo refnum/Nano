@@ -86,7 +86,7 @@ public:
 	// File handle
 	static NStatus                      FileOpen(const NFilePath& thePath,
 												 NFileAccess      theAccess,
-												 NFileFlags       theFlags,
+												 NFileUsageFlags  theFlags,
 												 NFileHandleRef&  fileHandle);
 
 	static void                         FileClose(NFileHandleRef fileHandle);

@@ -109,9 +109,9 @@ static constexpr DWORD GetFileCreation(NFileAccess theAccess)
 
 
 //=============================================================================
-//		GetFileAttributes : Get a CreateFile attributes.
+//		GetFileUsage : Get CreateFile attributes.
 //-----------------------------------------------------------------------------
-static constexpr DWORD GetFileAttributes(NFileFlags theFlags)
+static constexpr DWORD GetFileAttributes(NFileUsageFlags theFlags)
 {
 
 
@@ -122,11 +122,21 @@ static constexpr DWORD GetFileAttributes(NFileFlags theFlags)
 	{
 		theAttributes = 0;
 
-		if (theFlags & kNFilePositionSequential)
+		if (theFlags & NFileUsage::NoCache)
+		{
+			theAttributes |= FILE_FLAG_NO_BUFFERING;
+		}
+
+		if (theFlags & NFileUsage::ReadEarly)
+		{
+			// Not supported
+		}
+
+		if (theFlags & NFileUsage::ReadAhead)
 		{
 			theAttributes |= FILE_FLAG_SEQUENTIAL_SCAN;
 		}
-		else if (theFlags & kNFilePositionRandom)
+		else
 		{
 			theAttributes |= FILE_FLAG_RANDOM_ACCESS;
 		}

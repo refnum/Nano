@@ -153,7 +153,7 @@ static constexpr int GetFileWhence(NFileOffset relativeTo)
 //=============================================================================
 //		ApplyFileFlags : Apply a file's flags.
 //-----------------------------------------------------------------------------
-static NStatus ApplyFileFlags(FILE* theFile, const NFilePath& thePath, NFileFlags theFlags)
+static NStatus ApplyFileFlags(FILE* theFile, const NFilePath& thePath, NFileUsageFlags theFlags)
 {
 
 
@@ -169,28 +169,24 @@ static NStatus ApplyFileFlags(FILE* theFile, const NFilePath& thePath, NFileFlag
 
 
 
-	// Read-ahead
-	if (theErr == NStatus::OK && (theFlags & kNFileWillRead))
+	// Cache
+	if (theErr == NStatus::OK)
 	{
 #if NN_PLATFORM_DARWIN
-		struct radvisory readAhead
+		if (theFlags & NFileUsage::NoCache)
 		{
-		};
-		struct stat theInfo
+			sysErr = fcntl(fileDesc, F_NOCACHE, 1);
+		}
+		else
 		{
-		};
-
-		sysErr = fstat(fileDesc, &theInfo);
-		if (sysErr == 0 && theInfo.st_size != 0)
-		{
-			readAhead.ra_count =
-				int(std::min(off_t(std::numeric_limits<int>::max()), theInfo.st_size));
-
-			sysErr = fcntl(fileDesc, F_RDADVISE, &readAhead);
+			sysErr = fcntl(fileDesc, F_NOCACHE, 0);
 		}
 
 #elif (NN_TARGET_LINUX || NN_TARGET_ANDROID)
-		sysErr = posix_fadvise(fileDesc, 0, 0, POSIX_FADV_WILLNEED);
+		if (theFlags & NFileUsage::NoCache)
+		{
+			sysErr = posix_fadvise(fileDesc, 0, 0, POSIX_FADV_DONTNEED);
+		}
 #endif
 
 		theErr = NCommonPOSIX::StatusErrno(sysErr);
@@ -199,28 +195,63 @@ static NStatus ApplyFileFlags(FILE* theFile, const NFilePath& thePath, NFileFlag
 
 
 
-	// Access
+	// Advisory read
 	if (theErr == NStatus::OK)
 	{
-		if (theFlags & kNFilePositionSequential)
-		{
 #if NN_PLATFORM_DARWIN
+		if (theFlags & NFileUsage::ReadEarly)
+		{
+			struct stat theInfo;
+
+			sysErr = fstat(fileDesc, &theInfo);
+			if (sysErr == 0 && theInfo.st_size != 0)
+			{
+				struct radvisory readAdvisory;
+
+				readAdvisory.ra_offset = 0;
+				readAdvisory.ra_count =
+					int(std::min(off_t(std::numeric_limits<int>::max()), theInfo.st_size));
+
+				sysErr = fcntl(fileDesc, F_RDADVISE, &readAdvisory);
+			}
+		}
+
+#elif (NN_TARGET_LINUX || NN_TARGET_ANDROID)
+		if (theFlags & NFileUsage::ReadEarly)
+		{
+			sysErr = posix_fadvise(fileDesc, 0, 0, POSIX_FADV_WILLNEED);
+		}
+#endif
+
+		theErr = NCommonPOSIX::StatusErrno(sysErr);
+		NN_EXPECT_NOT_ERR(theErr);
+	}
+
+
+
+	// Read-ahead
+	if (theErr == NStatus::OK)
+	{
+#if NN_PLATFORM_DARWIN
+		if (theFlags & NFileUsage::ReadAhead)
+		{
 			sysErr = fcntl(fileDesc, F_RDAHEAD, 1);
-
-#elif (NN_TARGET_LINUX || NN_TARGET_ANDROID)
-			sysErr = posix_fadvise(fileDesc, 0, 0, POSIX_FADV_SEQUENTIAL);
-#endif
 		}
-
-		else if (theFlags & kNFilePositionRandom)
+		else
 		{
-#if NN_PLATFORM_DARWIN
 			sysErr = fcntl(fileDesc, F_RDAHEAD, 0);
+		}
 
 #elif (NN_TARGET_LINUX || NN_TARGET_ANDROID)
-			sysErr = posix_fadvise(fileDesc, 0, 0, POSIX_FADV_RANDOM);
-#endif
+		if (theFlags & NFileUsage::ReadAhead)
+		{
+			sysErr = posix_fadvise(fileDesc, 0, 0, POSIX_FADV_SEQUENTIAL);
 		}
+		else
+		{
+			sysErr = posix_fadvise(fileDesc, 0, 0, POSIX_FADV_RANDOM);
+		}
+#endif
 
 		theErr = NCommonPOSIX::StatusErrno(sysErr);
 		NN_EXPECT_NOT_ERR(theErr);
@@ -379,7 +410,7 @@ void NCommonPOSIX::FileGetStateAccess(const NFilePath& thePath,
 //-----------------------------------------------------------------------------
 NStatus NCommonPOSIX::FileOpen(const NFilePath& thePath,
 							   NFileAccess      theAccess,
-							   NFileFlags       theFlags,
+							   NFileUsageFlags  theFlags,
 							   NFileHandleRef&  fileHandle)
 {
 

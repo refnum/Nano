@@ -117,7 +117,7 @@ NFilePath NFileHandle::GetPath() const
 //=============================================================================
 //		NFileHandle::Open : Open the file handle.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::Open(const NFile& theFile, NFileAccess theAccess, NFileFlags theFlags)
+NStatus NFileHandle::Open(const NFile& theFile, NFileAccess theAccess, NFileUsageFlags theFlags)
 {
 
 
@@ -132,7 +132,7 @@ NStatus NFileHandle::Open(const NFile& theFile, NFileAccess theAccess, NFileFlag
 //=============================================================================
 //		NFileHandle::Open : Open the file handle.
 //-----------------------------------------------------------------------------
-NStatus NFileHandle::Open(const NFilePath& thePath, NFileAccess theAccess, NFileFlags theFlags)
+NStatus NFileHandle::Open(const NFilePath& thePath, NFileAccess theAccess, NFileUsageFlags theFlags)
 {
 
 
@@ -606,33 +606,25 @@ bool NFileHandle::CanWrite() const
 //=============================================================================
 //		NFileHandle::GetOpenFlags : Get the open flags.
 //-----------------------------------------------------------------------------
-NFileFlags NFileHandle::GetOpenFlags(NFileAccess theAccess, NFileFlags theFlags)
+NFileUsageFlags NFileHandle::GetOpenFlags(NFileAccess theAccess, NFileUsageFlags theFlags)
 {
 
 
-	// Validate our parameters
-	bool isSequential = bool(theFlags & kNFilePositionSequential);
-	bool isRandom     = bool(theFlags & kNFilePositionRandom);
-
-	NN_REQUIRE(!(isSequential && isRandom));
-
-
-
 	// Get the flags
-	if (theFlags == kNFileDefault)
+	if (!theFlags)
 	{
 		switch (theAccess)
 		{
 			case NFileAccess::ReadWrite:
-				theFlags = kNFileWillRead | kNFilePositionSequential;
+				theFlags = NFileUsage::ReadEarly | NFileUsage::ReadAhead;
 				break;
 
 			case NFileAccess::ReadOnly:
-				theFlags = kNFileWillRead | kNFilePositionSequential;
+				theFlags = NFileUsage::ReadEarly | NFileUsage::ReadAhead;
 				break;
 
 			case NFileAccess::WriteOnly:
-				theFlags = kNFilePositionSequential;
+				theFlags = NFileUsage::NoCache;
 				break;
 		}
 	}

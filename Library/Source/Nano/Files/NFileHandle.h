@@ -42,6 +42,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 #include "NFilePath.h"
+#include "NFlags.h"
 
 
 
@@ -77,33 +78,35 @@ enum class NFileAccess
 };
 
 
-// File flags
+// File usage
 //
-// A file may be opened with flags to indicate its likely usage:
+// A file handle may be opened with flags to indicate how it will be used:
 //
-//		kNFileDefault				Flags are determined by the access mode.
+//		NFileUsage::NoCache			Read data does not need to be cached.
 //
-//		kNFileWillRead				The file will definitely be read.
+//		NFileUsage::ReadEarly		Start a background read after opening.
 //
-//		kNFilePositionSequential	The position will typically increase.
+//		NFileUsage::ReadAhead		Read ahead expecting sequential access.
 //
-//		kNFilePositionRandom		The position may change at random.
+// If no flags are provided a default set of flags is selected based on hte
+// access mode that the file was opened with:
 //
-// The kNFileDefault flag chooses an appropriate set of flags for the access
-// mode that the file was opened with:
+//		NFileAccess::ReadWrite		NFileUsage::ReadEarly + NFileUsage::ReadAhead
 //
-//		NFileAccess::ReadWrite		kNFileWillRead + kNFilePositionSequential
+//		NFileAccess::ReadOnly		NFileUsage::ReadEarly + NFileUsage::ReadAhead
 //
-//		NFileAccess::ReadOnly		kNFileWillRead + kNFilePositionSequential
+//		NFileAccess::WriteOnly		NFileUsage::NoCache
 //
-//		NFileAccess::WriteOnly		kNFilePositionSequential
-//
-using NFileFlags                                            = uint8_t;
+enum class NFileUsage
+{
+	NoCache,
+	ReadEarly,
+	ReadAhead
+};
 
-inline constexpr NFileFlags kNFileDefault                   = 0;
-inline constexpr NFileFlags kNFileWillRead                  = (1 << 1);
-inline constexpr NFileFlags kNFilePositionSequential        = (1 << 2);
-inline constexpr NFileFlags kNFilePositionRandom            = (1 << 3);
+NN_FLAG_ENUM(NFileUsage, NFileUsageFlags);
+
+inline constexpr NFileUsageFlags kNFileUsageDefault;
 
 
 // File offsets
@@ -159,13 +162,13 @@ public:
 
 
 	// Open the handle
-	NStatus                             Open(const NFile& theFile,
-											 NFileAccess  theAccess = NFileAccess::ReadOnly,
-											 NFileFlags   theFlags  = kNFileDefault);
+	NStatus                             Open(const NFile&    theFile,
+											 NFileAccess     theAccess = NFileAccess::ReadOnly,
+											 NFileUsageFlags theFlags  = kNFileUsageDefault);
 
 	NStatus                             Open(const NFilePath& thePath,
 											 NFileAccess      theAccess = NFileAccess::ReadOnly,
-											 NFileFlags       theFlags  = kNFileDefault);
+											 NFileUsageFlags  theFlags  = kNFileUsageDefault);
 
 
 	// Open a temporary file
@@ -250,9 +253,9 @@ private:
 	bool                                CanRead()  const;
 	bool                                CanWrite() const;
 
-	NFileFlags                          GetOpenFlags(NFileAccess theAccess, NFileFlags theFlags);
+	NFileUsageFlags                     GetOpenFlags(NFileAccess theAccess, NFileUsageFlags theFlags);
 
-	NStatus                             FileOpen(const NFilePath& thePath, NFileAccess theAccess, NFileFlags theFlags);
+	NStatus                             FileOpen(const NFilePath& thePath, NFileAccess theAccess, NFileUsageFlags theFlags);
 	void                                FileClose();
 	uint64_t                            FileGetPosition() const;
 	NStatus                             FileSetPosition(int64_t thePosition, NFileOffset relativeTo);
