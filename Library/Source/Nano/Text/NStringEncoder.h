@@ -42,6 +42,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NFlags.h"
 #include "NStringEncodings.h"
 #include "NanoConstants.h"
 
@@ -59,30 +60,34 @@
 //
 // A removal flag will remove the feature if present.
 //
-// An additional flag will always add the feature to the output.
+// An addition flag will always add the feature to the output.
 //
 // Removal flags are applied before addition flags. This allows text to be
 // normalised by requesting both addition and removal of a feature.
 //
-// For example, kNStringEncoderBOMTerminator will ensure the output string has
+// For example, kNStringEncodeBOMTerminator will ensure the output string has
 // both a BOM and terminator regardless of the presence of a BOM or terminator
 // in the input string.
-using NStringEncoderFlags                                   = uint8_t;
+enum class NStringEncode
+{
+	RemoveBOM,
+	RemoveTerminator,
+	AddBOM,
+	AddTerminator
+};
 
-inline constexpr NStringEncoderFlags kNStringEncoderNone                = 0;
-inline constexpr NStringEncoderFlags kNStringEncoderRemoveBOM           = (1 << 0);
-inline constexpr NStringEncoderFlags kNStringEncoderRemoveTerminator    = (1 << 1);
-inline constexpr NStringEncoderFlags kNStringEncoderAddBOM              = (1 << 2);
-inline constexpr NStringEncoderFlags kNStringEncoderAddTerminator       = (1 << 3);
+NN_FLAG_ENUM(NStringEncode, NStringEncodeFlags);
 
-inline constexpr NStringEncoderFlags kNStringEncoderBOM =
-	kNStringEncoderRemoveBOM | kNStringEncoderAddBOM;
+inline constexpr NStringEncodeFlags kNStringEncodeNone;
 
-inline constexpr NStringEncoderFlags kNStringEncoderTerminator =
-	kNStringEncoderRemoveTerminator | kNStringEncoderAddTerminator;
+inline constexpr NStringEncodeFlags kNStringEncodeBOM =
+	NStringEncode::RemoveBOM | NStringEncode::AddBOM;
 
-inline constexpr NStringEncoderFlags kNStringEncoderBOMTerminator =
-	kNStringEncoderBOM | kNStringEncoderTerminator;
+inline constexpr NStringEncodeFlags kNStringEncodeTerminator =
+	NStringEncode::RemoveTerminator | NStringEncode::AddTerminator;
+
+inline constexpr NStringEncodeFlags kNStringEncodeBOMTerminator =
+	kNStringEncodeBOM | kNStringEncodeTerminator;
 
 
 
@@ -110,11 +115,11 @@ class NStringEncoder
 {
 public:
 	// Convert text
-	static void                         Convert(NStringEncoding     srcEncoding,
-												const NData&        srcData,
-												NStringEncoding     dstEncoding,
-												NData&              dstData,
-												NStringEncoderFlags theFlags = kNStringEncoderNone);
+	static void                         Convert(NStringEncoding    srcEncoding,
+												const NData&       srcData,
+												NStringEncoding    dstEncoding,
+												NData&             dstData,
+												NStringEncodeFlags theFlags = kNStringEncodeNone);
 
 
 	// Get a native encoding
@@ -134,15 +139,15 @@ public:
 
 
 private:
-	static void                         ProcessInput(NStringEncoderFlags theFlags,
-													 bool                swapInput,
-													 NStringEncoding     srcEncoding,
-													 NData&              srcData);
+	static void                         ProcessInput(NStringEncodeFlags theFlags,
+													 bool               swapInput,
+													 NStringEncoding    srcEncoding,
+													 NData&             srcData);
 
-	static void                         ProcessOutput(NStringEncoderFlags theFlags,
-													  bool                swapOutput,
-													  NStringEncoding     dstEncoding,
-													  NData&              dstData);
+	static void                         ProcessOutput(NStringEncodeFlags theFlags,
+													  bool               swapOutput,
+													  NStringEncoding    dstEncoding,
+													  NData&             dstData);
 
 	static void                         AddBOM(   NStringEncoding theEncoding, NData& theData);
 	static void                         RemoveBOM(NStringEncoding theEncoding, NData& theData);

@@ -179,11 +179,11 @@ static constexpr utf32_t kWindowsLatin1_to_UTF32[256]       = {
 //=============================================================================
 //		NStringEncoder::Convert : Convert text.
 //-----------------------------------------------------------------------------
-void NStringEncoder::Convert(NStringEncoding     srcEncoding,
-							 const NData&        srcData,
-							 NStringEncoding     dstEncoding,
-							 NData&              dstData,
-							 NStringEncoderFlags theFlags)
+void NStringEncoder::Convert(NStringEncoding    srcEncoding,
+							 const NData&       srcData,
+							 NStringEncoding    dstEncoding,
+							 NData&             dstData,
+							 NStringEncodeFlags theFlags)
 {
 
 
@@ -291,10 +291,10 @@ NStringEncoding NStringEncoder::GetUnknownEncoding(const NData& theData)
 //=============================================================================
 //		NStringEncoder:::ProcessInput : Process the input.
 //-----------------------------------------------------------------------------
-void NStringEncoder::ProcessInput(NStringEncoderFlags theFlags,
-								  bool                swapInput,
-								  NStringEncoding     srcEncoding,
-								  NData&              srcData)
+void NStringEncoder::ProcessInput(NStringEncodeFlags theFlags,
+								  bool               swapInput,
+								  NStringEncoding    srcEncoding,
+								  NData&             srcData)
 {
 
 
@@ -304,12 +304,12 @@ void NStringEncoder::ProcessInput(NStringEncoderFlags theFlags,
 		SwapUTF(srcEncoding, srcData);
 	}
 
-	if (theFlags & kNStringEncoderRemoveBOM)
+	if (theFlags & NStringEncode::RemoveBOM)
 	{
 		RemoveBOM(srcEncoding, srcData);
 	}
 
-	if (theFlags & kNStringEncoderRemoveTerminator)
+	if (theFlags & NStringEncode::RemoveTerminator)
 	{
 		RemoveTerminator(srcEncoding, srcData);
 	}
@@ -322,20 +322,20 @@ void NStringEncoder::ProcessInput(NStringEncoderFlags theFlags,
 //=============================================================================
 //		NStringEncoder:::ProcessOutput : Process the output data.
 //-----------------------------------------------------------------------------
-void NStringEncoder::ProcessOutput(NStringEncoderFlags theFlags,
-								   bool                swapOutput,
-								   NStringEncoding     dstEncoding,
-								   NData&              dstData)
+void NStringEncoder::ProcessOutput(NStringEncodeFlags theFlags,
+								   bool               swapOutput,
+								   NStringEncoding    dstEncoding,
+								   NData&             dstData)
 {
 
 
 	// Process the output
-	if (theFlags & kNStringEncoderAddBOM)
+	if (theFlags & NStringEncode::AddBOM)
 	{
 		AddBOM(dstEncoding, dstData);
 	}
 
-	if (theFlags & kNStringEncoderAddTerminator)
+	if (theFlags & NStringEncode::AddTerminator)
 	{
 		AddTerminator(dstEncoding, dstData);
 	}

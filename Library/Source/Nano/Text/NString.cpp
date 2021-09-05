@@ -1312,7 +1312,7 @@ void NString::CreateEncoding(NStringEncoding theEncoding)
 							stringData->theData,
 							newData->theEncoding,
 							newData->theData,
-							kNStringEncoderNone);
+							kNStringEncodeNone);
 
 
 
@@ -1900,7 +1900,7 @@ void NString::SetTextLarge(NStringEncoding theEncoding, size_t numBytes, const v
 							NData(numBytes, theText),
 							NStringEncoder::GetNativeEncoding(theEncoding),
 							theState->stringData.theData,
-							kNStringEncoderRemoveBOM | kNStringEncoderTerminator);
+							NStringEncode::RemoveBOM | kNStringEncodeTerminator);
 
 
 

@@ -133,7 +133,7 @@ NANO_TEST(TStringEncoder, "Convert")
 							dataUTF8,
 							NStringEncoding::UTF16,
 							dataOut,
-							kNStringEncoderNone);
+							kNStringEncodeNone);
 
 	REQUIRE(!dataOut.IsEmpty());
 	REQUIRE(dataOut == dataUTF16);
@@ -143,7 +143,7 @@ NANO_TEST(TStringEncoder, "Convert")
 							dataOut,
 							NStringEncoding::UTF32,
 							dataOut,
-							kNStringEncoderNone);
+							kNStringEncodeNone);
 
 	REQUIRE(!dataOut.IsEmpty());
 	REQUIRE(dataOut == dataUTF32);
@@ -153,7 +153,7 @@ NANO_TEST(TStringEncoder, "Convert")
 							dataOut,
 							NStringEncoding::ASCII,
 							dataOut,
-							kNStringEncoderNone);
+							kNStringEncodeNone);
 
 	REQUIRE(!dataOut.IsEmpty());
 
@@ -162,7 +162,7 @@ NANO_TEST(TStringEncoder, "Convert")
 							dataOut,
 							NStringEncoding::MacRoman,
 							dataOut,
-							kNStringEncoderNone);
+							kNStringEncodeNone);
 
 	REQUIRE(!dataOut.IsEmpty());
 
@@ -171,7 +171,7 @@ NANO_TEST(TStringEncoder, "Convert")
 							dataOut,
 							NStringEncoding::ISOLatin1,
 							dataOut,
-							kNStringEncoderNone);
+							kNStringEncodeNone);
 
 	REQUIRE(!dataOut.IsEmpty());
 
@@ -180,7 +180,7 @@ NANO_TEST(TStringEncoder, "Convert")
 							dataOut,
 							NStringEncoding::WindowsLatin1,
 							dataOut,
-							kNStringEncoderNone);
+							kNStringEncodeNone);
 
 	REQUIRE(!dataOut.IsEmpty());
 
@@ -189,7 +189,7 @@ NANO_TEST(TStringEncoder, "Convert")
 							dataOut,
 							NStringEncoding::UTF8,
 							dataOut,
-							kNStringEncoderNone);
+							kNStringEncodeNone);
 
 	REQUIRE(!dataOut.IsEmpty());
 	REQUIRE(dataOut == dataUTF8);
@@ -213,7 +213,7 @@ NANO_TEST(TStringEncoder, "BOM/UTF8")
 							dataUTF8,
 							NStringEncoding::UTF8,
 							dataAdded,
-							kNStringEncoderAddBOM);
+							NStringEncode::AddBOM);
 
 	REQUIRE(dataAdded.GetSize() == (dataUTF8.GetSize() + 3));
 	REQUIRE(dataAdded.StartsWith(NData(sizeof(kBOM_UTF8), kBOM_UTF8)));
@@ -223,7 +223,7 @@ NANO_TEST(TStringEncoder, "BOM/UTF8")
 							dataAdded,
 							NStringEncoding::UTF8,
 							dataRemoved,
-							kNStringEncoderRemoveBOM);
+							NStringEncode::RemoveBOM);
 
 	REQUIRE(dataRemoved == dataUTF8);
 }
@@ -246,7 +246,7 @@ NANO_TEST(TStringEncoder, "BOM/UTF16")
 							dataUTF16,
 							NStringEncoding::UTF16BE,
 							dataAdded,
-							kNStringEncoderAddBOM);
+							NStringEncode::AddBOM);
 
 	REQUIRE(dataAdded.GetSize() == (dataUTF16.GetSize() + 2));
 	REQUIRE(dataAdded.StartsWith(NData(sizeof(kBOM_UTF16BE), kBOM_UTF16BE)));
@@ -256,7 +256,7 @@ NANO_TEST(TStringEncoder, "BOM/UTF16")
 							dataAdded,
 							NStringEncoding::UTF16,
 							dataRemoved,
-							kNStringEncoderRemoveBOM);
+							NStringEncode::RemoveBOM);
 
 	REQUIRE(dataRemoved == dataUTF16);
 
@@ -265,7 +265,7 @@ NANO_TEST(TStringEncoder, "BOM/UTF16")
 							dataRemoved,
 							NStringEncoding::UTF16LE,
 							dataAdded,
-							kNStringEncoderAddBOM);
+							NStringEncode::AddBOM);
 
 	REQUIRE(dataAdded.GetSize() == (dataUTF16.GetSize() + 2));
 	REQUIRE(dataAdded.StartsWith(NData(sizeof(kBOM_UTF16LE), kBOM_UTF16LE)));
@@ -275,7 +275,7 @@ NANO_TEST(TStringEncoder, "BOM/UTF16")
 							dataAdded,
 							NStringEncoding::UTF16,
 							dataRemoved,
-							kNStringEncoderRemoveBOM);
+							NStringEncode::RemoveBOM);
 
 	REQUIRE(dataRemoved == dataUTF16);
 }
@@ -298,7 +298,7 @@ NANO_TEST(TStringEncoder, "BOM/UTF32")
 							dataUTF32,
 							NStringEncoding::UTF32BE,
 							dataAdded,
-							kNStringEncoderAddBOM);
+							NStringEncode::AddBOM);
 
 	REQUIRE(dataAdded.GetSize() == (dataUTF32.GetSize() + 4));
 	REQUIRE(dataAdded.StartsWith(NData(sizeof(kBOM_UTF32BE), kBOM_UTF32BE)));
@@ -308,7 +308,7 @@ NANO_TEST(TStringEncoder, "BOM/UTF32")
 							dataAdded,
 							NStringEncoding::UTF32,
 							dataRemoved,
-							kNStringEncoderRemoveBOM);
+							NStringEncode::RemoveBOM);
 
 	REQUIRE(dataRemoved == dataUTF32);
 
@@ -317,7 +317,7 @@ NANO_TEST(TStringEncoder, "BOM/UTF32")
 							dataRemoved,
 							NStringEncoding::UTF32LE,
 							dataAdded,
-							kNStringEncoderAddBOM);
+							NStringEncode::AddBOM);
 
 	REQUIRE(dataAdded.GetSize() == (dataUTF32.GetSize() + 4));
 	REQUIRE(dataAdded.StartsWith(NData(sizeof(kBOM_UTF32LE), kBOM_UTF32LE)));
@@ -327,7 +327,7 @@ NANO_TEST(TStringEncoder, "BOM/UTF32")
 							dataAdded,
 							NStringEncoding::UTF32,
 							dataRemoved,
-							kNStringEncoderRemoveBOM);
+							NStringEncode::RemoveBOM);
 
 	REQUIRE(dataRemoved == dataUTF32);
 }
@@ -350,7 +350,7 @@ NANO_TEST(TStringEncoder, "Terminator/UTF8")
 							dataUTF8,
 							NStringEncoding::UTF8,
 							dataAdded,
-							kNStringEncoderAddTerminator);
+							NStringEncode::AddTerminator);
 
 	REQUIRE(dataAdded.GetSize() == (dataUTF8.GetSize() + 1));
 	REQUIRE(dataAdded.EndsWith(NData(sizeof(kTerminator_UTF8), kTerminator_UTF8)));
@@ -360,7 +360,7 @@ NANO_TEST(TStringEncoder, "Terminator/UTF8")
 							dataAdded,
 							NStringEncoding::UTF8,
 							dataRemoved,
-							kNStringEncoderRemoveTerminator);
+							NStringEncode::RemoveTerminator);
 
 	REQUIRE(dataRemoved == dataUTF8);
 }
@@ -383,7 +383,7 @@ NANO_TEST(TStringEncoder, "Terminator/UTF16")
 							dataUTF16,
 							NStringEncoding::UTF16,
 							dataAdded,
-							kNStringEncoderAddTerminator);
+							NStringEncode::AddTerminator);
 
 	REQUIRE(dataAdded.GetSize() == (dataUTF16.GetSize() + 2));
 	REQUIRE(dataAdded.EndsWith(NData(sizeof(kTerminator_UTF16), kTerminator_UTF16)));
@@ -393,7 +393,7 @@ NANO_TEST(TStringEncoder, "Terminator/UTF16")
 							dataAdded,
 							NStringEncoding::UTF16,
 							dataRemoved,
-							kNStringEncoderRemoveTerminator);
+							NStringEncode::RemoveTerminator);
 
 	REQUIRE(dataRemoved == dataUTF16);
 }
@@ -416,7 +416,7 @@ NANO_TEST(TStringEncoder, "Terminator/UTF32")
 							dataUTF32,
 							NStringEncoding::UTF32,
 							dataAdded,
-							kNStringEncoderAddTerminator);
+							NStringEncode::AddTerminator);
 
 	REQUIRE(dataAdded.GetSize() == (dataUTF32.GetSize() + 4));
 	REQUIRE(dataAdded.EndsWith(NData(sizeof(kTerminator_UTF32), kTerminator_UTF32)));
@@ -426,7 +426,7 @@ NANO_TEST(TStringEncoder, "Terminator/UTF32")
 							dataAdded,
 							NStringEncoding::UTF32,
 							dataRemoved,
-							kNStringEncoderRemoveTerminator);
+							NStringEncode::RemoveTerminator);
 
 	REQUIRE(dataRemoved == dataUTF32);
 }
@@ -449,7 +449,7 @@ NANO_TEST(TStringEncoder, "BOMTerminator/UTF8")
 							dataUTF8,
 							NStringEncoding::UTF8,
 							dataAdded,
-							kNStringEncoderBOMTerminator);
+							kNStringEncodeBOMTerminator);
 
 	REQUIRE(dataAdded.GetSize() == (dataUTF8.GetSize() + sizeof(kBOM_UTF8) + sizeof(utf8_t)));
 	REQUIRE(dataAdded.StartsWith(NData(sizeof(kBOM_UTF8), kBOM_UTF8)));
@@ -460,7 +460,7 @@ NANO_TEST(TStringEncoder, "BOMTerminator/UTF8")
 							dataAdded,
 							NStringEncoding::UTF8,
 							dataRemoved,
-							kNStringEncoderRemoveBOM | kNStringEncoderRemoveTerminator);
+							NStringEncode::RemoveBOM | NStringEncode::RemoveTerminator);
 
 	REQUIRE(dataRemoved == dataUTF8);
 }
@@ -483,7 +483,7 @@ NANO_TEST(TStringEncoder, "BOMTerminator/UTF16")
 							dataUTF16,
 							NStringEncoding::UTF16BE,
 							dataAdded,
-							kNStringEncoderBOMTerminator);
+							kNStringEncodeBOMTerminator);
 
 	REQUIRE(dataAdded.GetSize() == (dataUTF16.GetSize() + sizeof(kBOM_UTF16BE) + sizeof(utf16_t)));
 	REQUIRE(dataAdded.StartsWith(NData(sizeof(kBOM_UTF16BE), kBOM_UTF16BE)));
@@ -494,7 +494,7 @@ NANO_TEST(TStringEncoder, "BOMTerminator/UTF16")
 							dataAdded,
 							NStringEncoding::UTF16,
 							dataRemoved,
-							kNStringEncoderRemoveBOM | kNStringEncoderRemoveTerminator);
+							NStringEncode::RemoveBOM | NStringEncode::RemoveTerminator);
 
 	REQUIRE(dataRemoved == dataUTF16);
 }
@@ -517,7 +517,7 @@ NANO_TEST(TStringEncoder, "BOMTerminator/UTF32")
 							dataUTF32,
 							NStringEncoding::UTF32BE,
 							dataAdded,
-							kNStringEncoderBOMTerminator);
+							kNStringEncodeBOMTerminator);
 
 	REQUIRE(dataAdded.GetSize() == (dataUTF32.GetSize() + sizeof(kBOM_UTF32BE) + sizeof(utf32_t)));
 	REQUIRE(dataAdded.StartsWith(NData(sizeof(kBOM_UTF32BE), kBOM_UTF32BE)));
@@ -528,7 +528,7 @@ NANO_TEST(TStringEncoder, "BOMTerminator/UTF32")
 							dataAdded,
 							NStringEncoding::UTF32,
 							dataRemoved,
-							kNStringEncoderRemoveBOM | kNStringEncoderRemoveTerminator);
+							NStringEncode::RemoveBOM | NStringEncode::RemoveTerminator);
 
 	REQUIRE(dataRemoved == dataUTF32);
 }
