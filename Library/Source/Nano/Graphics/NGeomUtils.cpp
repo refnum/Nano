@@ -534,7 +534,7 @@ NPlacement NGeomUtils::ClipLineToRectangle(const NRectangle&   theRect,
 
 
 	// Both points are outside
-	if ((code0 & code1) != 0)
+	if (code0 & code1)
 	{
 		theOutput.clear();
 		return NPlacement::Outside;
@@ -543,7 +543,7 @@ NPlacement NGeomUtils::ClipLineToRectangle(const NRectangle&   theRect,
 
 
 	// Both points are inside
-	else if ((code0 | code1) == 0)
+	else if (!(code0 | code1))
 	{
 		theOutput = theInput;
 		return NPlacement::Inside;
@@ -554,10 +554,10 @@ NPlacement NGeomUtils::ClipLineToRectangle(const NRectangle&   theRect,
 	// Intersection
 	//
 	// We pick an exterior point, then clip the segment to an edge.
-	NClipFlags codeOut = kNClipNone;
 	NPoint     pointOut;
+	NClipFlags codeOut;
 
-	if (code0 != 0)
+	if (code0)
 	{
 		codeOut  = code0;
 		pointOut = p0;
@@ -580,28 +580,28 @@ NPlacement NGeomUtils::ClipLineToRectangle(const NRectangle&   theRect,
 
 
 	// Split line at top of rectangle
-	if (codeOut & kNClipTop)
+	if (codeOut & NClip::Top)
 	{
 		pointOut.x = p0.x + (dx * ((maxY - p0.y) / dy));
 		pointOut.y = maxY;
 	}
 
 	// Split line at bottom of rectangle
-	else if (codeOut & kNClipBottom)
+	else if (codeOut & NClip::Bottom)
 	{
 		pointOut.x = p0.x + (dx * ((minY - p0.y) / dy));
 		pointOut.y = minY;
 	}
 
 	// Split line at right edge of rectangle
-	else if (codeOut & kNClipRight)
+	else if (codeOut & NClip::Right)
 	{
 		pointOut.x = maxX;
 		pointOut.y = p0.y + (dy * ((maxX - p0.x) / dx));
 	}
 
 	// Split line at left edge of rectangle
-	else if (codeOut & kNClipLeft)
+	else if (codeOut & NClip::Left)
 	{
 		pointOut.x = minX;
 		pointOut.y = p0.y + (dy * ((minX - p0.x) / dx));
@@ -609,7 +609,7 @@ NPlacement NGeomUtils::ClipLineToRectangle(const NRectangle&   theRect,
 
 	else
 	{
-		NN_LOG_ERROR("Invalid codeOut: {}", codeOut);
+		NN_LOG_ERROR("Invalid codeOut!");
 	}
 
 
@@ -655,19 +655,19 @@ NClipFlags NGeomUtils::GetClipCode(const NRectangle& theRect, const NPoint& theP
 
 
 	// Get the state we need
-	NClipFlags theCode = kNClipNone;
+	NClipFlags theCode;
 
 
 
 	// Test top/bottom edges
 	if (thePoint.y > theRect.GetMaxY())
 	{
-		theCode |= kNClipTop;
+		theCode |= NClip::Top;
 	}
 
 	else if (thePoint.y < theRect.GetMinY())
 	{
-		theCode |= kNClipBottom;
+		theCode |= NClip::Bottom;
 	}
 
 
@@ -675,12 +675,12 @@ NClipFlags NGeomUtils::GetClipCode(const NRectangle& theRect, const NPoint& theP
 	// Test left/right edges
 	if (thePoint.x > theRect.GetMaxX())
 	{
-		theCode |= kNClipRight;
+		theCode |= NClip::Right;
 	}
 
 	else if (thePoint.x < theRect.GetMinX())
 	{
-		theCode |= kNClipLeft;
+		theCode |= NClip::Left;
 	}
 
 	return theCode;

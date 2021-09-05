@@ -41,6 +41,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NFlags.h"
 #include "NPoint.h"
 
 
@@ -50,16 +51,6 @@
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-// Clip codes
-using NClipFlags                                            = uint8_t;
-
-inline constexpr NClipFlags kNClipNone                      = 0;
-inline constexpr NClipFlags kNClipLeft                      = (1 << 0);
-inline constexpr NClipFlags kNClipRight                     = (1 << 1);
-inline constexpr NClipFlags kNClipBottom                    = (1 << 2);
-inline constexpr NClipFlags kNClipTop                       = (1 << 3);
-
-
 // Placement
 enum class NPlacement
 {
@@ -67,6 +58,18 @@ enum class NPlacement
 	Outside,
 	Intersects
 };
+
+
+// Clip codes
+enum class NClip
+{
+	Left,
+	Right,
+	Bottom,
+	Top
+};
+
+NN_FLAG_ENUM(NClip, NClipFlags);
 
 
 
