@@ -66,7 +66,7 @@ static long GetPhysicalCores()
 
 	for (const auto& theLine : NCommonLinux::GetProcFile(NFilePath("/proc/cpuinfo")).GetLines())
 	{
-		if (theLine.Contains("core id\\s*?:\\s*\\d+", kNStringPattern))
+		if (theLine.Contains("core id\\s*?:\\s*\\d+", NStringFind::Pattern))
 		{
 			coreIDs.insert(theLine);
 		}

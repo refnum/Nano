@@ -378,7 +378,7 @@ NData NPropertyList::EncodeToXML(const NDictionary& theState)
 	NXMLEncoder theEncoder;
 
 	NString theXML = theEncoder.Encode(nodeDoc);
-	theXML.ReplaceAll("^\t", "", kNStringPattern | kNStringMultiLine);
+	theXML.ReplaceAll("^\t", "", NStringFind::Pattern | NStringFind::MultiLine);
 
 	return theXML.GetData(NStringEncoding::UTF8);
 }

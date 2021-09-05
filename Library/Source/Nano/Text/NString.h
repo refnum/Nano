@@ -42,6 +42,7 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
+#include "NFlags.h"
 #include "NMixinAppendable.h"
 #include "NMixinComparable.h"
 #include "NMixinContainer.h"
@@ -61,16 +62,20 @@
 //=============================================================================
 //		Constants
 //-----------------------------------------------------------------------------
-// String flags
-using NStringFlags                                          = uint8_t;
+// Find flags
+enum class NStringFind
+{
+	NoCase,
+	Numeric,
+	Pattern,
+	MultiLine
+};
 
-inline constexpr NStringFlags kNStringNone                  = 0;
-inline constexpr NStringFlags kNStringNoCase                = (1 << 0);
-inline constexpr NStringFlags kNStringNumeric               = (1 << 1);
-inline constexpr NStringFlags kNStringPattern               = (1 << 2);
-inline constexpr NStringFlags kNStringMultiLine             = (1 << 3);
+NN_FLAG_ENUM(NStringFind, NStringFindFlags);
 
-inline constexpr NStringFlags kNStringPatternNoCase         = kNStringPattern | kNStringNoCase;
+inline constexpr NStringFindFlags kNStringFindExact;
+inline constexpr NStringFindFlags kNStringFindPatternNoCase =
+	NStringFind::Pattern | NStringFind::NoCase;
 
 
 // Transform flags
@@ -233,17 +238,17 @@ public:
 	//
 	// Find the first, or all, instances of a substring.
 	//
-	// kNStringPattern returns the ranges of the overall match,
+	// NStringFind::Pattern returns the ranges of the overall match,
 	// ignoring any capture groups for pattern searches.
 	//
-	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
-	NRange                              Find(const NString& searchFor,
-											 NStringFlags   theFlags = kNStringNone,
-											 const NRange&  theRange = kNRangeAll) const;
+	// Supports NStringFind::NoCase, NStringFind::Pattern, and NStringFind::MultiLine.
+	NRange                              Find(const NString&   searchFor,
+											 NStringFindFlags theFlags = kNStringFindExact,
+											 const NRange&    theRange = kNRangeAll) const;
 
-	NVectorRange                        FindAll(const NString& searchFor,
-												NStringFlags   theFlags = kNStringNone,
-												const NRange&  theRange = kNRangeAll) const;
+	NVectorRange                        FindAll(const NString&   searchFor,
+												NStringFindFlags theFlags = kNStringFindExact,
+												const NRange&    theRange = kNRangeAll) const;
 
 
 	// Find a pattern match
@@ -253,14 +258,14 @@ public:
 	// Returns the match, or matches, for the pattern and any
 	// capture groups within that pattern.
 	//
-	// Supports kNStringNoCase and kNStringMultiLine.
-	NPatternMatch                       FindMatch(const NString& searchFor,
-												  NStringFlags   theFlags = kNStringNone,
-												  const NRange&  theRange = kNRangeAll) const;
+	// Supports NStringFind::NoCase and NStringFind::MultiLine.
+	NPatternMatch                       FindMatch(const NString&   searchFor,
+												  NStringFindFlags theFlags = kNStringFindExact,
+												  const NRange&    theRange = kNRangeAll) const;
 
-	NVectorPatternMatch                 FindMatches(const NString& searchFor,
-													NStringFlags   theFlags = kNStringNone,
-													const NRange&  theRange = kNRangeAll) const;
+	NVectorPatternMatch                 FindMatches(const NString&   searchFor,
+													NStringFindFlags theFlags = kNStringFindExact,
+													const NRange&    theRange = kNRangeAll) const;
 
 
 	// Get a pattern match
@@ -276,30 +281,30 @@ public:
 	// If the pattern does not contain capture groups then the
 	// result is the substrings matched by the pattern.
 	//
-	// Supports kNStringNoCase and kNStringMultiLine.
-	NString                             GetMatch(const NString& searchFor,
-												 NStringFlags   theFlags = kNStringNone,
-												 const NRange&  theRange = kNRangeAll) const;
+	// Supports NStringFind::NoCase and NStringFind::MultiLine.
+	NString                             GetMatch(const NString&   searchFor,
+												 NStringFindFlags theFlags = kNStringFindExact,
+												 const NRange&    theRange = kNRangeAll) const;
 
-	NVectorString                       GetMatches(const NString& searchFor,
-												   NStringFlags   theFlags = kNStringNone,
-												   const NRange&  theRange = kNRangeAll) const;
+	NVectorString                       GetMatches(const NString&   searchFor,
+												   NStringFindFlags theFlags = kNStringFindExact,
+												   const NRange&    theRange = kNRangeAll) const;
 
 
 	// Replace a substring
 	//
 	// ReplaceAll returns the number of instances replaced within the string.
 	//
-	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
-	bool                                Replace(const NString& searchFor,
-												const NString& replaceWith,
-												NStringFlags   theFlags = kNStringNone,
-												const NRange&  theRange = kNRangeAll);
+	// Supports NStringFind::NoCase, NStringFind::Pattern, and NStringFind::MultiLine.
+	bool                                Replace(const NString&   searchFor,
+												const NString&   replaceWith,
+												NStringFindFlags theFlags = kNStringFindExact,
+												const NRange&    theRange = kNRangeAll);
 
-	size_t                              ReplaceAll(const NString& searchFor,
-												   const NString& replaceWith,
-												   NStringFlags   theFlags = kNStringNone,
-												   const NRange&  theRange = kNRangeAll);
+	size_t                              ReplaceAll(const NString&   searchFor,
+												   const NString&   replaceWith,
+												   NStringFindFlags theFlags = kNStringFindExact,
+												   const NRange&    theRange = kNRangeAll);
 
 
 	// Replace a range
@@ -323,10 +328,10 @@ public:
 
 	// Test the string
 	//
-	// Supports kNStringNoCase and kNStringPattern.
-	bool                                StartsWith(const NString& theString, NStringFlags theFlags = kNStringNone) const;
-	bool                                EndsWith(  const NString& theString, NStringFlags theFlags = kNStringNone) const;
-	bool                                Contains(  const NString& theString, NStringFlags theFlags = kNStringNone) const;
+	// Supports NStringFind::NoCase and NStringFind::Pattern.
+	bool                                StartsWith(const NString& theString, NStringFindFlags theFlags = kNStringFindExact) const;
+	bool                                EndsWith(  const NString& theString, NStringFindFlags theFlags = kNStringFindExact) const;
+	bool                                Contains(  const NString& theString, NStringFindFlags theFlags = kNStringFindExact) const;
 
 
 	// Compare the string
@@ -334,9 +339,10 @@ public:
 	// EqualTo defaults to case-insensitive equality as the equality
 	// (==, !=) and order (<, <=, >, >= operarators are always case-sensitive.
 	//
-	// Supports kNStringNoCase and kNStringNumeric.
-	NComparison                         Compare(const NString& theString, NStringFlags theFlags = kNStringNone)   const;
-	bool                                EqualTo(const NString& theString, NStringFlags theFlags = kNStringNoCase) const;
+	// Supports NStringFind::NoCase and NStringFind::Numeric.
+	NComparison                         Compare(const NString&   theString,
+												NStringFindFlags theFlags = kNStringFindExact) const;
+	bool                                EqualTo(const NString& theString, NStringFindFlags theFlags = NStringFind::NoCase) const;
 
 
 	// Get a substring
@@ -380,10 +386,10 @@ public:
 	// As most separators are not patterns theFlags is promoted to
 	// a pattern search if splitWithin remains the default value.
 	//
-	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
-	NVectorString                       Split(const NString& splitWith = kNStringWhitespace,
-											  NStringFlags   theFlags  = kNStringNone,
-											  const NRange&  theRange  = kNRangeAll) const;
+	// Supports NStringFind::NoCase, NStringFind::Pattern, and NStringFind::MultiLine.
+	NVectorString                       Split(const NString&   splitWith = kNStringWhitespace,
+											  NStringFindFlags theFlags  = kNStringFindExact,
+											  const NRange&    theRange  = kNRangeAll) const;
 
 
 	// Get lines
@@ -433,7 +439,7 @@ private:
 	bool                                IsSlice()     const;
 	NRange                              GetSliceBytes(const NStringData& stringData) const;
 
-	NString                             GetEscapedPattern(const NString& theString, NStringFlags theFlags) const;
+	NString                             GetEscapedPattern(const NString& theString, NStringFindFlags theFlags) const;
 
 	const NStringData*                  FetchEncoding( NStringEncoding theEncoding);
 	const NStringData*                  GetEncoding(   NStringEncoding theEncoding) const;

@@ -60,7 +60,7 @@ FIXTURE_NANO(TTask)
 	SETUP
 	{
 		theTask.SetCommand(  kTaskCmd);
-		theTask.SetArguments(kTaskArgs.Split(kNStringWhitespace));
+		theTask.SetArguments(kTaskArgs.Split(NStringFind::Whitespace));
 	}
 };
 

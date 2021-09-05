@@ -427,13 +427,13 @@ NANO_TEST(TString, "Find")
 
 	for (auto theString : stringObjects)
 	{
-		theRange = theString.Find("World", kNStringNone);
+		theRange = theString.Find("World", kNStringFindExact);
 		REQUIRE(theRange == NRange(6, 5));
 
-		theRange = theString.Find("WORLD", kNStringNoCase);
+		theRange = theString.Find("WORLD", NStringFind::NoCase);
 		REQUIRE(theRange == NRange(6, 5));
 
-		theRange = theString.Find("WORLD", kNStringNone);
+		theRange = theString.Find("WORLD", kNStringFindExact);
 		REQUIRE(theRange.IsEmpty());
 	}
 }
@@ -454,7 +454,7 @@ NANO_TEST(TString, "FindAll")
 
 	for (auto theString : stringObjects)
 	{
-		theRanges = theString.FindAll("World", kNStringNone);
+		theRanges = theString.FindAll("World", kNStringFindExact);
 		if (theString == kTestStringSmall)
 		{
 			REQUIRE(theRanges.size() == 1);
@@ -470,7 +470,7 @@ NANO_TEST(TString, "FindAll")
 		}
 
 
-		theRanges = theString.FindAll("WORLD", kNStringNoCase);
+		theRanges = theString.FindAll("WORLD", NStringFind::NoCase);
 		if (theString == kTestStringSmall)
 		{
 			REQUIRE(theRanges.size() == 1);
@@ -486,7 +486,7 @@ NANO_TEST(TString, "FindAll")
 		}
 
 
-		theRanges = theString.FindAll("WORLD", kNStringNone);
+		theRanges = theString.FindAll("WORLD", kNStringFindExact);
 		REQUIRE(theRanges.empty());
 	}
 }
@@ -522,7 +522,7 @@ NANO_TEST(TString, "FindMatch")
 		}
 
 
-		patternMatch = theString.FindMatch("\\sWO(\\w+)", kNStringNoCase);
+		patternMatch = theString.FindMatch("\\sWO(\\w+)", NStringFind::NoCase);
 		if (theString == kTestStringSmall)
 		{
 			REQUIRE(patternMatch.theGroups.size() == 1);
@@ -588,7 +588,7 @@ NANO_TEST(TString, "FindMatches")
 		}
 
 
-		patternMatches = theString.FindMatches("\\sWO(\\w+)", kNStringNoCase);
+		patternMatches = theString.FindMatches("\\sWO(\\w+)", NStringFind::NoCase);
 		if (theString == kTestStringSmall)
 		{
 			REQUIRE(patternMatches.size() == 1);
@@ -660,7 +660,7 @@ NANO_TEST(TString, "GetMatch")
 		}
 
 
-		theMatch = theString.GetMatch("\\sWO(\\w+)", kNStringNoCase);
+		theMatch = theString.GetMatch("\\sWO(\\w+)", NStringFind::NoCase);
 		if (theString == kTestStringSmall)
 		{
 			REQUIRE(theMatch == "rld");
@@ -724,7 +724,7 @@ NANO_TEST(TString, "GetMatches")
 		}
 
 
-		theMatches = theString.GetMatches("\\sWO(\\w+)", kNStringNoCase);
+		theMatches = theString.GetMatches("\\sWO(\\w+)", NStringFind::NoCase);
 		if (theString == kTestStringSmall)
 		{
 			REQUIRE(theMatches.size() == 1);
@@ -764,15 +764,15 @@ NANO_TEST(TString, "Replace/String")
 	REQUIRE(theString == "Hello You");
 
 	theString = kTestStringSmall;
-	REQUIRE(theString.Replace("WORLD", "YOU", kNStringNoCase));
+	REQUIRE(theString.Replace("WORLD", "YOU", NStringFind::NoCase));
 	REQUIRE(theString == "Hello YOU");
 
 	theString = kTestStringSmall;
-	REQUIRE(theString.Replace("Wo..d", "You", kNStringPattern));
+	REQUIRE(theString.Replace("Wo..d", "You", NStringFind::Pattern));
 	REQUIRE(theString == "Hello You");
 
 	theString = kTestStringSmall;
-	REQUIRE(theString.Replace("WO..D", "YOU", kNStringPatternNoCase));
+	REQUIRE(theString.Replace("WO..D", "YOU", kNStringFindPatternNoCase));
 	REQUIRE(theString == "Hello YOU");
 
 
@@ -781,15 +781,15 @@ NANO_TEST(TString, "Replace/String")
 	REQUIRE(theString == "Hello World One World Two World Your World");
 
 	theString = kTestStringLarge;
-	REQUIRE(theString.Replace("THREE", "YOUR", kNStringNoCase));
+	REQUIRE(theString.Replace("THREE", "YOUR", NStringFind::NoCase));
 	REQUIRE(theString == "Hello World One World Two World YOUR World");
 
 	theString = kTestStringLarge;
-	REQUIRE(theString.Replace("Thre+", "Your", kNStringPattern));
+	REQUIRE(theString.Replace("Thre+", "Your", NStringFind::Pattern));
 	REQUIRE(theString == "Hello World One World Two World Your World");
 
 	theString = kTestStringLarge;
-	REQUIRE(theString.Replace("THR..", "YOUR", kNStringPatternNoCase));
+	REQUIRE(theString.Replace("THR..", "YOUR", kNStringFindPatternNoCase));
 	REQUIRE(theString == "Hello World One World Two World YOUR World");
 }
 
@@ -812,15 +812,15 @@ NANO_TEST(TString, "ReplaceAll/String")
 	REQUIRE(theString == "Hella Warld");
 
 	theString = kTestStringSmall;
-	REQUIRE(theString.ReplaceAll("O", "A", kNStringNoCase) == 2);
+	REQUIRE(theString.ReplaceAll("O", "A", NStringFind::NoCase) == 2);
 	REQUIRE(theString == "HellA WArld");
 
 	theString = kTestStringSmall;
-	REQUIRE(theString.ReplaceAll("ll.", "pp", kNStringPattern) == 1);
+	REQUIRE(theString.ReplaceAll("ll.", "pp", NStringFind::Pattern) == 1);
 	REQUIRE(theString == "Hepp World");
 
 	theString = kTestStringSmall;
-	REQUIRE(theString.ReplaceAll("LL.", "PP", kNStringPatternNoCase) == 1);
+	REQUIRE(theString.ReplaceAll("LL.", "PP", kNStringFindPatternNoCase) == 1);
 	REQUIRE(theString == "HePP World");
 
 
@@ -829,15 +829,15 @@ NANO_TEST(TString, "ReplaceAll/String")
 	REQUIRE(theString == "Hello You One You Two You Three You");
 
 	theString = kTestStringLarge;
-	REQUIRE(theString.ReplaceAll("WORLD", "YOU", kNStringNoCase) == 4);
+	REQUIRE(theString.ReplaceAll("WORLD", "YOU", NStringFind::NoCase) == 4);
 	REQUIRE(theString == "Hello YOU One YOU Two YOU Three YOU");
 
 	theString = kTestStringLarge;
-	REQUIRE(theString.ReplaceAll("Wo..d", "You", kNStringPattern) == 4);
+	REQUIRE(theString.ReplaceAll("Wo..d", "You", NStringFind::Pattern) == 4);
 	REQUIRE(theString == "Hello You One You Two You Three You");
 
 	theString = kTestStringLarge;
-	REQUIRE(theString.ReplaceAll("WO..D", "YOU", kNStringPatternNoCase) == 4);
+	REQUIRE(theString.ReplaceAll("WO..D", "YOU", kNStringFindPatternNoCase) == 4);
 	REQUIRE(theString == "Hello YOU One YOU Two YOU Three YOU");
 }
 
@@ -918,17 +918,17 @@ NANO_TEST(TString, "GetTransformed")
 		tmpString = theString.GetTransformed(kNStringTransformNone);
 		REQUIRE(tmpString == theString);
 
-		tmpString = theString.GetTransformed(kNStringTransformToLower);
+		tmpString = theString.GetTransformed(NStringTransform::ToLower);
 		REQUIRE(tmpString != theString);
 
-		tmpString = theString.GetTransformed(kNStringTransformToUpper);
+		tmpString = theString.GetTransformed(NStringTransform::ToUpper);
 		REQUIRE(tmpString != theString);
 	}
 
-	tmpString = NString("one two three").GetTransformed(kNStringTransformCapitalizeWords);
+	tmpString = NString("one two three").GetTransformed(NStringTransform::CapitalizeWords);
 	REQUIRE(tmpString == "One Two Three");
 
-	tmpString = NString("one? TWO! three.").GetTransformed(kNStringTransformCapitalizeSentences);
+	tmpString = NString("one? TWO! three.").GetTransformed(NStringTransform::CapitalizeSentences);
 	REQUIRE(tmpString == "One? Two! Three.");
 }
 
@@ -1003,17 +1003,17 @@ NANO_TEST(TString, "StartsWith")
 	for (auto theString : stringObjects)
 	{
 		REQUIRE(theString.StartsWith("Hello"));
-		REQUIRE(theString.StartsWith("HELLO", kNStringNoCase));
+		REQUIRE(theString.StartsWith("HELLO", NStringFind::NoCase));
 
-		REQUIRE(theString.StartsWith("Hel+o", kNStringPattern));
-		REQUIRE(theString.StartsWith("HEL+O", kNStringPatternNoCase));
+		REQUIRE(theString.StartsWith("Hel+o", NStringFind::Pattern));
+		REQUIRE(theString.StartsWith("HEL+O", kNStringFindPatternNoCase));
 	}
 
 	REQUIRE(NString(".aaa").StartsWith("."));
 	REQUIRE(!NString("aaa").StartsWith("."));
 
-	REQUIRE(NString(".aaa").StartsWith(".", kNStringPattern));
-	REQUIRE(NString("aaaa").StartsWith(".", kNStringPattern));
+	REQUIRE(NString(".aaa").StartsWith(".", NStringFind::Pattern));
+	REQUIRE(NString("aaaa").StartsWith(".", NStringFind::Pattern));
 }
 
 
@@ -1031,17 +1031,17 @@ NANO_TEST(TString, "EndsWith")
 	for (auto theString : stringObjects)
 	{
 		REQUIRE(theString.EndsWith("World"));
-		REQUIRE(theString.EndsWith("WORLD", kNStringNoCase));
+		REQUIRE(theString.EndsWith("WORLD", NStringFind::NoCase));
 
-		REQUIRE(theString.EndsWith("Wo\\w\\wd", kNStringPattern));
-		REQUIRE(theString.EndsWith("WO\\w\\wD", kNStringPatternNoCase));
+		REQUIRE(theString.EndsWith("Wo\\w\\wd", NStringFind::Pattern));
+		REQUIRE(theString.EndsWith("WO\\w\\wD", kNStringFindPatternNoCase));
 	}
 
 	REQUIRE(NString("aaa.").EndsWith("."));
 	REQUIRE(!NString("aaa").EndsWith("."));
 
-	REQUIRE(NString("aaa.").EndsWith(".", kNStringPattern));
-	REQUIRE(NString("aaaa").EndsWith(".", kNStringPattern));
+	REQUIRE(NString("aaa.").EndsWith(".", NStringFind::Pattern));
+	REQUIRE(NString("aaaa").EndsWith(".", NStringFind::Pattern));
 }
 
 
@@ -1059,10 +1059,10 @@ NANO_TEST(TString, "Contains")
 	for (auto theString : stringObjects)
 	{
 		REQUIRE(theString.Contains("llo Wor"));
-		REQUIRE(theString.Contains("LLO WOR", kNStringNoCase));
+		REQUIRE(theString.Contains("LLO WOR", NStringFind::NoCase));
 
-		REQUIRE(theString.Contains("l+o\\sW.r", kNStringPattern));
-		REQUIRE(theString.Contains("L+O\\sW.R", kNStringPatternNoCase));
+		REQUIRE(theString.Contains("l+o\\sW.r", NStringFind::Pattern));
+		REQUIRE(theString.Contains("L+O\\sW.R", kNStringFindPatternNoCase));
 	}
 }
 
@@ -1082,25 +1082,25 @@ NANO_TEST(TString, "Compare")
 	NString stringB = "TeSt";
 	NString stringC;
 
-	REQUIRE(stringA.Compare(stringB, kNStringNone) == NComparison::GreaterThan);
-	REQUIRE(stringA.Compare(stringB, kNStringNoCase) == NComparison::EqualTo);
+	REQUIRE(stringA.Compare(stringB, kNStringFindExact) == NComparison::GreaterThan);
+	REQUIRE(stringA.Compare(stringB, NStringFind::NoCase) == NComparison::EqualTo);
 
-	REQUIRE(stringA.Compare(stringC, kNStringNone) == NComparison::GreaterThan);
-	REQUIRE(stringA.Compare(stringC, kNStringNoCase) == NComparison::GreaterThan);
-
-
-	REQUIRE(stringB.Compare(stringA, kNStringNone) == NComparison::LessThan);
-	REQUIRE(stringB.Compare(stringA, kNStringNoCase) == NComparison::EqualTo);
-
-	REQUIRE(stringB.Compare(stringC, kNStringNone) == NComparison::GreaterThan);
-	REQUIRE(stringB.Compare(stringC, kNStringNoCase) == NComparison::GreaterThan);
+	REQUIRE(stringA.Compare(stringC, kNStringFindExact) == NComparison::GreaterThan);
+	REQUIRE(stringA.Compare(stringC, NStringFind::NoCase) == NComparison::GreaterThan);
 
 
-	REQUIRE(stringC.Compare(stringA, kNStringNone) == NComparison::LessThan);
-	REQUIRE(stringC.Compare(stringA, kNStringNoCase) == NComparison::LessThan);
+	REQUIRE(stringB.Compare(stringA, kNStringFindExact) == NComparison::LessThan);
+	REQUIRE(stringB.Compare(stringA, NStringFind::NoCase) == NComparison::EqualTo);
 
-	REQUIRE(stringC.Compare(stringB, kNStringNone) == NComparison::LessThan);
-	REQUIRE(stringC.Compare(stringB, kNStringNoCase) == NComparison::LessThan);
+	REQUIRE(stringB.Compare(stringC, kNStringFindExact) == NComparison::GreaterThan);
+	REQUIRE(stringB.Compare(stringC, NStringFind::NoCase) == NComparison::GreaterThan);
+
+
+	REQUIRE(stringC.Compare(stringA, kNStringFindExact) == NComparison::LessThan);
+	REQUIRE(stringC.Compare(stringA, NStringFind::NoCase) == NComparison::LessThan);
+
+	REQUIRE(stringC.Compare(stringB, kNStringFindExact) == NComparison::LessThan);
+	REQUIRE(stringC.Compare(stringB, NStringFind::NoCase) == NComparison::LessThan);
 }
 
 
@@ -1119,7 +1119,7 @@ NANO_TEST(TString, "EqualTo")
 	NString stringB = "TeSt";
 
 	REQUIRE(stringA.EqualTo(stringB));
-	REQUIRE(!stringA.EqualTo(stringB, kNStringNone));
+	REQUIRE(!stringA.EqualTo(stringB, kNStringFindExact));
 }
 
 

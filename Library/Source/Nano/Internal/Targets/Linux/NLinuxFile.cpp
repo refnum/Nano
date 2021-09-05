@@ -97,7 +97,7 @@ static void InitialiseUserDirs(void)
 		keyValue = *theIter;
 		keyValue.Trim();
 		
-		theTokens = keyValue.FindAll("(.*?)\\s*=\\s*(.*)", kNStringPattern);
+		theTokens = keyValue.FindAll("(.*?)\\s*=\\s*(.*)", NStringFind::Pattern);
 		if (theTokens.size() == 3)
 			{
 			theKey   = keyValue.GetString(theTokens[1]);

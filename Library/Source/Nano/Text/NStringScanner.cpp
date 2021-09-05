@@ -54,15 +54,15 @@
 //=============================================================================
 //		NStringScanner::Find : Find the first instance of a string.
 //-----------------------------------------------------------------------------
-NRange NStringScanner::Find(const NString& theString,
-							const NString& searchFor,
-							NStringFlags   theFlags,
-							const NRange&  theRange)
+NRange NStringScanner::Find(const NString&   theString,
+							const NString&   searchFor,
+							NStringFindFlags theFlags,
+							const NRange&    theRange)
 {
 
 
 	// Check our parameters
-	NN_REQUIRE((theFlags & kNStringNumeric) == 0);
+	NN_REQUIRE(!(theFlags & NStringFind::Numeric));
 
 
 
@@ -77,15 +77,15 @@ NRange NStringScanner::Find(const NString& theString,
 //=============================================================================
 //		NStringScanner::FindAll : Find every instance of a string.
 //-----------------------------------------------------------------------------
-NVectorRange NStringScanner::FindAll(const NString& theString,
-									 const NString& searchFor,
-									 NStringFlags   theFlags,
-									 const NRange&  theRange)
+NVectorRange NStringScanner::FindAll(const NString&   theString,
+									 const NString&   searchFor,
+									 NStringFindFlags theFlags,
+									 const NRange&    theRange)
 {
 
 
 	// Check our parameters
-	NN_REQUIRE((theFlags & kNStringNumeric) == 0);
+	NN_REQUIRE(!(theFlags & NStringFind::Numeric));
 
 
 
@@ -107,21 +107,21 @@ NVectorRange NStringScanner::FindAll(const NString& theString,
 //=============================================================================
 //		NStringScanner::FindMatch : Find the first instance of pattern.
 //-----------------------------------------------------------------------------
-NPatternMatch NStringScanner::FindMatch(const NString& theString,
-										const NString& searchFor,
-										NStringFlags   theFlags,
-										const NRange&  theRange)
+NPatternMatch NStringScanner::FindMatch(const NString&   theString,
+										const NString&   searchFor,
+										NStringFindFlags theFlags,
+										const NRange&    theRange)
 {
 
 
 	// Check our parameters
-	NN_REQUIRE((theFlags & kNStringNumeric) == 0);
-	NN_REQUIRE((theFlags & kNStringPattern) == 0);
+	NN_REQUIRE(!(theFlags & NStringFind::Numeric));
+	NN_REQUIRE(!(theFlags & NStringFind::Pattern));
 
 
 
 	// Find the first instance
-	theFlags |= kNStringPattern;
+	theFlags |= NStringFind::Pattern;
 
 	return FindFirst(theString, searchFor, theFlags, theRange);
 }
@@ -133,21 +133,21 @@ NPatternMatch NStringScanner::FindMatch(const NString& theString,
 //=============================================================================
 //		NStringScanner::FindMatches : Find every instance of a pattern.
 //-----------------------------------------------------------------------------
-NVectorPatternMatch NStringScanner::FindMatches(const NString& theString,
-												const NString& searchFor,
-												NStringFlags   theFlags,
-												const NRange&  theRange)
+NVectorPatternMatch NStringScanner::FindMatches(const NString&   theString,
+												const NString&   searchFor,
+												NStringFindFlags theFlags,
+												const NRange&    theRange)
 {
 
 
 	// Check our parameters
-	NN_REQUIRE((theFlags & kNStringNumeric) == 0);
-	NN_REQUIRE((theFlags & kNStringPattern) == 0);
+	NN_REQUIRE(!(theFlags & NStringFind::Numeric));
+	NN_REQUIRE(!(theFlags & NStringFind::Pattern));
 
 
 
 	// Find every instance
-	theFlags |= kNStringPattern;
+	theFlags |= NStringFind::Pattern;
 
 	return FindAll(theString, searchFor, theFlags, theRange, kNSizeMax);
 }
@@ -159,11 +159,11 @@ NVectorPatternMatch NStringScanner::FindMatches(const NString& theString,
 //=============================================================================
 //		NStringScanner::Replace : Replace a substring.
 //-----------------------------------------------------------------------------
-bool NStringScanner::Replace(NString&       theString,
-							 const NString& searchFor,
-							 const NString& replaceWith,
-							 NStringFlags   theFlags,
-							 const NRange&  theRange)
+bool NStringScanner::Replace(NString&         theString,
+							 const NString&   searchFor,
+							 const NString&   replaceWith,
+							 NStringFindFlags theFlags,
+							 const NRange&    theRange)
 {
 
 
@@ -186,11 +186,11 @@ bool NStringScanner::Replace(NString&       theString,
 //=============================================================================
 //		NStringScanner::ReplaceAll : Replace substrings.
 //-----------------------------------------------------------------------------
-size_t NStringScanner::ReplaceAll(NString&       theString,
-								  const NString& searchFor,
-								  const NString& replaceWith,
-								  NStringFlags   theFlags,
-								  const NRange&  theRange)
+size_t NStringScanner::ReplaceAll(NString&         theString,
+								  const NString&   searchFor,
+								  const NString&   replaceWith,
+								  NStringFindFlags theFlags,
+								  const NRange&    theRange)
 {
 
 
@@ -284,24 +284,24 @@ void NStringScanner::ReplaceAll(NString&            theString,
 //=============================================================================
 //		NStringScanner::Split : Split a string.
 //-----------------------------------------------------------------------------
-NVectorString NStringScanner::Split(const NString& theString,
-									const NString& splitWith,
-									NStringFlags   theFlags,
-									const NRange&  theRange)
+NVectorString NStringScanner::Split(const NString&   theString,
+									const NString&   splitWith,
+									NStringFindFlags theFlags,
+									const NRange&    theRange)
 {
 
 
 	// Adjust the flags
 	//
 	// Most separators are not patterns so we leave the default
-	// value of theFlags as kNStringNone.
+	// value of theFlags as empty.
 	//
 	// However, to provide our default behaviour of splitting on
 	// whitespace, we must enable pattern matching if splitting
 	// on our special whitespace pattern.
-	if (splitWith == kNStringWhitespace && theFlags == kNStringNone)
+	if (splitWith == kNStringWhitespace && !theFlags)
 	{
-		theFlags |= kNStringPattern;
+		theFlags |= NStringFind::Pattern;
 	}
 
 
@@ -353,10 +353,10 @@ NVectorString NStringScanner::Split(const NString& theString,
 //=============================================================================
 //		NStringScanner::FindFirst : Find the first match.
 //-----------------------------------------------------------------------------
-NPatternMatch NStringScanner::FindFirst(const NString& theString,
-										const NString& searchFor,
-										NStringFlags   theFlags,
-										const NRange&  theRange)
+NPatternMatch NStringScanner::FindFirst(const NString&   theString,
+										const NString&   searchFor,
+										NStringFindFlags theFlags,
+										const NRange&    theRange)
 {
 
 
@@ -379,16 +379,16 @@ NPatternMatch NStringScanner::FindFirst(const NString& theString,
 //=============================================================================
 //		NStringScanner::FindAll : Find all the matches.
 //-----------------------------------------------------------------------------
-NVectorPatternMatch NStringScanner::FindAll(const NString& theString,
-											const NString& searchFor,
-											NStringFlags   theFlags,
-											const NRange&  theRange,
-											size_t         maxResuilt)
+NVectorPatternMatch NStringScanner::FindAll(const NString&   theString,
+											const NString&   searchFor,
+											NStringFindFlags theFlags,
+											const NRange&    theRange,
+											size_t           maxResuilt)
 {
 
 
 	// Check our parameters
-	NN_REQUIRE((theFlags & kNStringNumeric) == 0);
+	NN_REQUIRE((theFlags & NStringFind::Numeric) == 0);
 
 
 
@@ -414,11 +414,11 @@ NVectorPatternMatch NStringScanner::FindAll(const NString& theString,
 //=============================================================================
 //		NStringScanner::FindPattern : Find a pattern.
 //-----------------------------------------------------------------------------
-NVectorPatternMatch NStringScanner::FindPattern(const NString& theString,
-												const NString& searchFor,
-												NStringFlags   theFlags,
-												const NRange&  theRange,
-												size_t         maxResult)
+NVectorPatternMatch NStringScanner::FindPattern(const NString&   theString,
+												const NString&   searchFor,
+												NStringFindFlags theFlags,
+												const NRange&    theRange,
+												size_t           maxResult)
 {
 
 
@@ -567,19 +567,19 @@ NVectorRange NStringScanner::GetReplacementRanges(const NVectorRange& theRanges,
 //=============================================================================
 //		NStringScanner::GetRegexp : Get the compiled expression.
 //-----------------------------------------------------------------------------
-pcre2_real_code_8* NStringScanner::GetRegexp(const NString& searchFor, NStringFlags theFlags)
+pcre2_real_code_8* NStringScanner::GetRegexp(const NString& searchFor, NStringFindFlags theFlags)
 {
 
 
 	// Build the flags
 	uint32_t regFlags = PCRE2_UTF | PCRE2_NO_UTF_CHECK;
 
-	if (theFlags & kNStringNoCase)
+	if (theFlags & NStringFind::NoCase)
 	{
 		regFlags |= PCRE2_CASELESS;
 	}
 
-	if (theFlags & kNStringPattern)
+	if (theFlags & NStringFind::Pattern)
 	{
 		regFlags |= PCRE2_DOTALL;
 	}
@@ -588,7 +588,7 @@ pcre2_real_code_8* NStringScanner::GetRegexp(const NString& searchFor, NStringFl
 		regFlags |= PCRE2_LITERAL;
 	}
 
-	if (theFlags & kNStringMultiLine)
+	if (theFlags & NStringFind::MultiLine)
 	{
 		regFlags |= PCRE2_MULTILINE;
 	}

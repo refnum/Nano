@@ -72,20 +72,20 @@ class NStringComparator
 public:
 	// Compare two strings
 	//
-	// Supports kNStringNoCase and kNStringNumeric.
-	static NComparison                  Compare(const NString& stringA,
-												const NString& stringB,
-												NStringFlags   theFlags = kNStringNone);
+	// Supports NStringFind::NoCase and NStringFind::Numeric.
+	static NComparison                  Compare(const NString&   stringA,
+												const NString&   stringB,
+												NStringFindFlags theFlags = kNStringFindExact);
 
 
 private:
-	static NOptionalComparison          CompareFast(const NString& stringA,
-													const NString& stringB,
-													NStringFlags   theFlags);
+	static NOptionalComparison          CompareFast(const NString&   stringA,
+													const NString&   stringB,
+													NStringFindFlags theFlags);
 
-	static NOptionalComparison          CompareGeneral(const NString& stringA,
-													   const NString& stringB,
-													   NStringFlags   theFlags);
+	static NOptionalComparison          CompareGeneral(const NString&   stringA,
+													   const NString&   stringB,
+													   NStringFindFlags theFlags);
 
 	static uint64_t                     GetNumber(utf32_t               theChar,
 												  NUTF32Iterator&       theIter,

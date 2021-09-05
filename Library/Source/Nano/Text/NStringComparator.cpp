@@ -55,14 +55,14 @@
 //=============================================================================
 //		NStringComparator::Compare : Compare two strings.
 //-----------------------------------------------------------------------------
-NComparison NStringComparator::Compare(const NString& stringA,
-									   const NString& stringB,
-									   NStringFlags   theFlags)
+NComparison NStringComparator::Compare(const NString&   stringA,
+									   const NString&   stringB,
+									   NStringFindFlags theFlags)
 {
 
 
 	// Validate ourparameters
-	NN_REQUIRE((theFlags & ~(kNStringNoCase | kNStringNumeric)) == 0);
+	NN_REQUIRE((theFlags & ~(NStringFind::NoCase | NStringFind::Numeric)) == 0);
 
 
 
@@ -86,9 +86,9 @@ NComparison NStringComparator::Compare(const NString& stringA,
 //=============================================================================
 //		NStringComparator::CompareFast : Perform a fast comparison.
 //-----------------------------------------------------------------------------
-NOptionalComparison NStringComparator::CompareFast(const NString& stringA,
-												   const NString& stringB,
-												   NStringFlags   theFlags)
+NOptionalComparison NStringComparator::CompareFast(const NString&   stringA,
+												   const NString&   stringB,
+												   NStringFindFlags theFlags)
 {
 
 
@@ -112,7 +112,7 @@ NOptionalComparison NStringComparator::CompareFast(const NString& stringA,
 	// byte-wise comaprison if the two strings share a common encoding.
 	//
 	// This ignores normalisation and many other aspects of collation.
-	if (theFlags == kNStringNone)
+	if (!theFlags)
 	{
 		// Check for a matching encoding
 		//
@@ -160,9 +160,9 @@ NOptionalComparison NStringComparator::CompareFast(const NString& stringA,
 //=============================================================================
 //		NStringComparator::CompareGeneral : Perform a general comparison.
 //-----------------------------------------------------------------------------
-NOptionalComparison NStringComparator::CompareGeneral(const NString& stringA,
-													  const NString& stringB,
-													  NStringFlags   theFlags)
+NOptionalComparison NStringComparator::CompareGeneral(const NString&   stringA,
+													  const NString&   stringB,
+													  NStringFindFlags theFlags)
 {
 
 
@@ -179,8 +179,8 @@ NOptionalComparison NStringComparator::CompareGeneral(const NString& stringA,
 	size_t sizeA = stringA.GetSize();
 	size_t sizeB = stringB.GetSize();
 
-	bool ignoreCase = bool(theFlags & kNStringNoCase);
-	bool isNumeric  = bool(theFlags & kNStringNumeric);
+	bool ignoreCase = bool(theFlags & NStringFind::NoCase);
+	bool isNumeric  = bool(theFlags & NStringFind::Numeric);
 
 	NComparison theResult = NCompare(sizeA, sizeB);
 

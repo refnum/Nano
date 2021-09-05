@@ -351,7 +351,9 @@ const void* NString::GetContent(NStringEncoding* theEncoding, size_t* theSize) c
 //=============================================================================
 //		NString::Find : Find the first instance of a string.
 //-----------------------------------------------------------------------------
-NRange NString::Find(const NString& searchFor, NStringFlags theFlags, const NRange& theRange) const
+NRange NString::Find(const NString&   searchFor,
+					 NStringFindFlags theFlags,
+					 const NRange&    theRange) const
 {
 
 
@@ -366,9 +368,9 @@ NRange NString::Find(const NString& searchFor, NStringFlags theFlags, const NRan
 //=============================================================================
 //		NString::FindAll : Find all instances of a string.
 //-----------------------------------------------------------------------------
-NVectorRange NString::FindAll(const NString& searchFor,
-							  NStringFlags   theFlags,
-							  const NRange&  theRange) const
+NVectorRange NString::FindAll(const NString&   searchFor,
+							  NStringFindFlags theFlags,
+							  const NRange&    theRange) const
 {
 
 
@@ -383,9 +385,9 @@ NVectorRange NString::FindAll(const NString& searchFor,
 //=============================================================================
 //		NString::FindMatch : Find the first instance of a pattern.
 //-----------------------------------------------------------------------------
-NPatternMatch NString::FindMatch(const NString& searchFor,
-								 NStringFlags   theFlags,
-								 const NRange&  theRange) const
+NPatternMatch NString::FindMatch(const NString&   searchFor,
+								 NStringFindFlags theFlags,
+								 const NRange&    theRange) const
 {
 
 
@@ -400,9 +402,9 @@ NPatternMatch NString::FindMatch(const NString& searchFor,
 //=============================================================================
 //		NString::FindMatches : Find all instances of a pattern.
 //-----------------------------------------------------------------------------
-NVectorPatternMatch NString::FindMatches(const NString& searchFor,
-										 NStringFlags   theFlags,
-										 const NRange&  theRange) const
+NVectorPatternMatch NString::FindMatches(const NString&   searchFor,
+										 NStringFindFlags theFlags,
+										 const NRange&    theRange) const
 {
 
 
@@ -417,9 +419,9 @@ NVectorPatternMatch NString::FindMatches(const NString& searchFor,
 //=============================================================================
 //		NString::GetMatch : Get the first instance of a pattern.
 //-----------------------------------------------------------------------------
-NString NString::GetMatch(const NString& searchFor,
-						  NStringFlags   theFlags,
-						  const NRange&  theRange) const
+NString NString::GetMatch(const NString&   searchFor,
+						  NStringFindFlags theFlags,
+						  const NRange&    theRange) const
 {
 
 
@@ -447,9 +449,9 @@ NString NString::GetMatch(const NString& searchFor,
 //=============================================================================
 //		NString::GetMatches : Get all instances of a pattern.
 //-----------------------------------------------------------------------------
-NVectorString NString::GetMatches(const NString& searchFor,
-								  NStringFlags   theFlags,
-								  const NRange&  theRange) const
+NVectorString NString::GetMatches(const NString&   searchFor,
+								  NStringFindFlags theFlags,
+								  const NRange&    theRange) const
 {
 
 
@@ -484,10 +486,10 @@ NVectorString NString::GetMatches(const NString& searchFor,
 //=============================================================================
 //		NString::Replace : Replace a substring.
 //-----------------------------------------------------------------------------
-bool NString::Replace(const NString& searchFor,
-					  const NString& replaceWith,
-					  NStringFlags   theFlags,
-					  const NRange&  theRange)
+bool NString::Replace(const NString&   searchFor,
+					  const NString&   replaceWith,
+					  NStringFindFlags theFlags,
+					  const NRange&    theRange)
 {
 
 
@@ -502,10 +504,10 @@ bool NString::Replace(const NString& searchFor,
 //=============================================================================
 //		NString::ReplaceAll : Replace substrings.
 //-----------------------------------------------------------------------------
-size_t NString::ReplaceAll(const NString& searchFor,
-						   const NString& replaceWith,
-						   NStringFlags   theFlags,
-						   const NRange&  theRange)
+size_t NString::ReplaceAll(const NString&   searchFor,
+						   const NString&   replaceWith,
+						   NStringFindFlags theFlags,
+						   const NRange&    theRange)
 {
 
 
@@ -597,15 +599,15 @@ NString NString::GetUpper() const
 //=============================================================================
 //		NString::StartsWith : Does a string start with a prefix?
 //-----------------------------------------------------------------------------
-bool NString::StartsWith(const NString& theString, NStringFlags theFlags) const
+bool NString::StartsWith(const NString& theString, NStringFindFlags theFlags) const
 {
 
 
 	// Check the string
 	//
 	// By using a pattern search we can anchor the search term at the start.
-	NString      searchText  = GetEscapedPattern(theString, theFlags);
-	NStringFlags searchFlags = NStringFlags(theFlags | kNStringPattern);
+	NString          searchText  = GetEscapedPattern(theString, theFlags);
+	NStringFindFlags searchFlags = theFlags | NStringFind::Pattern;
 
 	return !Find("\\A" + searchText, searchFlags).IsEmpty();
 }
@@ -617,15 +619,15 @@ bool NString::StartsWith(const NString& theString, NStringFlags theFlags) const
 //=============================================================================
 //		NString::EndsWith : Does a string end with a suffix?
 //-----------------------------------------------------------------------------
-bool NString::EndsWith(const NString& theString, NStringFlags theFlags) const
+bool NString::EndsWith(const NString& theString, NStringFindFlags theFlags) const
 {
 
 
 	// Check the string
 	//
 	// By using a pattern search we can anchor the search term at the end.
-	NString      searchText  = GetEscapedPattern(theString, theFlags);
-	NStringFlags searchFlags = NStringFlags(theFlags | kNStringPattern);
+	NString          searchText  = GetEscapedPattern(theString, theFlags);
+	NStringFindFlags searchFlags = theFlags | NStringFind::Pattern;
 
 	return !Find(searchText + "\\Z", searchFlags).IsEmpty();
 }
@@ -637,7 +639,7 @@ bool NString::EndsWith(const NString& theString, NStringFlags theFlags) const
 //=============================================================================
 //		NString::Contains : Does a string contain a string?
 //-----------------------------------------------------------------------------
-bool NString::Contains(const NString& theString, NStringFlags theFlags) const
+bool NString::Contains(const NString& theString, NStringFindFlags theFlags) const
 {
 
 
@@ -652,7 +654,7 @@ bool NString::Contains(const NString& theString, NStringFlags theFlags) const
 //=============================================================================
 //		NString::Compare : Compare the string.
 //-----------------------------------------------------------------------------
-NComparison NString::Compare(const NString& theString, NStringFlags theFlags) const
+NComparison NString::Compare(const NString& theString, NStringFindFlags theFlags) const
 {
 
 
@@ -667,7 +669,7 @@ NComparison NString::Compare(const NString& theString, NStringFlags theFlags) co
 //=============================================================================
 //		NString::EqualTo : Are two strings equal?
 //-----------------------------------------------------------------------------
-bool NString::EqualTo(const NString& theString, NStringFlags theFlags) const
+bool NString::EqualTo(const NString& theString, NStringFindFlags theFlags) const
 {
 
 
@@ -865,7 +867,7 @@ void NString::TrimPrefix()
 
 
 	// Trim the string
-	NStringScanner::Replace(*this, "^\\s+", "", kNStringPattern);
+	NStringScanner::Replace(*this, "^\\s+", "", NStringFind::Pattern);
 }
 
 
@@ -880,7 +882,7 @@ void NString::TrimSuffix()
 
 
 	// Trim the string
-	NStringScanner::Replace(*this, "\\s+$", "", kNStringPattern);
+	NStringScanner::Replace(*this, "\\s+$", "", NStringFind::Pattern);
 }
 
 
@@ -906,9 +908,9 @@ void NString::Trim()
 //=============================================================================
 //		NString::Split : Split a string.
 //-----------------------------------------------------------------------------
-NVectorString NString::Split(const NString& splitWith,
-							 NStringFlags   theFlags,
-							 const NRange&  theRange) const
+NVectorString NString::Split(const NString&   splitWith,
+							 NStringFindFlags theFlags,
+							 const NRange&    theRange) const
 {
 
 
@@ -928,7 +930,7 @@ NVectorString NString::GetLines() const
 
 
 	// Get the lines
-	return NStringScanner::Split(*this, "\\n|\\r\\n?", kNStringPattern);
+	return NStringScanner::Split(*this, "\\n|\\r\\n?", NStringFind::Pattern);
 }
 
 
@@ -1008,7 +1010,7 @@ NComparison NString::CompareOrder(const NString& theString) const
 
 
 	// Order by comparison
-	return Compare(theString, kNStringNone);
+	return Compare(theString, kNStringFindExact);
 }
 
 
@@ -1185,7 +1187,7 @@ NRange NString::GetSliceBytes(const NStringData& stringData) const
 //=============================================================================
 //		NString::GetEscapedPattern : Get a potentially escaped pattern.
 //-----------------------------------------------------------------------------
-NString NString::GetEscapedPattern(const NString& theString, NStringFlags theFlags) const
+NString NString::GetEscapedPattern(const NString& theString, NStringFindFlags theFlags) const
 {
 
 
@@ -1193,7 +1195,7 @@ NString NString::GetEscapedPattern(const NString& theString, NStringFlags theFla
 	//
 	// If the string is not being used for a pattern search then we
 	// escape its contents to allow it to be used for a pattern search.
-	if (theFlags & kNStringPattern)
+	if (theFlags & NStringFind::Pattern)
 	{
 		return theString;
 	}

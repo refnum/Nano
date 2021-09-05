@@ -239,12 +239,13 @@ void NFileScanner::ContinueScan()
 
 			if (isMatch && matchPath)
 			{
-				isMatch = theFile.GetPath().GetPath().Contains(mFilterPath, kNStringPatternNoCase);
+				isMatch =
+					theFile.GetPath().GetPath().Contains(mFilterPath, kNStringFindPatternNoCase);
 			}
 
 			if (isMatch && matchName)
 			{
-				isMatch = theFile.GetName().Contains(mFilterName, kNStringPatternNoCase);
+				isMatch = theFile.GetName().Contains(mFilterName, kNStringFindPatternNoCase);
 			}
 
 			if (isMatch && mFilterItem != nullptr)

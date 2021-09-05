@@ -66,26 +66,26 @@ class NStringScanner
 public:
 	// Find the first instance of a string
 	//
-	// kNStringPattern searches return the range of the overall pattern,
+	// NStringFind::Pattern searches return the range of the overall pattern,
 	// ignoring any capture groups within that pattern.
 	//
-	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
-	static NRange                       Find(const NString& theString,
-											 const NString& searchFor,
-											 NStringFlags   theFlags,
-											 const NRange&  searchRange);
+	// Supports NStringFind::NoCase, NStringFind::Pattern, and NStringFind::MultiLine.
+	static NRange                       Find(const NString&   theString,
+											 const NString&   searchFor,
+											 NStringFindFlags theFlags,
+											 const NRange&    searchRange);
 
 
 	// Find every instance of a string
 	//
-	// kNStringPattern searches return the ranges of the overall pattern,
+	// NStringFind::Pattern searches return the ranges of the overall pattern,
 	// ignoring any capture groups within that pattern.
 	//
-	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
-	static NVectorRange                 FindAll(const NString& theString,
-												const NString& searchFor,
-												NStringFlags   theFlags,
-												const NRange&  theRange);
+	// Supports NStringFind::NoCase, NStringFind::Pattern, and NStringFind::MultiLine.
+	static NVectorRange                 FindAll(const NString&   theString,
+												const NString&   searchFor,
+												NStringFindFlags theFlags,
+												const NRange&    theRange);
 
 
 	// Find the first instance of a pattern
@@ -93,11 +93,11 @@ public:
 	// Returns the match for the pattern and any capture groups
 	// within that pattern.
 	//
-	// Supports kNStringNoCase and kNStringMultiLine.
-	static NPatternMatch                FindMatch(const NString& theString,
-												  const NString& searchFor,
-												  NStringFlags   theFlags,
-												  const NRange&  theRange);
+	// Supports NStringFind::NoCase and NStringFind::MultiLine.
+	static NPatternMatch                FindMatch(const NString&   theString,
+												  const NString&   searchFor,
+												  NStringFindFlags theFlags,
+												  const NRange&    theRange);
 
 
 	// Find every instance of a pattern
@@ -105,29 +105,29 @@ public:
 	// Returns the matches for the pattern and any capture groups
 	// within that pattern.
 	//
-	// Supports kNStringNoCase and kNStringMultiLine.
-	static NVectorPatternMatch          FindMatches(const NString& theString,
-													const NString& searchFor,
-													NStringFlags   theFlags,
-													const NRange&  theRange);
+	// Supports NStringFind::NoCase and NStringFind::MultiLine.
+	static NVectorPatternMatch          FindMatches(const NString&   theString,
+													const NString&   searchFor,
+													NStringFindFlags theFlags,
+													const NRange&    theRange);
 
 
 	// Replace a substring
 	//
 	// ReplaceAll returns the number of instances replaced within the string.
 	//
-	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
-	static bool                         Replace(NString&       theString,
-												const NString& searchFor,
-												const NString& replaceWith,
-												NStringFlags   theFlags = kNStringNone,
-												const NRange&  theRange = kNRangeAll);
+	// Supports NStringFind::NoCase, NStringFind::Pattern, and NStringFind::MultiLine.
+	static bool                         Replace(NString&         theString,
+												const NString&   searchFor,
+												const NString&   replaceWith,
+												NStringFindFlags theFlags = kNStringFindExact,
+												const NRange&    theRange = kNRangeAll);
 
-	static size_t                       ReplaceAll(NString&       theString,
-												   const NString& searchFor,
-												   const NString& replaceWith,
-												   NStringFlags   theFlags = kNStringNone,
-												   const NRange&  theRange = kNRangeAll);
+	static size_t                       ReplaceAll(NString&         theString,
+												   const NString&   searchFor,
+												   const NString&   replaceWith,
+												   NStringFindFlags theFlags = kNStringFindExact,
+												   const NRange&    theRange = kNRangeAll);
 
 
 	// Replace a range
@@ -160,35 +160,35 @@ public:
 	// As most separators are not patterns theFlags is promoted to
 	// a pattern search if splitWithin remains the default value.
 	//
-	// Supports kNStringNoCase, kNStringPattern, and kNStringMultiLine.
-	static NVectorString                Split(const NString& theString,
-											  const NString& splitWith = kNStringWhitespace,
-											  NStringFlags   theFlags  = kNStringNone,
-											  const NRange&  theRange  = kNRangeAll);
+	// Supports NStringFind::NoCase, NStringFind::Pattern, and NStringFind::MultiLine.
+	static NVectorString                Split(const NString&   theString,
+											  const NString&   splitWith = kNStringWhitespace,
+											  NStringFindFlags theFlags  = kNStringFindExact,
+											  const NRange&    theRange  = kNRangeAll);
 
 
 private:
-	static NPatternMatch                FindFirst(const NString& theString,
-												  const NString& searchFor,
-												  NStringFlags   theFlags,
-												  const NRange&  theRange);
+	static NPatternMatch                FindFirst(const NString&   theString,
+												  const NString&   searchFor,
+												  NStringFindFlags theFlags,
+												  const NRange&    theRange);
 
-	static NVectorPatternMatch          FindAll(const NString& theString,
-												const NString& searchFor,
-												NStringFlags   theFlags,
-												const NRange&  theRange,
-												size_t         maxResult);
+	static NVectorPatternMatch          FindAll(const NString&   theString,
+												const NString&   searchFor,
+												NStringFindFlags theFlags,
+												const NRange&    theRange,
+												size_t           maxResult);
 
 
-	static NVectorPatternMatch          FindPattern(const NString& theString,
-													const NString& searchFor,
-													NStringFlags   theFlags,
-													const NRange&  theRange,
-													size_t         maxResult);
+	static NVectorPatternMatch          FindPattern(const NString&   theString,
+													const NString&   searchFor,
+													NStringFindFlags theFlags,
+													const NRange&    theRange,
+													size_t           maxResult);
 
 	static NVectorRange                 GetReplacementRanges(const NVectorRange& theRanges, const NRange& theRange);
 
-	static pcre2_real_code_8*           GetRegexp(const NString& searchFor, NStringFlags theFlags);
+	static pcre2_real_code_8*           GetRegexp(const NString& searchFor, NStringFindFlags theFlags);
 
 	static NVectorPatternMatch          BytesToCodepoints(const NString&             theString,
 														  const NData&               dataUTF8,

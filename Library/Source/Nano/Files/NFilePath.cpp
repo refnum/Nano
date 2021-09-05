@@ -131,7 +131,7 @@ bool NFilePath::IsAbsolute() const
 
 
 	// Check the state
-	return mPath.StartsWith(kNAbsolutePrefix, kNStringPattern);
+	return mPath.StartsWith(kNAbsolutePrefix, NStringFind::Pattern);
 }
 
 
@@ -736,7 +736,7 @@ NComparison NFilePath::CompareOrder(const NFilePath& thePath) const
 	// Compare the path
 	//
 	// File paths are considered to be case-insensitive but case-preserving.
-	return mPath.Compare(thePath.mPath, kNStringNoCase);
+	return mPath.Compare(thePath.mPath, NStringFind::NoCase);
 }
 
 

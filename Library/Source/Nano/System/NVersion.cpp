@@ -331,7 +331,7 @@ NComparison NVersion::Compare(const NString& versionA, const NString& versionB)
 		{
 			if (typeA != NVersionPart::Period)
 			{
-				NComparison theResult = partA.Compare(partB, kNStringNumeric);
+				NComparison theResult = partA.Compare(partB, NStringFind::Numeric);
 				if (theResult != NComparison::EqualTo)
 				{
 					return theResult;
