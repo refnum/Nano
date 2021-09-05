@@ -66,5 +66,5 @@ NANO_TEST(TXMLParser, "Default")
 
 
 	// Perform the test
-	REQUIRE(theParser.GetOptions() == kNXMLParserDefault);
+	REQUIRE(theParser.GetFlags() == kNXMLParseDefault);
 }

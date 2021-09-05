@@ -75,7 +75,7 @@ static constexpr size_t kChunkSize                          = 10 * kNKilobyte;
 //-----------------------------------------------------------------------------
 NXMLParser::NXMLParser()
 	: mParser(nullptr)
-	, mOptions(kNXMLParserDefault)
+	, mFlags(kNXMLParseDefault)
 	, mInsideCData(false)
 	, mIsParsing(false)
 	, mParsedText()
@@ -148,14 +148,14 @@ void NXMLParser::Clear()
 
 
 //=============================================================================
-//		NXMLParser::GetOptions : Get the options.
+//		NXMLParser::GetFlags : Get the flags.
 //-----------------------------------------------------------------------------
-NXMLParserFlags NXMLParser::GetOptions() const
+NXMLParseFlags NXMLParser::GetFlags() const
 {
 
 
-	// Get the options
-	return mOptions;
+	// Get the flags
+	return mFlags;
 }
 
 
@@ -163,15 +163,14 @@ NXMLParserFlags NXMLParser::GetOptions() const
 
 
 //=============================================================================
-//		NXMLParser::SetOptions : Set the options.
+//		NXMLParser::SetFlags : Set the flags.
 //-----------------------------------------------------------------------------
-void NXMLParser::SetOptions(NXMLParserFlags setThese, NXMLParserFlags clearThese)
+void NXMLParser::SetFlags(NXMLParseFlags theFlags)
 {
 
 
-	// Set the options
-	mOptions |= setThese;
-	mOptions &= NXMLParserFlags(~clearThese);
+	// Set the flags
+	mFlags = theFlags;
 }
 
 
@@ -505,7 +504,7 @@ bool NXMLParser::FlushText()
 	//
 	// Whitespace within a CDATA is always preserved, as is any whitespace
 	// surrounding a non-whitespace text section.
-	if (!mInsideCData && (mOptions & kNXMLParserSkipWhitespace))
+	if (!mInsideCData && (mFlags & NXMLParse::SkipWhitespace))
 	{
 		NString trimmedText = mParsedText;
 		trimmedText.Trim();

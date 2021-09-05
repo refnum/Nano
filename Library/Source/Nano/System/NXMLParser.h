@@ -41,6 +41,7 @@
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
+#include "NFlags.h"
 #include "NProgressable.h"
 #include "NString.h"
 
@@ -55,11 +56,14 @@
 //		Constants
 //-----------------------------------------------------------------------------
 // Parser flags
-using NXMLParserFlags                                       = uint8_t;
+enum class NXMLParse
+{
+	SkipWhitespace
+};
 
-inline constexpr NXMLParserFlags kNXMLParserNone            = 0;
-inline constexpr NXMLParserFlags kNXMLParserSkipWhitespace  = (1 << 0);
-inline constexpr NXMLParserFlags kNXMLParserDefault         = kNXMLParserSkipWhitespace;
+NN_FLAG_ENUM(NXMLParse, NXMLParseFlags);
+
+inline constexpr NXMLParseFlags kNXMLParseDefault           = NXMLParse::SkipWhitespace;
 
 
 // Parsing progress
@@ -132,9 +136,9 @@ public:
 	void                                Clear();
 
 
-	// Get/set the options
-	NXMLParserFlags                     GetOptions() const;
-	void                                SetOptions(NXMLParserFlags setThese, NXMLParserFlags clearThese = kNXMLParserNone);
+	// Get/set the flags
+	NXMLParseFlags                      GetFlags() const;
+	void                                SetFlags(NXMLParseFlags theFlags);
 
 
 	// Parse a document
@@ -191,7 +195,7 @@ private:
 
 private:
 	struct XML_ParserStruct*            mParser;
-	NXMLParserFlags                     mOptions;
+	NXMLParseFlags                      mFlags;
 
 	bool                                mInsideCData;
 	bool                                mIsParsing;
