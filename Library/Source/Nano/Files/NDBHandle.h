@@ -43,6 +43,7 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NFile.h"
+#include "NFileHandle.h"
 #include "NMap.h"
 #include "NProgressable.h"
 #include "NTime.h"
@@ -50,19 +51,6 @@
 // System
 #include <functional>
 #include <vector>
-
-
-
-
-
-//=============================================================================
-//		Constants
-//-----------------------------------------------------------------------------
-// DB flags
-using NDBFlags                                              = uint8_t;
-
-inline constexpr NDBFlags kNDBNone                          = 0;
-inline constexpr NDBFlags kNDBReadOnly                      = (1 << 0);
 
 
 
@@ -126,7 +114,9 @@ public:
 
 
 	// Open/close the database
-	NStatus                             Open(const NFile& theFile, NDBFlags theFlags = kNDBNone, const NString& theVFS = "");
+	NStatus                             Open(const NFile&   theFile,
+											 NFileAccess    theAccess = NFileAccess::ReadWrite,
+											 const NString& theVFS    = "");
 	void                                Close();
 
 
@@ -190,7 +180,7 @@ private:
 
 private:
 	NFile                               mFile;
-	NDBFlags                            mFlags;
+	NFileAccess                         mAccess;
 	NDBHandleRef                        mHandle;
 	NDBQueryCache                       mQueries;
 };

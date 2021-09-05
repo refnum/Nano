@@ -83,7 +83,7 @@ static constexpr int       kNProgressStep                   = 1000;
 //-----------------------------------------------------------------------------
 NDBHandle::NDBHandle()
 	: mFile()
-	, mFlags(kNDBNone)
+	, mAccess(NFileAccess::ReadOnly)
 	, mHandle(nullptr)
 {
 }
@@ -133,7 +133,7 @@ bool NDBHandle::IsMutable() const
 
 
 	// Get our state
-	return !(mFlags & kNDBReadOnly);
+	return mAccess != NFileAccess::ReadOnly;
 }
 
 
@@ -164,7 +164,7 @@ bool NDBHandle::HasTable(const NString& theTable)
 //=============================================================================
 //		NDBHandle::Open : Open the database.
 //-----------------------------------------------------------------------------
-NStatus NDBHandle::Open(const NFile& theFile, NDBFlags theFlags, const NString& theVFS)
+NStatus NDBHandle::Open(const NFile& theFile, NFileAccess theAccess, const NString& theVFS)
 {
 
 
@@ -179,7 +179,7 @@ NStatus NDBHandle::Open(const NFile& theFile, NDBFlags theFlags, const NString& 
 	sqlite3*    sqlDB    = nullptr;
 	int         sqlFlags = 0;
 
-	if (theFlags & kNDBReadOnly)
+	if (theAccess == NFileAccess::ReadOnly)
 	{
 		sqlFlags |= SQLITE_OPEN_READONLY;
 	}
@@ -203,7 +203,7 @@ NStatus NDBHandle::Open(const NFile& theFile, NDBFlags theFlags, const NString& 
 	if (dbErr == SQLITE_OK)
 	{
 		mFile   = theFile;
-		mFlags  = theFlags;
+		mAccess = theAccess;
 		mHandle = sqlDB;
 	}
 
@@ -242,7 +242,7 @@ void NDBHandle::Close()
 
 	// Reset our state
 	mFile.Clear();
-	mFlags  = kNDBNone;
+	mAccess = NFileAccess::ReadOnly;
 	mHandle = nullptr;
 }
 
