@@ -438,7 +438,7 @@ NPlacement NGeomUtils::ComparePointToPolygon(const NPoint& thePoint,
 			// If the segment is entirely to the left in x, it can't cross
 			if (std::max(p1.x, p2.x) < thePoint.x)
 			{
-				;
+				// Can't cross
 			}
 
 
