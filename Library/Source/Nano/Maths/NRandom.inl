@@ -422,7 +422,7 @@ Output NRandom::PCG_XSH_RR(Output minValue, Output maxValue)
 
 		if (t >= maxRange)
 		{
-			t -= maxRange;
+			t = t - maxRange;
 			if (t >= maxRange)
 			{
 				t %= maxRange;

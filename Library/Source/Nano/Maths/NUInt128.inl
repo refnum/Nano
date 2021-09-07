@@ -1276,7 +1276,7 @@ constexpr NDivision128 NUInt128::DivideModulo128(const NUInt128& valueA,
 
 	int8_t numBits = int8_t(128 - valueA.CountLeadingZeros());
 
-	for (int8_t n = numBits - 1; n >= 0; n--)
+	for (int8_t n = numBits - int8_t(1); n >= 0; n--)
 	{
 		NUInt128 bitN = ((valueA >> n) & 0x01);
 
