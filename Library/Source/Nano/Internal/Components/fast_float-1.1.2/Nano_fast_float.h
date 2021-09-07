@@ -52,6 +52,7 @@
 //		fmt
 //-----------------------------------------------------------------------------
 NN_DIAGNOSTIC_PUSH();
+NN_DIAGNOSTIC_IGNORE_CLANG("-Wextra-semi-stmt");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wnewline-eof");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wold-style-cast");
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wunneeded-internal-declaration");
