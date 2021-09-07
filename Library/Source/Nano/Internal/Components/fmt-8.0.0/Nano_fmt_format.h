@@ -57,6 +57,9 @@
 	#define NDEBUG
 #endif
 
+#if NN_TARGET_WINDOWS
+	#define _ENABLE_EXTENDED_ALIGNED_STORAGE	1
+#endif
 
 NN_DIAGNOSTIC_PUSH();
 NN_DIAGNOSTIC_IGNORE_CLANG("-Wmissing-noreturn");
