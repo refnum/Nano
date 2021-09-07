@@ -443,7 +443,8 @@ inline T NMathUtils::RotateRight(T theValue, size_t rotateBy)
 	constexpr T kNumBits = sizeof(T) * 8;
 
 	static_assert(kNumBits == 8 || kNumBits == 16 || kNumBits == 32 || kNumBits == 64);
-	NN_REQUIRE(rotateBy > 0 && rotateBy < kNumBits);
+	NN_REQUIRE(rotateBy > 0);
+	NN_REQUIRE(rotateBy < kNumBits);
 
 
 
