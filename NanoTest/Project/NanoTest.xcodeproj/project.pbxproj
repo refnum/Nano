@@ -25,9 +25,6 @@
 		AB0DBE7723999C1800F6AD43 /* TTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */; };
 		AB0DBE7823999C1800F6AD43 /* TTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */; };
 		AB0DBE7923999C1800F6AD43 /* TTimeUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB0DBE7623999C1700F6AD43 /* TTimeUtils.cpp */; };
-		AB0DBE7C2399A14F00F6AD43 /* TSpinLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */; };
-		AB0DBE7D2399A14F00F6AD43 /* TSpinLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */; };
-		AB0DBE7E2399A15000F6AD43 /* TSpinLock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */; };
 		AB1980DB2596C508002C5591 /* TThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D9A1034184B00E5A6AD /* TThread.cpp */; };
 		AB1980DF2596C509002C5591 /* TThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D9A1034184B00E5A6AD /* TThread.cpp */; };
 		AB1980E32596C509002C5591 /* TThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB514D9A1034184B00E5A6AD /* TThread.cpp */; };
@@ -493,7 +490,6 @@
 		AB514DAB1034184B00E5A6AD /* TDictionary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TDictionary.cpp; sourceTree = "<group>"; };
 		AB514DB11034184B00E5A6AD /* TNumber.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TNumber.cpp; sourceTree = "<group>"; };
 		AB514DB51034184B00E5A6AD /* TRange.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TRange.cpp; sourceTree = "<group>"; };
-		AB514DCC1034184B00E5A6AD /* TTextUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTextUtilities.cpp; sourceTree = "<group>"; };
 		AB514DD71034184B00E5A6AD /* TCFArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCFArray.cpp; sourceTree = "<group>"; };
 		AB514DD91034184B00E5A6AD /* TCFData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCFData.cpp; sourceTree = "<group>"; };
 		AB514DDB1034184B00E5A6AD /* TCFDate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCFDate.cpp; sourceTree = "<group>"; };
@@ -540,7 +536,6 @@
 		ABC66E7B17411D52005B9357 /* TTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TTask.cpp; sourceTree = "<group>"; };
 		ABCAFC5717539B3500BAE1A7 /* TMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMutex.cpp; sourceTree = "<group>"; };
 		ABCAFC5917539B3500BAE1A7 /* TReadWriteLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TReadWriteLock.cpp; sourceTree = "<group>"; };
-		ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TSpinLock.cpp; sourceTree = "<group>"; };
 		ABCC4AA825A4D5A600394AFE /* TAny.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TAny.cpp; sourceTree = "<group>"; };
 		ABCC4ABE25A4F4E600394AFE /* TVariant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TVariant.cpp; sourceTree = "<group>"; };
 		ABCFE3951773A09C0054EEA3 /* TCGColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TCGColor.cpp; sourceTree = "<group>"; };
@@ -764,7 +759,6 @@
 				AB514D911034184B00E5A6AD /* Threads */,
 				AB0DBE7523999C1700F6AD43 /* Time */,
 				AB514D9E1034184B00E5A6AD /* Types */,
-				AB514DC31034184B00E5A6AD /* Utilities */,
 			);
 			path = Nano;
 			sourceTree = "<group>";
@@ -859,7 +853,6 @@
 				AB1C93B126A7A66C00D91BD1 /* TRunLoopTask.cpp */,
 				AB371A9F25CB884000DEC50B /* TScopedLock.cpp */,
 				AB514D981034184B00E5A6AD /* TSemaphore.cpp */,
-				ABCAFC5B17539B3500BAE1A7 /* TSpinLock.cpp */,
 				AB514D9A1034184B00E5A6AD /* TThread.cpp */,
 				AB21146226A3452E004874CD /* TThreadGroup.cpp */,
 				AB1980F525975D17002C5591 /* TThreadID.cpp */,
@@ -893,14 +886,6 @@
 				ABCC4ABE25A4F4E600394AFE /* TVariant.cpp */,
 			);
 			path = Types;
-			sourceTree = "<group>";
-		};
-		AB514DC31034184B00E5A6AD /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				AB514DCC1034184B00E5A6AD /* TTextUtilities.cpp */,
-			);
-			path = Utilities;
 			sourceTree = "<group>";
 		};
 		AB514DD21034184B00E5A6AD /* Nanites */ = {
@@ -1214,7 +1199,6 @@
 				ABB38CB825A7CCC80050D506 /* TDictionary.cpp in Sources */,
 				AB4EB4BC2430EDBB00D36016 /* TFilePath.cpp in Sources */,
 				AB07EA42239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
-				AB0DBE7D2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
 				ABE5024926DD034600BA97A6 /* TAtomic.cpp in Sources */,
 				AB5E179825F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
 				ABF58DBA267F508700327252 /* TCFDictionary.cpp in Sources */,
@@ -1345,7 +1329,6 @@
 				ABB38CB925A7CCC80050D506 /* TDictionary.cpp in Sources */,
 				AB4EB4BB2430EDBB00D36016 /* TFilePath.cpp in Sources */,
 				AB07EA43239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
-				AB0DBE7E2399A15000F6AD43 /* TSpinLock.cpp in Sources */,
 				ABE5024826DD034600BA97A6 /* TAtomic.cpp in Sources */,
 				AB5E179725F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
 				ABF58DBB267F508700327252 /* TCFDictionary.cpp in Sources */,
@@ -1476,7 +1459,6 @@
 				ABB38CB125A7CCC80050D506 /* TDictionary.cpp in Sources */,
 				AB4EB4BD2430EDBB00D36016 /* TFilePath.cpp in Sources */,
 				AB07EA41239A55CE00E0AC49 /* TSemaphore.cpp in Sources */,
-				AB0DBE7C2399A14F00F6AD43 /* TSpinLock.cpp in Sources */,
 				ABE5024A26DD034600BA97A6 /* TAtomic.cpp in Sources */,
 				AB5E179925F84AD900920CF0 /* TDateFormatter.cpp in Sources */,
 				ABF58DB9267F508700327252 /* TCFDictionary.cpp in Sources */,

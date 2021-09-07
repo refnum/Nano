@@ -347,8 +347,6 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Threads/NScopedLock.inl"
 		"${NN_SOURCE_DIR}/Nano/Threads/NSemaphore.cpp"
 		"${NN_SOURCE_DIR}/Nano/Threads/NSemaphore.h"
-		"${NN_SOURCE_DIR}/Nano/Threads/NSpinLock.h"
-		"${NN_SOURCE_DIR}/Nano/Threads/NSpinLock.inl"
 		"${NN_SOURCE_DIR}/Nano/Threads/NThread.cpp"
 		"${NN_SOURCE_DIR}/Nano/Threads/NThread.h"
 		"${NN_SOURCE_DIR}/Nano/Threads/NThread.inl"
