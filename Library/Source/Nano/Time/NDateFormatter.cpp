@@ -63,47 +63,47 @@ enum class NDateWidth
 // Date labels
 //
 // TODO - requires localisation.
-static const char* kNLabelQuarterNarrow[]                   = {"Q1", "Q2", "Q3", "Q4"};
+inline constexpr const char* kNLabelQuarterNarrow[]         = {"Q1", "Q2", "Q3", "Q4"};
 
-static const char* kNLabelQuarterAbbrev[]                   = {"Q1", "Q2", "Q3", "Q4"};
+inline constexpr const char* kNLabelQuarterAbbrev[]         = {"Q1", "Q2", "Q3", "Q4"};
 
-static const char* kNLabelQuarterWide[]                     = {"1st Quarter",
-										   "2nd Quarter",
-										   "3rd Quarter",
-										   "4th Quarter"};
+inline constexpr const char* kNLabelQuarterWide[]           = {"1st Quarter",
+													 "2nd Quarter",
+													 "3rd Quarter",
+													 "4th Quarter"};
 
-static const char* kNLabelMonthNarrow[] =
+inline constexpr const char* kNLabelMonthNarrow[] =
 	{"J", "F", "M", "A", "M", "J", "Y", "U", "S", "O", "N", "D"};
 
-static const char* kNLabelMonthAbbrev[] =
+inline constexpr const char* kNLabelMonthAbbrev[] =
 	{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
-static const char* kNLabelMonthWide[]                       = {"January",
-										 "February",
-										 "March",
-										 "April",
-										 "May",
-										 "June",
-										 "July",
-										 "August",
-										 "September",
-										 "October",
-										 "November",
-										 "December"};
+inline constexpr const char* kNLabelMonthWide[]             = {"January",
+												   "February",
+												   "March",
+												   "April",
+												   "May",
+												   "June",
+												   "July",
+												   "August",
+												   "September",
+												   "October",
+												   "November",
+												   "December"};
 
-static const char* kNLabelDayNarrow[]                       = {"M", "T", "W", "U", "F", "S", "N"};
+inline constexpr const char* kNLabelDayNarrow[]             = {"M", "T", "W", "U", "F", "S", "N"};
 
-static const char* kNLabelDayAbbrev[]                       = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+inline constexpr const char* kNLabelDayAbbrev[]             = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
 
-static const char* kNLabelDayWide[] =
+inline constexpr const char* kNLabelDayWide[] =
 	{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
 
 // Literals
-static constexpr const utf8_t* kNDateFormatTokens           = "GyYuQqMLwWdDFgEecahHKkmsSAzZv'";
-static constexpr const utf8_t* kNDateFormatUnimplemented    = "???";
-static constexpr utf8_t        kNUTF8Quote                  = '\'';
-static constexpr utf8_t        kNUTF8Null                   = 0;
+inline constexpr const utf8_t* kNDateFormatTokens           = "GyYuQqMLwWdDFgEecahHKkmsSAzZv'";
+inline constexpr const utf8_t* kNDateFormatUnimplemented    = "???";
+inline constexpr utf8_t        kNUTF8Quote                  = '\'';
+inline constexpr utf8_t        kNUTF8Null                   = 0;
 
 
 

@@ -71,17 +71,17 @@
 //
 // Android does not support AT_EACCESS.
 #if NN_TARGET_ANDROID
-static constexpr int NN_AT_EACCESS                          = 0;
+inline constexpr int NN_AT_EACCESS                          = 0;
 #else
-static constexpr int    NN_AT_EACCESS                       = AT_EACCESS;
+inline constexpr int    NN_AT_EACCESS                       = AT_EACCESS;
 #endif
 
 
 // Thread name
 #if NN_PLATFORM_DARWIN
-static constexpr size_t kNThreadNameMax                     = 63;
+inline constexpr size_t kNThreadNameMax                     = 63;
 #else
-static constexpr size_t kNThreadNameMax                     = 15;
+inline constexpr size_t kNThreadNameMax                     = 15;
 #endif // NN_PLATFORM_DARWIN
 
 

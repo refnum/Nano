@@ -81,7 +81,7 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr size_t kNMutexSpinCount                    = 5000;
+inline constexpr size_t kNMutexSpinCount                    = 5000;
 
 
 

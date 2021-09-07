@@ -69,10 +69,10 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr NInterval kNExecuteSleep                   = 0.1;
-static constexpr NInterval kNBackupSleep                    = 0.5;
-static constexpr int       kNBackupStep                     = 128;
-static constexpr int       kNProgressStep                   = 1000;
+inline constexpr NInterval kNExecuteSleep                   = 0.1;
+inline constexpr NInterval kNBackupSleep                    = 0.5;
+inline constexpr int       kNBackupStep                     = 128;
+inline constexpr int       kNProgressStep                   = 1000;
 
 
 

@@ -104,11 +104,11 @@ extern "C" kern_return_t thread_policy_get(thread_t                thread,
 //		Internal Constants
 //-----------------------------------------------------------------------------
 // Debugger
-static const char*      kNDebuggerSymbolName                = "0x\\w+ (\\w+) \\+ \\d+$";
-static constexpr size_t kNDebuggerMaxFrames                 = 512;
+inline const char*      kNDebuggerSymbolName                = "0x\\w+ (\\w+) \\+ \\d+$";
+inline constexpr size_t kNDebuggerMaxFrames                 = 512;
 
 // File
-static constexpr NFileStateFlags kNFileStateMaskStat =
+inline constexpr NFileStateFlags kNFileStateMaskStat =
 	NFileState::Exists | NFileState::IsFile | NFileState::IsDirectory | NFileState::CreationTime |
 	NFileState::ModifiedTime | NFileState::FileSize;
 

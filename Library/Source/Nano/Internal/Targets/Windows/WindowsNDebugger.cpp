@@ -54,7 +54,7 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr size_t kNDebuggerMaxFrames                 = 512;
+inline constexpr size_t kNDebuggerMaxFrames                 = 512;
 
 
 

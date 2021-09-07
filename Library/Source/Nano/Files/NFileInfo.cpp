@@ -48,7 +48,7 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr NFileStateFlags kNFileStateMaskError =
+inline constexpr NFileStateFlags kNFileStateMaskError =
 	NFileState::Exists | NFileState::IsFile | NFileState::IsDirectory | NFileState::CanRead |
 	NFileState::CanWrite | NFileState::CanExecute;
 

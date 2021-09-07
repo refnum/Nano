@@ -62,8 +62,8 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr size_t      kNLayerApp                     = 0;
-static constexpr const char* kNChangeBroadcastPrefix        = "NPreferences.Changed.";
+inline constexpr size_t      kNLayerApp                     = 0;
+inline constexpr const char* kNChangeBroadcastPrefix        = "NPreferences.Changed.";
 
 
 

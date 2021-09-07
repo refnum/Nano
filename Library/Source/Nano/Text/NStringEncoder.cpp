@@ -57,18 +57,18 @@
 //		Internal Constants
 //-----------------------------------------------------------------------------
 // Misc
-static constexpr size_t  kStringMaxASCII                    = 0x7F;
-static constexpr size_t  kStringMaxLegacy                   = 0xFF;
-static constexpr utf32_t kStringInvalidLegacy               = 0xDFFF;
+inline constexpr size_t  kStringMaxASCII                    = 0x7F;
+inline constexpr size_t  kStringMaxLegacy                   = 0xFF;
+inline constexpr utf32_t kStringInvalidLegacy               = 0xDFFF;
 
 // BOM
-static constexpr uint8_t  kBOM_UTF8[]                       = {0xEF, 0xBB, 0xBF};
-static constexpr uint16_t kBOM_UTF16[]                      = {0xFEFF};
-static constexpr uint16_t kBOM_UTF16BE[]                    = {NByteSwap::SwapNtoB(kBOM_UTF16[0])};
-static constexpr uint16_t kBOM_UTF16LE[]                    = {NByteSwap::SwapNtoL(kBOM_UTF16[0])};
-static constexpr uint32_t kBOM_UTF32[]                      = {0x0000FEFF};
-static constexpr uint32_t kBOM_UTF32BE[]                    = {NByteSwap::SwapNtoB(kBOM_UTF32[0])};
-static constexpr uint32_t kBOM_UTF32LE[]                    = {NByteSwap::SwapNtoL(kBOM_UTF32[0])};
+inline constexpr uint8_t  kBOM_UTF8[]                       = {0xEF, 0xBB, 0xBF};
+inline constexpr uint16_t kBOM_UTF16[]                      = {0xFEFF};
+inline constexpr uint16_t kBOM_UTF16BE[]                    = {NByteSwap::SwapNtoB(kBOM_UTF16[0])};
+inline constexpr uint16_t kBOM_UTF16LE[]                    = {NByteSwap::SwapNtoL(kBOM_UTF16[0])};
+inline constexpr uint32_t kBOM_UTF32[]                      = {0x0000FEFF};
+inline constexpr uint32_t kBOM_UTF32BE[]                    = {NByteSwap::SwapNtoB(kBOM_UTF32[0])};
+inline constexpr uint32_t kBOM_UTF32LE[]                    = {NByteSwap::SwapNtoL(kBOM_UTF32[0])};
 
 
 // Legacy encodings

@@ -58,9 +58,9 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static const NString kStringsExtension                      = ".strings";
-static const NString kStringsDefaultLanguage                = "en.lproj";
-static const NString kStringsDefaultTable                   = "Localizable";
+inline constexpr const char* kStringsExtension              = ".strings";
+inline constexpr const char* kStringsDefaultLanguage        = "en.lproj";
+inline constexpr const char* kStringsDefaultTable           = "Localizable";
 
 
 

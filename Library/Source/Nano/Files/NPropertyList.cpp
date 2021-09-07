@@ -74,53 +74,53 @@
 //		Internal Constants
 //-----------------------------------------------------------------------------
 // Magic
-static constexpr uint8_t kNMagicXML[]                       = {0x3C, 0x3F, 0x78, 0x6D, 0x6C, 0x20};
-static constexpr uint8_t kNMagicBinary[]                    = {0x62, 0x70, 0x6C, 0x69, 0x73, 0x74, 0x30, 0x30};
+inline constexpr uint8_t kNMagicXML[]                       = {0x3C, 0x3F, 0x78, 0x6D, 0x6C, 0x20};
+inline constexpr uint8_t kNMagicBinary[]                    = {0x62, 0x70, 0x6C, 0x69, 0x73, 0x74, 0x30, 0x30};
 
 
 // XML
-static constexpr const char* kNPListSystemID1               = "http://www.apple.com/DTDs/PropertyList-1.0.dtd";
-static constexpr const char* kNPListPublicID1               = "-//Apple Computer//DTD PLIST 1.0//EN";
+inline constexpr const char* kNPListSystemID1               = "http://www.apple.com/DTDs/PropertyList-1.0.dtd";
+inline constexpr const char* kNPListPublicID1               = "-//Apple Computer//DTD PLIST 1.0//EN";
 
-static constexpr const char* kNXMLTokenArray                = "array";
-static constexpr const char* kNXMLTokenData                 = "data";
-static constexpr const char* kNXMLTokenTime                 = "date";
-static constexpr const char* kNXMLTokenDictionary           = "dict";
-static constexpr const char* kNXMLTokenFalse                = "false";
-static constexpr const char* kNXMLTokenInteger              = "integer";
-static constexpr const char* kNXMLTokenPList                = "plist";
-static constexpr const char* kNXMLTokenReal                 = "real";
-static constexpr const char* kNXMLTokenString               = "string";
-static constexpr const char* kNXMLTokenTrue                 = "true";
+inline constexpr const char* kNXMLTokenArray                = "array";
+inline constexpr const char* kNXMLTokenData                 = "data";
+inline constexpr const char* kNXMLTokenTime                 = "date";
+inline constexpr const char* kNXMLTokenDictionary           = "dict";
+inline constexpr const char* kNXMLTokenFalse                = "false";
+inline constexpr const char* kNXMLTokenInteger              = "integer";
+inline constexpr const char* kNXMLTokenPList                = "plist";
+inline constexpr const char* kNXMLTokenReal                 = "real";
+inline constexpr const char* kNXMLTokenString               = "string";
+inline constexpr const char* kNXMLTokenTrue                 = "true";
 
-static constexpr const char* kNXMLTokenKey                  = "key";
-static constexpr const char* kNXMLTokenVersion              = "version";
+inline constexpr const char* kNXMLTokenKey                  = "key";
+inline constexpr const char* kNXMLTokenVersion              = "version";
 
 
 // Binary
-static constexpr uint8_t kNBinaryTokenNull                  = 0x00;
-static constexpr uint8_t kNBinaryTokenInteger               = 0x01;
-static constexpr uint8_t kNBinaryTokenReal                  = 0x02;
-static constexpr uint8_t kNBinaryTokenTime                  = 0x03;
-static constexpr uint8_t kNBinaryTokenData                  = 0x04;
-static constexpr uint8_t kNBinaryTokenStringASCII           = 0x05;
-static constexpr uint8_t kNBinaryTokenStringUTF16           = 0x06;
-static constexpr uint8_t kNBinaryTokenArray                 = 0x0A;
-static constexpr uint8_t kNBinaryTokenDictionary            = 0x0D;
+inline constexpr uint8_t kNBinaryTokenNull                  = 0x00;
+inline constexpr uint8_t kNBinaryTokenInteger               = 0x01;
+inline constexpr uint8_t kNBinaryTokenReal                  = 0x02;
+inline constexpr uint8_t kNBinaryTokenTime                  = 0x03;
+inline constexpr uint8_t kNBinaryTokenData                  = 0x04;
+inline constexpr uint8_t kNBinaryTokenStringASCII           = 0x05;
+inline constexpr uint8_t kNBinaryTokenStringUTF16           = 0x06;
+inline constexpr uint8_t kNBinaryTokenArray                 = 0x0A;
+inline constexpr uint8_t kNBinaryTokenDictionary            = 0x0D;
 
-static constexpr uint8_t kNBinaryValueNull                  = 0x00;
-static constexpr uint8_t kNBinaryValueFill                  = 0x0F;
-static constexpr uint8_t kNBinaryValueFalse                 = 0x08;
-static constexpr uint8_t kNBinaryValueTrue                  = 0x09;
-static constexpr uint8_t kNBinaryValueSizeInteger           = 0x0F;
+inline constexpr uint8_t kNBinaryValueNull                  = 0x00;
+inline constexpr uint8_t kNBinaryValueFill                  = 0x0F;
+inline constexpr uint8_t kNBinaryValueFalse                 = 0x08;
+inline constexpr uint8_t kNBinaryValueTrue                  = 0x09;
+inline constexpr uint8_t kNBinaryValueSizeInteger           = 0x0F;
 
-static constexpr uint8_t kNBinaryValueInt8                  = 0x00;
-static constexpr uint8_t kNBinaryValueInt16                 = 0x01;
-static constexpr uint8_t kNBinaryValueInt32                 = 0x02;
-static constexpr uint8_t kNBinaryValueInt64                 = 0x03;
+inline constexpr uint8_t kNBinaryValueInt8                  = 0x00;
+inline constexpr uint8_t kNBinaryValueInt16                 = 0x01;
+inline constexpr uint8_t kNBinaryValueInt32                 = 0x02;
+inline constexpr uint8_t kNBinaryValueInt64                 = 0x03;
 
-static constexpr uint8_t kNBinaryValueFloat32               = 0x02;
-static constexpr uint8_t kNBinaryValueFloat64               = 0x03;
+inline constexpr uint8_t kNBinaryValueFloat32               = 0x02;
+inline constexpr uint8_t kNBinaryValueFloat64               = 0x03;
 
 
 

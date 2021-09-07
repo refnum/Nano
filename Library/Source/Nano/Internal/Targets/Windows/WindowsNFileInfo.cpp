@@ -56,10 +56,10 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr NFileStateFlags kNFileStateMaskStat =
+inline constexpr NFileStateFlags kNFileStateMaskStat =
 	NFileState::CanRead | NFileState::CanWrite | NFileState::CanExecute;
 
-static constexpr NFileStateFlags kNFileStateMaskAttributes =
+inline constexpr NFileStateFlags kNFileStateMaskAttributes =
 	NFileState::Exists | NFileState::IsFile | NFileState::IsDirectory | NFileState::CreationTime |
 	NFileState::ModifiedTime | NFileState::FileSize;
 

@@ -55,8 +55,8 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static const char*      kNDebuggerSymbolName                = "\\((\\w*)\\+";
-static constexpr size_t kNDebuggerMaxFrames                 = 512;
+inline const char*      kNDebuggerSymbolName                = "\\((\\w*)\\+";
+inline constexpr size_t kNDebuggerMaxFrames                 = 512;
 
 
 

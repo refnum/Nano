@@ -53,8 +53,8 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr const char* kXMLHeader                     = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-static constexpr const char* kEncodeIndent                  = "\t";
+inline constexpr const char* kXMLHeader                     = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+inline constexpr const char* kEncodeIndent                  = "\t";
 
 
 

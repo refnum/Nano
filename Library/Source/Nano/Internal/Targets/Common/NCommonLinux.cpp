@@ -73,26 +73,26 @@
 //		Internal Constants
 //-----------------------------------------------------------------------------
 // Misc
-static constexpr size_t kNBufferSize                        = 2 * kNKibibyte;
+inline constexpr size_t kNBufferSize                        = 2 * kNKibibyte;
 
 
 
 // Time
-static constexpr uint64_t kNanosecondsPerSecond             = 1000000000ULL;
+inline constexpr uint64_t kNanosecondsPerSecond             = 1000000000ULL;
 
 #if defined(CLOCK_MONOTONIC_RAW)
-static constexpr clockid_t kSystemClockID                   = CLOCK_MONOTONIC_RAW;
+inline constexpr clockid_t kSystemClockID                   = CLOCK_MONOTONIC_RAW;
 #else
-static constexpr clockid_t kSystemClockID                   = CLOCK_MONTONIC;
+inline constexpr clockid_t kSystemClockID                   = CLOCK_MONTONIC;
 #endif
 
 
 // File
-static constexpr NFileStateFlags kNFileStateMaskStat =
+inline constexpr NFileStateFlags kNFileStateMaskStat =
 	NFileState::Exists | NFileState::IsFile | NFileState::IsDirectory | NFileState::ModifiedTime |
 	NFileState::FileSize;
 
-constexpr NFileStateFlags kNFileStateMaskStatX =
+inline constexpr NFileStateFlags kNFileStateMaskStatX =
 	NFileState::CreationTime | NFileState::ModifiedTime;
 
 

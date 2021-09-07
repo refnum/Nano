@@ -51,8 +51,8 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr const char* kNAttributeDocTypeSystemID     = "system";
-static constexpr const char* kNAttributeDocTypePublicID     = "public";
+inline constexpr const char* kNAttributeDocTypeSystemID     = "system";
+inline constexpr const char* kNAttributeDocTypePublicID     = "public";
 
 
 

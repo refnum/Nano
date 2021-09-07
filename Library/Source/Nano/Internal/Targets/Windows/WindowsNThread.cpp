@@ -55,11 +55,11 @@
 //		Internal Constants
 //-----------------------------------------------------------------------------
 // MSVC thread support
-static const DWORD MSVC_DEBUGGER                            = 0x406D1388;
-static const DWORD MSVC_SET_THREADNAME                      = 0x1000;
+inline const DWORD MSVC_DEBUGGER                            = 0x406D1388;
+inline const DWORD MSVC_SET_THREADNAME                      = 0x1000;
 
 // Thread affinity
-static constexpr uint8_t kNThreadCoresMax                   = sizeof(DWORD_PTR) * 8;
+inline constexpr uint8_t kNThreadCoresMax                   = sizeof(DWORD_PTR) * 8;
 
 
 

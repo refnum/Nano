@@ -53,34 +53,34 @@
 //-----------------------------------------------------------------------------
 // Separator
 #if NN_TARGET_WINDOWS
-static constexpr const char* kNPathSeparator                = "\\";
+inline constexpr const char* kNPathSeparator                = "\\";
 #else
-static constexpr const char* kNPathSeparator                = "/";
+inline constexpr const char* kNPathSeparator                = "/";
 #endif
 
 
 // Components
 #if NN_TARGET_WINDOWS
-static constexpr const char* kNAbsolutePrefix               = "[A-Za-z]:\\\\";
-static constexpr const char* kNRootSuffix                   = ":\\";
+inline constexpr const char* kNAbsolutePrefix               = "[A-Za-z]:\\\\";
+inline constexpr const char* kNRootSuffix                   = ":\\";
 
-static constexpr const char* kNPartRoot                     = "^([A-Za-z]:\\\\)";
-static constexpr const char* kNPartParent                   = "(.*)\\\\.*?$";
-static constexpr const char* kNPartFilename                 = ".*\\\\(.*?$)";
-static constexpr const char* kNPartStem                     = ".*\\\\(.*?)(\\..*)?$";
-static constexpr const char* kNPartStemSingle               = "(.*?)(\\..*)?$";
-static constexpr const char* kNPartExtension                = "\\.(.*?$)";
+inline constexpr const char* kNPartRoot                     = "^([A-Za-z]:\\\\)";
+inline constexpr const char* kNPartParent                   = "(.*)\\\\.*?$";
+inline constexpr const char* kNPartFilename                 = ".*\\\\(.*?$)";
+inline constexpr const char* kNPartStem                     = ".*\\\\(.*?)(\\..*)?$";
+inline constexpr const char* kNPartStemSingle               = "(.*?)(\\..*)?$";
+inline constexpr const char* kNPartExtension                = "\\.(.*?$)";
 
 #else
-static constexpr const char* kNAbsolutePrefix               = "\\/";
-static constexpr const char* kNRootSuffix                   = "/";
+inline constexpr const char* kNAbsolutePrefix               = "\\/";
+inline constexpr const char* kNRootSuffix                   = "/";
 
-static constexpr const char* kNPartRoot                     = "^(\\/)";
-static constexpr const char* kNPartParent                   = "(.*)\\/.*?$";
-static constexpr const char* kNPartFilename                 = ".*\\/(.*?$)";
-static constexpr const char* kNPartStem                     = ".*\\/(.*?)(\\..*)?$";
-static constexpr const char* kNPartStemSingle               = "(.*?)(\\..*)?$";
-static constexpr const char* kNPartExtension                = "\\.(.*?)$";
+inline constexpr const char* kNPartRoot                     = "^(\\/)";
+inline constexpr const char* kNPartParent                   = "(.*)\\/.*?$";
+inline constexpr const char* kNPartFilename                 = ".*\\/(.*?$)";
+inline constexpr const char* kNPartStem                     = ".*\\/(.*?)(\\..*)?$";
+inline constexpr const char* kNPartStemSingle               = "(.*?)(\\..*)?$";
+inline constexpr const char* kNPartExtension                = "\\.(.*?)$";
 #endif
 
 

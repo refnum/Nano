@@ -64,7 +64,7 @@ NN_DIAGNOSTIC_IGNORE_CLANG("-Wdisabled-macro-expansion");
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-static constexpr size_t kChunkSize                          = 10 * kNKilobyte;
+inline constexpr size_t kChunkSize                          = 10 * kNKilobyte;
 
 
 
