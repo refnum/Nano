@@ -100,16 +100,16 @@ static constexpr const char* GetFileAccess(NFileAccess theAccess)
 	// Get the permission
 	switch (theAccess)
 	{
-		case NFileAccess::ReadWrite:
-			return "w+";
-			break;
-
 		case NFileAccess::ReadOnly:
 			return "r";
 			break;
 
 		case NFileAccess::WriteOnly:
 			return "w";
+			break;
+
+		case NFileAccess::ReadWrite:
+			return "w+";
 			break;
 	}
 

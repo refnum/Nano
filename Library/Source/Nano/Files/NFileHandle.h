@@ -55,26 +55,26 @@
 //
 // A file may be opened for access in one mode at a time:
 //
-//		NFileAccess::ReadWrite		The file may be read from and written to.
-//
 //		NFileAccess::ReadOnly		The file may only be read from.
 //
 //		NFileAccess::WriteOnly		The file may only be written to.
 //
-// Opening a file in NFileAccess::ReadWrite or NFileAccess::WriteOnly
-// mode will create the file if it does not exist.
+//		NFileAccess::ReadWrite		The file may be read from and written to.
 //
 // Opening a file in NFileAccess::ReadOnly mode will return
 // NStatus::NotFound if the file does not exist.
+
+// Opening a file in NFileAccess::WriteOnly or NFileAccess::ReadWrite
+// mode will create the file if it does not exist.
 //
-// Openin a file in any mode will leave the initial file position at 0
-// and the existing file size unchanged.
+// Opening a file in any mode will leave the initial file position
+// at 0 and the existing file size unchanged.
 //
 enum class NFileAccess
 {
-	ReadWrite,
 	ReadOnly,
 	WriteOnly,
+	ReadWrite
 };
 
 
@@ -91,11 +91,11 @@ enum class NFileAccess
 // If no flags are provided a default set of flags is selected based on hte
 // access mode that the file was opened with:
 //
-//		NFileAccess::ReadWrite		NFileUsage::ReadEarly + NFileUsage::ReadAhead
-//
 //		NFileAccess::ReadOnly		NFileUsage::ReadEarly + NFileUsage::ReadAhead
 //
 //		NFileAccess::WriteOnly		NFileUsage::NoCache
+//
+//		NFileAccess::ReadWrite		NFileUsage::ReadEarly + NFileUsage::ReadAhead
 //
 enum class NFileUsage
 {

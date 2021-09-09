@@ -615,16 +615,16 @@ NFileUsageFlags NFileHandle::GetOpenFlags(NFileAccess theAccess, NFileUsageFlags
 	{
 		switch (theAccess)
 		{
-			case NFileAccess::ReadWrite:
-				theFlags = NFileUsage::ReadEarly | NFileUsage::ReadAhead;
-				break;
-
 			case NFileAccess::ReadOnly:
 				theFlags = NFileUsage::ReadEarly | NFileUsage::ReadAhead;
 				break;
 
 			case NFileAccess::WriteOnly:
 				theFlags = NFileUsage::NoCache;
+				break;
+
+			case NFileAccess::ReadWrite:
+				theFlags = NFileUsage::ReadEarly | NFileUsage::ReadAhead;
 				break;
 		}
 	}

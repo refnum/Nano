@@ -61,16 +61,16 @@ static constexpr DWORD GetFileAccess(NFileAccess theAccess)
 	// Get the access mode
 	switch (theAccess)
 	{
-		case NFileAccess::ReadWrite:
-			return FILE_GENERIC_READ | FILE_GENERIC_WRITE;
-			break;
-
 		case NFileAccess::ReadOnly:
 			return FILE_GENERIC_READ;
 			break;
 
 		case NFileAccess::WriteOnly:
 			return FILE_GENERIC_WRITE;
+			break;
+
+		case NFileAccess::ReadWrite:
+			return FILE_GENERIC_READ | FILE_GENERIC_WRITE;
 			break;
 	}
 
@@ -91,14 +91,18 @@ static constexpr DWORD GetFileCreation(NFileAccess theAccess)
 	// Get the creation mode
 	switch (theAccess)
 	{
-		case NFileAccess::ReadWrite:
+		case NFileAccess::ReadOnly:
+			return OPEN_EXISTING;
+			break;
+
 		case NFileAccess::WriteOnly:
 			return OPEN_ALWAYS;
 			break;
 
-		case NFileAccess::ReadOnly:
-			return OPEN_EXISTING;
+		case NFileAccess::ReadWrite:
+			return OPEN_ALWAYS;
 			break;
+
 	}
 
 	NN_UNREACHABLE();
