@@ -200,6 +200,26 @@ NANO_TEST(TDataDigest, "XXHash64")
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
+NANO_TEST(TDataDigest, "XXHash3")
+{
+
+
+	// Perform the test
+	REQUIRE(NDataDigest::GetXXHash3(kData1) == 0xbfd691c4f6750254);
+	REQUIRE(NDataDigest::GetXXHash3(kData2) == 0xa6584d1d9a6ae704);
+	REQUIRE(NDataDigest::GetXXHash3(kData3) == 0x0000000000000000);
+
+	REQUIRE(NDataDigest::GetXXHash3(std::size(kBytes1), kBytes1) == 0xbfd691c4f6750254);
+	REQUIRE(NDataDigest::GetXXHash3(std::size(kBytes2), kBytes2) == 0xa6584d1d9a6ae704);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
 NANO_TEST(TDataDigest, "MD5")
 {
 

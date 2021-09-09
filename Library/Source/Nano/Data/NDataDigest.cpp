@@ -112,6 +112,21 @@ uint64_t NDataDigest::GetXXHash64(const NData& theData, uint64_t prevValue)
 
 
 //=============================================================================
+//		NDataDigest::GetXXHash3 : Get an XXH3 digest.
+//-----------------------------------------------------------------------------
+uint64_t NDataDigest::GetXXHash3(const NData& theData, uint64_t prevValue)
+{
+
+
+	// Get the digest
+	return GetXXHash3(theData.GetSize(), theData.GetData(), prevValue);
+}
+
+
+
+
+
+//=============================================================================
 //		NDataDigest::GetMD5 : Get an MD5 digest.
 //-----------------------------------------------------------------------------
 NDigest128 NDataDigest::GetMD5(const NData& theData, const NDigest128* prevValue)
@@ -270,6 +285,31 @@ uint64_t NDataDigest::GetXXHash64(size_t theSize, const void* thePtr, uint64_t p
 		NN_DIAGNOSTIC_IGNORE_GCC("-Wpragmas");
 
 		theDigest = XXH64(thePtr, theSize, prevValue);
+
+		NN_DIAGNOSTIC_POP();
+	}
+
+	return theDigest;
+}
+
+
+
+
+
+//=============================================================================
+//		NDataDigest::GetXXHash3 : Get an XXH33 digest.
+//-----------------------------------------------------------------------------
+uint64_t NDataDigest::GetXXHash3(size_t theSize, const void* thePtr, uint64_t prevValue)
+{
+	uint64_t theDigest = prevValue;
+
+	if (theSize != 0)
+	{
+		NN_DIAGNOSTIC_PUSH();
+		NN_DIAGNOSTIC_IGNORE_CLANG("-Wused-but-marked-unused");
+		NN_DIAGNOSTIC_IGNORE_GCC("-Wpragmas");
+
+		theDigest = XXH3_64bits_withSeed(thePtr, theSize, prevValue);
 
 		NN_DIAGNOSTIC_POP();
 	}
