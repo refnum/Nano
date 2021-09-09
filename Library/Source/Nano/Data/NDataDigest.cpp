@@ -82,7 +82,7 @@ uint32_t NDataDigest::GetAdler32(const NData& theData, uint32_t prevValue)
 
 
 //=============================================================================
-//		NDataDigest::GetXXHash32 : Get an xxHash32 digest.
+//		NDataDigest::GetXXHash32 : Get an XXH32 digest.
 //-----------------------------------------------------------------------------
 uint32_t NDataDigest::GetXXHash32(const NData& theData, uint32_t prevValue)
 {
@@ -97,7 +97,7 @@ uint32_t NDataDigest::GetXXHash32(const NData& theData, uint32_t prevValue)
 
 
 //=============================================================================
-//		NDataDigest::GetXXHash64 : Get an xxHash64 digest.
+//		NDataDigest::GetXXHash64 : Get an XXH64 digest.
 //-----------------------------------------------------------------------------
 uint64_t NDataDigest::GetXXHash64(const NData& theData, uint64_t prevValue)
 {
@@ -229,7 +229,7 @@ uint32_t NDataDigest::GetAdler32(size_t theSize, const void* thePtr, uint32_t pr
 
 
 //=============================================================================
-//		NDataDigest::GetXXHash32 : Get an xxHash32 digest.
+//		NDataDigest::GetXXHash32 : Get an XXH32 digest.
 //-----------------------------------------------------------------------------
 uint32_t NDataDigest::GetXXHash32(size_t theSize, const void* thePtr, uint32_t prevValue)
 {
@@ -257,7 +257,7 @@ uint32_t NDataDigest::GetXXHash32(size_t theSize, const void* thePtr, uint32_t p
 
 
 //=============================================================================
-//		NDataDigest::GetXXHash64 : Get an xxHash64 digest.
+//		NDataDigest::GetXXHash64 : Get an XXH64 digest.
 //-----------------------------------------------------------------------------
 uint64_t NDataDigest::GetXXHash64(size_t theSize, const void* thePtr, uint64_t prevValue)
 {
