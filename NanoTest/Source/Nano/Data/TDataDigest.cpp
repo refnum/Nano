@@ -94,8 +94,36 @@ NANO_FIXTURE(TDataDigest){};
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
+NANO_TEST(TDataDigest, "Runtime")
+{
+	// Perform the test
+	REQUIRE(NDataDigest::GetRuntime(kData1) != 0);
+	REQUIRE(NDataDigest::GetRuntime32(kData1) != 0);
+	REQUIRE(NDataDigest::GetRuntime64(kData1) != 0);
+	REQUIRE(NDataDigest::GetRuntime128(kData1).IsValid());
+
+	REQUIRE(NDataDigest::GetRuntime(kData3) == 0);
+	REQUIRE(NDataDigest::GetRuntime32(kData3) == 0);
+	REQUIRE(NDataDigest::GetRuntime64(kData3) == 0);
+	REQUIRE(!NDataDigest::GetRuntime128(kData3).IsValid());
+
+	REQUIRE(NDataDigest::GetRuntime(std::size(kBytes1), kBytes1) != 0);
+	REQUIRE(NDataDigest::GetRuntime32(std::size(kBytes1), kBytes1) != 0);
+	REQUIRE(NDataDigest::GetRuntime64(std::size(kBytes1), kBytes1) != 0);
+	REQUIRE(NDataDigest::GetRuntime128(std::size(kBytes1), kBytes1).IsValid());
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
 NANO_TEST(TDataDigest, "Internet")
 {
+
+
 	// Perform the test
 	REQUIRE(NDataDigest::GetInternet(kData1) == 0x8866);
 	REQUIRE(NDataDigest::GetInternet(kData2) == 0xf9f6);

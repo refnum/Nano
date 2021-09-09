@@ -419,7 +419,7 @@ inline uint64_t NDataDigest::GetRuntime64(size_t theSize, const void* thePtr, ui
 	// Get the digest
 	uint64_t theDigest = prevValue;
 
-	if (theDigest != 0)
+	if (theSize != 0)
 	{
 		NN_DIAGNOSTIC_PUSH();
 		NN_DIAGNOSTIC_IGNORE_CLANG("-Wused-but-marked-unused");
