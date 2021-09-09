@@ -353,24 +353,11 @@ inline size_t NDataDigest::GetRuntime(size_t theSize, const void* thePtr, size_t
 
 
 	// Get the digest
-	size_t theDigest = prevValue;
-
-	if (theSize != 0)
-	{
-		NN_DIAGNOSTIC_PUSH();
-		NN_DIAGNOSTIC_IGNORE_CLANG("-Wused-but-marked-unused");
-		NN_DIAGNOSTIC_IGNORE_GCC("-Wpragmas");
-
 #if NN_ARCH_64
-		theDigest = XXH64(thePtr, theSize, prevValue);
+	return GetRuntime64(theSize, thePtr, prevValue);
 #else
-		theDigest      = XXH32(thePtr, theSize, prevValue);
+	return GetRuntime32(theSize, thePtr, prevValue);
 #endif
-
-		NN_DIAGNOSTIC_POP();
-	}
-
-	return theDigest;
 }
 
 
@@ -393,11 +380,7 @@ inline uint32_t NDataDigest::GetRuntime32(size_t theSize, const void* thePtr, ui
 		NN_DIAGNOSTIC_IGNORE_CLANG("-Wused-but-marked-unused");
 		NN_DIAGNOSTIC_IGNORE_GCC("-Wpragmas");
 
-#if NN_ARCH_64
-		theDigest = uint32_t(XXH64(thePtr, theSize, prevValue));
-#else
-		theDigest      = XXH32(thePtr, theSize, prevValue);
-#endif
+		theDigest = uint32_t(GetXXHash3(theSize, thePtr, prevValue));
 
 		NN_DIAGNOSTIC_POP();
 	}
@@ -425,14 +408,7 @@ inline uint64_t NDataDigest::GetRuntime64(size_t theSize, const void* thePtr, ui
 		NN_DIAGNOSTIC_IGNORE_CLANG("-Wused-but-marked-unused");
 		NN_DIAGNOSTIC_IGNORE_GCC("-Wpragmas");
 
-#if NN_ARCH_64
-		theDigest = XXH64(thePtr, theSize, prevValue);
-#else
-		uint32_t hash1 = XXH32(thePtr, theSize, prevValue);
-		uint32_t hash2 = XXH32(thePtr, theSize, hash1);
-
-		theDigest = (uint64_t(hash1) << 32) | uint64_t(hash2);
-#endif
+		theDigest = GetXXHash3(theSize, thePtr, prevValue);
 
 		NN_DIAGNOSTIC_POP();
 	}
