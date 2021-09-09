@@ -44,7 +44,7 @@
 // Nano
 #include "NDebug.h"
 #include "NLogOutput.h"
-#include "NSpinLock.h"
+#include "NMutex.h"
 #include "NanoConstants.h"
 
 // System
@@ -137,7 +137,7 @@ private:
 
 
 private:
-	NSpinLock                           mLock;
+	NMutex                              mLock;
 	NLogOutputConsole                   mOutput;
 };
 
