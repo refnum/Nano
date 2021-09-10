@@ -59,7 +59,7 @@ inline constexpr const char* kNPathSeparator                = "/";
 #endif
 
 
-// Components
+// Parts
 #if NN_TARGET_WINDOWS
 inline constexpr const char* kNAbsolutePrefix               = "[A-Za-z]:\\\\";
 inline constexpr const char* kNRootSuffix                   = ":\\";
@@ -67,9 +67,6 @@ inline constexpr const char* kNRootSuffix                   = ":\\";
 inline constexpr const char* kNPartRoot                     = "^([A-Za-z]:\\\\)";
 inline constexpr const char* kNPartParent                   = "(.*)\\\\.*?$";
 inline constexpr const char* kNPartFilename                 = ".*\\\\(.*?$)";
-inline constexpr const char* kNPartStem                     = ".*\\\\(.*?)(\\..*)?$";
-inline constexpr const char* kNPartStemSingle               = "(.*?)(\\..*)?$";
-inline constexpr const char* kNPartExtension                = "\\.(.*?$)";
 
 #else
 inline constexpr const char* kNAbsolutePrefix               = "\\/";
@@ -78,10 +75,12 @@ inline constexpr const char* kNRootSuffix                   = "/";
 inline constexpr const char* kNPartRoot                     = "^(\\/)";
 inline constexpr const char* kNPartParent                   = "(.*)\\/.*?$";
 inline constexpr const char* kNPartFilename                 = ".*\\/(.*?$)";
-inline constexpr const char* kNPartStem                     = ".*\\/(.*?)(\\..*)?$";
-inline constexpr const char* kNPartStemSingle               = "(.*?)(\\..*)?$";
-inline constexpr const char* kNPartExtension                = "\\.(.*?)$";
 #endif
+
+
+// Patterns
+inline constexpr const char* kNMatchStem                    = "(.+)\\.";
+inline constexpr const char* kNMatchExtension               = ".+\\.(.*)";
 
 
 
@@ -361,16 +360,21 @@ NString NFilePath::GetStem() const
 
 
 	// Get the stem
-	//
-	// If we fail to find a separator we must have a single, relative, part.
-	NString theStem = GetPart(kNPartStem);
+	NString fileName = GetFilename();
+	NString theStem;
 
-	if (theStem.IsEmpty())
+	if (fileName == "." || fileName == "..")
 	{
-		NN_REQUIRE(IsRelative());
-
-		theStem = GetPart(kNPartStemSingle);
-		NN_REQUIRE(!theStem.IsEmpty());
+		theStem = fileName;
+	}
+	else
+	{
+		theStem = fileName.GetMatch(kNMatchStem);
+		if (theStem.IsEmpty())
+		{
+			theStem = fileName;
+			NN_REQUIRE(GetExtension().IsEmpty());
+		}
 	}
 
 	return theStem;
@@ -394,15 +398,19 @@ void NFilePath::SetStem(const NString& theStem)
 
 
 	// Set the stem
-	//
-	// If we fail to find a separator we must have a single, relative, part.
-	if (!SetPart(kNPartStem, theStem))
-	{
-		NN_REQUIRE(IsRelative());
+	NString fileName = theStem;
 
-		bool didSet = SetPart(kNPartStemSingle, theStem);
-		NN_REQUIRE(didSet);
+	if (theStem != "." && theStem != "..")
+	{
+		NString theExtension = GetExtension();
+		if (!theExtension.IsEmpty())
+		{
+			fileName += ".";
+			fileName += theExtension;
+		}
 	}
+
+	SetFilename(fileName);
 
 
 
@@ -427,7 +435,19 @@ NString NFilePath::GetExtension() const
 
 
 	// Get the extension
-	return GetPart(kNPartExtension);
+	NString fileName = GetFilename();
+	NString theExtension;
+
+	if (fileName != "." && fileName != "..")
+	{
+		theExtension = fileName.GetMatch(kNMatchExtension);
+		if (theExtension == fileName)
+		{
+			theExtension.Clear();
+		}
+	}
+
+	return theExtension;
 }
 
 
@@ -448,34 +468,15 @@ void NFilePath::SetExtension(const NString& theExtension)
 
 
 	// Set the extension
-	bool didSet = SetPart(kNPartExtension, theExtension);
-	if (didSet)
-	{
-		// Remove the extension
-		//
-		// If we had an extension then we will have replaced everything
-		// after the last period.
-		//
-		// If the new extension is empty we must remove this period too.
-		if (theExtension.IsEmpty())
-		{
-			NN_REQUIRE(mPath.EndsWith("."));
-			mPath.RemoveSuffix(1);
-		}
-	}
-	else
-	{
-		// Add an extension
-		//
-		// If we had no extension, but we want to add one, then we must
-		// also add the last period.
-		NN_REQUIRE(!mPath.EndsWith("."));
+	NString fileName = GetStem();
 
-		if (!theExtension.IsEmpty())
-		{
-			mPath += "." + theExtension;
-		}
+	if (!theExtension.IsEmpty())
+	{
+		fileName += ".";
+		fileName += theExtension;
 	}
+
+	SetFilename(fileName);
 
 
 
@@ -798,15 +799,7 @@ NString NFilePath::GetPart(const NString& thePattern) const
 
 
 	// Get the part
-	NPatternMatch theMatch = mPath.FindMatch(thePattern);
-	NString       theResult;
-
-	if (!theMatch.theGroups.empty())
-	{
-		theResult = mPath.GetSubstring(theMatch.theGroups[0]);
-	}
-
-	return theResult;
+	return mPath.GetMatch(thePattern);
 }
 
 

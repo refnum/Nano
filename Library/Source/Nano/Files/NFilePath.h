@@ -95,7 +95,7 @@ public:
 
 	// Is the path a root path?
 	//
-	// A root path is the initial component of an absolute path?
+	// A root path is the initial component of an absolute path.
 	bool                                IsRoot() const;
 
 
@@ -121,9 +121,9 @@ public:
 	//		/path/to/file.dat		C:\path\to\file.dat
 	//      ^^^^^^^^                ^^^^^^^^^^
 	//
-	// The final parent of an absolute path is the root path itself.
+	// The last parent of an absolute path is the root path itself.
 	//
-	// The final parent of a relative path is an empty path.
+	// The last parent of a relative path is an empty path.
 	NFilePath                           GetParent() const;
 
 
@@ -133,7 +133,7 @@ public:
 
 	// Get/set the filename
 	//
-	// The filename is the final part of the path:
+	// The filename is the last part of the path:
 	//
 	//		/path/to/file.dat		C:\path\to\file.dat
 	//               ^^^^^^^^                  ^^^^^^^^
@@ -145,26 +145,50 @@ public:
 
 	// Get/set the stem
 	//
-	// The stem comes before the last period in the final part:
+	// The stem is the portion of the filename before the last period.
 	//
 	//		/path/to/file.dat		C:\path\to\file.dat
 	//               ^^^^                      ^^^^
 	//
-	// The stem does not include the period.
+	//		/path/to/file			C:\path\to\file
+	//               ^^^^                      ^^^^
+	//
+	//		/path/to/.file.dat		C:\path\to\.file.dat
+	//               ^^^^^                     ^^^^^
+	//
+	// The stem does not include the period before the extension.
+	//
+	// If the filename starts with a period, and that is the only period
+	// in the filename, then the stem is the entire filename:
+	//
+	//		/path/to/.file			C:\path\to\.file
+	//               ^^^^^                     ^^^^^
+	//
+	// If the filename is one of the special "." or ".." filenames then
+	// the stem is the entire filename:
+	//
+	//		/path/to/.				C:\path\to\.
+	//               ^                         ^
+	//
+	//		/path/to/..				C:\path\to\..
+	//               ^^                        ^^
 	NString                             GetStem() const;
 	void                                SetStem(  const NString& theStem);
 
 
 	// Get/set the extension
 	//
-	// The extension comes after the last period in the final part:
+	// The extension is the portion of the filename after the last period:
 	//
 	//		/path/to/file.dat		C:\path\to\file.dat
 	//                    ^^^                       ^^^
 	//
+	//		/path/to/.file.dat		C:\path\to\.file.dat
+	//                     ^^^                       ^^^
+	//
 	// The extension does not include the period.
 	//
-	// Assigning an empty extension also removes the last period.
+	// Assigning an empty extension removes the last period.
 	NString                             GetExtension() const;
 	void                                SetExtension(  const NString& theExtension);
 

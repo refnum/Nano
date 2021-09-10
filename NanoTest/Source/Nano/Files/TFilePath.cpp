@@ -55,7 +55,11 @@ static const NString kExtension                             = "dat";
 
 static const NString kStemA                                 = "four";
 static const NString kStemB                                 = "33333";
-static const NString kStemC                                 = "222";
+static const NString kStemC                                 = ".222";
+
+static const NString kFilename1                             = "one";
+static const NString kFilename2                             = ".two";
+static const NString kFilename3                             = "three.";
 
 static const NString kFilenameA                             = kStemA;
 static const NString kFilenameB                             = kStemB + "." + kExtension;
@@ -64,9 +68,9 @@ static const NString kFilenameC                             = kStemC + "." + kEx
 static const NFilePath kPathTmpDirectory =
 	NFileUtils::GetLocation(NFileLocation::AppTemporaries, "TFilePath");
 
-static const NFilePath kPathTmpOne                          = kPathTmpDirectory.GetChild("one");
-static const NFilePath kPathTmpOneTwo                       = kPathTmpOne.GetChild("two");
-static const NFilePath kPathTmpOneTwoThree                  = kPathTmpOneTwo.GetChild("three");
+static const NFilePath kPathTmpOne                          = kPathTmpDirectory.GetChild(kFilename1);
+static const NFilePath kPathTmpOneTwo                       = kPathTmpOne.GetChild(kFilename2);
+static const NFilePath kPathTmpOneTwoThree                  = kPathTmpOneTwo.GetChild(kFilename3);
 
 static const NFilePath kPathTmpA                            = kPathTmpOneTwoThree.GetChild(kFilenameA);
 static const NFilePath kPathTmpB                            = kPathTmpOneTwo.GetChild(kFilenameB);
@@ -115,9 +119,9 @@ NANO_TEST(TFilePath, "IsAbsolute")
 	REQUIRE(kPathTmpB.IsAbsolute());
 	REQUIRE(kPathTmpC.IsAbsolute());
 
-	REQUIRE(!NFilePath("one").IsAbsolute());
-	REQUIRE(!NFilePath("one").GetChild("two").IsAbsolute());
-	REQUIRE(!NFilePath("one").GetChild("two").GetChild("three").IsAbsolute());
+	REQUIRE(!NFilePath(kFilename1).IsAbsolute());
+	REQUIRE(!NFilePath(kFilename1).GetChild(kFilename2).IsAbsolute());
+	REQUIRE(!NFilePath(kFilename1).GetChild(kFilename2).GetChild(kFilename3).IsAbsolute());
 }
 
 
@@ -136,9 +140,9 @@ NANO_TEST(TFilePath, "IsRelative")
 	REQUIRE(!kPathTmpB.IsRelative());
 	REQUIRE(!kPathTmpC.IsRelative());
 
-	REQUIRE(NFilePath("one").IsRelative());
-	REQUIRE(NFilePath("one").GetChild("two").IsRelative());
-	REQUIRE(NFilePath("one").GetChild("two").GetChild("three").IsRelative());
+	REQUIRE(NFilePath(kFilename1).IsRelative());
+	REQUIRE(NFilePath(kFilename1).GetChild(kFilename2).IsRelative());
+	REQUIRE(NFilePath(kFilename1).GetChild(kFilename2).GetChild(kFilename3).IsRelative());
 }
 
 
@@ -199,9 +203,9 @@ NANO_TEST(TFilePath, "GetRoot")
 	REQUIRE(kPathTmpB.GetRoot().IsValid());
 	REQUIRE(kPathTmpC.GetRoot().IsValid());
 
-	REQUIRE(!NFilePath("one").GetRoot().IsValid());
-	REQUIRE(!NFilePath("one").GetChild("two").GetRoot().IsValid());
-	REQUIRE(!NFilePath("one").GetChild("two").GetChild("three").GetRoot().IsValid());
+	REQUIRE(!NFilePath(kFilename1).GetRoot().IsValid());
+	REQUIRE(!NFilePath(kFilename1).GetChild(kFilename2).GetRoot().IsValid());
+	REQUIRE(!NFilePath(kFilename1).GetChild(kFilename2).GetChild(kFilename3).GetRoot().IsValid());
 }
 
 
@@ -216,9 +220,10 @@ NANO_TEST(TFilePath, "GetParent")
 
 
 	// Perform the test
-	NFilePath parentA = kPathTmpDirectory.GetChild("one").GetChild("two").GetChild("three");
-	NFilePath parentB = kPathTmpDirectory.GetChild("one").GetChild("two");
-	NFilePath parentC = kPathTmpDirectory.GetChild("one");
+	NFilePath parentA =
+		kPathTmpDirectory.GetChild(kFilename1).GetChild(kFilename2).GetChild(kFilename3);
+	NFilePath parentB = kPathTmpDirectory.GetChild(kFilename1).GetChild(kFilename2);
+	NFilePath parentC = kPathTmpDirectory.GetChild(kFilename1);
 
 	REQUIRE(kPathTmpA.GetParent() == parentA);
 	REQUIRE(kPathTmpB.GetParent() == parentB);
@@ -237,9 +242,10 @@ NANO_TEST(TFilePath, "GetChild")
 
 
 	// Perform the test
-	NFilePath parent3 = kPathTmpDirectory.GetChild("one").GetChild("two").GetChild("three");
-	NFilePath parent2 = kPathTmpDirectory.GetChild("one").GetChild("two");
-	NFilePath parent1 = kPathTmpDirectory.GetChild("one");
+	NFilePath parent3 =
+		kPathTmpDirectory.GetChild(kFilename1).GetChild(kFilename2).GetChild(kFilename3);
+	NFilePath parent2 = kPathTmpDirectory.GetChild(kFilename1).GetChild(kFilename2);
+	NFilePath parent1 = kPathTmpDirectory.GetChild(kFilename1);
 
 	REQUIRE(parent3.GetChild(kFilenameA) == kPathTmpA);
 	REQUIRE(parent2.GetChild(kFilenameB) == kPathTmpB);
@@ -698,9 +704,9 @@ NANO_TEST(TFilePath, "Appendable")
 
 	// Perform the test
 	thePath = kPathTmpDirectory;
-	thePath += NFilePath("one");
-	thePath += NFilePath("two");
-	thePath += NFilePath("three");
+	thePath += NFilePath(kFilename1);
+	thePath += NFilePath(kFilename2);
+	thePath += NFilePath(kFilename3);
 
 	NN_REQUIRE(thePath == kPathTmpOneTwoThree);
 }
