@@ -56,9 +56,10 @@
 //		NFileHandle::NFileHandle : Constructor.
 //-----------------------------------------------------------------------------
 NFileHandle::NFileHandle()
-	: mPath{}
-	, mAccess(NFileAccess::ReadOnly)
+	: mPathDest{}
+	, mPathOpen{}
 	, mHandle(nullptr)
+	, mAccess(NFileAccess::ReadOnly)
 {
 }
 
@@ -107,7 +108,7 @@ NFilePath NFileHandle::GetPath() const
 
 
 	// Get the path
-	return mPath;
+	return mPathDest;
 }
 
 
@@ -140,19 +141,27 @@ NStatus NFileHandle::Open(const NFilePath& thePath, NFileAccess theAccess, NFile
 	NN_REQUIRE(!IsOpen());
 	NN_REQUIRE(thePath.IsValid());
 
-	NN_REQUIRE(!mPath.IsValid());
+	NN_REQUIRE(!mPathDest.IsValid());
+	NN_REQUIRE(!mPathOpen.IsValid());
+
+
+
+	// Get the state we need
+	NFilePath       pathOpen  = GetOpenPath(theAccess, thePath);
+	NFileUsageFlags flagsOpen = GetOpenFlags(theAccess, theFlags);
 
 
 
 	// Open the file
-	NStatus theErr = FileOpen(thePath, theAccess, GetOpenFlags(theAccess, theFlags));
+	NStatus theErr = FileOpen(pathOpen, theAccess, flagsOpen);
 	if (theErr == NStatus::OK)
 	{
 		// Update our state
 		NN_REQUIRE(mHandle != nullptr);
 
-		mPath   = thePath;
-		mAccess = theAccess;
+		mPathDest = thePath;
+		mPathOpen = pathOpen;
+		mAccess   = theAccess;
 
 
 
@@ -207,17 +216,23 @@ NStatus NFileHandle::Close()
 
 	// Validate our state
 	NN_REQUIRE(IsOpen());
-	NN_REQUIRE(mPath.IsValid());
+	NN_REQUIRE(mPathDest.IsValid());
+	NN_REQUIRE(mPathOpen.IsValid());
 
 
 
 	// Close the handle
-	NStatus theErr = FileClose();
+	NStatus theErr = CloseHandle();
 
-	mPath.Clear();
+
+
+	// Reset our state
+	mPathDest.Clear();
+	mPathOpen.Clear();
+
 	mAccess = NFileAccess::ReadOnly;
 	mHandle = nullptr;
-	
+
 	return theErr;
 }
 
@@ -234,6 +249,7 @@ uint64_t NFileHandle::GetPosition() const
 
 	// Validate our state
 	NN_REQUIRE(IsOpen());
+
 
 
 	// Get the position
@@ -255,6 +271,7 @@ NStatus NFileHandle::SetPosition(int64_t theOffset, NFileOffset relativeTo)
 	NN_REQUIRE(IsOpen());
 
 
+
 	// Set the position
 	return FileSetPosition(theOffset, relativeTo);
 }
@@ -271,7 +288,14 @@ uint64_t NFileHandle::GetSize() const
 
 
 	// Get the size
-	return NFileInfo(mPath).GetFileSize();
+	if (IsOpen())
+	{
+		return NFileInfo(mPathOpen).GetFileSize();
+	}
+	else
+	{
+		return NFileInfo(mPathDest).GetFileSize();
+	}
 }
 
 
@@ -288,6 +312,7 @@ NStatus NFileHandle::SetSize(uint64_t theSize)
 	// Validate our state
 	NN_REQUIRE(IsOpen());
 	NN_REQUIRE(CanWrite());
+
 
 
 	// Set the size
@@ -583,7 +608,7 @@ bool NFileHandle::CanRead() const
 
 
 	// Check our state
-	return mAccess == NFileAccess::ReadWrite || mAccess == NFileAccess::ReadOnly;
+	return mAccess == NFileAccess::ReadOnly || mAccess == NFileAccess::ReadWrite;
 }
 
 
@@ -598,7 +623,8 @@ bool NFileHandle::CanWrite() const
 
 
 	// Check our state
-	return mAccess == NFileAccess::ReadWrite || mAccess == NFileAccess::WriteOnly;
+	return mAccess == NFileAccess::WriteOnly || mAccess == NFileAccess::ReadWrite ||
+		   mAccess == NFileAccess::WriteAtomic;
 }
 
 
@@ -628,8 +654,88 @@ NFileUsageFlags NFileHandle::GetOpenFlags(NFileAccess theAccess, NFileUsageFlags
 			case NFileAccess::ReadWrite:
 				theFlags = NFileUsage::ReadEarly | NFileUsage::ReadAhead;
 				break;
+
+			case NFileAccess::WriteAtomic:
+				theFlags = NFileUsage::NoCache;
+				break;
 		}
 	}
 
 	return theFlags;
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::GetOpenPath : Get the path to open.
+//-----------------------------------------------------------------------------
+NFilePath NFileHandle::GetOpenPath(NFileAccess theAccess, const NFilePath& thePath)
+{
+
+
+	// Get the flags
+	if (theAccess == NFileAccess::WriteAtomic)
+	{
+		NString baseName = "." + thePath.GetFilename() + ".tmp";
+		return NFileUtils::GetUniqueChild(thePath.GetParent(), baseName);
+	}
+	else
+	{
+		return thePath;
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		NFileHandle::CloseHandle : Close the handle.
+//-----------------------------------------------------------------------------
+NStatus NFileHandle::CloseHandle()
+{
+
+
+	// Validate our state
+	NN_REQUIRE(IsOpen());
+
+
+
+	// Close the file
+	NStatus theErr = FileClose();
+
+	if (mAccess == NFileAccess::WriteAtomic)
+	{
+		// An atomic write involves two paths:
+		//
+		//		mPathDest is the path that was passed to Open.
+		//
+		//		mPathOpen is the path that we opened for writing.
+		//
+		// If the destination path does not exist then we can just rename
+		// the output file to the expected name.
+		//
+		// Otherwise, if the destination does exist (or if the rename fails),
+		// we exchange the two paths and delete the old file.
+		theErr = NStatus::Permission;
+
+		if (!NFileInfo(mPathDest).Exists())
+		{
+			theErr = NFileUtils::Rename(mPathOpen, mPathDest);
+			NN_EXPECT_NOT_ERR(theErr);
+		}
+
+		if (theErr != NStatus::OK)
+		{
+			theErr = NFileUtils::Exchange(mPathOpen, mPathDest);
+			NN_EXPECT_NOT_ERR(theErr);
+
+			NStatus deleteErr = NFileUtils::Delete(mPathOpen);
+			NN_EXPECT_NOT_ERR(deleteErr);
+		}
+	}
+
+	return theErr;
 }

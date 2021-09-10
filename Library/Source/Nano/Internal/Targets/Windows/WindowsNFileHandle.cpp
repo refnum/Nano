@@ -72,6 +72,10 @@ static constexpr DWORD GetFileAccess(NFileAccess theAccess)
 		case NFileAccess::ReadWrite:
 			return FILE_GENERIC_READ | FILE_GENERIC_WRITE;
 			break;
+
+		case NFileAccess::WriteAtomic:
+			return FILE_GENERIC_WRITE;
+			break;
 	}
 
 	NN_UNREACHABLE();
@@ -103,6 +107,9 @@ static constexpr DWORD GetFileCreation(NFileAccess theAccess)
 			return OPEN_ALWAYS;
 			break;
 
+		case NFileAccess::WriteAtomic:
+			return OPEN_ALWAYS;
+			break;
 	}
 
 	NN_UNREACHABLE();

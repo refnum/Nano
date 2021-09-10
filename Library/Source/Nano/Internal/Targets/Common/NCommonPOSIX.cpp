@@ -111,6 +111,10 @@ static constexpr const char* GetFileAccess(NFileAccess theAccess)
 		case NFileAccess::ReadWrite:
 			return "w+";
 			break;
+
+		case NFileAccess::WriteAtomic:
+			return "w";
+			break;
 	}
 
 	return nullptr;

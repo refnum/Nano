@@ -61,20 +61,28 @@
 //
 //		NFileAccess::ReadWrite		The file may be read from and written to.
 //
-// Opening a file in NFileAccess::ReadOnly mode will return
-// NStatus::NotFound if the file does not exist.
-
-// Opening a file in NFileAccess::WriteOnly or NFileAccess::ReadWrite
-// mode will create the file if it does not exist.
+//		NFileAccess::WriteAtomic	The file may only be written to, and the
+//									file will be written to atomically.
 //
-// Opening a file in any mode will leave the initial file position
-// at 0 and the existing file size unchanged.
+// Opening a file in NFileAccess::ReadOnly mode will return NStatus::NotFound
+// if the file does not exist.
+//
+// Opening a file in NFileAccess::WriteOnly, NFileAccess::ReadWrite, or
+// NFileAccess::WriteAtomic mode will create the file if it does not exist.
+//
+// Opening a file in NFileAccess::WriteAtomic mode will write the content to
+// a temporary file in the same location, which will be atomically exchanged
+// with the opened file when the handle is closed.
+//
+// Opening a file in any mode will leave the initial file position at 0 and
+// the existing file size unchanged.
 //
 enum class NFileAccess
 {
 	ReadOnly,
 	WriteOnly,
-	ReadWrite
+	ReadWrite,
+	WriteAtomic
 };
 
 
@@ -96,6 +104,8 @@ enum class NFileAccess
 //		NFileAccess::WriteOnly		NFileUsage::NoCache
 //
 //		NFileAccess::ReadWrite		NFileUsage::ReadEarly + NFileUsage::ReadAhead
+//
+//		NFileAccess::WriteAtomic	NFileUsage::NoCache
 //
 enum class NFileUsage
 {
@@ -158,6 +168,11 @@ public:
 
 
 	// Get the path
+	//
+	// Returns the path passed to Open.
+	//
+	// A handle opened with NFileAccess::WriteAtomic may not exist
+	// if the handle has yet to be closed.
 	NFilePath                           GetPath() const;
 
 
@@ -254,9 +269,12 @@ private:
 	bool                                CanWrite() const;
 
 	NFileUsageFlags                     GetOpenFlags(NFileAccess theAccess, NFileUsageFlags theFlags);
+	NFilePath                           GetOpenPath( NFileAccess theAccess, const NFilePath& thePath);
+
+	NStatus                             CloseHandle();
 
 	NStatus                             FileOpen(const NFilePath& thePath, NFileAccess theAccess, NFileUsageFlags theFlags);
-	void                                FileClose();
+	NStatus                             FileClose();
 	uint64_t                            FileGetPosition() const;
 	NStatus                             FileSetPosition(int64_t thePosition, NFileOffset relativeTo);
 	NStatus                             FileSetSize(uint64_t theSize);
@@ -266,9 +284,10 @@ private:
 
 
 private:
-	NFilePath                           mPath;
-	NFileAccess                         mAccess;
+	NFilePath                           mPathDest;
+	NFilePath                           mPathOpen;
 	NFileHandleRef                      mHandle;
+	NFileAccess                         mAccess;
 };
 
 

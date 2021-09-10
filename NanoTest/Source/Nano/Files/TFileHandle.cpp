@@ -219,6 +219,43 @@ NANO_TEST(TFileHandle, "OpenWriteRead")
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
+NANO_TEST(TFileHandle, "OpenWriteAtomic")
+{
+
+
+	// Perform the test
+	//
+	// On the first write the file does not exist.
+	//
+	// On the second write the existing file must be atomically exchanged.
+	for (auto n = 0; n < 2; n++)
+	{
+		theErr = fileHnd.Open(kPathTmpFile, NFileAccess::WriteAtomic);
+		REQUIRE(theErr == NStatus::OK);
+		REQUIRE(fileHnd.IsOpen());
+		REQUIRE(fileHnd.GetPosition() == 0);
+
+		sizeWritten = kLargeSize;
+		theErr      = fileHnd.Write(kBufferSize, kBufferData, sizeWritten);
+
+		REQUIRE(sizeWritten == kBufferSize);
+		REQUIRE(theErr == NStatus::OK);
+
+		theErr = fileHnd.Flush();
+		REQUIRE(theErr == NStatus::OK);
+
+		theErr = fileHnd.Close();
+		REQUIRE(theErr == NStatus::OK);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
 NANO_TEST(TFileHandle, "OpenTemporary/Unnamed")
 {
 
