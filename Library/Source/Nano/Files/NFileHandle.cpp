@@ -564,7 +564,7 @@ NStatus NFileHandle::WriteData(const NFile& theFile, const NData& theData)
 
 
 	// Write the file data
-	NStatus theErr = fileHnd.Open(theFile, NFileAccess::WriteOnly);
+	NStatus theErr = fileHnd.Open(theFile, NFileAccess::WriteAtomic);
 	NN_EXPECT_NOT_ERR(theErr);
 
 	if (theErr == NStatus::OK)
