@@ -291,7 +291,7 @@ NVectorFilePath NFileUtils::GetChildren(const NFilePath& thePath)
 //=============================================================================
 //		NFileUtils::GetUniqueChild : Get a uniquely named file.
 //-----------------------------------------------------------------------------
-NFilePath NFileUtils::GetUniqueChild(const NFilePath& thePath, const NString baseName)
+NFilePath NFileUtils::GetUniqueChild(const NFilePath& thePath, const NString& baseName)
 {
 
 

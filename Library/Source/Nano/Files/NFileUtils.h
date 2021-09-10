@@ -195,7 +195,7 @@ public:
 	// Returns a uniquely named file within the specified directory.
 	//
 	// A base name can be provided to control the file stem and extension.
-	static NFilePath                    GetUniqueChild(const NFilePath& thePath, const NString baseName = "");
+	static NFilePath                    GetUniqueChild(const NFilePath& thePath, const NString& baseName = "");
 
 
 	// Get a location
