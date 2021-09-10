@@ -89,7 +89,7 @@ public:
 												 NFileUsageFlags  theFlags,
 												 NFileHandleRef&  fileHandle);
 
-	static void                         FileClose(NFileHandleRef fileHandle);
+	static NStatus                      FileClose(NFileHandleRef fileHandle);
 
 	static uint64_t                     FileGetPosition(NFileHandleRef fileHandle);
 

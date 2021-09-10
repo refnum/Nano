@@ -182,7 +182,7 @@ public:
 	// Close the handle
 	//
 	// Open handles are closed automatically when they go out of scope.
-	void                                Close();
+	NStatus                             Close();
 
 
 	// Get/set the position

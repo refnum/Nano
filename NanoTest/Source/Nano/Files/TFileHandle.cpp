@@ -95,7 +95,8 @@ NANO_FIXTURE(TFileHandle)
 	{
 		if (fileHnd.IsOpen())
 		{
-			fileHnd.Close();
+			theErr = fileHnd.Close();
+			REQUIRE(theErr == NStatus::OK);
 		}
 
 		theErr = NFileUtils::Delete(kPathTmpDirectory);
@@ -186,7 +187,8 @@ NANO_TEST(TFileHandle, "OpenWriteRead")
 	REQUIRE(sizeWritten == kBufferSize);
 	REQUIRE(fileHnd.GetPosition() == sizeWritten);
 
-	fileHnd.Close();
+	theErr = fileHnd.Close();
+	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(!fileHnd.IsOpen());
 
 
@@ -274,7 +276,8 @@ NANO_TEST(TFileHandle, "Close")
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(fileHnd.IsOpen());
 
-	fileHnd.Close();
+	theErr = fileHnd.Close();
+	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(!fileHnd.IsOpen());
 }
 
@@ -300,7 +303,8 @@ NANO_TEST(TFileHandle, "GetSize/SetSize")
 	REQUIRE(theErr == NStatus::OK);
 	REQUIRE(fileHnd.GetSize() == kLargeSize);
 
-	fileHnd.Close();
+	theErr = fileHnd.Close();
+	REQUIRE(theErr == NStatus::OK);
 
 
 	NData zeroData(kLargeSize, nullptr, NDataSource::Zero);

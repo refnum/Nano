@@ -201,7 +201,7 @@ NStatus NFileHandle::OpenTemporary(const NString& baseName)
 //=============================================================================
 //		NFileHandle::Close : Close the file handle.
 //-----------------------------------------------------------------------------
-void NFileHandle::Close()
+NStatus NFileHandle::Close()
 {
 
 
@@ -212,11 +212,13 @@ void NFileHandle::Close()
 
 
 	// Close the handle
-	FileClose();
+	NStatus theErr = FileClose();
 
 	mPath.Clear();
 	mAccess = NFileAccess::ReadOnly;
 	mHandle = nullptr;
+	
+	return theErr;
 }
 
 

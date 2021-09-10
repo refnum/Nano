@@ -68,12 +68,12 @@ NStatus NFileHandle::FileOpen(const NFilePath& thePath,
 //=============================================================================
 //		NFileHandle::FileClose : Close the file.
 //-----------------------------------------------------------------------------
-void NFileHandle::FileClose()
+NStatus NFileHandle::FileClose()
 {
 
 
 	// Open the file
-	NCommonPOSIX::FileClose(mHandle);
+	return NCommonPOSIX::FileClose(mHandle);
 }
 
 

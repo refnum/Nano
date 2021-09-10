@@ -221,7 +221,7 @@ NStatus NFileHandle::FileOpen(const NFilePath& thePath, NFileAccess theAccess, N
 //=============================================================================
 //		NFileHandle::FileClose : Close the file.
 //-----------------------------------------------------------------------------
-void NFileHandle::FileClose()
+NStatus NFileHandle::FileClose()
 {
 
 
@@ -233,6 +233,8 @@ void NFileHandle::FileClose()
 	// Close the file
 	BOOL wasOK = CloseHandle(hFile);
 	NN_EXPECT(wasOK);
+
+	return NCommonWindows::StatusLastError(wasOK);
 }
 
 

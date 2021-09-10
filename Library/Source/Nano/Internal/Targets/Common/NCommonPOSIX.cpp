@@ -451,7 +451,7 @@ NStatus NCommonPOSIX::FileOpen(const NFilePath& thePath,
 //=============================================================================
 //		NCommonPOSIX::FileClose : Close a file.
 //-----------------------------------------------------------------------------
-void NCommonPOSIX::FileClose(NFileHandleRef fileHandle)
+NStatus NCommonPOSIX::FileClose(NFileHandleRef fileHandle)
 {
 
 
@@ -462,6 +462,8 @@ void NCommonPOSIX::FileClose(NFileHandleRef fileHandle)
 	// Close the file
 	int sysErr = fclose(theFile);
 	NN_EXPECT_NOT_ERR(sysErr);
+
+	return StatusErrno(sysErr);
 }
 
 
