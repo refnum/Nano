@@ -660,15 +660,13 @@ NStatus NCommonLinux::PathRename(const NFilePath& pathOld, const NFilePath& path
 //=============================================================================
 //		NCommonLinux::PathExchange : Atomically exchange paths.
 //-----------------------------------------------------------------------------
-NStatus NCommonLinux::PathExchange(const NFilePath& oldPath, const NFilePath& newPath)
+NStatus NCommonLinux::PathExchange(const NFilePath& pathA, const NFilePath& pathB)
 {
 
 
 	// Exchange the paths
-	const utf8_t* oldUTF8 = oldPath.GetUTF8();
-	const utf8_t* newUTF8 = newPath.GetUTF8();
-
-	int sysErr = int(syscall(SYS_renameat2, 0, oldUTF8, 0, newUTF8, RENAME_EXCHANGE));
+	int sysErr =
+		int(syscall(SYS_renameat2, 0, pathA.GetUTF8(), 0, pathB.GetUTF8(), RENAME_EXCHANGE));
 	NN_EXPECT_NOT_ERR(sysErr);
 
 	return NCommonPOSIX::StatusErrno(sysErr);

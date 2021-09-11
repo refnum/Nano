@@ -965,12 +965,12 @@ NStatus NCommonDarwin::PathRename(const NFilePath& pathOld, const NFilePath& pat
 //=============================================================================
 //		NCommonDarwin::PathExchange : Atomically exchange two paths.
 //-----------------------------------------------------------------------------
-NStatus NCommonDarwin::PathExchange(const NFilePath& oldPath, const NFilePath& newPath)
+NStatus NCommonDarwin::PathExchange(const NFilePath& pathA, const NFilePath& pathB)
 {
 
 
 	// Exchange the paths
-	int sysErr = renamex_np(oldPath.GetUTF8(), newPath.GetUTF8(), RENAME_SWAP);
+	int sysErr = renamex_np(pathA.GetUTF8(), pathB.GetUTF8(), RENAME_SWAP);
 	NN_EXPECT_NOT_ERR(sysErr);
 
 	return NCommonPOSIX::StatusErrno(sysErr);

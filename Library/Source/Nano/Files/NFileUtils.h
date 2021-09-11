@@ -225,7 +225,7 @@ public:
 
 
 	// Atomically exchange two paths
-	static NStatus                      Exchange(const NFilePath& oldPath, const NFilePath& newPath);
+	static NStatus                      Exchange(const NFilePath& pathA, const NFilePath& pathB);
 
 
 private:
@@ -233,7 +233,7 @@ private:
 	static NStatus                      PathDelete(  const NFilePath& thePath, NFileAction theAction);
 	static NVectorFilePath              PathChildren(const NFilePath& thePath);
 	static NStatus                      PathRename(  const NFilePath& pathOld, const NFilePath& pathNew);
-	static NStatus                      PathExchange(const NFilePath& oldPath, const NFilePath& newPath);
+	static NStatus                      PathExchange(const NFilePath& pathA, const NFilePath& pathB);
 	static NFilePath                    PathLocation(NFileLocation theLocation);
 };
 

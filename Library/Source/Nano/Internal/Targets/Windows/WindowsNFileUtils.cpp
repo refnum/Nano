@@ -310,7 +310,7 @@ NStatus NFileUtils::PathRename(const NFilePath& pathOld, const NFilePath& pathNe
 //=============================================================================
 //		NFileUtils::PathExchange : Atomically exchange two paths.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::PathExchange(const NFilePath& oldPath, const NFilePath& newPath)
+NStatus NFileUtils::PathExchange(const NFilePath& pathA, const NFilePath& pathB)
 {
 
 
@@ -323,19 +323,19 @@ NStatus NFileUtils::PathExchange(const NFilePath& oldPath, const NFilePath& newP
 	// Exchange the files
 	if (theErr == NStatus::OK)
 	{
-		NFilePath tmpPath = newPath;
+		NFilePath tmpPath = pathB;
 		tmpPath.SetExtension("nfileutils_exchange");
 
-		theErr = RenameTransacted(hTransaction, oldPath, tmpPath);
+		theErr = RenameTransacted(hTransaction, pathA, tmpPath);
 
 		if (theErr == NStatus::OK)
 		{
-			theErr = RenameTransacted(hTransaction, newPath, oldPath);
+			theErr = RenameTransacted(hTransaction, pathB, pathA);
 		}
 
 		if (theErr == NStatus::OK)
 		{
-			theErr = RenameTransacted(hTransaction, tmpPath, newPath);
+			theErr = RenameTransacted(hTransaction, tmpPath, pathB);
 		}
 
 		if (theErr == NStatus::OK)

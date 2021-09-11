@@ -111,7 +111,7 @@ public:
 
 	// File paths
 	static NStatus                      PathRename(  const NFilePath& pathOld, const NFilePath& pathNew);
-	static NStatus                      PathExchange(const NFilePath& oldPath, const NFilePath& newPath);
+	static NStatus                      PathExchange(const NFilePath& pathA, const NFilePath& pathB);
 	static NFilePath                    PathLocation(NFileLocation theLocation);
 
 

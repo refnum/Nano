@@ -112,12 +112,12 @@ NStatus NFileUtils::PathRename(const NFilePath& pathOld, const NFilePath& pathNe
 //=============================================================================
 //		NFileUtils::PathExchange : Atomically exchange two paths.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::PathExchange(const NFilePath& oldPath, const NFilePath& newPath)
+NStatus NFileUtils::PathExchange(const NFilePath& pathA, const NFilePath& pathB)
 {
 
 
 	// Exchange the paths
-	return NCommonDarwin::PathExchange(oldPath, newPath);
+	return NCommonDarwin::PathExchange(pathA, pathB);
 }
 
 
