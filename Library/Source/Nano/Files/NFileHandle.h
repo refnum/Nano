@@ -169,10 +169,8 @@ public:
 
 	// Get the path
 	//
-	// Returns the path passed to Open.
-	//
-	// A handle opened with NFileAccess::WriteAtomic may not exist
-	// if the handle has yet to be closed.
+	// A handle opened with NFileAccess::WriteAtomic may not exist at
+	// its opened path if the handle has yet to be closed.
 	NFilePath                           GetPath() const;
 
 
@@ -204,15 +202,14 @@ public:
 	//
 	// The default position is 0.
 	//
-	// The file must be open to access its position.
+	// The file must be open to access the position.
 	uint64_t                            GetPosition() const;
 	NStatus                             SetPosition(int64_t theOffset, NFileOffset relativeTo = NFileOffset::FromStart);
 
 
 	// Get/set the size
 	//
-	// The file may be closed to query the size, but must be
-	// opened for writing to adjust its size.
+	// The file must be open to access the size.
 	//
 	// Extending the file size will zero-fill the new content.
 	uint64_t                            GetSize() const;
@@ -250,7 +247,7 @@ public:
 	// Read/write a text file
 	//
 	// Reading text in the unknown encoding will attempt to auto-detect
-	// the encoding from the file content, or use UTF8 as a fallback.
+	// the encoding from the file content, using UTF8 as a fallback.
 	static NString                      ReadText(const NFile&    theFile,
 												 NStringEncoding theEncoding = NStringEncoding::Unknown);
 
