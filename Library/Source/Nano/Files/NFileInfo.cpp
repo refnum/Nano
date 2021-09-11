@@ -371,6 +371,186 @@ uint64_t NFileInfo::GetFileSize() const
 
 
 
+//=============================================================================
+//		NFileInfo::Exists : Does the path exist?
+//-----------------------------------------------------------------------------
+bool NFileInfo::Exists(const NFilePath& thePath)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(thePath.IsValid());
+
+
+
+	// Get the state
+	return NFileInfo(thePath).Exists();
+}
+
+
+
+
+
+//=============================================================================
+//		NFileInfo::IsFile : Is the path a file?
+//-----------------------------------------------------------------------------
+bool NFileInfo::IsFile(const NFilePath& thePath)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(thePath.IsValid());
+
+
+
+	// Get the state
+	return NFileInfo(thePath).IsFile();
+}
+
+
+
+
+
+//=============================================================================
+//		NFileInfo::IsDirectory : Is the path a directory?
+//-----------------------------------------------------------------------------
+bool NFileInfo::IsDirectory(const NFilePath& thePath)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(thePath.IsValid());
+
+
+
+	// Get the state
+	return NFileInfo(thePath).IsDirectory();
+}
+
+
+
+
+
+//=============================================================================
+//		NFileInfo::CanRead : Can the path be read?
+//-----------------------------------------------------------------------------
+bool NFileInfo::CanRead(const NFilePath& thePath)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(thePath.IsValid());
+
+
+
+	// Get the state
+	return NFileInfo(thePath).CanRead();
+}
+
+
+
+
+
+//=============================================================================
+//		NFileInfo::CanWrite : Can the path be written?
+//-----------------------------------------------------------------------------
+bool NFileInfo::CanWrite(const NFilePath& thePath)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(thePath.IsValid());
+
+
+
+	// Get the state
+	return NFileInfo(thePath).CanWrite();
+}
+
+
+
+
+
+//=============================================================================
+//		NFileInfo::CanExecute : Can the path be executed / searched?
+//-----------------------------------------------------------------------------
+bool NFileInfo::CanExecute(const NFilePath& thePath)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(thePath.IsValid());
+
+
+
+	// Get the state
+	return NFileInfo(thePath).CanExecute();
+}
+
+
+
+
+
+//=============================================================================
+//		NFileInfo::GetCreationTime : Get the creation time.
+//-----------------------------------------------------------------------------
+NTime NFileInfo::GetCreationTime(const NFilePath& thePath)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(thePath.IsValid());
+
+
+
+	// Get the state
+	return NFileInfo(thePath).GetCreationTime();
+}
+
+
+
+
+
+//=============================================================================
+//		NFileInfo::GetModifiedTime : Get the last-modified time.
+//-----------------------------------------------------------------------------
+NTime NFileInfo::GetModifiedTime(const NFilePath& thePath)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(thePath.IsValid());
+
+
+
+	// Get the state
+	return NFileInfo(thePath).GetModifiedTime();
+}
+
+
+
+
+
+//=============================================================================
+//		NFileInfo::GetFileSize : Get the file size.
+//-----------------------------------------------------------------------------
+uint64_t NFileInfo::GetFileSize(const NFilePath& thePath)
+{
+
+
+	// Validate our parameters
+	NN_REQUIRE(thePath.IsValid());
+
+
+
+	// Get the state
+	return NFileInfo(thePath).GetFileSize();
+}
+
+
+
+
+
 #pragma mark private
 //=============================================================================
 //		NFileInfo::TestFlag : Test a flag.

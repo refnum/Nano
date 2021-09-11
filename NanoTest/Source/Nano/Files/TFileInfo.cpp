@@ -181,6 +181,19 @@ NANO_TEST(TFileInfo, "Status")
 	REQUIRE(!theInfo.Exists());
 	REQUIRE(!theInfo.IsFile());
 	REQUIRE(!theInfo.IsDirectory());
+
+
+	REQUIRE(NFileInfo::Exists(kPathFile));
+	REQUIRE(NFileInfo::IsFile(kPathFile));
+	REQUIRE(!NFileInfo::IsDirectory(kPathFile));
+
+	REQUIRE(NFileInfo::Exists(kPathDirectory));
+	REQUIRE(!NFileInfo::IsFile(kPathDirectory));
+	REQUIRE(NFileInfo::IsDirectory(kPathDirectory));
+
+	REQUIRE(!NFileInfo::Exists(kPathDoesNotExist));
+	REQUIRE(!NFileInfo::IsFile(kPathDoesNotExist));
+	REQUIRE(!NFileInfo::IsDirectory(kPathDoesNotExist));
 }
 
 
@@ -209,6 +222,19 @@ NANO_TEST(TFileInfo, "Permission")
 	REQUIRE(!theInfo.CanRead());
 	REQUIRE(!theInfo.CanWrite());
 	REQUIRE(!theInfo.CanExecute());
+
+
+	REQUIRE(NFileInfo::CanRead(kPathFile));
+	REQUIRE((!NFileInfo::CanWrite(kPathFile) || NN_TARGET_WINDOWS));
+	REQUIRE(NFileInfo::CanExecute(kPathFile));
+
+	REQUIRE(NFileInfo::CanRead(kPathDirectory));
+	REQUIRE(NFileInfo::CanWrite(kPathDirectory));
+	REQUIRE(NFileInfo::CanExecute(kPathDirectory));
+
+	REQUIRE(!NFileInfo::CanRead(kPathDoesNotExist));
+	REQUIRE(!NFileInfo::CanWrite(kPathDoesNotExist));
+	REQUIRE(!NFileInfo::CanExecute(kPathDoesNotExist));
 }
 
 
@@ -236,6 +262,19 @@ NANO_TEST(TFileInfo, "Time")
 	theInfo.SetPath(kPathDoesNotExist);
 	REQUIRE(theInfo.GetCreationTime() == 0.0);
 	REQUIRE(theInfo.GetModifiedTime() == 0.0);
+
+
+	REQUIRE(NFileInfo::GetCreationTime(kPathFile) != 0.0);
+	REQUIRE(NFileInfo::GetModifiedTime(kPathFile) != 0.0);
+	REQUIRE(NFileInfo::GetModifiedTime(kPathFile) >= NFileInfo::GetCreationTime(kPathFile));
+
+	REQUIRE(NFileInfo::GetCreationTime(kPathDirectory) != 0.0);
+	REQUIRE(NFileInfo::GetModifiedTime(kPathDirectory) != 0.0);
+	REQUIRE(NFileInfo::GetModifiedTime(kPathDirectory) >=
+			NFileInfo::GetCreationTime(kPathDirectory));
+
+	REQUIRE(NFileInfo::GetCreationTime(kPathDoesNotExist) == 0.0);
+	REQUIRE(NFileInfo::GetModifiedTime(kPathDoesNotExist) == 0.0);
 }
 
 
@@ -252,6 +291,9 @@ NANO_TEST(TFileInfo, "GetFileSize")
 	// Perform the test
 	theInfo.SetPath(kPathFile);
 	REQUIRE(theInfo.GetFileSize() != 0);
+
+
+	REQUIRE(NFileInfo::GetFileSize(kPathFile) != 0);
 }
 
 

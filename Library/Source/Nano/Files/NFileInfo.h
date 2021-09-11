@@ -142,6 +142,21 @@ public:
 	uint64_t                            GetFileSize() const;
 
 
+	// Query the info for a path
+	static bool                         Exists(     const NFilePath& thePath);
+	static bool                         IsFile(     const NFilePath& thePath);
+	static bool                         IsDirectory(const NFilePath& thePath);
+
+	static bool                         CanRead(   const NFilePath& thePath);
+	static bool                         CanWrite(  const NFilePath& thePath);
+	static bool                         CanExecute(const NFilePath& thePath);
+
+	static NTime                        GetCreationTime(const NFilePath& thePath);
+	static NTime                        GetModifiedTime(const NFilePath& thePath);
+
+	static uint64_t                     GetFileSize(const NFilePath& thePath);
+
+
 private:
 	bool                                TestFlag(NFileStateFlags theFlag) const;
 
