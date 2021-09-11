@@ -97,12 +97,12 @@ NVectorFilePath NFileUtils::PathChildren(const NFilePath& thePath)
 //=============================================================================
 //		NFileUtils::PathRename : Atomically rename a path.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::PathRename(const NFilePath& oldPath, const NFilePath& newPath)
+NStatus NFileUtils::PathRename(const NFilePath& pathOld, const NFilePath& pathNew)
 {
 
 
 	// Rename the path
-	return NCommonLinux::PathRename(oldPath, newPath);
+	return NCommonLinux::PathRename(pathOld, pathNew);
 }
 
 

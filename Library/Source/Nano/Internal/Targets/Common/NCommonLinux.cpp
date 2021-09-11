@@ -641,15 +641,13 @@ uint64_t NCommonLinux::MachineCPUHertz()
 //=============================================================================
 //		NCommonLinux::PathRename : Atomically rename a path.
 //-----------------------------------------------------------------------------
-NStatus NCommonLinux::PathRename(const NFilePath& oldPath, const NFilePath& newPath)
+NStatus NCommonLinux::PathRename(const NFilePath& pathOld, const NFilePath& pathNew)
 {
 
 
 	// Rename the path
-	const utf8_t* oldUTF8 = oldPath.GetUTF8();
-	const utf8_t* newUTF8 = newPath.GetUTF8();
-
-	int sysErr = int(syscall(SYS_renameat2, 0, oldUTF8, 0, newUTF8, RENAME_NOREPLACE));
+	int sysErr =
+		int(syscall(SYS_renameat2, 0, pathOld.GetUTF8(), 0, pathNew.GetUTF8(), RENAME_NOREPLACE));
 	NN_EXPECT_NOT_ERR(sysErr);
 
 	return NCommonPOSIX::StatusErrno(sysErr);

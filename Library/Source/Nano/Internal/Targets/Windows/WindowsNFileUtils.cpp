@@ -122,13 +122,13 @@ NStatus CreateTransaction(HANDLE* hTransaction)
 //=============================================================================
 //		RenameTransacted : Rename a path within a transaction.
 //-----------------------------------------------------------------------------
-NStatus RenameTransacted(HANDLE hTransaction, const NFilePath& oldPath, const NFilePath& newPath)
+NStatus RenameTransacted(HANDLE hTransaction, const NFilePath& pathOld, const NFilePath& pathNew)
 {
 
 
 	// Rename the path
-	BOOL wasOK = MoveFileTransactedW(LPCWSTR(oldPath.GetUTF16()),
-									 LPCWSTR(newPath.GetUTF16()),
+	BOOL wasOK = MoveFileTransactedW(LPCWSTR(pathOld.GetUTF16()),
+									 LPCWSTR(pathNew.GetUTF16()),
 									 nullptr,
 									 nullptr,
 									 MOVEFILE_COPY_ALLOWED,
@@ -272,7 +272,7 @@ NVectorFilePath NFileUtils::PathChildren(const NFilePath& thePath)
 //=============================================================================
 //		NFileUtils::PathRename : Atomically rename a path.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::PathRename(const NFilePath& oldPath, const NFilePath& newPath)
+NStatus NFileUtils::PathRename(const NFilePath& pathOld, const NFilePath& pathNew)
 {
 
 
@@ -285,7 +285,7 @@ NStatus NFileUtils::PathRename(const NFilePath& oldPath, const NFilePath& newPat
 	// Rename the path
 	if (theErr == NStatus::OK)
 	{
-		theErr = RenameTransacted(hTransaction, oldPath, newPath);
+		theErr = RenameTransacted(hTransaction, pathOld, pathNew);
 
 		if (theErr == NStatus::OK)
 		{

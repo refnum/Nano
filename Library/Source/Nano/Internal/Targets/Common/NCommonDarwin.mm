@@ -947,12 +947,12 @@ uint64_t NCommonDarwin::MachineCPUHertz()
 //=============================================================================
 //		NCommonDarwin::PathRename : Atomically rename a path.
 //-----------------------------------------------------------------------------
-NStatus NCommonDarwin::PathRename(const NFilePath& oldPath, const NFilePath& newPath)
+NStatus NCommonDarwin::PathRename(const NFilePath& pathOld, const NFilePath& pathNew)
 {
 
 
 	// Rename the path
-	int sysErr = renamex_np(oldPath.GetUTF8(), newPath.GetUTF8(), RENAME_EXCL);
+	int sysErr = renamex_np(pathOld.GetUTF8(), pathNew.GetUTF8(), RENAME_EXCL);
 	NN_EXPECT_NOT_ERR(sysErr);
 
 	return NCommonPOSIX::StatusErrno(sysErr);

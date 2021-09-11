@@ -404,21 +404,21 @@ NFilePath NFileUtils::GetTemporary(const NString& baseName)
 //=============================================================================
 //		NFileUtils::Rename : Atomically rename a path.
 //-----------------------------------------------------------------------------
-NStatus NFileUtils::Rename(const NFilePath& oldPath, const NFilePath& newPath)
+NStatus NFileUtils::Rename(const NFilePath& pathOld, const NFilePath& pathNew)
 {
 
 
 	// Validate our parameters
-	NN_REQUIRE(oldPath.IsValid());
-	NN_REQUIRE(newPath.IsValid());
+	NN_REQUIRE(pathOld.IsValid());
+	NN_REQUIRE(pathNew.IsValid());
 
-	NN_EXPECT(NFileInfo(oldPath).Exists());
-	NN_EXPECT(!NFileInfo(newPath).Exists());
+	NN_EXPECT(NFileInfo(pathOld).Exists());
+	NN_EXPECT(!NFileInfo(pathNew).Exists());
 
 
 
 	// Rename the path
-	return PathRename(oldPath, newPath);
+	return PathRename(pathOld, pathNew);
 }
 
 
