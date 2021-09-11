@@ -293,7 +293,7 @@ uint64_t NFileHandle::GetSize() const
 
 
 	// Get the size
-	return NFileInfo(mPathOpen).GetFileSize();
+	return NFileInfo::GetFileSize(mPathOpen);
 }
 
 
@@ -719,7 +719,7 @@ NStatus NFileHandle::CloseHandle()
 		// we exchange the two paths and delete the old file.
 		theErr = NStatus::Permission;
 
-		if (!NFileInfo(mPathDest).Exists())
+		if (!NFileInfo::Exists(mPathDest))
 		{
 			theErr = NFileUtils::Rename(mPathOpen, mPathDest);
 			NN_EXPECT_NOT_ERR(theErr);

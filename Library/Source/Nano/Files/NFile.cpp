@@ -717,7 +717,7 @@ NStatus NFile::UpdatePath(const NFilePath& newPath, bool renameFile)
 
 	if (renameFile)
 	{
-		if (NFileInfo(newPath).Exists())
+		if (NFileInfo::Exists(newPath))
 		{
 			theErr = NStatus::Duplicate;
 		}

@@ -80,7 +80,7 @@ NStatus NFileUtils::CreateFile(const NFilePath& thePath, NFileAction theAction)
 
 
 	// Create the file
-	if (theErr == NStatus::OK && !NFileInfo(thePath).Exists())
+	if (theErr == NStatus::OK && !NFileInfo::Exists(thePath))
 	{
 		// Create the parent
 		NFilePath theParent = thePath.GetParent();
@@ -138,7 +138,7 @@ NStatus NFileUtils::CreateDirectory(const NFilePath& thePath, NFileAction theAct
 
 
 	// Create the directory
-	if (theErr == NStatus::OK && !NFileInfo(thePath).Exists())
+	if (theErr == NStatus::OK && !NFileInfo::Exists(thePath))
 	{
 		theErr = NStatus::NotFound;
 		NFilePath parentPath;
@@ -244,7 +244,7 @@ NStatus NFileUtils::DeleteChildren(const NFilePath& thePath, NFileAction theActi
 
 
 	// Validate our state
-	NN_REQUIRE(NFileInfo(thePath).IsDirectory());
+	NN_REQUIRE(NFileInfo::IsDirectory(thePath));
 	NN_REQUIRE(theAction == NFileAction::CanDelete || theAction == NFileAction::CanTrash);
 
 
@@ -276,7 +276,7 @@ NVectorFilePath NFileUtils::GetChildren(const NFilePath& thePath)
 
 
 	// Validate our parameters
-	NN_REQUIRE(NFileInfo(thePath).IsDirectory());
+	NN_REQUIRE(NFileInfo::IsDirectory(thePath));
 
 
 
@@ -367,7 +367,7 @@ NFilePath NFileUtils::GetLocation(NFileLocation  theLocation,
 	// Create the directory
 	if (thePath.IsValid() && theAction == NFileAction::CanCreate)
 	{
-		if (!NFileInfo(thePath).Exists())
+		if (!NFileInfo::Exists(thePath))
 		{
 			NStatus theErr = CreateDirectory(thePath);
 			NN_EXPECT_NOT_ERR(theErr);
@@ -412,8 +412,8 @@ NStatus NFileUtils::Rename(const NFilePath& pathOld, const NFilePath& pathNew)
 	NN_REQUIRE(pathOld.IsValid());
 	NN_REQUIRE(pathNew.IsValid());
 
-	NN_EXPECT(NFileInfo(pathOld).Exists());
-	NN_EXPECT(!NFileInfo(pathNew).Exists());
+	NN_EXPECT(NFileInfo::Exists(pathOld));
+	NN_EXPECT(!NFileInfo::Exists(pathNew));
 
 
 
@@ -436,8 +436,8 @@ NStatus NFileUtils::Exchange(const NFilePath& pathA, const NFilePath& pathB)
 	NN_REQUIRE(pathA.IsValid());
 	NN_REQUIRE(pathB.IsValid());
 
-	NN_EXPECT(NFileInfo(pathA).Exists());
-	NN_EXPECT(NFileInfo(pathB).Exists());
+	NN_EXPECT(NFileInfo::Exists(pathA));
+	NN_EXPECT(NFileInfo::Exists(pathB));
 
 
 

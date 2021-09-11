@@ -205,7 +205,7 @@ NStatus NFileUtils::PathDelete(const NFilePath& thePath, NFileAction theAction)
 		LPCWSTR winPath = LPCWSTR(thePath.GetUTF16());
 		BOOL    wasOK   = true;
 
-		if (NFileInfo(thePath).IsDirectory())
+		if (NFileInfo::IsDirectory(thePath))
 		{
 			wasOK = RemoveDirectory(winPath);
 			NN_EXPECT(wasOK);

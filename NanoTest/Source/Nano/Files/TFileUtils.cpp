@@ -114,7 +114,7 @@ NANO_TEST(TFileUtils, "CreateFile")
 
 	theErr = NFileUtils::CreateFile(thePath);
 	REQUIRE(theErr == NStatus::OK);
-	REQUIRE(NFileInfo(thePath).IsFile());
+	REQUIRE(NFileInfo::IsFile(thePath));
 }
 
 
