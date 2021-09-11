@@ -287,15 +287,13 @@ uint64_t NFileHandle::GetSize() const
 {
 
 
+	// Validate our state
+	NN_REQUIRE(IsOpen());
+
+
+
 	// Get the size
-	if (IsOpen())
-	{
-		return NFileInfo(mPathOpen).GetFileSize();
-	}
-	else
-	{
-		return NFileInfo(mPathDest).GetFileSize();
-	}
+	return NFileInfo(mPathOpen).GetFileSize();
 }
 
 
