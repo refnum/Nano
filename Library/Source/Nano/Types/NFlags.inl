@@ -50,8 +50,6 @@
 template<typename T>
 struct NFlagEnumTraits
 {
-	static constexpr bool IsEnum = std::is_enum_v<T>;
-	static constexpr bool IsMask = false;
 };
 
 
