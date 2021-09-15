@@ -92,7 +92,7 @@ class NXMLNode : public std::enable_shared_from_this<NXMLNode>
 {
 public:
 										NXMLNode(NXMLNodeType theType, const NString& theValue);
-	virtual                            ~NXMLNode();
+									   ~NXMLNode();
 
 										NXMLNode( const NXMLNode& otherNode) = delete;
 	NXMLNode&                           operator=(const NXMLNode& otherNode) = delete;
