@@ -151,7 +151,6 @@ elseif (NN_COMPILER_GCC)
 		-Wmissing-include-dirs
 		-Wmissing-noreturn
 		-Wno-aggressive-loop-optimizations
-		-Wnull-dereference
 		-Woverlength-strings
 		-Wpointer-arith
 		-Wredundant-decls
