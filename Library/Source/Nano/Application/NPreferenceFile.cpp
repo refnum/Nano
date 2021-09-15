@@ -478,8 +478,8 @@ void NPreferenceFile::SetValue(const NString& theKey, const NAny& theValue)
 
 
 	// Set the value
-	if (theValue.Is<NArray>() || theValue.Is<NData>() || theValue.Is<NDictionary>() ||
-		theValue.Is<NNumber>() || theValue.Is<NString>() || theValue.Is<NTime>())
+	if (theValue.IsArray() || theValue.IsData() || theValue.IsDictionary() || theValue.IsNumber() ||
+		theValue.IsString() || theValue.IsTime())
 	{
 		mDictionary[theKey] = theValue;
 	}

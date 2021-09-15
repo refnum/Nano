@@ -804,9 +804,9 @@ void NDBHandle::SQLiteBindParameters(NDBQueryRef dbQuery, const NAny& theParamet
 
 
 	// Bind indexed parameters
-	if (theParameters.Is<NArray>())
+	if (theParameters.IsArray())
 	{
-		NArray theArray = theParameters.Get<NArray>();
+		NArray theArray = theParameters.GetArray();
 
 		for (size_t n = 0; n < theArray.GetSize(); n++)
 		{
@@ -817,9 +817,9 @@ void NDBHandle::SQLiteBindParameters(NDBQueryRef dbQuery, const NAny& theParamet
 
 
 	// Bind keyed parameters
-	else if (theParameters.Is<NDictionary>())
+	else if (theParameters.IsDictionary())
 	{
-		NDictionary theDictionary = theParameters.Get<NDictionary>();
+		NDictionary theDictionary = theParameters.GetDictionary();
 
 		for (const auto& keyValue : theDictionary)
 		{

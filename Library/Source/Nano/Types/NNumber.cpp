@@ -421,7 +421,7 @@ bool NNumber::SetValue(const NAny& theValue)
 		didSet = false;
 	}
 
-	else if (theValue.Is<NNumber>())
+	else if (theValue.IsNumber())
 	{
 		mValue = theValue.GetNumber().mValue;
 	}

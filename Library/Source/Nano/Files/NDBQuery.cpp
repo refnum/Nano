@@ -126,11 +126,11 @@ void NDBQuery::SetParameters(const NAny& theParameters)
 	// Validate our parameters
 	if (NN_ENABLE_ASSERTIONS && !theParameters.IsEmpty())
 	{
-		NN_REQUIRE(theParameters.Is<NArray>() || theParameters.Is<NDictionary>());
+		NN_REQUIRE(theParameters.IsArray() || theParameters.IsDictionary());
 
-		if (theParameters.Is<NDictionary>())
+		if (theParameters.IsDictionary())
 		{
-			for (const auto& theKey : theParameters.Get<NDictionary>().GetKeys())
+			for (const auto& theKey : theParameters.GetDictionary().GetKeys())
 			{
 				NN_REQUIRE(!theKey.StartsWith(":"));
 			}

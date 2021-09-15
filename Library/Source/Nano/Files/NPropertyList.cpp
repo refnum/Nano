@@ -423,14 +423,14 @@ NSharedXMLNode NPropertyList::EncodeXML_Any(const NAny& theValue)
 		theNode = EncodeXML_Time(theValue.GetTime());
 	}
 
-	else if (theValue.Is<NArray>())
+	else if (theValue.IsArray())
 	{
-		theNode = EncodeXML_Array(theValue.Get<NArray>());
+		theNode = EncodeXML_Array(theValue.GetArray());
 	}
 
-	else if (theValue.Is<NDictionary>())
+	else if (theValue.IsDictionary())
 	{
-		theNode = EncodeXML_Dictionary(theValue.Get<NDictionary>());
+		theNode = EncodeXML_Dictionary(theValue.GetDictionary());
 	}
 
 	else
@@ -1219,17 +1219,17 @@ uint64_t NPropertyList::EncodeBinary_GetObjectCount(const NAny& theValue)
 	// with dictionaries also generating objects for each of their keys.
 	uint64_t numObjects = 1;
 
-	if (theValue.Is<NArray>())
+	if (theValue.IsArray())
 	{
-		for (const auto& childValue : theValue.Get<NArray>())
+		for (const auto& childValue : theValue.GetArray())
 		{
 			numObjects += EncodeBinary_GetObjectCount(childValue);
 		}
 	}
 
-	else if (theValue.Is<NDictionary>())
+	else if (theValue.IsDictionary())
 	{
-		for (const auto& keyValue : theValue.Get<NDictionary>())
+		for (const auto& keyValue : theValue.GetDictionary())
 		{
 			numObjects += 1;
 			numObjects += EncodeBinary_GetObjectCount(keyValue.second);
@@ -1379,14 +1379,14 @@ uint64_t NPropertyList::EncodeBinary_Any(NPListBinaryEncodeInfo& encodeInfo, con
 		EncodeBinary_Time(encodeInfo, theValue.GetTime());
 	}
 
-	else if (theValue.Is<NArray>())
+	else if (theValue.IsArray())
 	{
-		EncodeBinary_Array(encodeInfo, theValue.Get<NArray>());
+		EncodeBinary_Array(encodeInfo, theValue.GetArray());
 	}
 
-	else if (theValue.Is<NDictionary>())
+	else if (theValue.IsDictionary())
 	{
-		EncodeBinary_Dictionary(encodeInfo, theValue.Get<NDictionary>());
+		EncodeBinary_Dictionary(encodeInfo, theValue.GetDictionary());
 	}
 
 	else
@@ -1723,7 +1723,7 @@ NDictionary NPropertyList::DecodeFromBinary(const NData& theData)
 
 	NN_REQUIRE(rootObject.Is<NDictionary>());
 
-	return rootObject.Get<NDictionary>();
+	return rootObject.GetDictionary();
 }
 
 

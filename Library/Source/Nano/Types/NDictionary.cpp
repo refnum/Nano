@@ -158,7 +158,7 @@ bool NDictionary::Invert()
 		canInvert = theValue.IsString();
 		if (canInvert)
 		{
-			NString newKey = theValue.Get<NString>();
+			NString newKey = theValue.GetString();
 			canInvert      = !newKey.IsEmpty() && !theResult.HasKey(newKey);
 
 			if (canInvert)

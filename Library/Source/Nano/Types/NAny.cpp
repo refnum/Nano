@@ -339,25 +339,25 @@ NComparison NAny::CompareOrder(const NAny& theValue) const
 		// Only known value types can be compared.
 		else
 		{
-			if (Is<NArray>())
+			if (IsArray())
 			{
-				theResult = NCompare(Get<NArray>(), theValue.Get<NArray>());
+				theResult = NCompare(GetArray(), theValue.GetArray());
 			}
-			else if (Is<NData>())
+			else if (IsData())
 			{
-				theResult = NCompare(Get<NData>(), theValue.Get<NData>());
+				theResult = NCompare(GetData(), theValue.GetData());
 			}
-			else if (Is<NDictionary>())
+			else if (IsDictionary())
 			{
-				theResult = NCompare(Get<NDictionary>(), theValue.Get<NDictionary>());
+				theResult = NCompare(GetDictionary(), theValue.GetDictionary());
 			}
-			else if (Is<NString>())
+			else if (IsString())
 			{
-				theResult = NCompare(Get<NString>(), theValue.Get<NString>());
+				theResult = NCompare(GetString(), theValue.GetString());
 			}
-			else if (Is<NTime>())
+			else if (IsTime())
 			{
-				theResult = NCompare(Get<NTime>(), theValue.Get<NTime>());
+				theResult = NCompare(GetTime(), theValue.GetTime());
 			}
 			else if (Is<const utf8_t*>())
 			{
