@@ -177,7 +177,7 @@ float64_t NRandom::NextFloat64()
 	// This approach uses a 52-bit random integer to generate reals that
 	// are uniformly distributed from 1.0 to 2.0, then subtracting 1.0.
 	//
-	// The upper bound, 1.0, isomitted from this approach.
+	// The upper bound, 1.0, is omitted from this approach.
 	//
 	// It is restored by randomly inserting it into the results with the
 	// appropriate probability as if it could occur.

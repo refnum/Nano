@@ -263,7 +263,7 @@ NANO_TEST(BThreadPool, "SmallTasksSmallWork")
 //=============================================================================
 //		Test Case
 //-----------------------------------------------------------------------------
-NANO_TEST(BThreadPool, "SmalTasksLargeWork")
+NANO_TEST(BThreadPool, "SmallTasksLargeWork")
 {
 
 
