@@ -79,9 +79,9 @@ inline constexpr int    NN_AT_EACCESS                       = AT_EACCESS;
 
 // Thread name
 #if NN_PLATFORM_DARWIN
-inline constexpr size_t kNThreadNameMax                     = 63;
+inline constexpr size_t kNThreadNameMax                     = 64;
 #else
-inline constexpr size_t kNThreadNameMax                     = 15;
+inline constexpr size_t kNThreadNameMax                     = 16;
 #endif // NN_PLATFORM_DARWIN
 
 
@@ -1572,12 +1572,14 @@ void NCommonPOSIX::ThreadSetName(const NString& theName)
 	//
 	// The supplied name is truncated to fit within the maximum thread
 	// name length supported by this platform.
-	char theBuffer[NAME_MAX]{};
+	char theBuffer[kNThreadNameMax]{};
 
-	size_t nameLen = std::min(kNThreadNameMax, sizeof(theBuffer) - 1);
-	strncpy(theBuffer, theName.GetUTF8(), nameLen);
+	const char* textUTF8 = theName.GetUTF8();
+	size_t      textLen  = std::min(strlen(textUTF8), kNThreadNameMax - 1);
 
-	if (theName.GetSize() > nameLen)
+	memcpy(theBuffer, textUTF8, textLen);
+
+	if (NN_ENABLE_LOGGING && strlen(textUTF8) > textLen)
 	{
 		NN_LOG_WARNING("NCommonPOSIX::ThreadSetName truncated '{}' to '{}'", theName, theBuffer);
 	}

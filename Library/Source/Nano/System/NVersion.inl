@@ -261,7 +261,12 @@ inline void NVersion::SetTag(const NString& theValue)
 
 	// Set the value
 	const char* textUTF8 = theValue.GetUTF8();
-	NN_EXPECT(strlen(textUTF8) < mTag.size());
+	size_t      textLen  = std::min(strlen(textUTF8), mTag.size() - 1);
 
-	strncpy(mTag.data(), textUTF8, mTag.size() - 1);
+	memcpy(mTag.data(), textUTF8, textLen);
+
+	if (NN_ENABLE_LOGGING && strlen(textUTF8) > textLen)
+	{
+		NN_LOG_WARNING("NVersion::SetTag truncated '{}' to '{}'", theValue, mTag.data());
+	}
 }
