@@ -101,11 +101,7 @@ public:
 	// A thread created with an invocable will execute the invocable.
 	//
 	// A thread created without an invocable will enter its runloop
-
-
 	// and wait for work.
-protected:
-public:
 	template<typename Function,
 			 typename... Args,
 			 typename = std::enable_if_t<std::is_invocable_v<Function&, Args...>>>
