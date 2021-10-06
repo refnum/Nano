@@ -360,6 +360,9 @@
 		ABB3379D23A04E8E000B81B0 /* NMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5D1753910100BB5983 /* NMutex.cpp */; };
 		ABB3379E23A04E8E000B81B0 /* NMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5D1753910100BB5983 /* NMutex.cpp */; };
 		ABB3379F23A04E8F000B81B0 /* NMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABC75E5D1753910100BB5983 /* NMutex.cpp */; };
+		ABB3398B26ECC3AA0066EBE1 /* NSharedMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB3398926ECC3AA0066EBE1 /* NSharedMutex.cpp */; };
+		ABB3398C26ECC3AA0066EBE1 /* NSharedMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB3398926ECC3AA0066EBE1 /* NSharedMutex.cpp */; };
+		ABB3398D26ECC3AA0066EBE1 /* NSharedMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ABB3398926ECC3AA0066EBE1 /* NSharedMutex.cpp */; };
 		ABB38CBD25A7F1700050D506 /* NDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */; };
 		ABB38CC125A7F1700050D506 /* NDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */; };
 		ABB38CC525A7F1700050D506 /* NDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB91554C0F9B4DD6009FFEAF /* NDictionary.cpp */; };
@@ -905,6 +908,9 @@
 		ABB145D60FF36B03006F178C /* NXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLParser.h; sourceTree = "<group>"; };
 		ABB145D70FF36B03006F178C /* NXMLParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLParser.cpp; sourceTree = "<group>"; };
 		ABB3379923A03F54000B81B0 /* NMutex.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NMutex.inl; sourceTree = "<group>"; };
+		ABB3398826ECC3AA0066EBE1 /* NSharedMutex.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NSharedMutex.inl; sourceTree = "<group>"; };
+		ABB3398926ECC3AA0066EBE1 /* NSharedMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NSharedMutex.cpp; sourceTree = "<group>"; };
+		ABB3398A26ECC3AA0066EBE1 /* NSharedMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSharedMutex.h; sourceTree = "<group>"; };
 		ABB38C6925A686B10050D506 /* NArray.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NArray.inl; sourceTree = "<group>"; };
 		ABB38CB025A7CC830050D506 /* NDictionary.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NDictionary.inl; sourceTree = "<group>"; };
 		ABB6781812AE55AA0077D64E /* NCFURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NCFURL.h; sourceTree = "<group>"; };
@@ -928,8 +934,6 @@
 		ABC272A7237B407E00D96FE6 /* NanoConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NanoConstants.h; sourceTree = "<group>"; };
 		ABC75E5D1753910100BB5983 /* NMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMutex.cpp; sourceTree = "<group>"; };
 		ABC75E5E1753910100BB5983 /* NMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMutex.h; sourceTree = "<group>"; };
-		ABC75E5F1753910100BB5983 /* NReadWriteLock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NReadWriteLock.cpp; sourceTree = "<group>"; };
-		ABC75E601753910100BB5983 /* NReadWriteLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NReadWriteLock.h; sourceTree = "<group>"; };
 		ABC877C5104522720047F707 /* NanoMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NanoMacros.h; sourceTree = "<group>"; };
 		ABCA9E3925818E4000E0B965 /* xxhash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xxhash.h; sourceTree = "<group>"; };
 		ABCA9E3B25818E4000E0B965 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -1829,8 +1833,6 @@
 				ABC75E5D1753910100BB5983 /* NMutex.cpp */,
 				ABC75E5E1753910100BB5983 /* NMutex.h */,
 				ABB3379923A03F54000B81B0 /* NMutex.inl */,
-				ABC75E5F1753910100BB5983 /* NReadWriteLock.cpp */,
-				ABC75E601753910100BB5983 /* NReadWriteLock.h */,
 				AB198115259953A9002C5591 /* NRunLoop.cpp */,
 				AB198114259953A9002C5591 /* NRunLoop.h */,
 				AB1C93B026A7A66000D91BD1 /* NRunLoopTask.h */,
@@ -1839,6 +1841,9 @@
 				ABA478A925B6585900F3C3C9 /* NScopedLock.inl */,
 				AB23BB5C102B67DB009CA347 /* NSemaphore.cpp */,
 				AB23BB5D102B67DB009CA347 /* NSemaphore.h */,
+				ABB3398926ECC3AA0066EBE1 /* NSharedMutex.cpp */,
+				ABB3398A26ECC3AA0066EBE1 /* NSharedMutex.h */,
+				ABB3398826ECC3AA0066EBE1 /* NSharedMutex.inl */,
 				AB1A7936103248AF00DFBA38 /* NThread.cpp */,
 				AB1A7937103248AF00DFBA38 /* NThread.h */,
 				AB0DBE7A23999E2D00F6AD43 /* NThread.inl */,
@@ -2113,6 +2118,7 @@
 				AB1C77F826A2F29100A43965 /* NCommonDarwin.mm in Sources */,
 				AB0267AA2699A56400130611 /* pcre2_match_data.c in Sources */,
 				ABB3379D23A04E8E000B81B0 /* NMutex.cpp in Sources */,
+				ABB3398D26ECC3AA0066EBE1 /* NSharedMutex.cpp in Sources */,
 				ABD3686525D81E9700C825B6 /* tvOSNFileMap.cpp in Sources */,
 				AB0267BC2699A56400130611 /* pcre2_serialize.c in Sources */,
 				AB0267952699A56400130611 /* pcre2_maketables.c in Sources */,
@@ -2275,6 +2281,7 @@
 				AB1C77F426A2F29000A43965 /* NCommonDarwin.mm in Sources */,
 				AB0267A82699A56400130611 /* pcre2_match_data.c in Sources */,
 				ABB3379F23A04E8F000B81B0 /* NMutex.cpp in Sources */,
+				ABB3398B26ECC3AA0066EBE1 /* NSharedMutex.cpp in Sources */,
 				ABDCE8D0241C60540054A16E /* iOSNFileInfo.cpp in Sources */,
 				AB0267BA2699A56400130611 /* pcre2_serialize.c in Sources */,
 				AB0267932699A56400130611 /* pcre2_maketables.c in Sources */,
@@ -2437,6 +2444,7 @@
 				AB1C77F626A2F29100A43965 /* NCommonDarwin.mm in Sources */,
 				AB0267A92699A56400130611 /* pcre2_match_data.c in Sources */,
 				ABF58D86267C0F0D00327252 /* macOSNImage.cpp in Sources */,
+				ABB3398C26ECC3AA0066EBE1 /* NSharedMutex.cpp in Sources */,
 				AB56393C23C75C3A00675F68 /* NUnicodeView.cpp in Sources */,
 				AB0267BB2699A56400130611 /* pcre2_serialize.c in Sources */,
 				AB0267942699A56400130611 /* pcre2_maketables.c in Sources */,

@@ -52,6 +52,7 @@ nano_project(APP)
 nano_project_sources(
 	PRIVATE
 		"${NN_SOURCE_DIR}/../../Library/Source/Nanites/Catch/NTestFixture.cpp"
+		"${NN_SOURCE_DIR}/Benchmarks/BSharedMutex.cpp"
 		"${NN_SOURCE_DIR}/Benchmarks/BSizeOf.cpp"
 		"${NN_SOURCE_DIR}/Benchmarks/BThreadPool.cpp"
 		"${NN_SOURCE_DIR}/Nano/Application/TCommandLine.cpp"
@@ -132,6 +133,7 @@ nano_project_sources(
 		"${NN_SOURCE_DIR}/Nano/Threads/TRunLoopTask.cpp"
 		"${NN_SOURCE_DIR}/Nano/Threads/TScopedLock.cpp"
 		"${NN_SOURCE_DIR}/Nano/Threads/TSemaphore.cpp"
+		"${NN_SOURCE_DIR}/Nano/Threads/TSharedMutex.cpp"
 		"${NN_SOURCE_DIR}/Nano/Threads/TThread.cpp"
 		"${NN_SOURCE_DIR}/Nano/Threads/TThreadGroup.cpp"
 		"${NN_SOURCE_DIR}/Nano/Threads/TThreadID.cpp"
