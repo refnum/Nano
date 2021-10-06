@@ -42,8 +42,8 @@
 #include "NBroadcastQueue.h"
 
 // Nano
+#include "NAsync.h"
 #include "NBroadcaster.h"
-#include "NExecute.h"
 #include "NScopedLock.h"
 
 
@@ -64,7 +64,7 @@ void NBroadcastQueue::Add(const NBroadcast& theBroadcast)
 
 	mBroadcasts.emplace_back(theBroadcast);
 
-	NExecute(
+	NAsync(
 	[=]()
 	{
 		SendBroadcasts();

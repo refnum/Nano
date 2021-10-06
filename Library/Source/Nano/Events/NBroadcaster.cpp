@@ -43,8 +43,8 @@
 
 // Nano
 #include "NAny.h"
+#include "NAsync.h"
 #include "NBroadcast.h"
-#include "NExecute.h"
 #include "NScopedLock.h"
 #include "NStdAlgorithm.h"
 
@@ -115,7 +115,7 @@ void NBroadcaster::SendAsync(const NBroadcast& theBroadcast)
 
 
 	// Send the broadcast
-	NExecute(
+	NAsync(
 	[=]()
 	{
 		Send(theBroadcast);

@@ -1,8 +1,8 @@
 /*	NAME:
-		NExecute.inl
+		NAsync.h
 
 	DESCRIPTION:
-		Executable helpers.
+		Asynchronous execution helpers.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -36,59 +36,43 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
+#ifndef NASYNC_H
+#define NASYNC_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
-#include "NRunLoop.h"
-#include "NSemaphore.h"
-#include "NThreadPool.h"
+#include "NFunction.h"
 
 
 
 
 
 //=============================================================================
-//		NExecute : Execute asynchronously on a background thread.
+//		Function Prototypes
 //-----------------------------------------------------------------------------
-inline void NExecute(const NFunction& theFunction)
-{
+// Execute asynchronously on a background thread
+void NAsync(const NFunction& theFunction);
 
 
-	// Execute the function
-	NThreadPool::GetMain()->Add(theFunction);
-}
+// Execute asynchronously on the main thread
+void NMainAsync(const NFunction& theFunction);
+
+
+// Execute synchronously on the main thread
+//
+// Blocks until the function is complete.
+void NMainSync(const NFunction& theFunction);
 
 
 
 
 
 //=============================================================================
-//		NExecuteMain : Execute synchronously on the main thread.
+//		Includes
 //-----------------------------------------------------------------------------
-inline void NExecuteMain(const NFunction& theFunction)
-{
-
-
-	// Execute the function
-	auto theSemaphore = std::make_shared<NSemaphore>();
-
-	(void) NRunLoop::GetMain()->Add(theFunction, 0.0, 0.0, &theSemaphore);
-
-	theSemaphore->Wait();
-}
+#include "NAsync.inl"
 
 
 
-
-
-//=============================================================================
-//		NExecuteMainAsync : Execute asynchronously on the main thread.
-//-----------------------------------------------------------------------------
-inline void NExecuteMainAsync(const NFunction& theFunction)
-{
-
-
-	// Execute the function
-	(void) NRunLoop::GetMain()->Add(theFunction);
-}
+#endif // NASYNC_H

@@ -618,8 +618,6 @@
 		AB1F630D0FF9091B00A0AE35 /* NXMLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMLEncoder.h; sourceTree = "<group>"; };
 		AB1F630E0FF9091B00A0AE35 /* NXMLEncoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NXMLEncoder.cpp; sourceTree = "<group>"; };
 		AB20329125D73E0A0050DB00 /* NStdMath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NStdMath.h; sourceTree = "<group>"; };
-		AB21145526A33F14004874CD /* NExecute.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NExecute.h; sourceTree = "<group>"; };
-		AB21145626A33F15004874CD /* NExecute.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NExecute.inl; sourceTree = "<group>"; };
 		AB21145726A344EA004874CD /* NThreadGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NThreadGroup.cpp; sourceTree = "<group>"; };
 		AB21145826A344EA004874CD /* NThreadGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NThreadGroup.h; sourceTree = "<group>"; };
 		AB21146D26A346B6004874CD /* NThreadTask.inl */ = {isa = PBXFileReference; lastKnownFileType = text; path = NThreadTask.inl; sourceTree = "<group>"; };
@@ -931,6 +929,8 @@
 		ABBE8C8C2446096C009E9B53 /* NUsageBucket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUsageBucket.h; sourceTree = "<group>"; };
 		ABBE8C8E2446096C009E9B53 /* NUsageLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NUsageLog.h; sourceTree = "<group>"; };
 		ABBE8C9624460A11009E9B53 /* NUsageBucket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NUsageBucket.cpp; sourceTree = "<group>"; };
+		ABBECC32270E4D7800FBD53D /* NAsync.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NAsync.inl; sourceTree = "<group>"; };
+		ABBECC33270E4D7800FBD53D /* NAsync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAsync.h; sourceTree = "<group>"; };
 		ABC272A7237B407E00D96FE6 /* NanoConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NanoConstants.h; sourceTree = "<group>"; };
 		ABC75E5D1753910100BB5983 /* NMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NMutex.cpp; sourceTree = "<group>"; };
 		ABC75E5E1753910100BB5983 /* NMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMutex.h; sourceTree = "<group>"; };
@@ -1824,10 +1824,10 @@
 		AB9155380F9B4DD6009FFEAF /* Threads */ = {
 			isa = PBXGroup;
 			children = (
+				ABBECC33270E4D7800FBD53D /* NAsync.h */,
+				ABBECC32270E4D7800FBD53D /* NAsync.inl */,
 				ABE5024526DD031900BA97A6 /* NAtomic.h */,
 				ABE5024626DD031900BA97A6 /* NAtomic.inl */,
-				AB21145526A33F14004874CD /* NExecute.h */,
-				AB21145626A33F15004874CD /* NExecute.inl */,
 				ABA6244925CE3C1300D2FA4D /* NLockable.h */,
 				ABA6244825CE3C1300D2FA4D /* NLockable.inl */,
 				ABC75E5D1753910100BB5983 /* NMutex.cpp */,

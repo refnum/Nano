@@ -1,8 +1,8 @@
 /*	NAME:
-		TExecute.cpp
+		NAsync.inl
 
 	DESCRIPTION:
-		NExecute tests.
+		Asynchronous execution helpers.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -40,42 +40,23 @@
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
-#include "NExecute.h"
-#include "NTestFixture.h"
-#include "NThread.h"
+#include "NRunLoop.h"
+#include "NSemaphore.h"
+#include "NThreadPool.h"
 
 
 
 
 
 //=============================================================================
-//		Fixture
+//		NAsync : Execute asynchronously on a background thread.
 //-----------------------------------------------------------------------------
-NANO_FIXTURE(TExecute){};
-
-
-
-
-
-//=============================================================================
-//		Test Case
-//-----------------------------------------------------------------------------
-NANO_TEST(TExecute, "NExecute")
+inline void NAsync(const NFunction& theFunction)
 {
 
 
-	// Perform the test
-	bool didExecute = false;
-
-	NExecute(
-	[&]()
-	{
-		REQUIRE(NRunLoop::GetCurrent() != NRunLoop::GetMain());
-		didExecute = true;
-	});
-
-	NRunLoop::GetMain()->Run(0.010);
-	REQUIRE(didExecute);
+	// Execute the function
+	NThreadPool::GetMain()->Add(theFunction);
 }
 
 
@@ -83,29 +64,14 @@ NANO_TEST(TExecute, "NExecute")
 
 
 //=============================================================================
-//		Test Case
+//		NMainAsync : Execute asynchronously on the main thread.
 //-----------------------------------------------------------------------------
-NANO_TEST(TExecute, "NExecuteMain")
+inline void NMainAsync(const NFunction& theFunction)
 {
 
 
-	// Perform the test
-	bool didExecute = false;
-
-	auto theThread =
-		NThread::Create("NExecuteMain",
-		[&]()
-		{
-			NExecuteMain(
-			[&]()
-			{
-				REQUIRE(NRunLoop::GetCurrent() == NRunLoop::GetMain());
-				didExecute = true;
-			});
-						});
-
-	NRunLoop::GetMain()->Run(0.010);
-	REQUIRE(didExecute);
+	// Execute the function
+	(void) NRunLoop::GetMain()->Add(theFunction);
 }
 
 
@@ -113,22 +79,16 @@ NANO_TEST(TExecute, "NExecuteMain")
 
 
 //=============================================================================
-//		Test Case
+//		NMainSync : Execute synchronously on the main thread.
 //-----------------------------------------------------------------------------
-NANO_TEST(TExecute, "NExecuteMainAsync")
+inline void NMainSync(const NFunction& theFunction)
 {
 
 
-	// Perform the test
-	bool didExecute = false;
+	// Execute the function
+	auto theSemaphore = std::make_shared<NSemaphore>();
 
-	NExecuteMainAsync(
-	[&]()
-	{
-		REQUIRE(NRunLoop::GetCurrent() == NRunLoop::GetMain());
-		didExecute = true;
-	});
+	(void) NRunLoop::GetMain()->Add(theFunction, 0.0, 0.0, &theSemaphore);
 
-	NRunLoop::GetMain()->Run(0.010);
-	REQUIRE(didExecute);
+	theSemaphore->Wait();
 }

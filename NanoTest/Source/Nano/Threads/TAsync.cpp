@@ -1,8 +1,8 @@
 /*	NAME:
-		NExecute.h
+		TAsync.cpp
 
 	DESCRIPTION:
-		Executable helpers.
+		NAsync tests.
 
 	COPYRIGHT:
 		Copyright (c) 2006-2021, refNum Software
@@ -36,43 +36,99 @@
 		OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	___________________________________________________________________________
 */
-#ifndef NEXECUTE_H
-#define NEXECUTE_H
 //=============================================================================
 //		Includes
 //-----------------------------------------------------------------------------
 // Nano
-#include "NFunction.h"
+#include "NAsync.h"
+#include "NTestFixture.h"
+#include "NThread.h"
 
 
 
 
 
 //=============================================================================
-//		Function Prototypes
+//		Fixture
 //-----------------------------------------------------------------------------
-// Execute asynchronously on a background thread
-void NExecute(const NFunction& theFunction);
-
-
-// Execute synchronously on the main thread
-//
-// Blocks until the function is complete.
-void NExecuteMain(const NFunction& theFunction);
-
-
-// Execute asynchronously on the main thread
-void NExecuteMainAsync(const NFunction& theFunction);
+NANO_FIXTURE(TAsync){};
 
 
 
 
 
 //=============================================================================
-//		Includes
+//		Test Case
 //-----------------------------------------------------------------------------
-#include "NExecute.inl"
+NANO_TEST(TAsync, "NAsync")
+{
+
+
+	// Perform the test
+	bool didExecute = false;
+
+	NAsync(
+	[&]()
+	{
+		REQUIRE(NRunLoop::GetCurrent() != NRunLoop::GetMain());
+		didExecute = true;
+	});
+
+	NRunLoop::GetMain()->Run(0.010);
+	REQUIRE(didExecute);
+}
 
 
 
-#endif // NEXECUTE_H
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TAsync, "NMainAsync")
+{
+
+
+	// Perform the test
+	bool didExecute = false;
+
+	NMainAsync(
+	[&]()
+	{
+		REQUIRE(NRunLoop::GetCurrent() == NRunLoop::GetMain());
+		didExecute = true;
+	});
+
+	NRunLoop::GetMain()->Run(0.010);
+	REQUIRE(didExecute);
+}
+
+
+
+
+
+//=============================================================================
+//		Test Case
+//-----------------------------------------------------------------------------
+NANO_TEST(TAsync, "NMainSync")
+{
+
+
+	// Perform the test
+	bool didExecute = false;
+
+	auto theThread =
+		NThread::Create("NMainSync",
+		[&]()
+		{
+			NMainSync(
+			[&]()
+			{
+				REQUIRE(NRunLoop::GetCurrent() == NRunLoop::GetMain());
+				didExecute = true;
+			});
+						});
+
+	NRunLoop::GetMain()->Run(0.010);
+	REQUIRE(didExecute);
+}
