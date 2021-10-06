@@ -201,7 +201,7 @@ bool NFileInfo::FetchState(NFileStateFlags theFlags)
 		wasOK = GetFileStateStat(mPath, mState);
 		if (wasOK)
 		{
-			mValid |= NFileState::MaskStat;
+			mValid |= kNFileStateMaskStat;
 		}
 	}
 
@@ -213,7 +213,7 @@ bool NFileInfo::FetchState(NFileStateFlags theFlags)
 		wasOK = GetFileStateAttributes(mPath, mState);
 		if (wasOK)
 		{
-			mValid |= NFileState::MaskAttributes;
+			mValid |= kNFileStateMaskAttributes;
 		}
 	}
 
