@@ -43,7 +43,6 @@
 
 // Nano
 #include "NAny.h"
-#include "NAsync.h"
 #include "NBroadcast.h"
 #include "NScopedLock.h"
 #include "NStdAlgorithm.h"
@@ -53,7 +52,7 @@
 
 
 //=============================================================================
-//		NBroadcaster::Send : Send a broadcast synchronously.
+//		NBroadcaster::Send : Send a broadcast.
 //-----------------------------------------------------------------------------
 void NBroadcaster::Send(const NString& theName, const NAny& theValue)
 {
@@ -73,7 +72,7 @@ void NBroadcaster::Send(const NString& theName, const NAny& theValue)
 
 
 //=============================================================================
-//		NBroadcaster::Send : Send a broadcast synchronously.
+//		NBroadcaster::Send : Send a broadcast.
 //-----------------------------------------------------------------------------
 void NBroadcaster::Send(const NBroadcast& theBroadcast)
 {
@@ -81,45 +80,6 @@ void NBroadcaster::Send(const NBroadcast& theBroadcast)
 
 	// Send the broadcast
 	Get().SendBroadcast(theBroadcast);
-}
-
-
-
-
-
-//=============================================================================
-//		NBroadcaster::SendAsync : Send a broadcast asynchronously.
-//-----------------------------------------------------------------------------
-void NBroadcaster::SendAsync(const NString& theName, const NAny& theValue)
-{
-
-
-	// Validate our paramaeters
-	NN_REQUIRE(!theName.IsEmpty());
-
-
-
-	// Send the broadcast
-	SendAsync({theName, theValue});
-}
-
-
-
-
-
-//=============================================================================
-//		NBroadcaster::SendAsync : Send a broadcast asynchronously.
-//-----------------------------------------------------------------------------
-void NBroadcaster::SendAsync(const NBroadcast& theBroadcast)
-{
-
-
-	// Send the broadcast
-	NAsync(
-	[=]()
-	{
-		Send(theBroadcast);
-	});
 }
 
 

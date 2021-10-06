@@ -83,18 +83,11 @@ class NBroadcaster
 	friend class                        NReceiver;
 
 public:
-	// Send a broadcast synchronously.
+	// Send a broadcast
 	//
 	// The broadcast will be delivered on the calling thread.
 	static void                         Send(const NBroadcast& theBroadcast);
 	static void                         Send(const NString& theName, const NAny& theValue = {});
-
-
-	// Send a broadcast asynchronously
-	//
-	// The broadcast will be delivered on a background thread.
-	static void                         SendAsync(const NBroadcast& theBroadcast);
-	static void                         SendAsync(const NString& theName, const NAny& theValue = {});
 
 
 protected:
