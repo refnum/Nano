@@ -114,7 +114,7 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 
 // Log a message
 //
-// Accepts either std::format-style or printf-style formatting automatically.
+// Accepts either std::format or printf formatting.
 //
 //		https://fmt.dev/latest/syntax.html
 //
@@ -139,7 +139,7 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 	#define NanoLog(_level, _format, ...)                                                       \
 		do                                                                                      \
 		{                                                                                       \
-			if (_nn_has_format_specifiers(_format))                                             \
+			if constexpr (_nn_has_format_specifiers(_format))                                   \
 			{                                                                                   \
 				NanoLogFormat(_level, __FILE__, __LINE__, FMT_STRING(_format), ##__VA_ARGS__);  \
 			}                                                                                   \
@@ -244,7 +244,7 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 	#define _nn_log_unimplemented(_message, ...)                                            \
 		do                                                                                  \
 		{                                                                                   \
-			if (_nn_has_format_specifiers(_message))                                        \
+			if constexpr (_nn_has_format_specifiers(_message))                              \
 			{                                                                               \
 				NN_LOG_WARNING("{} is unimplemented" _message, NN_FUNCTION, ##__VA_ARGS__); \
 			}                                                                               \
@@ -341,7 +341,7 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 																									\
 			if (NN_EXPECT_UNLIKELY(!(_condition)))                                                  \
 			{                                                                                       \
-				if (_nn_has_format_specifiers(_message))                                            \
+				if constexpr (_nn_has_format_specifiers(_message))                                  \
 				{                                                                                   \
 					NN_LOG_ERROR("Requirement failed: {}" _message, #_condition, ##__VA_ARGS__);    \
 				}                                                                                   \
@@ -405,7 +405,7 @@ void NanoLogPrintf(NLogLevel logLevel, const char* filePath, int lineNum, const 
 																									\
 			if (NN_EXPECT_UNLIKELY(!(_condition)))                                                  \
 			{                                                                                       \
-				if (_nn_has_format_specifiers(_message))                                            \
+				if constexpr (_nn_has_format_specifiers(_message))                                  \
 				{                                                                                   \
 					NN_LOG_WARNING("Expectation failed: {}" _message, #_condition, ##__VA_ARGS__);  \
 				}                                                                                   \
