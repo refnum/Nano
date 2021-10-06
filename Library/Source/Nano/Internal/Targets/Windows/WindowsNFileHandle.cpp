@@ -238,7 +238,7 @@ NStatus NFileHandle::FileClose()
 
 
 	// Close the file
-	BOOL wasOK = CloseHandle(hFile);
+	BOOL wasOK = ::CloseHandle(hFile);
 	NN_EXPECT(wasOK);
 
 	return NCommonWindows::StatusLastError(wasOK);
