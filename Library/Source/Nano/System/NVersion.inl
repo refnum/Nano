@@ -265,8 +265,11 @@ inline void NVersion::SetTag(const NString& theValue)
 
 	memcpy(mTag.data(), textUTF8, textLen);
 
-	if (NN_ENABLE_LOGGING && strlen(textUTF8) > textLen)
+	if constexpr (NN_ENABLE_LOGGING)
 	{
-		NN_LOG_WARNING("NVersion::SetTag truncated '{}' to '{}'", theValue, mTag.data());
+		if (strlen(textUTF8) > textLen)
+		{
+			NN_LOG_WARNING("NVersion::SetTag truncated '{}' to '{}'", textUTF8, mTag.data());
+		}
 	}
 }

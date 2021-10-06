@@ -1579,9 +1579,14 @@ void NCommonPOSIX::ThreadSetName(const NString& theName)
 
 	memcpy(theBuffer, textUTF8, textLen);
 
-	if (NN_ENABLE_LOGGING && strlen(textUTF8) > textLen)
+	if constexpr (NN_ENABLE_LOGGING)
 	{
-		NN_LOG_WARNING("NCommonPOSIX::ThreadSetName truncated '{}' to '{}'", theName, theBuffer);
+		if (strlen(textUTF8) > textLen)
+		{
+			NN_LOG_WARNING("NCommonPOSIX::ThreadSetName truncated '{}' to '{}'",
+						   theName,
+						   theBuffer);
+		}
 	}
 
 
