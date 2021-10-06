@@ -75,7 +75,6 @@ inline constexpr const char* kNChangeBroadcastPrefix        = "NPreferences.Chan
 NPreferences::NPreferences()
 	: mLock()
 	, mLayers()
-	, mChanges()
 {
 
 
@@ -544,6 +543,6 @@ void NPreferences::KeyChanged(const NString& theKey)
 
 
 
-	// Enqueue the broadcast
-	mChanges.Add({GetChangeBroadcast(theKey), GetValue(theKey)});
+	// Send the broadcast
+	NBroadcaster::Send({GetChangeBroadcast(theKey), GetValue(theKey)});
 }

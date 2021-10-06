@@ -48,7 +48,6 @@
 #include "NStdContainer.h"
 #include "NString.h"
 #include "NTestFixture.h"
-#include "NThread.h"
 #include "NTime.h"
 
 
@@ -342,7 +341,6 @@ NANO_TEST(TPreference, "GetUpdateGet")
 	NPreferences::SetValue(kKeyNumber, kValueNumber);
 	NPreferences::SetValue(kKeyString, kValueString);
 	NPreferences::SetValue(kKeyTime, kValueTime);
-	NThread::Sleep(0.050);
 
 	REQUIRE(prefBool.Get() == kValueBool);
 	REQUIRE(prefUInt32.Get() == kValueUInt32);

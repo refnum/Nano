@@ -43,7 +43,6 @@
 //-----------------------------------------------------------------------------
 // Nano
 #include "NBroadcast.h"
-#include "NBroadcastQueue.h"
 #include "NMutex.h"
 #include "NPreferenceFile.h"
 
@@ -146,7 +145,7 @@ public:
 	//
 	// The value of the broadcast is the new value for the key, if any.
 	//
-	// Change broadcast are sent on a background thread.
+	// Change broadcast are sent on the thread that modified the key.
 	static NString                      GetChangeBroadcast(const NString& theKey);
 	static NString                      GetChangeKey(      const NString& theName);
 
@@ -161,7 +160,6 @@ private:
 private:
 	NMutex                              mLock;
 	NVectorPreferenceLayers             mLayers;
-	NBroadcastQueue                     mChanges;
 };
 
 
