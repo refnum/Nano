@@ -50,8 +50,6 @@
 //=============================================================================
 //		Internal Constants
 //-----------------------------------------------------------------------------
-#define kTestString                                         "s t r i n g"
-
 static const int   kTestArgC                                = 10;
 static const char* kTestArgV[kTestArgC]                     = {"app",
 										   "-arg1",
@@ -59,8 +57,8 @@ static const char* kTestArgV[kTestArgC]                     = {"app",
 										   "-arg3=-2",
 										   "--arg4=3.0",
 										   "--arg5=/tmp/test",
-										   "--arg6=\"" kTestString "\"",
-										   "--arg7=" kTestString,
+										   "--arg6=\"s t r i n g\"",
+										   "--arg7=s t r i n g",
 										   "apple",
 										   "banana"};
 
@@ -186,8 +184,8 @@ NANO_TEST(TCommandLine, "GetString")
 	REQUIRE(NCommandLine::GetString("arg3") == "-2");
 	REQUIRE(NCommandLine::GetString("arg4") == "3.0");
 	REQUIRE(NCommandLine::GetString("arg5") == "/tmp/test");
-	REQUIRE(NCommandLine::GetString("arg6") == kTestString);
-	REQUIRE(NCommandLine::GetString("arg7") == kTestString);
+	REQUIRE(NCommandLine::GetString("arg6") == "s t r i n g");
+	REQUIRE(NCommandLine::GetString("arg7") == "s t r i n g");
 }
 
 
